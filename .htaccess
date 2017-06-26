@@ -1,0 +1,6 @@
+RewriteEngine on
+
+RewriteRule ^public(\/.*)?$ src/public/$1 [L]
+
+RewriteCond %{REQUEST_URI} !src/public [NC]
+RewriteRule ^(.*)$ src/public/website.php

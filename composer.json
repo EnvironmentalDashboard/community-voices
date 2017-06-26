@@ -1,5 +1,9 @@
 {
     "name": "jeremy/community-voices",
-    "type": "application",
-    "require": {}
+    "require": {
+        "rdlowrey/auryn": "^1.4"
+    },
+    "autoload": {
+        "psr-4": {"CommunityVoices\\": "src/app/"}
+    }
 }
