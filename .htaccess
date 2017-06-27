@@ -1,6 +1,6 @@
 RewriteEngine on
 
-RewriteRule ^public(\/.*)?$ src/public/$1 [L]
+RewriteRule ^public(\/.*)?$ src/CommunityVoices/public/$1 [L]
 
-RewriteCond %{REQUEST_URI} !src/public [NC]
-RewriteRule ^(.*)$ src/public/website.php
+RewriteCond %{REQUEST_URI} !src/CommunityVoices/public [NC]
+RewriteRule ^(.*)$ src/CommunityVoices/public/website.php
