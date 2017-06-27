@@ -27,7 +27,7 @@ class User
         $this->id = (int) $id;
     }
 
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -37,7 +37,7 @@ class User
         $this->email = (string) $email;
     }
 
-    public function getEmail(): string
+    public function getEmail()
     {
         return $this->email;
     }
@@ -47,7 +47,7 @@ class User
         $this->firstName = (string) $firstName;
     }
 
-    public function getFirstName(): string
+    public function getFirstName()
     {
         return $this->firstName;
     }
@@ -57,9 +57,19 @@ class User
         $this->lastName = (string) $lastName;
     }
 
-    public function getLastName(): string
+    public function getLastName()
     {
-        return $this->lastName();
+        return $this->lastName;
+    }
+
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
+
+    public function getRole()
+    {
+        return $this->role;
     }
 
     public function setPassword($password)
@@ -72,18 +82,20 @@ class User
         $this->hash = $hash;
     }
 
+    public function getHash(): string
+    {
+        return $this->hash;
+    }
+
     private function generateHash($password): string
     {
         return password_hash($password, self::HASH_ALGO);
     }
 
-    public function setRole($role)
+    public function verifyPassword($password): bool
     {
-        $this->role = $role;
+        return password_verify($password, $this->hash);
     }
 
-    public function getRole(): int
-    {
-        return $this->role;
-    }
+
 }
