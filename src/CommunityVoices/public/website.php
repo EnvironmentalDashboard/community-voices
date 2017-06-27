@@ -4,4 +4,4 @@ ini_set('display_startup_errors', 1);
 ini_set('display_errors', 1);
 error_reporting(-1);
 
-include "../app/bootstrap.php";
+include __DIR__ . "/../App/bootstrap.php";

@@ -1,6 +1,6 @@
 <?php
 
-namespace CommunityVoices\Controller;
+namespace CommunityVoices\App\View;
 
 class Index
 {

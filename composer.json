@@ -1,9 +1,12 @@
 {
     "name": "jeremy/community-voices",
     "require": {
-        "rdlowrey/auryn": "^1.4"
+        "rdlowrey/auryn": "^1.4",
+        "fracture/routing": "^0.3.1"
     },
     "autoload": {
-        "psr-4": {"CommunityVoices\\": "src/app/"}
+        "psr-4": {
+            "": "src/"
+        }
     }
 }

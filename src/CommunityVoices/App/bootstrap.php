@@ -4,7 +4,7 @@
 *
 */
 
-require '../../vendor/autoload.php';
+require __DIR__ . '/../../../vendor/autoload.php';
 
 /*
  * Setting up request abstraction
@@ -56,8 +56,8 @@ $injector = new Auryn\Injector;
 $resource = ucfirst(strtolower($request->getParameter('resource')));
 $action = strtolower($request->getMethod()) . ucfirst(strtolower($request->getParameter('action')));
 
-$controller = $injector->make("CommunityVoices\\Controller\\" . $resource);
+$controller = $injector->make("CommunityVoices\\App\\Controller\\" . $resource);
 $controller->{$action}($request);
 
-$view = $injector->make("CommunityVoices\\View\\" . $resource);
+$view = $injector->make("CommunityVoices\\App\\View\\" . $resource);
 $view->{$action}($request);
