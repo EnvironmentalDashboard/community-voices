@@ -1,3 +1,7 @@
+/**
+ * Table Skeletons
+ */
+
 CREATE TABLE `community-voices_content-categories` (
     `group_id` int(21) NOT NULL,
     `media_filename` varchar(255) NOT NULL
@@ -36,7 +40,6 @@ CREATE TABLE `community-voices_images` (
     `photographer` varchar(255) DEFAULT NULL,
     `organization` varchar(255) DEFAULT NULL
 );
-
 
 CREATE TABLE `community-voices_location-category-map` (
     `id` int(21) NOT NULL,
@@ -99,6 +102,12 @@ CREATE TABLE `community-voices_users` (
     `role` enum('user','manager','admin') NOT NULL DEFAULT 'user'
 );
 
+
+
+/**
+ * Primary keys
+ */
+
 ALTER TABLE `community-voices_content-categories`
     ADD PRIMARY KEY (`group_id`);
 
@@ -156,7 +165,7 @@ ALTER TABLE `community-voices_identities`
 
 ALTER TABLE `community-voices_location-category-map`
     MODIFY `id` int(21) NOT NULL AUTO_INCREMENT;
-    
+
 ALTER TABLE `community-voices_locations`
     MODIFY `id` int(21) NOT NULL AUTO_INCREMENT;
 
@@ -168,6 +177,12 @@ ALTER TABLE `community-voices_media-group-map`
 
 ALTER TABLE `community-voices_users`
     MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
+
+
+
+/**
+ * Foreign key relations
+ */
 
 ALTER TABLE `community-voices_content-categories`
     ADD CONSTRAINT `community-voices_content-categories_fk0` FOREIGN KEY (`group_id`) REFERENCES `community-voices_groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
