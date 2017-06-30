@@ -45,28 +45,4 @@ class UserTest extends TestCase
 
         $this->assertSame($instance->getRole(), User::ROLE_ADMIN);
     }
-
-    public function testHashAssignment()
-    {
-        $instance = new User;
-        $instance->setHash('$2y$10$MMSsjvXzLpHS0.tKjQ3RAOkkYx8cscJAzG9pmdXzVigY.3PPG8zCe');
-
-        $this->assertTrue(password_verify('pass123', $instance->getHash()));
-    }
-
-    public function testPasswordAssignment()
-    {
-        $instance = new User;
-        $instance->setPassword('pass123');
-
-        $this->assertTrue(password_verify('pass123', $instance->getHash()));
-    }
-
-    public function testPasswordVerification()
-    {
-        $instance = new User;
-        $instance->setPassword('pass123');
-
-        $this->assertTrue($instance->verifyPassword('pass123'));
-    }
 }
