@@ -2,6 +2,8 @@
 
 namespace CommunityVoices\Model\Entity;
 
+use CommunityVoices\Model\Contract\Notifier;
+
 class User
 {
     const HASH_ALGO = PASSWORD_BCRYPT;
@@ -9,7 +11,8 @@ class User
     const ROLE_GUEST = 0;
     const ROLE_UNVERIFIED = 1;
     const ROLE_USER = 2;
-    const ROLE_ADMIN = 3;
+    const ROLE_MANAGER = 3;
+    const ROLE_ADMIN = 4;
 
     private $id;
 
@@ -72,30 +75,8 @@ class User
         return $this->role;
     }
 
-    public function setPassword($password)
+    public function isValidForRegistration(Notifier $notifier)
     {
-        $this->hash = $this->generateHash($password);
+
     }
-
-    public function setHash($hash)
-    {
-        $this->hash = $hash;
-    }
-
-    public function getHash(): string
-    {
-        return $this->hash;
-    }
-
-    private function generateHash($password): string
-    {
-        return password_hash($password, self::HASH_ALGO);
-    }
-
-    public function verifyPassword($password): bool
-    {
-        return password_verify($password, $this->hash);
-    }
-
-
 }
