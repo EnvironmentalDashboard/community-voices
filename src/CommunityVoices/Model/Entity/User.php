@@ -2,7 +2,7 @@
 
 namespace CommunityVoices\Model\Entity;
 
-use CommunityVoices\Model\Contract\Notifier;
+use CommunityVoices\Model\Contract\ErrorNotifier;
 
 class User
 {
@@ -75,8 +75,15 @@ class User
         return $this->role;
     }
 
-    public function isValidForRegistration(Notifier $notifier)
+    public function isValidForRegistration(ErrorNotifier $notifier)
     {
+        if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            $notifier->addError('email', 'Invalid email address');
+        }
 
+        if(!is_null($this->id)) {
+            $notifier->addError('id', 'ID must be null');
+        }
+        
     }
 }
