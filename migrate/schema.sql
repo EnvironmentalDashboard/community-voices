@@ -105,7 +105,7 @@ CREATE TABLE `community-voices_users` (
 
 
 /**
- * Primary keys
+ * Keys
  */
 
 ALTER TABLE `community-voices_content-categories`
@@ -181,7 +181,7 @@ ALTER TABLE `community-voices_users`
 
 
 /**
- * Foreign key relations
+ * Foreign key constraints
  */
 
 ALTER TABLE `community-voices_content-categories`
