@@ -77,10 +77,6 @@ class Notifier implements ErrorNotifier
      */
     public function getErrors()
     {
-        if(count($this->collector) <= 0) {
-            return ;
-        }
-
         return $this->collector;
     }
 }
