@@ -3,8 +3,10 @@
 namespace CommunityVoices\Model\Entity;
 
 use CommunityVoices\Model\Contract\ErrorNotifier;
+use CommunityVoices\Model\Exception\IdentityKnown;
+use Palladium\Contract\HasId;
 
-class User
+class User implements HasId
 {
     const HASH_ALGO = PASSWORD_BCRYPT;
 
@@ -13,6 +15,9 @@ class User
     const ROLE_USER = 2;
     const ROLE_MANAGER = 3;
     const ROLE_ADMIN = 4;
+
+    const ERR_INVALID_EMAIL = 'Invalid email address';
+    const ERR_IDENTITY_KNOWN = 'ID must be null for registration';
 
     private $id;
 
@@ -77,13 +82,17 @@ class User
 
     public function isValidForRegistration(ErrorNotifier $notifier)
     {
-        if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
-            $notifier->addError('email', 'Invalid email address');
-        }
+        $isValid = true;
 
         if(!is_null($this->id)) {
-            $notifier->addError('id', 'ID must be null');
+            throw new IdentityKnown(self::ERR_IDENTITY_KNOWN);
         }
-        
+
+        if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            $isValid = false;
+            $notifier->addError('email', self::ERR_INVALID_EMAIL);
+        }
+
+        return $isValid;
     }
 }
