@@ -1,6 +1,6 @@
 {
     "public": {
-		"notation": "/blah",
+		"notation": "[/:anything]",
 		"defaults": {
 			"resource": "Index",
             "action": "index"
