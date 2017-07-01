@@ -4,6 +4,7 @@ namespace CommunityVoices\Model\Component;
 
 use PHPUnit\Framework\TestCase;
 use Exception;
+use OutOfBoundsException;
 
 class NotifierTest extends TestCase
 {
@@ -79,7 +80,7 @@ class NotifierTest extends TestCase
         $this->assertSame($expected, $notifier->getErrors());
     }
 
-    public function testErrorRetrievelSingleNotifier()
+    public function testErrorRetrievalSingleNotifier()
     {
         $notifier = new Notifier;
 
@@ -95,6 +96,14 @@ class NotifierTest extends TestCase
         ];
 
         $this->assertSame($expected, $notifier->getErrorsByNotifier('test2'));
+    }
+
+    public function testErrorRetrievalSingleInvalidNotifier()
+    {
+        $this->expectException(OutOfBoundsException::class);
+        $notifier = new Notifier;
+
+        $notifier->getErrorsByNotifier('invalidnotifier');
     }
 
 }
