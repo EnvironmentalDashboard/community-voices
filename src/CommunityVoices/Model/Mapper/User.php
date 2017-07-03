@@ -2,6 +2,7 @@
 
 namespace CommunityVoices\Model\Mapper;
 
+use PDO;
 use CommunityVoices\Model\Component\DataMapper;
 use CommunityVoices\Model\Entity as Entity;
 
