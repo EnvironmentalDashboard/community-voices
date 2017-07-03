@@ -26,8 +26,6 @@ class User implements HasId
     private $firstName;
     private $lastName;
 
-    private $hash;
-
     private $role;
 
     public function setId($id)
