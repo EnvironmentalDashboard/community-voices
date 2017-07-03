@@ -58,7 +58,8 @@ CREATE TABLE `community-voices_media` (
     `id` int(21) NOT NULL,
     `added_by` int(11) NOT NULL,
     `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `media_type` enum('slide','image','quote') NOT NULL
+    `media_type` enum('slide','image','quote') NOT NULL,
+    `approved_status` int(11) NOT NULL,
 );
 
 CREATE TABLE `community-voices_media-group-map` (
@@ -87,7 +88,6 @@ CREATE TABLE `community-voices_slides` (
     `quote_id` int(21) NOT NULL,
     `probability` int(21) NOT NULL,
     `decay` int(21) NOT NULL,
-    `approved` tinyint(1) NOT NULL DEFAULT '0'
 );
 
 CREATE TABLE `community-voices_tags` (
