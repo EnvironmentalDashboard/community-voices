@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "19b241ab629343f92fbae0c412d43e54",
-    "content-hash": "757d23b659fe1f6d8b49c80c1d1b7fca",
+    "hash": "1cb16a43041493806150370a6796056f",
+    "content-hash": "a20e9bce1d7c3c853cd84785c96dede6",
     "packages": [
         {
             "name": "fracture/http",
@@ -93,6 +93,53 @@
             "time": "2016-02-15 03:53:58"
         },
         {
+            "name": "psr/log",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2016-10-10 12:19:37"
+        },
+        {
             "name": "rdlowrey/auryn",
             "version": "v1.4.2",
             "source": {
@@ -152,6 +199,57 @@
                 "ioc"
             ],
             "time": "2017-05-15 06:26:46"
+        },
+        {
+            "name": "teresko/palladium",
+            "version": "v1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/teresko/palladium.git",
+                "reference": "94b9ecb4c04dc2a4563a732314d4e53e56bd6a69"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/teresko/palladium/zipball/94b9ecb4c04dc2a4563a732314d4e53e56bd6a69",
+                "reference": "94b9ecb4c04dc2a4563a732314d4e53e56bd6a69",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pdo": "*",
+                "php": ">=7.0",
+                "psr/log": "1.*"
+            },
+            "require-dev": {
+                "ext-pdo_sqlite": "*",
+                "phpunit/phpunit": "^6.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Mārtiņš Tereško",
+                    "email": "martins.teresko@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "User authentication and registration component",
+            "homepage": "https://github.com/teresko/palladium",
+            "keywords": [
+                "Authentication",
+                "account",
+                "auth",
+                "login",
+                "registration"
+            ],
+            "time": "2017-07-03 19:11:35"
         }
     ],
     "packages-dev": [],
