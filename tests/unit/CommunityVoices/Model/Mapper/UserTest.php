@@ -45,4 +45,149 @@ class UserTest extends TestCase
         $mapper->fetch($user);
     }
 
+    public function testRetrievingUserByEmail()
+    {
+        $pdo = $this
+                ->getMockBuilder(PDO::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $statement = $this
+                ->getMockBuilder(PDOStatement::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $statement
+            ->method('bindValue')
+            ->with($this->equalTo(':email'), $this->equalTo('foo@bah.com'));
+
+        $statement
+            ->expects($this->once())
+            ->method('fetch')
+            ->will($this->returnValue([
+                'id' => 2,
+                'email' => 'foo@bbah.com'
+            ]));
+
+        $pdo
+            ->expects($this->once())
+            ->method('prepare')
+            ->will($this->returnValue($statement));
+
+        $user = new Entity\User;
+        $user->setEmail('foo@bah.com');
+
+        $mapper = new User($pdo);
+        $mapper->fetch($user);
+    }
+
+    public function testRegisteringUser()
+    {
+        $user = new Entity\User;
+        $user->setEmail('foo@bah.com');
+        $user->setFirstName('foo');
+        $user->setLastName('bah');
+        $user->setRole(2);
+
+        $pdo = $this
+                ->getMockBuilder(PDO::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $pdo
+            ->expects($this->once())
+            ->method('lastInsertId')
+            ->will($this->returnValue(4));
+
+        $statement = $this
+                ->getMockBuilder(PDOStatement::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $statement
+            ->method('bindValue')
+            ->withConsecutive(
+                [$this->equalTo(':email'), $this->equalTo($user->getEmail())],
+                [$this->equalTo(':fname'), $this->equalTo($user->getFirstName())],
+                [$this->equalTo(':lname'), $this->equalTo($user->getLastName())],
+                [$this->equalTo(':role'), $this->equalTo($user->getRole())]
+            );
+
+        $pdo
+            ->expects($this->once())
+            ->method('prepare')
+            ->will($this->returnValue($statement));
+
+        $mapper = new User($pdo);
+        $mapper->save($user);
+
+        $this->assertSame($user->getId(), 4);
+    }
+
+    public function testUpdatingUser()
+    {
+        $user = new Entity\User;
+        $user->setId(4);
+        $user->setEmail('foo@bah.com');
+        $user->setFirstName('foo');
+        $user->setLastName('bah');
+        $user->setRole(2);
+
+        $pdo = $this
+                ->getMockBuilder(PDO::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $statement = $this
+                ->getMockBuilder(PDOStatement::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $statement
+            ->method('bindValue')
+            ->withConsecutive(
+                [$this->equalTo(':id'), $this->equalTo($user->getId())],
+                [$this->equalTo(':email'), $this->equalTo($user->getEmail())],
+                [$this->equalTo(':fname'), $this->equalTo($user->getFirstName())],
+                [$this->equalTo(':lname'), $this->equalTo($user->getLastName())],
+                [$this->equalTo(':role'), $this->equalTo($user->getRole())]
+            );
+
+        $pdo
+            ->expects($this->once())
+            ->method('prepare')
+            ->will($this->returnValue($statement));
+
+        $mapper = new User($pdo);
+        $mapper->save($user);
+    }
+
+    public function testDeletingUser()
+    {
+        $user = new Entity\User;
+        $user->setId(4);
+
+        $pdo = $this
+                ->getMockBuilder(PDO::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $statement = $this
+                ->getMockBuilder(PDOStatement::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $statement
+            ->method('bindValue')
+            ->with($this->equalTo(':id'), $this->equalTo($user->getId()));
+
+        $pdo
+            ->expects($this->once())
+            ->method('prepare')
+            ->will($this->returnValue($statement));
+
+        $mapper = new User($pdo);
+        $mapper->delete($user);
+    }
+
 }
