@@ -82,9 +82,8 @@ class User extends DataMapper
                                 (email, fname, lname, role)
                     VALEUS      (:email, :fname, :lname, :role)";
 
-        $statement = $this->conn->prepare($sql);
+        $statement = $this->conn->prepare($query);
 
-        $statement->bindValue(':id', $user->getId());
         $statement->bindValue(':email', $user->getEmail());
         $statement->bindValue(':fname', $user->getFirstName());
         $statement->bindValue(':lname', $user->getLastName());
@@ -104,7 +103,7 @@ class User extends DataMapper
                             role = :role
                     WHERE   id = :id";
 
-        $statement = $this->conn->prepare($sql);
+        $statement = $this->conn->prepare($query);
 
         $statement->bindValue(':id', $user->getId());
         $statement->bindValue(':email', $user->getEmail());
