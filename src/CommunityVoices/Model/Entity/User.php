@@ -93,6 +93,11 @@ class User implements HasId
         return $this->role;
     }
 
+    private function passwordsMatch()
+    {
+        return $this->password === $this->confirmPassword;
+    }
+
     public function isValidForRegistration(ErrorNotifier $notifier)
     {
         $isValid = true;
@@ -112,10 +117,10 @@ class User implements HasId
             $notifier->addError('password', self::ERR_PASSWORD_TOO_SHORT);
         }
 
-        if($this->password !== $this->confirmPassword)
+        if(!$this->passwordsMatch())
         {
             $isValid = false;
-            $notifier->addError('confirmPassword', self::ERR_PASSWORD_MISMATCH);
+            $notifier->addError('password', self::ERR_PASSWORD_MISMATCH);
         }
 
         return $isValid;
