@@ -2,13 +2,19 @@
 
 namespace CommunityVoices\Model\Component;
 
-use CommunityVoices\Model\Mapper;
+use RuntimeException;
+use PDO;
 
 class MapperFactory
 {
     private $dbHandle;
 
     private $cache = [];
+
+    public function __construct(PDO $dbHandle)
+    {
+        $this->dbHandle = $dbHandle;
+    }
 
     public function create($class)
     {
@@ -20,7 +26,7 @@ class MapperFactory
             throw new RuntimeException("Mapper '{$class}' doesn't exist.");
         }
 
-        $this->cache[$class] = new $class($dbHandle);
+        $this->cache[$class] = new $class($this->dbHandle);
         return $this->cache[$class];
     }
 }
