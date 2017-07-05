@@ -126,13 +126,13 @@ class User extends DataMapper
         $statement->execute();
     }
 
-    public function exists(Entity\User $user)
+    public function existingUserWithEmail(Entity\User $user)
     {
-        $query = "SELECT 1 FROM {$this->table} WHERE id = :id";
+        $query = "SELECT 1 FROM {$this->table} WHERE email = :email";
 
         $statement = $this->conn->prepare($query);
 
-        $statement->bindValue(':id', $user->getId());
+        $statement->bindValue(':email', $user->getEmail());
 
         $statement->execute();
 
