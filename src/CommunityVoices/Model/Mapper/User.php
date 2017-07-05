@@ -78,7 +78,7 @@ class User extends DataMapper
 
     private function register(Entity\User $user)
     {
-        $query = "INSERT INTO   ``{$this->table}``
+        $query = "INSERT INTO   `{$this->table}`
                                 (email, fname, lname, role)
                     VALUES      (:email, :fname, :lname, :role)";
 
