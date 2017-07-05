@@ -50,41 +50,85 @@ class UserTest extends TestCase
 
     public function test_If_Valid_User_Is_Valid_For_Registration()
     {
-        $mockNotifier = $this->createMock(Notifier::class);
+        $notifier = $this->createMock(Notifier::class);
 
         $instance = new User;
         $instance->setEmail('blah@foo.com');
+        $instance->setPassword('foo123');
+        $instance->setConfirmPassword('foo123');
 
-        $this->assertTrue($instance->isValidForRegistration($mockNotifier));
+        $this->assertTrue($instance->isValidForRegistration($notifier));
     }
 
     public function test_If_Invalid_User_Bad_Email_Is_Valid_For_Registration()
     {
-        $mockNotifier = $this
+        $notifier = $this
                         ->getMockBuilder(Notifier::class)
                         ->setMethods(['addError'])
                         ->getMock();
-        $mockNotifier
+        $notifier
             ->expects($this->once())
             ->method('addError')
             ->with($this->equalTo('email'), $this->equalTo(User::ERR_EMAIL_INVALID));
 
         $instance = new User;
         $instance->setEmail('invalidemail');
+        $instance->setPassword('foo123');
+        $instance->setConfirmPassword('foo123');
 
-        $this->assertFalse($instance->isValidForRegistration($mockNotifier));
+        $this->assertFalse($instance->isValidForRegistration($notifier));
     }
 
     public function test_If_Invalid_User_Identity_Known_Is_Valid_For_Registration()
     {
         $this->expectException(IdentityKnown::class);
 
-        $mockNotifier = $this->createMock(Notifier::class);
+        $notifier = $this->createMock(Notifier::class);
 
         $instance = new User;
         $instance->setId(6);
 
-        $instance->isValidForRegistration($mockNotifier);
+        $instance->isValidForRegistration($notifier);
+    }
+
+    public function test_If_Invalid_User_Password_Mismatch_Is_Valid_For_Registration()
+    {
+        $notifier = $this
+                        ->getMockBuilder(Notifier::class)
+                        ->setMethods(['addError'])
+                        ->getMock();
+
+        $notifier
+            ->expects($this->once())
+            ->method('addError')
+            ->with($this->equalTo('password'), $this->equalTo(User::ERR_PASSWORD_MISMATCH));
+
+        $instance = new User;
+        $instance->setEmail('blah@foo.com');
+        $instance->setPassword('foo123');
+        $instance->setConfirmPassword('123foo');
+
+        $this->assertFalse($instance->isValidForRegistration($notifier));
+    }
+
+    public function test_If_Invalid_User_Password_Too_Short_Is_Valid_For_Registration()
+    {
+        $notifier = $this
+                    ->getMockBuilder(Notifier::class)
+                    ->setMethods(['addError'])
+                    ->getMock();
+
+        $notifier
+            ->expects($this->once())
+            ->method('addError')
+            ->with($this->equalTo('password'), $this->equalTo(User::ERR_PASSWORD_TOO_SHORT));
+
+        $instance = new User;
+        $instance->setEmail('blah@foo.com');
+        $instance->setPassword('123');
+        $instance->setConfirmPassword('123');
+
+        $this->assertFalse($instance->isValidForRegistration($notifier));
     }
 
 }
