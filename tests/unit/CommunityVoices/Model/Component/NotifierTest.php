@@ -8,7 +8,7 @@ use OutOfBoundsException;
 
 class NotifierTest extends TestCase
 {
-    public function testAddErrorNoNotifier()
+    public function test_Add_Error_No_Notifier()
     {
         $this->expectException(Exception::class);
 
@@ -17,7 +17,7 @@ class NotifierTest extends TestCase
         $notifier->addError('key', 'message');
     }
 
-    public function testAddErrorNullKey()
+    public function test_Add_Error_Null_Key()
     {
         $this->expectException(Exception::class);
 
@@ -27,7 +27,7 @@ class NotifierTest extends TestCase
         $notifier->addError(null, 'message');
     }
 
-    public function testAddError()
+    public function test_Add_Error()
     {
         $notifier = new Notifier;
 
@@ -38,7 +38,7 @@ class NotifierTest extends TestCase
         $this->assertTrue($notifier->hasErrors());
     }
 
-    public function testErrorRetrieval()
+    public function test_Error_Retrieval()
     {
         $notifier = new Notifier;
 
@@ -56,7 +56,7 @@ class NotifierTest extends TestCase
         $this->assertSame($expected, $notifier->getErrors());
     }
 
-    public function testMultipleErrorRetrieval()
+    public function test_Multiple_Error_Retrieval()
     {
         $notifier = new Notifier;
 
@@ -80,7 +80,7 @@ class NotifierTest extends TestCase
         $this->assertSame($expected, $notifier->getErrors());
     }
 
-    public function testErrorRetrievalSingleNotifier()
+    public function test_Error_Retrieval_Single_Notifier()
     {
         $notifier = new Notifier;
 
@@ -98,7 +98,7 @@ class NotifierTest extends TestCase
         $this->assertSame($expected, $notifier->getErrorsByNotifier('test2'));
     }
 
-    public function testErrorRetrievalSingleInvalidNotifier()
+    public function test_Error_Retrieval_Single_Invalid_Notifier()
     {
         $this->expectException(OutOfBoundsException::class);
         $notifier = new Notifier;

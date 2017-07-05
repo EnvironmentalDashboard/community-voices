@@ -9,7 +9,7 @@ use CommunityVoices\Model\Entity;
 
 class UserTest extends TestCase
 {
-    public function testRetrievingUserById()
+    public function test_Retrieving_User_By_Id()
     {
         $pdo = $this
                 ->getMockBuilder(PDO::class)
@@ -45,7 +45,7 @@ class UserTest extends TestCase
         $mapper->fetch($user);
     }
 
-    public function testRetrievingUserByEmail()
+    public function test_Retrieving_User_By_Email()
     {
         $pdo = $this
                 ->getMockBuilder(PDO::class)
@@ -81,7 +81,7 @@ class UserTest extends TestCase
         $mapper->fetch($user);
     }
 
-    public function testRegisteringUser()
+    public function test_Registering_User()
     {
         $user = new Entity\User;
         $user->setEmail('foo@bah.com');
@@ -124,7 +124,7 @@ class UserTest extends TestCase
         $this->assertSame($user->getId(), 4);
     }
 
-    public function testUpdatingUser()
+    public function test_Updating_User()
     {
         $user = new Entity\User;
         $user->setId(4);
@@ -162,7 +162,7 @@ class UserTest extends TestCase
         $mapper->save($user);
     }
 
-    public function testDeletingUser()
+    public function test_Deleting_User()
     {
         $user = new Entity\User;
         $user->setId(4);
