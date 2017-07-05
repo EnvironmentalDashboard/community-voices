@@ -16,12 +16,17 @@ class User implements HasId
     const ROLE_MANAGER = 3;
     const ROLE_ADMIN = 4;
 
-    const ERR_INVALID_EMAIL = 'Invalid email address';
+    const ERR_EMAIL_INVALID = 'Invalid email address';
     const ERR_IDENTITY_KNOWN = 'ID must be null for registration';
+    const ERR_PASSWORD_MISMATCH = 'Confirm password must match';
+    const ERR_PASSWORD_TOO_SHORT = 'Password length must exceed 4 characters';
+
 
     private $id;
 
     private $email;
+    private $password;
+    private $confirmPassword;
 
     private $firstName;
     private $lastName;
@@ -46,6 +51,16 @@ class User implements HasId
     public function getEmail()
     {
         return $this->email;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = (string) $password;
+    }
+
+    public function setConfirmPassword($confirmPassword)
+    {
+        $this->confirmPassword = (string) $confirmPassword;
     }
 
     public function setFirstName($firstName)
@@ -88,7 +103,19 @@ class User implements HasId
 
         if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             $isValid = false;
-            $notifier->addError('email', self::ERR_INVALID_EMAIL);
+            $notifier->addError('email', self::ERR_EMAIL_INVALID);
+        }
+
+        if(strlen($this->password) < 5)
+        {
+            $isValid = false;
+            $notifier->addError('password', self::ERR_PASSWORD_TOO_SHORT);
+        }
+
+        if($this->password !== $this->confirmPassword)
+        {
+            $isValid = false;
+            $notifier->addError('confirmPassword', self::ERR_PASSWORD_MISMATCH);
         }
 
         return $isValid;
