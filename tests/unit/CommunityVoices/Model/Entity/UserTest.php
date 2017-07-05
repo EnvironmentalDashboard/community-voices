@@ -57,7 +57,7 @@ class UserTest extends TestCase
         $instance->setPassword('foo123');
         $instance->setConfirmPassword('foo123');
 
-        $this->assertTrue($instance->isValidForRegistration($notifier));
+        $this->assertTrue($instance->validateForRegistration($notifier));
     }
 
     public function test_If_Invalid_User_Bad_Email_Is_Valid_For_Registration()
@@ -76,7 +76,7 @@ class UserTest extends TestCase
         $instance->setPassword('foo123');
         $instance->setConfirmPassword('foo123');
 
-        $this->assertFalse($instance->isValidForRegistration($notifier));
+        $this->assertFalse($instance->validateForRegistration($notifier));
     }
 
     public function test_If_Invalid_User_Identity_Known_Is_Valid_For_Registration()
@@ -88,7 +88,7 @@ class UserTest extends TestCase
         $instance = new User;
         $instance->setId(6);
 
-        $instance->isValidForRegistration($notifier);
+        $instance->validateForRegistration($notifier);
     }
 
     public function test_If_Invalid_User_Password_Mismatch_Is_Valid_For_Registration()
@@ -108,7 +108,7 @@ class UserTest extends TestCase
         $instance->setPassword('foo123');
         $instance->setConfirmPassword('123foo');
 
-        $this->assertFalse($instance->isValidForRegistration($notifier));
+        $this->assertFalse($instance->validateForRegistration($notifier));
     }
 
     public function test_If_Invalid_User_Password_Too_Short_Is_Valid_For_Registration()
@@ -128,7 +128,7 @@ class UserTest extends TestCase
         $instance->setPassword('123');
         $instance->setConfirmPassword('123');
 
-        $this->assertFalse($instance->isValidForRegistration($notifier));
+        $this->assertFalse($instance->validateForRegistration($notifier));
     }
 
 }

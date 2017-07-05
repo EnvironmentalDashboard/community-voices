@@ -98,7 +98,7 @@ class User implements HasId
         return $this->password === $this->confirmPassword;
     }
 
-    public function isValidForRegistration(ErrorNotifier $notifier)
+    public function validateForRegistration(ErrorNotifier $notifier)
     {
         $isValid = true;
 
