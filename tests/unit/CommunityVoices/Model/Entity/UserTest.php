@@ -58,7 +58,7 @@ class UserTest extends TestCase
         $this->assertTrue($instance->isValidForRegistration($mockNotifier));
     }
 
-    public function testIfInvalidForForRegistrationInvalidEmail()
+    public function testIfInvalidUserBadEmailIsValidForRegistration()
     {
         $mockNotifier = $this
                         ->getMockBuilder(Notifier::class)
@@ -67,7 +67,7 @@ class UserTest extends TestCase
         $mockNotifier
             ->expects($this->once())
             ->method('addError')
-            ->with($this->equalTo('email'), $this->equalTo(User::ERR_INVALID_EMAIL));
+            ->with($this->equalTo('email'), $this->equalTo(User::ERR_EMAIL_INVALID));
 
         $instance = new User;
         $instance->setEmail('invalidemail');
@@ -75,7 +75,7 @@ class UserTest extends TestCase
         $this->assertFalse($instance->isValidForRegistration($mockNotifier));
     }
 
-    public function testIfInvalidForRegistrationIdentityKnown()
+    public function testIfInvalidUserIdentityKnownIsValidForRegistration()
     {
         $this->expectException(IdentityKnown::class);
 
@@ -86,4 +86,5 @@ class UserTest extends TestCase
 
         $instance->isValidForRegistration($mockNotifier);
     }
+
 }
