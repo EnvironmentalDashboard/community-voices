@@ -125,4 +125,17 @@ class User extends DataMapper
 
         $statement->execute();
     }
+
+    public function exists(Entity\User $user)
+    {
+        $query = "SELECT 1 FROM {$this->table} WHERE id = :id";
+
+        $statement = $this->conn->prepare($query);
+
+        $statement->bindValue(':id', $user->getId());
+
+        $statement->execute();
+
+        return !empty($statement->fetch(PDO::FETCH_ASSOC));
+    }
 }
