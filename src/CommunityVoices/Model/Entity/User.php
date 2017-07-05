@@ -17,6 +17,7 @@ class User implements HasId
     const ROLE_ADMIN = 4;
 
     const ERR_EMAIL_INVALID = 'Invalid email address';
+    const ERR_EMAIL_EXISTS = 'User with this email already exists';
     const ERR_IDENTITY_KNOWN = 'ID must be null for registration';
     const ERR_PASSWORD_MISMATCH = 'Confirm password must match';
     const ERR_PASSWORD_TOO_SHORT = 'Password length must exceed 4 characters';
