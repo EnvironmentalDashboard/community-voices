@@ -2,6 +2,10 @@
 
 namespace CommunityVoices\Model\Service;
 
+/**
+ * @overview Responsible for resgistration-related services
+ */
+
 use Palladium;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Component;
@@ -48,7 +52,7 @@ class Registration
         $clientState = $this->mapperFactory->create(Mapper\ApplicationState::class);
 
         /**
-         * Stop the registration process and save the errors to applicatin state
+         * Stop the registration process and save the errors to application state
          * if email is invalid. No point in continuing the validation process in
          * making sure no user has this email if the email is invalid anyway
          */
