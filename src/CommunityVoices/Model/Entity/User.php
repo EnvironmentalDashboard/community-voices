@@ -2,7 +2,7 @@
 
 namespace CommunityVoices\Model\Entity;
 
-use CommunityVoices\Model\Contract\StatusObserver;
+use CommunityVoices\Model\Contract\StateObserver;
 use CommunityVoices\Model\Exception\IdentityKnown;
 use Palladium\Contract\HasId;
 
@@ -99,7 +99,7 @@ class User implements HasId
         return $this->password === $this->confirmPassword;
     }
 
-    public function validateForRegistration(StatusObserver $notifier)
+    public function validateForRegistration(StateObserver $notifier)
     {
         $isValid = true;
 

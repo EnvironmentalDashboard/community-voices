@@ -9,9 +9,9 @@ namespace CommunityVoices\Model\Entity;
 use OutOfBoundsException;
 use Exception;
 
-use CommunityVoices\Model\Contract\StatusObserver;
+use CommunityVoices\Model\Contract\StateObserver;
 
-class Notifier implements StatusObserver
+class Notifier implements StateObserver
 {
     private $collector = [];
 
