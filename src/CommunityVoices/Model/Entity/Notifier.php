@@ -46,10 +46,10 @@ class Notifier implements StatusObserver
         }
 
         if(!array_key_exists($key, $this->collector[$this->notifier])) {
-            $this->colletor[$this->notifier][$key] = [];
+            $this->collector[$this->notifier][$key] = [];
         }
 
-        $this->collector[$this->notifier][$key][] = $message;
+        array_push($this->collector[$this->notifier][$key], $message);
     }
 
     /**
@@ -69,11 +69,24 @@ class Notifier implements StatusObserver
      */
     public function hasEntry($key, $message = null): bool
     {
-        if (!$message) {
-            return array_key_exists($key, $this->collector);
+        if (is_null($this->notifier)) {
+            throw new Exception('Notification notifier specified');
         }
 
-        return array_key_exists($key, $this->collector) && $this->collector[$key] === $message;
+        if (is_null($key)) {
+            throw new Exception('Notification key not specified.');
+        }
+
+        if (!array_key_exists($this->notifier, $this->collector)) {
+            return false;
+        }
+
+        if (!$message) {
+            return array_key_exists($key, $this->collector[$this->notifier]);
+        }
+
+        return array_key_exists($key, $this->collector[$this->notifier])
+                && in_array($message, $this->collector[$this->notifier][$key]);
     }
 
     /**

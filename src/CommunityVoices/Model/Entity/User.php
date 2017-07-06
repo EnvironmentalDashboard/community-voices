@@ -2,7 +2,7 @@
 
 namespace CommunityVoices\Model\Entity;
 
-use CommunityVoices\Model\Contract\ErrorNotifier;
+use CommunityVoices\Model\Contract\StatusObserver;
 use CommunityVoices\Model\Exception\IdentityKnown;
 use Palladium\Contract\HasId;
 

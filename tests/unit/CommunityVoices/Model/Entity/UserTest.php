@@ -2,7 +2,7 @@
 
 namespace CommunityVoices\Model\Entity;
 
-use CommunityVoices\Model\Component\Notifier;
+use CommunityVoices\Model\Entity\Notifier;
 use CommunityVoices\Model\Exception\IdentityKnown;
 use PHPUnit\Framework\TestCase;
 
