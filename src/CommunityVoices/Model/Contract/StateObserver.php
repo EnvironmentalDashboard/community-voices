@@ -2,7 +2,7 @@
 
 namespace CommunityVoices\Model\Contract;
 
-interface StatusObserver
+interface StateObserver
 {
     public function setNotifier($notifier);
 
