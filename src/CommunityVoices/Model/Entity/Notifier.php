@@ -1,24 +1,24 @@
 <?php
 
-namespace CommunityVoices\Model\Component;
+namespace CommunityVoices\Model\Entity;
 
 /**
- * Handles error notification
+ * Handles entry notification
  */
 
 use OutOfBoundsException;
 use Exception;
 
-use CommunityVoices\Model\Contract\ErrorNotifier;
+use CommunityVoices\Model\Contract\StatusObserver;
 
-class Notifier implements ErrorNotifier
+class Notifier implements StatusObserver
 {
     private $collector = [];
 
     private $notifier;
 
     /**
-     * Sets the error notifier to index new errors under
+     * Sets the entry notifier to index new entries under
      * @param strinrg $notifier Notifier label
      */
     public function setNotifier($notifier)
@@ -27,11 +27,11 @@ class Notifier implements ErrorNotifier
     }
 
     /**
-     * Adds an error to the collector
+     * Adds an entry to the collector
      * @param string $key Reference key
-     * @param string $message Error message
+     * @param string $message Entry message
      */
-    public function addError($key, $message)
+    public function addEntry($key, $message)
     {
         if (is_null($this->notifier)) {
             throw new Exception('Notification notifier specified');
@@ -45,25 +45,29 @@ class Notifier implements ErrorNotifier
             $this->collector[$this->notifier] = [];
         }
 
-        $this->collector[$this->notifier][$key] = $message;
+        if(!array_key_exists($key, $this->collector[$this->notifier])) {
+            $this->colletor[$this->notifier][$key] = [];
+        }
+
+        $this->collector[$this->notifier][$key][] = $message;
     }
 
     /**
-     * Detects errors
-     * @return bool Boolean indicating if there are errors
+     * Detects entries
+     * @return bool Boolean indicating if there are entries
      */
-    public function hasErrors(): bool
+    public function hasEntries(): bool
     {
         return count($this->collector) > 0;
     }
 
     /**
-     * Detects specific error
-     * @param  string  $key Error key to search for
-     * @param  string  $message Error message to search for
-     * @return boolean Boolean indicating if there are errors
+     * Detects specific entry
+     * @param  string  $key Entry key to search for
+     * @param  string  $message Entry message to search for
+     * @return boolean Boolean indicating if there are entries
      */
-    public function hasError($key, $message = null): bool
+    public function hasEntry($key, $message = null): bool
     {
         if (!$message) {
             return array_key_exists($key, $this->collector);
@@ -73,11 +77,11 @@ class Notifier implements ErrorNotifier
     }
 
     /**
-     * Gets errors from specific notifier
+     * Gets entries from specific notifier
      * @param  string $notifier Notifier label
-     * @return Array Collection of errors
+     * @return Array Collection of entries
      */
-    public function getErrorsByNotifier($notifier)
+    public function getEntriesByNotifier($notifier)
     {
         if (!array_key_exists($notifier, $this->collector)) {
             throw new OutOfBoundsException('No notifier "'.$notifier.'"');
@@ -87,10 +91,10 @@ class Notifier implements ErrorNotifier
     }
 
     /**
-     * Gets all errors
-     * @return Array Collection of errors
+     * Gets all entries
+     * @return Array Collection of entries
      */
-    public function getErrors()
+    public function getEntries()
     {
         return $this->collector;
     }

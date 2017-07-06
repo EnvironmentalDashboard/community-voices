@@ -1,6 +1,6 @@
 <?php
 
-namespace CommunityVoices\Model\Component;
+namespace CommunityVoices\Model\Entity;
 
 use PHPUnit\Framework\TestCase;
 use Exception;
@@ -8,43 +8,43 @@ use OutOfBoundsException;
 
 class NotifierTest extends TestCase
 {
-    public function test_Add_Error_No_Notifier()
+    public function test_Add_Entry_No_Notifier()
     {
         $this->expectException(Exception::class);
 
         $notifier = new Notifier;
 
-        $notifier->addError('key', 'message');
+        $notifier->addEntry('key', 'message');
     }
 
-    public function test_Add_Error_Null_Key()
+    public function test_Add_Entry_Null_Key()
     {
         $this->expectException(Exception::class);
 
         $notifier = new Notifier;
 
         $notifier->setNotifier('test');
-        $notifier->addError(null, 'message');
+        $notifier->addEntry(null, 'message');
     }
 
-    public function test_Add_Error()
+    public function test_Add_Entry()
     {
         $notifier = new Notifier;
 
         $notifier->setNotifier('test');
-        $notifier->addError('foo', 'bar');
-        $notifier->addError('bar', 'foo');
+        $notifier->addEntry('foo', 'bar');
+        $notifier->addEntry('bar', 'foo');
 
-        $this->assertTrue($notifier->hasErrors());
+        $this->assertTrue($notifier->hasEntries());
     }
 
-    public function test_Error_Retrieval()
+    public function test_Entry_Retrieval()
     {
         $notifier = new Notifier;
 
         $notifier->setNotifier('test');
-        $notifier->addError('foo', 'bar');
-        $notifier->addError('bar', 'foo');
+        $notifier->addEntry('foo', 'bar');
+        $notifier->addEntry('bar', 'foo');
 
         $expected = [
             'test' => [
@@ -53,19 +53,19 @@ class NotifierTest extends TestCase
             ]
         ];
 
-        $this->assertSame($expected, $notifier->getErrors());
+        $this->assertSame($expected, $notifier->getEntries());
     }
 
-    public function test_Multiple_Error_Retrieval()
+    public function test_Multiple_Entry_Retrieval()
     {
         $notifier = new Notifier;
 
         $notifier->setNotifier('test');
-        $notifier->addError('foo', 'bar');
-        $notifier->addError('bar', 'foo');
+        $notifier->addEntry('foo', 'bar');
+        $notifier->addEntry('bar', 'foo');
 
         $notifier->setNotifier('test2');
-        $notifier->addError('lorem', 'ipsum');
+        $notifier->addEntry('lorem', 'ipsum');
 
         $expected = [
             'test' => [
@@ -77,33 +77,33 @@ class NotifierTest extends TestCase
             ]
         ];
 
-        $this->assertSame($expected, $notifier->getErrors());
+        $this->assertSame($expected, $notifier->getEntries());
     }
 
-    public function test_Error_Retrieval_Single_Notifier()
+    public function test_Entry_Retrieval_Single_Notifier()
     {
         $notifier = new Notifier;
 
         $notifier->setNotifier('test');
-        $notifier->addError('foo', 'bar');
-        $notifier->addError('bar', 'foo');
+        $notifier->addEntry('foo', 'bar');
+        $notifier->addEntry('bar', 'foo');
 
         $notifier->setNotifier('test2');
-        $notifier->addError('lorem', 'ipsum');
+        $notifier->addEntry('lorem', 'ipsum');
 
         $expected = [
             'lorem' => 'ipsum'
         ];
 
-        $this->assertSame($expected, $notifier->getErrorsByNotifier('test2'));
+        $this->assertSame($expected, $notifier->getEntriesByNotifier('test2'));
     }
 
-    public function test_Error_Retrieval_Single_Invalid_Notifier()
+    public function test_Entry_Retrieval_Single_Invalid_Notifier()
     {
         $this->expectException(OutOfBoundsException::class);
         $notifier = new Notifier;
 
-        $notifier->getErrorsByNotifier('invalidnotifier');
+        $notifier->getEntriesByNotifier('invalidnotifier');
     }
 
 }

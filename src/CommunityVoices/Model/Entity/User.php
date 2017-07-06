@@ -99,7 +99,7 @@ class User implements HasId
         return $this->password === $this->confirmPassword;
     }
 
-    public function validateForRegistration(ErrorNotifier $notifier)
+    public function validateForRegistration(StatusObserver $notifier)
     {
         $isValid = true;
 
