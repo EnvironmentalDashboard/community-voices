@@ -13,7 +13,7 @@ class MapperFactory
 
     private $cache = [];
 
-    public function __construct(PDO $dbHandler, $request = null)
+    public function __construct(PDO $dbHandler, $request)
     {
         $this->dbHandler = $dbHandler;
         $this->request = $request;
@@ -29,7 +29,16 @@ class MapperFactory
         return $this->create($class, $this->request);
     }
 
-    private function create($class, $handler)
+    public function createSessionMapper($class)
+    {
+        $prepare = function($instance) {
+            $instance->prepare();
+        };
+
+        return $this->create($class, null, $prepare);
+    }
+
+    private function create($class, $handler, Callable $prepare = null)
     {
         if (array_key_exists($class, $this->cache)) {
             return $this->cache[$class];
@@ -40,6 +49,11 @@ class MapperFactory
         }
 
         $this->cache[$class] = new $class($handler);
+
+        if ($prepare) {
+            $prepare($this->cache[$class]);
+        }
+
         return $this->cache[$class];
     }
 }
