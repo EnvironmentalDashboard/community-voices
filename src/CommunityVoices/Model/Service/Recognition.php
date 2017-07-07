@@ -95,8 +95,8 @@ class Recognition
         $sessionMapper = $this->mapperFactory->createSessionMapper(Mapper\Session::class);
         $sesionMapper->fetch($identity);
 
-        if($identity->getAccountId()) {
-            return $this->identifyBySession($identity); //@TODO fetch user by account id
+        if ($identity->getAccountId()) {
+            return $this->identifyBySession($identity);
         }
 
         /**
@@ -105,7 +105,7 @@ class Recognition
         $cookieMapper = $this->mapperFactory->createCookieMapper(Mapper\Cookie::class);
         $cookieMapper->fetch($identity);
 
-        if($identity->getAccountId()) {
+        if ($identity->getAccountId()) {
             return $this->identifyByCookie($identity);
         }
     }
@@ -181,6 +181,6 @@ class Recognition
 
     public function logout()
     {
-
+        
     }
 }
