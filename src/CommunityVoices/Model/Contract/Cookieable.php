@@ -6,5 +6,7 @@ interface Cookieable
 {
     public function getUniqueLabel();
 
+    public function getExpiresOn();
+
     public function toJSON();
 }

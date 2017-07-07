@@ -2,6 +2,7 @@
 
 namespace CommunityVoices\Model\Mapper;
 
+use CommunityVoices\Model\Component\Mapper;
 use CommunityVoices\Model\Contract;
 
 class Cookie extends Mapper
@@ -17,7 +18,8 @@ class Cookie extends Mapper
     {
         setcookie(
             $instance->getUniqueLabel(),
-            $instance->toJson()
+            $instance->toJson(),
+            $instance->getExpiresOn()
         );
     }
 
@@ -30,5 +32,14 @@ class Cookie extends Mapper
         }
 
         $this->applyValues($instance, $cookie);
+    }
+
+    public function delete(Contract\Cookieable $instance)
+    {
+        setcookie(
+            $instance->getUniqueLabel(),
+            "",
+            time() - 3600 // back-date expiration to delete
+        );
     }
 }
