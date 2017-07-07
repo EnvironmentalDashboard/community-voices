@@ -43,6 +43,8 @@ class UserTest extends TestCase
 
         $mapper = new User($pdo);
         $mapper->fetch($user);
+
+        $this->assertSame($user->getEmail(), 'foo@blah.com');
     }
 
     public function test_Retrieving_User_By_Email()
