@@ -25,6 +25,15 @@ class Registration
         $this->mapperFactory = $mapperFactory;
     }
 
+    /**
+     * Registers a user in the database
+     * @param  string $email
+     * @param  string $password
+     * @param  string $confirmPassword
+     * @param  string $firstName
+     * @param  string $lastName
+     * @return boolean True indicates success
+     */
     public function createUser($email, $password, $confirmPassword, $firstName, $lastName)
     {
         /**
@@ -58,7 +67,7 @@ class Registration
          */
         if (!$isValid && $notifier->hasEntry('email', $user::ERR_EMAIL_INVALID)) {
             $clientState->save($notifier);
-            return ;
+            return false;
         }
 
         $userMapper = $this->mapperFactory->create(Mapper\User::class);
@@ -73,7 +82,7 @@ class Registration
          */
         if ($notifier->hasEntries()) {
             $clientState->save($notifier);
-            return ;
+            return false;
         }
 
         /**
@@ -81,8 +90,11 @@ class Registration
          */
         $userMapper->save($user);
 
-        $identity = $this->pdRegistration->createEmailIdentity($email, $password);
-        $this->pdRegistration->bindAccountToIdentity($user->getId(), $identity);
-        $this->pdRegistration->verifyEmailIdentity($identity);
+        //`createEmailIdentity()` shouldn't throw IdentityConflict exception
+        $pdIdentity = $this->pdRegistration->createEmailIdentity($email, $password);
+        $this->pdRegistration->bindAccountToIdentity($user->getId(), $pdIdentity);
+        $this->pdRegistration->verifyEmailIdentity($pdIdentity);
+
+        return true;
     }
 }
