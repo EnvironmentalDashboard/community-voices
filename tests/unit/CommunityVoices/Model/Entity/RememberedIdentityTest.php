@@ -64,4 +64,11 @@ class RememberedIdentityTest extends TestCase
 
         $this->assertSame($instance->toJson(), json_encode($expected));
     }
+
+    public function test_Unique_Label_Retrieval()
+    {
+        $instance = new RememberedIdentity;
+
+        $this->assertSame($instance->getUniqueLabel(), 'rememberedIdentity');
+    }
 }

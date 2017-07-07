@@ -192,4 +192,37 @@ class UserTest extends TestCase
         $mapper->delete($user);
     }
 
+    public function test_Existing_User_Check()
+    {
+        $user = new Entity\User;
+        $user->setEmail('john@doe.com');
+
+        $pdo = $this
+                ->getMockBuilder(PDO::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $statement = $this
+                ->getMockBuilder(PDOStatement::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $statement
+            ->method('bindValue')
+            ->with($this->equalTo(':email'), $this->equalTo($user->getEmail()));
+
+        $statement
+            ->method('fetch')
+            ->with($this->equalTo(PDO::FETCH_ASSOC))
+            ->will($this->returnValue(false));
+
+        $pdo
+            ->expects($this->once())
+            ->method('prepare')
+            ->will($this->returnValue($statement));
+
+        $mapper = new User($pdo);
+        $this->assertFalse($mapper->existingUserWithEmail($user));
+    }
+
 }
