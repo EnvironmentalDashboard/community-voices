@@ -224,5 +224,4 @@ class UserTest extends TestCase
         $mapper = new User($pdo);
         $this->assertFalse($mapper->existingUserWithEmail($user));
     }
-
 }

@@ -181,6 +181,5 @@ class Recognition
 
     public function logout()
     {
-        
     }
 }

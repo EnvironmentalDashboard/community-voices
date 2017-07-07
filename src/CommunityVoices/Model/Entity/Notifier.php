@@ -45,7 +45,7 @@ class Notifier implements StateObserver
             $this->collector[$this->notifier] = [];
         }
 
-        if(!array_key_exists($key, $this->collector[$this->notifier])) {
+        if (!array_key_exists($key, $this->collector[$this->notifier])) {
             $this->collector[$this->notifier][$key] = [];
         }
 

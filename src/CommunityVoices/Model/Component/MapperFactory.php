@@ -31,14 +31,14 @@ class MapperFactory
 
     public function createSessionMapper($class)
     {
-        $prepare = function($instance) {
+        $prepare = function ($instance) {
             $instance->prepare();
         };
 
         return $this->create($class, null, $prepare);
     }
 
-    private function create($class, $handler, Callable $prepare = null)
+    private function create($class, $handler, callable $prepare = null)
     {
         if (array_key_exists($class, $this->cache)) {
             return $this->cache[$class];

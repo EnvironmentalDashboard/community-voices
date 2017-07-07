@@ -130,5 +130,4 @@ class UserTest extends TestCase
 
         $this->assertFalse($instance->validateForRegistration($notifier));
     }
-
 }

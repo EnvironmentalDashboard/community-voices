@@ -103,23 +103,21 @@ class User implements HasId
     {
         $isValid = true;
 
-        if(!is_null($this->id)) {
+        if (!is_null($this->id)) {
             throw new IdentityKnown(self::ERR_IDENTITY_KNOWN);
         }
 
-        if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             $isValid = false;
             $notifier->addError('email', self::ERR_EMAIL_INVALID);
         }
 
-        if(strlen($this->password) < 5)
-        {
+        if (strlen($this->password) < 5) {
             $isValid = false;
             $notifier->addError('password', self::ERR_PASSWORD_TOO_SHORT);
         }
 
-        if(!$this->passwordsMatch())
-        {
+        if (!$this->passwordsMatch()) {
             $isValid = false;
             $notifier->addError('password', self::ERR_PASSWORD_MISMATCH);
         }
