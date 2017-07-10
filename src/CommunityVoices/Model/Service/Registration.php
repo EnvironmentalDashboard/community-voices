@@ -58,7 +58,7 @@ class Registration
 
         $isValid = $user->validateForRegistration($notifier);
 
-        $clientState = $this->mapperFactory->create(Mapper\ApplicationState::class);
+        $clientState = $this->mapperFactory->createSessionMapper(Mapper\ApplicationState::class);
 
         /**
          * Stop the registration process and save the errors to application state
@@ -70,7 +70,7 @@ class Registration
             return false;
         }
 
-        $userMapper = $this->mapperFactory->create(Mapper\User::class);
+        $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
 
         if ($userMapper->existingUserWithEmail($user)) {
             $notifier->addEntry('email', $user::ERR_EMAIL_EXISTS);
