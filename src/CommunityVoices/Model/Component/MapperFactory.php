@@ -38,6 +38,11 @@ class MapperFactory
         return $this->create($class, null, $prepare);
     }
 
+    public function createCacheMapper($class)
+    {
+        return $this->create($class, null);
+    }
+
     private function create($class, $handler, Callable $prepare = null)
     {
         if (array_key_exists($class, $this->cache)) {

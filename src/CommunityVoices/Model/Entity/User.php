@@ -3,10 +3,11 @@
 namespace CommunityVoices\Model\Entity;
 
 use CommunityVoices\Model\Contract\StateObserver;
+use CommunityVoices\Model\Contract\HasId;
 use CommunityVoices\Model\Exception\IdentityKnown;
-use Palladium\Contract\HasId;
+use Palladium;
 
-class User implements HasId
+class User implements HasId, Palladium\Contract\HasId
 {
     const HASH_ALGO = PASSWORD_BCRYPT;
 
