@@ -116,7 +116,8 @@ class Recognition
      */
     private function identifyBySession($identity)
     {
-        return $this->createUser($identity); // identify by session is easy
+
+        return $this->createUser($identity); //identify by session is easy
     }
 
     /**
@@ -167,8 +168,27 @@ class Recognition
 
         $user->setId($identity->getAccountId());
 
+        /**
+         * Attept to fetch via cache
+         */
+        $cacheMapper = $this->mapperFactory->createCacheMapper(Mapper\Cache::class);
+
+        if ($cacheMapper->contains($user)) {
+            $cacheMapper->fetch($user);
+
+            return $user;
+        }
+
+        /**
+         * Cache failed; fetch user in database
+         */
         $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
         $userMapper->fetch($user);
+
+        /**
+         * Save user to cache
+         */
+        $cacheMapper->save($user);
 
         return $user;
     }
