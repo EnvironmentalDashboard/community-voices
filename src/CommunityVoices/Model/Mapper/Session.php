@@ -14,23 +14,23 @@ class Session extends Mapper
         }
     }
 
-    public function save(Contract\Cookieable $instance)
+    public function save(Contract\Sessionable $instance)
     {
         $_SESSION[$instance->getUniqueLabel()] = $instance->toJson();
     }
 
-    public function fetch(Contract\Cookieable $instance)
+    public function fetch(Contract\Sessionable $instance)
     {
-        $session = $_SESSION[$instance->getUniqueLabel()];
-
-        if (!$session) {
+        if (!isset($_SESSION[$instance->getUniqueLabel()])) {
             return false;
         }
 
-        $this->applyValues($instance, $session);
+        $session = $_SESSION[$instance->getUniqueLabel()];
+
+        $this->applyValues($instance, json_decode($session, true));
     }
 
-    public function delete(Contract\Cookieable $instance)
+    public function delete(Contract\Sessionable $instance)
     {
         unset($_SESSION[$instance->getUniqueLabel()]);
     }

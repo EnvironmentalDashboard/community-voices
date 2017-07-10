@@ -2,7 +2,10 @@
 
 namespace CommunityVoices\Model\Entity;
 
-class RememberedIdentity
+use CommunityVoices\Model\Contract\Cookieable;
+use CommunityVoices\Model\Contract\Sessionable;
+
+class RememberedIdentity implements Cookieable, Sessionable
 {
     private $accountId;
 
@@ -68,4 +71,5 @@ class RememberedIdentity
     {
         return 'rememberedIdentity';
     }
+
 }

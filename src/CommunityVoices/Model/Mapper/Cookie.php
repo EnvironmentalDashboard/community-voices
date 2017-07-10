@@ -19,7 +19,7 @@ class Cookie extends Mapper
         setcookie(
             $instance->getUniqueLabel(),
             $instance->toJson(),
-            $instance->getExpiresOn()
+            time()+(60*60*24)
         );
     }
 
@@ -31,7 +31,7 @@ class Cookie extends Mapper
             return false;
         }
 
-        $this->applyValues($instance, $cookie);
+        $this->applyValues($instance, json_decode($cookie, true));
     }
 
     public function delete(Contract\Cookieable $instance)

@@ -16,7 +16,7 @@ class Recognition
     private $mapperFactory;
 
     public function __construct(
-        Palladiun\Service\Search $pdSearch,
+        Palladium\Service\Search $pdSearch,
         Palladium\Service\Identification $pdIdentification,
         Component\MapperFactory $mapperFactory
     ) {
@@ -24,7 +24,6 @@ class Recognition
         $this->pdIdentification = $pdIdentification;
         $this->mapperFactory = $mapperFactory;
     }
-
     /**
      * Authenticates a user by email and password
      * @param  string $email
@@ -32,7 +31,7 @@ class Recognition
      * @param  boolean $remember Whether to set remember-me cookie
      * @return boolean True indicates success
      */
-    public function authenticate($email, $password, $remember)
+    public function authenticate($email, $password, $remember = false)
     {
         try {
             $pdIdentity = $this->pdSearch->findEmailIdentityByEmailAddress($email);
@@ -62,7 +61,7 @@ class Recognition
         $identity->setAccountId($pdIdentity->getAccountId());
         $identity->setKey($pdCookie->getKey());
         $identity->setSeries($pdCookie->getSeries());
-        $identity->setExpireTime($pdIdentity->getExpiresOn());
+        $identity->setExpiresOn($pdIdentity->getExpiresOn());
 
         $cookieMapper = $this->mapperFactory->createCookieMapper(Mapper\Cookie::class);
         $cookieMapper->save($identity);
@@ -73,7 +72,7 @@ class Recognition
      */
     private function persist($pdIdentity)
     {
-        $identity = new Entity\RemeberedIdentity;
+        $identity = new Entity\RememberedIdentity;
 
         $identity->setAccountId($pdIdentity->getAccountId());
 
@@ -87,13 +86,13 @@ class Recognition
      */
     public function identify()
     {
-        $identity = new Entity\RemeberedIdentity;
+        $identity = new Entity\RememberedIdentity;
 
         /**
          * Attept to identify by session
          */
         $sessionMapper = $this->mapperFactory->createSessionMapper(Mapper\Session::class);
-        $sesionMapper->fetch($identity);
+        $sessionMapper->fetch($identity);
 
         if ($identity->getAccountId()) {
             return $this->identifyBySession($identity);
@@ -108,6 +107,8 @@ class Recognition
         if ($identity->getAccountId()) {
             return $this->identifyByCookie($identity);
         }
+
+        return $this->createGuestUser();
     }
 
     /**
@@ -181,5 +182,6 @@ class Recognition
 
     public function logout()
     {
+
     }
 }
