@@ -2,11 +2,7 @@
 
 namespace CommunityVoices\Model\Contract;
 
-interface Cookieable
+interface Cookieable extends Sessionable
 {
-    public function getUniqueLabel();
-
     public function getExpiresOn();
-
-    public function toJSON();
 }
