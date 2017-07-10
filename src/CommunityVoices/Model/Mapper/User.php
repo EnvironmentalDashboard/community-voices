@@ -26,7 +26,7 @@ class User extends DataMapper
                             email,
                             fname   AS firstName,
                             lname   AS lastName,
-                            role,
+                            role
                     FROM    `{$this->table}`
                     WHERE   id = :id";
 
@@ -49,7 +49,7 @@ class User extends DataMapper
                             email,
                             fname   AS firstName,
                             lname   AS lastName,
-                            role,
+                            role
                     FROM    `{$this->table}`
                     WHERE   email = :email";
 
