@@ -12,7 +12,6 @@ class Cache extends Mapper
 
     public function save(Contract\HasId $instance)
     {
-        $instance->setFirstName($instance->getFirstName() . " CACHED");
         $this->cache[$this->generateSignature($instance)] = $instance;
     }
 
@@ -39,7 +38,7 @@ class Cache extends Mapper
         unset($this->cache[$this->generateSignature($instance)]);
     }
 
-    public function contains(Contract\HasId $instance)
+    public function exists(Contract\HasId $instance)
     {
         return array_key_exists($this->generateSignature($instance), $this->cache);
     }
