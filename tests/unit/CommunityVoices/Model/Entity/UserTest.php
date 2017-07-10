@@ -64,11 +64,11 @@ class UserTest extends TestCase
     {
         $notifier = $this
                         ->getMockBuilder(Notifier::class)
-                        ->setMethods(['addError'])
+                        ->setMethods(['addEntry'])
                         ->getMock();
         $notifier
             ->expects($this->once())
-            ->method('addError')
+            ->method('addEntry')
             ->with($this->equalTo('email'), $this->equalTo(User::ERR_EMAIL_INVALID));
 
         $instance = new User;
@@ -95,12 +95,12 @@ class UserTest extends TestCase
     {
         $notifier = $this
                         ->getMockBuilder(Notifier::class)
-                        ->setMethods(['addError'])
+                        ->setMethods(['addEntry'])
                         ->getMock();
 
         $notifier
             ->expects($this->once())
-            ->method('addError')
+            ->method('addEntry')
             ->with($this->equalTo('password'), $this->equalTo(User::ERR_PASSWORD_MISMATCH));
 
         $instance = new User;
@@ -115,12 +115,12 @@ class UserTest extends TestCase
     {
         $notifier = $this
                     ->getMockBuilder(Notifier::class)
-                    ->setMethods(['addError'])
+                    ->setMethods(['addEntry'])
                     ->getMock();
 
         $notifier
             ->expects($this->once())
-            ->method('addError')
+            ->method('addEntry')
             ->with($this->equalTo('password'), $this->equalTo(User::ERR_PASSWORD_TOO_SHORT));
 
         $instance = new User;

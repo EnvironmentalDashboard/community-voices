@@ -110,17 +110,17 @@ class User implements HasId, Palladium\Contract\HasId
 
         if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             $isValid = false;
-            $notifier->addError('email', self::ERR_EMAIL_INVALID);
+            $notifier->addEntry('email', self::ERR_EMAIL_INVALID);
         }
 
         if (strlen($this->password) < 5) {
             $isValid = false;
-            $notifier->addError('password', self::ERR_PASSWORD_TOO_SHORT);
+            $notifier->addEntry('password', self::ERR_PASSWORD_TOO_SHORT);
         }
 
         if (!$this->passwordsMatch()) {
             $isValid = false;
-            $notifier->addError('password', self::ERR_PASSWORD_MISMATCH);
+            $notifier->addEntry('password', self::ERR_PASSWORD_MISMATCH);
         }
 
         return $isValid;
