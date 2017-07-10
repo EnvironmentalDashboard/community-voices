@@ -19,7 +19,7 @@ class Cookie extends Mapper
         setcookie(
             $instance->getUniqueLabel(),
             $instance->toJson(),
-            time()+(60*60*24)
+            $instance->getExpiresOn()
         );
     }
 

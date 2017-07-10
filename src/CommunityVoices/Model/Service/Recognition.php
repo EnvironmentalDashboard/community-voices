@@ -41,7 +41,7 @@ class Recognition
         }
 
         if ($remember) {
-            $this->remember($pdIdentity, $pdCookie);
+            $this->remember($pdCookie);
         }
 
         /**
@@ -54,14 +54,14 @@ class Recognition
     /**
      * Saves a user to cookie
      */
-    private function remember($pdIdentity, $pdCookie)
+    private function remember($pdCookie)
     {
         $identity = new Entity\RememberedIdentity;
 
-        $identity->setAccountId($pdIdentity->getAccountId());
+        $identity->setAccountId($pdCookie->getAccountId());
         $identity->setKey($pdCookie->getKey());
         $identity->setSeries($pdCookie->getSeries());
-        $identity->setExpiresOn($pdIdentity->getExpiresOn());
+        $identity->setExpiresOn($pdCookie->getExpiresOn());
 
         $cookieMapper = $this->mapperFactory->createCookieMapper(Mapper\Cookie::class);
         $cookieMapper->save($identity);
@@ -146,7 +146,7 @@ class Recognition
         /**
          * Update remember-me cookie and persist identity in session
          */
-        $this->remember($pdIdentity, $pdCookie);
+        $this->remember($pdCookie);
         $this->persist($pdIdentity);
 
         return $this->createUser($identity);
