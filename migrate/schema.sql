@@ -87,9 +87,9 @@ CREATE TABLE `community-voices_slides` (
     `image_id` int(21) NOT NULL,
     `quote_id` int(21) NOT NULL,
     `probability` int(21) NOT NULL,
-    `decay_percent` int(21) NOT NULL,
-    `decay_start` datetime NOT NULL
-    `decay_end` datetime NOT NULL
+    `decay_percent` int(21) DEFAULT NULL,
+    `decay_start` datetime DEFAULT NULL,
+    `decay_end` datetime DEFAULT NULL
 );
 
 CREATE TABLE `community-voices_tags` (
@@ -105,7 +105,7 @@ CREATE TABLE `community-voices_users` (
 );
 
 /**
- * Keys
+ * Keys (primaries, unique)
  */
 
 ALTER TABLE `community-voices_content-categories`
@@ -147,6 +147,7 @@ ALTER TABLE `community-voices_quotes`
 
 ALTER TABLE `community-voices_slides`
     ADD PRIMARY KEY (`media_id`),
+    ADD UNIQUE KEY `image_id` (`image_id`,`quote_id`),
     ADD KEY `community-voices_slides_fk1` (`content_category_id`),
     ADD KEY `community-voices_slides_fk2` (`image_id`),
     ADD KEY `community-voices_slides_fk3` (`quote_id`);
@@ -164,7 +165,7 @@ ALTER TABLE `community-voices_users`
 ALTER TABLE `community-voices_groups`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `community-voices_identities`
-    MODIFY `identity_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+    MODIFY `identity_id` int(21) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `community-voices_location-category-map`
     MODIFY `id` int(21) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `community-voices_locations`
@@ -174,7 +175,7 @@ ALTER TABLE `community-voices_media`
 ALTER TABLE `community-voices_media-group-map`
     MODIFY `id` int(21) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `community-voices_users`
-    MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+    MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
 
 /**
  * Foreign key constraints
