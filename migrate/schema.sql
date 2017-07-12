@@ -88,6 +88,7 @@ CREATE TABLE `community-voices_slides` (
     `quote_id` int(21) NOT NULL,
     `probability` int(21) NOT NULL,
     `decay_percent` int(21) NOT NULL,
+    `decay_begin` datetime NOT NULL
     `decay_until` datetime NOT NULL
 );
 
