@@ -10,7 +10,7 @@ CREATE TABLE `community-voices_content-categories` (
 CREATE TABLE `community-voices_groups` (
     `id` int(11) NOT NULL,
     `label` varchar(255) NOT NULL,
-    `group_type` enum('tag','org-category','content-category') NOT NULL
+    `type` enum('tag','org-category','content-category') NOT NULL
 );
 
 CREATE TABLE `community-voices_identities` (
@@ -32,7 +32,7 @@ CREATE TABLE `community-voices_identities` (
 
 CREATE TABLE `community-voices_images` (
     `media_id` int(21) NOT NULL,
-    `media_filename` varchar(255) NOT NULL,
+    `filename` varchar(255) NOT NULL,
     `generated_tags` varchar(255) DEFAULT NULL,
     `title` varchar(255) DEFAULT NULL,
     `description` text,
@@ -58,8 +58,8 @@ CREATE TABLE `community-voices_media` (
     `id` int(21) NOT NULL,
     `added_by` int(11) NOT NULL,
     `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `media_type` enum('slide','image','quote') NOT NULL,
-    `approved_status` int(11) NOT NULL
+    `type` enum('slide','image','quote') NOT NULL,
+    `status` enum('pending','rejected','approved') NOT NULL
 );
 
 CREATE TABLE `community-voices_media-group-map` (
