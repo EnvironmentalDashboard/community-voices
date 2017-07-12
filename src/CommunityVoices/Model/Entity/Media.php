@@ -19,7 +19,7 @@ class Media implements HasId
     private $addedBy;
     private $dateCreated;
 
-    private $mediaType;
+    private $type;
 
     private $approvedStatus;
 
@@ -53,14 +53,14 @@ class Media implements HasId
         $this->dateCreated = $dateCreated;
     }
 
-    public function getMediaType()
+    public function getType()
     {
-        return $this->mediaType;
+        return $this->type;
     }
 
-    public function setMediaType($mediaType)
+    public function setType($type)
     {
-        $this->mediaType = $mediaType;
+        $this->type = $type;
     }
 
     public function getApprovedStatus()
