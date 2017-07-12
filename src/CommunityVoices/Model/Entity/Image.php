@@ -16,83 +16,83 @@ class Image extends Media
     private $photographer;
     private $organization;
 
-	public function getMediaId()
+    public function getMediaId()
     {
-		return $this->mediaId;
-	}
+        return $this->mediaId;
+    }
 
-	public function setMediaId($mediaId)
+    public function setMediaId($mediaId)
     {
-		$this->mediaId = $mediaId;
-	}
+        $this->mediaId = $mediaId;
+    }
 
-	public function getFilename()
+    public function getFilename()
     {
-		return $this->filename;
-	}
+        return $this->filename;
+    }
 
-	public function setFilename($filename)
+    public function setFilename($filename)
     {
-		$this->filename = $filename;
-	}
+        $this->filename = $filename;
+    }
 
-	public function getTitle()
+    public function getTitle()
     {
-		return $this->title;
-	}
+        return $this->title;
+    }
 
-	public function setTitle($title)
+    public function setTitle($title)
     {
-		$this->title = $title;
-	}
+        $this->title = $title;
+    }
 
-	public function getDescription()
+    public function getDescription()
     {
-		return $this->description;
-	}
+        return $this->description;
+    }
 
-	public function setDescription($description)
+    public function setDescription($description)
     {
-		$this->description = $description;
-	}
+        $this->description = $description;
+    }
 
-	public function getGeneratedTags()
+    public function getGeneratedTags()
     {
-		return $this->generatedTags;
-	}
+        return $this->generatedTags;
+    }
 
-	public function setGeneratedTags($generatedTags)
+    public function setGeneratedTags($generatedTags)
     {
-		$this->generatedTags = $generatedTags;
-	}
+        $this->generatedTags = $generatedTags;
+    }
 
-	public function getDateTaken()
+    public function getDateTaken()
     {
-		return $this->dateTaken;
-	}
+        return $this->dateTaken;
+    }
 
-	public function setDateTaken($dateTaken)
+    public function setDateTaken($dateTaken)
     {
-		$this->dateTaken = $dateTaken;
-	}
+        $this->dateTaken = $dateTaken;
+    }
 
-	public function getPhotographer()
+    public function getPhotographer()
     {
-		return $this->photographer;
-	}
+        return $this->photographer;
+    }
 
-	public function setPhotographer($photographer)
+    public function setPhotographer($photographer)
     {
-		$this->photographer = $photographer;
-	}
+        $this->photographer = $photographer;
+    }
 
-	public function getOrganization()
+    public function getOrganization()
     {
-		return $this->organization;
-	}
+        return $this->organization;
+    }
 
-	public function setOrganization($organization)
+    public function setOrganization($organization)
     {
-		$this->organization = $organization;
-	}
+        $this->organization = $organization;
+    }
 }

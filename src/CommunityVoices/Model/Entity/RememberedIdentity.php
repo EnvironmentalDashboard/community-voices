@@ -71,5 +71,4 @@ class RememberedIdentity implements Cookieable
     {
         return 'rememberedIdentity';
     }
-
 }

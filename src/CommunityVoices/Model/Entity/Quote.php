@@ -14,63 +14,63 @@ class Quote extends Media
     private $publicDocumentLink;
     private $sourceDocumentLink;
 
-	public function getMediaId()
+    public function getMediaId()
     {
-		return $this->mediaId;
-	}
+        return $this->mediaId;
+    }
 
-	public function setMediaId($mediaId)
+    public function setMediaId($mediaId)
     {
-		$this->mediaId = $mediaId;
-	}
+        $this->mediaId = $mediaId;
+    }
 
-	public function getText()
+    public function getText()
     {
-		return $this->text;
-	}
+        return $this->text;
+    }
 
-	public function setText($text)
+    public function setText($text)
     {
-		$this->text = $text;
-	}
+        $this->text = $text;
+    }
 
-	public function getAttribution()
+    public function getAttribution()
     {
-		return $this->attribution;
-	}
+        return $this->attribution;
+    }
 
-	public function setAttribution($attribution)
+    public function setAttribution($attribution)
     {
-		$this->attribution = $attribution;
-	}
+        $this->attribution = $attribution;
+    }
 
-	public function getDateRecorded()
+    public function getDateRecorded()
     {
-		return $this->dateRecorded;
-	}
+        return $this->dateRecorded;
+    }
 
-	public function setDateRecorded($dateRecorded)
+    public function setDateRecorded($dateRecorded)
     {
-		$this->dateRecorded = $dateRecorded;
-	}
+        $this->dateRecorded = $dateRecorded;
+    }
 
-	public function getPublicDocumentLink()
+    public function getPublicDocumentLink()
     {
-		return $this->publicDocumentLink;
-	}
+        return $this->publicDocumentLink;
+    }
 
-	public function setPublicDocumentLink($publicDocumentLink)
+    public function setPublicDocumentLink($publicDocumentLink)
     {
-		$this->publicDocumentLink = $publicDocumentLink;
-	}
+        $this->publicDocumentLink = $publicDocumentLink;
+    }
 
-	public function getSourceDocumentLink()
+    public function getSourceDocumentLink()
     {
-		return $this->sourceDocumentLink;
-	}
+        return $this->sourceDocumentLink;
+    }
 
-	public function setSourceDocumentLink($sourceDocumentLink)
+    public function setSourceDocumentLink($sourceDocumentLink)
     {
-		$this->sourceDocumentLink = $sourceDocumentLink;
-	}
+        $this->sourceDocumentLink = $sourceDocumentLink;
+    }
 }

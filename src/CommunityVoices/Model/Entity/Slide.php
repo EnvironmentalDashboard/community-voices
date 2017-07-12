@@ -15,73 +15,73 @@ class Slide extends Media
     private $decayPercent;
     private $decayUntil;
 
-	public function getMediaId()
+    public function getMediaId()
     {
-		return $this->mediaId;
-	}
+        return $this->mediaId;
+    }
 
-	public function setMediaId($mediaId)
+    public function setMediaId($mediaId)
     {
-		$this->mediaId = $mediaId;
-	}
+        $this->mediaId = $mediaId;
+    }
 
-	public function getContentCategoryId()
+    public function getContentCategoryId()
     {
-		return $this->contentCategoryId;
-	}
+        return $this->contentCategoryId;
+    }
 
-	public function setContentCategoryId($contentCategoryId)
+    public function setContentCategoryId($contentCategoryId)
     {
-		$this->contentCategoryId = $contentCategoryId;
-	}
+        $this->contentCategoryId = $contentCategoryId;
+    }
 
-	public function getImageId()
+    public function getImageId()
     {
-		return $this->imageId;
-	}
+        return $this->imageId;
+    }
 
-	public function setImageId($imageId)
+    public function setImageId($imageId)
     {
-		$this->imageId = $imageId;
-	}
+        $this->imageId = $imageId;
+    }
 
-	public function getQuoteId()
+    public function getQuoteId()
     {
-		return $this->quoteId;
-	}
+        return $this->quoteId;
+    }
 
-	public function setQuoteId($quoteId)
+    public function setQuoteId($quoteId)
     {
-		$this->quoteId = $quoteId;
-	}
+        $this->quoteId = $quoteId;
+    }
 
-	public function getProbability()
+    public function getProbability()
     {
-		return $this->probability;
-	}
+        return $this->probability;
+    }
 
-	public function setProbability($probability)
+    public function setProbability($probability)
     {
-		$this->probability = $probability;
-	}
+        $this->probability = $probability;
+    }
 
-	public function getDecayPercent()
+    public function getDecayPercent()
     {
-		return $this->decayPercent;
-	}
+        return $this->decayPercent;
+    }
 
-	public function setDecayPercent($decayPercent)
+    public function setDecayPercent($decayPercent)
     {
-		$this->decayPercent = $decayPercent;
-	}
+        $this->decayPercent = $decayPercent;
+    }
 
-	public function getDecayUntil()
+    public function getDecayUntil()
     {
-		return $this->decayUntil;
-	}
+        return $this->decayUntil;
+    }
 
-	public function setDecayUntil($decayUntil)
+    public function setDecayUntil($decayUntil)
     {
-		$this->decayUntil = $decayUntil;
-	}
+        $this->decayUntil = $decayUntil;
+    }
 }

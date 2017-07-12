@@ -23,53 +23,53 @@ class Media implements HasId
 
     private $approvedStatus;
 
-	public function getId()
+    public function getId()
     {
-		return $this->id;
-	}
+        return $this->id;
+    }
 
-	public function setId($id)
+    public function setId($id)
     {
-		$this->id = $id;
-	}
+        $this->id = $id;
+    }
 
-	public function getAddedBy()
+    public function getAddedBy()
     {
-		return $this->addedBy;
-	}
+        return $this->addedBy;
+    }
 
-	public function setAddedBy($addedBy)
+    public function setAddedBy($addedBy)
     {
-		$this->addedBy = $addedBy;
-	}
+        $this->addedBy = $addedBy;
+    }
 
-	public function getDateCreated()
+    public function getDateCreated()
     {
-		return $this->dateCreated;
-	}
+        return $this->dateCreated;
+    }
 
-	public function setDateCreated($dateCreated)
+    public function setDateCreated($dateCreated)
     {
-		$this->dateCreated = $dateCreated;
-	}
+        $this->dateCreated = $dateCreated;
+    }
 
-	public function getMediaType()
+    public function getMediaType()
     {
-		return $this->mediaType;
-	}
+        return $this->mediaType;
+    }
 
-	public function setMediaType($mediaType)
+    public function setMediaType($mediaType)
     {
-		$this->mediaType = $mediaType;
-	}
+        $this->mediaType = $mediaType;
+    }
 
-	public function getApprovedStatus()
+    public function getApprovedStatus()
     {
-		return $this->approvedStatus;
-	}
+        return $this->approvedStatus;
+    }
 
-	public function setApprovedStatus($approvedStatus)
+    public function setApprovedStatus($approvedStatus)
     {
-		$this->approvedStatus = $approvedStatus;
-	}
+        $this->approvedStatus = $approvedStatus;
+    }
 }
