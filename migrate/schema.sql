@@ -1,5 +1,5 @@
 /**
- * Table Skeletons
+ * Table skeletons
  */
 
 CREATE TABLE `community-voices_content-categories` (
@@ -59,7 +59,7 @@ CREATE TABLE `community-voices_media` (
     `added_by` int(11) NOT NULL,
     `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `media_type` enum('slide','image','quote') NOT NULL,
-    `approved_status` int(11) NOT NULL,
+    `approved_status` int(11) NOT NULL
 );
 
 CREATE TABLE `community-voices_media-group-map` (
@@ -87,7 +87,8 @@ CREATE TABLE `community-voices_slides` (
     `image_id` int(21) NOT NULL,
     `quote_id` int(21) NOT NULL,
     `probability` int(21) NOT NULL,
-    `decay` int(21) NOT NULL,
+    `decay_percent` int(21) NOT NULL,
+    `decay_until` datetime NOT NULL
 );
 
 CREATE TABLE `community-voices_tags` (
@@ -99,10 +100,8 @@ CREATE TABLE `community-voices_users` (
     `email` varchar(255) DEFAULT NULL,
     `lname` varchar(100) NOT NULL,
     `fname` varchar(100) DEFAULT NULL,
-    `role` enum('user','manager','admin') NOT NULL DEFAULT 'user'
+    `role` enum('unverified','user','manager','admin') NOT NULL DEFAULT 'user'
 );
-
-
 
 /**
  * Keys
@@ -157,28 +156,24 @@ ALTER TABLE `community-voices_tags`
 ALTER TABLE `community-voices_users`
     ADD PRIMARY KEY (`id`);
 
+/**
+ * Auto increments
+ */
+
 ALTER TABLE `community-voices_groups`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 ALTER TABLE `community-voices_identities`
-    MODIFY `identity_id` int(21) NOT NULL AUTO_INCREMENT;
-
+    MODIFY `identity_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 ALTER TABLE `community-voices_location-category-map`
     MODIFY `id` int(21) NOT NULL AUTO_INCREMENT;
-
 ALTER TABLE `community-voices_locations`
     MODIFY `id` int(21) NOT NULL AUTO_INCREMENT;
-
 ALTER TABLE `community-voices_media`
     MODIFY `id` int(21) NOT NULL AUTO_INCREMENT;
-
 ALTER TABLE `community-voices_media-group-map`
     MODIFY `id` int(21) NOT NULL AUTO_INCREMENT;
-
 ALTER TABLE `community-voices_users`
-    MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
-
-
+    MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 /**
  * Foreign key constraints
