@@ -2,6 +2,8 @@
 
 namespace CommunityVoices\Model\Entity;
 
+use CommunityVoices\Model\Contract\StateObserver;
+
 class Image extends Media
 {
     private $mediaId;
@@ -94,5 +96,12 @@ class Image extends Media
     public function setOrganization($organization)
     {
         $this->organization = $organization;
+    }
+
+    public function validateForUpload(StatusObserver $notifier)
+    {
+        $isValid = true;
+
+        // @TODO after discussion
     }
 }

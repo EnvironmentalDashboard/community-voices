@@ -88,8 +88,8 @@ CREATE TABLE `community-voices_slides` (
     `quote_id` int(21) NOT NULL,
     `probability` int(21) NOT NULL,
     `decay_percent` int(21) NOT NULL,
-    `decay_begin` datetime NOT NULL
-    `decay_until` datetime NOT NULL
+    `decay_start` datetime NOT NULL
+    `decay_end` datetime NOT NULL
 );
 
 CREATE TABLE `community-voices_tags` (
@@ -98,8 +98,8 @@ CREATE TABLE `community-voices_tags` (
 
 CREATE TABLE `community-voices_users` (
     `id` int(20) NOT NULL,
-    `email` varchar(255) DEFAULT NULL,
-    `lname` varchar(100) NOT NULL,
+    `email` varchar(255) NOT NULL,
+    `lname` varchar(100) DEFAULT NULL,
     `fname` varchar(100) DEFAULT NULL,
     `role` enum('unverified','user','manager','admin') NOT NULL DEFAULT 'user'
 );

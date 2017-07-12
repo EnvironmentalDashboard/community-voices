@@ -73,4 +73,11 @@ class Quote extends Media
     {
         $this->sourceDocumentLink = $sourceDocumentLink;
     }
+
+    public function validateForUpload(StatusObserver $notifier)
+    {
+        $isValid = true;
+
+        // @TODO after discussion
+    }
 }
