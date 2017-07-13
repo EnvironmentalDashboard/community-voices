@@ -8,7 +8,7 @@ use CommunityVoices\Model\Entity as Entity;
 
 class Media extends DataMapper
 {
-    protected $table = '`community-voices_media`';
+    protected static $table = '`community-voices_media`';
 
     public function fetch(Entity\Media $media)
     {
@@ -22,7 +22,7 @@ class Media extends DataMapper
                             date_created,
                             type,
                             status
-                    FROM    {$this->table}
+                    FROM    " . self::$table . "
                     WHERE   id = :id";
 
         $statement = $this->conn->prepare($query);
@@ -55,7 +55,7 @@ class Media extends DataMapper
 
     private function update(Entity\Media $media)
     {
-        $query = "UPDATE    {$this->table}
+        $query = "UPDATE    " . self::$table . "
                     SET     added_by = :added_by,
                             date_created = :date_created,
                             type = :type,
@@ -75,7 +75,7 @@ class Media extends DataMapper
 
     private function create(Entity\Media $media)
     {
-        $query = "INSERT INTO   {$this->table}
+        $query = "INSERT INTO   " . self::$table . "
                                 (added_by, date_created, type, status)
                     VALUES      (:added_by, :date_created, :type, :status)";
 
@@ -93,7 +93,7 @@ class Media extends DataMapper
 
     public function delete(Entity\Media $media)
     {
-        $query = "DELETE FROM   {$this->table}
+        $query = "DELETE FROM   " . self::$table . "
                     WHERE       id = :id";
 
         $statement = $this->conn->prepare($query);

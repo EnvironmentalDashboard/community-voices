@@ -8,7 +8,7 @@ use CommunityVoices\Model\Entity as Entity;
 
 class User extends DataMapper
 {
-    protected $table = '`community-voices_users`';
+    protected static $table = '`community-voices_users`';
 
     public function fetch(Entity\User $user)
     {
@@ -27,7 +27,7 @@ class User extends DataMapper
                             fname   AS firstName,
                             lname   AS lastName,
                             role
-                    FROM    {$this->table}
+                    FROM    " . self::$table . "
                     WHERE   id = :id";
 
         $statement = $this->conn->prepare($query);
@@ -50,7 +50,7 @@ class User extends DataMapper
                             fname   AS firstName,
                             lname   AS lastName,
                             role
-                    FROM    {$this->table}
+                    FROM    " . self::$table . "
                     WHERE   email = :email";
 
         $statement = $this->conn->prepare($query);
@@ -78,7 +78,7 @@ class User extends DataMapper
 
     private function register(Entity\User $user)
     {
-        $query = "INSERT INTO   {$this->table}
+        $query = "INSERT INTO   " . self::$table . "
                                 (email, fname, lname, role)
                     VALUES      (:email, :fname, :lname, :role)";
 
@@ -96,7 +96,7 @@ class User extends DataMapper
 
     private function update(Entity\User $user)
     {
-        $query = "UPDATE    {$this->table}
+        $query = "UPDATE    " . self::$table . "
                     SET     email = :email,
                             fname = :fname,
                             lname = :lname,
@@ -116,7 +116,7 @@ class User extends DataMapper
 
     public function delete(Entity\User $user)
     {
-        $query = "DELETE FROM   {$this->table}
+        $query = "DELETE FROM   " . self::$table . "
                     WHERE       id = :id";
 
         $statement = $this->conn->prepare($query);
@@ -128,7 +128,7 @@ class User extends DataMapper
 
     public function existingUserWithEmail(Entity\User $user)
     {
-        $query = "SELECT 1 FROM {$this->table} WHERE email = :email";
+        $query = "SELECT 1 FROM " . self::$table . " WHERE email = :email";
 
         $statement = $this->conn->prepare($query);
 
