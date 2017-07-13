@@ -4,7 +4,7 @@ namespace CommunityVoices\Model\Component;
 
 class RelationalEntity
 {
-    private $relations;
+    protected $relations;
 
     public function getRelations()
     {

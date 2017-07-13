@@ -15,7 +15,7 @@ class DataMapper extends Mapper
 {
     protected $conn;
 
-    protected $table;
+    protected static $table;
 
     /**
      * Instantiates data mapper instance

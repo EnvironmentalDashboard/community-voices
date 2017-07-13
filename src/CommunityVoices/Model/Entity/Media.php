@@ -2,9 +2,8 @@
 
 namespace CommunityVoices\Model\Entity;
 
-use CommunityVoices\Model\Contracts\HasId;
+use CommunityVoices\Model\Contract\HasId;
 use CommunityVoices\Model\Component\RelationalEntity;
-use CommunityVoices\Model\Entities;
 
 class Media extends RelationalEntity implements HasId
 {
@@ -16,8 +15,8 @@ class Media extends RelationalEntity implements HasId
     const STATUS_REJECTED = 2;
     const STATUS_APPROVED = 3;
 
-    private $relations = [
-        'addedBy' => Entities\User::class
+    protected $relations = [
+        'addedBy' => User::class
     ];
 
     private $id;
@@ -25,9 +24,9 @@ class Media extends RelationalEntity implements HasId
     private $addedBy;
     private $dateCreated;
 
-    private $type;
+    protected $type;
 
-    private $approvedStatus;
+    private $status;
 
     public function getId()
     {
@@ -69,13 +68,13 @@ class Media extends RelationalEntity implements HasId
         $this->type = $type;
     }
 
-    public function getApprovedStatus()
+    public function getStatus()
     {
-        return $this->approvedStatus;
+        return $this->status;
     }
 
-    public function setApprovedStatus($approvedStatus)
+    public function setStatus($status)
     {
-        $this->approvedStatus = $approvedStatus;
+        $this->status = $status;
     }
 }

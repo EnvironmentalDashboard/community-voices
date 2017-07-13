@@ -16,6 +16,11 @@ class Image extends Media
     private $photographer;
     private $organization;
 
+    public function __construct()
+    {
+        $this->type = self::TYPE_IMAGE;
+    }
+
     public function getFilename()
     {
         return $this->filename;

@@ -8,14 +8,14 @@ use CommunityVoices\Model\Entity as Entity;
 
 class Image extends Media
 {
-    protected static $table = '`community-voices_image`';
+    protected static $table = '`community-voices_images`';
 
-    public function fetch(Entity\Image $image)
+    public function fetch(Entity\Media $image)
     {
         $this->fetchById($image);
     }
 
-    private function fetchById(Entity\Image $image)
+    private function fetchById(Entity\Media $image)
     {
         $query = "SELECT    parent.id,
                             parent.added_by,
@@ -37,19 +37,20 @@ class Image extends Media
         $statement = $this->conn->prepare($query);
 
         $statement->bindValue(':id', $image->getId());
+        var_dump($image->getId());
 
         $statement->execute();
 
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            $result = $this->processEntitiesInAssoc($image->getRelations(), $result);
+            $parameters = $this->convertRelationsToEntities($image->getRelations(), $result);
 
-            $this->applyValues($image, array_merge($result, $entities));
+            $this->applyValues($image, $parameters);
         }
     }
 
-    public function save(Entity\Image $image)
+    public function save(Entity\Media $image)
     {
         if ($image->getId()) {
             $this->update($image);
@@ -59,7 +60,7 @@ class Image extends Media
         $this->create($image);
     }
 
-    private function update(Entity\Image $image)
+    protected function update(Entity\Media $image)
     {
         parent::update($image);
 
@@ -87,7 +88,7 @@ class Image extends Media
         $statement->execute();
     }
 
-    private function create(Entity\Image $image)
+    protected function create(Entity\Media $image)
     {
         parent::create($image);
 
@@ -112,7 +113,7 @@ class Image extends Media
         $statement->execute();
     }
 
-    public function delete(Entity\Image $image)
+    public function delete(Entity\Media $image)
     {
         parent::delete($image); //deletion cascades
     }

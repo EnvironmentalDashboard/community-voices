@@ -54,7 +54,6 @@ class Media extends DataMapper
     {
         $query = "UPDATE    " . self::$table . "
                     SET     added_by = :added_by,
-                            date_created = :date_created,
                             type = :type,
                             status = :status
                     WHERE   id = :id";
@@ -63,10 +62,8 @@ class Media extends DataMapper
 
         $statement->bindValue(':id', $media->getId());
         $statement->bindValue(':added_by', $media->getAddedBy()->getId());
-        $statement->bindValue(':date_created', $media->getDateCreated());
         $statement->bindValue(':type', $media->getType());
         $statement->bindValue(':status', $media->getStatus());
-
         $statement->execute();
     }
 
@@ -78,14 +75,17 @@ class Media extends DataMapper
 
         $statement = $this->conn->prepare($query);
 
+        $now = time();
+
         $statement->bindValue(':added_by', $media->getAddedBy()->getId());
-        $statement->bindValue(':date_created', $media->getDateCreated());
+        $statement->bindValue(':date_created', $now);
         $statement->bindValue(':type', $media->getType());
         $statement->bindValue(':status', $media->getStatus());
 
         $statement->execute();
 
         $media->setId($this->conn->lastInsertId());
+        $media->setDateCreated($now);
     }
 
     public function delete(Entity\Media $media)
