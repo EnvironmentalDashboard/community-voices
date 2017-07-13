@@ -15,10 +15,10 @@ class Slide extends Media
     const ERR_QUOTE_RELATIONSHIP_MISSING = 'Quote relationship missing';
     const ERR_CONTENT_CATEGORY_RELATIONSHIP_MISSING = 'Contant category relationship missing';
 
-    private $contentCategoryId;
+    private $contentCategory;
 
-    private $imageId;
-    private $quoteId;
+    private $image;
+    private $quote;
 
     private $probability = 1;
     private $decayPercent = 0;
@@ -29,34 +29,37 @@ class Slide extends Media
     private $decayStart = null;
     private $decayEnd = null;
 
-    public function getContentCategoryId()
+    /**
+     * @TODO contet categories should be DO
+     */
+    public function getContentCategory()
     {
-        return $this->contentCategoryId;
+        return $this->contentCategory;
     }
 
-    public function setContentCategoryId($contentCategoryId)
+    public function setContentCategory($contentCategory)
     {
-        $this->contentCategoryId = $contentCategoryId;
+        $this->contentCategory = $contentCategory;
     }
 
-    public function getImageId()
+    public function getImage()
     {
-        return $this->imageId;
+        return $this->image;
     }
 
-    public function setImageId($imageId)
+    public function setImage(Image $image)
     {
-        $this->imageId = $imageId;
+        $this->image = $image;
     }
 
-    public function getQuoteId()
+    public function getQuote()
     {
-        return $this->quoteId;
+        return $this->quote;
     }
 
-    public function setQuoteId($quoteId)
+    public function setQuote($quote) //@TODO change to quote
     {
-        $this->quoteId = $quoteId;
+        $this->quote = $quote;
     }
 
     public function getProbability()
@@ -143,19 +146,19 @@ class Slide extends Media
         /**
          * Verify relationships aren't null
          */
-        if ($this->imageId === false) {
+        if (!$this->image || ($this->image instanceof Image && !$this->image->getId())) {
             $isValid = false;
-            $notifier->addEntry('imageId', self::ERR_IMAGE_RELATIONSHIP_MISSING);
+            $notifier->addEntry('image', self::ERR_IMAGE_RELATIONSHIP_MISSING);
         }
 
-        if ($this->quoteId === false) {
+        if (!$this->quote || ($this->quote instanceof Quote && !$this->quote->getId())) {
             $isValid = false;
-            $notifier->addEntry('quoteId', self::ERR_QUOTE_RELATIONSHIP_MISSING);
+            $notifier->addEntry('quote', self::ERR_QUOTE_RELATIONSHIP_MISSING);
         }
 
-        if ($this->contentCategoryId === false) {
+        if ($this->contentCategory === false) { //@TODO
             $isValid = false;
-            $notifier->addEntry('contentCategoryId', self::ERR_CONTENT_CATEGORY_RELATIONSHIP_MISSING);
+            $notifier->addEntry('contentCategory', self::ERR_CONTENT_CATEGORY_RELATIONSHIP_MISSING);
         }
     }
 }
