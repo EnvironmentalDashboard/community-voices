@@ -4,8 +4,6 @@ namespace CommunityVoices\Model\Entity;
 
 class Quote extends Media
 {
-    private $mediaId;
-
     private $text;
 
     private $attribution;
@@ -13,16 +11,6 @@ class Quote extends Media
 
     private $publicDocumentLink;
     private $sourceDocumentLink;
-
-    public function getMediaId()
-    {
-        return $this->mediaId;
-    }
-
-    public function setMediaId($mediaId)
-    {
-        $this->mediaId = $mediaId;
-    }
 
     public function getText()
     {

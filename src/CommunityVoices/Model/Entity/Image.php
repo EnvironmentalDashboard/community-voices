@@ -6,8 +6,6 @@ use CommunityVoices\Model\Contract\StateObserver;
 
 class Image extends Media
 {
-    private $mediaId;
-
     private $filename;
 
     private $title;
@@ -17,16 +15,6 @@ class Image extends Media
     private $dateTaken;
     private $photographer;
     private $organization;
-
-    public function getMediaId()
-    {
-        return $this->mediaId;
-    }
-
-    public function setMediaId($mediaId)
-    {
-        $this->mediaId = $mediaId;
-    }
 
     public function getFilename()
     {

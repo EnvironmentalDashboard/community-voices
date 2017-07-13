@@ -15,8 +15,6 @@ class Slide extends Media
     const ERR_QUOTE_RELATIONSHIP_MISSING = 'Quote relationship missing';
     const ERR_CONTENT_CATEGORY_RELATIONSHIP_MISSING = 'Contant category relationship missing';
 
-    private $mediaId;
-
     private $contentCategoryId;
 
     private $imageId;
@@ -30,16 +28,6 @@ class Slide extends Media
      */
     private $decayStart = null;
     private $decayEnd = null;
-
-    public function getMediaId()
-    {
-        return $this->mediaId;
-    }
-
-    public function setMediaId($mediaId)
-    {
-        $this->mediaId = $mediaId;
-    }
 
     public function getContentCategoryId()
     {
