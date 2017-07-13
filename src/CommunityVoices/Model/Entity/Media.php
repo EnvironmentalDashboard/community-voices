@@ -3,8 +3,10 @@
 namespace CommunityVoices\Model\Entity;
 
 use CommunityVoices\Model\Contracts\HasId;
+use CommunityVoices\Model\Component\RelationalEntity;
+use CommunityVoices\Model\Entities;
 
-class Media implements HasId
+class Media extends RelationalEntity implements HasId
 {
     const TYPE_SLIDE = 1;
     const TYPE_IMAGE = 2;
@@ -13,6 +15,10 @@ class Media implements HasId
     const STATUS_PENDING = 1;
     const STATUS_REJECTED = 2;
     const STATUS_APPROVED = 3;
+
+    private $relations = [
+        'addedBy' => Entities\User::class
+    ];
 
     private $id;
 
