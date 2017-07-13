@@ -34,12 +34,9 @@ class Media extends DataMapper
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            $entities = [];
+            $params = $this->convertRelationsToEntities($media->getRelations(), $result);
 
-            $entities['added_by'] = new Entity\User;
-            $entities['added_by']->setId($result['added_by']);
-
-            $this->applyValues($media, array_merge($result, $entities));
+            $this->applyValues($media, $params);
         }
     }
 
@@ -53,7 +50,7 @@ class Media extends DataMapper
         $this->create($media);
     }
 
-    private function update(Entity\Media $media)
+    protected function update(Entity\Media $media)
     {
         $query = "UPDATE    " . self::$table . "
                     SET     added_by = :added_by,
@@ -73,7 +70,7 @@ class Media extends DataMapper
         $statement->execute();
     }
 
-    private function create(Entity\Media $media)
+    protected function create(Entity\Media $media)
     {
         $query = "INSERT INTO   " . self::$table . "
                                 (added_by, date_created, type, status)
@@ -81,8 +78,8 @@ class Media extends DataMapper
 
         $statement = $this->conn->prepare($query);
 
-        $statement->bindValue(':added_by', $media->getAddedBy());
-        $statement->bindValue(':date_created', $media->getDateCreated()->getId());
+        $statement->bindValue(':added_by', $media->getAddedBy()->getId());
+        $statement->bindValue(':date_created', $media->getDateCreated());
         $statement->bindValue(':type', $media->getType());
         $statement->bindValue(':status', $media->getStatus());
 
