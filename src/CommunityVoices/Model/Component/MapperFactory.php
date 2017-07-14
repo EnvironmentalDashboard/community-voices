@@ -4,19 +4,23 @@ namespace CommunityVoices\Model\Component;
 
 use RuntimeException;
 use PDO;
+use ReflectionClass;
 
 class MapperFactory
 {
     private $dbHandler;
 
     private $request;
+    private $response;
 
     private $cache = [];
 
-    public function __construct(PDO $dbHandler, $request)
+    public function __construct(PDO $dbHandler, $request, $response)
     {
         $this->dbHandler = $dbHandler;
+
         $this->request = $request;
+        $this->response = $response;
     }
 
     public function createDataMapper($class)
@@ -26,12 +30,12 @@ class MapperFactory
 
     public function createCookieMapper($class)
     {
-        return $this->create($class, $this->request);
+        return $this->create($class, [$this->request, $this->response]);
     }
 
     public function createSessionMapper($class)
     {
-        $prepare = function($instance) {
+        $prepare = function ($instance) {
             $instance->prepare();
         };
 
@@ -43,7 +47,7 @@ class MapperFactory
         return $this->create($class, null);
     }
 
-    private function create($class, $handler, Callable $prepare = null)
+    private function create($class, $handler, callable $prepare = null)
     {
         if (array_key_exists($class, $this->cache)) {
             return $this->cache[$class];
@@ -53,7 +57,13 @@ class MapperFactory
             throw new RuntimeException("Mapper '{$class}' doesn't exist.");
         }
 
-        $this->cache[$class] = new $class($handler);
+        if (is_array($handler) === false) {
+            $this->cache[$class] = new $class($handler);
+        } else {
+            $reflection = new ReflectionClass($class);
+
+            $this->cache[$class] = $reflection->newInstanceArgs($handler);
+        }
 
         if ($prepare) {
             $prepare($this->cache[$class]);
