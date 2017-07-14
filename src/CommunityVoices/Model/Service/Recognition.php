@@ -219,7 +219,7 @@ class Recognition
         $identity = $this->identify();
 
         if ($identity->getRole() === Entity\User::ROLE_GUEST) {
-            return true;
+            return ;
         }
 
         $this->removeCookie();
