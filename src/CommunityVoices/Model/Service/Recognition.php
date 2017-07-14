@@ -41,43 +41,62 @@ class Recognition
         }
 
         if ($remember) {
-            $this->remember($pdCookie);
+            $this->rememberCookie($pdCookie);
         }
 
         /**
          * Write user to session
          */
 
-        $this->persist($pdIdentity);
+        $this->persistSession($pdIdentity);
     }
 
     /**
      * Saves a user to cookie
      */
-    private function remember($pdCookie)
+    private function rememberCookie($pdCookie)
     {
-        $identity = new Entity\RememberedIdentity;
+        $rememberedIdentity = new Entity\RememberedIdentity;
 
-        $identity->setAccountId($pdCookie->getAccountId());
-        $identity->setKey($pdCookie->getKey());
-        $identity->setSeries($pdCookie->getSeries());
-        $identity->setExpiresOn($pdCookie->getExpiresOn());
+        $rememberedIdentity->setAccountId($pdCookie->getAccountId());
+        $rememberedIdentity->setKey($pdCookie->getKey());
+        $rememberedIdentity->setSeries($pdCookie->getSeries());
+        $rememberedIdentity->setExpiresOn($pdCookie->getExpiresOn());
 
         $cookieMapper = $this->mapperFactory->createCookieMapper(Mapper\Cookie::class);
-        $cookieMapper->save($identity);
+        $cookieMapper->save($rememberedIdentity);
+    }
+
+    /**
+     * Deletes a user from cookie
+     */
+    private function forgetCookie()
+    {
+        $rememberedIdentity = new Entity\RememberedIdentity;
+
+        $cookieMapper = $this->mapperFactory->createCookieMapper(Mapper\Cookie::class);
+        $cookieMapper->delete($rememberedIdentity);
     }
 
     /**
      * Persists a user in session
      */
-    private function persist($pdIdentity)
+    private function persistSession($pdIdentity)
     {
-        $identity = new Entity\RememberedIdentity;
+        $rememberedIdentity = new Entity\RememberedIdentity;
 
-        $identity->setAccountId($pdIdentity->getAccountId());
+        $rememberedIdentity->setAccountId($pdIdentity->getAccountId());
 
         $sessionMapper = $this->mapperFactory->createSessionMapper(Mapper\Session::class);
-        $sessionMapper->save($identity);
+        $sessionMapper->save($rememberedIdentity);
+    }
+
+    private function ceaseSession()
+    {
+        $rememberedIdentity = new Entity\RememberedIdentity;
+
+        $sessionMapper = $this->mapperFactory->createSessionMapper(Mapper\Session::class);
+        $sessionMapper->delete($rememberedIdentity);
     }
 
     /**
@@ -86,26 +105,26 @@ class Recognition
      */
     public function identify()
     {
-        $identity = new Entity\RememberedIdentity;
+        $rememberedIdentity = new Entity\RememberedIdentity;
 
         /**
          * Attept to identify by session
          */
         $sessionMapper = $this->mapperFactory->createSessionMapper(Mapper\Session::class);
-        $sessionMapper->fetch($identity);
+        $sessionMapper->fetch($rememberedIdentity);
 
-        if ($identity->getAccountId()) {
-            return $this->identifyBySession($identity);
+        if ($rememberedIdentity->getAccountId()) {
+            return $this->identifyBySession($rememberedIdentity);
         }
 
         /**
          * Attempt to identify by cookie
          */
         $cookieMapper = $this->mapperFactory->createCookieMapper(Mapper\Cookie::class);
-        $cookieMapper->fetch($identity);
+        $cookieMapper->fetch($rememberedIdentity);
 
-        if ($identity->getAccountId()) {
-            return $this->identifyByCookie($identity);
+        if ($rememberedIdentity->getAccountId()) {
+            return $this->identifyByCookie($rememberedIdentity);
         }
 
         return $this->createGuestUser();
@@ -114,10 +133,9 @@ class Recognition
     /**
      * Identifies a user through the session state
      */
-    private function identifyBySession($identity)
+    private function identifyBySession($rememberedIdentity)
     {
-
-        return $this->createUser($identity); //identify by session is easy
+        return $this->createUserFromRememberedIdentity($rememberedIdentity); //identify by session is easy
     }
 
     /**
@@ -147,10 +165,10 @@ class Recognition
         /**
          * Update remember-me cookie and persist identity in session
          */
-        $this->remember($pdCookie);
-        $this->persist($pdIdentity);
+        $this->rememberCookie($pdCookie);
+        $this->persistSession($pdIdentity);
 
-        return $this->createUser($identity);
+        return $this->createUserFromRememberedIdentity($identity);
     }
 
     private function createGuestUser()
@@ -162,7 +180,7 @@ class Recognition
         return $user;
     }
 
-    private function createUser($identity)
+    private function createUserFromRememberedIdentity($identity)
     {
         $user = new Entity\User;
 
@@ -193,15 +211,18 @@ class Recognition
         return $user;
     }
 
-    private function forgetCookie($identity)
-    {
-        $cookieMapper = $this->mapperFactory->createCookieMapper(Mapper\Cookie::class);
-
-        $cookieMapper->remove($identity);
-    }
-
+    /**
+     * Logs out user
+     */
     public function logout()
     {
+        $identity = $this->identify();
 
+        if ($identity->getRole() === Entity\User::ROLE_GUEST) {
+            return true;
+        }
+
+        $this->removeCookie();
+        $this->ceaseSession();
     }
 }
