@@ -37,7 +37,6 @@ class Image extends Media
         $statement = $this->conn->prepare($query);
 
         $statement->bindValue(':id', $image->getId());
-        var_dump($image->getId());
 
         $statement->execute();
 
