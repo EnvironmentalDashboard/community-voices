@@ -3,7 +3,6 @@
 namespace CommunityVoices\Model\Entity;
 
 use CommunityVoices\Model\Contract\Cookieable;
-use CommunityVoices\Model\Contract\Sessionable;
 
 class RememberedIdentity implements Cookieable
 {
