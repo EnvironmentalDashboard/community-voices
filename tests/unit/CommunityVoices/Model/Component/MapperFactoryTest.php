@@ -14,7 +14,7 @@ class MapperFactoryTest extends TestCase
     {
         $pdo = $this->createMock(PDO::class);
 
-        $mapperFactory = new MapperFactory($pdo, []);
+        $mapperFactory = new MapperFactory($pdo, [], []);
         $mapper = $mapperFactory->createDataMapper(Mapper\User::class);
 
         $this->assertTrue($mapper instanceof Mapper\User);
@@ -30,7 +30,7 @@ class MapperFactoryTest extends TestCase
 
         $this->expectException(RuntimeException::class);
 
-        $mapperFactory = new MapperFactory($pdo, []);
+        $mapperFactory = new MapperFactory($pdo, [], []);
         $mapperFactory->createDataMapper(Mapper\ClassWhichDoesntExist::class);
     }
 
@@ -40,12 +40,12 @@ class MapperFactoryTest extends TestCase
 
         $pdo = $this->createMock(PDO::class);
 
-        $mapperFactory = new MapperFactory($pdo, []);
+        $mapperFactory = new MapperFactory($pdo, [], []);
         $mapper = $mapperFactory->createSessionMapper(Mapper\Session::class);
 
         $this->assertTrue($mapper instanceof Mapper\Session);
 
-        $mapper2 = $mapperFactory->createDataMapper(Mapper\Session::class);
+        $mapper2 = $mapperFactory->createSessionMapper(Mapper\Session::class);
 
         $this->assertSame($mapper, $mapper2); //confirm proper caching
     }
@@ -54,12 +54,12 @@ class MapperFactoryTest extends TestCase
     {
         $pdo = $this->createMock(PDO::class);
 
-        $mapperFactory = new MapperFactory($pdo, []);
+        $mapperFactory = new MapperFactory($pdo, [], []);
         $mapper = $mapperFactory->createCookieMapper(Mapper\Cookie::class);
 
         $this->assertTrue($mapper instanceof Mapper\Cookie);
 
-        $mapper2 = $mapperFactory->createDataMapper(Mapper\Cookie::class);
+        $mapper2 = $mapperFactory->createCookieMapper(Mapper\Cookie::class);
 
         $this->assertSame($mapper, $mapper2); //confirm proper caching
     }
