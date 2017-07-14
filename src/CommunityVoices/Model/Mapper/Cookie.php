@@ -8,18 +8,20 @@ use CommunityVoices\Model\Contract;
 class Cookie extends Mapper
 {
     private $request;
+    private $response;
 
-    public function __construct($request)
+    public function __construct($request, $response)
     {
         $this->request = $request;
+        $this->response = $response;
     }
 
     public function save(Contract\Cookieable $instance)
     {
-        setcookie(
+        $this->response->addCookie(
             $instance->getUniqueLabel(),
             $instance->toJson(),
-            $instance->getExpiresOn()
+            ['expires' => $instance->getExpiresOn()]
         );
     }
 
@@ -36,10 +38,6 @@ class Cookie extends Mapper
 
     public function delete(Contract\Cookieable $instance)
     {
-        setcookie(
-            $instance->getUniqueLabel(),
-            "",
-            time() - 3600 // back-date expiration to delete
-        );
+        $this->response->removeCookie($instance->getUniqueLabel());
     }
 }
