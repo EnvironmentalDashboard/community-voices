@@ -70,12 +70,25 @@ class Recognition
     /**
      * Deletes a user from cookie
      */
-    private function forgetCookie()
+    private function discardCookie($forgetPdCookie = false)
     {
         $rememberedIdentity = new Entity\RememberedIdentity;
-
         $cookieMapper = $this->mapperFactory->createCookieMapper(Mapper\Cookie::class);
-        $cookieMapper->delete($rememberedIdentity);
+
+        if ($cookieMapper->fetch($rememberedIdentity) !== false) {
+            try {
+                $identity = $this->pdSearch->findCookieIdentity(
+                    $rememberedIdentity->getAccountId(),
+                    $rememberedIdentity->getSeries()
+                );
+
+                $this->pdIdentification->logout($identity, $rememberedIdentity->getKey());
+            } catch (Palladium\Component\Exception $e) {
+                //Don't need to do anything if there's an exception
+            }
+
+            $cookieMapper->delete($rememberedIdentity);
+        }
     }
 
     /**
@@ -94,9 +107,11 @@ class Recognition
     private function ceaseSession()
     {
         $rememberedIdentity = new Entity\RememberedIdentity;
-
         $sessionMapper = $this->mapperFactory->createSessionMapper(Mapper\Session::class);
-        $sessionMapper->delete($rememberedIdentity);
+
+        if ($sessionMapper->fetch($rememberedIdentity) !== false) {
+            $sessionMapper->delete($rememberedIdentity);
+        }
     }
 
     /**
@@ -150,14 +165,22 @@ class Recognition
             );
 
             $pdCookie = $this->pdIdentification->loginWithCookie($pdIdentity, $identity->getKey());
+
+        /**
+         * Block & delete compromised cookies
+         */
         } catch (Palladium\Exception\CompromisedCookie $e) {
             $this->pdIdentification->blockIdentity($pdIdentity);
 
-            $this->forgetCookie($identity);
+            $this->discardCookie($identity);
 
             return $this->createGuestUser();
+
+        /**
+         * Any other exception, just forget the cookie and identify as a guest
+         */
         } catch (Palladium\Component\Exception $e) {
-            $this->forgetCookie($identity);
+            $this->discardCookie($identity);
 
             return $this->createGuestUser();
         }
@@ -218,11 +241,13 @@ class Recognition
     {
         $identity = $this->identify();
 
+        // If the client is a guest, whatever
         if ($identity->getRole() === Entity\User::ROLE_GUEST) {
             return ;
         }
 
-        $this->removeCookie();
+        // Log user out by deleting cookie & session states
+        $this->discardCookie();
         $this->ceaseSession();
     }
 }
