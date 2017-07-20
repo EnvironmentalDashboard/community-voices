@@ -5,6 +5,7 @@ namespace CommunityVoices\Model\Component;
 use RuntimeException;
 use PDO;
 use ReflectionClass;
+use CommunityVoices\Model\Mapper;
 
 class MapperFactory
 {
@@ -42,9 +43,9 @@ class MapperFactory
         return $this->create($class, null, $prepare);
     }
 
-    public function createCacheMapper($class)
+    public function createCacheMapper()
     {
-        return $this->create($class, null);
+        return $this->create(Mapper\Cache::class, null);
     }
 
     private function create($class, $handler, callable $prepare = null)

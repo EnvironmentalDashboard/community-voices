@@ -5,6 +5,9 @@ namespace CommunityVoices\Model\Mapper;
 use PHPUnit\Framework\TestCase;
 use CommunityVoices\Model\Entity;
 
+/**
+ * @covers CommunityVoices\Model\Mapper\Cache
+ */
 class CacheTest extends TestCase
 {
     public function test_Fetching_Non_Existent_Instance()

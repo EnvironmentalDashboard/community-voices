@@ -4,6 +4,9 @@ namespace CommunityVoices\Model\Entity;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers CommunityVoices\Model\Entity\Image
+ */
 class ImageTest extends TestCase
 {
     public function test_Type_Generation()

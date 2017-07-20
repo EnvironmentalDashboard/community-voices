@@ -7,6 +7,9 @@ use PDOStatement;
 use PHPUnit\Framework\TestCase;
 use CommunityVoices\Model\Entity;
 
+/**
+ * @covers CommunityVoices\Model\Mapper\User
+ */
 class UserTest extends TestCase
 {
     public function test_Retrieving_User_By_Id()
@@ -224,5 +227,4 @@ class UserTest extends TestCase
         $mapper = new User($pdo);
         $this->assertFalse($mapper->existingUserWithEmail($user));
     }
-
 }

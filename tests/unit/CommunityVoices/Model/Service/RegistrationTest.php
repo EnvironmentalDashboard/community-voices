@@ -9,6 +9,9 @@ use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Mapper;
 use Palladium;
 
+/**
+ * @covers CommunityVoices\Model\Service\Registration
+ */
 class RegistrationTest extends TestCase
 {
     public function test_Clean_Registration()

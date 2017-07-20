@@ -91,10 +91,12 @@ class Image extends Media
         $this->organization = $organization;
     }
 
+    /*
     public function validateForUpload(StatusObserver $notifier)
     {
         $isValid = true;
 
         // @TODO after discussion
     }
+    */
 }

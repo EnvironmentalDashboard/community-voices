@@ -6,6 +6,9 @@ use PHPUnit\Framework\TestCase;
 use Exception;
 use OutOfBoundsException;
 
+/**
+ * @covers CommunityVoices\Model\Entity\Notifier
+ */
 class NotifierTest extends TestCase
 {
     public function test_Add_Entry_No_Notifier()

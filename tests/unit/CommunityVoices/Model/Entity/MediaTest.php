@@ -4,6 +4,9 @@ namespace CommunityVoices\Model\Entity;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers CommunityVoices\Model\Entity\Media
+ */
 class MediaTest extends TestCase
 {
     public function test_Id_Assignment()

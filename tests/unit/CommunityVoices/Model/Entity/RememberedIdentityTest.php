@@ -5,6 +5,9 @@ namespace CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Entity\RememberedIdentity;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers CommunityVoices\Model\Entity\RememberedIdentity
+ */
 class RememberedIdentityTest extends TestCase
 {
     public function test_Account_Id_Assignment()

@@ -7,24 +7,22 @@ use PDOStatement;
 use PHPUnit\Framework\TestCase;
 use CommunityVoices\Model\Entity;
 
+/**
+ * @covers CommunityVoices\Model\Mapper\Media
+ */
 class MediaTest extends TestCase
 {
     public function test_Retrieving_Media_By_Id()
     {
-        $created = strtotime('-2 weeks');
-
-        $media = new Entity\Media;
-        $media->setId(2);
-
         $pdo = $this
-                ->getMockBuilder(PDO::class)
-                ->disableOriginalConstructor()
-                ->getMock();
+            ->getMockBuilder(PDO::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $statement = $this
-                                ->getMockBuilder(PDOStatement::class)
-                                ->disableOriginalConstructor()
-                                ->getMock();
+            ->getMockBuilder(PDOStatement::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $statement
             ->method('bindValue')
@@ -34,11 +32,8 @@ class MediaTest extends TestCase
             ->expects($this->once())
             ->method('fetch')
             ->will($this->returnValue([
-                'id' => 2,
-                'added_by' => 2,
-                'date_created' => $created,
-                'type' => $media::TYPE_IMAGE,
-                'status' => $media::STATUS_APPROVED
+                'id' => 8,
+                'added_by' => 6
             ]));
 
         $pdo
@@ -46,18 +41,17 @@ class MediaTest extends TestCase
             ->method('prepare')
             ->will($this->returnValue($statement));
 
+        $media = new Entity\Media;
+        $media->setId(2);
+
         $mapper = new Media($pdo);
         $mapper->fetch($media);
 
-        $expectedAddedBy = new Entity\User;
-        $expectedAddedBy->setId(2);
-
-        $this->assertSame($media->getId(), 2);
-        $this->assertEquals($media->getAddedBy(), $expectedAddedBy);
-        $this->assertSame($media->getStatus(), $media::STATUS_APPROVED);
+        $this->assertSame($media->getId(), 8);
+        $this->assertEquals($media->getAddedBy()->getId(), 6);
     }
 
-    public function test_Creating_Media()
+    public function test_Saving_Media()
     {
         $creator = new Entity\User;
         $creator->setId(1);

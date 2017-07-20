@@ -6,6 +6,9 @@ use CommunityVoices\Model\Entity\Notifier;
 use CommunityVoices\Model\Exception\IdentityKnown;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers CommunityVoices\Model\Entity\User
+ */
 class UserTest extends TestCase
 {
     public function test_Id_Assignment()

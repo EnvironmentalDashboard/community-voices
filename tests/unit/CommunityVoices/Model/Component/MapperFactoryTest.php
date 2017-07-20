@@ -8,6 +8,9 @@ use PHPUnit\Framework\TestCase;
 use PDO;
 use RuntimeException;
 
+/**
+ * @covers CommunityVoices\Model\Component\MapperFactory
+ */
 class MapperFactoryTest extends TestCase
 {
     public function test_Data_Mapper_Creation()
@@ -60,6 +63,20 @@ class MapperFactoryTest extends TestCase
         $this->assertTrue($mapper instanceof Mapper\Cookie);
 
         $mapper2 = $mapperFactory->createCookieMapper(Mapper\Cookie::class);
+
+        $this->assertSame($mapper, $mapper2); //confirm proper caching
+    }
+
+    public function test_Cache_Mapper_Creation()
+    {
+        $pdo = $this->createMock(PDO::class);
+
+        $mapperFactory = new MapperFactory($pdo, [], []);
+        $mapper = $mapperFactory->createCacheMapper();
+
+        $this->assertTrue($mapper instanceof Mapper\Cache);
+
+        $mapper2 = $mapperFactory->createCacheMapper();
 
         $this->assertSame($mapper, $mapper2); //confirm proper caching
     }
