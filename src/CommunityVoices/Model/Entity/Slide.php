@@ -57,7 +57,7 @@ class Slide extends Media
         return $this->quote;
     }
 
-    public function setQuote($quote) //@TODO change to quote
+    public function setQuote(Quote $quote)
     {
         $this->quote = $quote;
     }

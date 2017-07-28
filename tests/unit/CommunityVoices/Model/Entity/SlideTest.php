@@ -41,10 +41,12 @@ class SlideTest extends TestCase
 
     public function test_Quote_Assignment()
     {
-        $instance = new Slide;
-        $instance->setQuote('quote');
+        $quote = $this->createMock(Quote::class);
 
-        $this->assertSame($instance->getQuote(), 'quote');
+        $instance = new Slide;
+        $instance->setQuote($quote);
+
+        $this->assertSame($instance->getQuote(), $quote);
     }
 
     public function test_Probability_Assignment()
