@@ -43,12 +43,23 @@ class UserTest extends TestCase
         $this->assertSame($instance->getLastName(), 'Doe');
     }
 
-    public function test_Role_Assignment()
+    public function provide_Role_Assignment()
+    {
+        return [
+            [User::ROLE_GUEST, User::ROLE_GUEST],
+            ['blah', null]
+        ];
+    }
+
+    /**
+     * @dataProvider provide_Role_Assignment
+     */
+    public function test_Role_Assignment($input, $expected)
     {
         $instance = new User;
-        $instance->setRole(User::ROLE_ADMIN);
+        $instance->setRole($input);
 
-        $this->assertSame($instance->getRole(), User::ROLE_ADMIN);
+        $this->assertSame($instance->getRole(), $expected);
     }
 
     public function test_If_Valid_User_Is_Valid_For_Registration()
@@ -66,9 +77,10 @@ class UserTest extends TestCase
     public function test_If_Invalid_User_Bad_Email_Is_Valid_For_Registration()
     {
         $notifier = $this
-                        ->getMockBuilder(Notifier::class)
-                        ->setMethods(['addEntry'])
-                        ->getMock();
+            ->getMockBuilder(Notifier::class)
+            ->setMethods(['addEntry'])
+            ->getMock();
+
         $notifier
             ->expects($this->once())
             ->method('addEntry')
@@ -97,9 +109,9 @@ class UserTest extends TestCase
     public function test_If_Invalid_User_Password_Mismatch_Is_Valid_For_Registration()
     {
         $notifier = $this
-                        ->getMockBuilder(Notifier::class)
-                        ->setMethods(['addEntry'])
-                        ->getMock();
+            ->getMockBuilder(Notifier::class)
+            ->setMethods(['addEntry'])
+            ->getMock();
 
         $notifier
             ->expects($this->once())
@@ -117,9 +129,9 @@ class UserTest extends TestCase
     public function test_If_Invalid_User_Password_Too_Short_Is_Valid_For_Registration()
     {
         $notifier = $this
-                    ->getMockBuilder(Notifier::class)
-                    ->setMethods(['addEntry'])
-                    ->getMock();
+            ->getMockBuilder(Notifier::class)
+            ->setMethods(['addEntry'])
+            ->getMock();
 
         $notifier
             ->expects($this->once())
