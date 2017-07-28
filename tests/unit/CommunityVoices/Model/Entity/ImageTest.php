@@ -47,14 +47,23 @@ class ImageTest extends TestCase
         $this->assertSame($instance->getGeneratedTags(), 'cookie chocolate caramel');
     }
 
-    public function test_Date_Taken_Assignment()
+    public function provide_Date_Assignment()
     {
-        $time = strtotime('-2 weeks');
+        return [
+            ['1499970467', 1499970467],
+            ['-5', null]
+        ];
+    }
 
+    /**
+     * @dataProvider provide_Date_Assignment
+     */
+    public function test_Date_Taken_Assignment($input, $expected)
+    {
         $instance = new Image;
-        $instance->setDateTaken($time);
+        $instance->setDateTaken($input);
 
-        $this->assertSame($instance->getDateTaken(), $time);
+        $this->assertSame($instance->getDateTaken(), $expected);
     }
 
     public function test_Photographer_Assignment()
