@@ -9,12 +9,25 @@ use PHPUnit\Framework\TestCase;
  */
 class MediaTest extends TestCase
 {
-    public function test_Id_Assignment()
+    public function provid_Numeric_Assignment()
+    {
+        return [
+            ['5', 5],
+            [null, null],
+            [5, 5],
+            ['ipsum', null]
+        ];
+    }
+
+    /**
+     * @dataProvider provid_Numeric_Assignment
+     */
+    public function test_Id_Assignment($input, $expected)
     {
         $instance = new Media;
-        $instance->setId(5);
+        $instance->setId($input);
 
-        $this->assertSame($instance->getId(), 5);
+        $this->assertSame($instance->getId(), $expected);
     }
 
     public function test_User_Assignment()
@@ -38,14 +51,42 @@ class MediaTest extends TestCase
         $this->assertSame($instance->getDateCreated(), $now);
     }
 
-    public function test_Type_Assignment()
+    public function provide_Type_Assignment()
     {
-        $instance = new Media;
-        $instance->setType($instance::TYPE_QUOTE);
-
-        $this->assertSame($instance->getType(), $instance::TYPE_QUOTE);
+        return [
+            [Media::TYPE_SLIDE, Media::TYPE_SLIDE],
+            [1, Media::TYPE_SLIDE],
+            ['1', Media::TYPE_SLIDE],
+            ['foo', null],
+            [null, null]
+        ];
     }
 
+    /**
+     * @dataProvider provide_Type_Assignment
+     */
+    public function test_Type_Assignment($input, $expected)
+    {
+        $instance = new Media;
+        $instance->setType($input);
+
+        $this->assertSame($instance->getType(), $expected);
+    }
+
+    public function provide_Status_Assignment()
+    {
+        return [
+            [Media::TYPE_IMAGE, Media::TYPE_IMAGE],
+            [1, Media::TYPE_IMAGE],
+            ['1', Media::TYPE_IMAGE],
+            ['foo', null],
+            [null, null]
+        ];
+    }
+
+    /**
+     * @dataProvider provide_Status_Assignment
+     */
     public function test_Status_Assignment()
     {
         $instance = new Media;
