@@ -39,7 +39,11 @@ class Quote extends Media
 
     public function setDateRecorded($dateRecorded)
     {
-        $this->dateRecorded = $dateRecorded;
+        $input = (int) $dateRecorded;
+
+        if ($input > 0) {
+            $this->dateRecorded = $input;
+        }
     }
 
     public function getPublicDocumentLink()
