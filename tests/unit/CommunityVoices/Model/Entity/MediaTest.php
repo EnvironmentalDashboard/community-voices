@@ -76,9 +76,9 @@ class MediaTest extends TestCase
     public function provide_Status_Assignment()
     {
         return [
-            [Media::TYPE_IMAGE, Media::TYPE_IMAGE],
-            [1, Media::TYPE_IMAGE],
-            ['1', Media::TYPE_IMAGE],
+            [Media::STATUS_PENDING, Media::STATUS_PENDING],
+            [1, Media::STATUS_PENDING],
+            ['1', Media::STATUS_PENDING],
             ['foo', null],
             [null, null]
         ];
@@ -87,11 +87,11 @@ class MediaTest extends TestCase
     /**
      * @dataProvider provide_Status_Assignment
      */
-    public function test_Status_Assignment()
+    public function test_Status_Assignment($input, $expected)
     {
         $instance = new Media;
-        $instance->setStatus($instance::STATUS_APPROVED);
+        $instance->setStatus($input);
 
-        $this->assertSame($instance->getStatus(), $instance::STATUS_APPROVED);
+        $this->assertSame($instance->getStatus(), $expected);
     }
 }
