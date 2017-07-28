@@ -68,7 +68,11 @@ class Image extends Media
 
     public function setDateTaken($dateTaken)
     {
-        $this->dateTaken = $dateTaken;
+        $input = (int) $dateTaken;
+
+        if ($input > 0) {
+            $this->dateTaken = $input;
+        }
     }
 
     public function getPhotographer()
