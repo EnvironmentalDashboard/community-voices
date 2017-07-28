@@ -62,9 +62,9 @@ class MediaTest extends TestCase
         $media->setStatus($media::STATUS_PENDING);
 
         $pdo = $this
-                ->getMockBuilder(PDO::class)
-                ->disableOriginalConstructor()
-                ->getMock();
+            ->getMockBuilder(PDO::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $pdo
             ->expects($this->once())
@@ -72,9 +72,9 @@ class MediaTest extends TestCase
             ->will($this->returnValue(2));
 
         $statement = $this
-                ->getMockBuilder(PDOStatement::class)
-                ->disableOriginalConstructor()
-                ->getMock();
+            ->getMockBuilder(PDOStatement::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $statement
             ->method('bindValue')
@@ -108,14 +108,14 @@ class MediaTest extends TestCase
         $media->setStatus($media::STATUS_PENDING);
 
         $pdo = $this
-                ->getMockBuilder(PDO::class)
-                ->disableOriginalConstructor()
-                ->getMock();
+            ->getMockBuilder(PDO::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $statement = $this
-                ->getMockBuilder(PDOStatement::class)
-                ->disableOriginalConstructor()
-                ->getMock();
+            ->getMockBuilder(PDOStatement::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $statement
             ->method('bindValue')
