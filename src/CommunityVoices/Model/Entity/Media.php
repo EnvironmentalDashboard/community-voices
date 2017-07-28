@@ -19,6 +19,18 @@ class Media extends RelationalEntity implements HasId
         'addedBy' => User::class
     ];
 
+    protected $allowableType = [
+        self::TYPE_SLIDE,
+        self::TYPE_IMAGE,
+        self::TYPE_QUOTE
+    ];
+
+    protected $allowableStatus = [
+        self::STATUS_PENDING,
+        self::STATUS_REJECTED,
+        self::STATUS_APPROVED
+    ];
+
     private $id;
 
     private $addedBy;
@@ -35,7 +47,11 @@ class Media extends RelationalEntity implements HasId
 
     public function setId($id)
     {
-        $this->id = $id;
+        $input = (int) $id;
+
+        if ($input > 0) {
+            $this->id = $input;
+        }
     }
 
     public function getAddedBy()
@@ -45,7 +61,9 @@ class Media extends RelationalEntity implements HasId
 
     public function setAddedBy($addedBy)
     {
-        $this->addedBy = $addedBy;
+        if ($addedBy instanceof $this->relations['addedBy'] && $addedBy->getId()) {
+            $this->addedBy = $addedBy;
+        }
     }
 
     public function getDateCreated()
@@ -65,7 +83,9 @@ class Media extends RelationalEntity implements HasId
 
     public function setType($type)
     {
-        $this->type = $type;
+        if (in_array($type, $this->allowableType)) {
+            $this->type = (int) $type;
+        }
     }
 
     public function getStatus()
@@ -75,6 +95,8 @@ class Media extends RelationalEntity implements HasId
 
     public function setStatus($status)
     {
-        $this->status = $status;
+        if (in_array($status, $this->allowableStatus)) {
+            $this->status = (int) $status;
+        }
     }
 }
