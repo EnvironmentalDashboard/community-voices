@@ -31,8 +31,8 @@ class Mapper
      * Runs over $parameters and replaces any ID relations indicated by keys in
      * $relations with new instance entities;
      *
-     * @param  array  $relations A key-value array of the relations to convert
-     * @param  array  $parameters Array of entity parameters
+     * @param  array $relations A key-value array of the relations to convert
+     * @param  array $parameters Array of entity parameters
      * @return array New parameter array
      */
     public function convertRelationsToEntities(array $relations, array $parameters)
