@@ -51,7 +51,7 @@ class MediaTest extends TestCase
         $this->assertEquals($media->getAddedBy()->getId(), 6);
     }
 
-    public function test_Saving_Media()
+    public function test_Creating_Media()
     {
         $creator = new Entity\User;
         $creator->setId(1);
