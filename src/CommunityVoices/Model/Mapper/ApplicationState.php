@@ -4,6 +4,11 @@ namespace CommunityVoices\Model\Mapper;
 
 use CommunityVoices\Model\Contract\StateObserver;
 
+/**
+ * @codeCoverageIgnore
+ *
+ * @TODO Application state will change
+ */
 class ApplicationState
 {
     public function prepare()

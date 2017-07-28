@@ -5,6 +5,9 @@ namespace CommunityVoices\Model\Mapper;
 use CommunityVoices\Model\Component\Mapper;
 use CommunityVoices\Model\Contract;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Session extends Mapper
 {
     public function prepare()
