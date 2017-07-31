@@ -10,6 +10,9 @@ class Cookie extends Mapper
     private $request;
     private $response;
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function __construct($request, $response)
     {
         $this->request = $request;
