@@ -134,4 +134,32 @@ class MediaTest extends TestCase
         $mapper = new Media($pdo);
         $mapper->save($media);
     }
+
+    public function test_Deleting_Media()
+    {
+        $media = new Entity\Media;
+        $media->setId(3);
+
+        $pdo = $this
+            ->getMockBuilder(PDO::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $statement = $this
+            ->getMockBuilder(PDOStatement::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $statement
+            ->method('bindValue')
+            ->with($this->equalTo(':id'), $this->equalTo($media->getId()));
+
+        $pdo
+            ->expects($this->once())
+            ->method('prepare')
+            ->will($this->returnValue($statement));
+
+        $mapper = new Media($pdo);
+        $mapper->delete($media);
+    }
 }
