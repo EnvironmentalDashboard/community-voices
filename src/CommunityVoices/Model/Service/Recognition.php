@@ -70,7 +70,7 @@ class Recognition
     /**
      * Deletes a user from cookie
      */
-    private function discardCookie($forgetPdCookie = false)
+    private function discardCookie()
     {
         $rememberedIdentity = new Entity\RememberedIdentity;
         $cookieMapper = $this->mapperFactory->createCookieMapper(Mapper\Cookie::class);
