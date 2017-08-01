@@ -24,7 +24,7 @@ class LocationTest extends TestCase
      */
     public function test_Id_Assignment($input, $expected)
     {
-        $instance = new Media;
+        $instance = new Location;
         $instance->setId($input);
 
         $this->assertSame($instance->getId(), $expected);
@@ -32,7 +32,7 @@ class LocationTest extends TestCase
 
     public function test_Label_Assignment()
     {
-        $instance = new Group;
+        $instance = new Location;
         $instance->setLabel('FooBar');
 
         $this->assertSame($instance->getLabel(), 'FooBar');
