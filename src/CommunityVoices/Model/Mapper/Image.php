@@ -75,6 +75,7 @@ class Image extends Media
 
         $statement = $this->conn->prepare($query);
 
+        $statement->bindValue(':media_id', $image->getId());
         $statement->bindValue(':filename', $image->getFilename());
         $statement->bindValue(':generated_tags', $image->getGeneratedTags());
         $statement->bindValue(':title', $image->getTitle());
@@ -82,7 +83,6 @@ class Image extends Media
         $statement->bindValue(':date_taken', $image->getDateTaken());
         $statement->bindValue(':photographer', $image->getPhotographer());
         $statement->bindValue(':organization', $image->getOrganization());
-        $statement->bindValue(':media_id', $image->getId());
 
         $statement->execute();
     }
