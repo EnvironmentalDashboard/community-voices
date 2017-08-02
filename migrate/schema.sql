@@ -68,7 +68,7 @@ CREATE TABLE `community-voices_media-group-map` (
     `group_id` int(21) NOT NULL
 );
 
-CREATE TABLE `community-voices_org-categories` (
+CREATE TABLE `community-voices_organization-categories` (
     `group_id` int(21) NOT NULL
 );
 
@@ -139,7 +139,7 @@ ALTER TABLE `community-voices_media-group-map`
     ADD KEY `community-voices_media-group-map_fk0` (`media_id`),
     ADD KEY `community-voices_media-group-map_fk1` (`group_id`);
 
-ALTER TABLE `community-voices_org-categories`
+ALTER TABLE `community-voices_organization-categories`
     ADD PRIMARY KEY (`group_id`);
 
 ALTER TABLE `community-voices_quotes`
@@ -202,8 +202,8 @@ ALTER TABLE `community-voices_media-group-map`
     ADD CONSTRAINT `community-voices_media-group-map_fk0` FOREIGN KEY (`media_id`) REFERENCES `community-voices_media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     ADD CONSTRAINT `community-voices_media-group-map_fk1` FOREIGN KEY (`group_id`) REFERENCES `community-voices_groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE `community-voices_org-categories`
-    ADD CONSTRAINT `community-voices_org-categories_fk0` FOREIGN KEY (`group_id`) REFERENCES `community-voices_groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `community-voices_organization-categories`
+    ADD CONSTRAINT `community-voices_organization-categories_fk0` FOREIGN KEY (`group_id`) REFERENCES `community-voices_groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `community-voices_quotes`
     ADD CONSTRAINT `community-voices_quotes_fk0` FOREIGN KEY (`media_id`) REFERENCES `community-voices_media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
