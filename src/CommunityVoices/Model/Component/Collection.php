@@ -15,12 +15,12 @@ abstract class Collection implements ArrayAccess, Countable, Iterator
     abstract protected function makeEntity();
 
     /**
-     * ArrayAccess implemention
-     */
-     public function offsetExists($offset)
-     {
-         return isset($this->collection[$offset]);
-     }
+    * ArrayAccess implemention
+    */
+    public function offsetExists($offset)
+    {
+        return isset($this->collection[$offset]);
+    }
 
     public function offsetGet($offset)
     {
@@ -28,6 +28,7 @@ abstract class Collection implements ArrayAccess, Countable, Iterator
             ? $this->collection[$offset]
             : null;
     }
+
     public function offsetSet($offset, $value)
     {
         $this->collection[$offset] = $value;
@@ -38,21 +39,21 @@ abstract class Collection implements ArrayAccess, Countable, Iterator
         unset($this->collection[$offset]);
     }
 
-     /**
-      * Countable implementation
-      */
-     public function count() :int
-     {
-         return count($this->collection);
-     }
+    /**
+    * Countable implementation
+    */
+    public function count() :int
+    {
+        return count($this->collection);
+    }
 
     /**
-     * Iterator implementation
-     */
-     public function current()
-     {
-         return $this->collection[$this->position];
-     }
+    * Iterator implementation
+    */
+    public function current()
+    {
+        return $this->collection[$this->position];
+    }
 
     public function key()
     {
