@@ -33,7 +33,7 @@ class Cookie extends Mapper
             return false;
         }
 
-        $this->applyValues($instance, json_decode($cookie, true));
+        $this->populateEntity($instance, json_decode($cookie, true));
     }
 
     public function delete(Contract\Cookieable $instance)

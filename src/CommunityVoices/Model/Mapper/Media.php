@@ -36,7 +36,7 @@ class Media extends DataMapper
         if ($result) {
             $params = $this->convertRelationsToEntities($media->getRelations(), $result);
 
-            $this->applyValues($media, $params);
+            $this->populateEntity($media, $params);
         }
     }
 

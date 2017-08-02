@@ -45,7 +45,7 @@ class Slide extends Media
         if ($result) {
             $parameters = $this->convertRelationsToEntities($slide->getRelations(), $result);
 
-            $this->applyValues($slide, $parameters);
+            $this->populateEntity($slide, $parameters);
         }
     }
 

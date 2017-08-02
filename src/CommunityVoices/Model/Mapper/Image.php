@@ -45,7 +45,7 @@ class Image extends Media
         if ($result) {
             $parameters = $this->convertRelationsToEntities($image->getRelations(), $result);
 
-            $this->applyValues($image, $parameters);
+            $this->populateEntity($image, $parameters);
         }
     }
 

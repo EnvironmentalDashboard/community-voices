@@ -43,7 +43,7 @@ class Quote extends Media
         if ($result) {
             $parameters = $this->convertRelationsToEntities($quote->getRelations(), $result);
 
-            $this->applyValues($quote, $parameters);
+            $this->populateEntity($quote, $parameters);
         }
     }
 

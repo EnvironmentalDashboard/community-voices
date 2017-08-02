@@ -34,7 +34,7 @@ class OrganizationCategory extends Group
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            $this->applyValues($organizationCategory, $result);
+            $this->populateEntity($organizationCategory, $result);
         }
     }
 

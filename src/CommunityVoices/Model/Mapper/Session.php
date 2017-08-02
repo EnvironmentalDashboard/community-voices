@@ -30,7 +30,7 @@ class Session extends Mapper
 
         $session = $_SESSION[$instance->getUniqueLabel()];
 
-        $this->applyValues($instance, json_decode($session, true));
+        $this->populateEntity($instance, json_decode($session, true));
     }
 
     public function delete(Contract\Sessionable $instance)

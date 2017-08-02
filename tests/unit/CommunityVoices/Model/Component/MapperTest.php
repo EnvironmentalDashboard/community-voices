@@ -34,7 +34,7 @@ class MapperTest extends TestCase
 
         $mapper = new Mapper;
 
-        $mapper->applyValues($entity, [
+        $mapper->populateEntity($entity, [
             'id' => 6,
             'first_name' => 'John',
             'email' => 'foo@bar.com'

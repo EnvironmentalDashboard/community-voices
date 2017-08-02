@@ -34,7 +34,7 @@ class Tag extends Group
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            $this->applyValues($tag, $result);
+            $this->populateEntity($tag, $result);
         }
     }
 

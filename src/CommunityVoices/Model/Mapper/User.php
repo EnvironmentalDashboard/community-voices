@@ -39,7 +39,7 @@ class User extends DataMapper
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            $this->applyValues($user, $result);
+            $this->populateEntity($user, $result);
         }
     }
 
@@ -62,7 +62,7 @@ class User extends DataMapper
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            $this->applyValues($user, $result);
+            $this->populateEntity($user, $result);
         }
     }
 

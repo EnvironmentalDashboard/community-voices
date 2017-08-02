@@ -31,7 +31,7 @@ class Location extends DataMapper
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            $this->applyValues($location, $result);
+            $this->populateEntity($location, $result);
         }
     }
 

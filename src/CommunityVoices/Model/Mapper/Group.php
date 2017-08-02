@@ -32,7 +32,7 @@ class Group extends DataMapper
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            $this->applyValues($group, $result);
+            $this->populateEntity($group, $result);
         }
     }
 

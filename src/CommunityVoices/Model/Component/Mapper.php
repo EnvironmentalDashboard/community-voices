@@ -17,7 +17,7 @@ class Mapper
      * @param object $instance The object to be populated with values
      * @param array $parameters A key-value array, that will be matched to setters
      */
-    public function applyValues($instance, array $parameters)
+    public function populateEntity($instance, array $parameters)
     {
         foreach ($parameters as $key => $value) {
             $method = 'set' . str_replace('_', '', $key);

@@ -35,7 +35,7 @@ class ContentCategory extends Group
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            $this->applyValues($contentCategory, $result);
+            $this->populateEntity($contentCategory, $result);
         }
     }
 
