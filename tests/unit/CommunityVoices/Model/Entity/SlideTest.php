@@ -23,10 +23,12 @@ class SlideTest extends TestCase
 
     public function test_Content_Category_Assignment()
     {
-        $instance = new Slide;
-        $instance->setContentCategory('foo');
+        $contentCategory = $this->createMock(ContentCategory::class);
 
-        $this->assertSame($instance->getContentCategory(), 'foo');
+        $instance = new Slide;
+        $instance->setContentCategory($contentCategory);
+
+        $this->assertSame($instance->getContentCategory(), $contentCategory);
     }
 
     public function test_Image_Assignment()

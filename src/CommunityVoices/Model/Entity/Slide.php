@@ -29,15 +29,12 @@ class Slide extends Media
     private $decayStart = null;
     private $decayEnd = null;
 
-    /**
-     * @TODO contet categories should be DO
-     */
     public function getContentCategory()
     {
         return $this->contentCategory;
     }
 
-    public function setContentCategory($contentCategory)
+    public function setContentCategory(ContentCategory $contentCategory)
     {
         $this->contentCategory = $contentCategory;
     }
@@ -156,7 +153,8 @@ class Slide extends Media
             $notifier->addEntry('quote', self::ERR_QUOTE_RELATIONSHIP_MISSING);
         }
 
-        if ($this->contentCategory === false) { //@TODO
+        if (!$this->contentCategory || ($this->contentCategory instanceof ContentCategory
+            && !$this->contentCategory->getId())) {
             $isValid = false;
             $notifier->addEntry('contentCategory', self::ERR_CONTENT_CATEGORY_RELATIONSHIP_MISSING);
         }
