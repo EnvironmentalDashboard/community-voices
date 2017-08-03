@@ -15,6 +15,46 @@ abstract class Collection implements ArrayAccess, Countable, Iterator
     abstract protected function makeEntity();
 
     /**
+     * Method for adding a new entity from skeleton parameters to the collection
+     * @param array $parameters A key-value array of the instance's parameters
+     */
+    public function addEntityFromParams(array $parameters)
+    {
+        $instance = $this->makeEntity();
+
+        $this->populateEntity($instance, $parameters);
+
+        $this->addEntity($instance);
+
+        return $instance;
+    }
+
+    /**
+    * Populates given instance with values from array through setter methods
+    *
+    * @param object $instance The object to be populated
+    * @param array $parameters A key-value array of the instance's parameters
+     */
+    private function populateEntity($instance, array $parameters)
+    {
+        foreach ($parameters as $key => $value) {
+            $method = 'set' . str_replace('_', '', $key);
+            if (method_exists($instance, $method)) {
+                $instance->{$method}($value);
+            }
+        }
+    }
+
+    /**
+     * Adds an entity to the collection
+     * @param Object $instance The instance to add
+     */
+    public function addEntity($instance)
+    {
+        $this->collection[] = $instance;
+    }
+
+    /**
     * ArrayAccess implemention
     */
     public function offsetExists($offset)
@@ -24,7 +64,7 @@ abstract class Collection implements ArrayAccess, Countable, Iterator
 
     public function offsetGet($offset)
     {
-        return issest($this->collection[$offset])
+        return isset($this->collection[$offset])
             ? $this->collection[$offset]
             : null;
     }
