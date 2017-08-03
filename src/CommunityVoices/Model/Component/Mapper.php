@@ -12,10 +12,10 @@ namespace CommunityVoices\Model\Component;
 class Mapper
 {
     /**
-     * Method for populating the given instance with values from the array via setters
+     * Populates given instance with values from array through setter methods
      *
-     * @param object $instance The object to be populated with values
-     * @param array $parameters A key-value array, that will be matched to setters
+     * @param object $instance The object to be populated
+     * @param array $parameters A key-value array of the instance's parameters
      */
     public function populateEntity($instance, array $parameters)
     {
