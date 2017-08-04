@@ -18,23 +18,32 @@ class Image extends Media
     private function fetchById(Entity\Media $image)
     {
         $query = "SELECT
-                        parent.id,
-                        parent.added_by,
-                        parent.date_created,
-                        parent.type,
-                        parent.status,
-                        child.filename,
-                        child.generated_tags,
-                        child.title,
-                        child.description,
-                        child.date_taken,
-                        child.photographer,
-                        child.organization
+                        parent.id                       AS id,
+                        parent.added_by                 AS addedBy,
+                        parent.date_created             AS dateCreated,
+                        CAST(parent.type AS UNSIGNED)   AS type,
+                        CAST(parent.status AS UNSIGNED) AS status,
+                        child.filename                  AS filename,
+                        child.generated_tags            AS generatedTags,
+                        child.title                     AS title,
+                        child.description               AS description,
+                        child.date_taken                AS dateTaken,
+                        child.photographer              AS photographer,
+                        child.organization              AS organization,
+                        tag.id                          AS tagId
                     FROM
                         " . parent::$table . " parent
                     JOIN
                         " . self::$table . " child
                         ON parent.id = child.media_id
+
+                    LEFT JOIN
+                        `community-voices_media-group-map` junction
+                        ON junction.media_id = parent.id
+
+                    LEFT JOIN
+                        `community-voices_groups` tag
+                        ON junction.group_id = tag.id AND CAST(tag.type AS UNSIGNED) = 1
                     WHERE
                         parent.id = :id";
 
@@ -44,12 +53,26 @@ class Image extends Media
 
         $statement->execute();
 
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        if ($result) {
-            $parameters = $this->convertRelationsToEntities($image->getRelations(), $result);
+        if ($results) {
+            $relations = array_merge_recursive($this->relations, $media->getRelations());
 
-            $this->populateEntity($image, $parameters);
+            $entities = $this->convertSingleRelationsToEntities(
+                $relations['single'],
+                $results[0]
+            );
+
+            $collections = $this->convertManyRelationsToEntityCollections(
+                $relations['many'],
+                $results
+            );
+
+            $this->populateEntity($media, array_merge(
+                $results[0],
+                $entities,
+                $collections
+            ));
         }
     }
 

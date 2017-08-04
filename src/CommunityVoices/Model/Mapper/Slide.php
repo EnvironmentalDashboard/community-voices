@@ -22,7 +22,7 @@ class Slide extends Media
                         parent.added_by                     AS addedBy,
                         parent.date_created                 AS dateCreated,
                         CAST(parent.type AS UNSIGNED)       AS type,
-                        parent.status                       AS status,
+                        CAST(parent.status AS UNSIGNED)     AS status,
                         child.content_category_id           AS contentCategory,
                         child.image_id                      AS image,
                         child.quote_id                      AS quote,
@@ -35,6 +35,14 @@ class Slide extends Media
                     JOIN
                         " . self::$table . " child
                         ON parent.id = child.media_id
+
+                    LEFT JOIN
+                        `community-voices_media-group-map` junction
+                        ON junction.media_id = parent.id
+
+                    LEFT JOIN
+                        `community-voices_groups` tag
+                        ON junction.group_id = tag.id AND CAST(tag.type AS UNSIGNED) = 1
                     WHERE
                         parent.id = :id";
 
@@ -44,12 +52,26 @@ class Slide extends Media
 
         $statement->execute();
 
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        if ($result) {
-            $parameters = $this->convertRelationsToEntities($slide->getRelations(), $result);
+        if ($results) {
+            $relations = array_merge_recursive($this->relations, $media->getRelations());
 
-            $this->populateEntity($slide, $parameters);
+            $entities = $this->convertSingleRelationsToEntities(
+                $relations['single'],
+                $results[0]
+            );
+
+            $collections = $this->convertManyRelationsToEntityCollections(
+                $relations['many'],
+                $results
+            );
+
+            $this->populateEntity($media, array_merge(
+                $results[0],
+                $entities,
+                $collections
+            ));
         }
     }
 

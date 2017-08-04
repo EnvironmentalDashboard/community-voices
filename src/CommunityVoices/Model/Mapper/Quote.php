@@ -22,18 +22,27 @@ class Quote extends Media
                         parent.added_by                 AS addedBy,
                         parent.date_created             AS dateCreated,
                         CAST(parent.type AS UNSIGNED)   AS type,
-                        parent.status                   AS status,
+                        CAST(parent.status AS UNSIGNED) AS status,
                         child.text                      AS text,
                         child.attribution               AS attribution,
                         child.date_recorded             AS dateRecorded,
                         child.public_document_link      AS publicDocumentLink,
-                        child.source_document_link      AS sourceDocumentLink
+                        child.source_document_link      AS sourceDocumentLink,
+                        tag.id                          AS tagId
                     FROM
                         " . parent::$table . " parent
                     JOIN
                         " . self::$table . " child
-                    ON
-                        parent.id = child.media_id
+                        ON parent.id = child.media_id
+
+                    LEFT JOIN
+                        `community-voices_media-group-map` junction
+                        ON junction.media_id = parent.id
+
+                    LEFT JOIN
+                        `community-voices_groups` tag
+                        ON junction.group_id = tag.id AND CAST(tag.type AS UNSIGNED) = 1
+
                     WHERE
                         parent.id = :id";
 
@@ -43,12 +52,26 @@ class Quote extends Media
 
         $statement->execute();
 
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        if ($result) {
-            $parameters = $this->convertRelationsToEntities($quote->getRelations(), $result);
+        if ($results) {
+            $relations = array_merge_recursive($this->relations, $media->getRelations());
 
-            $this->populateEntity($quote, $parameters);
+            $entities = $this->convertSingleRelationsToEntities(
+                $relations['single'],
+                $results[0]
+            );
+
+            $collections = $this->convertManyRelationsToEntityCollections(
+                $relations['many'],
+                $results
+            );
+
+            $this->populateEntity($media, array_merge(
+                $results[0],
+                $entities,
+                $collections
+            ));
         }
     }
 
