@@ -30,11 +30,11 @@ class QuoteTest extends TestCase
 
         $statement
             ->expects($this->once())
-            ->method('fetch')
-            ->will($this->returnValue([
+            ->method('fetchAll')
+            ->will($this->returnValue([[
                 'id' => 8,
-                'added_by' => 6
-            ]));
+                'addedBy' => 6
+            ]]));
 
         $pdo
             ->expects($this->once())

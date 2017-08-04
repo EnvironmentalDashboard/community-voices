@@ -36,6 +36,7 @@ class MapperTest extends TestCase
         ]);
     }
 
+    /*
     public function test_Relations_to_Entity_Conversion()
     {
         $params = [
@@ -54,4 +55,5 @@ class MapperTest extends TestCase
 
         $this->assertTrue($newParams['created_by'] instanceof Entity);
     }
+    */
 }
