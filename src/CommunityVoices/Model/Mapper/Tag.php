@@ -17,13 +17,17 @@ class Tag extends Group
 
     private function fetchById(Entity\Group $tag)
     {
-        $query = "SELECT    parent.id,
-                            parent.label,
-                            parent.type
-                    FROM    " . parent::$table . " parent
-                    JOIN    " . self::$table . " child
-                    ON      parent.id = child.group_id
-                    WHERE   parent.id = :id";
+        $query = "SELECT
+                        parent.id                                   AS id,
+                        parent.label                                AS label,
+                        CAST(parent.type AS UNSIGNED)               AS type
+                    FROM
+                        " . parent::$table . " parent
+                    JOIN
+                        " . self::$table . " child
+                        ON parent.id = child.group_id
+                    WHERE
+                        parent.id = :id";
 
         $statement = $this->conn->prepare($query);
 

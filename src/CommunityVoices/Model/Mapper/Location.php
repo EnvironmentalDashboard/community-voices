@@ -17,10 +17,13 @@ class Location extends DataMapper
 
     private function fetchById(Entity\Location $location)
     {
-        $query = "SELECT    id,
-                            label
-                    FROM    " . self::$table . "
-                    WHERE   id = :id";
+        $query = "SELECT
+                        id                      AS id,
+                        label                   AS label
+                    FROM
+                        " . self::$table . "
+                    WHERE
+                        id = :id";
 
         $statement = $this->conn->prepare($query);
 

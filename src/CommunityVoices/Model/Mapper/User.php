@@ -22,13 +22,16 @@ class User extends DataMapper
 
     private function fetchById(Entity\User $user)
     {
-        $query = "SELECT    id,
-                            email,
-                            fname   AS firstName,
-                            lname   AS lastName,
-                            role
-                    FROM    " . self::$table . "
-                    WHERE   id = :id";
+        $query = "SELECT
+                        user.id                      AS id
+                        user.email                   AS email,
+                        user.fname                   AS firstName,
+                        user.lname                   AS lastName,
+                        user.role                    AS role
+                    FROM
+                        " . self::$table . " user
+                    WHERE
+                        user.id = :id";
 
         $statement = $this->conn->prepare($query);
 

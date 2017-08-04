@@ -17,22 +17,26 @@ class Slide extends Media
 
     private function fetchById(Entity\Media $slide)
     {
-        $query = "SELECT    parent.id,
-                            parent.added_by,
-                            parent.date_created,
-                            parent.type,
-                            parent.status,
-                            child.content_category_id as content_category,
-                            child.image_id as image,
-                            child.quote_id as quote,
-                            child.probability,
-                            child.decay_percent,
-                            child.decay_start,
-                            child.decay_end
-                    FROM    " . parent::$table . " parent
-                    JOIN    " . self::$table . " child
-                    ON      parent.id = child.media_id
-                    WHERE   parent.id = :id";
+        $query = "SELECT
+                        parent.id                           AS id,
+                        parent.added_by                     AS addedBy,
+                        parent.date_created                 AS dateCreated,
+                        CAST(parent.type AS UNSIGNED)       AS type,
+                        parent.status                       AS status,
+                        child.content_category_id           AS contentCategory,
+                        child.image_id                      AS image,
+                        child.quote_id                      AS quote,
+                        child.probability                   AS probability,
+                        child.decay_percent                 AS decayPercent,
+                        child.decay_start                   AS decayStart,
+                        child.decay_end                     AS decayEnd
+                    FROM
+                        " . parent::$table . " parent
+                    JOIN
+                        " . self::$table . " child
+                        ON parent.id = child.media_id
+                    WHERE
+                        parent.id = :id";
 
         $statement = $this->conn->prepare($query);
 

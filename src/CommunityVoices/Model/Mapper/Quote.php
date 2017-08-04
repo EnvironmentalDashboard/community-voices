@@ -17,20 +17,25 @@ class Quote extends Media
 
     private function fetchById(Entity\Media $quote)
     {
-        $query = "SELECT    parent.id,
-                            parent.added_by,
-                            parent.date_created,
-                            parent.type,
-                            parent.status,
-                            child.text,
-                            child.attribution,
-                            child.date_recorded,
-                            child.public_document_link,
-                            child.source_document_link
-                    FROM    " . parent::$table . " parent
-                    JOIN    " . self::$table . " child
-                    ON      parent.id = child.media_id
-                    WHERE   parent.id = :id";
+        $query = "SELECT
+                        parent.id                       AS id,
+                        parent.added_by                 AS addedBy,
+                        parent.date_created             AS dateCreated,
+                        CAST(parent.type AS UNSIGNED)   AS type,
+                        parent.status                   AS status,
+                        child.text                      AS text,
+                        child.attribution               AS attribution,
+                        child.date_recorded             AS dateRecorded,
+                        child.public_document_link      AS publicDocumentLink,
+                        child.source_document_link      AS sourceDocumentLink
+                    FROM
+                        " . parent::$table . " parent
+                    JOIN
+                        " . self::$table . " child
+                    ON
+                        parent.id = child.media_id
+                    WHERE
+                        parent.id = :id";
 
         $statement = $this->conn->prepare($query);
 

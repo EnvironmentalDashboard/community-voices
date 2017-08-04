@@ -17,11 +17,14 @@ class Group extends DataMapper
 
     private function fetchById(Entity\Group $group)
     {
-        $query = "SELECT    id,
-                            label,
-                            type
-                    FROM    " . self::$table . "
-                    WHERE   id = :id";
+        $query = "SELECT
+                        group.id                            AS id,
+                        group.label                         AS label,
+                        CAST(group.type AS UNSIGNED)        AS type,
+                    FROM
+                        " . self::$table . " group
+                    WHERE
+                        group.id = :id";
 
         $statement = $this->conn->prepare($query);
 

@@ -17,14 +17,18 @@ class ContentCategory extends Group
 
     private function fetchById(Entity\Group $contentCategory)
     {
-        $query = "SELECT    parent.id,
-                            parent.label,
-                            parent.type,
-                            child.media_filename
-                    FROM    " . parent::$table . " parent
-                    JOIN    " . self::$table . " child
-                    ON      parent.id = child.group_id
-                    WHERE   parent.id = :id";
+        $query = "SELECT
+                        parent.id                           AS id,
+                        parent.label                        AS label,
+                        CAST(parent.type AS UNSIGNED)       AS type,
+                        child.media_filename                AS mediaFilename
+                    FROM
+                        " . parent::$table . " parent
+                    JOIN
+                        " . self::$table . " child
+                        ON parent.id = child.group_id
+                    WHERE
+                        parent.id = :id";
 
         $statement = $this->conn->prepare($query);
 

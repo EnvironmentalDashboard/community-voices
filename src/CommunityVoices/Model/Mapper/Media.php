@@ -50,7 +50,7 @@ class Media extends DataMapper
                         tag.id                              AS tagId,
                         org_cat.id                          AS orgCatId
                     FROM
-                        `community-voices_media` media
+                        " . self::$table . " media
 
                     LEFT JOIN
                         `community-voices_media-group-map` junction
@@ -58,13 +58,11 @@ class Media extends DataMapper
 
                     LEFT JOIN
                         `community-voices_groups` tag
-                    ON junction.group_id = tag.id
-                        AND CAST(tag.type AS UNSIGNED) = 1
+                    ON junction.group_id = tag.id AND CAST(tag.type AS UNSIGNED) = 1
 
                     LEFT JOIN
                         `community-voices_groups` org_cat
-                    ON junction.group_id = org_cat.id
-                        AND CAST(org_cat.type AS UNSIGNED) = 2
+                    ON junction.group_id = org_cat.id AND CAST(org_cat.type AS UNSIGNED) = 2
 
                     WHERE
                         media.id = :id";
@@ -78,15 +76,15 @@ class Media extends DataMapper
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         if ($results) {
-            $relationsMap = array_merge_recursive($this->relations, $media->getRelations());
+            $relations = array_merge_recursive($this->relations, $media->getRelations());
 
             $entities = $this->convertSingleRelationsToEntities(
-                $relationsMap['single'],
+                $relations['single'],
                 $results[0]
             );
 
             $collections = $this->convertManyRelationsToEntityCollections(
-                $relationsMap['many'],
+                $relations['many'],
                 $results
             );
 

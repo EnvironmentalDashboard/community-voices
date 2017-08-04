@@ -17,22 +17,26 @@ class Image extends Media
 
     private function fetchById(Entity\Media $image)
     {
-        $query = "SELECT    parent.id,
-                            parent.added_by,
-                            parent.date_created,
-                            parent.type,
-                            parent.status,
-                            child.filename,
-                            child.generated_tags,
-                            child.title,
-                            child.description,
-                            child.date_taken,
-                            child.photographer,
-                            child.organization
-                    FROM    " . parent::$table . " parent
-                    JOIN    " . self::$table . " child
-                    ON      parent.id = child.media_id
-                    WHERE   parent.id = :id";
+        $query = "SELECT
+                        parent.id,
+                        parent.added_by,
+                        parent.date_created,
+                        parent.type,
+                        parent.status,
+                        child.filename,
+                        child.generated_tags,
+                        child.title,
+                        child.description,
+                        child.date_taken,
+                        child.photographer,
+                        child.organization
+                    FROM
+                        " . parent::$table . " parent
+                    JOIN
+                        " . self::$table . " child
+                        ON parent.id = child.media_id
+                    WHERE
+                        parent.id = :id";
 
         $statement = $this->conn->prepare($query);
 
