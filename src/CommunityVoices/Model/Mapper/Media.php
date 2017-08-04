@@ -24,12 +24,6 @@ class Media extends DataMapper
                 'attributes' => [
                     'id' => 'tagId'
                 ]
-            ],
-
-            'organizationCategoryCollection' => [
-                'attributes' => [
-                    'id' => 'orgCatId'
-                ]
             ]
         ]
     ];
@@ -47,8 +41,7 @@ class Media extends DataMapper
                         media.date_created                  AS dateCreated,
                         CAST(media.type AS UNSIGNED)        AS type,
                         CAST(media.status AS UNSIGNED)      AS status,
-                        tag.id                              AS tagId,
-                        org_cat.id                          AS orgCatId
+                        tag.id                              AS tagId
                     FROM
                         " . self::$table . " media
 
@@ -58,11 +51,7 @@ class Media extends DataMapper
 
                     LEFT JOIN
                         `community-voices_groups` tag
-                    ON junction.group_id = tag.id AND CAST(tag.type AS UNSIGNED) = 1
-
-                    LEFT JOIN
-                        `community-voices_groups` org_cat
-                    ON junction.group_id = org_cat.id AND CAST(org_cat.type AS UNSIGNED) = 2
+                        ON junction.group_id = tag.id AND CAST(tag.type AS UNSIGNED) = 1
 
                     WHERE
                         media.id = :id";

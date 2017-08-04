@@ -25,10 +25,6 @@ class Media extends RelationalEntity implements HasId
         'many' => [
             'tagCollection' => [
                 'class' => GroupCollection::class
-            ],
-
-            'organizationCategoryCollection' => [
-                'class' => GroupCollection::class
             ]
         ]
     ];
@@ -55,7 +51,6 @@ class Media extends RelationalEntity implements HasId
     private $status;
 
     private $tagCollection;
-    private $organizationCategoryCollection;
 
     public function getId()
     {
@@ -115,16 +110,6 @@ class Media extends RelationalEntity implements HasId
         if (in_array($status, $this->allowableStatus)) {
             $this->status = (int) $status;
         }
-    }
-
-    public function getOrganizationCategoryCollection()
-    {
-        return $this->organizationCategoryCollection;
-    }
-
-    public function setOrganizationCategoryCollection($organizationCategoryCollection)
-    {
-        $this->organizationCategoryCollection = $organizationCategoryCollection;
     }
 
     public function getTagCollection()
