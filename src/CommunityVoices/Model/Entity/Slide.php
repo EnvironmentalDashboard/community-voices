@@ -16,10 +16,29 @@ class Slide extends Media
     const ERR_CONTENT_CATEGORY_RELATIONSHIP_MISSING = 'Content category relationship missing';
 
     protected $relations = [
-        'addedBy' => User::class,
-        'image' => Image::class,
-        'quote' => Quote::class,
-        'contentCategory' => ContentCategory::class
+        'single' => [
+            'addedBy' => [
+                'class' => User::class
+            ],
+            'contentCategory' => [
+                'class' => ContentCategory::class
+            ],
+            'image' => [
+                'class' => Image::class
+            ],
+            'quote' => [
+                'class' => Quote::class
+            ],
+        ],
+
+        'many' => [
+            'tagCollection' => [
+                'class' => GroupCollection::class
+            ],
+            'organizationCategoryCollection' => [
+                'class' => GroupCollection::class
+            ]
+        ]
     ];
 
     private $contentCategory;

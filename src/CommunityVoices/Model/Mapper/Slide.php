@@ -10,6 +10,44 @@ class Slide extends Media
 {
     protected static $table = '`community-voices_slides`';
 
+    protected $relations = [
+        'single' => [
+            'addedBy' => [
+                'attributes' => [
+                    'id' => 'addedBy'
+                ]
+            ],
+            'contentCategory' => [
+                'attributes' => [
+                    'id' => 'contentCategoryId'
+                ]
+            ],
+            'image' => [
+                'attributes' => [
+                    'id' => 'imageId'
+                ]
+            ],
+            'quote' => [
+                'attributes' => [
+                    'id' => 'quoteId'
+                ]
+            ]
+        ],
+
+        'many' => [
+            'tagCollection' => [
+                'attributes' => [
+                    'id' => 'tagId'
+                ]
+            ],
+            'organizationCategoryCollection' => [
+                'attributes' => [
+                    'id' => 'organizationCategoryId'
+                ]
+            ]
+        ]
+    ];
+
     public function fetch(Entity\Media $slide)
     {
         $this->fetchById($slide);
@@ -23,13 +61,15 @@ class Slide extends Media
                         parent.date_created                 AS dateCreated,
                         CAST(parent.type AS UNSIGNED)       AS type,
                         CAST(parent.status AS UNSIGNED)     AS status,
-                        child.content_category_id           AS contentCategory,
-                        child.image_id                      AS image,
-                        child.quote_id                      AS quote,
+                        child.content_category_id           AS contentCategoryId,
+                        child.image_id                      AS imageId,
+                        child.quote_id                      AS quoteId,
                         child.probability                   AS probability,
                         child.decay_percent                 AS decayPercent,
                         child.decay_start                   AS decayStart,
-                        child.decay_end                     AS decayEnd
+                        child.decay_end                     AS decayEnd,
+                        tag.id                              AS tagId,
+                        org_cat.id                          As organizationCategoryId
                     FROM
                         " . parent::$table . " parent
                     JOIN
@@ -43,6 +83,11 @@ class Slide extends Media
                     LEFT JOIN
                         `community-voices_groups` tag
                         ON junction.group_id = tag.id AND CAST(tag.type AS UNSIGNED) = 1
+
+                    LEFT JOIN
+                        `community-voices_groups` org_cat
+                        ON junction.group_id = org_cat.id AND CAST(org_cat.type AS UNSIGNED) = 2
+
                     WHERE
                         parent.id = :id";
 
