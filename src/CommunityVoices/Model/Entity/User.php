@@ -24,11 +24,11 @@ class User implements HasId, Palladium\Contract\HasId
     const ERR_PASSWORD_TOO_SHORT = 'Password length must exceed 4 characters';
 
     protected $allowableRole = [
-        self::ERR_EMAIL_INVALID,
-        self::ERR_EMAIL_EXISTS,
-        self::ERR_IDENTITY_KNOWN,
-        self::ERR_PASSWORD_MISMATCH,
-        self::ERR_PASSWORD_TOO_SHORT
+        self::ROLE_GUEST,
+        self::ROLE_UNVERIFIED,
+        self::ROLE_USER,
+        self::ROLE_MANAGER,
+        self::ROLE_ADMIN
     ];
 
 
