@@ -31,7 +31,6 @@ class User implements HasId, Palladium\Contract\HasId
         self::ROLE_ADMIN
     ];
 
-
     private $id;
 
     private $email;
@@ -99,7 +98,7 @@ class User implements HasId, Palladium\Contract\HasId
 
     public function setRole($role)
     {
-        if (in_array($role, $this->allowableRole)) {
+        if (in_array($role, $this->allowableRole, true)) {
             $this->role = (int) $role;
         }
     }
