@@ -100,7 +100,7 @@ class Slide extends Media
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         if ($results) {
-            $relations = array_merge_recursive($this->relations, $media->getRelations());
+            $relations = array_merge_recursive($this->relations, $slide->getRelations());
 
             $entities = $this->convertSingleRelationsToEntities(
                 $relations['single'],
@@ -112,7 +112,7 @@ class Slide extends Media
                 $results
             );
 
-            $this->populateEntity($media, array_merge(
+            $this->populateEntity($slide, array_merge(
                 $results[0],
                 $entities,
                 $collections

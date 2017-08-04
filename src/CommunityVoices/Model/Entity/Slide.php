@@ -55,6 +55,8 @@ class Slide extends Media
     private $decayStart = null;
     private $decayEnd = null;
 
+    private $organizationCategoryCollection;
+
     public function getContentCategory()
     {
         return $this->contentCategory;
@@ -123,6 +125,16 @@ class Slide extends Media
     public function setDecayStart($decayStart)
     {
         $this->decayStart = $decayStart;
+    }
+
+    public function getOrganizationCategoryCollection()
+    {
+        return $this->organizationCategoryCollection;
+    }
+
+    public function setOrganizationCategoryCollection($organizationCategoryCollection)
+    {
+        $this->organizationCategoryCollection = $organizationCategoryCollection;
     }
 
     public function validateForUpload(StatusObserver $notifier)

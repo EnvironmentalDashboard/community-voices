@@ -55,7 +55,7 @@ class Quote extends Media
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         if ($results) {
-            $relations = array_merge_recursive($this->relations, $media->getRelations());
+            $relations = array_merge_recursive($this->relations, $quote->getRelations());
 
             $entities = $this->convertSingleRelationsToEntities(
                 $relations['single'],
@@ -67,7 +67,7 @@ class Quote extends Media
                 $results
             );
 
-            $this->populateEntity($media, array_merge(
+            $this->populateEntity($quote, array_merge(
                 $results[0],
                 $entities,
                 $collections
