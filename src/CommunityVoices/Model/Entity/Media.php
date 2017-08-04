@@ -16,7 +16,21 @@ class Media extends RelationalEntity implements HasId
     const STATUS_APPROVED = 3;
 
     protected $relations = [
-        'addedBy' => User::class
+        'single' => [
+            'addedBy' => [
+                'class' => User::class
+            ]
+        ],
+
+        'many' => [
+            'tagCollection' => [
+                'class' => GroupCollection::class
+            ],
+
+            'organizationCategoryCollection' => [
+                'class' => GroupCollection::class
+            ]
+        ]
     ];
 
     protected $allowableType = [
@@ -40,6 +54,9 @@ class Media extends RelationalEntity implements HasId
 
     private $status;
 
+    private $tagCollection;
+    private $organizationCategoryCollection;
+
     public function getId()
     {
         return $this->id;
@@ -61,7 +78,7 @@ class Media extends RelationalEntity implements HasId
 
     public function setAddedBy($addedBy)
     {
-        if ($addedBy instanceof $this->relations['addedBy'] && $addedBy->getId()) {
+        if ($addedBy instanceof $this->relations['single']['addedBy']['class'] && $addedBy->getId()) {
             $this->addedBy = $addedBy;
         }
     }
@@ -98,5 +115,25 @@ class Media extends RelationalEntity implements HasId
         if (in_array($status, $this->allowableStatus)) {
             $this->status = (int) $status;
         }
+    }
+
+    public function getOrganizationCategoryCollection()
+    {
+        return $this->organizationCategoryCollection;
+    }
+
+    public function setOrganizationCategoryCollection($organizationCategoryCollection)
+    {
+        $this->organizationCategoryCollection = $organizationCategoryCollection;
+    }
+
+    public function getTagCollection()
+    {
+        return $this->tagCollection;
+    }
+
+    public function setTagCollection($tagCollection)
+    {
+        $this->tagCollection = $tagCollection;
     }
 }

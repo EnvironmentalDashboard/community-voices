@@ -10,6 +10,30 @@ class Media extends DataMapper
 {
     protected static $table = '`community-voices_media`';
 
+    protected $relations = [
+        'single' => [
+            'addedBy' => [
+                'attributes' => [
+                    'id' => 'addedBy'
+                ]
+            ]
+        ],
+
+        'many' => [
+            'tagCollection' => [
+                'attributes' => [
+                    'id' => 'tagId'
+                ]
+            ],
+
+            'organizationCategoryCollection' => [
+                'attributes' => [
+                    'id' => 'orgCatId'
+                ]
+            ]
+        ]
+    ];
+
     public function fetch(Entity\Media $media)
     {
         $this->fetchById($media);
@@ -17,13 +41,33 @@ class Media extends DataMapper
 
     private function fetchById(Entity\Media $media)
     {
-        $query = "SELECT    id,
-                            added_by,
-                            date_created,
-                            type,
-                            status
-                    FROM    " . self::$table . "
-                    WHERE   id = :id";
+        $query = "SELECT
+                        media.id                            AS id,
+                        media.added_by                      AS addedBy,
+                        media.date_created                  AS dateCreated,
+                        CAST(media.type AS UNSIGNED)        AS type,
+                        CAST(media.status AS UNSIGNED)      AS status,
+                        tag.id                              AS tagId,
+                        org_cat.id                          AS orgCatId
+                    FROM
+                        `community-voices_media` media
+
+                    LEFT JOIN
+                        `community-voices_media-group-map` junction
+                        ON junction.media_id = media.id
+
+                    LEFT JOIN
+                        `community-voices_groups` tag
+                    ON junction.group_id = tag.id
+                        AND CAST(tag.type AS UNSIGNED) = 1
+
+                    LEFT JOIN
+                        `community-voices_groups` org_cat
+                    ON junction.group_id = org_cat.id
+                        AND CAST(org_cat.type AS UNSIGNED) = 2
+
+                    WHERE
+                        media.id = :id";
 
         $statement = $this->conn->prepare($query);
 
@@ -31,12 +75,26 @@ class Media extends DataMapper
 
         $statement->execute();
 
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        if ($result) {
-            $params = $this->convertRelationsToEntities($media->getRelations(), $result);
+        if ($results) {
+            $relationsMap = array_merge_recursive($this->relations, $media->getRelations());
 
-            $this->populateEntity($media, $params);
+            $entities = $this->convertSingleRelationsToEntities(
+                $relationsMap['single'],
+                $results[0]
+            );
+
+            $collections = $this->convertManyRelationsToEntityCollections(
+                $relationsMap['many'],
+                $results
+            );
+
+            $this->populateEntity($media, array_merge(
+                $results[0],
+                $entities,
+                $collections
+            ));
         }
     }
 
