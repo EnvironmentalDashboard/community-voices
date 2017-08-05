@@ -27,31 +27,32 @@ class Mapper
     }
 
     /**
-     * Converts any values in $entry meeting keys specified in the relationMap to
-     * domain objects. Attributes on the domain object are specified in the
+     * Converts any values in $entry meeting keys specified in the $relations array
+     * to domain objects. Attributes on the domain object are specified in the
      * 'attributes' array
      *
      * E.g., a relation map like so:
      *
      * [
-     *     'addedBy' => [                       // key to return new instance on
+     *     'addedBy' => [                       // key to assign new instance to
      *         'attributes' => [
-     *             'class' => 'User'            // instance to create
-     *             'id' => 'creator_id'         // maps instance key to query key
+     *             'class' => 'User'            // class to create instance of
+     *             'id' => 'creator_id'         // maps instance attr. to query key
      *         ]
      *     ]
      * ]
      *
-     * Will cause the method to look through the array $entry for a key of
+     * Will cause the method to look through the $entry array for a key of
      * `creator_id`. If found, create an instance of User and set the entity's
      * `id` attribute to $entry['creator_id']. The entity is returned in a
-     * key-value array, accessed by the key `addedBy`
+     * key-value array, accessed by the key `addedBy`. Multiple attributes may be
+     * specified.
      *
      * @param  array  $relations   Relational configuration
      * @param  array  $entry       Array-key of entry attributes & values
-     * @return array               An array of the newly created parameters
+     * @return array               An array of the newly created parameters w/ entities
      */
-    public function convertSingleRelationsToEntities(array $relations, array $entry)
+    public function makeSingleCardinalityRelations(array $relations, array $entry)
     {
         /**
          * Holds all entities to be returned
@@ -87,31 +88,30 @@ class Mapper
 
     /**
      * Loops through an array of $entries and converts any values meeting keys
-     * specified in the relations array to domain object collections. Attributes
+     * specified in the $relations array to domain object collections. Attributes
      * on the collection's items are specified in the 'attributes' array.
      *
      * E.g., a relation map like so:
      *
      * [
-     *     'addedBy' => [                       // key to return new instance on
+     *     'addedBy' => [                       // key to assign new instance to
      *         'attributes' => [
-     *             'class' => 'UserCollection'  // instance to create
-     *             'id' => 'creator_id'         // maps instance key to query key
+     *             'class' => 'UserCollection'  // class to create instance of
+     *             'id' => 'creator_id'         // maps instance attr. to query key
      *         ]
      *     ]
      * ]
      *
-     * Will cause the method to loop over all $entries, and look through each entry
+     * Will cause the method to loop over all $entries and look through each entry
      * for `creator_id`. If found, built an *item* of UserCollection (i..e, User)
      * and set the `id` attribute to $entry['creator_id']. The collection is
      * returned in a key-value array, accessed by the key `addedBy`
      *
-     *
      * @param  array  $relations   Relation configuration
      * @param  array  $entry       [description]
-     * @return [type]              [description]
+     * @return array               An array of the newly created parameters w/ collections
      */
-    public function convertManyRelationsToEntityCollections(array $relations, array $entries)
+    public function makeMultipleCardinalityRelations(array $relations, array $entries)
     {
         /**
          * Holds all collections to be returned
