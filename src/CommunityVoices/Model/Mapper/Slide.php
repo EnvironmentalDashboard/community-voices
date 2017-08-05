@@ -11,25 +11,25 @@ class Slide extends Media
     protected $relations = [
         'single' => [
             'addedBy' => [
-                'class' => User::class,
+                'class' => Entity\User::class,
                 'attributes' => [
                     'id' => 'addedBy'
                 ]
             ],
             'contentCategory' => [
-                'class' => ContentCategory::class,
+                'class' => Entity\ContentCategory::class,
                 'attributes' => [
                     'id' => 'contentCategoryId'
                 ]
             ],
             'image' => [
-                'class' => Image::class,
+                'class' => Entity\Image::class,
                 'attributes' => [
                     'id' => 'imageId'
                 ]
             ],
             'quote' => [
-                'class' => Quote::class,
+                'class' => Entity\Quote::class,
                 'attributes' => [
                     'id' => 'quoteId'
                 ]
@@ -38,13 +38,13 @@ class Slide extends Media
 
         'multiple' => [
             'tagCollection' => [
-                'class' => GroupCollection::class,
+                'class' => Entity\GroupCollection::class,
                 'attributes' => [
                     'id' => 'tagId'
                 ]
             ],
             'organizationCategoryCollection' => [
-                'class' => GroupCollection::class,
+                'class' => Entity\GroupCollection::class,
                 'attributes' => [
                     'id' => 'organizationCategoryId'
                 ]
@@ -110,7 +110,7 @@ class Slide extends Media
             );
 
             $collections = $this->makeMultipleCardinalityRelations(
-                $this->relations['many'],
+                $this->relations['multiple'],
                 $results
             );
 

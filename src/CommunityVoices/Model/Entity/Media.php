@@ -59,7 +59,7 @@ class Media implements HasId
 
     public function setAddedBy($addedBy)
     {
-        if ($addedBy instanceof $this->relations['single']['addedBy']['class'] && $addedBy->getId()) {
+        if ($addedBy instanceof User && $addedBy->getId()) {
             $this->addedBy = $addedBy;
         }
     }

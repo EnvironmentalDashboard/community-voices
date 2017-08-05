@@ -11,7 +11,7 @@ class Media extends DataMapper
     protected $relations = [
         'single' => [
             'addedBy' => [
-                'class' => User::class,
+                'class' => Entity\User::class,
                 'attributes' => [
                     'id' => 'addedBy'
                 ]
@@ -20,7 +20,7 @@ class Media extends DataMapper
 
         'multiple' => [
             'tagCollection' => [
-                'class' => GroupCollection::class,
+                'class' => Entity\GroupCollection::class,
                 'attributes' => [
                     'id' => 'tagId'
                 ]
@@ -68,7 +68,7 @@ class Media extends DataMapper
             );
 
             $collections = $this->makeMultipleCardinalityRelations(
-                $this->relations['many'],
+                $this->relations['multiple'],
                 $results
             );
 

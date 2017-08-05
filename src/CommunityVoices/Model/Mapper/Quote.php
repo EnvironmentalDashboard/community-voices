@@ -50,15 +50,13 @@ class Quote extends Media
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         if ($results) {
-            $relations = array_merge_recursive($this->relations, $quote->getRelations());
-
-            $entities = $this->convertSingleRelationsToEntities(
-                $relations['single'],
+            $entities = $this->makeSingleCardinalityRelations(
+                $this->relations['single'],
                 $results[0]
             );
 
-            $collections = $this->convertManyRelationsToEntityCollections(
-                $relations['many'],
+            $collections = $this->makeMultipleCardinalityRelations(
+                $this->relations['multiple'],
                 $results
             );
 
