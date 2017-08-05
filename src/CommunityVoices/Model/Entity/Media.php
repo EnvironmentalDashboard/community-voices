@@ -103,7 +103,7 @@ class Media implements HasId
         return $this->tagCollection;
     }
 
-    public function setTagCollection($tagCollection)
+    public function setTagCollection(GroupCollection $tagCollection)
     {
         $this->tagCollection = $tagCollection;
     }

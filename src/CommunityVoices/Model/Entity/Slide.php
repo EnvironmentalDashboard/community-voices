@@ -106,7 +106,7 @@ class Slide extends Media
         return $this->organizationCategoryCollection;
     }
 
-    public function setOrganizationCategoryCollection($organizationCategoryCollection)
+    public function setOrganizationCategoryCollection(GroupCollection $organizationCategoryCollection)
     {
         $this->organizationCategoryCollection = $organizationCategoryCollection;
     }
