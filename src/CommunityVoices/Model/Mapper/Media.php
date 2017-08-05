@@ -11,14 +11,16 @@ class Media extends DataMapper
     protected $relations = [
         'single' => [
             'addedBy' => [
+                'class' => User::class,
                 'attributes' => [
                     'id' => 'addedBy'
                 ]
             ]
         ],
 
-        'many' => [
+        'multiple' => [
             'tagCollection' => [
+                'class' => GroupCollection::class,
                 'attributes' => [
                     'id' => 'tagId'
                 ]
@@ -60,15 +62,13 @@ class Media extends DataMapper
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         if ($results) {
-            $relations = array_merge_recursive($this->relations, $media->getRelations());
-
-            $entities = $this->convertSingleRelationsToEntities(
-                $relations['single'],
+            $entities = $this->makeSingleCardinalityRelations(
+                $this->relations['single'],
                 $results[0]
             );
 
-            $collections = $this->convertManyRelationsToEntityCollections(
-                $relations['many'],
+            $collections = $this->makeMultipleCardinalityRelations(
+                $this->relations['many'],
                 $results
             );
 

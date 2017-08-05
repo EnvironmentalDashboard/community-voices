@@ -11,34 +11,40 @@ class Slide extends Media
     protected $relations = [
         'single' => [
             'addedBy' => [
+                'class' => User::class,
                 'attributes' => [
                     'id' => 'addedBy'
                 ]
             ],
             'contentCategory' => [
+                'class' => ContentCategory::class,
                 'attributes' => [
                     'id' => 'contentCategoryId'
                 ]
             ],
             'image' => [
+                'class' => Image::class,
                 'attributes' => [
                     'id' => 'imageId'
                 ]
             ],
             'quote' => [
+                'class' => Quote::class,
                 'attributes' => [
                     'id' => 'quoteId'
                 ]
             ]
         ],
 
-        'many' => [
+        'multiple' => [
             'tagCollection' => [
+                'class' => GroupCollection::class,
                 'attributes' => [
                     'id' => 'tagId'
                 ]
             ],
             'organizationCategoryCollection' => [
+                'class' => GroupCollection::class,
                 'attributes' => [
                     'id' => 'organizationCategoryId'
                 ]
@@ -98,15 +104,13 @@ class Slide extends Media
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         if ($results) {
-            $relations = array_merge_recursive($this->relations, $slide->getRelations());
-
-            $entities = $this->convertSingleRelationsToEntities(
-                $relations['single'],
+            $entities = $this->makeSingleCardinalityRelations(
+                $this->relations['single'],
                 $results[0]
             );
 
-            $collections = $this->convertManyRelationsToEntityCollections(
-                $relations['many'],
+            $collections = $this->makeMultipleCardinalityRelations(
+                $this->relations['many'],
                 $results
             );
 

@@ -15,20 +15,6 @@ class Media implements HasId
     const STATUS_REJECTED = 2;
     const STATUS_APPROVED = 3;
 
-    protected $relations = [
-        'single' => [
-            'addedBy' => [
-                'class' => User::class
-            ]
-        ],
-
-        'many' => [
-            'tagCollection' => [
-                'class' => GroupCollection::class
-            ]
-        ]
-    ];
-
     protected $allowableType = [
         self::TYPE_SLIDE,
         self::TYPE_IMAGE,
