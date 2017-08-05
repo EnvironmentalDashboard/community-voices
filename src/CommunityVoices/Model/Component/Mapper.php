@@ -132,7 +132,7 @@ class Mapper
                 $class = $implementation['class'];
 
                 /**
-                 * Create the collection if it isn't
+                 * Create the collection if it doesn't exist
                  */
                 if (!array_key_exists($attribute, $collections)) {
                     $collections[$attribute] = new $class;
