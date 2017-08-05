@@ -3,6 +3,7 @@
 namespace CommunityVoices\Model\Entity;
 
 use PHPUnit\Framework\TestCase;
+use TypeError;
 
 /**
  * @covers CommunityVoices\Model\Entity\Media
@@ -93,5 +94,25 @@ class MediaTest extends TestCase
         $instance->setStatus($input);
 
         $this->assertSame($instance->getStatus(), $expected);
+    }
+
+    public function test_Tag_Collection_Assignment()
+    {
+        $tagCollection = $this->createMock(GroupCollection::class);
+
+        $instance = new Media;
+        $instance->setTagCollection($tagCollection);
+
+        $this->assertSame($instance->getTagCollection(), $tagCollection);
+    }
+
+    public function test_Tag_Collection_Invalid_Assignment()
+    {
+        $this->expectException(TypeError::class);
+
+        $tagCollection = [];
+
+        $instance = new Media;
+        $instance->setTagCollection($tagCollection);
     }
 }

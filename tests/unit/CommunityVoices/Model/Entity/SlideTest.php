@@ -3,6 +3,7 @@
 namespace CommunityVoices\Model\Entity;
 
 use PHPUnit\Framework\TestCase;
+use TypeError;
 
 /**
  * @covers CommunityVoices\Model\Entity\Slide
@@ -29,6 +30,36 @@ class SlideTest extends TestCase
         $instance->setContentCategory($contentCategory);
 
         $this->assertSame($instance->getContentCategory(), $contentCategory);
+    }
+
+    public function test_Content_Category_Invalid_Assignment()
+    {
+        $this->expectException(TypeError::class);
+
+        $contentCategory = [];
+
+        $instance = new Slide;
+        $instance->setContentCategory($contentCategory);
+    }
+
+    public function test_Org_Category_Collection_Assignment()
+    {
+        $orgCatCollection = $this->createMock(GroupCollection::class);
+
+        $instance = new Slide;
+        $instance->setOrganizationCategoryCollection($orgCatCollection);
+
+        $this->assertSame($instance->getOrganizationCategoryCollection(), $orgCatCollection);
+    }
+
+    public function test_Org_Category_Collection_Invalid_Assignment()
+    {
+        $this->expectException(TypeError::class);
+
+        $orgCatCollection = [];
+
+        $instance = new Slide;
+        $instance->setContentCategory($orgCatCollection);
     }
 
     public function test_Image_Assignment()
