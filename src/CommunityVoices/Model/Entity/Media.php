@@ -5,7 +5,7 @@ namespace CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Contract\HasId;
 use CommunityVoices\Model\Component\RelationalEntity;
 
-class Media extends RelationalEntity implements HasId
+class Media implements HasId
 {
     const TYPE_SLIDE = 1;
     const TYPE_IMAGE = 2;
