@@ -8,8 +8,6 @@ use CommunityVoices\Model\Entity as Entity;
 
 class OrganizationCategory extends Group
 {
-    protected static $table = '`community-voices_organization-categories`';
-
     public function fetch(Entity\Group $organizationCategory)
     {
         $this->fetchById($organizationCategory);
@@ -22,9 +20,9 @@ class OrganizationCategory extends Group
                         parent.label                            AS label,
                         CAST(parent.type AS UNSIGNED)           AS type
                     FROM
-                        " . parent::$table . " parent
+                        `community-voices_groups` parent
                     JOIN
-                        " . self::$table . " child
+                        `community-voices_organization-categories` child
                         ON parent.id = child.group_id
                     WHERE
                         parent.id = :id";
@@ -61,9 +59,11 @@ class OrganizationCategory extends Group
     {
         parent::create($organizationCategory);
 
-        $query = "INSERT INTO   " . self::$table . "
-                                (group_id)
-                    VALUES      (:group_id)";
+        $query = "INSERT INTO
+                        `community-voices_organization-categories`
+                        (group_id)
+                    VALUES
+                        (:group_id)";
 
         $statement = $this->conn->prepare($query);
 

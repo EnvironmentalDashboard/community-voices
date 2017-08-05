@@ -8,8 +8,6 @@ use CommunityVoices\Model\Entity as Entity;
 
 class Slide extends Media
 {
-    protected static $table = '`community-voices_slides`';
-
     protected $relations = [
         'single' => [
             'addedBy' => [
@@ -71,9 +69,9 @@ class Slide extends Media
                         tag.id                              AS tagId,
                         org_cat.id                          As organizationCategoryId
                     FROM
-                        " . parent::$table . " parent
+                        `community-voices_media` parent
                     JOIN
-                        " . self::$table . " child
+                        `community-voices_slides` child
                         ON parent.id = child.media_id
 
                     LEFT JOIN
@@ -134,15 +132,18 @@ class Slide extends Media
     {
         parent::update($slide);
 
-        $query = "UPDATE    " . self::$table . "
-                    SET     content_category_id = :content_category_id
-                            image_id = :image_id,
-                            quote_id = :quote_id,
-                            probability = :probability,
-                            decay_percent = :decay_percent,
-                            decay_start = :decay_start,
-                            decay_end = :decay_end
-                    WHERE   media_id = :media_id";
+        $query = "UPDATE
+                        `community-voices_slides`
+                    SET
+                        content_category_id = :content_category_id
+                        image_id = :image_id,
+                        quote_id = :quote_id,
+                        probability = :probability,
+                        decay_percent = :decay_percent,
+                        decay_start = :decay_start,
+                        decay_end = :decay_end
+                    WHERE
+                        media_id = :media_id";
 
         $statement = $this->conn->prepare($query);
 
@@ -162,12 +163,13 @@ class Slide extends Media
     {
         parent::create($slide);
 
-        $query = "INSERT INTO   " . self::$table . "
-                                (media_id, content_category_id, image_id, quote_id, probability,
-                                    decay_percent, decay_start, decay_end)
-
-                    VALUES      (:media_id, :content_category_id, :image_id, :quote_id, :probability,
-                                    :decay_percent, :decay_start, :decay_end)";
+        $query = "INSERT INTO
+                        `community-voices_slides`
+                        (media_id, content_category_id, image_id, quote_id, probability,
+                            decay_percent, decay_start, decay_end)
+                    VALUES
+                        (:media_id, :content_category_id, :image_id, :quote_id, :probability,
+                            :decay_percent, :decay_start, :decay_end)";
 
         $statement = $this->conn->prepare($query);
 

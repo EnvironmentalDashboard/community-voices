@@ -8,8 +8,6 @@ use CommunityVoices\Model\Entity as Entity;
 
 class Tag extends Group
 {
-    protected static $table = '`community-voices_tags`';
-
     public function fetch(Entity\Group $tag)
     {
         $this->fetchById($tag);
@@ -22,9 +20,9 @@ class Tag extends Group
                         parent.label                                AS label,
                         CAST(parent.type AS UNSIGNED)               AS type
                     FROM
-                        " . parent::$table . " parent
+                        `community-voices_groups` parent
                     JOIN
-                        " . self::$table . " child
+                        `community-voices_tags` child
                         ON parent.id = child.group_id
                     WHERE
                         parent.id = :id";
@@ -61,9 +59,11 @@ class Tag extends Group
     {
         parent::create($tag);
 
-        $query = "INSERT INTO   " . self::$table . "
-                                (group_id)
-                    VALUES      (:group_id)";
+        $query = "INSERT INTO
+                        `community-voices_tags`
+                        (group_id)
+                    VALUES
+                        (:group_id)";
 
         $statement = $this->conn->prepare($query);
 

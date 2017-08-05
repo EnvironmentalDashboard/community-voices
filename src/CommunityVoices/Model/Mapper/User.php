@@ -8,8 +8,6 @@ use CommunityVoices\Model\Entity as Entity;
 
 class User extends DataMapper
 {
-    protected static $table = '`community-voices_users`';
-
     public function fetch(Entity\User $user)
     {
         if ($user->getId()) {
@@ -23,15 +21,15 @@ class User extends DataMapper
     private function fetchById(Entity\User $user)
     {
         $query = "SELECT
-                        user.id                      AS id
-                        user.email                   AS email,
-                        user.fname                   AS firstName,
-                        user.lname                   AS lastName,
-                        user.role                    AS role
+                        id                      AS id
+                        email                   AS email,
+                        fname                   AS firstName,
+                        lname                   AS lastName,
+                        CAST(role AS UNSIGNED)  AS role
                     FROM
-                        " . self::$table . " user
+                        `community-voices_users`
                     WHERE
-                        user.id = :id";
+                        id = :id";
 
         $statement = $this->conn->prepare($query);
 
@@ -48,13 +46,16 @@ class User extends DataMapper
 
     private function fetchByEmail(Entity\User $user)
     {
-        $query = "SELECT    id,
-                            email,
-                            fname   AS firstName,
-                            lname   AS lastName,
-                            role
-                    FROM    " . self::$table . "
-                    WHERE   email = :email";
+        $query = "SELECT
+                        id                      AS id
+                        email                   AS email,
+                        fname                   AS firstName,
+                        lname                   AS lastName,
+                        CAST(role AS UNSIGNED)  AS role
+                    FROM
+                        `community-voices_users`
+                    WHERE
+                        email = :email";
 
         $statement = $this->conn->prepare($query);
 
@@ -81,9 +82,11 @@ class User extends DataMapper
 
     private function register(Entity\User $user)
     {
-        $query = "INSERT INTO   " . self::$table . "
-                                (email, fname, lname, role)
-                    VALUES      (:email, :fname, :lname, :role)";
+        $query = "INSERT INTO
+                        `community-voices_users`
+                        (email, fname, lname, role)
+                    VALUES
+                        (:email, :fname, :lname, :role)";
 
         $statement = $this->conn->prepare($query);
 
@@ -99,12 +102,15 @@ class User extends DataMapper
 
     private function update(Entity\User $user)
     {
-        $query = "UPDATE    " . self::$table . "
-                    SET     email = :email,
-                            fname = :fname,
-                            lname = :lname,
-                            role = :role
-                    WHERE   id = :id";
+        $query = "UPDATE
+                        `community-voices_users`
+                    SET
+                        email = :email,
+                        fname = :fname,
+                        lname = :lname,
+                        role = :role
+                    WHERE
+                        id = :id";
 
         $statement = $this->conn->prepare($query);
 
@@ -119,8 +125,10 @@ class User extends DataMapper
 
     public function delete(Entity\User $user)
     {
-        $query = "DELETE FROM   " . self::$table . "
-                    WHERE       id = :id";
+        $query = "DELETE FROM
+                        `community-voices_users`
+                    WHERE
+                        id = :id";
 
         $statement = $this->conn->prepare($query);
 
@@ -131,7 +139,10 @@ class User extends DataMapper
 
     public function existingUserWithEmail(Entity\User $user)
     {
-        $query = "SELECT 1 FROM " . self::$table . " WHERE email = :email";
+        $query = "SELECT 1 FROM
+                        `community-voices_users`
+                    WHERE
+                        email = :email";
 
         $statement = $this->conn->prepare($query);
 

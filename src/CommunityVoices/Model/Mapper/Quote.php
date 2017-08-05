@@ -8,8 +8,6 @@ use CommunityVoices\Model\Entity as Entity;
 
 class Quote extends Media
 {
-    protected static $table = '`community-voices_quote`';
-
     public function fetch(Entity\Media $quote)
     {
         $this->fetchById($quote);
@@ -30,19 +28,16 @@ class Quote extends Media
                         child.source_document_link      AS sourceDocumentLink,
                         tag.id                          AS tagId
                     FROM
-                        " . parent::$table . " parent
+                        `community-voices_media` parent
                     JOIN
-                        " . self::$table . " child
+                        `community-voices_quote` child
                         ON parent.id = child.media_id
-
                     LEFT JOIN
                         `community-voices_media-group-map` junction
                         ON junction.media_id = parent.id
-
                     LEFT JOIN
                         `community-voices_groups` tag
                         ON junction.group_id = tag.id AND CAST(tag.type AS UNSIGNED) = 1
-
                     WHERE
                         parent.id = :id";
 
@@ -89,13 +84,16 @@ class Quote extends Media
     {
         parent::update($quote);
 
-        $query = "UPDATE    " . self::$table . "
-                    SET     text = :text,
-                            attribution = :attribution,
-                            date_recorded = :date_recorded,
-                            public_document_link = :public_document_link,
-                            source_document_link = :source_document_link
-                    WHERE   media_id = :media_id";
+        $query = "UPDATE
+                        `community-voices_quote`
+                    SET
+                        text = :text,
+                        attribution = :attribution,
+                        date_recorded = :date_recorded,
+                        public_document_link = :public_document_link,
+                        source_document_link = :source_document_link
+                    WHERE
+                        media_id = :media_id";
 
         $statement = $this->conn->prepare($query);
 
@@ -113,12 +111,13 @@ class Quote extends Media
     {
         parent::create($quote);
 
-        $query = "INSERT INTO   " . self::$table . "
-                                (media_id, text, attribution, date_recorded, public_document_link,
-                                    source_document_link)
-
-                    VALUES      (:media_id, :text, :attribution, :date_recorded, :public_document_link,
-                                    :source_document_link)";
+        $query = "INSERT INTO
+                        `community-voices_quote`
+                        (media_id, text, attribution, date_recorded, public_document_link,
+                            source_document_link)
+                    VALUES
+                        (:media_id, :text, :attribution, :date_recorded, :public_document_link,
+                            :source_document_link)";
 
         $statement = $this->conn->prepare($query);
 

@@ -8,8 +8,6 @@ use CommunityVoices\Model\Entity as Entity;
 
 class ContentCategory extends Group
 {
-    protected static $table = '`community-voices_content-categories`';
-
     public function fetch(Entity\Group $contentCategory)
     {
         $this->fetchById($contentCategory);
@@ -23,9 +21,9 @@ class ContentCategory extends Group
                         CAST(parent.type AS UNSIGNED)       AS type,
                         child.media_filename                AS mediaFilename
                     FROM
-                        " . parent::$table . " parent
+                        `community-voices_groups` parent
                     JOIN
-                        " . self::$table . " child
+                        `community-voices_content-categories` child
                         ON parent.id = child.group_id
                     WHERE
                         parent.id = :id";
@@ -57,9 +55,12 @@ class ContentCategory extends Group
     {
         parent::update($contentCategory);
 
-        $query = "UPDATE    " . self::$table . "
-                    SET     media_filename = :media_filename
-                    WHERE   group_id = :group_id";
+        $query = "UPDATE
+                        `community-voices_content-categories`
+                    SET
+                        media_filename = :media_filename
+                    WHERE
+                        group_id = :group_id";
 
         $statement = $this->conn->prepare($query);
 
@@ -72,9 +73,11 @@ class ContentCategory extends Group
     {
         parent::create($contentCategory);
 
-        $query = "INSERT INTO   " . self::$table . "
-                                (group_id, media_filename)
-                    VALUES      (:group_id, :media_filename)";
+        $query = "INSERT INTO
+                        `community-voices_content-categories`
+                        (group_id, media_filename)
+                    VALUES
+                        (:group_id, :media_filename)";
 
         $statement = $this->conn->prepare($query);
 

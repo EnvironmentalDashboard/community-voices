@@ -8,8 +8,6 @@ use CommunityVoices\Model\Entity as Entity;
 
 class Image extends Media
 {
-    protected static $table = '`community-voices_images`';
-
     public function fetch(Entity\Media $image)
     {
         $this->fetchById($image);
@@ -32,15 +30,13 @@ class Image extends Media
                         child.organization              AS organization,
                         tag.id                          AS tagId
                     FROM
-                        " . parent::$table . " parent
+                        `community-voices_media` parent
                     JOIN
-                        " . self::$table . " child
+                        `community-voices_images` child
                         ON parent.id = child.media_id
-
                     LEFT JOIN
                         `community-voices_media-group-map` junction
                         ON junction.media_id = parent.id
-
                     LEFT JOIN
                         `community-voices_groups` tag
                         ON junction.group_id = tag.id AND CAST(tag.type AS UNSIGNED) = 1
@@ -90,15 +86,18 @@ class Image extends Media
     {
         parent::update($image);
 
-        $query = "UPDATE    " . self::$table . "
-                    SET     filename = :filename,
-                            generated_tags = :generated_tags,
-                            title = :title,
-                            description = :description,
-                            date_taken = :date_taken,
-                            photographer = :photographer,
-                            organization = :organization
-                    WHERE   media_id = :media_id";
+        $query = "UPDATE
+                        `community-voices_images`
+                    SET
+                        filename = :filename,
+                        generated_tags = :generated_tags,
+                        title = :title,
+                        description = :description,
+                        date_taken = :date_taken,
+                        photographer = :photographer,
+                        organization = :organization
+                    WHERE
+                        media_id = :media_id";
 
         $statement = $this->conn->prepare($query);
 
@@ -118,12 +117,14 @@ class Image extends Media
     {
         parent::create($image);
 
-        $query = "INSERT INTO   " . self::$table . "
-                                (media_id, filename, generated_tags, title, description,
-                                    date_taken, photographer, organization)
+        $query = "INSERT INTO
+                        `community-voices_images`
+                        (media_id, filename, generated_tags, title, description,
+                            date_taken, photographer, organization)
 
-                    VALUES      (:media_id, :filename, :generated_tags, :title, :description,
-                                    :date_taken, :photographer, :organization)";
+                    VALUES
+                        (:media_id, :filename, :generated_tags, :title, :description,
+                            :date_taken, :photographer, :organization)";
 
         $statement = $this->conn->prepare($query);
 

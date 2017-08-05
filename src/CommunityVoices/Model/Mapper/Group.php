@@ -8,8 +8,6 @@ use CommunityVoices\Model\Entity as Entity;
 
 class Group extends DataMapper
 {
-    protected static $table = '`community-voices_groups`';
-
     public function fetch(Entity\Group $group)
     {
         $this->fetchById($group);
@@ -22,7 +20,7 @@ class Group extends DataMapper
                         group.label                         AS label,
                         CAST(group.type AS UNSIGNED)        AS type,
                     FROM
-                        " . self::$table . " group
+                        `community-voices_groups` group
                     WHERE
                         group.id = :id";
 
@@ -51,7 +49,7 @@ class Group extends DataMapper
 
     protected function update(Entity\Group $group)
     {
-        $query = "UPDATE    " . self::$table . "
+        $query = "UPDATE    `community-voices_groups`
                     SET     label = :label,
                             type = :type
                     WHERE   id = :id";
@@ -66,7 +64,7 @@ class Group extends DataMapper
 
     protected function create(Entity\Group $group)
     {
-        $query = "INSERT INTO   " . self::$table . "
+        $query = "INSERT INTO   `community-voices_groups`
                                 (label, type)
                     VALUES      (:label, :type)";
 
@@ -82,7 +80,7 @@ class Group extends DataMapper
 
     public function delete(Entity\Group $group)
     {
-        $query = "DELETE FROM   " . self::$table . "
+        $query = "DELETE FROM   `community-voices_groups`
                     WHERE       id = :id";
 
         $statement = $this->conn->prepare($query);

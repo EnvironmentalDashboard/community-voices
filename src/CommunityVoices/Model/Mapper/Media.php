@@ -8,8 +8,6 @@ use CommunityVoices\Model\Entity as Entity;
 
 class Media extends DataMapper
 {
-    protected static $table = '`community-voices_media`';
-
     protected $relations = [
         'single' => [
             'addedBy' => [
@@ -43,16 +41,13 @@ class Media extends DataMapper
                         CAST(media.status AS UNSIGNED)      AS status,
                         tag.id                              AS tagId
                     FROM
-                        " . self::$table . " media
-
+                        `community-voices_media` media
                     LEFT JOIN
                         `community-voices_media-group-map` junction
                         ON junction.media_id = media.id
-
                     LEFT JOIN
                         `community-voices_groups` tag
                         ON junction.group_id = tag.id AND CAST(tag.type AS UNSIGNED) = 1
-
                     WHERE
                         media.id = :id";
 
@@ -97,11 +92,14 @@ class Media extends DataMapper
 
     protected function update(Entity\Media $media)
     {
-        $query = "UPDATE    " . self::$table . "
-                    SET     added_by = :added_by,
-                            type = :type,
-                            status = :status
-                    WHERE   id = :id";
+        $query = "UPDATE
+                        `community-voices_media`
+                    SET
+                        added_by = :added_by,
+                        type = :type,
+                        status = :status
+                    WHERE
+                        id = :id";
 
         $statement = $this->conn->prepare($query);
 
@@ -114,9 +112,11 @@ class Media extends DataMapper
 
     protected function create(Entity\Media $media)
     {
-        $query = "INSERT INTO   " . self::$table . "
-                                (added_by, date_created, type, status)
-                    VALUES      (:added_by, :date_created, :type, :status)";
+        $query = "INSERT INTO
+                        `community-voices_media`
+                        (added_by, date_created, type, status)
+                    VALUES
+                        (:added_by, :date_created, :type, :status)";
 
         $statement = $this->conn->prepare($query);
 
@@ -135,8 +135,10 @@ class Media extends DataMapper
 
     public function delete(Entity\Media $media)
     {
-        $query = "DELETE FROM   " . self::$table . "
-                    WHERE       id = :id";
+        $query = "DELETE FROM
+                        `community-voices_media`
+                    WHERE
+                        id = :id";
 
         $statement = $this->conn->prepare($query);
 

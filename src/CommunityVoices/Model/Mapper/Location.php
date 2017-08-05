@@ -8,8 +8,6 @@ use CommunityVoices\Model\Entity as Entity;
 
 class Location extends DataMapper
 {
-    protected static $table = '`community-voices_locations`';
-
     public function fetch(Entity\Location $location)
     {
         $this->fetchById($location);
@@ -21,7 +19,7 @@ class Location extends DataMapper
                         id                      AS id,
                         label                   AS label
                     FROM
-                        " . self::$table . "
+                        `community-voices_locations`
                     WHERE
                         id = :id";
 
@@ -50,9 +48,12 @@ class Location extends DataMapper
 
     protected function update(Entity\Location $location)
     {
-        $query = "UPDATE    " . self::$table . "
-                    SET     label = :label
-                    WHERE   id = :id";
+        $query = "UPDATE
+                        `community-voices_locations`
+                    SET
+                        label = :label
+                    WHERE
+                        id = :id";
 
         $statement = $this->conn->prepare($query);
 
@@ -63,9 +64,11 @@ class Location extends DataMapper
 
     protected function create(Entity\Location $location)
     {
-        $query = "INSERT INTO   " . self::$table . "
-                                (label, type)
-                    VALUES      (:label, :type)";
+        $query = "INSERT INTO
+                        `community-voices_locations`
+                        (label, type)
+                    VALUES
+                        (:label, :type)";
 
         $statement = $this->conn->prepare($query);
 
@@ -78,8 +81,10 @@ class Location extends DataMapper
 
     public function delete(Entity\Location $location)
     {
-        $query = "DELETE FROM   " . self::$table . "
-                    WHERE       id = :id";
+        $query = "DELETE FROM
+                        `community-voices_locations`
+                    WHERE
+                        id = :id";
 
         $statement = $this->conn->prepare($query);
 
