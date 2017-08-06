@@ -132,6 +132,16 @@ class Mapper
                 $class = $implementation['class'];
 
                 /**
+                 * Holds parameters that will be populated onto the new instance
+                 * @var array
+                 */
+                $params = $this->mapEntryToEntityParams($entry, $attributes);
+
+                if (!$params) {
+                    continue;
+                }
+
+                /**
                  * Create the collection if it doesn't exist
                  */
                 if (!array_key_exists($attribute, $collections)) {
@@ -139,18 +149,8 @@ class Mapper
                 }
 
                 /**
-                 * Holds parameters that will be populated onto the new instance
-                 * @var array
-                 */
-                $params = $this->mapEntryToEntityParams($entry, $attributes);
-
-                /**
                  * Create new collection item from params
                  */
-                if (!$params) {
-                    continue;
-                }
-
                 $collections[$attribute]->addEntityFromParams($params);
             }
         }
