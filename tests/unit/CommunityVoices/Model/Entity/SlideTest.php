@@ -59,7 +59,7 @@ class SlideTest extends TestCase
         $orgCatCollection = [];
 
         $instance = new Slide;
-        $instance->setContentCategory($orgCatCollection);
+        $instance->setOrganizationCategoryCollection($orgCatCollection);
     }
 
     public function test_Image_Assignment()
