@@ -8,6 +8,9 @@ class Location
 
     private $label;
 
+    protected $organizationCategoryCollection;
+    protected $contentCategoryCollection;
+
     public function getId()
     {
         return $this->id;
@@ -30,5 +33,25 @@ class Location
     public function setLabel($label)
     {
         $this->label = $label;
+    }
+
+    public function getOrganizationCategoryCollection()
+    {
+        return $this->organizationCategoryCollection;
+    }
+
+    public function setOrganizationCategoryCollection(GroupCollection $organizationCategoryCollection)
+    {
+        $this->organizationCategoryCollection = $organizationCategoryCollection;
+    }
+
+    public function getContentCategoryCollection()
+    {
+        return $this->contentCategoryCollection;
+    }
+
+    public function setContentCategoryCollection(GroupCollection $contentCategoryCollection)
+    {
+        $this->contentCategoryCollection = $contentCategoryCollection;
     }
 }

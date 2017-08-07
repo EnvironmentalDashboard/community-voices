@@ -8,6 +8,34 @@ use CommunityVoices\Model\Entity as Entity;
 
 class Location extends DataMapper
 {
+    /**
+     * @todo Add probability
+     */
+    protected $relations = [
+        'Collection' => [
+            'organizationCategoryCollection' => [
+                'class' => Entity\GroupCollection::class,
+                'attributes' => [
+                    'parentId' => 'id'
+                ],
+                'static' => [
+                    'groupType' => Entity\GroupCollection::GROUP_TYPE_ORG_CAT,
+                    'parentType' => Entity\GroupCollection::PARENT_TYPE_LOCATION,
+                ]
+            ],
+            'contentCategoryCollection' => [
+                'class' => Entity\GroupCollection::class,
+                'attributes' => [
+                    'parentId' => 'id'
+                ],
+                'static' => [
+                    'groupType' => Entity\GroupCollection::GROUP_TYPE_CONT_CAT,
+                    'parentType' => Entity\GroupCollection::PARENT_TYPE_LOCATION,
+                ]
+            ]
+        ]
+    ];
+
     public function fetch(Entity\Location $location)
     {
         $this->fetchById($location);
@@ -32,7 +60,15 @@ class Location extends DataMapper
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            $this->populateEntity($location, $result);
+            $convertedParams = $this->convertRelations(
+                $this->relations,
+                $result
+            );
+
+            $this->populateEntity($location, array_merge(
+                $result,
+                $convertedParams
+            ));
         }
     }
 

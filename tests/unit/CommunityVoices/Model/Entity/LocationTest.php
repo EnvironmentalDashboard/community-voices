@@ -3,6 +3,7 @@
 namespace CommunityVoices\Model\Entity;
 
 use PHPUnit\Framework\TestCase;
+use TypeError;
 
 /**
  * @covers CommunityVoices\Model\Entity\Location
@@ -36,5 +37,45 @@ class LocationTest extends TestCase
         $instance->setLabel('FooBar');
 
         $this->assertSame($instance->getLabel(), 'FooBar');
+    }
+
+    public function test_Org_Category_Collection_Assignment()
+    {
+        $orgCatCollection = $this->createMock(GroupCollection::class);
+
+        $instance = new Location;
+        $instance->setOrganizationCategoryCollection($orgCatCollection);
+
+        $this->assertSame($instance->getOrganizationCategoryCollection(), $orgCatCollection);
+    }
+
+    public function test_Org_Category_Collection_Invalid_Assignment()
+    {
+        $this->expectException(TypeError::class);
+
+        $orgCatCollection = [];
+
+        $instance = new Location;
+        $instance->setOrganizationCategoryCollection($orgCatCollection);
+    }
+
+    public function test_Cat_Category_Collection_Assignment()
+    {
+        $contCatCollection = $this->createMock(GroupCollection::class);
+
+        $instance = new Location;
+        $instance->setContentCategoryCollection($contCatCollection);
+
+        $this->assertSame($instance->getContentCategoryCollection(), $contCatCollection);
+    }
+
+    public function test_Cat_Category_Collection_Invalid_Assignment()
+    {
+        $this->expectException(TypeError::class);
+
+        $contCatCollection = [];
+
+        $instance = new Location;
+        $instance->setContentCategoryCollection($contCatCollection);
     }
 }
