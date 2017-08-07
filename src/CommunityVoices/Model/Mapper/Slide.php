@@ -9,7 +9,7 @@ use CommunityVoices\Model\Entity as Entity;
 class Slide extends Media
 {
     protected $relations = [
-        'single' => [
+        'Entity' => [
             'addedBy' => [
                 'class' => Entity\User::class,
                 'attributes' => [
@@ -35,18 +35,21 @@ class Slide extends Media
                 ]
             ]
         ],
-
-        'multiple' => [
+        'Collection' => [
             'tagCollection' => [
                 'class' => Entity\GroupCollection::class,
                 'attributes' => [
-                    'id' => 'tagId'
+                    'groupType' => Entity\GroupCollection::GROUP_TYPE_TAG,
+                    'parentType' => Entity\GroupCollection::PARENT_TYPE_MEDIA,
+                    'parentId' => 'id'
                 ]
             ],
             'organizationCategoryCollection' => [
                 'class' => Entity\GroupCollection::class,
                 'attributes' => [
-                    'id' => 'organizationCategoryId'
+                    'groupType' => Entity\GroupCollection::GROUP_TYPE_ORG_CAT,
+                    'parentType' => Entity\GroupCollection::PARENT_TYPE_MEDIA,
+                    'parentId' => 'id'
                 ]
             ]
         ]

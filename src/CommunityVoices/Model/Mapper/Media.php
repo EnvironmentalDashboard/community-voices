@@ -9,7 +9,7 @@ use CommunityVoices\Model\Entity as Entity;
 class Media extends DataMapper
 {
     protected $relations = [
-        'single' => [
+        'Entity' => [
             'addedBy' => [
                 'class' => Entity\User::class,
                 'attributes' => [
@@ -17,12 +17,13 @@ class Media extends DataMapper
                 ]
             ]
         ],
-
-        'multiple' => [
+        'Collection' => [
             'tagCollection' => [
                 'class' => Entity\GroupCollection::class,
                 'attributes' => [
-                    'id' => 'tagId'
+                    'groupType' => Entity\GroupCollection::GROUP_TYPE_TAG,
+                    'parentType' => Entity\GroupCollection::PARENT_TYPE_MEDIA,
+                    'parentId' => 'id'
                 ]
             ]
         ]
