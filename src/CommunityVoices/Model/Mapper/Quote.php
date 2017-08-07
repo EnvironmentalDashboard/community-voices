@@ -25,19 +25,12 @@ class Quote extends Media
                         child.attribution               AS attribution,
                         child.date_recorded             AS dateRecorded,
                         child.public_document_link      AS publicDocumentLink,
-                        child.source_document_link      AS sourceDocumentLink,
-                        tag.id                          AS tagId
+                        child.source_document_link      AS sourceDocumentLink
                     FROM
                         `community-voices_media` parent
                     JOIN
                         `community-voices_quote` child
                         ON parent.id = child.media_id
-                    LEFT JOIN
-                        `community-voices_media-group-map` junction
-                        ON junction.media_id = parent.id
-                    LEFT JOIN
-                        `community-voices_groups` tag
-                        ON junction.group_id = tag.id AND CAST(tag.type AS UNSIGNED) = 1
                     WHERE
                         parent.id = :id";
 

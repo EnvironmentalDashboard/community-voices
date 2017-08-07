@@ -74,27 +74,12 @@ class Slide extends Media
                         child.probability                   AS probability,
                         child.decay_percent                 AS decayPercent,
                         child.decay_start                   AS decayStart,
-                        child.decay_end                     AS decayEnd,
-                        tag.id                              AS tagId,
-                        org_cat.id                          As organizationCategoryId
+                        child.decay_end                     AS decayEnd
                     FROM
                         `community-voices_media` parent
                     JOIN
                         `community-voices_slides` child
                         ON parent.id = child.media_id
-
-                    LEFT JOIN
-                        `community-voices_media-group-map` junction
-                        ON junction.media_id = parent.id
-
-                    LEFT JOIN
-                        `community-voices_groups` tag
-                        ON junction.group_id = tag.id AND CAST(tag.type AS UNSIGNED) = 1
-
-                    LEFT JOIN
-                        `community-voices_groups` org_cat
-                        ON junction.group_id = org_cat.id AND CAST(org_cat.type AS UNSIGNED) = 2
-
                     WHERE
                         parent.id = :id";
 

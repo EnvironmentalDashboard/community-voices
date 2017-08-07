@@ -27,19 +27,12 @@ class Image extends Media
                         child.description               AS description,
                         child.date_taken                AS dateTaken,
                         child.photographer              AS photographer,
-                        child.organization              AS organization,
-                        tag.id                          AS tagId
+                        child.organization              AS organization
                     FROM
                         `community-voices_media` parent
                     JOIN
                         `community-voices_images` child
                         ON parent.id = child.media_id
-                    LEFT JOIN
-                        `community-voices_media-group-map` junction
-                        ON junction.media_id = parent.id
-                    LEFT JOIN
-                        `community-voices_groups` tag
-                        ON junction.group_id = tag.id AND CAST(tag.type AS UNSIGNED) = 1
                     WHERE
                         parent.id = :id";
 

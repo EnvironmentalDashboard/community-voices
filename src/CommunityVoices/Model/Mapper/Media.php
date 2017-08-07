@@ -41,16 +41,9 @@ class Media extends DataMapper
                         media.added_by                      AS addedBy,
                         media.date_created                  AS dateCreated,
                         CAST(media.type AS UNSIGNED)        AS type,
-                        CAST(media.status AS UNSIGNED)      AS status,
-                        tag.id                              AS tagId
+                        CAST(media.status AS UNSIGNED)      AS status
                     FROM
                         `community-voices_media` media
-                    LEFT JOIN
-                        `community-voices_media-group-map` junction
-                        ON junction.media_id = media.id
-                    LEFT JOIN
-                        `community-voices_groups` tag
-                        ON junction.group_id = tag.id AND CAST(tag.type AS UNSIGNED) = 1
                     WHERE
                         media.id = :id";
 
