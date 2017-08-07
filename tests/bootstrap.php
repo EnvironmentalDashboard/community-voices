@@ -7,7 +7,7 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 spl_autoload_register(function ($class) {
-    if (strpos('Mock', $class) !== 0) {
+    if (strpos($class, 'Mock') !== 0) {
         return ;
     }
 
