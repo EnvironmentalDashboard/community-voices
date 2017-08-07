@@ -37,18 +37,20 @@ class MapperTest extends TestCase
         ]);
     }
 
-    public function test_Single_Cardinality_Relationship_Conversion()
+    public function test_Entity_Relationship_Conversion()
     {
         $params = [
             'id' => 6,
-            'entityId' => 2,
+            'addedBy' => 2,
         ];
 
         $relations = [
-            'entity' => [
-                'class' => Entity::class,
-                'attributes' => [
-                    'id' => 'entityId'
+            'Entity' => [
+                'addedBy' => [
+                    'class' => Entity::class,
+                    'attributes' => [
+                        'id' => 'addedBy'
+                    ]
                 ]
             ]
         ];
@@ -57,233 +59,147 @@ class MapperTest extends TestCase
         $expectedEntity->setId(2);
 
         $expectedParams = [
-            'entity' => $expectedEntity
+            'addedBy' => $expectedEntity
         ];
 
         $mapper = new Mapper;
 
-        $newParams = $mapper->makeSingleCardinalityRelations($relations, $params);
+        $newParams = $mapper->convertRelations($relations, $params);
 
         $this->assertEquals($newParams, $expectedParams);
     }
 
-    public function test_Single_Cardinality_Relationship_Conversion_Multiple_Attributes()
+    public function test_Entity_Relationship_Conversion_With_Static_Attr()
     {
         $params = [
             'id' => 6,
-            'entityId' => 2,
-            'entityFoo' => 'lorem'
+            'addedBy' => 2,
         ];
 
         $relations = [
-            'entity' => [
-                'class' => Entity::class,
-                'attributes' => [
-                    'id' => 'entityId',
-                    'foo' => 'entityFoo'
+            'Entity' => [
+                'addedBy' => [
+                    'class' => Entity::class,
+                    'attributes' => [
+                        'id' => 'addedBy'
+                    ],
+                    'static' => [
+                        'foo' => 'bar'
+                    ]
                 ]
             ]
         ];
 
         $expectedEntity = new Entity;
         $expectedEntity->setId(2);
-        $expectedEntity->setFoo('lorem');
+        $expectedEntity->setFoo('bar');
 
         $expectedParams = [
-            'entity' => $expectedEntity
+            'addedBy' => $expectedEntity
         ];
 
         $mapper = new Mapper;
 
-        $newParams = $mapper->makeSingleCardinalityRelations($relations, $params);
+        $newParams = $mapper->convertRelations($relations, $params);
 
         $this->assertEquals($newParams, $expectedParams);
     }
 
-    public function test_Single_Cardinality_Relationship_Conversion_Extra_Attributes()
+    public function test_Entity_Relationship_Conversion_With_Missing_Attr()
     {
         $params = [
             'id' => 6,
-            'entityId' => 2,
-            'entityFoo' => 'lorem'
+            'addedBy' => 2,
         ];
 
         $relations = [
-            'entity' => [
-                'class' => Entity::class,
-                'attributes' => [
-                    'id' => 'entityId',
-                    'foo' => 'entityFoo',
-                    'bar' => 'entityBar' //extra attribute; not in $params
+            'Entity' => [
+                'addedBy' => [
+                    'class' => Entity::class,
+                    'attributes' => [
+                        'id' => 'addedBy',
+                        'blah' => 'foo' // this is msising from $params
+                    ]
                 ]
             ]
         ];
 
         $expectedEntity = new Entity;
         $expectedEntity->setId(2);
-        $expectedEntity->setFoo('lorem');
 
         $expectedParams = [
-            'entity' => $expectedEntity
+            'addedBy' => $expectedEntity
         ];
 
         $mapper = new Mapper;
 
-        $newParams = $mapper->makeSingleCardinalityRelations($relations, $params);
+        $newParams = $mapper->convertRelations($relations, $params);
 
         $this->assertEquals($newParams, $expectedParams);
     }
 
-    public function test_Multiple_Cardinality_Relationship_Conversion()
+    public function test_Collection_Relationship_Conversion()
     {
         $params = [
-            ['id' => 6, 'entityId' => 2],
-            ['id' => 6, 'entityId' => 3],
-            ['id' => 6, 'entityId' => 7]
+            'id' => 6
         ];
 
         $relations = [
-            'entityCollection' => [
-                'class' => EntityCollection::class,
-                'attributes' => [
-                    'id' => 'entityId'
+            'Collection' => [
+                'tagCollection' => [
+                    'class' => EntityCollection::class,
+                    'attributes' => [
+                        'parentId' => 'id'
+                    ]
                 ]
             ]
         ];
 
         $expectedCollection = new EntityCollection;
-
-        foreach ($params as $key => $value) {
-            $expectedCollection->addEntityFromParams([
-                'id' => $value['entityId']
-            ]);
-        }
+        $expectedCollection->forParentId(6);
 
         $expectedParams = [
-            'entityCollection' => $expectedCollection
+            'tagCollection' => $expectedCollection
         ];
 
         $mapper = new Mapper;
 
-        $newParams = $mapper->makeMultipleCardinalityRelations($relations, $params);
+        $newParams = $mapper->convertRelations($relations, $params);
 
         $this->assertEquals($newParams, $expectedParams);
     }
 
-    public function test_Multiple_Cardinality_Relationship_Conversion_Multiple_Attributes()
+    public function test_Collection_Relationship_Conversion_With_Static_Attr()
     {
         $params = [
-            ['id' => 6, 'entityId' => 2, 'entityFoo' => 'lorem'],
-            ['id' => 6, 'entityId' => 3, 'entityFoo' => 'ipsum'],
-            ['id' => 6, 'entityId' => 7, 'entityFoo' => 'dolor']
+            'id' => 6
         ];
 
         $relations = [
-            'entityCollection' => [
-                'class' => EntityCollection::class,
-                'attributes' => [
-                    'id' => 'entityId',
-                    'foo' => 'entityFoo'
+            'Collection' => [
+                'tagCollection' => [
+                    'class' => EntityCollection::class,
+                    'attributes' => [
+                        'parentId' => 'id'
+                    ],
+                    'static' => [
+                        'parentType' => 2
+                    ]
                 ]
             ]
         ];
 
         $expectedCollection = new EntityCollection;
-
-        foreach ($params as $key => $value) {
-            $expectedCollection->addEntityFromParams([
-                'id' => $value['entityId'],
-                'foo' => $value['entityFoo']
-            ]);
-        }
+        $expectedCollection->forParentId(6);
+        $expectedCollection->forParentType(2);
 
         $expectedParams = [
-            'entityCollection' => $expectedCollection
+            'tagCollection' => $expectedCollection
         ];
 
         $mapper = new Mapper;
 
-        $newParams = $mapper->makeMultipleCardinalityRelations($relations, $params);
-
-        $this->assertEquals($newParams, $expectedParams);
-    }
-
-    public function test_Multiple_Cardinality_Relationship_Conversion_Extra_Attributes()
-    {
-        $params = [
-            ['id' => 6, 'entityId' => 2, 'entityFoo' => 'lorem'],
-            ['id' => 6, 'entityId' => 3, 'entityFoo' => 'ipsum'],
-            ['id' => 6, 'entityId' => 7, 'entityFoo' => 'dolor']
-        ];
-
-        $relations = [
-            'entityCollection' => [
-                'class' => EntityCollection::class,
-                'attributes' => [
-                    'id' => 'entityId',
-                    'foo' => 'entityFoo',
-                    'bar' => 'entityBar'
-                ]
-            ]
-        ];
-
-        $expectedCollection = new EntityCollection;
-
-        foreach ($params as $key => $value) {
-            $expectedCollection->addEntityFromParams([
-                'id' => $value['entityId'],
-                'foo' => $value['entityFoo']
-            ]);
-        }
-
-        $expectedParams = [
-            'entityCollection' => $expectedCollection
-        ];
-
-        $mapper = new Mapper;
-
-        $newParams = $mapper->makeMultipleCardinalityRelations($relations, $params);
-
-        $this->assertEquals($newParams, $expectedParams);
-    }
-
-    public function test_Multiple_Cardinality_Relationship_Conversion_Empty_Item()
-    {
-        $params = [
-            ['id' => 6, 'entityId' => 2, 'entityFoo' => 'lorem'],
-            ['id' => 6, 'entityId' => 3, 'entityFoo' => 'ipsum'],
-            ['id' => 6] //empty item
-        ];
-
-        $relations = [
-            'entityCollection' => [
-                'class' => EntityCollection::class,
-                'attributes' => [
-                    'id' => 'entityId',
-                    'foo' => 'entityFoo',
-                    'bar' => 'entityBar'
-                ]
-            ]
-        ];
-
-        $expectedCollection = new EntityCollection;
-
-        foreach ($params as $key => $value) {
-            if (array_key_exists('entityId', $value) && array_key_exists('entityFoo', $value)) {
-                $expectedCollection->addEntityFromParams([
-                    'id' => $value['entityId'],
-                    'foo' => $value['entityFoo']
-                ]);
-            }
-        }
-
-        $expectedParams = [
-            'entityCollection' => $expectedCollection
-        ];
-
-        $mapper = new Mapper;
-
-        $newParams = $mapper->makeMultipleCardinalityRelations($relations, $params);
+        $newParams = $mapper->convertRelations($relations, $params);
 
         $this->assertEquals($newParams, $expectedParams);
     }

@@ -30,11 +30,11 @@ class ImageTest extends TestCase
 
         $statement
             ->expects($this->once())
-            ->method('fetchAll')
-            ->will($this->returnValue([[
+            ->method('fetch')
+            ->will($this->returnValue([
                 'id' => 8,
                 'addedBy' => 6
-            ]]));
+            ]));
 
         $pdo
             ->expects($this->once())

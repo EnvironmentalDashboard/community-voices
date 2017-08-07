@@ -42,23 +42,17 @@ class Image extends Media
 
         $statement->execute();
 
-        $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $results = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($results) {
-            $entities = $this->makeSingleCardinalityRelations(
-                $this->relations['single'],
-                $results[0]
-            );
-
-            $collections = $this->makeMultipleCardinalityRelations(
-                $this->relations['multiple'],
+            $convertedParams = $this->convertRelations(
+                $this->relations,
                 $results
             );
 
             $this->populateEntity($image, array_merge(
-                $results[0],
-                $entities,
-                $collections
+                $results,
+                $convertedParams
             ));
         }
     }

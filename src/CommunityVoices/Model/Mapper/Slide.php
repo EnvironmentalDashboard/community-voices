@@ -39,17 +39,21 @@ class Slide extends Media
             'tagCollection' => [
                 'class' => Entity\GroupCollection::class,
                 'attributes' => [
-                    'groupType' => Entity\GroupCollection::GROUP_TYPE_TAG,
-                    'parentType' => Entity\GroupCollection::PARENT_TYPE_MEDIA,
                     'parentId' => 'id'
+                ],
+                'static' => [
+                    'groupType' => Entity\GroupCollection::GROUP_TYPE_TAG,
+                    'parentType' => Entity\GroupCollection::PARENT_TYPE_MEDIA
                 ]
             ],
             'organizationCategoryCollection' => [
                 'class' => Entity\GroupCollection::class,
                 'attributes' => [
-                    'groupType' => Entity\GroupCollection::GROUP_TYPE_ORG_CAT,
-                    'parentType' => Entity\GroupCollection::PARENT_TYPE_MEDIA,
                     'parentId' => 'id'
+                ],
+                'static' => [
+                    'groupType' => Entity\GroupCollection::GROUP_TYPE_ORG_CAT,
+                    'parentType' => Entity\GroupCollection::PARENT_TYPE_MEDIA
                 ]
             ]
         ]
@@ -89,23 +93,17 @@ class Slide extends Media
 
         $statement->execute();
 
-        $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $results = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($results) {
-            $entities = $this->makeSingleCardinalityRelations(
-                $this->relations['single'],
-                $results[0]
-            );
-
-            $collections = $this->makeMultipleCardinalityRelations(
-                $this->relations['multiple'],
+            $convertedParams = $this->convertRelations(
+                $this->relations,
                 $results
             );
 
             $this->populateEntity($slide, array_merge(
-                $results[0],
-                $entities,
-                $collections
+                $results,
+                $convertedParams
             ));
         }
     }
