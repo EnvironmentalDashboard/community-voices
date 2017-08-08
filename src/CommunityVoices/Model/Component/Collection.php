@@ -32,7 +32,7 @@ abstract class Collection implements ArrayAccess, Countable, Iterator
     /**
     * Populates given instance with values from array through setter methods
     *
-    * @param object $instance The object to be populated
+    * @param Object $instance The instance to be populated
     * @param array $parameters A key-value array of the instance's parameters
      */
     private function populateEntity($instance, array $parameters)
@@ -52,6 +52,16 @@ abstract class Collection implements ArrayAccess, Countable, Iterator
     public function addEntity($instance)
     {
         $this->collection[] = $instance;
+    }
+
+    /**
+     * Clears the collection, resets the index for re-initialization of collection.
+     * @param Object $instance The instance to be cleared
+     */
+    public function clear()
+    {
+        $this->collection = [];
+        $this->index = 0;
     }
 
     /**
