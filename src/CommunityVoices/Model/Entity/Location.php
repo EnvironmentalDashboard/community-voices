@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @ask validation
+ */
+
 namespace CommunityVoices\Model\Entity;
 
 class Location

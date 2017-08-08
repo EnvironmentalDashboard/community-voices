@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @ask validation of tags
+ */
+
 namespace CommunityVoices\Model\Entity;
 
 use CommunityVoices\Model\Contract\HasId;

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @ask attribution, document links
+ */
+
 namespace CommunityVoices\Model\Entity;
 
 class Quote extends Media

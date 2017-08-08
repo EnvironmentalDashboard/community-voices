@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @ask probability, files
+ */
+
 namespace CommunityVoices\Model\Entity;
 
 class ContentCategory extends Group

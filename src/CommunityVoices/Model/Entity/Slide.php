@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @ask validation of categories
+ */
+
 namespace CommunityVoices\Model\Entity;
 
 class Slide extends Media
@@ -14,6 +18,8 @@ class Slide extends Media
     const ERR_IMAGE_RELATIONSHIP_MISSING = 'Image relationship missing';
     const ERR_QUOTE_RELATIONSHIP_MISSING = 'Quote relationship missing';
     const ERR_CONTENT_CATEGORY_RELATIONSHIP_MISSING = 'Content category relationship missing';
+
+    const ERR_SLIDE_COMBINATION_EXISTS = 'This image/quote pair already exists.';
 
     private $contentCategory;
 
@@ -68,7 +74,7 @@ class Slide extends Media
 
     public function setProbability($probability)
     {
-        $this->probability = $probability;
+        $this->probability = (float) $probability;
     }
 
     public function getDecayPercent()
@@ -78,7 +84,7 @@ class Slide extends Media
 
     public function setDecayPercent($decayPercent)
     {
-        $this->decayPercent = $decayPercent;
+        $this->decayPercent = (float) $decayPercent;
     }
 
     public function getDecayEnd()
@@ -170,5 +176,7 @@ class Slide extends Media
             $isValid = false;
             $notifier->addEntry('contentCategory', self::ERR_CONTENT_CATEGORY_RELATIONSHIP_MISSING);
         }
+
+        return $isValid;
     }
 }

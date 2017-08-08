@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @ask title, file, description, photographer, org
+ */
+
 namespace CommunityVoices\Model\Entity;
 
 use CommunityVoices\Model\Contract\StateObserver;
