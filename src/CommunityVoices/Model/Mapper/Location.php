@@ -24,7 +24,7 @@ class Location extends DataMapper
                 ]
             ],
             'contentCategoryCollection' => [
-                'class' => Entity\GroupCollection::class,
+                'class' => Entity\ContentCategoryCollection::class,
                 'attributes' => [
                     'parentId' => 'id'
                 ],
