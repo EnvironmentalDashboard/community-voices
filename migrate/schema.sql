@@ -44,7 +44,6 @@ CREATE TABLE `community-voices_images` (
 CREATE TABLE `community-voices_location-category-map` (
     `id` int(21) NOT NULL,
     `location_id` int(21) NOT NULL,
-    `category_type` enum('content','org') NOT NULL DEFAULT 'content',
     `group_id` int(21) NOT NULL,
     `probability` int(21) NOT NULL
 );
