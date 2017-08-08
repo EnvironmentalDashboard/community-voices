@@ -6,6 +6,8 @@ class ContentCategory extends Group
 {
     private $mediaFilename;
 
+    protected $probability;
+
     public function __construct()
     {
         $this->type = self::TYPE_CONT_CAT;
@@ -19,5 +21,15 @@ class ContentCategory extends Group
     public function setMediaFilename($mediaFilename)
     {
         $this->mediaFilename = $mediaFilename;
+    }
+
+    public function setProbability($probability)
+    {
+        $this->probability = $probability;
+    }
+
+    public function getProbability()
+    {
+        return $this->probability;
     }
 }
