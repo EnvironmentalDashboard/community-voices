@@ -40,7 +40,9 @@ class GroupCollection extends DataMapper
                     FROM
                         `community-voices_media-group-map` junction
                     JOIN
+                        #
                         # `groups` is plural because group is a reserved word
+                        #
                         `community-voices_groups` groups
                         ON junction.group_id = groups.id
                     WHERE
@@ -73,7 +75,9 @@ class GroupCollection extends DataMapper
                         FROM
                             `community-voices_location-category-map` junction
                         JOIN
-                            # `groups` is plural because group is a reserved word
+                            #
+                            #  `groups` is plural because group is a reserved word
+                            #
                             `community-voices_groups` groups
                             ON junction.group_id = groups.id
                         LEFT JOIN
@@ -91,7 +95,9 @@ class GroupCollection extends DataMapper
                         FROM
                             `community-voices_location-category-map` junction
                         JOIN
+                            #
                             # `groups` is plural because group is a reserved word
+                            #
                             `community-voices_groups` groups
                             ON junction.group_id = groups.id
                         WHERE
