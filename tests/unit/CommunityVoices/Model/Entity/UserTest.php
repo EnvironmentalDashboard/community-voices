@@ -67,6 +67,8 @@ class UserTest extends TestCase
         $notifier = $this->createMock(Notifier::class);
 
         $instance = new User;
+        $instance->setFirstName('John');
+        $instance->setLastName('Doe');
         $instance->setEmail('blah@foo.com');
         $instance->setPassword('foo123');
         $instance->setConfirmPassword('foo123');
@@ -88,6 +90,8 @@ class UserTest extends TestCase
 
         $instance = new User;
         $instance->setEmail('invalidemail');
+        $instance->setFirstName('John');
+        $instance->setLastName('Doe');
         $instance->setPassword('foo123');
         $instance->setConfirmPassword('foo123');
 
@@ -120,6 +124,8 @@ class UserTest extends TestCase
 
         $instance = new User;
         $instance->setEmail('blah@foo.com');
+        $instance->setFirstName('John');
+        $instance->setLastName('Doe');
         $instance->setPassword('foo123');
         $instance->setConfirmPassword('123foo');
 
@@ -140,8 +146,52 @@ class UserTest extends TestCase
 
         $instance = new User;
         $instance->setEmail('blah@foo.com');
+        $instance->setFirstName('John');
+        $instance->setLastName('Doe');
         $instance->setPassword('123');
         $instance->setConfirmPassword('123');
+
+        $this->assertFalse($instance->validateForRegistration($notifier));
+    }
+
+    public function test_If_Invalid_User_No_First_Name_Is_Valid_For_Registration()
+    {
+        $notifier = $this
+            ->getMockBuilder(Notifier::class)
+            ->setMethods(['addEntry'])
+            ->getMock();
+
+        $notifier
+            ->expects($this->once())
+            ->method('addEntry')
+            ->with($this->equalTo('firstName'), $this->equalTo(User::ERR_FNAME_REQUIRED));
+
+        $instance = new User;
+        $instance->setEmail('blah@foo.com');
+        $instance->setLastName('Doe');
+        $instance->setPassword('123123');
+        $instance->setConfirmPassword('123123');
+
+        $this->assertFalse($instance->validateForRegistration($notifier));
+    }
+
+    public function test_If_Invalid_User_No_Last_Name_Is_Valid_For_Registration()
+    {
+        $notifier = $this
+            ->getMockBuilder(Notifier::class)
+            ->setMethods(['addEntry'])
+            ->getMock();
+
+        $notifier
+            ->expects($this->once())
+            ->method('addEntry')
+            ->with($this->equalTo('lastName'), $this->equalTo(User::ERR_LNAME_REQUIRED));
+
+        $instance = new User;
+        $instance->setEmail('blah@foo.com');
+        $instance->setFirstName('Doe');
+        $instance->setPassword('123123');
+        $instance->setConfirmPassword('123123');
 
         $this->assertFalse($instance->validateForRegistration($notifier));
     }

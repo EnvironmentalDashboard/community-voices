@@ -67,4 +67,72 @@ class QuoteTest extends TestCase
 
         $this->assertSame($instance->getSourceDocumentLink(), $link);
     }
+
+    public function test_If_Valid_Quote_Is_Valid()
+    {
+        $notifier = $this
+            ->getMockBuilder(Notifier::class)
+            ->setMethods(['addEntry'])
+            ->getMock();
+
+        $instance = new Quote;
+        $instance->setAttribution("John Doe");
+
+        $this->assertTrue($instance->validateForUpload($notifier));
+    }
+
+    public function test_If_Valid_Quote_Is_Valid_2()
+    {
+        $notifier = $this
+            ->getMockBuilder(Notifier::class)
+            ->setMethods(['addEntry'])
+            ->getMock();
+
+        $instance = new Quote;
+        $instance->setAttribution("John Doe");
+        $instance->setPublicDocumentLink('http://localhost.com');
+        $instance->setSourceDocumentLink('http://localhost.com');
+
+        $this->assertTrue($instance->validateForUpload($notifier));
+    }
+
+    public function test_If_Invalid_Quote_Bad_Source_Document_Is_Valid()
+    {
+        $notifier = $this
+            ->getMockBuilder(Notifier::class)
+            ->setMethods(['addEntry'])
+            ->getMock();
+
+        $notifier
+            ->expects($this->once())
+            ->method('addEntry')
+            ->with($this->equalTo('sourceDocumentLink'), $this->equalTo(Quote::ERR_SOURCE_LINK_INVALID));
+
+        $instance = new Quote;
+        $instance->setAttribution("John Doe");
+        $instance->setSourceDocumentLink('foo');
+        $instance->setPublicDocumentLink('http://localhost.com');
+
+        $this->assertFalse($instance->validateForUpload($notifier));
+    }
+
+    public function test_If_Invalid_Quote_Bad_Public_Document_Is_Valid()
+    {
+        $notifier = $this
+            ->getMockBuilder(Notifier::class)
+            ->setMethods(['addEntry'])
+            ->getMock();
+
+        $notifier
+            ->expects($this->once())
+            ->method('addEntry')
+            ->with($this->equalTo('publicDocumentLink'), $this->equalTo(Quote::ERR_PUBLIC_LINK_INVALID));
+
+        $instance = new Quote;
+        $instance->setAttribution("John Doe");
+        $instance->setPublicDocumentLink('foo');
+        $instance->setSourceDocumentLink('http://localhost.com');
+
+        $this->assertFalse($instance->validateForUpload($notifier));
+    }
 }

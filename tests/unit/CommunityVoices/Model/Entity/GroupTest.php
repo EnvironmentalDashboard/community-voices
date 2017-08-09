@@ -2,6 +2,7 @@
 
 namespace CommunityVoices\Model\Entity;
 
+use CommunityVoices\Model\Entity\Notifier;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -58,5 +59,35 @@ class GroupTest extends TestCase
         $instance->setLabel('FooBar');
 
         $this->assertSame($instance->getLabel(), 'FooBar');
+    }
+
+    public function test_If_Valid_Group_Valid_For_Upload()
+    {
+        $notifier = $this
+            ->getMockBuilder(Notifier::class)
+            ->setMethods(['addEntry'])
+            ->getMock();
+
+        $instance = new Group;
+        $instance->setLabel('foo');
+
+        $this->assertTrue($instance->validateForUpload($notifier));
+    }
+
+    public function test_If_Invalid_Group_No_Label_Valid_For_Upload()
+    {
+        $notifier = $this
+            ->getMockBuilder(Notifier::class)
+            ->setMethods(['addEntry'])
+            ->getMock();
+
+        $notifier
+            ->expects($this->once())
+            ->method('addEntry')
+            ->with($this->equalTo('label'), $this->equalTo(Group::ERR_LABEL_REQUIRED));
+
+        $instance = new Group;
+
+        $this->assertFalse($instance->validateForUpload($notifier));
     }
 }

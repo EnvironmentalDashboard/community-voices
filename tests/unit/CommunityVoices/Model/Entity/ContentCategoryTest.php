@@ -24,4 +24,13 @@ class ContentCategoryTest extends TestCase
 
         $this->assertSame($instance->getMediaFilename(), 'foo.jpg');
     }
+
+    public function test_Probability_Assignment()
+    {
+        $instance = new ContentCategory;
+
+        $instance->setProbability(3);
+
+        $this->assertSame($instance->getProbability(), 3);
+    }
 }

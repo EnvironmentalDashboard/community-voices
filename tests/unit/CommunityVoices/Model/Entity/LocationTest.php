@@ -78,4 +78,34 @@ class LocationTest extends TestCase
         $instance = new Location;
         $instance->setContentCategoryCollection($contCatCollection);
     }
+
+    public function test_If_Valid_Location_Valid_For_Upload()
+    {
+        $notifier = $this
+            ->getMockBuilder(Notifier::class)
+            ->setMethods(['addEntry'])
+            ->getMock();
+
+        $instance = new Location;
+        $instance->setLabel('foo');
+
+        $this->assertTrue($instance->validateForUpload($notifier));
+    }
+
+    public function test_If_Invalid_Location_No_Label_Valid_For_Upload()
+    {
+        $notifier = $this
+            ->getMockBuilder(Notifier::class)
+            ->setMethods(['addEntry'])
+            ->getMock();
+
+        $notifier
+            ->expects($this->once())
+            ->method('addEntry')
+            ->with($this->equalTo('label'), $this->equalTo(Location::ERR_LABEL_REQUIRED));
+
+        $instance = new Location;
+
+        $this->assertFalse($instance->validateForUpload($notifier));
+    }
 }

@@ -130,4 +130,21 @@ class CollectionTest extends TestCase
 
         $this->assertSame($count, count($collection));
     }
+
+    public function test_Clearing_Collection()
+    {
+        $entity = new Entity;
+
+        $collection = $this->getMockForAbstractClass(Collection::class);
+        $collection->method('makeEntity');
+
+        $collection->addEntity($entity);
+        $collection->addEntity($entity);
+
+        $this->assertSame(count($collection), 2);
+
+        $collection->clear();
+
+        $this->assertSame(count($collection), 0);
+    }
 }
