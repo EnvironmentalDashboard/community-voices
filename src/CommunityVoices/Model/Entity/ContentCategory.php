@@ -1,16 +1,12 @@
 <?php
 
-/**
- * @ask probability, files
- */
-
 namespace CommunityVoices\Model\Entity;
 
 class ContentCategory extends Group
 {
     private $mediaFilename;
 
-    protected $probability;
+    protected $probability; /* @TODO required, number >= 0 */
 
     public function __construct()
     {

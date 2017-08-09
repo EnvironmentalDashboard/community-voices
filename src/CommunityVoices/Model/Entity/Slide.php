@@ -1,13 +1,13 @@
 <?php
 
-/**
- * @ask validation of categories
- */
-
 namespace CommunityVoices\Model\Entity;
 
 class Slide extends Media
 {
+    /**
+     * Note: Slides inherit tags from their image & quote assignments
+     */
+
     const ERR_PROBABILITY_OUT_OF_RANGE = 'Probability must be between 0 and 1';
 
     const ERR_DECAY_OUT_OF_RANGE = 'Decay must be between 0 and 1';
@@ -19,7 +19,7 @@ class Slide extends Media
     const ERR_QUOTE_RELATIONSHIP_MISSING = 'Quote relationship missing';
     const ERR_CONTENT_CATEGORY_RELATIONSHIP_MISSING = 'Content category relationship missing';
 
-    const ERR_SLIDE_COMBINATION_EXISTS = 'This image/quote pair already exists.';
+    const ERR_SLIDE_COMBINATION_EXISTS = 'This image-quote pair already exists.';
 
     private $contentCategory;
 

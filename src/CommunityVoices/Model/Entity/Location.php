@@ -1,17 +1,19 @@
 <?php
 
-/**
- * @ask validation
- */
-
 namespace CommunityVoices\Model\Entity;
 
 class Location
 {
+    const ERR_LABEL_EXISTS = 'A location with this label already exists.';
+    const ERR_LABEL_REQUIRED = 'Locations are required to have a label.';
+
     private $id;
 
     private $label;
 
+    /**
+     * @todo how to validate these two -- domain or business ?
+     */
     protected $organizationCategoryCollection;
     protected $contentCategoryCollection;
 
@@ -57,5 +59,17 @@ class Location
     public function setContentCategoryCollection(GroupCollection $contentCategoryCollection)
     {
         $this->contentCategoryCollection = $contentCategoryCollection;
+    }
+
+    public function validateForUpload(StateObserver $notifier)
+    {
+        $isValid = true;
+
+        if (!$this->label || empty($this->label)) {
+            $isValid = false;
+            $notifier->addEntry('label', self::ERR_LABEL_REQUIRED);
+        }
+
+        return $isValid;
     }
 }

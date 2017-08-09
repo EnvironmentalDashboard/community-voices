@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @ask validation of first name, last name
- */
-
 namespace CommunityVoices\Model\Entity;
 
 use CommunityVoices\Model\Contract\StateObserver;
@@ -22,6 +18,8 @@ class User implements HasId, Palladium\Contract\HasId
     const ROLE_ADMIN = 4;
 
     const ERR_EMAIL_INVALID = 'Invalid email address';
+    const ERR_FNAME_REQUIRED = 'First name must be at least 1 character';
+    const ERR_LNAME_REQUIRED = 'Last name must be at least 1 character';
     const ERR_EMAIL_EXISTS = 'User with this email already exists';
     const ERR_IDENTITY_KNOWN = 'ID must be null for registration';
     const ERR_PASSWORD_MISMATCH = 'Confirm password must match';
@@ -123,6 +121,16 @@ class User implements HasId, Palladium\Contract\HasId
 
         if (!is_null($this->id)) {
             throw new IdentityKnown(self::ERR_IDENTITY_KNOWN);
+        }
+
+        if (!$this->firstName || empty($this->firstName)) {
+            $isValid = false;
+            $notifier->addEntry('firstName', self::ERR_FNAME_REQUIRED);
+        }
+
+        if (!$this->lastName || empty($this->lastName)) {
+            $isValid = false;
+            $notifier->addEntry('lastName', self::ERR_LNAME_REQUIRED);
         }
 
         if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {

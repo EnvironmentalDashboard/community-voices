@@ -2,12 +2,22 @@
 
 /**
  * @ask attribution, document links
+ *
+ * publicDocumentLink not required
+ * sourceDocumentLink  not required
+ * dateRecorded not required
+ * attribution required
+ * tags not required
  */
 
 namespace CommunityVoices\Model\Entity;
 
 class Quote extends Media
 {
+    const ERR_ATTRIBUTION_REQUIRED = 'Quotes must have an attribution.';
+    const ERR_SOURCE_LINK_INVALID = 'Source document link must be empty or a valid URL.';
+    const ERR_PUBLIC_LINK_INVALID = 'Public document link must be empty or a valid URL.';
+
     private $text;
 
     private $attribution;
@@ -70,12 +80,26 @@ class Quote extends Media
         $this->sourceDocumentLink = $sourceDocumentLink;
     }
 
-    /*
+
     public function validateForUpload(StatusObserver $notifier)
     {
         $isValid = true;
 
-        // @TODO after discussion
+        if (!$this->attribution || empty($this->attribution)) {
+            $isValid = false;
+            $notifier->addEntry('attribution', self::ERR_ATTRIBUTION_REQUIRED);
+        }
+
+        if ($this->sourceDocumentLink && !filter_var($this->sourceDocumentLink, FILTER_VALIDATE_URL)) {
+            $isValid = false;
+            $notifier->addEntry('sourceDocumentLink', self::ERR_SOURCE_LINK_INVALID);
+        }
+
+        if ($this->publicDocumentLink && !filter_var($this->publicDocumentLink, FILTER_VALIDATE_URL)) {
+            $isValid = false;
+            $notifier->addEntry('publicDocumentLink', self::ERR_PUBLIC_LINK_INVALID);
+        }
+
+        return $isValid;
     }
-    */
 }

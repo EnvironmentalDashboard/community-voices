@@ -1,16 +1,12 @@
 <?php
 
-/**
- * @ask title, file, description, photographer, org
- */
-
 namespace CommunityVoices\Model\Entity;
 
 use CommunityVoices\Model\Contract\StateObserver;
 
 class Image extends Media
 {
-    private $filename;
+    private $filename; /* @TODO required */
 
     private $title;
     private $description;

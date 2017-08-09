@@ -7,14 +7,14 @@ use CommunityVoices\Model\Contract\HasId;
 
 class GroupCollection extends Collection
 {
+    const ERR_PARENT_TYPE_MISMATCH = 'Parent must be instance of Media or Location.';
+
     const PARENT_TYPE_MEDIA = 0;
     const PARENT_TYPE_LOCATION = 1;
 
-    const GROUP_TYPE_TAG = 0;
-    const GROUP_TYPE_CONT_CAT = 1;
+    const GROUP_TYPE_TAG = 1;
     const GROUP_TYPE_ORG_CAT = 2;
-
-    const ERR_PARENT_TYPE_MISMATCH = 'Parent must be instance of Media or Location.';
+    const GROUP_TYPE_CONT_CAT = 3;
 
     protected $allowableParentType = [
         Media::class => self::PARENT_TYPE_MEDIA,
@@ -23,8 +23,8 @@ class GroupCollection extends Collection
 
     protected $allowableGroupType = [
         self::GROUP_TYPE_TAG,
-        self::GROUP_TYPE_CONT_CAT,
-        self::GROUP_TYPE_ORG_CAT
+        self::GROUP_TYPE_ORG_CAT,
+        self::GROUP_TYPE_CONT_CAT
     ];
 
     protected $groupType;
