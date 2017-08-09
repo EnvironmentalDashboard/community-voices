@@ -96,11 +96,12 @@ class Image extends Media
     }
 
     /*
+
+    @TODO implementation must be thought through
+
     public function validateForUpload(StatusObserver $notifier)
     {
         $isValid = true;
-
-        // @TODO after discussion
     }
     */
 }

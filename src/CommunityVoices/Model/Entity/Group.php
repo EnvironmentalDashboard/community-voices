@@ -2,10 +2,13 @@
 
 namespace CommunityVoices\Model\Entity;
 
-class Group
+use CommunityVoices\Model\Contract\StateObserver;
+use CommunityVoices\Model\Contract\HasId;
+
+class Group implements HasId
 {
-    const ERR_LABEL_TOO_SHORT = 'Label must be atleast 1 character.';
-    const ERR_LABEL_ALREADY_IN_USE = 'You are already using this label.';
+    const ERR_LABEL_EXISTS = 'A group with this label already exists.';
+    const ERR_LABEL_REQUIRED = 'Groups are required to have a label (1 character minimum).';
 
     const TYPE_TAG = 1;
     const TYPE_ORG_CAT = 2;
@@ -59,13 +62,13 @@ class Group
         }
     }
 
-    public function validateForCreation(StatusObserver $notifier)
+    public function validateForUpload(StateObserver $notifier)
     {
         $isValid = true;
 
-        if (!$this->label || strlen($this->label) > 1) {
+        if (!$this->label || strlen($this->label) < 1) {
             $isValid = false;
-            $notifier->addEntry('label', self::ERR_LABEL_TOO_SHORT);
+            $notifier->addEntry('label', self::ERR_LABEL_REQUIRED);
         }
 
         return $isValid;

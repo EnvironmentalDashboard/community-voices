@@ -1,16 +1,8 @@
 <?php
 
-/**
- * @ask attribution, document links
- *
- * publicDocumentLink not required
- * sourceDocumentLink  not required
- * dateRecorded not required
- * attribution required
- * tags not required
- */
-
 namespace CommunityVoices\Model\Entity;
+
+use CommunityVoices\Model\Contract\StateObserver;
 
 class Quote extends Media
 {
@@ -81,7 +73,7 @@ class Quote extends Media
     }
 
 
-    public function validateForUpload(StatusObserver $notifier)
+    public function validateForUpload(StateObserver $notifier)
     {
         $isValid = true;
 

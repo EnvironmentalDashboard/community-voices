@@ -2,10 +2,13 @@
 
 namespace CommunityVoices\Model\Entity;
 
-class Location
+use CommunityVoices\Model\Contract\StateObserver;
+use CommunityVoices\Model\Contract\HasId;
+
+class Location implements HasId
 {
     const ERR_LABEL_EXISTS = 'A location with this label already exists.';
-    const ERR_LABEL_REQUIRED = 'Locations are required to have a label.';
+    const ERR_LABEL_REQUIRED = 'Locations are required to have a label (1 character minimum).';
 
     private $id;
 
