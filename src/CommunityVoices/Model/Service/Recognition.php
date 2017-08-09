@@ -24,6 +24,7 @@ class Recognition
         $this->pdIdentification = $pdIdentification;
         $this->mapperFactory = $mapperFactory;
     }
+    
     /**
      * Authenticates a user by email and password
      * @param  string $email
