@@ -1,69 +1,71 @@
 # Application Routes
-Rough draft of expected application routes. This has been drafted to conceptualize interfaces that will be needed. This last is **incomplete**. Routes that may not need interfaces are indicated with an asterisk (\*).
+Rough draft of expected application routes. This has been drafted to conceptualize interfaces that will be needed. This last is **incomplete**. Routes that may not need interfaces are indicated with an asterisk (*).
 
 ## Landing
 
-    /landing                                        Community Voices landing page
+    /landing                                        Community Voices landing page. Includes slideshow
 
 ## User Management
 
     /users/register
     /users/login
     /users/logout
-    /users/:id                                      Lookup user w/ id
-    /users/:id/edit                                 Edit user w/ id
+    /users/:id                                      Lookup user with id
+    /users/:id/edit                                 Edit user with id
 
 ## Application Main
-The following 
+The following routes are accessible from the application's main interface.
 
     /slides[?sort=]                                 Lists all slides
-    /slides/tagged/:tag[?sort=]                     Lists all slides w/ tag
-    /slides/content-category/:category[?sort=]      Lists all slides w/ content category
-    /slides/:id                                     Lookup slide w/ id
-    /slides/:id/edit                                Edit slide w/ id
-    /slides/:id/delete                              Delete slide w/ id
+    /slides/tagged/:tag[?sort=]                     Lists all slides with tag
+    /slides/content-category/:category[?sort=]      Lists all slides with content category
+    /slides/:id                                     Lookup slide with id
+    /slides/:id/edit                                Edit slide with id
+    /slides/:id/delete                              Delete slide with id
     /slides/new                                     Create a new slide
 
     /images[?sort=]                                 Lists all images
-    /images/tagged/:tag[?sort=]                     Lists all images w/ tag
-    /images/content-category/:category[?sort=]      Lists all images w/ content category
-    /images/:id                                     Lookup image w/ id
-    /images/:id/edit                                Edit image w/ id
-    /images/:id/Delete                              Delete image w/ id
+    /images/tagged/:tag[?sort=]                     Lists all images with tag
+    /images/content-category/:category[?sort=]      Lists all images with content category
+    /images/:id                                     Lookup image with id
+    /images/:id/edit                                Edit image with id
+    /images/:id/Delete                              Delete image with id
     /images/new                                     Create a new image
 
     /quotes[?sort=]                                 Lists all quotes
-    /quotes/tagged/:tag[?sort=]                     Lists all quotes w/ tag
-    /quotes/content-category/:category[?sort=]      Lists all quotes w/ content category
-    /quotes/:id                                     Lookup quote w/ id
-    /quotes/:id/edit                                Edit quote w/ id
-    /quotes/:id/Delete                              Delete quote w/ id
+    /quotes/tagged/:tag[?sort=]                     Lists all quotes with tag
+    /quotes/content-category/:category[?sort=]      Lists all quotes with content category
+    /quotes/:id                                     Lookup quote with id
+    /quotes/:id/edit                                Edit quote with id
+    /quotes/:id/Delete                              Delete quote with id
     /quotes/new                                     Create a new quote
 
+    /search                                         Media search landing page
     /search/?q=[&sort=]                             Searches media
 
 ## Application Management
+The following routes are accessible from a management interface within the application. The management interface will be linked to somehow on the main interface. Most of these routes are only visible to users with higher-level privileges.
 
     /content-categories                             Lists all content categories
-    /content-categories/:id                         \*Lookup content category w/ id
-    /content-categories/:id/edit                    Edit content category w/ id
-    /content-categories/:id/delete                  Delete content category w/ id
+    /content-categories/:id                         *Lookup content category with id
+    /content-categories/:id/edit                    Edit content category with id
+    /content-categories/:id/delete                  Delete content category with id
     /content-categories/new                         Create a new content category
 
     /org-categories                                 Lists all org categories
-    /org-categories/:id                             \*Lookup org category w/ id
-    /org-categories/:id/edit                        Edit org category w/ id
-    /org-categories/:id/delete                      Delete org category w/ id
+    /org-categories/:id                             *Lookup org category with id
+    /org-categories/:id/edit                        Edit org category with id
+    /org-categories/:id/delete                      Delete org category with id
     /org-categories/new                             Create a new org category
 
     /tags                                           Lists all tags
-    /tags/:id                                       \*Lookup tags w/ id
-    /tags/:id/edit                                  Edit tags w/ id
-    /tags/:id/delete                                Delete tags w/ id
+    /tags/:id                                       *Lookup tags with id
+    /tags/:id/edit                                  Edit tags with id
+    /tags/:id/delete                                Delete tags with id
     /tags/new                                       Create a new tag
 
     /locations                                      Lists all locations
-    /locations/:id                                  \*Lookup locations w/ id
-    /locations/:id/edit                             Edit locations w/ id
-    /locations/:id/delete                           Delete locations w/ id
+    /locations/:id                                  *Lookup locations with id
+    /locations/:id/edit                             Edit locations with id
+    /locations/:id/delete                           Delete locations with id
     /locations/new                                  Create a new location
