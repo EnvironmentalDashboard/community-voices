@@ -14,7 +14,7 @@ Rough draft of expected application routes. This has been drafted to conceptuali
     /users/:id/edit                                 Edit user with id
 
 ## Application Main
-The following routes are accessible from the application's main interface.
+The following routes are accessible from the application's main interface. The first three routes in the first three route clusters will have very similarly-styled interfaces (if not exactly the same aside from minor differences).
 
     /slides[?sort=]                                 Lists all slides
     /slides/tagged/:tag[?sort=]                     Lists all slides with tag
