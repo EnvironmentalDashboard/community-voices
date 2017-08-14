@@ -1,11 +1,12 @@
 # Application Routes
-Rough draft of expected application routes. This has been drafted to conceptualize interfaces that will be needed. This last is **incomplete**. Routes that may not need interfaces are indicated with an asterisk (*).
+Rough draft of expected application routes. This has been drafted to conceptualize interfaces that will be needed. This list is **incomplete**. Routes that may not need interfaces are indicated with an asterisk (*).
 
 ## Landing
 
     /landing                                        Community Voices landing page. Includes slideshow
 
 ## User Management
+These routes are likely accessibly from the application's header toolbar.
 
     /users/register
     /users/login
