@@ -61,7 +61,7 @@ class QuoteTest extends TestCase
         $quote->setStatus($quote::STATUS_APPROVED);
         $quote->setText('Lorem ipsum');
         $quote->setAttribution('John Doe');
-        $quote->setDateRecorded(time());
+        $quote->setDateRecorded(2000);
         $quote->setPublicDocumentLink('http://localhost:1');
         $quote->setSourceDocumentLink('http://localhost:2');
 
@@ -80,11 +80,13 @@ class QuoteTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $time = time();
+
         $statementByParent
             ->method('bindValue')
             ->withConsecutive(
                 [$this->equalTo(':added_by'), $this->equalTo($quote->getAddedBy()->getId())],
-                [$this->equalTo(':date_created'), $this->equalTo(time())],
+                [$this->equalTo(':date_created'), $this->greaterThan($time - 5) && $this->lessThan($time + 5)],
                 [$this->equalTo(':type'), $this->equalTo($quote->getType())],
                 [$this->equalTo(':status'), $this->equalTo($quote->getStatus())]
             );
