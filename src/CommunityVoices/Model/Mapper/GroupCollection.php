@@ -5,9 +5,13 @@ namespace CommunityVoices\Model\Mapper;
 /**
  * Maps group collection items, with parent type & parent id, into SQL junction
  * tables
+ *
+ * @TODO Perhaps ContentCategoryCollection should have its own mapper to get rid
+ * of the conditional and increase cohesion (in fetchChildrenOfLocation)
  */
 
 use PDO;
+use InvalidArgumentException;
 use CommunityVoices\Model\Component\DataMapper;
 use CommunityVoices\Model\Entity as Entity;
 
@@ -47,12 +51,12 @@ class GroupCollection extends DataMapper
                         ON junction.group_id = groups.id
                     WHERE
                         CAST(groups.type AS UNSIGNED) = :type
-                        AND junction.location_id = :locationId";
+                        AND junction.media_id = :mediaId";
 
         $statement = $this->conn->prepare($query);
 
         $statement->bindValue(':type', $groupCollection->getGroupType());
-        $statement->bindValue(':locationId', $groupCollection->getParentId());
+        $statement->bindValue(':mediaId', $groupCollection->getParentId());
 
         $statement->execute();
 
