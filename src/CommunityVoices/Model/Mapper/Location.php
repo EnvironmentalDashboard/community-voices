@@ -60,15 +60,9 @@ class Location extends DataMapper
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            $convertedParams = $this->convertRelations(
-                $this->relations,
-                $result
-            );
+            $convertedParams = $this->convertRelations($this->relations, $result);
 
-            $this->populateEntity($location, array_merge(
-                $result,
-                $convertedParams
-            ));
+            $this->populateEntity($location, array_merge($result, $convertedParams));
         }
     }
 

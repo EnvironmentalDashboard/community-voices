@@ -96,15 +96,9 @@ class Slide extends Media
         $results = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($results) {
-            $convertedParams = $this->convertRelations(
-                $this->relations,
-                $results
-            );
+            $convertedParams = $this->convertRelations($this->relations, $results);
 
-            $this->populateEntity($slide, array_merge(
-                $results,
-                $convertedParams
-            ));
+            $this->populateEntity($slide, array_merge($results, $convertedParams));
         }
     }
 

@@ -45,15 +45,9 @@ class Image extends Media
         $results = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($results) {
-            $convertedParams = $this->convertRelations(
-                $this->relations,
-                $results
-            );
+            $convertedParams = $this->convertRelations($this->relations, $results);
 
-            $this->populateEntity($image, array_merge(
-                $results,
-                $convertedParams
-            ));
+            $this->populateEntity($image, array_merge($results, $convertedParams));
         }
     }
 

@@ -48,10 +48,7 @@ class Quote extends Media
                 $results
             );
 
-            $this->populateEntity($quote, array_merge(
-                $results,
-                $convertedParams
-            ));
+            $this->populateEntity($quote, array_merge($results, $convertedParams));
         }
     }
 
