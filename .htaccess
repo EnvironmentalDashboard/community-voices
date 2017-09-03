@@ -3,4 +3,5 @@ RewriteEngine on
 RewriteRule ^public(\/.*)?$ src/CommunityVoices/public/$1 [L]
 
 RewriteCond %{REQUEST_URI} !src/CommunityVoices/public [NC]
-RewriteRule ^(.*)$ src/CommunityVoices/public/website.php
+RewriteCond %{REQUEST_URI} !tests/coverage [NC]
+RewriteRule ^(.*)$ src/Public/website.php
