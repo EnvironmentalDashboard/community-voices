@@ -1,0 +1,9 @@
+{
+    "public": {
+        "notation": "[/:anything]",
+        "defaults": {
+            "resource": "Index",
+            "action": "index"
+        }
+    }
+}
