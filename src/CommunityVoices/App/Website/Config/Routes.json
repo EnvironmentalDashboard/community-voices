@@ -2,8 +2,8 @@
     "public": {
         "notation": "[/:anything]",
         "defaults": {
-            "resource": "Index",
-            "action": "index"
+            "resource": "Home",
+            "action": "getLanding"
         }
     }
 }

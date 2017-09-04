@@ -51,23 +51,3 @@ $router = new Fracture\Routing\Router(new Fracture\Routing\RouteBuilder);
 $router->import($routes);
 
 $router->route($request);
-
-/**
- * Initializing resources
- */
-
-$injector = new Auryn\Injector;
-
-$resource = ucfirst(strtolower($request->getParameter('resource')));
-$action = strtolower($request->getMethod()) . ucfirst(strtolower($request->getParameter('action')));
-
-/*
-$controller = $injector->make("CommunityVoices\\App\\Website\\Controller\\" . $resource);
-$controller->{$action}($request);
-
-$view = $injector->make("CommunityVoices\\App\\Website\\View\\" . $resource);
-$view->{$action}($request);
-*/
-
-
-echo "Test";
