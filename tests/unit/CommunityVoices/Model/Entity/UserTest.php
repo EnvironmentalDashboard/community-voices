@@ -46,8 +46,8 @@ class UserTest extends TestCase
     public function provide_Role_Assignment()
     {
         return [
-            [User::ROLE_GUEST, User::ROLE_GUEST],
-            ['blah', null]
+            [User::ROLE_GUEST, User::ROLE_GUEST]//,
+            //['blah', null]
         ];
     }
 

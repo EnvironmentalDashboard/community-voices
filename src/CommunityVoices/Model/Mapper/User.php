@@ -21,7 +21,6 @@ class User extends DataMapper
     private function fetchById(Entity\User $user)
     {
         $query = "SELECT
-                        id                      AS id
                         email                   AS email,
                         fname                   AS firstName,
                         lname                   AS lastName,
