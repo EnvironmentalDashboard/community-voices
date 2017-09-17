@@ -100,7 +100,7 @@ class User implements HasId, Palladium\Contract\HasId
 
     public function setRole($role)
     {
-        if (in_array($role, $this->allowableRole, true)) {
+        if (in_array($role, $this->allowableRole)) {
             $this->role = (int) $role;
         }
     }
