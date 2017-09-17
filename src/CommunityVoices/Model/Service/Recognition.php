@@ -5,18 +5,26 @@ namespace CommunityVoices\Model\Service;
 use Palladium;
 use CommunityVoices\Model\Entity;
 
+use CommunityVoices\Model\Component;
+use CommunityVoices\Model\Mapper;
+
 class Recognition
 {
     private $pdSearch;
 
     private $pdIdentification;
 
+    private $mapperFactory;
+
     public function __construct(
         Palladium\Service\Search $pdSearch,
-        Palladium\Service\Identification $pdIdentification
+        Palladium\Service\Identification $pdIdentification,
+        Component\MapperFactory $mapperFactory
     ) {
         $this->pdSearch = $pdSearch;
         $this->pdIdentification = $pdIdentification;
+
+        $this->mapperFactory = $mapperFactory;
     }
 
     /**
@@ -80,5 +88,37 @@ class Recognition
         } catch (Palladium\Component\Exception $e) {
             //Don't need to do anything if there's an exception
         }
+    }
+
+    public function createUserFromRememberedIdentity(Entity\RememberedIdentity $identity)
+    {
+        $user = new Entity\User;
+
+        $user->setId($identity->getAccountId());
+
+        /**
+         * Attept to fetch via cache
+         */
+        $cacheMapper = $this->mapperFactory->createCacheMapper(Mapper\Cache::class);
+
+        if ($cacheMapper->exists($user)) {
+            echo 'existed';
+            $cacheMapper->fetch($user);
+
+            return $user;
+        }
+
+        /**
+         * Cache failed; fetch user in database
+         */
+        $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
+        $userMapper->fetch($user);
+
+        /**
+         * Save user to cache
+         */
+        $cacheMapper->save($user);
+
+        return $user;
     }
 }
