@@ -4,4 +4,4 @@ RewriteRule ^public(\/.*)?$ src/CommunityVoices/public/$1 [L]
 
 RewriteCond %{REQUEST_URI} !src/CommunityVoices/public [NC]
 RewriteCond %{REQUEST_URI} !tests/coverage [NC]
-RewriteRule ^(.*)$ src/Public/website.php
+RewriteRule ^(.*)$ src/CommunityVoices/Public/website.php
