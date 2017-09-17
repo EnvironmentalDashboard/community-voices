@@ -13,7 +13,9 @@ class ApplicationState
 {
     public function prepare()
     {
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
     }
 
     public function save(StateObserver $state)

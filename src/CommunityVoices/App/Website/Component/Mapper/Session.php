@@ -1,9 +1,9 @@
 <?php
 
-namespace CommunityVoices\Model\Mapper;
+namespace CommunityVoices\App\Website\Component\Mapper;
 
-use CommunityVoices\Model\Component\Mapper;
 use CommunityVoices\Model\Contract;
+use CommunityVoices\Model\Component\Mapper;
 
 /**
  * @codeCoverageIgnore

@@ -1,11 +1,10 @@
 <?php
 
-namespace CommunityVoices\Model\Mapper;
+namespace CommunityVoices\App\Website\Component\Mapper;
 
-use CommunityVoices\Model\Component\Mapper;
 use CommunityVoices\Model\Contract;
 
-class Cookie extends Mapper
+class Cookie extends \CommunityVoices\Model\Component\Mapper
 {
     private $request;
     private $response;

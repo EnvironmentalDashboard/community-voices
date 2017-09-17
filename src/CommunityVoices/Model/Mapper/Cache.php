@@ -2,8 +2,8 @@
 
 namespace CommunityVoices\Model\Mapper;
 
-use CommunityVoices\Model\Component\Mapper;
 use CommunityVoices\Model\Contract;
+use CommunityVoices\Model\Component\Mapper;
 use ReflectionClass;
 
 class Cache extends Mapper
@@ -28,8 +28,8 @@ class Cache extends Mapper
         $reflection = new ReflectionClass($cachedInstance);
 
         foreach ($reflection->getProperties() as $property) {
-        	$property->setAccessible(true);
-        	$property->setValue($instance, $property->getValue($cachedInstance));
+            $property->setAccessible(true);
+            $property->setValue($instance, $property->getValue($cachedInstance));
         }
     }
 

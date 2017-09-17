@@ -1,31 +1,32 @@
 <?php
 
-namespace CommunityVoices\Model\Component;
+namespace CommunityVoices\App\Website\Component;
 
 use RuntimeException;
 use PDO;
 use ReflectionClass;
-use CommunityVoices\Model\Mapper;
 
 class MapperFactory
 {
-    private $dbHandler;
+    private $request;
+    private $response;
 
     private $cache = [];
 
-    public function __construct(PDO $dbHandler)
+    public function __construct($request, $response)
     {
-        $this->dbHandler = $dbHandler;
-    }
-
-    public function createDataMapper($class)
-    {
-        return $this->create($class, $this->dbHandler);
+        $this->request = $request;
+        $this->response = $response;
     }
 
     public function createCacheMapper()
     {
         return $this->create(Mapper\Cache::class, null);
+    }
+
+    public function createCookieMapper($class)
+    {
+        return $this->create($class, [$this->request, $this->response]);
     }
 
     public function createSessionMapper($class)

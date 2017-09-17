@@ -44,25 +44,11 @@ class MapperFactoryTest extends TestCase
         $pdo = $this->createMock(PDO::class);
 
         $mapperFactory = new MapperFactory($pdo, [], []);
-        $mapper = $mapperFactory->createSessionMapper(Mapper\Session::class);
+        $mapper = $mapperFactory->createSessionMapper(Mapper\ApplicationState::class);
 
-        $this->assertTrue($mapper instanceof Mapper\Session);
+        //$this->assertTrue($mapper instanceof Mapper\Session);
 
-        $mapper2 = $mapperFactory->createSessionMapper(Mapper\Session::class);
-
-        $this->assertSame($mapper, $mapper2); //confirm proper caching
-    }
-
-    public function test_Cookie_Mapper_Creation()
-    {
-        $pdo = $this->createMock(PDO::class);
-
-        $mapperFactory = new MapperFactory($pdo, [], []);
-        $mapper = $mapperFactory->createCookieMapper(Mapper\Cookie::class);
-
-        $this->assertTrue($mapper instanceof Mapper\Cookie);
-
-        $mapper2 = $mapperFactory->createCookieMapper(Mapper\Cookie::class);
+        $mapper2 = $mapperFactory->createSessionMapper(Mapper\ApplicationState::class);
 
         $this->assertSame($mapper, $mapper2); //confirm proper caching
     }

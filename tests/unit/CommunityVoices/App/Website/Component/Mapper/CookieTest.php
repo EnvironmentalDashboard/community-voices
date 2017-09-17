@@ -1,6 +1,6 @@
 <?php
 
-namespace CommunityVoices\Model\Mapper;
+namespace CommunityVoices\App\Website\Component\Mapper;
 
 use PDO;
 use PDOStatement;
@@ -10,7 +10,7 @@ use CommunityVoices\Model\Contract\Cookieable;
 use Mock\Response;
 
 /**
- * @covers CommunityVoices\Model\Mapper\Cookie
+ * @covers CommunityVoices\App\Website\Component\Mapper\Cookie
  */
 class CookieTest extends TestCase
 {
