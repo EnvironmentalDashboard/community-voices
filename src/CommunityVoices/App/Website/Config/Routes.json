@@ -1,9 +1,37 @@
 {
-    "public": {
-        "notation": "[/:anything]",
+    "postLogin": {
+        "notation": "/authenticate",
         "defaults": {
-            "resource": "Home",
-            "action": "getLanding"
+            "resource": "Identification",
+            "action": "postCredentials",
+            "method": "post"
+        }
+    },
+
+    "getLogin": {
+        "notation": "/login",
+        "defaults": {
+            "resource": "Identification",
+            "action": "getLogin",
+            "method": "get"
+        }
+    },
+
+    "getLogout": {
+        "notation": "/logout",
+        "defaults": {
+            "resource": "Identification",
+            "action": "getLogout",
+            "method": "get"
+        }
+    },
+
+    "getProfile": {
+        "notation": "/user/me",
+        "defaults": {
+            "resource": "User",
+            "action": "getProfile",
+            "method": "get"
         }
     }
 }
