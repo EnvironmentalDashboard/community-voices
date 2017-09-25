@@ -18,6 +18,7 @@ class MapperFactoryTest extends TestCase
         $pdo = $this->createMock(PDO::class);
 
         $mapperFactory = new MapperFactory($pdo, [], []);
+
         $mapper = $mapperFactory->createDataMapper(Mapper\User::class);
 
         $this->assertTrue($mapper instanceof Mapper\User);
@@ -37,32 +38,32 @@ class MapperFactoryTest extends TestCase
         $mapperFactory->createDataMapper(Mapper\ClassWhichDoesntExist::class);
     }
 
-    public function test_Session_Mapper_Creation()
-    {
-        @session_start();
-
-        $pdo = $this->createMock(PDO::class);
-
-        $mapperFactory = new MapperFactory($pdo, [], []);
-        $mapper = $mapperFactory->createSessionMapper(Mapper\ApplicationState::class);
-
-        //$this->assertTrue($mapper instanceof Mapper\Session);
-
-        $mapper2 = $mapperFactory->createSessionMapper(Mapper\ApplicationState::class);
-
-        $this->assertSame($mapper, $mapper2); //confirm proper caching
-    }
-
     public function test_Cache_Mapper_Creation()
     {
         $pdo = $this->createMock(PDO::class);
 
         $mapperFactory = new MapperFactory($pdo, [], []);
+
         $mapper = $mapperFactory->createCacheMapper();
 
         $this->assertTrue($mapper instanceof Mapper\Cache);
 
         $mapper2 = $mapperFactory->createCacheMapper();
+
+        $this->assertSame($mapper, $mapper2); //confirm proper caching
+    }
+
+    public function test_Application_State_Mapper_Creation()
+    {
+        $pdo = $this->createMock(PDO::class);
+
+        $mapperFactory = new MapperFactory($pdo, [], []);
+
+        $mapper = $mapperFactory->createClientStateMapper();
+
+        $this->assertTrue($mapper instanceof Mapper\ApplicationState);
+
+        $mapper2 = $mapperFactory->createClientStateMapper();
 
         $this->assertSame($mapper, $mapper2); //confirm proper caching
     }

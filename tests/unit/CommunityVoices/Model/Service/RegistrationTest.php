@@ -29,7 +29,7 @@ class RegistrationTest extends TestCase
         $mapperFactory = $this->createMock(Component\MapperFactory::class);
 
         $mapperFactory
-            ->method('createSessionMapper')
+            ->method('createClientStateMapper')
             ->with($this->equalTo(Mapper\ApplicationState::class))
             ->will($this->returnValue($sessionMapper));
 
@@ -64,7 +64,7 @@ class RegistrationTest extends TestCase
         $mapperFactory = $this->createMock(Component\MapperFactory::class);
 
         $mapperFactory
-            ->method('createSessionMapper')
+            ->method('createClientStateMapper')
             ->with($this->equalTo(Mapper\ApplicationState::class))
             ->will($this->returnValue($sessionMapper));
 
@@ -100,7 +100,7 @@ class RegistrationTest extends TestCase
         $mapperFactory = $this->createMock(Component\MapperFactory::class);
 
         $mapperFactory
-            ->method('createSessionMapper')
+            ->method('createClientStateMapper')
             ->with($this->equalTo(Mapper\ApplicationState::class))
             ->will($this->returnValue($sessionMapper));
 

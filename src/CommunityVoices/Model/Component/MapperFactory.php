@@ -28,16 +28,12 @@ class MapperFactory
         return $this->create(Mapper\Cache::class, null);
     }
 
-    public function createSessionMapper($class)
+    public function createClientStateMapper()
     {
-        $prepare = function ($instance) {
-            $instance->prepare();
-        };
-
-        return $this->create($class, null, $prepare);
+        return $this->create(Mapper\ApplicationState::class, null);
     }
 
-    private function create($class, $handler, callable $prepare = null)
+    private function create($class, $handler)
     {
         if (array_key_exists($class, $this->cache)) {
             return $this->cache[$class];
@@ -47,17 +43,7 @@ class MapperFactory
             throw new RuntimeException("Mapper '{$class}' doesn't exist.");
         }
 
-        if (is_array($handler) === false) {
-            $this->cache[$class] = new $class($handler);
-        } else {
-            $reflection = new ReflectionClass($class);
-
-            $this->cache[$class] = $reflection->newInstanceArgs($handler);
-        }
-
-        if ($prepare) {
-            $prepare($this->cache[$class]);
-        }
+        $this->cache[$class] = new $class($handler);
 
         return $this->cache[$class];
     }

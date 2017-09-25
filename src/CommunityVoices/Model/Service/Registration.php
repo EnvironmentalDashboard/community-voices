@@ -58,7 +58,7 @@ class Registration
 
         $isValid = $user->validateForRegistration($notifier);
 
-        $clientState = $this->mapperFactory->createSessionMapper(Mapper\ApplicationState::class);
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ApplicationState::class);
 
         /**
          * Stop the registration process and save the errors to application state
