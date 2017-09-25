@@ -2,24 +2,20 @@
 
 namespace CommunityVoices\Model\Mapper;
 
+use CommunityVoices\Model\Component\Mapper;
 use CommunityVoices\Model\Contract\StateObserver;
 
-/**
- * @codeCoverageIgnore
- *
- * @TODO Application state will change
- */
-class ApplicationState
+class ApplicationState extends Mapper
 {
-    public function prepare()
-    {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-    }
+    private $state = false;
 
     public function save(StateObserver $state)
     {
-        $_SESSION['state'] = $state->getEntries();
+        $this->state = $state->getEntries();
+    }
+
+    public function retrieve()
+    {
+        return $this->state;
     }
 }
