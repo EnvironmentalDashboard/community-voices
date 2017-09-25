@@ -79,12 +79,12 @@ class Recognition
     public function logout(Entity\RememberedIdentity $identity)
     {
         try {
-            $identity = $this->pdSearch->findCookieIdentity(
-                $rememberedIdentity->getAccountId(),
-                $rememberedIdentity->getSeries()
+            $pdIdentity = $this->pdSearch->findCookieIdentity(
+                $identity->getAccountId(),
+                $identity->getSeries()
             );
 
-            $this->pdIdentification->logout($identity, $rememberedIdentity->getKey());
+            $this->pdIdentification->logout($pdIdentity, $identity->getKey());
         } catch (Palladium\Component\Exception $e) {
             //Don't need to do anything if there's an exception
         }
