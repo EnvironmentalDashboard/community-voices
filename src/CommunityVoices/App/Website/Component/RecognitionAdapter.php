@@ -177,17 +177,20 @@ class RecognitionAdapter
      */
     public function logout()
     {
-        $identity = $this->identify();
+        $rememberedIdentity = new Entity\RememberedIdentity;
 
-        // If the client is a guest, whatever
-        if ($identity->getRole() === Entity\User::ROLE_GUEST) {
-            return ;
+        /**
+         * Attept to identify by session
+         */
+        $sessionMapper = $this->mapperFactory->createSessionMapper(Mapper\Session::class);
+        $sessionMapper->fetch($rememberedIdentity);
+
+        if ($rememberedIdentity->getAccountId()) {
+            $this->recognition->logout($rememberedIdentity);
+
+            // Log user out by deleting cookie & session states
+            $this->discardCookie();
+            $this->ceaseSession();
         }
-
-        $this->recognition->logout();
-
-        // Log user out by deleting cookie & session states
-        $this->discardCookie();
-        $this->ceaseSession();
     }
 }
