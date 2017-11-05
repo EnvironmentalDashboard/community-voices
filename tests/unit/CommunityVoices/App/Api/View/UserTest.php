@@ -6,6 +6,9 @@ use PHPUnit\Framework\TestCase;
 use CommunityVoices\Model\Mapper;
 use CommunityVoices\Model\Component;
 
+/**
+ * @covers CommunityVoices\Model\Entity\User
+ */
 class UserTest extends TestCase
 {
     public function test_Post_User_Registration()
