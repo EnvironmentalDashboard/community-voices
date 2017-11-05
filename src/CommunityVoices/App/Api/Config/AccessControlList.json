@@ -6,8 +6,9 @@
         "3" : "admin"
     },
 
-    "permissions": [
-        ["API\\Identification::*", "guest -user"],
-        ["API\\Registration::*", "guest -user"]
+    "rules": [
+        ["API\\Identification::*", {"allow" : "guest"}],
+        ["API\\Registration::*", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\Controller\\User::*", {"allow" : "user"}]
     ]
 }
