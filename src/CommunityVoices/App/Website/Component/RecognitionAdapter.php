@@ -9,7 +9,7 @@ use CommunityVoices\Model\Entity;
 use CommunityVoices\App\Website\Component;
 use CommunityVoices\App\Website\Component\Mapper;
 
-class RecognitionAdapter
+class RecognitionAdapter implements \CommunityVoices\App\Api\Component\Contract\CanIdentify
 {
     private $mapperFactory;
 

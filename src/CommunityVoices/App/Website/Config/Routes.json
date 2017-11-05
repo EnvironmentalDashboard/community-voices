@@ -33,5 +33,14 @@
             "action": "getProfile",
             "method": "get"
         }
+    },
+
+    "getProtectedPage": {
+        "notation": "/protected",
+        "defaults": {
+            "resource": "User",
+            "action": "getProtectedPage",
+            "method": "get"
+        }
     }
 }

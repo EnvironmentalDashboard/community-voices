@@ -85,6 +85,23 @@ $injector->share($pdMapperFactory);
 $injector->alias('Palladium\Contract\CanCreateMapper', 'Palladium\Component\MapperFactory');
 
 /**
+ * Create and share access arbiter
+ */
+
+$aclRaw = json_decode(file_get_contents(__DIR__  . '/../Api/Config/AccessControlList.json'), true);
+
+$arbiter = new CommunityVoices\App\Api\Component\Arbiter($aclRaw['roles'], $aclRaw['rules']);
+
+$injector->share($arbiter);
+
+/**
+ * Alias CanIdentify depdencies with the local recognition service
+ */
+
+$injector->alias('CommunityVoices\App\Api\Component\Contract\CanIdentify', 'CommunityVoices\App\Website\Component\RecognitionAdapter');
+
+
+/**
  * Routing the request
  */
 

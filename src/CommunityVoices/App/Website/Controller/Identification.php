@@ -19,11 +19,11 @@ class Identification
     }
 
     /**
-     * User registration
+     * User authentication
      */
     public function postCredentials($request)
     {
-        $email = $request->getParameter('email');
+        $email    = $request->getParameter('email');
         $password = $request->getParameter('password');
         $remember = $request->getParameter('remember');
 

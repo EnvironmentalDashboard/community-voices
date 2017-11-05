@@ -2,8 +2,12 @@
 
 namespace CommunityVoices\App\Website\View;
 
+use \SimpleXMLElement;
+use \DOMDocument;
+use \XSLTProcessor;
 use CommunityVoices\Model\Service;
 use CommunityVoices\App\Website\Component;
+use CommunityVoices\App\Website\Component\Presenter;
 
 class Identification
 {
@@ -16,29 +20,81 @@ class Identification
 
     public function getLogin($response)
     {
-        echo "
-            <form action='./authenticate' method='post'>
-                Email: <input type='input' name='email'> <br>
-                Password: <input type='password' name='password'><input type='submit'>
-            </form>";
+        $paramXML = new SimpleXMLElement('<form/>');
+
+        $formModule = new Presenter('Module/Form/Login');
+        $formModuleXML = $formModule->generate($paramXML);
+
+        $identity = $this->recognitionAdapter->identify();
+        $identityXMLElement = new SimpleXMLElement($identity->toXml());
+
+        /**
+         * Prepare template
+         */
+        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
+
+        $domainXMLElement->addChild('main-pane', $formModuleXML);
+
+        $domainIdentity = $domainXMLElement->addChild('identity');
+        $domainIdentity->adopt($identityXMLElement);
+
+        $presentation = new Presenter('SinglePane');
+        echo $presentation->generate($domainXMLElement);
     }
 
     /**
-     * User registration
+     * User authenticaton
      */
     public function postCredentials($response)
     {
         $identity = $this->recognitionAdapter->identify();
+        $identityXMLElement = new SimpleXMLElement($identity->toXml());
+
+        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         if (!$identity->getId()) {
-            echo "Invalid username/password combination";
+            /**
+             * Login failed; display login form
+             */
+
+            $formParamXML = new SimpleXMLElement('<form/>');
+            $formParamXML->addAttribute('failure', true);
+
+            $formModule = new Presenter('Module/Form/Login');
+            $formModuleXML = $formModule->generate($formParamXML);
+
+            $domainXMLElement->addChild('main-pane', $formModuleXML);
         } else {
-            echo "Welcome, " . $identity->getId();
+            /**
+             * Login success; success message (maybe redirect)
+             */
+
+            $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
         }
+
+        /**
+         * Prepare template
+         */
+        $domainIdentity = $domainXMLElement->addChild('identity');
+        $domainIdentity->adopt($identityXMLElement);
+
+        $presentation = new Presenter('SinglePane');
+        echo $presentation->generate($domainXMLElement);
     }
 
-    public function getLogout()
+    public function getLogout($response)
     {
-        echo "Logged out.";
+        $identity = $this->recognitionAdapter->identify();
+        $identityXMLElement = new SimpleXMLElement($identity->toXml());
+
+        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
+
+        $domainXMLElement->addChild('main-pane', '<p>Logged out.</p>');
+
+        $domainIdentity = $domainXMLElement->addChild('identity');
+        $domainIdentity->adopt($identityXMLElement);
+
+        $presentation = new Presenter('SinglePane');
+        echo $presentation->generate($domainXMLElement);
     }
 }
