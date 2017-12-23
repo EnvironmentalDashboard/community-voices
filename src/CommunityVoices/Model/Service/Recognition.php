@@ -45,7 +45,7 @@ class Recognition
         return $pdCookie;
     }
 
-    private function authenticateByCookie($identity)
+    public function authenticateByCookie($identity)
     {
         try {
             $pdIdentity = $this->pdSearch->findCookieIdentity(
