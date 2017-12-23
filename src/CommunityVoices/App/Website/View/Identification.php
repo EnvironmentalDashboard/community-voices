@@ -39,7 +39,8 @@ class Identification
         $domainIdentity->adopt($identityXMLElement);
 
         $presentation = new Presenter('SinglePane');
-        echo $presentation->generate($domainXMLElement);
+
+        $response->setBody($presentation->generate($domainXMLElement));
     }
 
     /**
@@ -79,7 +80,8 @@ class Identification
         $domainIdentity->adopt($identityXMLElement);
 
         $presentation = new Presenter('SinglePane');
-        echo $presentation->generate($domainXMLElement);
+
+        $response->setBody($presentation->generate($domainXMLElement));
     }
 
     public function getLogout($response)
@@ -95,6 +97,7 @@ class Identification
         $domainIdentity->adopt($identityXMLElement);
 
         $presentation = new Presenter('SinglePane');
-        echo $presentation->generate($domainXMLElement);
+
+        $response->setBody($presentation->generate($domainXMLElement));
     }
 }

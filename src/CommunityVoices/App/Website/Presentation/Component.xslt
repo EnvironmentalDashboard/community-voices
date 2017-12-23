@@ -11,7 +11,6 @@
                     You need to <a href="login">login.</a>
                 </xsl:otherwise>
             </xsl:choose>
-            <xsl:value-of select="identity/user/id" disable-output-escaping="yes" />
         </header>
     </xsl:template>
 

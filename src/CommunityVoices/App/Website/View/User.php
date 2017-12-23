@@ -40,11 +40,12 @@ class User
         $domainIdentity->adopt($identityXMLElement);
 
         $presentation = new Presenter('SinglePane');
-        echo $presentation->generate($domainXMLElement);
+
+        $response->setBody($presentation->generate($domainXMLElement));
     }
 
     public function getProtectedPage($response)
     {
-        echo 'ok';
+        $response->setBody('ok');
     }
 }

@@ -10,7 +10,7 @@
 
         <form action='./authenticate' method='post'>
             Email: <input type='input' name='email'/> <br/>
-            Password: <input type='password' name='password'/><input type='submit'/>
+            Password: <input type='password' name='password'/><input type='checkbox' name='remember'/><input type='submit'/>
         </form>
     </xsl:template>
 

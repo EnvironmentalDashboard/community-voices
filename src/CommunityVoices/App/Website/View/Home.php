@@ -4,8 +4,8 @@ namespace CommunityVoices\App\Website\View;
 
 class Home
 {
-    public function getLanding()
+    public function getLanding($response)
     {
-        echo "Home";
+        $response->setBody("Home");
     }
 }
