@@ -19,13 +19,11 @@ class User
     public function __construct(
         Component\RecognitionAdapter $recognitionAdapter,
         Api\Controller\User $userAPIController,
-        Api\View\User $userAPIView,
         Api\Component\SecureContainer $secureContainer
     ) {
         $this->recognitionAdapter = $recognitionAdapter;
 
         $this->userAPIController = $userAPIController;
-        $this->userAPIView = $userAPIView;
 
         $this->secureContainer = $secureContainer;
     }
@@ -36,10 +34,6 @@ class User
 
     public function getProtectedPage($request)
     {
-        $request = new Http\Request;
-
-        $identity = $this->recognitionAdapter->identify();
-
         $this->secureContainer->contain($this->userAPIController);
         $this->secureContainer->postUser($request);
     }
