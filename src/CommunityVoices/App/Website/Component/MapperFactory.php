@@ -5,6 +5,7 @@ namespace CommunityVoices\App\Website\Component;
 use RuntimeException;
 use PDO;
 use ReflectionClass;
+use CommunityVoices\Model\Mapper\Cache;
 
 class MapperFactory
 {
@@ -21,7 +22,7 @@ class MapperFactory
 
     public function createCacheMapper()
     {
-        return $this->create(Mapper\Cache::class, null);
+        return $this->create(Cache::class, null);
     }
 
     public function createCookieMapper($class)
