@@ -4,14 +4,18 @@ namespace CommunityVoices\App\Website\Controller;
 
 use CommunityVoices\Model\Service;
 use CommunityVoices\App\Website\Component;
+use CommunityVoices\App\Website\Component\CachedItem;
 
 class Identification
 {
     protected $recognitionAdapter;
+    protected $mapperFactory;
 
-    public function __construct(Component\RecognitionAdapter $recognitionAdapter)
+    public function __construct(Component\RecognitionAdapter $recognitionAdapter,
+        Component\MapperFactory $mapperFactory)
     {
         $this->recognitionAdapter = $recognitionAdapter;
+        $this->mapperFactory = $mapperFactory;
     }
 
     public function getLogin($request)
@@ -25,7 +29,18 @@ class Identification
     {
         $email    = $request->getParameter('email');
         $password = $request->getParameter('password');
-        $remember = $request->getParameter('remember');
+        $remember = $request->getParameter('remember') == 'on';
+
+        $form = [
+            'email' => $email,
+            'remember' => $remember
+        ];
+
+        $formCache = new CachedItem('form');
+        $formCache->setValue($form);
+
+        $cacheMapper = $this->mapperFactory->createCacheMapper();
+        $cacheMapper->save($formCache);
 
         $this->recognitionAdapter->authenticate($email, $password, $remember);
     }

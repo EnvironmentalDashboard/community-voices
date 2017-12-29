@@ -7,15 +7,19 @@ use \DOMDocument;
 use \XSLTProcessor;
 use CommunityVoices\Model\Service;
 use CommunityVoices\App\Website\Component;
+use CommunityVoices\App\Website\Component\CachedItem;
 use CommunityVoices\App\Website\Component\Presenter;
 
 class Identification
 {
     protected $recognitionAdapter;
+    protected $mapperFactory;
 
-    public function __construct(Component\RecognitionAdapter $recognitionAdapter)
+    public function __construct(Component\RecognitionAdapter $recognitionAdapter,
+        Component\MapperFactory $mapperFactory)
     {
         $this->recognitionAdapter = $recognitionAdapter;
+        $this->mapperFactory = $mapperFactory;
     }
 
     public function getLogin($response)
@@ -58,8 +62,19 @@ class Identification
              * Login failed; display login form
              */
 
+            // Grab cached form
+            $formCache = new CachedItem('form');
+
+            $cacheMapper = $this->mapperFactory->createCacheMapper();
+            $cacheMapper->fetch($formCache);
+
+            $form = $formCache->getValue();
+
+            // Construct form
             $formParamXML = new SimpleXMLElement('<form/>');
             $formParamXML->addAttribute('failure', true);
+            $formParamXML->addAttribute('email-value', $form['email']);
+            $formParamXML->addAttribute('remember-value', $form['remember']);
 
             $formModule = new Presenter('Module/Form/Login');
             $formModuleXML = $formModule->generate($formParamXML);
