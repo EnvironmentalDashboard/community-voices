@@ -57,7 +57,7 @@ $injector = new Auryn\Injector;
  * Db handler configuration
  */
 
-$dbHandler = new PDO('mysql:host=localhost;dbname=community_voices;charset=utf8', 'jeremy', '/Bms^zCN%');
+$dbHandler = new PDO('credentials');
 
 $injector->share($dbHandler);
 
@@ -131,3 +131,10 @@ $controller->{$action}($request);
 
 $view = $injector->make("CommunityVoices\\App\\Website\\View\\" . $resource);
 $view->{$action}($response);
+
+foreach ($response->getHeaders() as $header) {
+    echo $header['value'];
+    header($header['value']);
+}
+
+echo $response->getBody();
