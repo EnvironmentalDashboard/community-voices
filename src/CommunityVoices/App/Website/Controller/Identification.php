@@ -29,7 +29,7 @@ class Identification
     {
         $email    = $request->getParameter('email');
         $password = $request->getParameter('password');
-        $remember = $request->getParameter('remember') == 'on';
+        $remember = $request->getParameter('remember') === 'on';
 
         $form = [
             'email' => $email,
