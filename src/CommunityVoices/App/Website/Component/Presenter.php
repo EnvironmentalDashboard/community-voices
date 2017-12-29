@@ -5,6 +5,7 @@ namespace CommunityVoices\App\Website\Component;
 use \DOMDocument;
 use \XSLTProcessor;
 
+
 /**
  * @codeCoverageIgnore
  */
