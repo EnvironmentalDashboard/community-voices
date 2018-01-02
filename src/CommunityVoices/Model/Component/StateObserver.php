@@ -66,10 +66,10 @@ class StateObserver implements FlexibleObserver
     /**
      * Detects specific entry
      * @param  string  $key Entry key to search for
-     * @param  string  $message Entry message to search for
+     * @param  string  $value Entry message to search for
      * @return boolean Boolean indicating if there are entries
      */
-    public function hasEntry($key, $message = null): bool
+    public function hasEntry($key, $value = null): bool
     {
         if (is_null($this->subject)) {
             throw new Exception('Notification subject specified');
@@ -83,12 +83,38 @@ class StateObserver implements FlexibleObserver
             return false;
         }
 
-        if (!$message) {
+        if (!$value) {
             return array_key_exists($key, $this->collector[$this->subject]);
         }
 
         return array_key_exists($key, $this->collector[$this->subject])
-                && in_array($message, $this->collector[$this->subject][$key]);
+                && in_array($value, $this->collector[$this->subject][$key]);
+    }
+
+    /**
+     * Fetches specific entry
+     * @param  string  $key Entry key to search for
+     * @return array Entries
+     */
+    public function getEntry($key)
+    {
+        if (is_null($this->subject)) {
+            throw new Exception('Notification subject specified');
+        }
+
+        if (is_null($key)) {
+            throw new Exception('Notification key not specified.');
+        }
+
+        if (!array_key_exists($this->subject, $this->collector)) {
+            return false;
+        }
+
+        if (array_key_exists($key, $this->collector[$this->subject])) {
+            return $this->collector[$this->subject][$key];
+        }
+
+        return false;
     }
 
     /**

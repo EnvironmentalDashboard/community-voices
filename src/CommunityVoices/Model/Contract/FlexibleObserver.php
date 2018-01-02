@@ -10,6 +10,10 @@ interface FlexibleObserver
 
     public function hasEntries(): bool;
 
+    public function hasEntry($key, $value);
+
+    public function getEntry($key);
+
     public function getEntriesBySubject($subject);
 
     public function getEntries();

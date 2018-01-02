@@ -11,7 +11,7 @@ use OutOfBoundsException;
  */
 class StateObserverTest extends TestCase
 {
-    public function test_Add_Entry_No_StateObserver()
+    public function test_Add_Entry_No_Subject()
     {
         $this->expectException(Exception::class);
 
@@ -83,7 +83,7 @@ class StateObserverTest extends TestCase
         $this->assertSame($expected, $stateObserver->getEntries());
     }
 
-    public function test_Entry_Retrieval_Single_StateObserver()
+    public function test_Entry_Retrieval_Single_Subject()
     {
         $stateObserver = new StateObserver;
 
@@ -118,12 +118,12 @@ class StateObserverTest extends TestCase
         $this->assertSame($expected, $stateObserver->getEntries());
     }
 
-    public function test_Entry_Retrieval_Single_Invalid_StateObserver()
+    public function test_Entry_Retrieval_Single_Invalid_Subject()
     {
         $this->expectException(OutOfBoundsException::class);
         $stateObserver = new StateObserver;
 
-        $stateObserver->getEntriesBySubject('invalidstateObserver');
+        $stateObserver->getEntriesBySubject('invalidSubject');
     }
 
     public function test_Entry_Search()
@@ -140,7 +140,7 @@ class StateObserverTest extends TestCase
         $this->assertFalse($stateObserver->hasEntry('vegetables'));
     }
 
-    public function test_Entry_Search_No_StateObserver()
+    public function test_Entry_Search_No_Subject()
     {
         $stateObserver = new StateObserver;
 
@@ -165,5 +165,39 @@ class StateObserverTest extends TestCase
         $stateObserver->setSubject('blah');
 
         $this->assertFalse($stateObserver->hasEntry('blah'));
+    }
+
+    public function test_Get_Entry_By_Subject()
+    {
+        $stateObserver = new StateObserver;
+
+        $stateObserver->setSubject('blah');
+        $stateObserver->addEntry('foo', '123');
+        $stateObserver->addEntry('what', 'wherewhenhow');
+
+        $stateObserver->setSubject('halb');
+        $stateObserver->addEntry('math', 'isFun');
+
+        $stateObserver->setSubject('blah');
+        $foo = $stateObserver->getEntry('foo');
+
+        $this->assertEquals($foo, ['123']);
+    }
+
+    public function test_Get_Entry_By_Subject_No_Entry()
+    {
+        $stateObserver = new StateObserver;
+
+        $stateObserver->setSubject('blah');
+        $stateObserver->addEntry('foo', '123');
+        $stateObserver->addEntry('what', 'wherewhenhow');
+
+        $stateObserver->setSubject('halb');
+        $stateObserver->addEntry('math', 'isFun');
+
+        $stateObserver->setSubject('blah');
+        $when = $stateObserver->getEntry('when');
+
+        $this->assertEquals($when, false);
     }
 }
