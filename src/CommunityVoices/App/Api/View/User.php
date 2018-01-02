@@ -3,6 +3,7 @@
 namespace CommunityVoices\App\Api\View;
 
 use CommunityVoices\Model\Component\MapperFactory;
+use Symfony\Component\HttpFoundation\Response;
 
 class User
 {
@@ -18,6 +19,10 @@ class User
         $clientStateMapper = $this->mapperFactory->createClientStateMapper();
         $clientStateObserver = $clientStateMapper->retrieve();
 
-        return !($clientStateObserver && $clientStateObserver->hasEntries());
+        $response = new Response(
+            !($clientStateObserver && $clientStateObserver->hasEntries())
+        );
+
+        return $response;
     }
 }

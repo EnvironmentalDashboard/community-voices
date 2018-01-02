@@ -18,11 +18,11 @@ class User
      */
     public function postUser($request)
     {
-        $email = $request->getParameter('email');
-        $password = $request->getParameter('password');
-        $confirmPassword = $request->getParameter('confirmPassword');
-        $firstName = $request->getParameter('firstName');
-        $lastName = $request->getParameter('lastName');
+        $email = $request->request->get('email');
+        $password = $request->request->get('password');
+        $confirmPassword = $request->request->get('confirmPassword');
+        $firstName = $request->request->get('firstName');
+        $lastName = $request->request->get('lastName');
 
         $this->registrationService->createUser($email, $password, $confirmPassword,
             $firstName, $lastName);
