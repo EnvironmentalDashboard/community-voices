@@ -17,12 +17,16 @@ class Registration
 
     private $mapperFactory;
 
+    private $stateObserver;
+
     public function __construct(
         Palladium\Service\Registration $pdRegistration,
-        Component\MapperFactory $mapperFactory
+        Component\MapperFactory $mapperFactory,
+        Component\StateObserver $stateObserver
     ) {
         $this->pdRegistration = $pdRegistration;
         $this->mapperFactory = $mapperFactory;
+        $this->stateObserver = $stateObserver;
     }
 
     /**
@@ -50,38 +54,36 @@ class Registration
 
 
         /**
-         * Create error observer, set notifier, and pass it to user validator
+         * Create error observer, set the subject, and pass it to user validator
          */
-        $notifier = new Entity\Notifier;
+        $this->stateObserver->setSubject('registration');
 
-        $notifier->setNotifier('registration');
+        $isValid = $user->validateForRegistration($this->stateObserver);
 
-        $isValid = $user->validateForRegistration($notifier);
-
-        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ApplicationState::class);
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
 
         /**
          * Stop the registration process and save the errors to application state
          * if email is invalid. No point in continuing the validation process in
          * making sure no user has this email if the email is invalid anyway
          */
-        if (!$isValid && $notifier->hasEntry('email', $user::ERR_EMAIL_INVALID)) {
-            $clientState->save($notifier);
+        if (!$isValid && $this->stateObserver->hasEntry('email', $user::ERR_EMAIL_INVALID)) {
+            $clientState->save($this->stateObserver);
             return false;
         }
 
         $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
 
         if ($userMapper->existingUserWithEmail($user)) {
-            $notifier->addEntry('email', $user::ERR_EMAIL_EXISTS);
+            $this->stateObserver->addEntry('email', $user::ERR_EMAIL_EXISTS);
         }
 
         /**
          * If there are any errors at this point, save the error state and stop
          * the registration process
          */
-        if ($notifier->hasEntries()) {
-            $clientState->save($notifier);
+        if ($this->stateObserver->hasEntries()) {
+            $clientState->save($this->stateObserver);
             return false;
         }
 
