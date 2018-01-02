@@ -2,9 +2,11 @@
     "name": "jeremy/community-voices",
     "require": {
         "rdlowrey/auryn": "^1.4",
-        "fracture/routing": "^0.3.1",
         "teresko/palladium": "^1.3",
-        "monolog/monolog": "^1.23"
+        "monolog/monolog": "^1.23",
+        "symfony/routing": "^3.3",
+        "symfony/config": "^3.3",
+        "symfony/http-foundation": "^3.3"
     },
     "autoload": {
         "psr-4": {
