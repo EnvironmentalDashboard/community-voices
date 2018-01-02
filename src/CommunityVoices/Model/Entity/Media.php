@@ -111,4 +111,16 @@ class Media implements HasId
     {
         $this->tagCollection = $tagCollection;
     }
+
+    protected function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'addedBy' => $this->addedBy,
+            'dateCreated' => $this->dateCreated,
+            'type' => $this->type,
+            'status' => $this->status,
+            'tagCollection' => $this->tagCollection
+        ];
+    }
 }

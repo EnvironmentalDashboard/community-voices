@@ -18,6 +18,11 @@ class Quote extends Media
     private $publicDocumentLink;
     private $sourceDocumentLink;
 
+    public function __construct()
+    {
+        $this->type = self::TYPE_QUOTE;
+    }
+
     public function getText()
     {
         return $this->text;
@@ -95,21 +100,27 @@ class Quote extends Media
         return $isValid;
     }
 
+    protected function toArray()
+    {
+        return array_merge(parent::toArray(), [
+            'text' => $this->text,
+            'attribution' => $this->attribution,
+            'dateRecorded' => $this->dateRecorded,
+            'publicDocumentLink' => $this->publicDocumentLink,
+            'sourceDocumentLink' => $this->sourceDocumentLink
+        ]);
+    }
+
     public function toXml()
     {
-        $arr = [
-            'id' => $this->id,
-            'text' => $this->text
-        ];
+        $arr = $this->toArray();
 
-        $xml = '<quote>';
+        $xml = '';
 
         foreach ($arr as $key => $value) {
             $xml .= '<' . $key . '>' . $value . '</' . $key . '>';
         }
 
-        $xml .= '</quote>';
-
-        return $xml;
+        return '<quote>' . $xml . '</quote>';
     }
 }
