@@ -2,6 +2,7 @@
 
 namespace CommunityVoices\Model\Entity;
 
+use CommunityVoices\Model\Component\StateObserver;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 
@@ -81,31 +82,31 @@ class LocationTest extends TestCase
 
     public function test_If_Valid_Location_Valid_For_Upload()
     {
-        $notifier = $this
-            ->getMockBuilder(Notifier::class)
+        $stateObserver = $this
+            ->getMockBuilder(StateObserver::class)
             ->setMethods(['addEntry'])
             ->getMock();
 
         $instance = new Location;
         $instance->setLabel('foo');
 
-        $this->assertTrue($instance->validateForUpload($notifier));
+        $this->assertTrue($instance->validateForUpload($stateObserver));
     }
 
     public function test_If_Invalid_Location_No_Label_Valid_For_Upload()
     {
-        $notifier = $this
-            ->getMockBuilder(Notifier::class)
+        $stateObserver = $this
+            ->getMockBuilder(StateObserver::class)
             ->setMethods(['addEntry'])
             ->getMock();
 
-        $notifier
+        $stateObserver
             ->expects($this->once())
             ->method('addEntry')
             ->with($this->equalTo('label'), $this->equalTo(Location::ERR_LABEL_REQUIRED));
 
         $instance = new Location;
 
-        $this->assertFalse($instance->validateForUpload($notifier));
+        $this->assertFalse($instance->validateForUpload($stateObserver));
     }
 }

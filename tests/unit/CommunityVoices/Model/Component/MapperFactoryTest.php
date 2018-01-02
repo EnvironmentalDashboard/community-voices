@@ -53,7 +53,7 @@ class MapperFactoryTest extends TestCase
         $this->assertSame($mapper, $mapper2); //confirm proper caching
     }
 
-    public function test_Application_State_Mapper_Creation()
+    public function test_Client_State_Mapper_Creation()
     {
         $pdo = $this->createMock(PDO::class);
 
@@ -61,7 +61,7 @@ class MapperFactoryTest extends TestCase
 
         $mapper = $mapperFactory->createClientStateMapper();
 
-        $this->assertTrue($mapper instanceof Mapper\ApplicationState);
+        $this->assertTrue($mapper instanceof Mapper\ClientState);
 
         $mapper2 = $mapperFactory->createClientStateMapper();
 

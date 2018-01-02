@@ -2,7 +2,7 @@
 
 namespace CommunityVoices\Model\Entity;
 
-use CommunityVoices\Model\Contract\StateObserver;
+use CommunityVoices\Model\Contract\FlexibleObserver;
 
 class Image extends Media
 {
@@ -99,7 +99,7 @@ class Image extends Media
 
     @TODO implementation must be thought through
 
-    public function validateForUpload(StatusObserver $notifier)
+    public function validateForUpload(StatusObserver $stateObserver)
     {
         $isValid = true;
     }

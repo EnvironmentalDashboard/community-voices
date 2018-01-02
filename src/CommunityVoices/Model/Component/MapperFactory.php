@@ -30,7 +30,7 @@ class MapperFactory
 
     public function createClientStateMapper()
     {
-        return $this->create(Mapper\ApplicationState::class, null);
+        return $this->create(Model\Mapper\ClientState::class, null);
     }
 
     private function create($class, $handler)

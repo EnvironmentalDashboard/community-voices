@@ -2,7 +2,7 @@
 
 namespace CommunityVoices\Model\Entity;
 
-use CommunityVoices\Model\Contract\StateObserver;
+use CommunityVoices\Model\Contract\FlexibleObserver;
 
 class Quote extends Media
 {
@@ -73,25 +73,43 @@ class Quote extends Media
     }
 
 
-    public function validateForUpload(StateObserver $notifier)
+    public function validateForUpload(FlexibleObserver $stateObserver)
     {
         $isValid = true;
 
         if (!$this->attribution || empty($this->attribution)) {
             $isValid = false;
-            $notifier->addEntry('attribution', self::ERR_ATTRIBUTION_REQUIRED);
+            $stateObserver->addEntry('attribution', self::ERR_ATTRIBUTION_REQUIRED);
         }
 
         if ($this->sourceDocumentLink && !filter_var($this->sourceDocumentLink, FILTER_VALIDATE_URL)) {
             $isValid = false;
-            $notifier->addEntry('sourceDocumentLink', self::ERR_SOURCE_LINK_INVALID);
+            $stateObserver->addEntry('sourceDocumentLink', self::ERR_SOURCE_LINK_INVALID);
         }
 
         if ($this->publicDocumentLink && !filter_var($this->publicDocumentLink, FILTER_VALIDATE_URL)) {
             $isValid = false;
-            $notifier->addEntry('publicDocumentLink', self::ERR_PUBLIC_LINK_INVALID);
+            $stateObserver->addEntry('publicDocumentLink', self::ERR_PUBLIC_LINK_INVALID);
         }
 
         return $isValid;
+    }
+
+    public function toXml()
+    {
+        $arr = [
+            'id' => $this->id,
+            'text' => $this->text
+        ];
+
+        $xml = '<quote>';
+
+        foreach ($arr as $key => $value) {
+            $xml .= '<' . $key . '>' . $value . '</' . $key . '>';
+        }
+
+        $xml .= '</quote>';
+
+        return $xml;
     }
 }

@@ -117,7 +117,7 @@ class Slide extends Media
         $this->organizationCategoryCollection = $organizationCategoryCollection;
     }
 
-    public function validateForUpload(StatusObserver $notifier)
+    public function validateForUpload(StatusObserver $stateObserver)
     {
         $isValid = true;
 
@@ -126,7 +126,7 @@ class Slide extends Media
          */
         if ($this->probability > 1 || $this->probability < 0) {
             $isValid = false;
-            $notifier->addEntry('probability', self::ERR_PROBABILITY_OUT_OF_RANGE);
+            $stateObserver->addEntry('probability', self::ERR_PROBABILITY_OUT_OF_RANGE);
         }
 
         /**
@@ -134,27 +134,27 @@ class Slide extends Media
          */
         if ($this->decayPercent > 1 || $this->decayPercent < 0) {
             $isValid = false;
-            $notifier->addEntry('decayPercent', self::ERR_DECAY_OUT_OF_RANGE);
+            $stateObserver->addEntry('decayPercent', self::ERR_DECAY_OUT_OF_RANGE);
         }
 
         if ($this->decayPercent > 0) {
             //Slides that decay must have a decay end time
             if ($this->decayEnd === false) {
                 $isValid = false;
-                $notifier->addEntry('decayEnd', self::ERR_DECAY_MUST_END);
+                $stateObserver->addEntry('decayEnd', self::ERR_DECAY_MUST_END);
             }
 
             //Slides that decay must decay in the future
             if ($this->decayEnd < time()) {
                 $isValid = false;
-                $notifier->addEntry('decayEnd', self::ERR_DECAY_MUST_END_FUTURE);
+                $stateObserver->addEntry('decayEnd', self::ERR_DECAY_MUST_END_FUTURE);
             }
 
             //Slides that have a decay begin date must begin decay before they
             //end decay
             if ($this->decayStart !== false && $this->decayStart > $this->decayEnd) {
                 $isValid = false;
-                $notifier->addEntry('decayStart', self::ERR_DECAY_RANGE_INVALID);
+                $stateObserver->addEntry('decayStart', self::ERR_DECAY_RANGE_INVALID);
             }
         }
 
@@ -163,18 +163,18 @@ class Slide extends Media
          */
         if (!$this->image || ($this->image instanceof Image && !$this->image->getId())) {
             $isValid = false;
-            $notifier->addEntry('image', self::ERR_IMAGE_RELATIONSHIP_MISSING);
+            $stateObserver->addEntry('image', self::ERR_IMAGE_RELATIONSHIP_MISSING);
         }
 
         if (!$this->quote || ($this->quote instanceof Quote && !$this->quote->getId())) {
             $isValid = false;
-            $notifier->addEntry('quote', self::ERR_QUOTE_RELATIONSHIP_MISSING);
+            $stateObserver->addEntry('quote', self::ERR_QUOTE_RELATIONSHIP_MISSING);
         }
 
         if (!$this->contentCategory || ($this->contentCategory instanceof ContentCategory
             && !$this->contentCategory->getId())) {
             $isValid = false;
-            $notifier->addEntry('contentCategory', self::ERR_CONTENT_CATEGORY_RELATIONSHIP_MISSING);
+            $stateObserver->addEntry('contentCategory', self::ERR_CONTENT_CATEGORY_RELATIONSHIP_MISSING);
         }
 
         return $isValid;

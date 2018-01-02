@@ -2,7 +2,7 @@
 
 namespace CommunityVoices\Model\Entity;
 
-use CommunityVoices\Model\Contract\StateObserver;
+use CommunityVoices\Model\Contract\FlexibleObserver;
 use CommunityVoices\Model\Contract\HasId;
 use CommunityVoices\Model\Exception\IdentityKnown;
 use Palladium;
@@ -115,7 +115,7 @@ class User implements HasId, Palladium\Contract\HasId
         return $this->password === $this->confirmPassword;
     }
 
-    public function validateForRegistration(StateObserver $notifier)
+    public function validateForRegistration(FlexibleObserver $stateObserver)
     {
         $isValid = true;
 
@@ -125,27 +125,27 @@ class User implements HasId, Palladium\Contract\HasId
 
         if (!$this->firstName || empty($this->firstName)) {
             $isValid = false;
-            $notifier->addEntry('firstName', self::ERR_FNAME_REQUIRED);
+            $stateObserver->addEntry('firstName', self::ERR_FNAME_REQUIRED);
         }
 
         if (!$this->lastName || empty($this->lastName)) {
             $isValid = false;
-            $notifier->addEntry('lastName', self::ERR_LNAME_REQUIRED);
+            $stateObserver->addEntry('lastName', self::ERR_LNAME_REQUIRED);
         }
 
         if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             $isValid = false;
-            $notifier->addEntry('email', self::ERR_EMAIL_INVALID);
+            $stateObserver->addEntry('email', self::ERR_EMAIL_INVALID);
         }
 
         if (strlen($this->password) < 5) {
             $isValid = false;
-            $notifier->addEntry('password', self::ERR_PASSWORD_TOO_SHORT);
+            $stateObserver->addEntry('password', self::ERR_PASSWORD_TOO_SHORT);
         }
 
         if (!$this->passwordsMatch()) {
             $isValid = false;
-            $notifier->addEntry('password', self::ERR_PASSWORD_MISMATCH);
+            $stateObserver->addEntry('password', self::ERR_PASSWORD_MISMATCH);
         }
 
         return $isValid;

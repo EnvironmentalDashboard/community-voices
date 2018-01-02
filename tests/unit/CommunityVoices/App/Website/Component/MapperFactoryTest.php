@@ -17,7 +17,7 @@ class MapperFactoryTest extends TestCase
 
         $mapper = $mapperFactory->createCacheMapper();
 
-        $this->assertTrue($mapper instanceof Mapper\Cache);
+        $this->assertTrue($mapper instanceof \CommunityVoices\Model\Mapper\Cache);
 
         $mapper2 = $mapperFactory->createCacheMapper();
 

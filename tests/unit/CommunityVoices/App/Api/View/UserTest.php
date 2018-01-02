@@ -13,7 +13,7 @@ class UserTest extends TestCase
 {
     public function test_Post_User_Registration()
     {
-        $stateMapper = $this->createMock(Mapper\ApplicationState::class);
+        $stateMapper = $this->createMock(Mapper\ClientState::class);
 
         $stateMapper
             ->method('retrieve')

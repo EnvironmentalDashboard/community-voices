@@ -2,6 +2,7 @@
 
 namespace CommunityVoices\Model\Entity;
 
+use CommunityVoices\Model\Component\StateObserver;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -70,21 +71,21 @@ class QuoteTest extends TestCase
 
     public function test_If_Valid_Quote_Is_Valid()
     {
-        $notifier = $this
-            ->getMockBuilder(Notifier::class)
+        $stateObserver = $this
+            ->getMockBuilder(StateObserver::class)
             ->setMethods(['addEntry'])
             ->getMock();
 
         $instance = new Quote;
         $instance->setAttribution("John Doe");
 
-        $this->assertTrue($instance->validateForUpload($notifier));
+        $this->assertTrue($instance->validateForUpload($stateObserver));
     }
 
     public function test_If_Valid_Quote_Is_Valid_2()
     {
-        $notifier = $this
-            ->getMockBuilder(Notifier::class)
+        $stateObserver = $this
+            ->getMockBuilder(StateObserver::class)
             ->setMethods(['addEntry'])
             ->getMock();
 
@@ -93,17 +94,17 @@ class QuoteTest extends TestCase
         $instance->setPublicDocumentLink('http://localhost.com');
         $instance->setSourceDocumentLink('http://localhost.com');
 
-        $this->assertTrue($instance->validateForUpload($notifier));
+        $this->assertTrue($instance->validateForUpload($stateObserver));
     }
 
     public function test_If_Invalid_Quote_Bad_Source_Document_Is_Valid()
     {
-        $notifier = $this
-            ->getMockBuilder(Notifier::class)
+        $stateObserver = $this
+            ->getMockBuilder(StateObserver::class)
             ->setMethods(['addEntry'])
             ->getMock();
 
-        $notifier
+        $stateObserver
             ->expects($this->once())
             ->method('addEntry')
             ->with($this->equalTo('sourceDocumentLink'), $this->equalTo(Quote::ERR_SOURCE_LINK_INVALID));
@@ -113,17 +114,17 @@ class QuoteTest extends TestCase
         $instance->setSourceDocumentLink('foo');
         $instance->setPublicDocumentLink('http://localhost.com');
 
-        $this->assertFalse($instance->validateForUpload($notifier));
+        $this->assertFalse($instance->validateForUpload($stateObserver));
     }
 
     public function test_If_Invalid_Quote_Bad_Public_Document_Is_Valid()
     {
-        $notifier = $this
-            ->getMockBuilder(Notifier::class)
+        $stateObserver = $this
+            ->getMockBuilder(StateObserver::class)
             ->setMethods(['addEntry'])
             ->getMock();
 
-        $notifier
+        $stateObserver
             ->expects($this->once())
             ->method('addEntry')
             ->with($this->equalTo('publicDocumentLink'), $this->equalTo(Quote::ERR_PUBLIC_LINK_INVALID));
@@ -133,6 +134,6 @@ class QuoteTest extends TestCase
         $instance->setPublicDocumentLink('foo');
         $instance->setSourceDocumentLink('http://localhost.com');
 
-        $this->assertFalse($instance->validateForUpload($notifier));
+        $this->assertFalse($instance->validateForUpload($stateObserver));
     }
 }

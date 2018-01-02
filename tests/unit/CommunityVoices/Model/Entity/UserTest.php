@@ -2,7 +2,7 @@
 
 namespace CommunityVoices\Model\Entity;
 
-use CommunityVoices\Model\Entity\Notifier;
+use CommunityVoices\Model\Component\StateObserver;
 use CommunityVoices\Model\Exception\IdentityKnown;
 use PHPUnit\Framework\TestCase;
 
@@ -64,7 +64,7 @@ class UserTest extends TestCase
 
     public function test_If_Valid_User_Is_Valid_For_Registration()
     {
-        $notifier = $this->createMock(Notifier::class);
+        $stateObserver = $this->createMock(StateObserver::class);
 
         $instance = new User;
         $instance->setFirstName('John');
@@ -73,17 +73,17 @@ class UserTest extends TestCase
         $instance->setPassword('foo123');
         $instance->setConfirmPassword('foo123');
 
-        $this->assertTrue($instance->validateForRegistration($notifier));
+        $this->assertTrue($instance->validateForRegistration($stateObserver));
     }
 
     public function test_If_Invalid_User_Bad_Email_Is_Valid_For_Registration()
     {
-        $notifier = $this
-            ->getMockBuilder(Notifier::class)
+        $stateObserver = $this
+            ->getMockBuilder(StateObserver::class)
             ->setMethods(['addEntry'])
             ->getMock();
 
-        $notifier
+        $stateObserver
             ->expects($this->once())
             ->method('addEntry')
             ->with($this->equalTo('email'), $this->equalTo(User::ERR_EMAIL_INVALID));
@@ -95,29 +95,29 @@ class UserTest extends TestCase
         $instance->setPassword('foo123');
         $instance->setConfirmPassword('foo123');
 
-        $this->assertFalse($instance->validateForRegistration($notifier));
+        $this->assertFalse($instance->validateForRegistration($stateObserver));
     }
 
     public function test_If_Invalid_User_Identity_Known_Is_Valid_For_Registration()
     {
         $this->expectException(IdentityKnown::class);
 
-        $notifier = $this->createMock(Notifier::class);
+        $stateObserver = $this->createMock(StateObserver::class);
 
         $instance = new User;
         $instance->setId(6);
 
-        $instance->validateForRegistration($notifier);
+        $instance->validateForRegistration($stateObserver);
     }
 
     public function test_If_Invalid_User_Password_Mismatch_Is_Valid_For_Registration()
     {
-        $notifier = $this
-            ->getMockBuilder(Notifier::class)
+        $stateObserver = $this
+            ->getMockBuilder(StateObserver::class)
             ->setMethods(['addEntry'])
             ->getMock();
 
-        $notifier
+        $stateObserver
             ->expects($this->once())
             ->method('addEntry')
             ->with($this->equalTo('password'), $this->equalTo(User::ERR_PASSWORD_MISMATCH));
@@ -129,17 +129,17 @@ class UserTest extends TestCase
         $instance->setPassword('foo123');
         $instance->setConfirmPassword('123foo');
 
-        $this->assertFalse($instance->validateForRegistration($notifier));
+        $this->assertFalse($instance->validateForRegistration($stateObserver));
     }
 
     public function test_If_Invalid_User_Password_Too_Short_Is_Valid_For_Registration()
     {
-        $notifier = $this
-            ->getMockBuilder(Notifier::class)
+        $stateObserver = $this
+            ->getMockBuilder(StateObserver::class)
             ->setMethods(['addEntry'])
             ->getMock();
 
-        $notifier
+        $stateObserver
             ->expects($this->once())
             ->method('addEntry')
             ->with($this->equalTo('password'), $this->equalTo(User::ERR_PASSWORD_TOO_SHORT));
@@ -151,17 +151,17 @@ class UserTest extends TestCase
         $instance->setPassword('123');
         $instance->setConfirmPassword('123');
 
-        $this->assertFalse($instance->validateForRegistration($notifier));
+        $this->assertFalse($instance->validateForRegistration($stateObserver));
     }
 
     public function test_If_Invalid_User_No_First_Name_Is_Valid_For_Registration()
     {
-        $notifier = $this
-            ->getMockBuilder(Notifier::class)
+        $stateObserver = $this
+            ->getMockBuilder(StateObserver::class)
             ->setMethods(['addEntry'])
             ->getMock();
 
-        $notifier
+        $stateObserver
             ->expects($this->once())
             ->method('addEntry')
             ->with($this->equalTo('firstName'), $this->equalTo(User::ERR_FNAME_REQUIRED));
@@ -172,17 +172,17 @@ class UserTest extends TestCase
         $instance->setPassword('123123');
         $instance->setConfirmPassword('123123');
 
-        $this->assertFalse($instance->validateForRegistration($notifier));
+        $this->assertFalse($instance->validateForRegistration($stateObserver));
     }
 
     public function test_If_Invalid_User_No_Last_Name_Is_Valid_For_Registration()
     {
-        $notifier = $this
-            ->getMockBuilder(Notifier::class)
+        $stateObserver = $this
+            ->getMockBuilder(StateObserver::class)
             ->setMethods(['addEntry'])
             ->getMock();
 
-        $notifier
+        $stateObserver
             ->expects($this->once())
             ->method('addEntry')
             ->with($this->equalTo('lastName'), $this->equalTo(User::ERR_LNAME_REQUIRED));
@@ -193,6 +193,6 @@ class UserTest extends TestCase
         $instance->setPassword('123123');
         $instance->setConfirmPassword('123123');
 
-        $this->assertFalse($instance->validateForRegistration($notifier));
+        $this->assertFalse($instance->validateForRegistration($stateObserver));
     }
 }

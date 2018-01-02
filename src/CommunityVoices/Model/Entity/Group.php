@@ -2,7 +2,7 @@
 
 namespace CommunityVoices\Model\Entity;
 
-use CommunityVoices\Model\Contract\StateObserver;
+use CommunityVoices\Model\Contract\FlexibleObserver;
 use CommunityVoices\Model\Contract\HasId;
 
 class Group implements HasId
@@ -62,13 +62,13 @@ class Group implements HasId
         }
     }
 
-    public function validateForUpload(StateObserver $notifier)
+    public function validateForUpload(FlexibleObserver $stateObserver)
     {
         $isValid = true;
 
         if (!$this->label || strlen($this->label) < 1) {
             $isValid = false;
-            $notifier->addEntry('label', self::ERR_LABEL_REQUIRED);
+            $stateObserver->addEntry('label', self::ERR_LABEL_REQUIRED);
         }
 
         return $isValid;
