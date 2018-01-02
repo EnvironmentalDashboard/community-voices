@@ -3,15 +3,15 @@
 namespace CommunityVoices\Model\Mapper;
 
 use CommunityVoices\Model\Component\Mapper;
-use CommunityVoices\Model\Contract\StateObserver;
+use CommunityVoices\Model\Contract\FlexibleObserver;
 
-class ApplicationState extends Mapper
+class ClientState extends Mapper
 {
     private $state = false;
 
-    public function save(StateObserver $state)
+    public function save(FlexibleObserver $observer)
     {
-        $this->state = $state->getEntries();
+        $this->state = $observer;
     }
 
     public function retrieve()
