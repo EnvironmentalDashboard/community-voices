@@ -10,7 +10,7 @@ class Quote extends Media
 {
     public function fetch(Entity\Media $quote)
     {
-        $this->fetchById($quote);
+        return $this->fetchById($quote);
     }
 
     private function fetchById(Entity\Media $quote)
@@ -29,7 +29,7 @@ class Quote extends Media
                     FROM
                         `community-voices_media` parent
                     JOIN
-                        `community-voices_quote` child
+                        `community-voices_quotes` child
                         ON parent.id = child.media_id
                     WHERE
                         parent.id = :id";
@@ -49,7 +49,11 @@ class Quote extends Media
             );
 
             $this->populateEntity($quote, array_merge($results, $convertedParams));
+
+            return true;
         }
+
+        return false;
     }
 
     public function save(Entity\Media $quote)
@@ -67,7 +71,7 @@ class Quote extends Media
         parent::update($quote);
 
         $query = "UPDATE
-                        `community-voices_quote`
+                        `community-voices_quotes`
                     SET
                         text = :text,
                         attribution = :attribution,
@@ -94,7 +98,7 @@ class Quote extends Media
         parent::create($quote);
 
         $query = "INSERT INTO
-                        `community-voices_quote`
+                        `community-voices_quotes`
                         (media_id, text, attribution, date_recorded, public_document_link,
                             source_document_link)
                     VALUES
