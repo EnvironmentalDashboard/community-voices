@@ -14,7 +14,7 @@ class MapperFactory
 
     private $cache = [];
 
-    public function __construct($request, $response)
+    public function __construct($request, $response = null)
     {
         $this->request = $request;
         $this->response = $response;
