@@ -42,5 +42,14 @@
             "action": "getProtectedPage",
             "method": "get"
         }
+    },
+
+    "getQuote": {
+        "notation": "/quote/{id}",
+        "defaults": {
+            "resource": "Quote",
+            "action": "getQuote",
+            "method": "get"
+        }
     }
 }
