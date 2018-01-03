@@ -10,43 +10,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 use CommunityVoices\App\Website;
+use CommunityVoices\Model;
 
 require __DIR__ . '/../../../../vendor/autoload.php';
-
-/*
- * Setting up request & response abstraction
- */
-
-$builder = new Fracture\Http\RequestBuilder;
-$request = $builder->create([
-    'get'    => $_GET,
-    'files'  => $_FILES,
-    'server' => $_SERVER,
-    'post'   => $_POST,
-    'cookies'=> $_COOKIE,
-]);
-
-$uri = isset($_SERVER['REQUEST_URI'])
-           ? $_SERVER['REQUEST_URI']
-           : '/';
-
-$request->setUri($uri);
-
-$builder = new Fracture\Http\ResponseBuilder($request);
-$response = $builder->create();
-
-/**
- * Import routes and prepare by prepending application prefix
- */
-
-$config = json_decode(file_get_contents(__DIR__ . '/Config/Routes.json'), true);
-
-$routes = array_map(function ($entry) {
-    $appPrefix = '/oberlin/community-voices';
-
-    $entry['notation'] = $appPrefix . $entry['notation'];
-    return $entry;
-}, $config);
 
 /**
  * Injector
@@ -56,13 +22,12 @@ $injector = new Auryn\Injector;
 /**
  * Db handler configuration
  */
-
-$dbHandler = new PDO('credentials');
+$dbHandler = new PDO('mysql:host=localhost;dbname=community_voices;charset=utf8', 'root', 'root');
 
 $injector->share($dbHandler);
 
 /**
- * Create and share log
+ * Create and share log (required by Palladium)
  */
 
 $logger = new Monolog\Logger('name');
@@ -73,13 +38,43 @@ $injector->share($logger);
 $injector->alias('Psr\Log\LoggerInterface', 'Monolog\Logger');
 
 /**
+ * Import routes
+ */
+
+$locator = new Symfony\Component\Config\FileLocator(array(__DIR__ . '/Config'));
+$loader = new Symfony\Component\Routing\Loader\PhpFileLoader($locator);
+
+$routes = $loader->load('Routes.php');
+
+/**
+ * Routing the request
+ */
+
+$request = Symfony\Component\HttpFoundation\Request::createFromGlobals();
+
+$context = new Symfony\Component\Routing\RequestContext();
+$context->fromRequest($request);
+
+$matcher = new Symfony\Component\Routing\Matcher\UrlMatcher($routes, $context);
+
+$uri = isset($_SERVER['REQUEST_URI'])
+            ? $_SERVER['REQUEST_URI']
+            : '/';
+
+$parameters = new Symfony\Component\HttpFoundation\ParameterBag($matcher->match($uri));
+
+$request->attributes = $parameters;
+
+/**
  * Create and share mapper factories
  */
 
-$websiteMapperFactory = new Website\Component\MapperFactory($request, $response);
+$websiteMapperFactory = new Website\Component\MapperFactory($request);
+$modelMapperFactory = new Model\Component\MapperFactory($dbHandler);
 $pdMapperFactory = new Palladium\Component\MapperFactory($dbHandler, '`community-voices_identities`');
 
 $injector->share($websiteMapperFactory);
+$injector->share($modelMapperFactory);
 $injector->share($pdMapperFactory);
 
 $injector->alias('Palladium\Contract\CanCreateMapper', 'Palladium\Component\MapperFactory');
@@ -100,41 +95,18 @@ $injector->share($arbiter);
 
 $injector->alias('CommunityVoices\App\Api\Component\Contract\CanIdentify', 'CommunityVoices\App\Website\Component\RecognitionAdapter');
 
-
-/**
- * Routing the request
- */
-
-$router = new Fracture\Routing\Router(new Fracture\Routing\RouteBuilder);
-$router->import($routes);
-
-$router->route($request);
-
 /**
  * Processing request
  */
 
-$resource = $request->getParameter('resource');
-$action = $request->getParameter('action');
-$method = $request->getParameter('method');
-
-if (strtoupper($method) !== strtoupper($request->getMethod())) {
-    /**
-     * Invalid request - wrong method type
-     */
-
-    die('Invalid request');
-}
+$resource = $request->attributes->get('resource');
+$action = $request->attributes->get('action');
+$method = $request->attributes->get('method');
 
 $controller = $injector->make("CommunityVoices\\App\\Website\\Controller\\" . $resource);
 $controller->{$action}($request);
 
 $view = $injector->make("CommunityVoices\\App\\Website\\View\\" . $resource);
-$view->{$action}($response);
+$response = $view->{$action}();
 
-foreach ($response->getHeaders() as $header) {
-    echo $header['value'];
-    header($header['value']);
-}
-
-echo $response->getBody();
+$response->send();
