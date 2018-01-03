@@ -22,6 +22,8 @@ class Quote
 
     public function getQuote($request)
     {
-        $this->quoteAPIController->getQuote($request);
+        $apiController = $this->secureContainer->contain($this->quoteAPIController);
+
+        $apiController->getQuote($request);
     }
 }

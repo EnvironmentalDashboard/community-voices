@@ -13,21 +13,26 @@ class Quote extends Component\View
 {
     protected $recognitionAdapter;
     protected $quoteAPIView;
+    protected $secureContainer;
 
     public function __construct(
         Component\RecognitionAdapter $recognitionAdapter,
         Api\View\Quote $quoteAPIView,
-        Component\MapperFactory $mapperFactory
+        Component\MapperFactory $mapperFactory,
+        Api\Component\SecureContainer $secureContainer
 
     ) {
         $this->recognitionAdapter = $recognitionAdapter;
         $this->quoteAPIView = $quoteAPIView;
         $this->mapperFactory = $mapperFactory;
+        $this->secureContainer = $secureContainer;
     }
 
     public function getQuote()
     {
-        $apiResponse = $this->quoteAPIView->getQuote();
+        $apiView = $this->secureContainer->contain($this->quoteAPIView);
+
+        $apiResponse = $apiView->getQuote();
 
         $response = new Response($apiResponse->getContent());
 
