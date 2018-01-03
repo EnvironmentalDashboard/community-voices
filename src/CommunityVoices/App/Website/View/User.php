@@ -14,9 +14,11 @@ class User extends Component\View
 {
     protected $recognitionAdapter;
 
-    public function __construct(Component\RecognitionAdapter $recognitionAdapter)
+    public function __construct(Component\RecognitionAdapter $recognitionAdapter,
+        Component\MapperFactory $mapperFactory)
     {
         $this->recognitionAdapter = $recognitionAdapter;
+        $this->mapperFactory = $mapperFactory;
     }
 
     public function getProfile()
