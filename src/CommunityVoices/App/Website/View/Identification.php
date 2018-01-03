@@ -10,18 +10,21 @@ use CommunityVoices\App\Website\Component;
 use CommunityVoices\App\Website\Component\CachedItem;
 use CommunityVoices\App\Website\Component\Presenter;
 use CommunityVoices\App\Website\Component\Mapper;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation;
 
 class Identification extends Component\View
 {
     protected $recognitionAdapter;
     protected $mapperFactory;
+    protected $transcriber;
 
     public function __construct(Component\RecognitionAdapter $recognitionAdapter,
-        Component\MapperFactory $mapperFactory)
+        Component\MapperFactory $mapperFactory,
+        Component\Transcriber $transcriber)
     {
         $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
+        $this->transcriber = $transcriber;
     }
 
     public function getLogin()
@@ -32,7 +35,10 @@ class Identification extends Component\View
         $formModuleXML = $formModule->generate($paramXML);
 
         $identity = $this->recognitionAdapter->identify();
-        $identityXMLElement = new SimpleXMLElement($identity->toXml());
+
+        $identityXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($identity->toArray())
+        );
 
         /**
          * Prepare template
@@ -46,7 +52,7 @@ class Identification extends Component\View
 
         $presentation = new Presenter('SinglePane');
 
-        $response = new Response($presentation->generate($domainXMLElement));
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 
         $this->finalize($response);
         return $response;
@@ -58,7 +64,9 @@ class Identification extends Component\View
     public function postCredentials()
     {
         $identity = $this->recognitionAdapter->identify();
-        $identityXMLElement = new SimpleXMLElement($identity->toXml());
+        $identityXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($identity->toArray())
+        );
 
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
@@ -101,7 +109,7 @@ class Identification extends Component\View
 
         $presentation = new Presenter('SinglePane');
 
-        $response = new Response($presentation->generate($domainXMLElement));
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 
         $this->finalize($response);
         return $response;
@@ -110,7 +118,9 @@ class Identification extends Component\View
     public function getLogout()
     {
         $identity = $this->recognitionAdapter->identify();
-        $identityXMLElement = new SimpleXMLElement($identity->toXml());
+        $identityXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($identity->toArray())
+        );
 
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
@@ -121,7 +131,7 @@ class Identification extends Component\View
 
         $presentation = new Presenter('SinglePane');
 
-        $response = new Response($presentation->generate($domainXMLElement));
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 
         $this->finalize($response);
         return $response;

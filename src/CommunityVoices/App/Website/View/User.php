@@ -8,23 +8,28 @@ use \XSLTProcessor;
 use CommunityVoices\Model\Service;
 use CommunityVoices\App\Website\Component;
 use CommunityVoices\App\Website\Component\Presenter;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation;
 
 class User extends Component\View
 {
     protected $recognitionAdapter;
+    protected $transcriber;
 
     public function __construct(Component\RecognitionAdapter $recognitionAdapter,
-        Component\MapperFactory $mapperFactory)
+        Component\MapperFactory $mapperFactory,
+        Component\Transcriber $transcriber)
     {
         $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
+        $this->transcriber = $transcriber;
     }
 
     public function getProfile()
     {
         $identity = $this->recognitionAdapter->identify();
-        $identityXMLElement = new SimpleXMLElement($identity->toXml());
+        $identityXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($identity->toArray())
+        );
 
         /**
          * Prepare modules
@@ -44,7 +49,7 @@ class User extends Component\View
 
         $presentation = new Presenter('SinglePane');
 
-        $response = new Response($presentation->generate($domainXMLElement));
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 
         $this->finalize($response);
         return $response;
@@ -52,7 +57,7 @@ class User extends Component\View
 
     public function getProtectedPage($response)
     {
-        $response = new Response('ok');
+        $response = new HttpFoundation\Response('ok');
 
         $this->finalize($response);
         return $response;

@@ -7,25 +7,27 @@ use \DOMDocument;
 use \XSLTProcessor;
 use CommunityVoices\App\Api;
 use CommunityVoices\App\Website\Component;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation;
 
 class Quote extends Component\View
 {
     protected $recognitionAdapter;
     protected $quoteAPIView;
     protected $secureContainer;
+    protected $transcriber;
 
     public function __construct(
         Component\RecognitionAdapter $recognitionAdapter,
-        Api\View\Quote $quoteAPIView,
         Component\MapperFactory $mapperFactory,
-        Api\Component\SecureContainer $secureContainer
-
+        Component\Transcriber $transcriber,
+        Api\Component\SecureContainer $secureContainer,
+        Api\View\Quote $quoteAPIView
     ) {
         $this->recognitionAdapter = $recognitionAdapter;
-        $this->quoteAPIView = $quoteAPIView;
         $this->mapperFactory = $mapperFactory;
+        $this->transcriber = $transcriber;
         $this->secureContainer = $secureContainer;
+        $this->quoteAPIView = $quoteAPIView;
     }
 
     public function getQuote()
@@ -34,7 +36,11 @@ class Quote extends Component\View
 
         $apiResponse = $apiView->getQuote();
 
-        $response = new Response($apiResponse->getContent());
+        $quote = $this->transcriber->toXml(
+            json_decode($apiResponse->getContent())
+        );
+
+        $response = new HttpFoundation\Response($quote);
 
         $this->finalize($response);
         return $response;
