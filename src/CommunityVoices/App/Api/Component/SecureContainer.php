@@ -25,6 +25,8 @@ class SecureContainer
     public function contain($decoratedInstance)
     {
         $this->decoratedInstance = $decoratedInstance;
+
+        return $this;
     }
 
     public function __call($method, $args)
