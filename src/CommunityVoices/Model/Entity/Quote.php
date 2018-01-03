@@ -100,27 +100,14 @@ class Quote extends Media
         return $isValid;
     }
 
-    protected function toArray()
+    public function toArray()
     {
-        return array_merge(parent::toArray(), [
+        return ['quote' => array_merge(parent::toArray()['media'], [
             'text' => $this->text,
             'attribution' => $this->attribution,
             'dateRecorded' => $this->dateRecorded,
             'publicDocumentLink' => $this->publicDocumentLink,
             'sourceDocumentLink' => $this->sourceDocumentLink
-        ]);
-    }
-
-    public function toXml()
-    {
-        $arr = $this->toArray();
-
-        $xml = '';
-
-        foreach ($arr as $key => $value) {
-            $xml .= '<' . $key . '>' . $value . '</' . $key . '>';
-        }
-
-        return '<quote>' . $xml . '</quote>';
+        ])];
     }
 }

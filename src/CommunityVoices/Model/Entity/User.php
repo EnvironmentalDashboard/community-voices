@@ -151,37 +151,14 @@ class User implements HasId, Palladium\Contract\HasId
         return $isValid;
     }
 
-    public function toJson()
+    public function toArray()
     {
-        $arr = [
+        return ['user' => [
             'id' => $this->id,
             'email' => $this->email,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
             'role' => $this->role
-        ];
-
-        return json_encode($arr);
-    }
-
-    public function toXml()
-    {
-        $arr = [
-            'id' => $this->id,
-            'email' => $this->email,
-            'firstName' => $this->firstName,
-            'lastName' => $this->lastName,
-            'role' => $this->role
-        ];
-
-        $xml = '<user>';
-
-        foreach ($arr as $key => $value) {
-            $xml .= '<' . $key . '>' . $value . '</' . $key . '>';
-        }
-
-        $xml .= '</user>';
-
-        return $xml;
+        ]];
     }
 }
