@@ -102,7 +102,6 @@ class Recognition
         $cacheMapper = $this->mapperFactory->createCacheMapper(Mapper\Cache::class);
 
         if ($cacheMapper->exists($user)) {
-            echo 'existed';
             $cacheMapper->fetch($user);
 
             return $user;
