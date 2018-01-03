@@ -1,55 +1,55 @@
 {
     "postLogin": {
         "notation": "/authenticate",
+        "method": "post",
         "defaults": {
             "resource": "Identification",
-            "action": "postCredentials",
-            "method": "post"
+            "action": "postCredentials"
         }
     },
 
     "getLogin": {
         "notation": "/login",
+        "method": "get",
         "defaults": {
             "resource": "Identification",
-            "action": "getLogin",
-            "method": "get"
+            "action": "getLogin"
         }
     },
 
     "getLogout": {
         "notation": "/logout",
+        "method": "get",
         "defaults": {
             "resource": "Identification",
-            "action": "getLogout",
-            "method": "get"
+            "action": "getLogout"
         }
     },
 
     "getProfile": {
         "notation": "/user/me",
+        "method": "get",
         "defaults": {
             "resource": "User",
-            "action": "getProfile",
-            "method": "get"
+            "action": "getProfile"
         }
     },
 
     "getProtectedPage": {
         "notation": "/protected",
+        "method": "get",
         "defaults": {
             "resource": "User",
-            "action": "getProtectedPage",
-            "method": "get"
+            "action": "getProtectedPage"
         }
     },
 
     "getQuote": {
         "notation": "/quote/{id}",
+        "method": "get",
         "defaults": {
             "resource": "Quote",
-            "action": "getQuote",
-            "method": "get"
+            "action": "getQuote"
         }
     }
 }

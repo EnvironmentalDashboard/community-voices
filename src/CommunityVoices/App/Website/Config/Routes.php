@@ -7,11 +7,6 @@ $appPrefix = '/community-voices';
 
 $collection = new RouteCollection();
 
-$collection->add(
-    'postLogin',
-    new Route('/authenticate', array('_controller' => 'ExampleController'))
-);
-
 $config = json_decode(file_get_contents(__DIR__ . '/Routes.json'), true);
 
 
@@ -25,7 +20,7 @@ foreach ($config as $name => $options) {
             [],
             '',
             [],
-            isset($options['defaults']['method']) ? $options['defaults']['method'] : []
+            isset($options['method']) ? $options['method'] : []
         )
     );
 }
