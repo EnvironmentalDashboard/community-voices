@@ -8,8 +8,9 @@ use \XSLTProcessor;
 use CommunityVoices\Model\Service;
 use CommunityVoices\App\Website\Component;
 use CommunityVoices\App\Website\Component\Presenter;
+use Symfony\Component\HttpFoundation\Response;
 
-class User
+class User extends Component\View
 {
     protected $recognitionAdapter;
 
@@ -18,7 +19,7 @@ class User
         $this->recognitionAdapter = $recognitionAdapter;
     }
 
-    public function getProfile($response)
+    public function getProfile()
     {
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement($identity->toXml());
@@ -41,11 +42,17 @@ class User
 
         $presentation = new Presenter('SinglePane');
 
-        $response->setBody($presentation->generate($domainXMLElement));
+        $response = new Response($presentation->generate($domainXMLElement));
+
+        $this->finalize($response);
+        return $response;
     }
 
     public function getProtectedPage($response)
     {
-        $response->setBody('ok');
+        $response = new Response('ok');
+
+        $this->finalize($response);
+        return $response;
     }
 }

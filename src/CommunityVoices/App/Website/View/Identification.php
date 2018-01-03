@@ -9,8 +9,10 @@ use CommunityVoices\Model\Service;
 use CommunityVoices\App\Website\Component;
 use CommunityVoices\App\Website\Component\CachedItem;
 use CommunityVoices\App\Website\Component\Presenter;
+use CommunityVoices\App\Website\Component\Mapper;
+use Symfony\Component\HttpFoundation\Response;
 
-class Identification
+class Identification extends Component\View
 {
     protected $recognitionAdapter;
     protected $mapperFactory;
@@ -22,7 +24,7 @@ class Identification
         $this->mapperFactory = $mapperFactory;
     }
 
-    public function getLogin($response)
+    public function getLogin()
     {
         $paramXML = new SimpleXMLElement('<form/>');
 
@@ -44,13 +46,16 @@ class Identification
 
         $presentation = new Presenter('SinglePane');
 
-        $response->setBody($presentation->generate($domainXMLElement));
+        $response = new Response($presentation->generate($domainXMLElement));
+
+        $this->finalize($response);
+        return $response;
     }
 
     /**
      * User authenticaton
      */
-    public function postCredentials($response)
+    public function postCredentials()
     {
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement($identity->toXml());
@@ -96,10 +101,13 @@ class Identification
 
         $presentation = new Presenter('SinglePane');
 
-        $response->setBody($presentation->generate($domainXMLElement));
+        $response = new Response($presentation->generate($domainXMLElement));
+
+        $this->finalize($response);
+        return $response;
     }
 
-    public function getLogout($response)
+    public function getLogout()
     {
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement($identity->toXml());
@@ -113,6 +121,9 @@ class Identification
 
         $presentation = new Presenter('SinglePane');
 
-        $response->setBody($presentation->generate($domainXMLElement));
+        $response = new Response($presentation->generate($domainXMLElement));
+
+        $this->finalize($response);
+        return $response;
     }
 }
