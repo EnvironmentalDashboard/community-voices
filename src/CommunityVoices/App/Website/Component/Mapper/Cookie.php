@@ -3,7 +3,7 @@
 namespace CommunityVoices\App\Website\Component\Mapper;
 
 use CommunityVoices\Model\Contract;
-use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation;
 
 class Cookie extends \CommunityVoices\Model\Component\Mapper
 {
@@ -52,7 +52,7 @@ class Cookie extends \CommunityVoices\Model\Component\Mapper
 
     public function save(Contract\Cookieable $instance)
     {
-        $cookie = new Cookie(
+        $cookie = new HttpFoundation\Cookie(
             $instance->getUniqueLabel(),
             $instance->toJson(),
             $instance->getExpiresOn()
