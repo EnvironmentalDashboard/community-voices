@@ -116,11 +116,11 @@ class Media implements HasId
     {
         return [
             'id' => $this->id,
-            'addedBy' => $this->addedBy,
+            //'addedBy' => $this->addedBy,
             'dateCreated' => $this->dateCreated,
             'type' => $this->type,
             'status' => $this->status,
-            'tagCollection' => $this->tagCollection
+            //'tagCollection' => $this->tagCollection
         ];
     }
 }
