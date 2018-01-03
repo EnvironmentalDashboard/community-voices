@@ -10,17 +10,23 @@ use Palladium;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Component;
 use CommunityVoices\Model\Mapper;
+use CommunityVoices\Model\Exception;
 
 class QuoteLookup
 {
     private $mapperFactory;
 
+    private $stateObserver;
+
     /**
      * @param ComponentMapperFactory $mapperFactory Factory for creating mappers
      */
-    public function __construct(Component\MapperFactory $mapperFactory)
-    {
+    public function __construct(
+        Component\MapperFactory $mapperFactory,
+        Component\StateObserver $stateObserver
+    ) {
         $this->mapperFactory = $mapperFactory;
+        $this->stateObserver = $stateObserver;
     }
 
     /**
@@ -43,6 +49,10 @@ class QuoteLookup
             throw new Exception\IdentityNotFound;
         }
 
-        return $quote;
+        $this->stateObserver->setSubject('quoteLookup');
+        $this->stateObserver->addEntry('quote', $quote);
+
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($this->stateObserver);
     }
 }
