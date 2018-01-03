@@ -3,7 +3,7 @@
 namespace CommunityVoices\App\Api\View;
 
 use CommunityVoices\Model\Component\MapperFactory;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation;
 
 class Quote
 {
@@ -22,7 +22,7 @@ class Quote
         $stateObserver->setSubject('quoteLookup');
         $quote = $stateObserver->getEntry('quote')[0];
 
-        $response = new Response($quote->toXML());
+        $response = new HttpFoundation\JsonResponse($quote->toArray());
 
         return $response;
     }
