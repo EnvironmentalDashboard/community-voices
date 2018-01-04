@@ -95,6 +95,19 @@ class Image extends Media
         $this->organization = $organization;
     }
 
+    public function toArray()
+    {
+        return ['quote' => array_merge(parent::toArray()['media'], [
+            'filename' => $this->filename,
+            'title' => $this->title,
+            'description' => $this->description,
+            'generatedTags' => $this->generatedTags,
+            'dateTaken' => $this->dateTaken,
+            'photographer' => $this->photographer,
+            'organization' => $this->organization
+        ])];
+    }
+
     /*
 
     @TODO implementation must be thought through
