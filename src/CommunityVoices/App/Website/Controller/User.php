@@ -33,7 +33,8 @@ class User
 
     public function getProtectedPage($request)
     {
-        $this->secureContainer->contain($this->userAPIController);
-        $this->secureContainer->postUser($request);
+        $apiController = $this->secureContainer->contain($this->userAPIController);
+
+        $apiController->postUser($request);
     }
 }

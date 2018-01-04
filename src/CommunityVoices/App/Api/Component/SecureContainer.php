@@ -10,8 +10,6 @@ use CommunityVoices\Model\Entity;
 
 class SecureContainer
 {
-    private $decoratedInstance;
-
     private $identifier;
 
     private $arbiter;
@@ -24,29 +22,26 @@ class SecureContainer
 
     public function contain($decoratedInstance)
     {
-        $this->decoratedInstance = $decoratedInstance;
+        $containedItem = new ContainedItem($decoratedInstance, function ($method, $args, $contained) {
+            $user = $this->identifier->identify();
 
-        return $this;
-    }
+            if (!is_object($contained)) {
+                throw new \Exception('No decorated instance!');
+            }
 
-    public function __call($method, $args)
-    {
-        $user = $this->identifier->identify();
+            if (!method_exists($contained, $method)) {
+                throw new \Exception('Method not found');
+            }
 
-        if (!is_object($this->decoratedInstance)) {
-            throw new \Exception('No decorated instance!');
-        }
+            $signature = get_class($contained) . "::" . $method;
 
-        if (!method_exists($this->decoratedInstance, $method)) {
-            throw new \Exception('Method not found');
-        }
+            if (!$this->arbiter->isAllowedForIdentity($signature, $user)) {
+                throw new \Exception('Access denied');
+            }
 
-        $signature = get_class($this->decoratedInstance) . "::" . $method;
+            return call_user_func_array([$contained, $method], $args);
+        });
 
-        if (!$this->arbiter->isAllowedForIdentity($signature, $user)) {
-            throw new \Exception('Access denied');
-        }
-
-        return call_user_func_array([$this->decoratedInstance, $method], $args);
+        return $containedItem;
     }
 }
