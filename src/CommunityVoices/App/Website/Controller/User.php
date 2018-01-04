@@ -5,7 +5,6 @@ namespace CommunityVoices\App\Website\Controller;
 use CommunityVoices\Model\Service;
 use CommunityVoices\App\Website\Component;
 use CommunityVoices\App\Api;
-use Fracture\Http;
 
 class User
 {
