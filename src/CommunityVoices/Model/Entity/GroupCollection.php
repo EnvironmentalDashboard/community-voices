@@ -101,11 +101,12 @@ class GroupCollection extends Collection
 
     public function toArray()
     {
-        return ['groupCollection' => [
-            'collection' => $this->collection,
-            'groupType' => $this->groupType,
-            'parentType' => $this->parentType,
-            'parentId' => $this->parentId,
-        ]];
+        $toReturn = ['groupCollection' => []];
+
+        foreach ($this->collection as $item) {
+        	$toReturn['groupCollection'][] = ['group' => $item->toArray()];
+        }
+
+        return $toReturn;
     }
 }
