@@ -13,14 +13,14 @@ namespace CommunityVoices\Model\Mapper;
 use PDO;
 use InvalidArgumentException;
 use CommunityVoices\Model\Component\DataMapper;
-use CommunityVoices\Model\Entity\GroupCollection;
+use CommunityVoices\Model\Entity;
 
 class GroupCollection extends DataMapper
 {
     const ERR_PARENT_TYPE_MISSING = 'Parent type must be specified.';
     const ERR_ID_MISSING = 'Id must be specified.';
 
-    public function fetch(GroupCollection $groupCollection)
+    public function fetch(Entity\GroupCollection $groupCollection)
     {
         if (!$groupCollection->getParentId()) {
             throw new InvalidArgumentException(self::ERR_ID_MISSING);
@@ -35,7 +35,7 @@ class GroupCollection extends DataMapper
         }
     }
 
-    private function fetchChildrenOfMedia(GroupCollection $groupCollection)
+    private function fetchChildrenOfMedia(Entity\GroupCollection $groupCollection)
     {
         $query = "SELECT
                         junction.id                                 AS id,
@@ -67,7 +67,7 @@ class GroupCollection extends DataMapper
         }
     }
 
-    private function fetchChildrenOfLocation(GroupCollection $groupCollection)
+    private function fetchChildrenOfLocation(Entity\GroupCollection $groupCollection)
     {
         if ($groupCollection->getGroupType() === GroupCollection::GROUP_TYPE_CONT_CAT) {
             $query = "SELECT
