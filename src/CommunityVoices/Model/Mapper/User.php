@@ -4,11 +4,11 @@ namespace CommunityVoices\Model\Mapper;
 
 use PDO;
 use CommunityVoices\Model\Component\DataMapper;
-use CommunityVoices\Model\Entity as Entity;
+use CommunityVoices\Model\Entity\User;
 
 class User extends DataMapper
 {
-    public function fetch(Entity\User $user)
+    public function fetch(User $user)
     {
         if ($user->getId()) {
             $this->fetchById($user);
@@ -18,7 +18,7 @@ class User extends DataMapper
         $this->fetchByEmail($user);
     }
 
-    private function fetchById(Entity\User $user)
+    private function fetchById(User $user)
     {
         $query = "SELECT
                         email                   AS email,
@@ -43,7 +43,7 @@ class User extends DataMapper
         }
     }
 
-    private function fetchByEmail(Entity\User $user)
+    private function fetchByEmail(User $user)
     {
         $query = "SELECT
                         id                      AS id
@@ -69,7 +69,7 @@ class User extends DataMapper
         }
     }
 
-    public function save(Entity\User $user)
+    public function save(User $user)
     {
         if ($user->getId()) {
             $this->update($user);
@@ -79,7 +79,7 @@ class User extends DataMapper
         $this->register($user);
     }
 
-    private function register(Entity\User $user)
+    private function register(User $user)
     {
         $query = "INSERT INTO
                         `community-voices_users`
@@ -99,7 +99,7 @@ class User extends DataMapper
         $user->setId($this->conn->lastInsertId());
     }
 
-    private function update(Entity\User $user)
+    private function update(User $user)
     {
         $query = "UPDATE
                         `community-voices_users`
@@ -122,7 +122,7 @@ class User extends DataMapper
         $statement->execute();
     }
 
-    public function delete(Entity\User $user)
+    public function delete(User $user)
     {
         $query = "DELETE FROM
                         `community-voices_users`
@@ -136,7 +136,7 @@ class User extends DataMapper
         $statement->execute();
     }
 
-    public function existingUserWithEmail(Entity\User $user)
+    public function existingUserWithEmail(User $user)
     {
         $query = "SELECT 1 FROM
                         `community-voices_users`

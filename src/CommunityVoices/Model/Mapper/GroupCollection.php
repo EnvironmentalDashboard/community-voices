@@ -13,29 +13,29 @@ namespace CommunityVoices\Model\Mapper;
 use PDO;
 use InvalidArgumentException;
 use CommunityVoices\Model\Component\DataMapper;
-use CommunityVoices\Model\Entity as Entity;
+use CommunityVoices\Model\Entity\GroupCollection;
 
 class GroupCollection extends DataMapper
 {
     const ERR_PARENT_TYPE_MISSING = 'Parent type must be specified.';
     const ERR_ID_MISSING = 'Id must be specified.';
 
-    public function fetch(Entity\GroupCollection $groupCollection)
+    public function fetch(GroupCollection $groupCollection)
     {
         if (!$groupCollection->getParentId()) {
             throw new InvalidArgumentException(self::ERR_ID_MISSING);
         }
 
-        if ($groupCollection->getParentType() === Entity\GroupCollection::PARENT_TYPE_LOCATION) {
+        if ($groupCollection->getParentType() === GroupCollection::PARENT_TYPE_LOCATION) {
             return $this->fetchChildrenOfLocation($groupCollection);
-        } elseif ($groupCollection->getParentType() === Entity\GroupCollection::PARENT_TYPE_MEDIA) {
+        } elseif ($groupCollection->getParentType() === GroupCollection::PARENT_TYPE_MEDIA) {
             return $this->fetchChildrenOfMedia($groupCollection);
         } else {
             throw new InvalidArgumentException(self::ERR_PARENT_TYPE_MISSING);
         }
     }
 
-    private function fetchChildrenOfMedia(Entity\GroupCollection $groupCollection)
+    private function fetchChildrenOfMedia(GroupCollection $groupCollection)
     {
         $query = "SELECT
                         junction.id                                 AS id,
@@ -67,9 +67,9 @@ class GroupCollection extends DataMapper
         }
     }
 
-    private function fetchChildrenOfLocation(Entity\GroupCollection $groupCollection)
+    private function fetchChildrenOfLocation(GroupCollection $groupCollection)
     {
-        if ($groupCollection->getGroupType() === Entity\GroupCollection::GROUP_TYPE_CONT_CAT) {
+        if ($groupCollection->getGroupType() === GroupCollection::GROUP_TYPE_CONT_CAT) {
             $query = "SELECT
                             junction.id                                 AS id,
                             CAST(groups.type AS UNSIGNED)               AS type,

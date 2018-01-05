@@ -4,16 +4,16 @@ namespace CommunityVoices\Model\Mapper;
 
 use PDO;
 use CommunityVoices\Model\Component\DataMapper;
-use CommunityVoices\Model\Entity as Entity;
+use CommunityVoices\Model\Entity\Group;
 
 class Group extends DataMapper
 {
-    public function fetch(Entity\Group $group)
+    public function fetch(Group $group)
     {
         $this->fetchById($group);
     }
 
-    private function fetchById(Entity\Group $group)
+    private function fetchById(Group $group)
     {
         $query = "SELECT
                         group.id                            AS id,
@@ -37,7 +37,7 @@ class Group extends DataMapper
         }
     }
 
-    public function save(Entity\Group $group)
+    public function save(Group $group)
     {
         if ($group->getId()) {
             $this->update($group);
@@ -47,7 +47,7 @@ class Group extends DataMapper
         $this->create($group);
     }
 
-    protected function update(Entity\Group $group)
+    protected function update(Group $group)
     {
         $query = "UPDATE    `community-voices_groups`
                     SET     label = :label,
@@ -62,7 +62,7 @@ class Group extends DataMapper
         $statement->execute();
     }
 
-    protected function create(Entity\Group $group)
+    protected function create(Group $group)
     {
         $query = "INSERT INTO   `community-voices_groups`
                                 (label, type)
@@ -78,7 +78,7 @@ class Group extends DataMapper
         $group->setId($this->conn->lastInsertId());
     }
 
-    public function delete(Entity\Group $group)
+    public function delete(Group $group)
     {
         $query = "DELETE FROM   `community-voices_groups`
                     WHERE       id = :id";

@@ -3,8 +3,7 @@
 namespace CommunityVoices\Model\Mapper;
 
 use PDO;
-use CommunityVoices\Model\Component\DataMapper;
-use CommunityVoices\Model\Entity as Entity;
+use CommunityVoices\Model\Entity; // Entity\User, Entity\ContentCategory, Entity\Image, Entity\Quote, Entity\GroupCollection, Entity\Media
 
 class Slide extends Media
 {

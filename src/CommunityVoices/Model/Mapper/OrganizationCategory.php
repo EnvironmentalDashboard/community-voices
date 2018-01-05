@@ -3,17 +3,16 @@
 namespace CommunityVoices\Model\Mapper;
 
 use PDO;
-use CommunityVoices\Model\Component\DataMapper;
-use CommunityVoices\Model\Entity as Entity;
+use CommunityVoices\Model\Entity\Group;
 
 class OrganizationCategory extends Group
 {
-    public function fetch(Entity\Group $organizationCategory)
+    public function fetch(Group $organizationCategory)
     {
         $this->fetchById($organizationCategory);
     }
 
-    private function fetchById(Entity\Group $organizationCategory)
+    private function fetchById(Group $organizationCategory)
     {
         $query = "SELECT
                         parent.id                               AS id,
@@ -40,7 +39,7 @@ class OrganizationCategory extends Group
         }
     }
 
-    public function save(Entity\Group $organizationCategory)
+    public function save(Group $organizationCategory)
     {
         if ($organizationCategory->getId()) {
             $this->update($organizationCategory);
@@ -50,12 +49,12 @@ class OrganizationCategory extends Group
         $this->create($organizationCategory);
     }
 
-    protected function update(Entity\Group $organizationCategory)
+    protected function update(Group $organizationCategory)
     {
         parent::update($organizationCategory);
     }
 
-    protected function create(Entity\Group $organizationCategory)
+    protected function create(Group $organizationCategory)
     {
         parent::create($organizationCategory);
 
@@ -72,7 +71,7 @@ class OrganizationCategory extends Group
         $statement->execute();
     }
 
-    public function delete(Entity\Group $organizationCategory)
+    public function delete(Group $organizationCategory)
     {
         parent::delete($organizationCategory); //deletion cascades
     }

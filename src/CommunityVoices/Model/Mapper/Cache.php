@@ -2,7 +2,7 @@
 
 namespace CommunityVoices\Model\Mapper;
 
-use CommunityVoices\Model\Contract;
+use CommunityVoices\Model\Contract\HasId;
 use CommunityVoices\Model\Component\Mapper;
 use ReflectionClass;
 
@@ -10,12 +10,12 @@ class Cache extends Mapper
 {
     private $cache = [];
 
-    public function save(Contract\HasId $instance)
+    public function save(HasId $instance)
     {
         $this->cache[$this->generateSignature($instance)] = $instance;
     }
 
-    public function fetch(Contract\HasId $instance)
+    public function fetch(HasId $instance)
     {
         $signature = $this->generateSignature($instance);
 
@@ -33,17 +33,17 @@ class Cache extends Mapper
         }
     }
 
-    public function delete(Contract\HasId $instance)
+    public function delete(HasId $instance)
     {
         unset($this->cache[$this->generateSignature($instance)]);
     }
 
-    public function exists(Contract\HasId $instance)
+    public function exists(HasId $instance)
     {
         return array_key_exists($this->generateSignature($instance), $this->cache);
     }
 
-    private function generateSignature(Contract\HasId $instance)
+    private function generateSignature(HasId $instance)
     {
         $reflection = new ReflectionClass($instance);
 

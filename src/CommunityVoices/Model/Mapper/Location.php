@@ -4,7 +4,7 @@ namespace CommunityVoices\Model\Mapper;
 
 use PDO;
 use CommunityVoices\Model\Component\DataMapper;
-use CommunityVoices\Model\Entity as Entity;
+use CommunityVoices\Model\Entity; // Entity\GroupCollection, Entity\ContentCategoryCollection, Entity\Location 
 
 class Location extends DataMapper
 {

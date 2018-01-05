@@ -3,17 +3,16 @@
 namespace CommunityVoices\Model\Mapper;
 
 use PDO;
-use CommunityVoices\Model\Component\DataMapper;
-use CommunityVoices\Model\Entity as Entity;
+use CommunityVoices\Model\Entity\Media;
 
 class Image extends Media
 {
-    public function fetch(Entity\Media $image)
+    public function fetch(Media $image)
     {
         $this->fetchById($image);
     }
 
-    private function fetchById(Entity\Media $image)
+    private function fetchById(Media $image)
     {
         $query = "SELECT
                         parent.id                       AS id,
@@ -51,7 +50,7 @@ class Image extends Media
         }
     }
 
-    public function save(Entity\Media $image)
+    public function save(Media $image)
     {
         if ($image->getId()) {
             $this->update($image);
@@ -61,7 +60,7 @@ class Image extends Media
         $this->create($image);
     }
 
-    protected function update(Entity\Media $image)
+    protected function update(Media $image)
     {
         parent::update($image);
 
@@ -92,7 +91,7 @@ class Image extends Media
         $statement->execute();
     }
 
-    protected function create(Entity\Media $image)
+    protected function create(Media $image)
     {
         parent::create($image);
 
@@ -119,7 +118,7 @@ class Image extends Media
         $statement->execute();
     }
 
-    public function delete(Entity\Media $image)
+    public function delete(Media $image)
     {
         parent::delete($image); //deletion cascades
     }

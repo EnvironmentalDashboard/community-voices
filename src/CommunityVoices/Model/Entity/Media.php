@@ -7,7 +7,6 @@
 namespace CommunityVoices\Model\Entity;
 
 use CommunityVoices\Model\Contract\HasId;
-use CommunityVoices\Model\Component\RelationalEntity;
 
 class Media implements HasId
 {
