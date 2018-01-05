@@ -70,4 +70,15 @@ class RememberedIdentity implements Cookieable
     {
         return 'rememberedIdentity';
     }
+
+    public function toArray()
+    {
+        return ['rememberedIdentity' => [
+            'accountId' => $this->accountId,
+            'key' => $this->key,
+            'series' => $this->series,
+            'expiresOn' => $this->expiresOn
+        ]];
+    }
+
 }

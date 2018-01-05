@@ -75,4 +75,14 @@ class Location implements HasId
 
         return $isValid;
     }
+
+    public function toArray()
+    {
+        return ['location' => [
+            'id' => $this->id,
+            'label' => $this->label,
+            'organizationCategoryCollection' => $this->organizationCategoryCollection->toArray(),
+            'contentCategoryCollection' => $this->contentCategoryCollection->toArray()
+        ]];
+    }
 }

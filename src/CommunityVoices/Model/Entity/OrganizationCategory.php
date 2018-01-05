@@ -8,4 +8,9 @@ class OrganizationCategory extends Group
     {
         $this->type = self::TYPE_ORG_CAT;
     }
+
+    public function toArray()
+    {
+        return ['organizationCategory' => parent::toArray()['group']];
+    }
 }

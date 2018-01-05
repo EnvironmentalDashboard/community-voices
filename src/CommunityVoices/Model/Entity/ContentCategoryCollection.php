@@ -18,4 +18,9 @@ class ContentCategoryCollection extends GroupCollection
     {
         $this->groupType = self::GROUP_TYPE_CONT_CAT;
     }
+
+    public function toArray()
+    {
+        return ['contentCategoryCollection' => parent::toArray()['groupCollection']];
+    }
 }

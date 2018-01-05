@@ -8,4 +8,9 @@ class Tag extends Group
     {
         $this->type = self::TYPE_TAG;
     }
+
+    public function toArray()
+    {
+        return ['tag' => parent::toArray()['group']];
+    }
 }

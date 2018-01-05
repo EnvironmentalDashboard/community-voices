@@ -73,4 +73,13 @@ class Group implements HasId
 
         return $isValid;
     }
+
+    public function toArray()
+    {
+        return ['group' => [
+            'id' => $this->id,
+            'label' => $this->label,
+            'type' => $this->type
+        ]];
+    }
 }

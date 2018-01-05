@@ -32,4 +32,12 @@ class ContentCategory extends Group
     {
         return $this->probability;
     }
+
+    public function toArray()
+    {
+        return ['contentCategory' => array_merge(parent::toArray()['group'], [
+            'mediaFilename' => $this->mediaFilename,
+            'probability' => $this->probability
+        ])];
+    }
 }

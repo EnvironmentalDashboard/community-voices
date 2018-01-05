@@ -98,4 +98,14 @@ class GroupCollection extends Collection
             $this->parentId = $id;
         }
     }
+
+    public function toArray()
+    {
+        return ['groupCollection' => [
+            'collection' => $this->collection,
+            'groupType' => $this->groupType,
+            'parentType' => $this->parentType,
+            'parentId' => $this->parentId,
+        ]];
+    }
 }
