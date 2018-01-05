@@ -97,7 +97,7 @@ class Image extends Media
 
     public function toArray()
     {
-        return ['quote' => array_merge(parent::toArray()['media'], [
+        return ['image' => array_merge(parent::toArray()['media'], [
             'filename' => $this->filename,
             'title' => $this->title,
             'description' => $this->description,
