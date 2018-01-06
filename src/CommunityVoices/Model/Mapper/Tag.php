@@ -3,16 +3,16 @@
 namespace CommunityVoices\Model\Mapper;
 
 use PDO;
-use CommunityVoices\Model\Entity\Group;
+use CommunityVoices\Model\Entity;
 
 class Tag extends Group
 {
-    public function fetch(Group $tag)
+    public function fetch(Entity\Group $tag)
     {
         $this->fetchById($tag);
     }
 
-    private function fetchById(Group $tag)
+    private function fetchById(Entity\Group $tag)
     {
         $query = "SELECT
                         parent.id                                   AS id,
@@ -39,7 +39,7 @@ class Tag extends Group
         }
     }
 
-    public function save(Group $tag)
+    public function save(Entity\Group $tag)
     {
         if ($tag->getId()) {
             $this->update($tag);
@@ -49,12 +49,12 @@ class Tag extends Group
         $this->create($tag);
     }
 
-    protected function update(Group $tag)
+    protected function update(Entity\Group $tag)
     {
         parent::update($tag);
     }
 
-    protected function create(Group $tag)
+    protected function create(Entity\Group $tag)
     {
         parent::create($tag);
 
@@ -71,7 +71,7 @@ class Tag extends Group
         $statement->execute();
     }
 
-    public function delete(Group $tag)
+    public function delete(Entity\Group $tag)
     {
         parent::delete($tag); //deletion cascades
     }

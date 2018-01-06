@@ -3,16 +3,16 @@
 namespace CommunityVoices\Model\Mapper;
 
 use PDO;
-use CommunityVoices\Model\Entity\Group;
+use CommunityVoices\Model\Mapper;
 
 class ContentCategory extends Group
 {
-    public function fetch(Group $contentCategory)
+    public function fetch(Entity\Group $contentCategory)
     {
         $this->fetchById($contentCategory);
     }
 
-    private function fetchById(Group $contentCategory)
+    private function fetchById(Entity\Group $contentCategory)
     {
         $query = "SELECT
                         parent.id                           AS id,
@@ -40,7 +40,7 @@ class ContentCategory extends Group
         }
     }
 
-    public function save(Group $contentCategory)
+    public function save(Entity\Group $contentCategory)
     {
         if ($contentCategory->getId()) {
             $this->update($contentCategory);
@@ -50,7 +50,7 @@ class ContentCategory extends Group
         $this->create($contentCategory);
     }
 
-    protected function update(Group $contentCategory)
+    protected function update(Entity\Group $contentCategory)
     {
         parent::update($contentCategory);
 
@@ -68,7 +68,7 @@ class ContentCategory extends Group
         $statement->execute();
     }
 
-    protected function create(Group $contentCategory)
+    protected function create(Entity\Group $contentCategory)
     {
         parent::create($contentCategory);
 
@@ -86,7 +86,7 @@ class ContentCategory extends Group
         $statement->execute();
     }
 
-    public function delete(Group $contentCategory)
+    public function delete(Entity\Group $contentCategory)
     {
         parent::delete($contentCategory); //deletion cascades
     }

@@ -26,9 +26,9 @@ class GroupCollection extends DataMapper
             throw new InvalidArgumentException(self::ERR_ID_MISSING);
         }
 
-        if ($groupCollection->getParentType() === GroupCollection::PARENT_TYPE_LOCATION) {
+        if ($groupCollection->getParentType() === Entity\GroupCollection::PARENT_TYPE_LOCATION) {
             return $this->fetchChildrenOfLocation($groupCollection);
-        } elseif ($groupCollection->getParentType() === GroupCollection::PARENT_TYPE_MEDIA) {
+        } elseif ($groupCollection->getParentType() === Entity\GroupCollection::PARENT_TYPE_MEDIA) {
             return $this->fetchChildrenOfMedia($groupCollection);
         } else {
             throw new InvalidArgumentException(self::ERR_PARENT_TYPE_MISSING);
