@@ -3,7 +3,7 @@
 namespace CommunityVoices\Model\Mapper;
 
 use PDO;
-use CommunityVoices\Model\Mapper;
+use CommunityVoices\Model\Entity;
 
 class ContentCategory extends Group
 {

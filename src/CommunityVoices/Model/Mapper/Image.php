@@ -3,7 +3,7 @@
 namespace CommunityVoices\Model\Mapper;
 
 use PDO;
-use CommunityVoices\Model\Entity as Entity;
+use CommunityVoices\Model\Entity;
 
 class Image extends Media
 {
