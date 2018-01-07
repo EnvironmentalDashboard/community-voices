@@ -4,7 +4,7 @@ namespace CommunityVoices\Model\Mapper;
 
 use PDO;
 use CommunityVoices\Model\Component\DataMapper;
-use CommunityVoices\Model\Entity as Entity; // Entity\User, Entity\GroupCollection, Entity\Media
+use CommunityVoices\Model\Entity; // Entity\User, Entity\GroupCollection, Entity\Media
 
 class Media extends DataMapper
 {

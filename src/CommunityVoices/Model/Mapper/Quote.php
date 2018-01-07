@@ -92,7 +92,7 @@ class Quote extends Media
         $statement->execute();
     }
 
-    protected function create(Media $quote)
+    protected function create(Entity\Media $quote)
     {
         parent::create($quote);
 
@@ -116,7 +116,7 @@ class Quote extends Media
         $statement->execute();
     }
 
-    public function delete(Media $quote)
+    public function delete(Entity\Media $quote)
     {
         parent::delete($quote); //deletion cascades
     }

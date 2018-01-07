@@ -69,7 +69,7 @@ class GroupCollection extends DataMapper
 
     private function fetchChildrenOfLocation(Entity\GroupCollection $groupCollection)
     {
-        if ($groupCollection->getGroupType() === GroupCollection::GROUP_TYPE_CONT_CAT) {
+        if ($groupCollection->getGroupType() === Entity\GroupCollection::GROUP_TYPE_CONT_CAT) {
             $query = "SELECT
                             junction.id                                 AS id,
                             CAST(groups.type AS UNSIGNED)               AS type,
