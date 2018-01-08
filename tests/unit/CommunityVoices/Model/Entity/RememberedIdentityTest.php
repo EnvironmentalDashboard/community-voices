@@ -74,4 +74,25 @@ class RememberedIdentityTest extends TestCase
 
         $this->assertSame($instance->getUniqueLabel(), 'rememberedIdentity');
     }
+
+    public function test_toArray()
+    {
+        $instance = new RememberedIdentity;
+
+        $time = time();
+
+        $instance->setAccountId(5);
+        $instance->setKey(500);
+        $instance->setSeries(md5('foo'));
+        $instance->setExpiresOn($time);
+
+        $expected = ['rememberedIdentity' => [
+            'accountId' => 5,
+            'key' => 500,
+            'series' => md5('foo'),
+            'expiresOn' => $time
+        ]];
+
+        $this->assertSame($instance->toArray(), $expected);
+    }
 }

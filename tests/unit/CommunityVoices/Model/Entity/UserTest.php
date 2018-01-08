@@ -195,4 +195,24 @@ class UserTest extends TestCase
 
         $this->assertFalse($instance->validateForRegistration($stateObserver));
     }
+
+    public function test_toArray()
+    {
+        $instance = new User;
+        $instance->setId(6);
+        $instance->setEmail('john@foo.com');
+        $instance->setFirstName('John');
+        $instance->setLastName('Doe');
+        $instance->setRole(User::ROLE_GUEST);
+
+        $expected = ['user' => [
+            'id' => 6,
+            'email' => 'john@foo.com',
+            'firstName' => 'John',
+            'lastName' => 'Doe',
+            'role' => User::ROLE_GUEST
+        ]];
+
+        $this->assertSame($instance->toArray(), $expected);
+    }
 }
