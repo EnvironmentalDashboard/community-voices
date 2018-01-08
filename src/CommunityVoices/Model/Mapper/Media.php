@@ -70,11 +70,18 @@ class Media extends DataMapper
         }
     }
 
+    /**
+     * save Media to media database
+     */
     public function save(Entity\Media $media)
     {
+        if ($media->getId() === -1){
+            return;
+        }
+
         if ($media->getId()) {
             $this->update($media);
-            return ;
+            return;
         }
 
         $this->create($media);
@@ -135,5 +142,7 @@ class Media extends DataMapper
         $statement->bindValue(':id', $media->getId());
 
         $statement->execute();
+
+        $media->setID(-1);
     }
 }

@@ -50,7 +50,7 @@ class Media implements HasId
     {
         $input = (int) $id;
 
-        if ($input > 0) {
+        if ($input > 0 or $input == -1) {
             $this->id = $input;
         }
     }

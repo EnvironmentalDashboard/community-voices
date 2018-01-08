@@ -52,11 +52,19 @@ class Quote extends Media
             return true;
         }
 
+        $quote->setID(-1);
         return false;
     }
 
+    /**
+     * save Quote to quote database
+     */
     public function save(Entity\Media $quote)
     {
+        if ($quote->getId() === -1){
+            return;
+        }
+
         if ($quote->getId()) {
             $this->update($quote);
             return ;
