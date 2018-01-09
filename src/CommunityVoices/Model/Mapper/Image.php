@@ -7,11 +7,20 @@ use CommunityVoices\Model\Entity;
 
 class Image extends Media
 {
+
+    /**
+     * @uses Image::fetchById
+     */
     public function fetch(Entity\Media $image)
     {
         $this->fetchById($image);
     }
 
+    /**
+     * Fetches an Image entity by the ID assigned on the instance. If the instance ID isn't found, the ID is overwriten as null.
+     *
+     * @param Media $image Image entity to fetch & map
+     */
     private function fetchById(Entity\Media $image)
     {
         $query = "SELECT
@@ -47,9 +56,16 @@ class Image extends Media
             $convertedParams = $this->convertRelations($this->relations, $results);
 
             $this->populateEntity($image, array_merge($results, $convertedParams));
+        } else {
+            $image->setId(null);
         }
     }
 
+    /**
+     * Save an Image entity to the database by either: updating a current record if the ID exists or creating a new record.
+     *
+     * @param Media $image Image entity to save to database.
+     */
     public function save(Entity\Media $image)
     {
         if ($image->getId()) {
@@ -118,6 +134,11 @@ class Image extends Media
         $statement->execute();
     }
 
+    /**
+     * Invokes parent::delete() method as the Media table's deletion is set to cascade to child rows in the database
+     *
+     * @param  Media $image to delete
+     */
     public function delete(Entity\Media $image)
     {
         parent::delete($image); //deletion cascades
