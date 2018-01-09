@@ -31,11 +31,19 @@ class Media extends DataMapper
         ]
     ];
 
+    /**
+     * @uses Media::fetchById
+     */
     public function fetch(Entity\Media $media)
     {
         $this->fetchById($media);
     }
 
+    /**
+     * Maps a Media entity by the ID assigned on the instance. If no rows match the quote's ID, the Quote entity's ID is overwritten as null.
+     *
+     * @param  Media $media Media entity to fetch & map
+     */
     private function fetchById(Entity\Media $media)
     {
         $query = "SELECT
@@ -126,6 +134,11 @@ class Media extends DataMapper
         $media->setDateCreated($now);
     }
 
+    /**
+     * Removes the database entry associated with the $media ID
+     *
+     * @param  Media $media Media entity to delete
+     */
     public function delete(Entity\Media $media)
     {
         $query = "DELETE FROM
