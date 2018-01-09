@@ -51,6 +51,41 @@ class OrganizationCategoryTest extends TestCase
         $this->assertSame($organizationCategory->getLabel(), 'Foo');
     }
 
+    public function test_Retrieving_Organization_Category_By_Id_Doesnt_Exist()
+    {
+        $pdo = $this
+            ->getMockBuilder(PDO::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $statement = $this
+            ->getMockBuilder(PDOStatement::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $statement
+            ->method('bindValue')
+            ->with($this->equalTo(':id'), $this->equalTo(2));
+
+        $statement
+            ->expects($this->once())
+            ->method('fetch')
+            ->will($this->returnValue([]));
+
+        $pdo
+            ->expects($this->once())
+            ->method('prepare')
+            ->will($this->returnValue($statement));
+
+        $organizationCategory = new Entity\OrganizationCategory;
+        $organizationCategory->setId(2);
+
+        $mapper = new OrganizationCategory($pdo);
+        $mapper->fetch($organizationCategory);
+
+        $this->assertSame($organizationCategory->getId(), null);
+    }
+
     public function test_Creating_Organization_Category()
     {
         $organizationCategory = new Entity\OrganizationCategory;

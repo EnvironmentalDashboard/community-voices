@@ -7,11 +7,19 @@ use CommunityVoices\Model\Entity;
 
 class Tag extends Group
 {
+    /**
+     * @uses Tag::fetchById
+     */
     public function fetch(Entity\Group $tag)
     {
         $this->fetchById($tag);
     }
 
+    /**
+     * Maps a Tag entity by the ID assigned on the instance. If no rows match the entity's ID, the entity's ID is overwritten as null.
+     *
+     * @param  Group $tag Tag entity to fetch & map
+     */
     private function fetchById(Entity\Group $tag)
     {
         $query = "SELECT
@@ -36,6 +44,8 @@ class Tag extends Group
 
         if ($result) {
             $this->populateEntity($tag, $result);
+        } else {
+            $tag->setId(null);
         }
     }
 
@@ -71,6 +81,11 @@ class Tag extends Group
         $statement->execute();
     }
 
+    /**
+     * Invokes parent::delete() method as the Media table's deletion is set to cascade to child rows in the database
+     *
+     * @param  Group $tag to delete
+     */
     public function delete(Entity\Group $tag)
     {
         parent::delete($tag); //deletion cascades
