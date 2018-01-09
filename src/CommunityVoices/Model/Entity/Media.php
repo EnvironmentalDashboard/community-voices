@@ -46,12 +46,13 @@ class Media implements HasId
         return $this->id;
     }
 
+    /**
+     * @param int|null $id
+     */
     public function setId($id)
     {
-        $input = (int) $id;
-
-        if ($input > 0 or $input == -1) {
-            $this->id = $input;
+        if (is_int($id) || is_null($id)) {
+            $this->id = $id;
         }
     }
 

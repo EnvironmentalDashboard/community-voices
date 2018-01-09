@@ -136,4 +136,16 @@ class QuoteTest extends TestCase
 
         $this->assertFalse($instance->validateForUpload($stateObserver));
     }
+
+    // public function test_toArray()
+    // {
+    //     $instance = new Quote;
+
+    //     $instance->setText("I know nothing");
+    //     $instance->setAttribution("Jon Snow");
+    //     $instance->setDateRecorded('1499970467');
+    //     $instance->setPublicDocumentLink("http://localhost/");
+    //     $instance->setSourceDocumentLink("http://localhost/");
+
+    // }
 }

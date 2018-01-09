@@ -82,5 +82,24 @@ class ImageTest extends TestCase
         $this->assertSame($instance->getOrganization(), 'Foobar');
     }
 
+    // to be completed
+    // public function test_toArray()
+    // {
+    //     $instance = new Image;
+
+    //     // set all the media fields
+
+    //     $instance->setFilename('cookieMonster.jpg');
+    //     $instance->setTitle('Title for image');
+    //     $instance->setDescription('Lorem ipsum');
+    //     $instance->setGeneratedTags('cookie chocolate caramel');
+    //     $instance->setDateTaken('1499970467');
+    //     $instance->setPhotographer('John Doe');
+    //     $instance->setOrganization('Foobar');
+
+    //     $this->assertSame($instance->toArray(), 'Foobar');
+
+    // }
+
     // @TODO test validation
 }

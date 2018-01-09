@@ -13,7 +13,7 @@ class MediaTest extends TestCase
     public function provid_Numeric_Assignment()
     {
         return [
-            ['5', 5],
+            ['5', null],
             [null, null],
             [5, 5],
             ['ipsum', null]
@@ -115,4 +115,12 @@ class MediaTest extends TestCase
         $instance = new Media;
         $instance->setTagCollection($tagCollection);
     }
+
+    // public function test_toArray()
+    // {
+    //     $now = time();
+    //     $instance = new Media;
+    //     $instance->setId(5);
+    //     $instance->setDateCreated($now);
+    // }
 }
