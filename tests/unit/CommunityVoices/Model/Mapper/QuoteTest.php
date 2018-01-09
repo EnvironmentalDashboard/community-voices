@@ -51,6 +51,41 @@ class QuoteTest extends TestCase
         $this->assertEquals($quote->getAddedBy()->getId(), 6);
     }
 
+    public function test_Retrieving_Quote_By_Id_Doesnt_Exist()
+    {
+        $pdo = $this
+            ->getMockBuilder(PDO::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $statement = $this
+            ->getMockBuilder(PDOStatement::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $statement
+            ->method('bindValue')
+            ->with($this->equalTo(':id'), $this->equalTo(2));
+
+        $statement
+            ->expects($this->once())
+            ->method('fetch')
+            ->will($this->returnValue([]));
+
+        $pdo
+            ->expects($this->once())
+            ->method('prepare')
+            ->will($this->returnValue($statement));
+
+        $quote = new Entity\Quote;
+        $quote->setId(2);
+
+        $mapper = new Quote($pdo);
+        $mapper->fetch($quote);
+
+        $this->assertSame($quote->getId(), null);
+    }
+
     public function test_Creating_Quote()
     {
         $creator = new Entity\User;

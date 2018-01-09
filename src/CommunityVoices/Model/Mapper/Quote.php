@@ -7,11 +7,20 @@ use CommunityVoices\Model\Entity;
 
 class Quote extends Media
 {
+    /**
+     * @uses Quote::fetchById
+     */
     public function fetch(Entity\Media $quote)
     {
         return $this->fetchById($quote);
     }
 
+    /**
+     * Fetches a Quote entity by the ID assigned on the instance. If the instance ID
+     * isn't fond, the ID is overwriten as null.
+     *
+     * @param  Media $quote Quote entity to fetch & map
+     */
     private function fetchById(Entity\Media $quote)
     {
         $query = "SELECT
@@ -48,23 +57,19 @@ class Quote extends Media
             );
 
             $this->populateEntity($quote, array_merge($results, $convertedParams));
-
-            return true;
+        } else {
+            $quote->setId(null);
         }
-
-        $quote->setID(-1);
-        return false;
     }
 
     /**
-     * save Quote to quote database
+     * Save a Quote entity to database by either: updating a current record if
+     * an ID exists or creating a new record.
+     *
+     * @param Quote instance to save to database
      */
     public function save(Entity\Media $quote)
     {
-        if ($quote->getId() === -1){
-            return;
-        }
-
         if ($quote->getId()) {
             $this->update($quote);
             return ;
