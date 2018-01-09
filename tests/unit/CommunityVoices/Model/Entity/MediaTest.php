@@ -116,11 +116,40 @@ class MediaTest extends TestCase
         $instance->setTagCollection($tagCollection);
     }
 
-    // public function test_toArray()
-    // {
-    //     $now = time();
-    //     $instance = new Media;
-    //     $instance->setId(5);
-    //     $instance->setDateCreated($now);
-    // }
+    public function test_toArray()
+    {
+        $instance = new Media;
+
+        $tagCollection = $this->createMock(GroupCollection::class);
+        $tagCollection->method('toArray') 
+                      ->willReturn(['groupCollection' => []]);
+
+        $addedBy = new User;
+        $addedBy->setID(8);
+
+        $now = time();
+        $instance->setId(5);
+        $instance->setAddedBy($addedBy);
+        $instance->setDateCreated($now);
+        $instance->setType(Media::TYPE_IMAGE);
+        $instance->setStatus(Media::STATUS_REJECTED);
+        $instance->setTagCollection($tagCollection);
+
+        $expected = ['media' => [
+            'id' => 5,
+            'addedBy' => ['user' => [
+                        'id' => 8,
+                        'email' => NULL,
+                        'firstName' => NULL,
+                        'lastName' => NULL,
+                        'role' => NULL
+                    ]],
+            'dateCreated' => $now,
+            'type' => Media::TYPE_IMAGE,
+            'status' => Media::STATUS_REJECTED,
+            'tagCollection' => ['groupCollection' => []]
+        ]];
+
+        $this->assertSame($instance->toArray(), $expected);
+    }
 }
