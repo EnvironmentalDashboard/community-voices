@@ -75,10 +75,6 @@ class Media extends DataMapper
      */
     public function save(Entity\Media $media)
     {
-        if ($media->getId() === -1){
-            return;
-        }
-
         if ($media->getId()) {
             $this->update($media);
             return;
@@ -143,6 +139,6 @@ class Media extends DataMapper
 
         $statement->execute();
 
-        $media->setID(-1);
+        $media->setId(null);
     }
 }
