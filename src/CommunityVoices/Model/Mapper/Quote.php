@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Quote mapper.
+ *
+ * Quotes are a type of of Media, thus this class extends the Media mapper and
+ * mapping logic in this file occasionally references the Media (parent) mapper.
+ *
+ * Deletions and updates cascade, thus this mapper does not need to implement logic
+ * for deleting entries in the table (it may invoke the parent mapper's method,
+ * knowing the delete will cascde down).
+ */
+
 namespace CommunityVoices\Model\Mapper;
 
 use PDO;
@@ -16,8 +27,8 @@ class Quote extends Media
     }
 
     /**
-     * Fetches a Quote entity by the ID assigned on the instance. If the instance ID
-     * isn't fond, the ID is overwriten as null.
+     * Maps a Quote entity by the ID assigned on the instance. If no rows match
+     * the quote's ID, the Quote entity's ID is overwritten as null.
      *
      * @param  Media $quote Quote entity to fetch & map
      */
@@ -80,7 +91,15 @@ class Quote extends Media
 
     protected function update(Entity\Media $quote)
     {
+        /**
+         * Update parent row
+         */
+
         parent::update($quote);
+
+        /**
+         * Update child row
+         */
 
         $query = "UPDATE
                         `community-voices_quotes`
@@ -107,7 +126,15 @@ class Quote extends Media
 
     protected function create(Entity\Media $quote)
     {
+        /**
+         * Create parent row
+         */
+
         parent::create($quote);
+
+        /**
+         * Credit child row
+         */
 
         $query = "INSERT INTO
                         `community-voices_quotes`
@@ -129,6 +156,12 @@ class Quote extends Media
         $statement->execute();
     }
 
+    /**
+     * Invokes parent::delete() method as the Media table's deletion is set to
+     * cascade to child rows in the database
+     *
+     * @param  Media $quote to delete
+     */
     public function delete(Entity\Media $quote)
     {
         parent::delete($quote); //deletion cascades
