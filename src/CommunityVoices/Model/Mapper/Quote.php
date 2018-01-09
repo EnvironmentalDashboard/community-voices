@@ -3,12 +3,12 @@
 /**
  * Quote mapper.
  *
- * Quotes are a type of of Media, thus this class extends the Media mapper and
+ * Quotes are a type of Media, thus this class extends the Media mapper and
  * mapping logic in this file occasionally references the Media (parent) mapper.
  *
  * Deletions and updates cascade, thus this mapper does not need to implement logic
  * for deleting entries in the table (it may invoke the parent mapper's method,
- * knowing the delete will cascde down).
+ * knowing the delete will cascade down).
  */
 
 namespace CommunityVoices\Model\Mapper;
@@ -77,7 +77,7 @@ class Quote extends Media
      * Save a Quote entity to database by either: updating a current record if
      * an ID exists or creating a new record.
      *
-     * @param Quote instance to save to database
+     * @param  Media $quote instance to save to database
      */
     public function save(Entity\Media $quote)
     {
