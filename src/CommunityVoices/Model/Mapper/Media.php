@@ -40,7 +40,7 @@ class Media extends DataMapper
     }
 
     /**
-     * Maps a Media entity by the ID assigned on the instance. If no rows match the quote's ID, the Quote entity's ID is overwritten as null.
+     * Maps a Media entity by the ID assigned on the instance. If no rows match the media's ID, the Media entity's ID is overwritten as null.
      *
      * @param  Media $media Media entity to fetch & map
      */
