@@ -124,8 +124,17 @@ class MediaTest extends TestCase
         $tagCollection->method('toArray') 
                       ->willReturn(['groupCollection' => []]);
 
-        $addedBy = new User;
-        $addedBy->setID(8);
+        $addedBy = $this->createMock(User::class);
+        $addedBy->method('toArray') 
+                ->willReturn(['user' => [
+                    'id' => 8,
+                    'email' => NULL,
+                    'firstName' => NULL,
+                    'lastName' => NULL,
+                    'role' => NULL
+                ]]);
+        $addedBy->method('getID')
+                ->willReturn(8); 
 
         $now = time();
         $instance->setId(5);
