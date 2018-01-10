@@ -2,7 +2,7 @@
 
 namespace CommunityVoices\App\Website\Component\Mapper;
 
-use CommunityVoices\Model\Contract;
+use CommunityVoices\Model\Contract\Sessionable;
 use CommunityVoices\Model\Component\Mapper;
 
 /**
@@ -17,12 +17,12 @@ class Session extends Mapper
         }
     }
 
-    public function save(Contract\Sessionable $instance)
+    public function save(Sessionable $instance)
     {
         $_SESSION[$instance->getUniqueLabel()] = $instance->toJson();
     }
 
-    public function fetch(Contract\Sessionable $instance)
+    public function fetch(Sessionable $instance)
     {
         if (!isset($_SESSION[$instance->getUniqueLabel()])) {
             return false;
@@ -33,7 +33,7 @@ class Session extends Mapper
         $this->populateEntity($instance, json_decode($session, true));
     }
 
-    public function delete(Contract\Sessionable $instance)
+    public function delete(Sessionable $instance)
     {
         unset($_SESSION[$instance->getUniqueLabel()]);
     }

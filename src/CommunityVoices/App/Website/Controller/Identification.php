@@ -4,7 +4,6 @@ namespace CommunityVoices\App\Website\Controller;
 
 use CommunityVoices\Model\Service;
 use CommunityVoices\App\Website\Component;
-use CommunityVoices\App\Website\Component\CachedItem;
 
 class Identification
 {
@@ -36,7 +35,7 @@ class Identification
             'remember' => $remember
         ];
 
-        $formCache = new CachedItem('form');
+        $formCache = new Component\CachedItem('form');
         $formCache->setValue($form);
 
         $cacheMapper = $this->mapperFactory->createCacheMapper();

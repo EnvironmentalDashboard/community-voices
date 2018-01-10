@@ -5,11 +5,10 @@ namespace CommunityVoices\App\Website\View;
 use \SimpleXMLElement;
 use \DOMDocument;
 use \XSLTProcessor;
+
 use CommunityVoices\Model\Service;
 use CommunityVoices\App\Website\Component;
-use CommunityVoices\App\Website\Component\CachedItem;
 use CommunityVoices\App\Website\Component\Presenter;
-use CommunityVoices\App\Website\Component\Mapper;
 use Symfony\Component\HttpFoundation;
 
 class Identification extends Component\View
@@ -76,7 +75,7 @@ class Identification extends Component\View
              */
 
             // Grab cached form
-            $formCache = new CachedItem('form');
+            $formCache = new Component\CachedItem('form');
 
             $cacheMapper = $this->mapperFactory->createCacheMapper();
             $cacheMapper->fetch($formCache);

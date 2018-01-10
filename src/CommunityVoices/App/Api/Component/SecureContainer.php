@@ -6,8 +6,6 @@
 
 namespace CommunityVoices\App\Api\Component;
 
-use CommunityVoices\Model\Entity;
-
 class SecureContainer
 {
     private $identifier;

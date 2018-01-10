@@ -2,10 +2,11 @@
 
 namespace CommunityVoices\App\Website\Component\Mapper;
 
-use CommunityVoices\Model\Contract;
+use CommunityVoices\Model\Contract\Cookieable;
 use Symfony\Component\HttpFoundation;
+use CommunityVoices\Model\Component\Mapper;
 
-class Cookie extends \CommunityVoices\Model\Component\Mapper
+class Cookie extends Mapper
 {
     private $request;
     private $response;
@@ -39,7 +40,7 @@ class Cookie extends \CommunityVoices\Model\Component\Mapper
         }
     }
 
-    public function fetch(Contract\Cookieable $instance)
+    public function fetch(Cookieable $instance)
     {
         $cookie = $this->request->cookies->get($instance->getUniqueLabel());
 
@@ -50,7 +51,7 @@ class Cookie extends \CommunityVoices\Model\Component\Mapper
         $this->populateEntity($instance, json_decode($cookie, true));
     }
 
-    public function save(Contract\Cookieable $instance)
+    public function save(Cookieable $instance)
     {
         $cookie = new HttpFoundation\Cookie(
             $instance->getUniqueLabel(),
@@ -63,7 +64,7 @@ class Cookie extends \CommunityVoices\Model\Component\Mapper
         $this->request->cookies->set($instance->getUniqueLabel(), $instance->toJson());
     }
 
-    public function delete(Contract\Cookieable $instance)
+    public function delete(Cookieable $instance)
     {
         $this->clearCookies[] = $instance->getUniqueLabel();
 

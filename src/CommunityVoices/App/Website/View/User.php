@@ -5,9 +5,9 @@ namespace CommunityVoices\App\Website\View;
 use \SimpleXMLElement;
 use \DOMDocument;
 use \XSLTProcessor;
+
 use CommunityVoices\Model\Service;
 use CommunityVoices\App\Website\Component;
-use CommunityVoices\App\Website\Component\Presenter;
 use Symfony\Component\HttpFoundation;
 
 class User extends Component\View
@@ -34,7 +34,7 @@ class User extends Component\View
         /**
          * Prepare modules
          */
-        $userModule = new Presenter('Module/User');
+        $userModule = new Component\Presenter('Module/User');
         $userModuleXML = $userModule->generate($identityXMLElement);
 
         /**
@@ -47,7 +47,7 @@ class User extends Component\View
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
 
-        $presentation = new Presenter('SinglePane');
+        $presentation = new Component\Presenter('SinglePane');
 
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 
