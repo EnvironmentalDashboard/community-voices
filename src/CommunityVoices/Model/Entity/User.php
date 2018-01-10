@@ -46,11 +46,9 @@ class User implements HasId, Palladium\Contract\HasId
 
     public function setId($id)
     {
-        $input = (int) $id;
-
-        if ($input > 0) {
-            $this->id = (int) $input;
-        }
+      if (is_int($id) || is_null($id)) {
+          $this->id = $id;
+      }
     }
 
     public function getId()
