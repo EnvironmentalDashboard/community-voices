@@ -51,6 +51,41 @@ class LocationTest extends TestCase
         $this->assertSame($group->getLabel(), 'Foo');
     }
 
+    public function test_Retrieving_Quote_By_Id_Doesnt_Exist()
+    {
+        $pdo = $this
+            ->getMockBuilder(PDO::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $statement = $this
+            ->getMockBuilder(PDOStatement::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $statement
+            ->method('bindValue')
+            ->with($this->equalTo(':id'), $this->equalTo(2));
+
+        $statement
+            ->expects($this->once())
+            ->method('fetch')
+            ->will($this->returnValue([]));
+
+        $pdo
+            ->expects($this->once())
+            ->method('prepare')
+            ->will($this->returnValue($statement));
+
+        $location = new Entity\Location;
+        $location->setId(2);
+
+        $mapper = new Location($pdo);
+        $mapper->fetch($location);
+
+        $this->assertSame($location->getId(), null);
+    }
+
     public function test_Creating_Location()
     {
         $group = new Entity\Location;

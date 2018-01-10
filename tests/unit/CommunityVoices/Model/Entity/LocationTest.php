@@ -14,7 +14,7 @@ class LocationTest extends TestCase
     public function provid_Numeric_Assignment()
     {
         return [
-            ['5', 5],
+            ['5', null],
             [null, null],
             [5, 5],
             ['ipsum', null]
