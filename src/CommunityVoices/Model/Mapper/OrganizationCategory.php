@@ -7,11 +7,19 @@ use CommunityVoices\Model\Entity;
 
 class OrganizationCategory extends Group
 {
+    /**
+    * @uses Tag::fetchById
+    */
     public function fetch(Entity\Group $organizationCategory)
     {
         $this->fetchById($organizationCategory);
     }
 
+    /**
+     * Maps a OrganizationCategory entity by the ID assigned on the instance. If no rows match the entity's ID, the entity's ID is overwritten as null.
+     *
+     * @param  Group $organizationCategory OrganizationCategory entity to fetch & map
+     */
     private function fetchById(Entity\Group $organizationCategory)
     {
         $query = "SELECT
@@ -36,6 +44,8 @@ class OrganizationCategory extends Group
 
         if ($result) {
             $this->populateEntity($organizationCategory, $result);
+        } else {
+            $organizationCategory->setId(null);
         }
     }
 
@@ -71,6 +81,11 @@ class OrganizationCategory extends Group
         $statement->execute();
     }
 
+    /**
+     * Invokes parent::delete() method as the Media table's deletion is set to cascade to child rows in the database
+     *
+     * @param  Group $organizationCategory to delete
+     */
     public function delete(Entity\Group $organizationCategory)
     {
         parent::delete($organizationCategory); //deletion cascades

@@ -7,11 +7,19 @@ use CommunityVoices\Model\Entity;
 
 class ContentCategory extends Group
 {
+    /**
+     * @uses ContentCategory::fetchById
+     */
     public function fetch(Entity\Group $contentCategory)
     {
         $this->fetchById($contentCategory);
     }
 
+    /**
+     * Maps a ContentCategory entity by the ID assigned on the instance. If no rows match the entity's ID, the entity's ID is overwritten as null.
+     *
+     * @param  Group $contentCategory ContentCategory entity to fetch & map
+     */
     private function fetchById(Entity\Group $contentCategory)
     {
         $query = "SELECT
@@ -37,9 +45,16 @@ class ContentCategory extends Group
 
         if ($result) {
             $this->populateEntity($contentCategory, $result);
+        } else {
+            $contentCategory->setId(null);
         }
     }
 
+    /**
+     * Save a ContentCategory entity to database by either: updating a current record if an ID exists or creating a new record.
+     *
+     * @param  Group $contentCategory ContentCategory instance to save to database
+     */
     public function save(Entity\Group $contentCategory)
     {
         if ($contentCategory->getId()) {
@@ -86,6 +101,11 @@ class ContentCategory extends Group
         $statement->execute();
     }
 
+    /**
+     * Invokes parent::delete() method as the Media table's deletion is set to cascade to child rows in the database
+     *
+     * @param  Group $contentCategory to delete
+     */
     public function delete(Entity\Group $contentCategory)
     {
         parent::delete($contentCategory); //deletion cascades

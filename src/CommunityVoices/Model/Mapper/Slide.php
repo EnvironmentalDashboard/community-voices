@@ -58,11 +58,19 @@ class Slide extends Media
         ]
     ];
 
+    /**
+     * @uses Slide::fetchById
+     */
     public function fetch(Entity\Media $slide)
     {
         $this->fetchById($slide);
     }
 
+    /**
+     * Fetches a Slide entity by the ID assigned on the instance. If the instance ID isn't found, the ID is overwriten as null.
+     *
+     * @param Media $slide Slide entity to fetch and map
+     */
     private function fetchById(Entity\Media $slide)
     {
         $query = "SELECT
@@ -98,9 +106,16 @@ class Slide extends Media
             $convertedParams = $this->convertRelations($this->relations, $results);
 
             $this->populateEntity($slide, array_merge($results, $convertedParams));
+        } else {
+            $slide->setId(null);
         }
     }
 
+    /**
+     * Save a Slide entity to database by either: updating a current record if an ID exists or creating a new record.
+     *
+     * @param  Media $slide instance to save to database
+     */
     public function save(Entity\Media $slide)
     {
         if ($slide->getId()) {
@@ -142,6 +157,11 @@ class Slide extends Media
         $statement->execute();
     }
 
+    /**
+     * Invokes parent::delete() method as the Media table's deletion is set to cascade to child rows in the database
+     *
+     * @param  Media $slide to delete
+     */
     protected function create(Entity\Media $slide)
     {
         parent::create($slide);

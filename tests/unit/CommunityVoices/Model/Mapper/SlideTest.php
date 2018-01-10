@@ -51,6 +51,41 @@ class SlideTest extends TestCase
         $this->assertEquals($slide->getAddedBy()->getId(), 6);
     }
 
+    public function test_Retrieving_Slide_By_Id_Doesnt_Exist()
+    {
+        $pdo = $this
+            ->getMockBuilder(PDO::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $statement = $this
+            ->getMockBuilder(PDOStatement::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $statement
+            ->method('bindValue')
+            ->with($this->equalTo(':id'), $this->equalTo(2));
+
+        $statement
+            ->expects($this->once())
+            ->method('fetch')
+            ->will($this->returnValue([]));
+
+        $pdo
+            ->expects($this->once())
+            ->method('prepare')
+            ->will($this->returnValue($statement));
+
+        $slide = new Entity\Slide;
+        $slide->setId(2);
+
+        $mapper = new Slide($pdo);
+        $mapper->fetch($slide);
+
+        $this->assertSame($slide->getId(), null);
+    }
+
     public function test_Creating_Slide()
     {
         $creator = new Entity\User;

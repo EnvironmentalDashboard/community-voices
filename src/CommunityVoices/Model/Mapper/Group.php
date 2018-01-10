@@ -8,11 +8,19 @@ use CommunityVoices\Model\Entity;
 
 class Group extends DataMapper
 {
+  /**
+   * @uses Group::fetchById
+   */
     public function fetch(Entity\Group $group)
     {
         $this->fetchById($group);
     }
 
+    /**
+     * Maps a Group entity by the ID assigned on the instance. If no rows match the entity's ID, the entity's ID is overwritten as null.
+     *
+     * @param  Group $group Group entity to fetch & map
+     */
     private function fetchById(Entity\Group $group)
     {
         $query = "SELECT
@@ -78,6 +86,11 @@ class Group extends DataMapper
         $group->setId($this->conn->lastInsertId());
     }
 
+    /**
+     * Removes the database entry associated with the $group ID
+     *
+     * @param  Group $group Group entity to delete
+     */
     public function delete(Entity\Group $group)
     {
         $query = "DELETE FROM   `community-voices_groups`
