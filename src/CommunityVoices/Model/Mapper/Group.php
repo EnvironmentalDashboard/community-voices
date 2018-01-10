@@ -17,7 +17,8 @@ class Group extends DataMapper
     }
 
     /**
-     * Maps a Group entity by the ID assigned on the instance. If no rows match the entity's ID, the entity's ID is overwritten as null.
+     * Maps a Group entity by the ID assigned on the instance. If no rows match
+     * the entity's ID, the entity's ID is overwritten as null.
      *
      * @param  Group $group Group entity to fetch & map
      */

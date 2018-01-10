@@ -17,7 +17,8 @@ class Image extends Media
     }
 
     /**
-     * Fetches an Image entity by the ID assigned on the instance. If the instance ID isn't found, the ID is overwriten as null.
+     * Fetches an Image entity by the ID assigned on the instance. If the
+     * instance ID isn't found, the ID is overwriten as null.
      *
      * @param Media $image Image entity to fetch & map
      */
@@ -62,7 +63,8 @@ class Image extends Media
     }
 
     /**
-     * Save an Image entity to the database by either: updating a current record if the ID exists or creating a new record.
+     * Save an Image entity to the database by either: updating a current record
+     * if the ID exists or creating a new record.
      *
      * @param Media $image Image entity to save to database.
      */
@@ -135,7 +137,8 @@ class Image extends Media
     }
 
     /**
-     * Invokes parent::delete() method as the Media table's deletion is set to cascade to child rows in the database
+     * Invokes parent::delete() method as the Media table's deletion is set to
+     * cascade to child rows in the database
      *
      * @param  Media $image to delete
      */

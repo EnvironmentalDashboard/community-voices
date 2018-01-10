@@ -16,7 +16,8 @@ class Tag extends Group
     }
 
     /**
-     * Maps a Tag entity by the ID assigned on the instance. If no rows match the entity's ID, the entity's ID is overwritten as null.
+     * Maps a Tag entity by the ID assigned on the instance. If no rows match
+     * the entity's ID, the entity's ID is overwritten as null.
      *
      * @param  Group $tag Tag entity to fetch & map
      */
@@ -82,7 +83,8 @@ class Tag extends Group
     }
 
     /**
-     * Invokes parent::delete() method as the Media table's deletion is set to cascade to child rows in the database
+     * Invokes parent::delete() method as the Media table's deletion is set to
+     * cascade to child rows in the database
      *
      * @param  Group $tag to delete
      */

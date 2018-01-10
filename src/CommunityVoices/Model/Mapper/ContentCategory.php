@@ -16,7 +16,8 @@ class ContentCategory extends Group
     }
 
     /**
-     * Maps a ContentCategory entity by the ID assigned on the instance. If no rows match the entity's ID, the entity's ID is overwritten as null.
+     * Maps a ContentCategory entity by the ID assigned on the instance. If no
+     * rows match the entity's ID, the entity's ID is overwritten as null.
      *
      * @param  Group $contentCategory ContentCategory entity to fetch & map
      */
@@ -51,7 +52,8 @@ class ContentCategory extends Group
     }
 
     /**
-     * Save a ContentCategory entity to database by either: updating a current record if an ID exists or creating a new record.
+     * Save a ContentCategory entity to database by either: updating a current
+     * record if an ID exists or creating a new record.
      *
      * @param  Group $contentCategory ContentCategory instance to save to database
      */
@@ -102,7 +104,8 @@ class ContentCategory extends Group
     }
 
     /**
-     * Invokes parent::delete() method as the Media table's deletion is set to cascade to child rows in the database
+     * Invokes parent::delete() method as the Media table's deletion is set to
+     * cascade to child rows in the database
      *
      * @param  Group $contentCategory to delete
      */

@@ -3,7 +3,8 @@
 namespace CommunityVoices\Model\Mapper;
 
 use PDO;
-use CommunityVoices\Model\Entity; // Entity\User, Entity\ContentCategory, Entity\Image, Entity\Quote, Entity\GroupCollection, Entity\Media
+use CommunityVoices\Model\Entity;
+// Entity\User, Entity\ContentCategory, Entity\Image, Entity\Quote, Entity\GroupCollection, Entity\Media
 
 class Slide extends Media
 {
@@ -67,7 +68,8 @@ class Slide extends Media
     }
 
     /**
-     * Fetches a Slide entity by the ID assigned on the instance. If the instance ID isn't found, the ID is overwriten as null.
+     * Fetches a Slide entity by the ID assigned on the instance. If the
+     * instance ID isn't found, the ID is overwriten as null.
      *
      * @param Media $slide Slide entity to fetch and map
      */
@@ -112,7 +114,8 @@ class Slide extends Media
     }
 
     /**
-     * Save a Slide entity to database by either: updating a current record if an ID exists or creating a new record.
+     * Save a Slide entity to database by either: updating a current record if
+     * an ID exists or creating a new record.
      *
      * @param  Media $slide instance to save to database
      */
@@ -158,7 +161,8 @@ class Slide extends Media
     }
 
     /**
-     * Invokes parent::delete() method as the Media table's deletion is set to cascade to child rows in the database
+     * Invokes parent::delete() method as the Media table's deletion is set to
+     * cascade to child rows in the database
      *
      * @param  Media $slide to delete
      */

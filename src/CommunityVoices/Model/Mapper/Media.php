@@ -4,7 +4,8 @@ namespace CommunityVoices\Model\Mapper;
 
 use PDO;
 use CommunityVoices\Model\Component\DataMapper;
-use CommunityVoices\Model\Entity; // Entity\User, Entity\GroupCollection, Entity\Media
+use CommunityVoices\Model\Entity;
+// Entity\User, Entity\GroupCollection, Entity\Media
 
 class Media extends DataMapper
 {
@@ -40,7 +41,8 @@ class Media extends DataMapper
     }
 
     /**
-     * Maps a Media entity by the ID assigned on the instance. If no rows match the media's ID, the Media entity's ID is overwritten as null.
+     * Maps a Media entity by the ID assigned on the instance. If no rows match
+     * the media's ID, the Media entity's ID is overwritten as null.
      *
      * @param  Media $media Media entity to fetch & map
      */

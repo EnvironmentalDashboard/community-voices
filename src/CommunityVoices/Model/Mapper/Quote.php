@@ -27,7 +27,8 @@ class Quote extends Media
     }
 
     /**
-     * Maps a Quote entity by the ID assigned on the instance. If no rows match the quote's ID, the Quote entity's ID is overwritten as null.
+     * Maps a Quote entity by the ID assigned on the instance. If no rows match
+     * the quote's ID, the Quote entity's ID is overwritten as null.
      *
      * @param  Media $quote Quote entity to fetch & map
      */
@@ -73,7 +74,8 @@ class Quote extends Media
     }
 
     /**
-     * Save a Quote entity to database by either: updating a current record if an ID exists or creating a new record.
+     * Save a Quote entity to database by either: updating a current record if
+     * an ID exists or creating a new record.
      *
      * @param  Media $quote instance to save to database
      */
@@ -155,7 +157,8 @@ class Quote extends Media
     }
 
     /**
-     * Invokes parent::delete() method as the Media table's deletion is set to cascade to child rows in the database
+     * Invokes parent::delete() method as the Media table's deletion is set to
+     * cascade to child rows in the database
      *
      * @param  Media $quote to delete
      */

@@ -4,7 +4,8 @@ namespace CommunityVoices\Model\Mapper;
 
 use PDO;
 use CommunityVoices\Model\Component\DataMapper;
-use CommunityVoices\Model\Entity; // Entity\GroupCollection, Entity\ContentCategoryCollection, Entity\Location
+use CommunityVoices\Model\Entity;
+// Entity\GroupCollection, Entity\ContentCategoryCollection, Entity\Location
 
 class Location extends DataMapper
 {
@@ -45,7 +46,8 @@ class Location extends DataMapper
     }
 
     /**
-     * Maps a Location entity by the ID assigned on the instance. If no rows match the location's ID, the Location entity's ID is overwritten as null.
+     * Maps a Location entity by the ID assigned on the instance. If no rows
+     * match the location's ID, the Location entity's ID is overwritten as null.
      *
      * @param  Location $location Location entity to fetch & map
      */
@@ -77,7 +79,8 @@ class Location extends DataMapper
     }
 
     /**
-     * Save a Location entity to database by either: updating a current record if an ID exists or creating a new record.
+     * Save a Location entity to database by either: updating a current record
+     * if an ID exists or creating a new record.
      *
      * @param  Location $location instance to save to database
      */
