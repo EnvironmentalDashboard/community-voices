@@ -44,8 +44,15 @@ class QuoteLookup
         $quote->setId($quoteId);
 
         $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
+        $quoteMapper->fetch($quote);
 
-        if (!$quoteMapper->fetch($quote)) {
+        $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
+        $userMapper->fetch($quote->getAddedBy());
+
+        $groupCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
+        $groupCollectionMapper->fetch($quote->getTagCollection());
+
+        if (!$quote->getId()) {
             throw new Exception\IdentityNotFound;
         }
 
