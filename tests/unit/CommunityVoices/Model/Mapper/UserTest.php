@@ -50,6 +50,41 @@ class UserTest extends TestCase
         $this->assertSame($user->getEmail(), 'foo@blah.com');
     }
 
+    public function test_Retrieving_Quote_By_Id_Doesnt_Exist()
+    {
+        $pdo = $this
+            ->getMockBuilder(PDO::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $statement = $this
+            ->getMockBuilder(PDOStatement::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $statement
+            ->method('bindValue')
+            ->with($this->equalTo(':id'), $this->equalTo(2));
+
+        $statement
+            ->expects($this->once())
+            ->method('fetch')
+            ->will($this->returnValue([]));
+
+        $pdo
+            ->expects($this->once())
+            ->method('prepare')
+            ->will($this->returnValue($statement));
+
+        $user = new Entity\User;
+        $user->setId(2);
+
+        $mapper = new User($pdo);
+        $mapper->fetch($user);
+
+        $this->assertSame($user->getId(), null);
+    }
+
     public function test_Retrieving_User_By_Email()
     {
         $pdo = $this
@@ -84,6 +119,41 @@ class UserTest extends TestCase
 
         $mapper = new User($pdo);
         $mapper->fetch($user);
+    }
+
+    public function test_Retrieving_User_By_Email_Doesnt_Exists()
+    {
+        $pdo = $this
+                ->getMockBuilder(PDO::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $statement = $this
+                ->getMockBuilder(PDOStatement::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $statement
+            ->method('bindValue')
+            ->with($this->equalTo(':email'), $this->equalTo('foo@bah.com'));
+
+        $statement
+            ->expects($this->once())
+            ->method('fetch')
+            ->will($this->returnValue([]));
+
+        $pdo
+            ->expects($this->once())
+            ->method('prepare')
+            ->will($this->returnValue($statement));
+
+        $user = new Entity\User;
+        $user->setEmail('foo@bah.com');
+
+        $mapper = new User($pdo);
+        $mapper->fetch($user);
+
+        $this->assertSame($user->getId(), null);
     }
 
     public function test_Registering_User()

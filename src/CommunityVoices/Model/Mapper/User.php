@@ -8,6 +8,13 @@ use CommunityVoices\Model\Entity;
 
 class User extends DataMapper
 {
+    /**
+    * Maps a user entity by either the ID or the email assigned on the instance.
+    * If an ID is assigned to the object, it is used to fetch info instead of
+    * the email.
+    * @uses User::fetchById
+    * @uses User::fetchByEmail
+    */
     public function fetch(Entity\User $user)
     {
         if ($user->getId()) {
@@ -18,6 +25,12 @@ class User extends DataMapper
         $this->fetchByEmail($user);
     }
 
+    /**
+     * Maps a User entity by the ID assigned on the instance. If no rows match
+     * the user's ID, the User entity's ID is overwritten as null.
+     *
+     * @param  User $user User entity to fetch & map
+     */
     private function fetchById(Entity\User $user)
     {
         $query = "SELECT
@@ -40,9 +53,17 @@ class User extends DataMapper
 
         if ($result) {
             $this->populateEntity($user, $result);
+        } else {
+            $user->setId(null);
         }
     }
 
+    /**
+     * Maps a User entity by the email assigned on the instance. If no rows match
+     * the user's email, the User entity's ID is set to null.
+     *
+     * @param  User $user User entity to fetch & map
+     */
     private function fetchByEmail(Entity\User $user)
     {
         $query = "SELECT
@@ -66,6 +87,8 @@ class User extends DataMapper
 
         if ($result) {
             $this->populateEntity($user, $result);
+        } else {
+            $user->setId(null);
         }
     }
 
@@ -122,6 +145,11 @@ class User extends DataMapper
         $statement->execute();
     }
 
+    /**
+     * Removes the database entry associated with the $user ID
+     *
+     * @param User $user User entity to delete
+     */
     public function delete(Entity\User $user)
     {
         $query = "DELETE FROM
