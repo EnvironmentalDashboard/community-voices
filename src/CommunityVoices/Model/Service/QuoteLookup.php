@@ -46,15 +46,15 @@ class QuoteLookup
         $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
         $quoteMapper->fetch($quote);
 
+        if (!$quote->getId()) {
+            throw new Exception\IdentityNotFound;
+        }
+
         $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
         $userMapper->fetch($quote->getAddedBy());
 
         $groupCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
         $groupCollectionMapper->fetch($quote->getTagCollection());
-
-        if (!$quote->getId()) {
-            throw new Exception\IdentityNotFound;
-        }
 
         $this->stateObserver->setSubject('quoteLookup');
         $this->stateObserver->addEntry('quote', $quote);
