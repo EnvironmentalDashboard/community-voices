@@ -104,7 +104,7 @@ class GroupCollection extends Collection
         $toReturn = ['groupCollection' => []];
 
         foreach ($this->collection as $item) {
-        	$toReturn['groupCollection'][] = ['group' => $item->toArray()];
+            $toReturn['groupCollection'][] = $item->toArray();
         }
 
         return $toReturn;
