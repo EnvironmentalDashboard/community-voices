@@ -155,15 +155,4 @@ class Quote extends Media
 
         $statement->execute();
     }
-
-    /**
-     * Invokes parent::delete() method as the Media table's deletion is set to
-     * cascade to child rows in the database
-     *
-     * @param  Media $quote to delete
-     */
-    public function delete(Entity\Media $quote)
-    {
-        parent::delete($quote); //deletion cascades
-    }
 }
