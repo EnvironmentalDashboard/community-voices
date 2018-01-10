@@ -4,7 +4,7 @@ namespace CommunityVoices\Model\Mapper;
 
 use PDO;
 use CommunityVoices\Model\Component\DataMapper;
-use CommunityVoices\Model\Entity; // Entity\GroupCollection, Entity\ContentCategoryCollection, Entity\Location 
+use CommunityVoices\Model\Entity; // Entity\GroupCollection, Entity\ContentCategoryCollection, Entity\Location
 
 class Location extends DataMapper
 {
@@ -36,11 +36,19 @@ class Location extends DataMapper
         ]
     ];
 
+    /**
+     * @uses Location::fetchById
+     */
     public function fetch(Entity\Location $location)
     {
         $this->fetchById($location);
     }
 
+    /**
+     * Maps a Location entity by the ID assigned on the instance. If no rows match the location's ID, the Location entity's ID is overwritten as null.
+     *
+     * @param  Location $location Location entity to fetch & map
+     */
     private function fetchById(Entity\Location $location)
     {
         $query = "SELECT
@@ -63,9 +71,16 @@ class Location extends DataMapper
             $convertedParams = $this->convertRelations($this->relations, $result);
 
             $this->populateEntity($location, array_merge($result, $convertedParams));
+        } else {
+            $location->setId(null);
         }
     }
 
+    /**
+     * Save a Location entity to database by either: updating a current record if an ID exists or creating a new record.
+     *
+     * @param  Location $location instance to save to database
+     */
     public function save(Entity\Location $location)
     {
         if ($location->getId()) {
@@ -109,6 +124,11 @@ class Location extends DataMapper
         $location->setId($this->conn->lastInsertId());
     }
 
+    /**
+     * Removes the database entry associated with the $location ID
+     *
+     * @param  Location $location Location entity to delete
+     */
     public function delete(Entity\Location $location)
     {
         $query = "DELETE FROM
