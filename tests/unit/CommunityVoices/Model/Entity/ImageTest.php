@@ -82,24 +82,48 @@ class ImageTest extends TestCase
         $this->assertSame($instance->getOrganization(), 'Foobar');
     }
 
-    // to be completed
-    // public function test_toArray()
-    // {
-    //     $instance = new Image;
+    public function test_toArray()
+    {
+        $instance = new Image;
 
-    //     // set all the media fields
+        $addedBy = $this->createMock(User::class);
+        $addedBy->method('getID')
+                ->willReturn(TRUE); 
+        $addedBy->method('toArray') 
+                ->willReturn(NULL);
 
-    //     $instance->setFilename('cookieMonster.jpg');
-    //     $instance->setTitle('Title for image');
-    //     $instance->setDescription('Lorem ipsum');
-    //     $instance->setGeneratedTags('cookie chocolate caramel');
-    //     $instance->setDateTaken('1499970467');
-    //     $instance->setPhotographer('John Doe');
-    //     $instance->setOrganization('Foobar');
+        $tagCollection = $this->createMock(GroupCollection::class);
+        $tagCollection->method('toArray') 
+                      ->willReturn(NULL);
 
-    //     $this->assertSame($instance->toArray(), 'Foobar');
+        $instance->setAddedBy($addedBy);
+        $instance->setTagCollection($tagCollection);
 
-    // }
+        $instance->setFilename('cookieMonster.jpg');
+        $instance->setTitle('Title for image');
+        $instance->setDescription('Lorem ipsum');
+        $instance->setGeneratedTags('cookie chocolate caramel');
+        $instance->setDateTaken('1499970467');
+        $instance->setPhotographer('John Doe');
+        $instance->setOrganization('Foobar');
 
-    // @TODO test validation
+        $expected = ['image' => [
+            'id' => NULL,
+            'addedBy' => NULL,
+            'dateCreated' => NULL,
+            'type' => Media::TYPE_IMAGE,
+            'status' => NULL,
+            'tagCollection' => NULL,
+
+            'filename' => 'cookieMonster.jpg',
+            'title' => 'Title for image',
+            'description' => 'Lorem ipsum',
+            'generatedTags' => 'cookie chocolate caramel',
+            'dateTaken' => 1499970467,
+            'photographer' => 'John Doe',
+            'organization' => 'Foobar'
+        ]]; 
+
+        $this->assertSame($instance->toArray(), $expected);
+    }
 }

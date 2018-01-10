@@ -137,15 +137,43 @@ class QuoteTest extends TestCase
         $this->assertFalse($instance->validateForUpload($stateObserver));
     }
 
-    // public function test_toArray()
-    // {
-    //     $instance = new Quote;
+    public function test_toArray()
+    {
+        $instance = new Quote;
 
-    //     $instance->setText("I know nothing");
-    //     $instance->setAttribution("Jon Snow");
-    //     $instance->setDateRecorded('1499970467');
-    //     $instance->setPublicDocumentLink("http://localhost/");
-    //     $instance->setSourceDocumentLink("http://localhost/");
+        $addedBy = $this->createMock(User::class);
+        $addedBy->method('getID')
+                ->willReturn(TRUE); 
+        $addedBy->method('toArray') 
+                ->willReturn(NULL);
 
-    // }
+        $tagCollection = $this->createMock(GroupCollection::class);
+        $tagCollection->method('toArray') 
+                      ->willReturn(NULL);
+
+        $instance->setAddedBy($addedBy);
+        $instance->setTagCollection($tagCollection);
+        $instance->setText("I know nothing");
+        $instance->setAttribution("Jon Snow");
+        $instance->setDateRecorded('1499970467');
+        $instance->setPublicDocumentLink("http://localhost/");
+        $instance->setSourceDocumentLink("http://localhost/");
+
+        $expected = ['quote' => [
+            'id' => NULL,
+            'addedBy' => NULL,
+            'dateCreated' => NULL,
+            'type' => Media::TYPE_QUOTE,
+            'status' => NULL,
+            'tagCollection' => NULL,
+
+            'text' => "I know nothing",
+            'attribution' => "Jon Snow",
+            'dateRecorded' => 1499970467,
+            'publicDocumentLink' => "http://localhost/",
+            'sourceDocumentLink' => "http://localhost/"
+        ]]; 
+
+        $this->assertSame($instance->toArray(), $expected);       
+    }
 }

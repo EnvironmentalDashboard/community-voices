@@ -14,6 +14,13 @@ class SlideTest extends TestCase
      * @TODO content categories should be DO
      */
 
+    public function test_Type_Generation()
+    {
+        $instance = new Slide;
+
+        $this->assertSame($instance->getType(), $instance::TYPE_SLIDE);
+    }
+
      public function test_Image_Id_Assignment()
      {
          $instance = new Slide;
@@ -118,5 +125,66 @@ class SlideTest extends TestCase
         $this->assertSame($instance->getDecayEnd(), $time);
     }
 
-    // @TODO test validation
+    public function test_toArray()
+    {
+        $instance = new Slide;
+
+        $addedBy = $this->createMock(User::class);
+        $addedBy->method('getID')
+                ->willReturn(TRUE); 
+        $addedBy->method('toArray') 
+                ->willReturn(NULL);
+
+        $tagCollection = $this->createMock(GroupCollection::class);
+        $tagCollection->method('toArray') 
+                      ->willReturn(NULL);
+
+        $contentCategory = $this->createMock(ContentCategory::class);
+        $contentCategory->method('toArray') 
+                        ->willReturn(NULL);
+
+        $image = $this->createMock(Image::class);
+        $image->method('toArray') 
+              ->willReturn(NULL);
+
+        $quote = $this->createMock(Quote::class);
+        $quote->method('toArray') 
+              ->willReturn(NULL);
+
+        $orgCatCollection = $this->createMock(GroupCollection::class);
+        $orgCatCollection->method('toArray') 
+                        ->willReturn(NULL);
+
+        $instance->setAddedBy($addedBy);
+        $instance->setTagCollection($tagCollection);
+
+        $instance->setContentCategory($contentCategory);
+        $instance->setImage($image);
+        $instance->setQuote($quote);
+        $instance->setProbability(.3);
+        $instance->setDecayPercent(.2);
+        $instance->setDecayStart(strtotime('+5 days'));
+        $instance->setDecayEnd(strtotime('+7 days'));
+        $instance->setOrganizationCategoryCollection($orgCatCollection);
+
+        $expected = ['slide' => [
+            'id' => NULL,
+            'addedBy' => NULL,
+            'dateCreated' => NULL,
+            'type' => Media::TYPE_SLIDE,
+            'status' => NULL,
+            'tagCollection' => NULL,
+
+            'contentCategory' => NULL,
+            'image' => NULL,
+            'quote' => NULL,
+            'probability' => .3,
+            'decayPercent' => .2,
+            'decayStart' => strtotime('+5 days'),
+            'decayEnd' => strtotime('+7 days'),
+            'organizationCategoryCollection' => NULL
+        ]]; 
+
+        $this->assertSame($instance->toArray(), $expected);
+    }
 }
