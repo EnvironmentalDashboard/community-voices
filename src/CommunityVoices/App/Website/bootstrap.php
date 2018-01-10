@@ -23,6 +23,7 @@ $injector = new Auryn\Injector;
  * Db handler configuration
  */
 $dbHandler = new PDO('mysql:host=localhost;dbname=community_voices;charset=utf8', 'root', 'root');
+$dbHandler->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 $injector->share($dbHandler);
 
