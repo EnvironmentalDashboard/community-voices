@@ -90,4 +90,20 @@ class GroupTest extends TestCase
 
         $this->assertFalse($instance->validateForUpload($stateObserver));
     }
+
+    public function test_toArray()
+    {
+        $instance = new Group;
+        $instance->setId(7);
+        $instance->setLabel('knight');
+        $instance->setType(Group::TYPE_ORG_CAT);
+
+        $expected = ['group' => [
+            'id' => 7,
+            'label' => 'knight',
+            'type' => Group::TYPE_ORG_CAT
+        ]];
+
+        $this->assertSame($instance->toArray(), $expected);
+    }
 }
