@@ -14,6 +14,13 @@ class SlideTest extends TestCase
      * @TODO content categories should be DO
      */
 
+    public function test_Type_Generation()
+    {
+        $instance = new Slide;
+
+        $this->assertSame($instance->getType(), $instance::TYPE_SLIDE);
+    }
+
      public function test_Image_Id_Assignment()
      {
          $instance = new Slide;

@@ -37,6 +37,11 @@ class Slide extends Media
 
     private $organizationCategoryCollection;
 
+    public function __construct()
+    {
+        $this->type = self::TYPE_SLIDE;
+    }
+
     public function getContentCategory()
     {
         return $this->contentCategory;
