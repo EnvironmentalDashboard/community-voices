@@ -109,4 +109,29 @@ class LocationTest extends TestCase
 
         $this->assertFalse($instance->validateForUpload($stateObserver));
     }
+
+    public function test_toArray()
+    {
+        $instance = new Location;
+
+        $orgCatCollection = $this->createMock(GroupCollection::Class);
+        $orgCatCollection->method('toArray')->willReturn('book');
+
+        $contentCatCollecton = $this->createMock(ContentCategoryCollection::Class);
+        $contentCatCollecton->method('toArray')->willReturn('cook');
+
+        $instance->setID(9);
+        $instance->setLabel('Rain');
+        $instance->setOrganizationCategoryCollection($orgCatCollection);
+        $instance->setContentCategoryCollection($contentCatCollecton);
+
+        $expected = ['location' => [
+            'id' => 9,
+            'label' => 'Rain',
+            'organizationCategoryCollection' => 'book',
+            'contentCategoryCollection' => 'cook'
+        ]];
+
+        $this->assertSame($instance->toArray(), $expected);
+    }
 }

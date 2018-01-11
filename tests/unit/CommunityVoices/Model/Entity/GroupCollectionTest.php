@@ -95,4 +95,33 @@ class GroupCollectionTest extends TestCase
         $instance = new GroupCollection;
         $instance->forParent($parent);
     }
+
+    public function test_toArray()
+    {
+        $instance = new GroupCollection;
+
+        $item0 = $this->createMock(Group::Class);
+        $item1 = $this->createMock(Tag::Class);
+        $item2 = $this->createMock(OrganizationCategory::Class);
+        $item3 = $this->createMock(ContentCategory::Class);
+
+        $item0->method('toArray')->willReturn(['group' => []]);
+        $item1->method('toArray')->willReturn(['tag' => []]);
+        $item2->method('toArray')->willReturn(['organizationCategory' => []]);
+        $item3->method('toArray')->willReturn(['contentCategory' => []]);
+
+        $instance->addEntity($item0);
+        $instance->addEntity($item1);
+        $instance->addEntity($item2);
+        $instance->addEntity($item3);
+
+        $expected=["groupCollection" =>[
+            ['group' => []],
+            ['tag' => []],
+            ['organizationCategory' => []],
+            ['contentCategory' => []]
+        ]];
+
+        $this->assertSame($instance->toArray(), $expected);
+    }
 }
