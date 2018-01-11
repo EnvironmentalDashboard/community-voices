@@ -13,7 +13,11 @@ class Transcriber
                 $value = $this->toXml($value);
             }
 
-            $xml .= '<' . $key . '>' . $value . '</' . $key . '>';
+            if (is_int($key)) {
+                $xml .= $value;
+            } else {
+                $xml .= '<' . $key . '>' . $value . '</' . $key . '>';
+            }
         }
 
         return $xml;
