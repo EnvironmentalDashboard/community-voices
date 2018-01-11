@@ -21,13 +21,13 @@ class SlideTest extends TestCase
         $this->assertSame($instance->getType(), $instance::TYPE_SLIDE);
     }
 
-     public function test_Image_Id_Assignment()
-     {
-         $instance = new Slide;
-         $instance->setId(5);
+    public function test_Image_Id_Assignment()
+    {
+        $instance = new Slide;
+        $instance->setId(5);
 
-         $this->assertSame($instance->getId(), 5);
-     }
+        $this->assertSame($instance->getId(), 5);
+    }
 
     public function test_Content_Category_Assignment()
     {
@@ -131,29 +131,29 @@ class SlideTest extends TestCase
 
         $addedBy = $this->createMock(User::class);
         $addedBy->method('getID')
-                ->willReturn(TRUE); 
-        $addedBy->method('toArray') 
-                ->willReturn(NULL);
+                ->willReturn(true);
+        $addedBy->method('toArray')
+                ->willReturn('foo');
 
         $tagCollection = $this->createMock(GroupCollection::class);
-        $tagCollection->method('toArray') 
-                      ->willReturn(NULL);
+        $tagCollection->method('toArray')
+                      ->willReturn('foo');
 
         $contentCategory = $this->createMock(ContentCategory::class);
-        $contentCategory->method('toArray') 
-                        ->willReturn(NULL);
+        $contentCategory->method('toArray')
+                        ->willReturn('foo');
 
         $image = $this->createMock(Image::class);
-        $image->method('toArray') 
-              ->willReturn(NULL);
+        $image->method('toArray')
+              ->willReturn('foo');
 
         $quote = $this->createMock(Quote::class);
-        $quote->method('toArray') 
-              ->willReturn(NULL);
+        $quote->method('toArray')
+              ->willReturn('foo');
 
         $orgCatCollection = $this->createMock(GroupCollection::class);
-        $orgCatCollection->method('toArray') 
-                        ->willReturn(NULL);
+        $orgCatCollection->method('toArray')
+                        ->willReturn('foo');
 
         $instance->setAddedBy($addedBy);
         $instance->setTagCollection($tagCollection);
@@ -163,27 +163,27 @@ class SlideTest extends TestCase
         $instance->setQuote($quote);
         $instance->setProbability(.3);
         $instance->setDecayPercent(.2);
-        $instance->setDecayStart(strtotime('+5 days'));
-        $instance->setDecayEnd(strtotime('+7 days'));
+        $instance->setDecayStart(5);
+        $instance->setDecayEnd(7);
         $instance->setOrganizationCategoryCollection($orgCatCollection);
 
         $expected = ['slide' => [
-            'id' => NULL,
-            'addedBy' => NULL,
-            'dateCreated' => NULL,
+            'id' => null,
+            'addedBy' => 'foo',
+            'dateCreated' => null,
             'type' => Media::TYPE_SLIDE,
-            'status' => NULL,
-            'tagCollection' => NULL,
+            'status' => null,
+            'tagCollection' => 'foo',
 
-            'contentCategory' => NULL,
-            'image' => NULL,
-            'quote' => NULL,
+            'contentCategory' => 'foo',
+            'image' => 'foo',
+            'quote' => 'foo',
             'probability' => .3,
             'decayPercent' => .2,
-            'decayStart' => strtotime('+5 days'),
-            'decayEnd' => strtotime('+7 days'),
-            'organizationCategoryCollection' => NULL
-        ]]; 
+            'decayStart' => 5,
+            'decayEnd' => 7,
+            'organizationCategoryCollection' => 'foo'
+        ]];
 
         $this->assertSame($instance->toArray(), $expected);
     }
