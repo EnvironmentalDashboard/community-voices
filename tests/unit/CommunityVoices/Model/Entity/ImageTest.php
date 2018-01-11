@@ -89,12 +89,8 @@ class ImageTest extends TestCase
         $addedBy = $this->createMock(User::class);
         $addedBy->method('getID')
                 ->willReturn(TRUE); 
-        $addedBy->method('toArray') 
-                ->willReturn(NULL);
 
         $tagCollection = $this->createMock(GroupCollection::class);
-        $tagCollection->method('toArray') 
-                      ->willReturn(NULL);
 
         $instance->setAddedBy($addedBy);
         $instance->setTagCollection($tagCollection);
