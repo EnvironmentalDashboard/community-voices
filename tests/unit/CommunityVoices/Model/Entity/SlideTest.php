@@ -187,4 +187,234 @@ class SlideTest extends TestCase
 
         $this->assertSame($instance->toArray(), $expected);
     }
+
+    public function test_toArray_No_Image()
+    {
+        $instance = new Slide;
+
+        $addedBy = $this->createMock(User::class);
+        $addedBy->method('getID')
+                ->willReturn(true);
+        $addedBy->method('toArray')
+                ->willReturn('foo');
+
+        $tagCollection = $this->createMock(GroupCollection::class);
+        $tagCollection->method('toArray')
+                      ->willReturn('foo');
+
+        $contentCategory = $this->createMock(ContentCategory::class);
+        $contentCategory->method('toArray')
+                        ->willReturn('foo');
+
+        $quote = $this->createMock(Quote::class);
+        $quote->method('toArray')
+              ->willReturn('foo');
+
+        $orgCatCollection = $this->createMock(GroupCollection::class);
+        $orgCatCollection->method('toArray')
+                        ->willReturn('foo');
+
+        $instance->setAddedBy($addedBy);
+        $instance->setTagCollection($tagCollection);
+
+        $instance->setContentCategory($contentCategory);
+        $instance->setQuote($quote);
+        $instance->setProbability(.3);
+        $instance->setDecayPercent(.2);
+        $instance->setDecayStart(5);
+        $instance->setDecayEnd(7);
+        $instance->setOrganizationCategoryCollection($orgCatCollection);
+
+        $expected = ['slide' => [
+            'id' => null,
+            'addedBy' => 'foo',
+            'dateCreated' => null,
+            'type' => Media::TYPE_SLIDE,
+            'status' => null,
+            'tagCollection' => 'foo',
+
+            'contentCategory' => 'foo',
+            'image' => null,
+            'quote' => 'foo',
+            'probability' => .3,
+            'decayPercent' => .2,
+            'decayStart' => 5,
+            'decayEnd' => 7,
+            'organizationCategoryCollection' => 'foo'
+        ]];
+
+        $this->assertSame($instance->toArray(), $expected);
+    }
+
+    public function test_toArray_No_Quote()
+    {
+        $instance = new Slide;
+
+        $addedBy = $this->createMock(User::class);
+        $addedBy->method('getID')
+                ->willReturn(true);
+        $addedBy->method('toArray')
+                ->willReturn('foo');
+
+        $tagCollection = $this->createMock(GroupCollection::class);
+        $tagCollection->method('toArray')
+                      ->willReturn('foo');
+
+        $contentCategory = $this->createMock(ContentCategory::class);
+        $contentCategory->method('toArray')
+                        ->willReturn('foo');
+
+        $image = $this->createMock(Image::class);
+        $image->method('toArray')
+              ->willReturn('foo');
+
+        $orgCatCollection = $this->createMock(GroupCollection::class);
+        $orgCatCollection->method('toArray')
+                        ->willReturn('foo');
+
+        $instance->setAddedBy($addedBy);
+        $instance->setTagCollection($tagCollection);
+
+        $instance->setContentCategory($contentCategory);
+        $instance->setImage($image);
+        $instance->setProbability(.3);
+        $instance->setDecayPercent(.2);
+        $instance->setDecayStart(5);
+        $instance->setDecayEnd(7);
+        $instance->setOrganizationCategoryCollection($orgCatCollection);
+
+        $expected = ['slide' => [
+            'id' => null,
+            'addedBy' => 'foo',
+            'dateCreated' => null,
+            'type' => Media::TYPE_SLIDE,
+            'status' => null,
+            'tagCollection' => 'foo',
+
+            'contentCategory' => 'foo',
+            'image' => 'foo',
+            'quote' => null,
+            'probability' => .3,
+            'decayPercent' => .2,
+            'decayStart' => 5,
+            'decayEnd' => 7,
+            'organizationCategoryCollection' => 'foo'
+        ]];
+
+        $this->assertSame($instance->toArray(), $expected);
+    }
+
+    public function test_toArray_No_ContentCategory()
+    {
+        $instance = new Slide;
+
+        $addedBy = $this->createMock(User::class);
+        $addedBy->method('getID')
+                ->willReturn(true);
+        $addedBy->method('toArray')
+                ->willReturn('foo');
+
+        $tagCollection = $this->createMock(GroupCollection::class);
+        $tagCollection->method('toArray')
+                      ->willReturn('foo');
+
+        $image = $this->createMock(Image::class);
+        $image->method('toArray')
+              ->willReturn('foo');
+
+        $quote = $this->createMock(Quote::class);
+        $quote->method('toArray')
+              ->willReturn('foo');
+
+        $orgCatCollection = $this->createMock(GroupCollection::class);
+        $orgCatCollection->method('toArray')
+                        ->willReturn('foo');
+
+        $instance->setAddedBy($addedBy);
+        $instance->setTagCollection($tagCollection);
+        $instance->setImage($image);
+        $instance->setQuote($quote);
+        $instance->setProbability(.3);
+        $instance->setDecayPercent(.2);
+        $instance->setDecayStart(5);
+        $instance->setDecayEnd(7);
+        $instance->setOrganizationCategoryCollection($orgCatCollection);
+
+        $expected = ['slide' => [
+            'id' => null,
+            'addedBy' => 'foo',
+            'dateCreated' => null,
+            'type' => Media::TYPE_SLIDE,
+            'status' => null,
+            'tagCollection' => 'foo',
+            'contentCategory' => null,
+            'image' => 'foo',
+            'quote' => 'foo',
+            'probability' => .3,
+            'decayPercent' => .2,
+            'decayStart' => 5,
+            'decayEnd' => 7,
+            'organizationCategoryCollection' => 'foo'
+        ]];
+
+        $this->assertSame($instance->toArray(), $expected);
+    }
+
+    public function test_toArray_No_OrganizationCategory()
+    {
+        $instance = new Slide;
+
+        $addedBy = $this->createMock(User::class);
+        $addedBy->method('getID')
+                ->willReturn(true);
+        $addedBy->method('toArray')
+                ->willReturn('foo');
+
+        $tagCollection = $this->createMock(GroupCollection::class);
+        $tagCollection->method('toArray')
+                      ->willReturn('foo');
+
+        $contentCategory = $this->createMock(ContentCategory::class);
+        $contentCategory->method('toArray')
+                        ->willReturn('foo');
+
+        $image = $this->createMock(Image::class);
+        $image->method('toArray')
+              ->willReturn('foo');
+
+        $quote = $this->createMock(Quote::class);
+        $quote->method('toArray')
+              ->willReturn('foo');
+
+        $instance->setAddedBy($addedBy);
+        $instance->setTagCollection($tagCollection);
+
+        $instance->setContentCategory($contentCategory);
+        $instance->setImage($image);
+        $instance->setQuote($quote);
+        $instance->setProbability(.3);
+        $instance->setDecayPercent(.2);
+        $instance->setDecayStart(5);
+        $instance->setDecayEnd(7);
+
+        $expected = ['slide' => [
+            'id' => null,
+            'addedBy' => 'foo',
+            'dateCreated' => null,
+            'type' => Media::TYPE_SLIDE,
+            'status' => null,
+            'tagCollection' => 'foo',
+
+            'contentCategory' => 'foo',
+            'image' => 'foo',
+            'quote' => 'foo',
+            'probability' => .3,
+            'decayPercent' => .2,
+            'decayStart' => 5,
+            'decayEnd' => 7,
+            'organizationCategoryCollection' => null
+        ]];
+
+        $this->assertSame($instance->toArray(), $expected);
+    }
 }

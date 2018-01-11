@@ -121,20 +121,20 @@ class MediaTest extends TestCase
         $instance = new Media;
 
         $tagCollection = $this->createMock(GroupCollection::class);
-        $tagCollection->method('toArray') 
+        $tagCollection->method('toArray')
                       ->willReturn(['groupCollection' => []]);
 
         $addedBy = $this->createMock(User::class);
-        $addedBy->method('toArray') 
+        $addedBy->method('toArray')
                 ->willReturn(['user' => [
                     'id' => 8,
-                    'email' => NULL,
-                    'firstName' => NULL,
-                    'lastName' => NULL,
-                    'role' => NULL
+                    'email' => null,
+                    'firstName' => null,
+                    'lastName' => null,
+                    'role' => null
                 ]]);
         $addedBy->method('getID')
-                ->willReturn(8); 
+                ->willReturn(8);
 
         $now = time();
         $instance->setId(5);
@@ -148,15 +148,81 @@ class MediaTest extends TestCase
             'id' => 5,
             'addedBy' => ['user' => [
                         'id' => 8,
-                        'email' => NULL,
-                        'firstName' => NULL,
-                        'lastName' => NULL,
-                        'role' => NULL
+                        'email' => null,
+                        'firstName' => null,
+                        'lastName' => null,
+                        'role' => null
                     ]],
             'dateCreated' => $now,
             'type' => Media::TYPE_IMAGE,
             'status' => Media::STATUS_REJECTED,
             'tagCollection' => ['groupCollection' => []]
+        ]];
+
+        $this->assertSame($instance->toArray(), $expected);
+    }
+
+    public function test_toArray_No_AddedBy()
+    {
+        $instance = new Media;
+
+        $tagCollection = $this->createMock(GroupCollection::class);
+        $tagCollection->method('toArray')
+                      ->willReturn(['groupCollection' => []]);
+
+        $now = time();
+        $instance->setId(5);
+        $instance->setDateCreated($now);
+        $instance->setType(Media::TYPE_IMAGE);
+        $instance->setStatus(Media::STATUS_REJECTED);
+        $instance->setTagCollection($tagCollection);
+
+        $expected = ['media' => [
+            'id' => 5,
+            'addedBy' => null,
+            'dateCreated' => $now,
+            'type' => Media::TYPE_IMAGE,
+            'status' => Media::STATUS_REJECTED,
+            'tagCollection' => ['groupCollection' => []]
+        ]];
+
+        $this->assertSame($instance->toArray(), $expected);
+    }
+
+    public function test_toArray_No_TagCollection()
+    {
+        $addedByReturn = ['user' => [
+            'id' => 8,
+            'email' => null,
+            'firstName' => null,
+            'lastName' => null,
+            'role' => null
+        ]];
+
+        $instance = new Media;
+
+        $addedBy = $this->createMock(User::class);
+
+        $addedBy->method('toArray')
+                ->willReturn($addedByReturn);
+
+        $addedBy->method('getID')
+                ->willReturn(8);
+
+        $now = time();
+        $instance->setId(5);
+        $instance->setDateCreated($now);
+        $instance->setType(Media::TYPE_IMAGE);
+        $instance->setStatus(Media::STATUS_REJECTED);
+        $instance->setAddedBy($addedBy);
+
+        $expected = ['media' => [
+            'id' => 5,
+            'addedBy' => $addedByReturn,
+            'dateCreated' => $now,
+            'type' => Media::TYPE_IMAGE,
+            'status' => Media::STATUS_REJECTED,
+            'tagCollection' => null
         ]];
 
         $this->assertSame($instance->toArray(), $expected);

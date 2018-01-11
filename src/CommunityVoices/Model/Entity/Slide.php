@@ -188,14 +188,16 @@ class Slide extends Media
     public function toArray()
     {
         return ['slide' => array_merge(parent::toArray()['media'], [
-            'contentCategory' => $this->contentCategory->toArray(),
-            'image' => $this->image->toArray(),
-            'quote' => $this->quote->toArray(),
+            'contentCategory' => $this->contentCategory ? $this->contentCategory->toArray() : null,
+            'image' => $this->image ? $this->image->toArray() : null,
+            'quote' => $this->quote ? $this->quote->toArray() : null,
             'probability' => $this->probability,
             'decayPercent' => $this->decayPercent,
             'decayStart' => $this->decayStart,
             'decayEnd' => $this->decayEnd,
-            'organizationCategoryCollection' => $this->organizationCategoryCollection->toArray()
+            'organizationCategoryCollection' => $this->organizationCategoryCollection
+                ? $this->organizationCategoryCollection->toArray()
+                : null
         ])];
     }
 }
