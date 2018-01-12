@@ -80,5 +80,4 @@ class RememberedIdentity implements Cookieable
             'expiresOn' => $this->expiresOn
         ]];
     }
-
 }

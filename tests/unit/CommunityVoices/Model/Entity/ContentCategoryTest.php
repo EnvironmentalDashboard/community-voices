@@ -34,15 +34,16 @@ class ContentCategoryTest extends TestCase
         $this->assertSame($instance->getProbability(), 3);
     }
 
-    public function test_toArray(){
+    public function test_toArray()
+    {
         $instance = new ContentCategory;
 
         $instance->setMediaFilename('foo.jpg');
         $instance->setProbability(3);
 
         $expected = ['contentCategory' => [
-            'id' => NULL,
-            'label' => NULL,
+            'id' => null,
+            'label' => null,
             'type' => Group::TYPE_CONT_CAT,
             'mediaFilename' => 'foo.jpg',
             'probability' => 3

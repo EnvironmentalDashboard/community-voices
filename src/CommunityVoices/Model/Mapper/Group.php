@@ -8,9 +8,9 @@ use CommunityVoices\Model\Entity;
 
 class Group extends DataMapper
 {
-  /**
-   * @uses Group::fetchById
-   */
+    /**
+     * @uses Group::fetchById
+     */
     public function fetch(Entity\Group $group)
     {
         $this->fetchById($group);

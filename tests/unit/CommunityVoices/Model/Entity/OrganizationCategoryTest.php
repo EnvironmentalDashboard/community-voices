@@ -16,15 +16,16 @@ class OrganizationCategoryTest extends TestCase
         $this->assertSame($instance->getType(), ContentCategory::TYPE_ORG_CAT);
     }
 
-    public function test_toArray(){
-	    $instance = new OrganizationCategory;
+    public function test_toArray()
+    {
+        $instance = new OrganizationCategory;
 
-	    $expected = ['organizationCategory' => [
-	        'id' => NULL,
-	        'label' => NULL,
-	        'type' => Group::TYPE_ORG_CAT,
-	    ]];
+        $expected = ['organizationCategory' => [
+            'id' => null,
+            'label' => null,
+            'type' => Group::TYPE_ORG_CAT,
+        ]];
 
-	    $this->assertSame($instance->toArray(), $expected);
-	}
+        $this->assertSame($instance->toArray(), $expected);
+    }
 }

@@ -114,10 +114,10 @@ class LocationTest extends TestCase
     {
         $instance = new Location;
 
-        $orgCatCollection = $this->createMock(GroupCollection::Class);
+        $orgCatCollection = $this->createMock(GroupCollection::class);
         $orgCatCollection->method('toArray')->willReturn('book');
 
-        $contentCatCollecton = $this->createMock(ContentCategoryCollection::Class);
+        $contentCatCollecton = $this->createMock(ContentCategoryCollection::class);
         $contentCatCollecton->method('toArray')->willReturn('cook');
 
         $instance->setID(9);

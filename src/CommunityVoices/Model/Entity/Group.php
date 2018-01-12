@@ -33,9 +33,9 @@ class Group implements HasId
 
     public function setId($id)
     {
-      if (is_int($id) || is_null($id)) {
-          $this->id = $id;
-      }
+        if (is_int($id) || is_null($id)) {
+            $this->id = $id;
+        }
     }
 
     public function getLabel()

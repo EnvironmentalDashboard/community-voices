@@ -143,7 +143,7 @@ class QuoteTest extends TestCase
 
         $addedBy = $this->createMock(User::class);
         $addedBy->method('getID')
-                ->willReturn(TRUE); 
+                ->willReturn(true);
 
         $tagCollection = $this->createMock(GroupCollection::class);
 
@@ -156,20 +156,20 @@ class QuoteTest extends TestCase
         $instance->setSourceDocumentLink("http://localhost/");
 
         $expected = ['quote' => [
-            'id' => NULL,
-            'addedBy' => NULL,
-            'dateCreated' => NULL,
+            'id' => null,
+            'addedBy' => null,
+            'dateCreated' => null,
             'type' => Media::TYPE_QUOTE,
-            'status' => NULL,
-            'tagCollection' => NULL,
+            'status' => null,
+            'tagCollection' => null,
 
             'text' => "I know nothing",
             'attribution' => "Jon Snow",
             'dateRecorded' => 1499970467,
             'publicDocumentLink' => "http://localhost/",
             'sourceDocumentLink' => "http://localhost/"
-        ]]; 
+        ]];
 
-        $this->assertSame($instance->toArray(), $expected);       
+        $this->assertSame($instance->toArray(), $expected);
     }
 }

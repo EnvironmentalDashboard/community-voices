@@ -88,7 +88,7 @@ class ImageTest extends TestCase
 
         $addedBy = $this->createMock(User::class);
         $addedBy->method('getID')
-                ->willReturn(TRUE); 
+                ->willReturn(true);
 
         $tagCollection = $this->createMock(GroupCollection::class);
 
@@ -104,12 +104,12 @@ class ImageTest extends TestCase
         $instance->setOrganization('Foobar');
 
         $expected = ['image' => [
-            'id' => NULL,
-            'addedBy' => NULL,
-            'dateCreated' => NULL,
+            'id' => null,
+            'addedBy' => null,
+            'dateCreated' => null,
             'type' => Media::TYPE_IMAGE,
-            'status' => NULL,
-            'tagCollection' => NULL,
+            'status' => null,
+            'tagCollection' => null,
 
             'filename' => 'cookieMonster.jpg',
             'title' => 'Title for image',
@@ -118,7 +118,7 @@ class ImageTest extends TestCase
             'dateTaken' => 1499970467,
             'photographer' => 'John Doe',
             'organization' => 'Foobar'
-        ]]; 
+        ]];
 
         $this->assertSame($instance->toArray(), $expected);
     }
