@@ -7,7 +7,6 @@ use CommunityVoices\Model\Contract\HasId;
 
 class MediaCollection extends Collection
 {
-
     const MEDIA_TYPE_QUOTE = 1;
     const MEDIA_TYPE_IMAGE = 2;
     const MEDIA_TYPE_SLIDE = 3;
@@ -18,7 +17,7 @@ class MediaCollection extends Collection
         self::MEDIA_TYPE_SLIDE
     ];
 
-    protected $MediaType;
+    protected $mediaType;
 
     /**
      * @codeCoverageIgnore
@@ -31,7 +30,7 @@ class MediaCollection extends Collection
     /**
      * Sets the media type.
      *
-     * @param $type integer representing the media type
+     * @param Integer $type integer representing the media type
      */
     public function forMediaType($type)
     {
