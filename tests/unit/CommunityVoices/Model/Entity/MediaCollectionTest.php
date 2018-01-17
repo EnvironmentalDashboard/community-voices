@@ -28,4 +28,33 @@ class MediaCollectionTest extends TestCase
 
         $this->assertSame($instance->getMediaType(), $expected);
     }
+
+    public function test_toArray()
+    {
+        $instance = new MediaCollection;
+
+        $item0 = $this->createMock(Media::class);
+        $item1 = $this->createMock(Image::class);
+        $item2 = $this->createMock(Quote::class);
+        $item3 = $this->createMock(Slide::class);
+
+        $item0->method('toArray')->willReturn(['media' => []]);
+        $item1->method('toArray')->willReturn(['image' => []]);
+        $item2->method('toArray')->willReturn(['quote' => []]);
+        $item3->method('toArray')->willReturn(['slide' => []]);
+
+        $instance->addEntity($item0);
+        $instance->addEntity($item1);
+        $instance->addEntity($item2);
+        $instance->addEntity($item3);
+
+        $expected=["mediaCollection" =>[
+            ['media' => []],
+            ['image' => []],
+            ['quote' => []],
+            ['slide' => []]
+        ]];
+
+        $this->assertSame($instance->toArray(), $expected);
+    }
 }
