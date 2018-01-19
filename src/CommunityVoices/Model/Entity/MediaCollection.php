@@ -65,7 +65,7 @@ class MediaCollection extends Collection
     /**
      * Return conjunction of two MediaCollection
      *
-     * @param the second MediaCollection
+     * @param a second MediaCollection $item
      *
      * @return the conjunction of two MediaCollection
      */
@@ -76,7 +76,7 @@ class MediaCollection extends Collection
     /**
      * Return disjunction of two MediaCollection
      *
-     * @param the second MediaCollection
+     * @param a second MediaCollection $item
      *
      * @return the disjunction of two MediaCollection
      */

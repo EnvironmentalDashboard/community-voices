@@ -64,13 +64,35 @@ class QuoteLookup
     }
 
     /**
-     * Lookup quote by Group (e.g. tag, content category)
+     * Find quotes by addedBy
+     *
+     * @param user who added the quotes $addedBy
+     *
+     * @return CommunityVoices\Model\Entity\QuoteCollection
+     */
+    public function findByAddedBy(Entity\User $addedBy)
+    {
+    }
+
+    /**
+     * Lookup quotes by Group (e.g. tag, content category)
      *
      * @param  int $groupId
      *
      * @return CommunityVoices\Model\Entity\QuoteCollection
      */
-    public function findByGroup(Group $groupid)
+    public function findByGroup(Entity\Group $groupId)
+    {
+    }
+
+    /**
+     * Find quotes by status (pending, rejected, approved)
+     *
+     * @param  quote status $status
+     *
+     * @return CommunityVoices\Model\Entity\QuoteCollection
+     */
+    public function findByStatus(int $status)
     {
     }
 }
