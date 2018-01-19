@@ -61,4 +61,26 @@ class MediaCollection extends Collection
 
         return $toReturn;
     }
+
+    /**
+     * Return conjunction of two MediaCollection
+     *
+     * @param the second MediaCollection
+     *
+     * @return the conjunction of two MediaCollection
+     */
+    public function conjunction(MediaCollection $item)
+    {
+    }
+
+    /**
+     * Return disjunction of two MediaCollection
+     *
+     * @param the second MediaCollection
+     *
+     * @return the disjunction of two MediaCollection
+     */
+    public function disjunction(MediaCollection $item)
+    {
+    }
 }

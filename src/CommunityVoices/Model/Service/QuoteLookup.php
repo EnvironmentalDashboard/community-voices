@@ -62,4 +62,15 @@ class QuoteLookup
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
         $clientState->save($this->stateObserver);
     }
+
+    /**
+     * Lookup quote by Group (e.g. tag, content category)
+     *
+     * @param  int $groupId
+     *
+     * @return CommunityVoices\Model\Entity\QuoteCollection
+     */
+    public function findByGroup(Group $groupid)
+    {
+    }
 }
