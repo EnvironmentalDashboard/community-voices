@@ -64,21 +64,22 @@ class QuoteLookup
     }
 
     /**
-     * Find quotes by addedBy
+     * Find quotes by creator
      *
-     * @param ID of user who added the quotes $addedBy
+     * @param ID of user who added the quotes $creator
      *
      * @throws CommunityVoices\Model\Exception\IdentityNotFound
      *
      * @return CommunityVoices\Model\Entity\QuoteCollection
      */
-    public function findByAddedBy(int $addedBy)
+    public function findByCreator(int $creator)
     {
         $quoteCollection = new Entity\QuoteCollection;
 
         // instantiate and map data to new User entity
         $user = new Entity\User;
-        $user->setId($addedBy);
+        $user->setId($creator);
+
         $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
         $userMapper->fetch($user);
 
@@ -115,6 +116,7 @@ class QuoteLookup
         // instantiate and map data to new Group entity
         $group = new Entity\Group;
         $group->setId($groupID);
+
         $groupMapper = $this->mapperFactory->createDataMapper(Mapper\Group::class);
         $groupMapper->fetch($group);
 
@@ -135,32 +137,35 @@ class QuoteLookup
         // clientState stuff
     }
 
-    /**
-     * Find quotes by status (pending, rejected, approved)
-     *
-     * @param  quote status $status
-     *
-     * @return CommunityVoices\Model\Entity\QuoteCollection
-     */
-    public function findByStatus(int $status)
-    {
-        $quoteCollection = new Entity\QuoteCollection;
+    // we are going to do this in another way !!!
+    // /**
+    //  * Find quotes by status (pending, rejected, approved)
+    //  *
+    //  * @param  quote status $status
+    //  *
+    //  * @throws CommunityVoices\Model\Exception\InvalidStatus
+    //  *
+    //  * @return CommunityVoices\Model\Entity\QuoteCollection
+    //  */
+    // public function findByStatus(int $status)
+    // {
+    //     $quoteCollection = new Entity\QuoteCollection;
 
-        // invalid Status
-        if (!in_array($status, Entity\Media->allowableStatus)){
-            throw new Exception/InvalidStatus;
-        }
+    //     // invalid Status
+    //     if (!in_array($status, Entity\Media->allowableStatus)){
+    //         throw new Exception/InvalidStatus;
+    //     }
 
-         $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
-        // map data
-        // check whether collection empty, do something
+    //      $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
+    //     // map data
+    //     // check whether collection empty, do something
 
-         
-        // do we really want to grab all tag collections ???
-        // if we choose not to, we can make a different toArray() method
 
-        // stateObserver stuff
+    //     // do we really want to grab all tag collections ???
+    //     // if we choose not to, we can make a different toArray() method
 
-        // clientState stuff
-    }
+    //     // stateObserver stuff
+
+    //     // clientState stuff
+    // }
 }
