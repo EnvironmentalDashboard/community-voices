@@ -72,17 +72,33 @@ class QuoteLookup
      */
     public function findByAddedBy(Entity\User $addedBy)
     {
+        $quoteCollection = new Entity\QuoteCollection;
+
+        // create mapper
+        // map data
+
+        // check whether collection empty, do something
+
+        // other stuff
     }
 
     /**
      * Lookup quotes by Group (e.g. tag, content category)
      *
-     * @param  int $groupId
+     * @param  Entity\Group $group
      *
      * @return CommunityVoices\Model\Entity\QuoteCollection
      */
-    public function findByGroup(Entity\Group $groupId)
+    public function findByGroup(Entity\Group $group)
     {
+        $quoteCollection = new Entity\QuoteCollection;
+
+        // create mapper
+        // map data
+
+        // check whether collection empty, do something
+
+        // other stuff
     }
 
     /**
