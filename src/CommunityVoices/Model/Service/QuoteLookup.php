@@ -66,39 +66,73 @@ class QuoteLookup
     /**
      * Find quotes by addedBy
      *
-     * @param user who added the quotes $addedBy
+     * @param ID of user who added the quotes $addedBy
+     *
+     * @throws CommunityVoices\Model\Exception\IdentityNotFound
      *
      * @return CommunityVoices\Model\Entity\QuoteCollection
      */
-    public function findByAddedBy(Entity\User $addedBy)
+    public function findByAddedBy(int $addedBy)
     {
         $quoteCollection = new Entity\QuoteCollection;
 
-        // create mapper
-        // map data
+        // instantiate and map data to new User entity
+        $user = new Entity\User;
+        $user->setId($addedBy);
+        $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
+        $userMapper->fetch($user);
 
+        // no valid User
+        if (!$user->getId()) {
+            throw new Exception\IdentityNotFound;
+        }
+
+        $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
+        // map data
         // check whether collection empty, do something
 
-        // other stuff
+        // do we really want to grab all tag collections ???
+        // if we choose not to, we can make a different toArray() method
+
+        // stateObserver stuff
+
+        // clientState stuff
     }
 
     /**
      * Lookup quotes by Group (e.g. tag, content category)
      *
-     * @param  Entity\Group $group
+     * @param  int $groupID
+     *
+     * @throws CommunityVoices\Model\Exception\IdentityNotFound
      *
      * @return CommunityVoices\Model\Entity\QuoteCollection
      */
-    public function findByGroup(Entity\Group $group)
+    public function findByGroup(int $groupID)
     {
         $quoteCollection = new Entity\QuoteCollection;
 
-        // create mapper
-        // map data
+        // instantiate and map data to new Group entity
+        $group = new Entity\Group;
+        $group->setId($groupID);
+        $groupMapper = $this->mapperFactory->createDataMapper(Mapper\Group::class);
+        $groupMapper->fetch($group);
 
+        // no valid Group
+        if (!$group->getId()) {
+            throw new Exception\IdentityNotFound;
+        }
+
+        $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
+        // map data
         // check whether collection empty, do something
 
-        // other stuff
+        // do we really want to grab all tag collections ???
+        // if we choose not to, we can make a different toArray() method
+
+        // stateObserver stuff
+
+        // clientState stuff
     }
 
     /**
@@ -110,5 +144,23 @@ class QuoteLookup
      */
     public function findByStatus(int $status)
     {
+        $quoteCollection = new Entity\QuoteCollection;
+
+        // invalid Status
+        if (!in_array($status, Entity\Media->allowableStatus)){
+            throw new Exception/InvalidStatus;
+        }
+
+         $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
+        // map data
+        // check whether collection empty, do something
+
+         
+        // do we really want to grab all tag collections ???
+        // if we choose not to, we can make a different toArray() method
+
+        // stateObserver stuff
+
+        // clientState stuff
     }
 }
