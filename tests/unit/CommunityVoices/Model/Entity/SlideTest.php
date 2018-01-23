@@ -170,7 +170,7 @@ class SlideTest extends TestCase
         $expected = ['slide' => [
             'id' => null,
             'addedBy' => 'foo',
-            'dateCreated' => null,
+            'dateCreated' => 'Dec 31, 1969', //default date
             'type' => Media::TYPE_SLIDE,
             'status' => null,
             'tagCollection' => 'foo',
@@ -228,7 +228,7 @@ class SlideTest extends TestCase
         $expected = ['slide' => [
             'id' => null,
             'addedBy' => 'foo',
-            'dateCreated' => null,
+            'dateCreated' => 'Dec 31, 1969', //default date
             'type' => Media::TYPE_SLIDE,
             'status' => null,
             'tagCollection' => 'foo',
@@ -286,7 +286,7 @@ class SlideTest extends TestCase
         $expected = ['slide' => [
             'id' => null,
             'addedBy' => 'foo',
-            'dateCreated' => null,
+            'dateCreated' => 'Dec 31, 1969', //default date
             'type' => Media::TYPE_SLIDE,
             'status' => null,
             'tagCollection' => 'foo',
@@ -343,7 +343,7 @@ class SlideTest extends TestCase
         $expected = ['slide' => [
             'id' => null,
             'addedBy' => 'foo',
-            'dateCreated' => null,
+            'dateCreated' => 'Dec 31, 1969', //default date
             'type' => Media::TYPE_SLIDE,
             'status' => null,
             'tagCollection' => 'foo',
@@ -400,7 +400,7 @@ class SlideTest extends TestCase
         $expected = ['slide' => [
             'id' => null,
             'addedBy' => 'foo',
-            'dateCreated' => null,
+            'dateCreated' => 'Dec 31, 1969', //default date
             'type' => Media::TYPE_SLIDE,
             'status' => null,
             'tagCollection' => 'foo',

@@ -75,7 +75,7 @@ class Media implements HasId
 
     public function setDateCreated($dateCreated)
     {
-        $this->dateCreated = $dateCreated;
+        $this->dateCreated = strtotime($dateCreated);
     }
 
     public function getType()
@@ -117,7 +117,7 @@ class Media implements HasId
         return ['media' => [
             'id' => $this->id,
             'addedBy' => $this->addedBy ? $this->addedBy->toArray() : null,
-            'dateCreated' => $this->dateCreated,
+            'dateCreated' => date("M j\, Y", $this->dateCreated),
             'type' => $this->type,
             'status' => $this->status,
             'tagCollection' => $this->tagCollection ? $this->tagCollection->toArray() : null

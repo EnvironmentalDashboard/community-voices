@@ -151,21 +151,21 @@ class QuoteTest extends TestCase
         $instance->setTagCollection($tagCollection);
         $instance->setText("I know nothing");
         $instance->setAttribution("Jon Snow");
-        $instance->setDateRecorded('0');
+        $instance->setDateRecorded('2018-01-19 14:04:13');
         $instance->setPublicDocumentLink("http://localhost/");
         $instance->setSourceDocumentLink("http://localhost/");
 
         $expected = ['quote' => [
             'id' => null,
             'addedBy' => null,
-            'dateCreated' => null,
+            'dateCreated' => 'Dec 31, 1969', //default date
             'type' => Media::TYPE_QUOTE,
             'status' => null,
             'tagCollection' => null,
 
             'text' => "I know nothing",
             'attribution' => "Jon Snow",
-            'dateRecorded' => 'Dec 31, 1969',
+            'dateRecorded' => 'Jan 19, 2018',
             'publicDocumentLink' => "http://localhost/",
             'sourceDocumentLink' => "http://localhost/"
         ]];

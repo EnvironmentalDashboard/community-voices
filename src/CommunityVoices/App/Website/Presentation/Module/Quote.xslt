@@ -10,6 +10,7 @@
     	<h2> <xsl:value-of select='text' /> </h2>
 
     	<p> Author: <xsl:value-of select='attribution' /> </p>
+    	
     	<p>	Date: <xsl:value-of select='dateRecorded' /> </p>
 
     </xsl:template>

@@ -106,7 +106,7 @@ class ImageTest extends TestCase
         $expected = ['image' => [
             'id' => null,
             'addedBy' => null,
-            'dateCreated' => null,
+            'dateCreated' => 'Dec 31, 1969', //default date
             'type' => Media::TYPE_IMAGE,
             'status' => null,
             'tagCollection' => null,

@@ -47,9 +47,9 @@ class MediaTest extends TestCase
         $now = time();
 
         $instance = new Media;
-        $instance->setDateCreated($now);
+        $instance->setDateCreated('1989-07-04 14:00:53');
 
-        $this->assertSame($instance->getDateCreated(), $now);
+        $this->assertSame($instance->getDateCreated(), 615578453);
     }
 
     public function provide_Type_Assignment()
@@ -139,7 +139,7 @@ class MediaTest extends TestCase
         $now = time();
         $instance->setId(5);
         $instance->setAddedBy($addedBy);
-        $instance->setDateCreated($now);
+        $instance->setDateCreated('1989-06-04 14:00:53');
         $instance->setType(Media::TYPE_IMAGE);
         $instance->setStatus(Media::STATUS_REJECTED);
         $instance->setTagCollection($tagCollection);
@@ -153,7 +153,7 @@ class MediaTest extends TestCase
                         'lastName' => null,
                         'role' => null
                     ]],
-            'dateCreated' => $now,
+            'dateCreated' => 'Jun 4, 1989',
             'type' => Media::TYPE_IMAGE,
             'status' => Media::STATUS_REJECTED,
             'tagCollection' => ['groupCollection' => []]
@@ -172,7 +172,7 @@ class MediaTest extends TestCase
 
         $now = time();
         $instance->setId(5);
-        $instance->setDateCreated($now);
+        $instance->setDateCreated('2015-11-14 14:00:53');
         $instance->setType(Media::TYPE_IMAGE);
         $instance->setStatus(Media::STATUS_REJECTED);
         $instance->setTagCollection($tagCollection);
@@ -180,7 +180,7 @@ class MediaTest extends TestCase
         $expected = ['media' => [
             'id' => 5,
             'addedBy' => null,
-            'dateCreated' => $now,
+            'dateCreated' => 'Nov 14, 2015',
             'type' => Media::TYPE_IMAGE,
             'status' => Media::STATUS_REJECTED,
             'tagCollection' => ['groupCollection' => []]
@@ -211,7 +211,7 @@ class MediaTest extends TestCase
 
         $now = time();
         $instance->setId(5);
-        $instance->setDateCreated($now);
+        $instance->setDateCreated('2018-01-19 14:04:13');
         $instance->setType(Media::TYPE_IMAGE);
         $instance->setStatus(Media::STATUS_REJECTED);
         $instance->setAddedBy($addedBy);
@@ -219,7 +219,7 @@ class MediaTest extends TestCase
         $expected = ['media' => [
             'id' => 5,
             'addedBy' => $addedByReturn,
-            'dateCreated' => $now,
+            'dateCreated' => 'Jan 19, 2018',
             'type' => Media::TYPE_IMAGE,
             'status' => Media::STATUS_REJECTED,
             'tagCollection' => null
