@@ -45,7 +45,7 @@
     },
 
     "getQuote": {
-        "notation": "/quotes/:{id}",
+        "notation": "/quotes/{id}",
         "method": "get",
         "defaults": {
             "resource": "Quote",
