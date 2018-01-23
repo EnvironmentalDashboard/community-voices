@@ -37,11 +37,29 @@ class Quote extends Component\View
 
         $apiResponse = $apiView->getQuote();
 
-        $quote = $this->transcriber->toXml(
-            json_decode($apiResponse->getContent())
+        $identityXMLElement = new SimpleXMLElement (
+            $this->transcriber->toXml(json_decode($apiResponse->getContent()))
         );
 
-        $response = new HttpFoundation\Response($quote);
+        /**
+         * Prepare modules
+         */
+        $quoteModule = new Component\Presenter('Module/Quote');
+        $quoteModuleXML = $quoteModule->generate($identityXMLElement);
+
+        /**
+         * Prepare template
+         */
+        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
+
+        $domainXMLElement->addChild('main-pane', $quoteModuleXML);
+
+        $domainIdentity = $domainXMLElement->addChild('identity');
+        $domainIdentity->adopt($identityXMLElement);
+
+        $presentation = new Component\Presenter('SinglePane');
+
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 
         $this->finalize($response);
         return $response;

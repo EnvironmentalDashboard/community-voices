@@ -8,7 +8,7 @@
                     Welcome, <xsl:value-of select="identity/user/id" />
                 </xsl:when>
                 <xsl:otherwise>
-                    You need to <a href="login">login.</a>
+                    <a href="login">Login</a> is super cool.
                 </xsl:otherwise>
             </xsl:choose>
         </header>
