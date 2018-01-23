@@ -50,11 +50,7 @@ class Quote extends Media
 
     public function setDateRecorded($dateRecorded)
     {
-        $input = (int) $dateRecorded;
-
-        if ($input > 0) {
-            $this->dateRecorded = $input;
-        }
+        $this->dateRecorded = strtotime($dateRecorded);
     }
 
     public function getPublicDocumentLink()
@@ -105,7 +101,7 @@ class Quote extends Media
         return ['quote' => array_merge(parent::toArray()['media'], [
             'text' => $this->text,
             'attribution' => $this->attribution,
-            'dateRecorded' => $this->dateRecorded,
+            'dateRecorded' => date("M j\, Y", $this->dateRecorded),
             'publicDocumentLink' => $this->publicDocumentLink,
             'sourceDocumentLink' => $this->sourceDocumentLink
         ])];

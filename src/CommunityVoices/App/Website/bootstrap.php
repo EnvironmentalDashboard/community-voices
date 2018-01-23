@@ -28,6 +28,11 @@ $dbHandler->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 $injector->share($dbHandler);
 
 /**
+ * set time zone 
+ */
+date_default_timezone_set('America/New_York');
+
+/**
  * Create and share log (required by Palladium)
  */
 

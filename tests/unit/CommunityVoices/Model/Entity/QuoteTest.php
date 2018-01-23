@@ -33,8 +33,8 @@ class QuoteTest extends TestCase
     public function provide_Date_Assignment()
     {
         return [
-            ['1499970467', 1499970467],
-            ['-5', null]
+            ['2017-12-04 08:00:00', 1512392400],
+            ['1940-12-04 08:00:22', -917521178]
         ];
     }
 
@@ -151,7 +151,7 @@ class QuoteTest extends TestCase
         $instance->setTagCollection($tagCollection);
         $instance->setText("I know nothing");
         $instance->setAttribution("Jon Snow");
-        $instance->setDateRecorded('1499970467');
+        $instance->setDateRecorded('0');
         $instance->setPublicDocumentLink("http://localhost/");
         $instance->setSourceDocumentLink("http://localhost/");
 
@@ -165,7 +165,7 @@ class QuoteTest extends TestCase
 
             'text' => "I know nothing",
             'attribution' => "Jon Snow",
-            'dateRecorded' => 1499970467,
+            'dateRecorded' => 'Dec 31, 1969',
             'publicDocumentLink' => "http://localhost/",
             'sourceDocumentLink' => "http://localhost/"
         ]];

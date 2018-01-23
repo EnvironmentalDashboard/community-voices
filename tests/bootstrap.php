@@ -6,6 +6,11 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
+/**
+ * set time zone 
+ */
+date_default_timezone_set('America/New_York');
+
 spl_autoload_register(function ($class) {
     if (strpos($class, 'Mock') !== 0) {
         return ;
