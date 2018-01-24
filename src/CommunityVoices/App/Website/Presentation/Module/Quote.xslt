@@ -13,7 +13,8 @@
 
 			<h2> <xsl:value-of select='text' /> </h2>
 
-			<p> Author: <xsl:value-of select='attribution' /> </p>
+			<p> Author: <xsl:value-of select='attribution' />,
+			<xsl:value-of select='subAttribution' /> </p>
 
 		</div>
 
