@@ -3,6 +3,8 @@
 
     <xsl:import href="Component.xslt" />
 
+    <xsl:output method="html" doctype-system="about:legacy-compat"/>
+
     <xsl:template match="/domain">
 
     <html>
