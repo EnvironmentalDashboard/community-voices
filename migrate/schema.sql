@@ -75,7 +75,7 @@ CREATE TABLE `community-voices_quotes` (
     `media_id` int(21) NOT NULL,
     `text` text,
     `attribution` varchar(255) DEFAULT NULL,
-    'sub_attribution' varchar(255) DEFAULT NULL,
+    `sub_attribution` varchar(255) DEFAULT NULL,
     `date_recorded` datetime DEFAULT NULL,
     `public_document_link` varchar(255) DEFAULT NULL,
     `source_document_link` varchar(255) DEFAULT NULL
