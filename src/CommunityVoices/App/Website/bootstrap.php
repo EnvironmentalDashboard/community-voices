@@ -113,6 +113,6 @@ $controller = $injector->make("CommunityVoices\\App\\Website\\Controller\\" . $r
 $controller->{$action}($request);
 
 $view = $injector->make("CommunityVoices\\App\\Website\\View\\" . $resource);
-$response = $view->{$action}();
+$response = $view->{$action}($routes, $context);
 
 $response->send();

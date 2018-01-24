@@ -1,4 +1,10 @@
 {
+    "root": {
+        "notation": "/",
+        "method": "get",
+        "defaults": {}
+    },
+
     "postLogin": {
         "notation": "/authenticate",
         "method": "post",

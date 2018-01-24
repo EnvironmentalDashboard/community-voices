@@ -8,6 +8,8 @@
     <html>
         <head>
             <title>Select Choices</title>
+
+            <base href="{baseUrl}"/>
         </head>
         <body>
             <xsl:call-template name="common-header" />

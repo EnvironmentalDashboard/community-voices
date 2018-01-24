@@ -46,6 +46,11 @@ class Quote extends Component\View
          */
         $quoteModule = new Component\Presenter('Module/Quote');
         $quoteModuleXML = $quoteModule->generate($quoteXMLElement);
+        /**
+         * Get base URL
+         */
+        $urlGenerator = new UrlGenerator($routes, $context);
+        $baseUrl = $urlGenerator->generate('root');
 
         /**
          * Prepare template
@@ -60,6 +65,7 @@ class Quote extends Component\View
         );
 
         // var_dump($identityXMLElement);
+        $domainXMLElement->addChild('baseUrl', $baseUrl);
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
