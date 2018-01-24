@@ -1,19 +1,19 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    version="1.0">
+	version="1.0">
 
-    <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
 
-    <xsl:template match="/quote">
+	<xsl:template match="/quote">
 
-    	<div class="middle">
+		<div class="middle">
 
-	    	<p> Quote <xsl:value-of select='id' /> </p>
+			<p> Quote <xsl:value-of select='id' /> </p>
 
-	    	<h2> <xsl:value-of select='text' /> </h2>
+			<h2> <xsl:value-of select='text' /> </h2>
 
-	    	<p> Author: <xsl:value-of select='attribution' /> </p>
+			<p> Author: <xsl:value-of select='attribution' /> </p>
 
-    	</div>
+		</div>
 
 		<div class="right">
 
@@ -43,9 +43,9 @@
 
 			</xsl:when></xsl:choose>
 
-        </div> 
+		</div> 
 
-    </xsl:template>
+	</xsl:template>
 
 </xsl:stylesheet>
 
