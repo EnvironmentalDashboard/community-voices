@@ -5,13 +5,45 @@
 
     <xsl:template match="/quote">
 
-    	<p> Quote <xsl:value-of select='id' /> </p>
+    	<div class="middle">
 
-    	<h2> <xsl:value-of select='text' /> </h2>
+	    	<p> Quote <xsl:value-of select='id' /> </p>
 
-    	<p> Author: <xsl:value-of select='attribution' /> </p>
-    	
-    	<p>	Date: <xsl:value-of select='dateRecorded' /> </p>
+	    	<h2> <xsl:value-of select='text' /> </h2>
+
+	    	<p> Author: <xsl:value-of select='attribution' /> </p>
+
+    	</div>
+
+		<div class="right">
+
+			<p>	Date Created: <xsl:value-of select='dateRecorded' /> </p>
+
+			<!-- Information for Manager & above -->
+
+			<xsl:choose><xsl:when test="identity/user/role &gt; 1">
+
+				<p> Internal Information Below </p>
+
+				<p> 
+					Uploader: 
+					<xsl:value-of select='addedBy/user/firstName' />
+					
+					<xsl:value-of select='addedBy/user/lastName' />
+				</p>
+
+				<p>
+					Date Uploaded:
+					<xsl:value-of select='dateCreated' />
+				</p>
+
+				<p>
+					Status:
+				</p>
+
+			</xsl:when></xsl:choose>
+
+        </div> 
 
     </xsl:template>
 
