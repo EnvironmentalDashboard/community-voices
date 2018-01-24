@@ -12,6 +12,11 @@ error_reporting(E_ALL);
 use CommunityVoices\App\Website;
 use CommunityVoices\Model;
 
+/**
+ * Set time zone
+ */
+date_default_timezone_set('America/New_York');
+
 require __DIR__ . '/../../../../vendor/autoload.php';
 
 /**
@@ -26,11 +31,6 @@ $dbHandler = new PDO('mysql:host=localhost;dbname=community_voices;charset=utf8'
 $dbHandler->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 $injector->share($dbHandler);
-
-/**
- * set time zone 
- */
-date_default_timezone_set('America/New_York');
 
 /**
  * Create and share log (required by Palladium)
