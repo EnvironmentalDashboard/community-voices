@@ -3,6 +3,8 @@
 
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
 
+	<xsl:variable name="isManager" select="identity/user/role "/>
+
 	<xsl:template match="/quote">
 
 		<div class="middle">
@@ -21,7 +23,7 @@
 
 			<!-- Information for Manager & above -->
 
-			<xsl:choose><xsl:when test="identity/user/role &gt; 1">
+			<xsl:if test="isManager">
 
 				<p> Internal Information Below </p>
 
@@ -41,7 +43,7 @@
 					Status:
 				</p>
 
-			</xsl:when></xsl:choose>
+			</xsl:if>
 
 		</div> 
 

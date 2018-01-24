@@ -33,19 +33,19 @@ class Quote extends Component\View
 
     public function getQuote()
     {
-        $apiView = $this->secureContainer->contain($this->quoteAPIView);
+        $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
 
-        $apiResponse = $apiView->getQuote();
-
-        $identityXMLElement = new SimpleXMLElement (
-            $this->transcriber->toXml(json_decode($apiResponse->getContent()))
+        $quoteXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(json_decode(
+                $quoteAPIView->getQuote()->getContent()
+            ))
         );
 
         /**
          * Prepare modules
          */
         $quoteModule = new Component\Presenter('Module/Quote');
-        $quoteModuleXML = $quoteModule->generate($identityXMLElement);
+        $quoteModuleXML = $quoteModule->generate($quoteXMLElement);
 
         /**
          * Prepare template
@@ -54,8 +54,17 @@ class Quote extends Component\View
 
         $domainXMLElement->addChild('main-pane', $quoteModuleXML);
 
+        $identity = $this->recognitionAdapter->identify();
+        $identityXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($identity->toArray())
+        );
+
+        // var_dump($identityXMLElement);
+
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
+
+        var_dump($domainIdentity);
 
         $presentation = new Component\Presenter('SinglePane');
 
