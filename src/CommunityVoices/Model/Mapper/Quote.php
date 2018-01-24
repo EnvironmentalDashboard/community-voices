@@ -144,7 +144,7 @@ class Quote extends Media
                         (media_id, text, attribution, sub_attribution, date_recorded,
                             public_document_link, source_document_link)
                     VALUES
-                        (:media_id, :text, :attribution, sub_attribution, :date_recorded,
+                        (:media_id, :text, :attribution, :sub_attribution, :date_recorded,
                             :public_document_link, :source_document_link)";
 
         $statement = $this->conn->prepare($query);
