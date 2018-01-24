@@ -96,6 +96,7 @@ class QuoteTest extends TestCase
         $quote->setStatus($quote::STATUS_APPROVED);
         $quote->setText('Lorem ipsum');
         $quote->setAttribution('John Doe');
+        $quote->setSubAttribution('Oberlin Resident');
         $quote->setDateRecorded(2000);
         $quote->setPublicDocumentLink('http://localhost:1');
         $quote->setSourceDocumentLink('http://localhost:2');
@@ -138,6 +139,7 @@ class QuoteTest extends TestCase
                 [$this->equalTo(':text'),
                  $this->equalTo($quote->getText())],
                 [$this->equalTo(':attribution'), $this->equalTo($quote->getAttribution())],
+                [$this->equalTo(':sub_attribution'), $this->equalTo($quote->getSubAttribution())],
                 [$this->equalTo(':date_recorded'), $this->equalTo($quote->getDateRecorded())],
                 [$this->equalTo(':public_document_link'), $this->equalTo($quote->getPublicDocumentLink())],
                 [$this->equalTo(':source_document_link'), $this->equalTo($quote->getSourceDocumentLink())]
@@ -166,6 +168,7 @@ class QuoteTest extends TestCase
         $quote->setStatus($quote::STATUS_APPROVED);
         $quote->setText('Lorem ipsum');
         $quote->setAttribution('John Doe');
+        $quote->setSubAttribution('Oberlin Resident');
         $quote->setDateRecorded(time());
         $quote->setPublicDocumentLink('http://localhost:1');
         $quote->setSourceDocumentLink('http://localhost:2');
@@ -201,6 +204,7 @@ class QuoteTest extends TestCase
                 [$this->equalTo(':text'),
                  $this->equalTo($quote->getText())],
                 [$this->equalTo(':attribution'), $this->equalTo($quote->getAttribution())],
+                [$this->equalTo(':sub_attribution'), $this->equalTo($quote->getSubAttribution())],
                 [$this->equalTo(':date_recorded'), $this->equalTo($quote->getDateRecorded())],
                 [$this->equalTo(':public_document_link'), $this->equalTo($quote->getPublicDocumentLink())],
                 [$this->equalTo(':source_document_link'), $this->equalTo($quote->getSourceDocumentLink())]

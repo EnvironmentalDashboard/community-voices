@@ -13,6 +13,7 @@ class Quote extends Media
     private $text;
 
     private $attribution;
+    private $subAttribution;
     private $dateRecorded;
 
     private $publicDocumentLink;
@@ -41,6 +42,16 @@ class Quote extends Media
     public function setAttribution($attribution)
     {
         $this->attribution = $attribution;
+    }
+
+    public function getSubAttribution()
+    {
+        return $this->subAttribution;
+    }
+
+    public function setSubAttribution($subAttribution)
+    {
+        $this->subAttribution = $subAttribution;
     }
 
     public function getDateRecorded()

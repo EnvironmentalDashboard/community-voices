@@ -42,9 +42,10 @@ class Quote extends Media
                         CAST(parent.status AS UNSIGNED) AS status,
                         child.text                      AS text,
                         child.attribution               AS attribution,
+                        child.sub_attribution           AS subAttribution,
                         child.date_recorded             AS dateRecorded,
                         child.public_document_link      AS publicDocumentLink,
-                        child.source_document_link      AS sourceDocumentLink
+                        child.source_document_link      AS sourceDocumentLink,
                     FROM
                         `community-voices_media` parent
                     JOIN
@@ -106,6 +107,7 @@ class Quote extends Media
                     SET
                         text = :text,
                         attribution = :attribution,
+                        sub_attribution = :sub_attribution,
                         date_recorded = :date_recorded,
                         public_document_link = :public_document_link,
                         source_document_link = :source_document_link
@@ -117,6 +119,7 @@ class Quote extends Media
         $statement->bindValue(':media_id', $quote->getId());
         $statement->bindValue(':text', $quote->getText());
         $statement->bindValue(':attribution', $quote->getAttribution());
+        $statement->bindValue(':sub_attribution', $quote->getSubAttribution());
         $statement->bindValue(':date_recorded', $quote->getDateRecorded());
         $statement->bindValue(':public_document_link', $quote->getPublicDocumentLink());
         $statement->bindValue(':source_document_link', $quote->getSourceDocumentLink());
@@ -138,17 +141,18 @@ class Quote extends Media
 
         $query = "INSERT INTO
                         `community-voices_quotes`
-                        (media_id, text, attribution, date_recorded, public_document_link,
-                            source_document_link)
+                        (media_id, text, attribution, sub_attribution, date_recorded,
+                            public_document_link, source_document_link)
                     VALUES
-                        (:media_id, :text, :attribution, :date_recorded, :public_document_link,
-                            :source_document_link)";
+                        (:media_id, :text, :attribution, sub_attribution, :date_recorded,
+                            :public_document_link, :source_document_link)";
 
         $statement = $this->conn->prepare($query);
 
         $statement->bindValue(':media_id', $quote->getId());
         $statement->bindValue(':text', $quote->getText());
         $statement->bindValue(':attribution', $quote->getAttribution());
+        $statement->bindValue(':sub_attribution', $quote->getSubAttribution());
         $statement->bindValue(':date_recorded', $quote->getDateRecorded());
         $statement->bindValue(':public_document_link', $quote->getPublicDocumentLink());
         $statement->bindValue(':source_document_link', $quote->getSourceDocumentLink());
