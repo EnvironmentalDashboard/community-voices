@@ -3,9 +3,9 @@
 
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
 
-	<xsl:variable name="isManager" select="identity/user/role "/>
+	<xsl:variable name="isManager" select="package/identity/user/role &gt; 1"/>
 
-	<xsl:template match="/quote">
+	<xsl:template match="/package/domain/quote">
 
 		<div class="middle">
 
@@ -23,14 +23,14 @@
 
 			<!-- Information for Manager & above -->
 
-			<xsl:if test="isManager">
+            <xsl:if test="$isManager">
 
 				<p> Internal Information Below </p>
 
-				<p> 
-					Uploader: 
+				<p>
+					Uploader:
 					<xsl:value-of select='addedBy/user/firstName' />
-					
+
 					<xsl:value-of select='addedBy/user/lastName' />
 				</p>
 
@@ -45,7 +45,7 @@
 
 			</xsl:if>
 
-		</div> 
+		</div>
 
 	</xsl:template>
 
@@ -69,16 +69,16 @@
 	<status>3</status>
 	<tagCollection>
 		<groupCollection>
-			
+
 		</groupCollection>
 	</tagCollection>
 	<text>Text Tim.</text>
 	<attribution>Augustus Arthur</attribution>
 	<dateRecorded>2018</dateRecorded>
 	<publicDocumentLink>
-		
+
 	</publicDocumentLink>
 	<sourceDocumentLink>
-		
+
 	</sourceDocumentLink>
 </quote> -->

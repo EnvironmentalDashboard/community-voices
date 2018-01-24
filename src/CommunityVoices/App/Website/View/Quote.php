@@ -9,6 +9,7 @@ use \XSLTProcessor;
 use CommunityVoices\App\Api;
 use CommunityVoices\App\Website\Component;
 use Symfony\Component\HttpFoundation;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class Quote extends Component\View
 {
@@ -31,8 +32,20 @@ class Quote extends Component\View
         $this->quoteAPIView = $quoteAPIView;
     }
 
-    public function getQuote()
+    public function getQuote($routes, $context)
     {
+        /**
+         * Gather identity information
+         */
+        $identity = $this->recognitionAdapter->identify();
+
+        $identityXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($identity->toArray())
+        );
+
+        /**
+         * Gather quote information
+         */
         $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
 
         $quoteXMLElement = new SimpleXMLElement(
@@ -42,10 +55,22 @@ class Quote extends Component\View
         );
 
         /**
-         * Prepare modules
+         * Quote XML Package
+         */
+        $quotePackageElement = new Helper\SimpleXMLElementExtension('<package/>');
+
+        $packagedQuote = $quotePackageElement->addChild('domain');
+        $packagedQuote->adopt($quoteXMLElement);
+
+        $packagedIdentity = $quotePackageElement->addChild('identity');
+        $packagedIdentity->adopt($identityXMLElement);
+
+        /**
+         * Generate Quote module
          */
         $quoteModule = new Component\Presenter('Module/Quote');
-        $quoteModuleXML = $quoteModule->generate($quoteXMLElement);
+        $quoteModuleXML = $quoteModule->generate($quotePackageElement);
+
         /**
          * Get base URL
          */
@@ -58,19 +83,10 @@ class Quote extends Component\View
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', $quoteModuleXML);
-
-        $identity = $this->recognitionAdapter->identify();
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
-        // var_dump($identityXMLElement);
         $domainXMLElement->addChild('baseUrl', $baseUrl);
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
-
-        var_dump($domainIdentity);
 
         $presentation = new Component\Presenter('SinglePane');
 
