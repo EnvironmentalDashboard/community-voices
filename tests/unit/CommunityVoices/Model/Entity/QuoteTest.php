@@ -151,6 +151,7 @@ class QuoteTest extends TestCase
         $instance->setTagCollection($tagCollection);
         $instance->setText("I know nothing");
         $instance->setAttribution("Jon Snow");
+        $instance->setSubAttribution("Oberlin Resident");
         $instance->setDateRecorded('2018-01-19 14:04:13');
         $instance->setPublicDocumentLink("http://localhost/");
         $instance->setSourceDocumentLink("http://localhost/");
@@ -165,6 +166,7 @@ class QuoteTest extends TestCase
 
             'text' => "I know nothing",
             'attribution' => "Jon Snow",
+            'subAttribution' => "Oberlin Resident",
             'dateRecorded' => 'Jan 19, 2018',
             'publicDocumentLink' => "http://localhost/",
             'sourceDocumentLink' => "http://localhost/"
