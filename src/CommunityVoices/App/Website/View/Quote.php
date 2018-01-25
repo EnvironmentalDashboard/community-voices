@@ -84,6 +84,10 @@ class Quote extends Component\View
 
         $domainXMLElement->addChild('main-pane', $quoteModuleXML);
         $domainXMLElement->addChild('baseUrl', $baseUrl);
+        $domainXMLElement->addChild('title', 
+            "Community Voices: Quote ".
+            $quoteXMLElement->id
+        );
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);

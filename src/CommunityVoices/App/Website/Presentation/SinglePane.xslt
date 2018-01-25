@@ -9,7 +9,7 @@
 
     <html>
         <head>
-            <title>Select Choices</title>
+            <title> <xsl:value-of select="title" /> </title> 
 
             <base href="{baseUrl}"/>
         </head>

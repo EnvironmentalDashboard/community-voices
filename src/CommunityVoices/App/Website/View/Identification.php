@@ -45,6 +45,9 @@ class Identification extends Component\View
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', $formModuleXML);
+        $domainXMLElement->addChild('title', 
+            "Community Voices: Login"
+        );
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -100,6 +103,10 @@ class Identification extends Component\View
             $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
         }
 
+        $domainXMLElement->addChild('title', 
+            "Community Voices: Welcome"
+        );
+
         /**
          * Prepare template
          */
@@ -124,6 +131,9 @@ class Identification extends Component\View
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', '<p>Logged out.</p>');
+        $domainXMLElement->addChild('title', 
+            "Community Voices: Logout"
+        );
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);

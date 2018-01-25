@@ -6,9 +6,10 @@
             <xsl:choose>
                 <xsl:when test="identity/user/id &gt; 0">
                     Welcome, <xsl:value-of select="identity/user/firstName" />!
+                    <a href="./logout">Logout</a>
                 </xsl:when>
                 <xsl:otherwise>
-                    <a href="./login">Login</a> is super cool.
+                    <a href="./login">Login</a>
                 </xsl:otherwise>
             </xsl:choose>
         </header>

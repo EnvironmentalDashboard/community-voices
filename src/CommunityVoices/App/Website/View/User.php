@@ -43,6 +43,11 @@ class User extends Component\View
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', $userModuleXML);
+        $domainXMLElement->addChild('title', 
+            "Community Voices: ".
+            $identityXMLElement->firstName.
+            "'s Profile"
+        );
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
