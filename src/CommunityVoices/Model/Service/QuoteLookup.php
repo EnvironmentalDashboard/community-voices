@@ -66,6 +66,26 @@ class QuoteLookup
     /**
      * Find quotes by creator
      *
+     * @return CommunityVoices\Model\Entity\QuoteCollection
+     */
+    public function findAll()
+    {
+        $quoteCollection = new Entity\QuoteCollection;
+
+        $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
+        $groupCollectionMapper->fetchAll($quoteCollection);
+
+        // I am uncertain about this
+        $this->stateObserver->setSubject('quoteLookup');
+        $this->stateObserver->addEntry('quoteCollection', $quoteCollection);
+
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($this->stateObserver);
+    }
+
+    /**
+     * Find quotes by creator
+     *
      * @param ID of user who added the quotes $creator
      *
      * @throws CommunityVoices\Model\Exception\IdentityNotFound
@@ -137,7 +157,7 @@ class QuoteLookup
         // clientState stuff
     }
 
-    // we are going to do this in another way !!!
+    // we are considering doing this in a another way ...
     // /**
     //  * Find quotes by status (pending, rejected, approved)
     //  *
