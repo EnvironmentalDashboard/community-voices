@@ -5,7 +5,7 @@
         <header>
             <xsl:choose>
                 <xsl:when test="identity/user/id &gt; 0">
-                    Welcome, <xsl:value-of select="identity/user/id" />
+                    Welcome, <xsl:value-of select="identity/user/firstName" />!
                 </xsl:when>
                 <xsl:otherwise>
                     <a href="./login">Login</a> is super cool.

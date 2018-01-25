@@ -13,8 +13,10 @@
 
 			<h2> <xsl:value-of select='text' /> </h2>
 
-			<p> Author: <xsl:value-of select='attribution' />,
-			<xsl:value-of select='subAttribution' /> </p>
+			<p> 
+				- <xsl:value-of select='attribution' />,
+				<xsl:value-of select='subAttribution' /> 
+			</p>
 
 		</div>
 
@@ -22,16 +24,18 @@
 
 			<p>	Date Created: <xsl:value-of select='dateRecorded' /> </p>
 
+			<p> Tags: TODO </p>
+
 			<!-- Information for Manager & above -->
 
             <xsl:if test="$isManager">
 
-				<p> Internal Information Below </p>
+				<p>---- Internal Information Below ----</p>
 
 				<p>
 					Uploader:
 					<xsl:value-of select='addedBy/user/firstName' />
-
+					<xsl:text> </xsl:text>
 					<xsl:value-of select='addedBy/user/lastName' />
 				</p>
 
@@ -41,7 +45,7 @@
 				</p>
 
 				<p>
-					Status:
+					Status: TODO
 				</p>
 
 			</xsl:if>
