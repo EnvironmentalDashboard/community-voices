@@ -45,7 +45,7 @@ class Quote extends Media
                         child.sub_attribution           AS subAttribution,
                         child.date_recorded             AS dateRecorded,
                         child.public_document_link      AS publicDocumentLink,
-                        child.source_document_link      AS sourceDocumentLink,
+                        child.source_document_link      AS sourceDocumentLink
                     FROM
                         `community-voices_media` parent
                     JOIN
@@ -54,7 +54,7 @@ class Quote extends Media
                     WHERE
                         parent.id = :id";
 
-        $statement = $this->conn->prepare($query);
+        $statement = $this->conn->prepare($query); // there's an issue here!
 
         $statement->bindValue(':id', $quote->getId());
 
