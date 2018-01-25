@@ -3,26 +3,27 @@
 
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
 
-	<xsl:variable name="isManager" select="package/identity/user/role &gt; 2"/>
+	<xsl:variable name="isManager" select="package/identity/user/role = 'manager' 
+		or package/identity/user/role = 'administrator'"/>
 
-	<xsl:template match="/package/domain/quote">
+	<xsl:template match="/package">
 
 		<div class="middle">
 
-			<p> Quote <xsl:value-of select='id' /> </p>
+			<p> Quote <xsl:value-of select='domain/quote/id' /> </p>
 
-			<h2> <xsl:value-of select='text' /> </h2>
+			<h2> <xsl:value-of select='domain/quote/text' /> </h2>
 
 			<p> 
-				- <xsl:value-of select='attribution' />,
-				<xsl:value-of select='subAttribution' /> 
+				- <xsl:value-of select='domain/quote/attribution' />,
+				<xsl:value-of select='domain/quote/subAttribution' /> 
 			</p>
 
 		</div>
 
 		<div class="right">
 
-			<p>	Date Created: <xsl:value-of select='dateRecorded' /> </p>
+			<p>	Date Created: <xsl:value-of select='domain/quote/dateRecorded' /> </p>
 
 			<p> Tags: TODO </p>
 
@@ -34,14 +35,14 @@
 
 				<p>
 					Uploader:
-					<xsl:value-of select='addedBy/user/firstName' />
+					<xsl:value-of select='domain/quote/addedBy/user/firstName' />
 					<xsl:text> </xsl:text>
-					<xsl:value-of select='addedBy/user/lastName' />
+					<xsl:value-of select='domain/quote/addedBy/user/lastName' />
 				</p>
 
 				<p>
 					Date Uploaded:
-					<xsl:value-of select='dateCreated' />
+					<xsl:value-of select='domain/quote/dateCreated' />
 				</p>
 
 				<p>
