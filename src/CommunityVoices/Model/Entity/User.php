@@ -33,6 +33,14 @@ class User implements HasId, Palladium\Contract\HasId
         self::ROLE_ADMIN
     ];
 
+    private $roleToString = [
+        self::ROLE_GUEST => 'guest',
+        self::ROLE_UNVERIFIED => 'new user',
+        self::ROLE_USER => 'user',
+        self::ROLE_MANAGER => 'manager',
+        self::ROLE_ADMIN => 'administrator'
+    ];
+
     private $id;
 
     private $email;
@@ -156,7 +164,7 @@ class User implements HasId, Palladium\Contract\HasId
             'email' => $this->email,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
-            'role' => $this->role
+            'role' => $this->roleToString[$this->role]
         ]];
     }
 }

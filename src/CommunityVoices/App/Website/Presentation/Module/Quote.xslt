@@ -3,7 +3,7 @@
 
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
 
-	<xsl:variable name="isManager" select="package/identity/user/role &gt; 1"/>
+	<xsl:variable name="isManager" select="package/identity/user/role &gt; 2"/>
 
 	<xsl:template match="/package/domain/quote">
 

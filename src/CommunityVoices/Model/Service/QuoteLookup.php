@@ -64,7 +64,7 @@ class QuoteLookup
     }
 
     /**
-     * Find quotes by creator
+     * Grab all the quotes
      *
      * @return CommunityVoices\Model\Entity\QuoteCollection
      */
@@ -73,7 +73,7 @@ class QuoteLookup
         $quoteCollection = new Entity\QuoteCollection;
 
         $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
-        $groupCollectionMapper->fetchAll($quoteCollection);
+        $quoteCollectionMapper->fetchAll($quoteCollection);
 
         // I am uncertain about this
         $this->stateObserver->setSubject('quoteLookup');

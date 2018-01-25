@@ -210,7 +210,7 @@ class UserTest extends TestCase
             'email' => 'john@foo.com',
             'firstName' => 'John',
             'lastName' => 'Doe',
-            'role' => User::ROLE_GUEST
+            'role' => 'guest'
         ]];
 
         $this->assertSame($instance->toArray(), $expected);
