@@ -25,15 +25,7 @@ class User implements HasId, Palladium\Contract\HasId
     const ERR_PASSWORD_MISMATCH = 'Confirm password must match';
     const ERR_PASSWORD_TOO_SHORT = 'Password length must exceed 4 characters';
 
-    protected $allowableRole = [
-        self::ROLE_GUEST,
-        self::ROLE_UNVERIFIED,
-        self::ROLE_USER,
-        self::ROLE_MANAGER,
-        self::ROLE_ADMIN
-    ];
-
-    private $roleToString = [
+    private $allowableRole = [
         self::ROLE_GUEST => 'guest',
         self::ROLE_UNVERIFIED => 'new user',
         self::ROLE_USER => 'user',
@@ -106,7 +98,7 @@ class User implements HasId, Palladium\Contract\HasId
 
     public function setRole($role)
     {
-        if (in_array($role, $this->allowableRole)) {
+        if (array_key_exists($role, $this->allowableRole)) {
             $this->role = (int) $role;
         }
     }
@@ -164,7 +156,7 @@ class User implements HasId, Palladium\Contract\HasId
             'email' => $this->email,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
-            'role' => $this->roleToString[$this->role]
+            'role' => $this->allowableRole[$this->role]
         ]];
     }
 }
