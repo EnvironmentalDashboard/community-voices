@@ -133,7 +133,7 @@ class Media extends DataMapper
 
         $statement->execute();
 
-        $media->setId($this->conn->lastInsertId());
+        $media->setId((int) $this->conn->lastInsertId());
         $media->setDateCreated($now);
     }
 
