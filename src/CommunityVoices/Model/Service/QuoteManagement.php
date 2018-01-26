@@ -8,7 +8,7 @@ use CommunityVoices\Model\Component;
 use CommunityVoices\Model\Mapper;
 use CommunityVoices\Model\Exception;
 
-class QuoteUpload
+class QuoteManagement
 {
     private $mapperFactory;
     private $stateObserver;
@@ -35,7 +35,7 @@ class QuoteUpload
      * @param  String $sourceDocumentLink [description]
      * @return Boolean                     [description]
      */
-    public function newQuote($text, $attribution, $subAttribution,
+    public function upload($text, $attribution, $subAttribution,
                     $dateRecorded, $publicDocumentLink, $sourceDocumentLink,
                     $addedBy){
 

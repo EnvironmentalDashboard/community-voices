@@ -50,17 +50,8 @@
         }
     },
 
-    "getQuote": {
-        "notation": "/quotes/{id}",
-        "method": "get",
-        "defaults": {
-            "resource": "Quote",
-            "action": "getQuote"
-        }
-    },
-
     "getQuoteUpload": {
-        "notation": "/new/quote",
+        "notation": "/quotes/new",
         "method": "get",
         "defaults": {
             "resource": "Quote",
@@ -69,11 +60,20 @@
     },
 
     "postQuoteUpload": {
-        "notation": "/new/authenticate",
+        "notation": "/quotes/authenticate",
         "method": "post",
         "defaults": {
             "resource": "Quote",
             "action": "postQuoteUpload"
+        }
+    },
+
+    "getQuote": {
+        "notation": "/quotes/{id}",
+        "method": "get",
+        "defaults": {
+            "resource": "Quote",
+            "action": "getQuote"
         }
     }
 }

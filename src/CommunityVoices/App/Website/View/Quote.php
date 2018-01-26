@@ -100,7 +100,7 @@ class Quote extends Component\View
         return $response;
     }
 
-    public function getQuoteUpload()
+    public function getQuoteUpload($routes, $context)
     {
         $paramXML = new SimpleXMLElement('<form/>');
 
@@ -113,9 +113,18 @@ class Quote extends Component\View
             $this->transcriber->toXml($identity->toArray())
         );
 
+        /**
+         * Get base URL
+         */
+        $urlGenerator = new UrlGenerator($routes, $context);
+        $baseUrl = $urlGenerator->generate('root');
+
+        //
+
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', $formModuleXML);
+        $domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title',
             "Quote Upload"
         );

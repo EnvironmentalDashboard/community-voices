@@ -11,10 +11,10 @@ class Quote
 
     public function __construct(
         Service\QuoteLookup $quoteLookup,
-        Service\QuoteUpload $quoteUpload
+        Service\QuoteUpload $quoteManagement
     ){
         $this->quoteLookup = $quoteLookup;
-        $this->quoteUpload = $quoteUpload;
+        $this->quoteManagement = $quoteManagement;
     }
 
     /**
@@ -36,7 +36,7 @@ class Quote
         $publicDocumentLink = $request->request->get('$publicDocumentLink');
         $sourceDocumentLink = $request->request->get('$sourceDocumentLink');
 
-        $this->quoteUpload->newQuote($text, $attribution, $subAttribution,
+        $this->quoteManagement->upload($text, $attribution, $subAttribution,
                         $dateRecorded, $publicDocumentLink, $sourceDocumentLink,
                         $identity);
     }
