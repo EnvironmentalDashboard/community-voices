@@ -7,7 +7,7 @@ use CommunityVoices\Model\Service;
 class Quote
 {
     protected $quoteLookup;
-    protected $quoteUpload;
+    protected $quoteManagement;
 
     public function __construct(
         Service\QuoteLookup $quoteLookup,
@@ -25,6 +25,11 @@ class Quote
         $quoteId = $request->attributes->get('id');
 
         $this->quoteLookup->findById($quoteId);
+    }
+
+    public function getAllQuote($request)
+    {
+        $this->quoteLookup->findAll();
     }
 
     public function postQuote($request, $identity)
