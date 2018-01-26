@@ -4,6 +4,7 @@ namespace CommunityVoices\App\Api\View;
 
 use CommunityVoices\Model\Component\MapperFactory;
 use Symfony\Component\HttpFoundation;
+use Symfony\Component\HttpFoundation\Response;
 
 class Quote
 {
@@ -25,5 +26,17 @@ class Quote
         $response = new HttpFoundation\JsonResponse($quote->toArray());
 
         return $response;
+    }
+
+    public function postQuote()
+    {
+      $clientStateMapper = $this->mapperFactory->createClientStateMapper();
+      $clientStateObserver = $clientStateMapper->retrieve();
+
+      $response = new Response(
+          !($clientStateObserver && $clientStateObserver->hasEntries())
+      );
+
+      return $response;
     }
 }
