@@ -25,9 +25,9 @@ class Media implements HasId
     ];
 
     protected $allowableStatus = [
-        self::STATUS_PENDING,
-        self::STATUS_REJECTED,
-        self::STATUS_APPROVED
+        self::STATUS_PENDING => "pending",
+        self::STATUS_REJECTED => "rejected",
+        self::STATUS_APPROVED => "approved"
     ];
 
     private $id;
@@ -97,7 +97,7 @@ class Media implements HasId
 
     public function setStatus($status)
     {
-        if (in_array($status, $this->allowableStatus)) {
+        if (array_key_exists($status, $this->allowableStatus)) {
             $this->status = (int) $status;
         }
     }
@@ -119,7 +119,7 @@ class Media implements HasId
             'addedBy' => $this->addedBy ? $this->addedBy->toArray() : null,
             'dateCreated' => date("M j\, Y", $this->dateCreated),
             'type' => $this->type,
-            'status' => $this->status,
+            'status' => $this->allowableStatus[$this->status],
             'tagCollection' => $this->tagCollection ? $this->tagCollection->toArray() : null
         ]];
     }

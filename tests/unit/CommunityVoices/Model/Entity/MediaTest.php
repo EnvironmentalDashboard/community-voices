@@ -155,7 +155,7 @@ class MediaTest extends TestCase
                     ]],
             'dateCreated' => 'Jun 4, 1989',
             'type' => Media::TYPE_IMAGE,
-            'status' => Media::STATUS_REJECTED,
+            'status' => "rejected",
             'tagCollection' => ['groupCollection' => []]
         ]];
 
@@ -182,7 +182,7 @@ class MediaTest extends TestCase
             'addedBy' => null,
             'dateCreated' => 'Nov 14, 2015',
             'type' => Media::TYPE_IMAGE,
-            'status' => Media::STATUS_REJECTED,
+            'status' =>"rejected",
             'tagCollection' => ['groupCollection' => []]
         ]];
 
@@ -221,7 +221,7 @@ class MediaTest extends TestCase
             'addedBy' => $addedByReturn,
             'dateCreated' => 'Jan 19, 2018',
             'type' => Media::TYPE_IMAGE,
-            'status' => Media::STATUS_REJECTED,
+            'status' => "rejected",
             'tagCollection' => null
         ]];
 
