@@ -5,10 +5,11 @@ namespace CommunityVoices\Model\Service;
 use PHPUnit\Framework\TestCase;
 use CommunityVoices\Model\Component;
 use CommunityVoices\Model\Mapper;
+use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Contract\HasId;
 use CommunityVoices\Model\Component\StateObserver;
 
-class QuoteUploadTest extends TestCase
+class QuoteManagementTest extends TestCase
 {
       public function test_Clean_Upload(){
 
@@ -39,15 +40,17 @@ class QuoteUploadTest extends TestCase
               ->setMethods(['addEntry'])
               ->getMock();
 
-          $quoteUpload = new QuoteUpload($mapperFactory, $stateObserver);
+          $user = new Entity\User;
+          $quoteManagement = new QuoteManagement($mapperFactory, $stateObserver);
 
-          $this->assertTrue($quoteUpload->newQuote(
+          $this->assertTrue($quoteManagement->upload(
               'I always close my eyes when I pee!',
               'Lars Dreith',
               'Oberlin College, 2020',
               'January 24th, 2018',
               '',
-              ''
+              '',
+              $user
           ));
       }
 
@@ -78,15 +81,17 @@ class QuoteUploadTest extends TestCase
             ->method('hasEntry')
             ->will($this->returnValue(true));
 
-        $quoteUpload = new QuoteUpload($mapperFactory, $stateObserver);
+        $user = new Entity\User;
+        $quoteManagement = new QuoteManagement($mapperFactory, $stateObserver);
 
-        $this->assertFalse($quoteUpload->newQuote(
+        $this->assertFalse($quoteManagement->upload(
             'I always close my eyes when I pee!',
             NULL,
             'Oberlin College, 2020',
             'January 24th, 2018',
             '',
-            ''
+            '',
+            $user
         ));
       }
 
@@ -119,15 +124,18 @@ class QuoteUploadTest extends TestCase
             ->method('hasEntry')
             ->will($this->returnValue(true));
 
-        $quoteUpload = new QuoteUpload($mapperFactory, $stateObserver);
+        $user = new Entity\User;
 
-        $this->assertFalse($quoteUpload->newQuote(
+        $quoteManagement = new QuoteManagement($mapperFactory, $stateObserver);
+
+        $this->assertFalse($quoteManagement->upload(
             'I always close my eyes when I pee!',
             'Lars Dreith',
             'Oberlin College, 2020',
             'January 24th, 2018',
             'asldkfj',
-            ''
+            '',
+            $user
         ));
       }
 
@@ -160,15 +168,18 @@ class QuoteUploadTest extends TestCase
             ->method('hasEntry')
             ->will($this->returnValue(true));
 
-        $quoteUpload = new QuoteUpload($mapperFactory, $stateObserver);
+        $user = new Entity\User;
 
-        $this->assertFalse($quoteUpload->newQuote(
+        $quoteManager = new QuoteManagement($mapperFactory, $stateObserver);
+
+        $this->assertFalse($quoteManager->upload(
             'I always close my eyes when I pee!',
             'Lars Dreith',
             'Oberlin College, 2020',
             'January 24th, 2018',
             '',
-            'asldkfj'
+            'asldkfj',
+            $user
         ));
       }
 }
