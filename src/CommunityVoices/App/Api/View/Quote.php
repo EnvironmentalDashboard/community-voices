@@ -28,6 +28,19 @@ class Quote
         return $response;
     }
 
+    public function getAllQuote()
+    {
+        $clientState = $this->mapperFactory->createClientStateMapper();
+        $stateObserver = $clientState->retrieve();
+
+        $stateObserver->setSubject('quoteFinaAll');
+        $quote = $stateObserver->getEntry('quoteCollection')[0];
+
+        $response = new HttpFoundation\JsonResponse($quote->toArray());
+
+        return $response;
+    }
+    
     public function getQuoteUpload()
     {
         // intentionally blank
@@ -35,13 +48,13 @@ class Quote
 
     public function postQuote()
     {
-      $clientStateMapper = $this->mapperFactory->createClientStateMapper();
-      $clientStateObserver = $clientStateMapper->retrieve();
+        $clientStateMapper = $this->mapperFactory->createClientStateMapper();
+        $clientStateObserver = $clientStateMapper->retrieve();
 
-      $response = new Response(
+        $response = new Response(
           !($clientStateObserver && $clientStateObserver->hasEntries())
       );
 
-      return $response;
+        return $response;
     }
 }
