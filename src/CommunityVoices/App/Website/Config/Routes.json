@@ -57,5 +57,23 @@
             "resource": "Quote",
             "action": "getQuote"
         }
+    },
+
+    "getQuoteUpload": {
+        "notation": "/new/quote",
+        "method": "get",
+        "defaults": {
+            "resource": "Quote",
+            "action": "getQuoteUpload"
+        }
+    },
+
+    "postQuoteUpload": {
+        "notation": "/new/authenticate",
+        "method": "post",
+        "defaults": {
+            "resource": "Quote",
+            "action": "postQuoteUpload"
+        }
     }
 }

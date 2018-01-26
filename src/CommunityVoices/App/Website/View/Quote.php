@@ -84,7 +84,7 @@ class Quote extends Component\View
 
         $domainXMLElement->addChild('main-pane', $quoteModuleXML);
         $domainXMLElement->addChild('baseUrl', $baseUrl);
-        $domainXMLElement->addChild('title', 
+        $domainXMLElement->addChild('title',
             "Community Voices: Quote ".
             $quoteXMLElement->id
         );
@@ -98,5 +98,65 @@ class Quote extends Component\View
 
         $this->finalize($response);
         return $response;
+    }
+
+    public function getQuoteUpload()
+    {
+        $paramXML = new SimpleXMLElement('<form/>');
+
+        $formModule = new Component\Presenter('Module/Form/QuoteUpload');
+        $formModuleXML = $formModule->generate($paramXML);
+
+        $identity = $this->recognitionAdapter->identify();
+
+        $identityXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($identity->toArray())
+        );
+
+        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
+
+        $domainXMLElement->addChild('main-pane', $formModuleXML);
+        $domainXMLElement->addChild('title',
+            "Quote Upload"
+        );
+
+        $domainIdentity = $domainXMLElement->addChild('identity');
+        $domainIdentity->adopt($identityXMLElement);
+
+        $presentation = new Component\Presenter('SinglePane');
+
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
+
+        $this->finalize($response);
+        return $response;
+    }
+
+    public function postQuoteUpload()
+    {
+      $identity = $this->recognitionAdapter->identify();
+      $identityXMLElement = new SimpleXMLElement(
+          $this->transcriber->toXml($identity->toArray())
+      );
+
+      $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
+
+      $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
+
+      $domainXMLElement->addChild('title',
+          "Community Voices: Welcome"
+      );
+
+      /**
+       * Prepare template
+       */
+      $domainIdentity = $domainXMLElement->addChild('identity');
+      $domainIdentity->adopt($identityXMLElement);
+
+      $presentation = new Component\Presenter('SinglePane');
+
+      $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
+
+      $this->finalize($response);
+      return $response;
     }
 }

@@ -27,16 +27,17 @@ class Quote
         $this->quoteLookup->findById($quoteId);
     }
 
-    public function postQuote($request)
+    public function postQuote($request, $identity)
     {
         $text = $request->request->get('text');
         $attribution = $request->request->get('attribution');
-        $subAttribution = $request->request->get('attribution');
-        $dateRecorded = $request->request->get('attribution');
-        $publicDocumentLink = $request->request->get('attribution');
-        $sourceDocumentLink = $request->request->get('attribution');
+        $subAttribution = $request->request->get('subAttribution');
+        $dateRecorded = $request->request->get('dateRecorded');
+        $publicDocumentLink = $request->request->get('$publicDocumentLink');
+        $sourceDocumentLink = $request->request->get('$sourceDocumentLink');
 
-        $this->$quoteUpload->newQuote($text, $attribution, $subAttribution,
-                        $dateRecorded, $publicDocumentLink, $sourceDocumentLink);
+        $this->quoteUpload->newQuote($text, $attribution, $subAttribution,
+                        $dateRecorded, $publicDocumentLink, $sourceDocumentLink,
+                        $identity);
     }
 }

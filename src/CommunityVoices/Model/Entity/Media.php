@@ -51,7 +51,7 @@ class Media implements HasId
      */
     public function setId($id)
     {
-        if (is_int($id) || is_null($id)) {
+        if (is_int($id) || !is_null($id)) {
             $this->id = $id;
         }
     }

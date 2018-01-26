@@ -8,13 +8,16 @@ use CommunityVoices\App\Api;
 
 class Quote
 {
+    protected $recognitionAdapter;
     protected $quoteAPIController;
     protected $secureContainer;
 
     public function __construct(
+        Component\RecognitionAdapter $recognitionAdapter,
         Api\Controller\Quote $quoteAPIController,
         Api\Component\SecureContainer $secureContainer
     ) {
+        $this->recognitionAdapter = $recognitionAdapter;
         $this->quoteAPIController = $quoteAPIController;
         $this->secureContainer = $secureContainer;
     }
@@ -24,5 +27,18 @@ class Quote
         $apiController = $this->secureContainer->contain($this->quoteAPIController);
 
         $apiController->getQuote($request);
+    }
+
+    public function getQuoteUpload()
+    {
+
+    }
+
+    public function postQuoteUpload($request)
+    {
+        $apiController = $this->secureContainer->contain($this->quoteAPIController);
+        $identity = $this->recognitionAdapter->identify();
+
+        $apiController->postQuote($request, $identity);
     }
 }

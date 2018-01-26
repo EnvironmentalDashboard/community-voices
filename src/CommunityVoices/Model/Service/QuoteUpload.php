@@ -36,7 +36,8 @@ class QuoteUpload
      * @return Boolean                     [description]
      */
     public function newQuote($text, $attribution, $subAttribution,
-                    $dateRecorded, $publicDocumentLink, $sourceDocumentLink){
+                    $dateRecorded, $publicDocumentLink, $sourceDocumentLink,
+                    $addedBy){
 
         /*
          * Create Quote entity and set attributes
@@ -50,6 +51,8 @@ class QuoteUpload
         $quote->setDateRecorded($dateRecorded);
         $quote->setPublicDocumentLink($publicDocumentLink);
         $quote->setSourceDocumentLink($sourceDocumentLink);
+        $quote->setAddedBy($addedBy);
+        $quote->setStatus(3);                                   // change later
 
         /*
          * Create error observer w/ appropriate subject and pass to validator
@@ -86,7 +89,7 @@ class QuoteUpload
         /*
          * save $quote to database
          */
-        
+
         $quoteMapper->save($quote);
 
         return true;
