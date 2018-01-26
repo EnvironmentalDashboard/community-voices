@@ -46,7 +46,8 @@
 				</p>
 
 				<p>
-					Status: TODO
+					Status: 
+					<xsl:value-of select='domain/quote/status' />
 				</p>
 
 			</xsl:if>
