@@ -28,12 +28,12 @@ class QuoteCollection extends DataMapper
                         quote.date_recorded             AS dateRecorded,
                         quote.public_document_link      AS publicDocumentLink,
                         quote.source_document_link      AS sourceDocumentLink
-					FROM 
-						`community-voices_media` media 
-					INNER JOIN 
-						`community-voices_quotes` quote 
+					FROM
+						`community-voices_media` media
+					INNER JOIN
+						`community-voices_quotes` quote
 						ON media.id = quote.media_id
-				 "
+				 ";
 
 		$statement = $this->conn->prepare($query);
 
