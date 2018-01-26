@@ -10,7 +10,7 @@
 
         <form action='./quotes/new/authenticate' method='post'>
 
-            Quote: <input type='text' name='text' />
+            Quote: <input type='text' name='text' /><br />
 
             Attribution:
             <xsl:choose>
@@ -20,12 +20,10 @@
                 <xsl:otherwise>
                     <input type='text' name='attribution' />
                 </xsl:otherwise>
-            </xsl:choose>
+            </xsl:choose><br />
 
-            Sub-Attribution: <input type='text' name='subAttribution' />
-            Date Recorded: <input type='text' name='dateRecorded' />
-            Public Link: <input type='text' name='publicDocumentLink' />
-            Source Link: <input type='text' name='sourceDocumentLink' />
+            Sub-Attribution: <input type='text' name='subAttribution' /><br />
+            Date Recorded: <input type='text' name='dateRecorded' /><br />
 
             <input type='submit'/>
         </form>

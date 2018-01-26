@@ -10,7 +10,10 @@
         ["CommunityVoices\\App\\Api\\Controller\\User::*", {"allow" : "user"}],
         ["CommunityVoices\\App\\Api\\View\\User::*", {"allow" : "user"}],
 
-        ["CommunityVoices\\App\\Api\\Controller\\Quote::*", {"allow" : "guest"}],
-        ["CommunityVoices\\App\\Api\\View\\Quote::*", {"allow" : "guest"}]
+        ["CommunityVoices\\App\\Api\\Controller\\Quote::getQuote", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Quote::getQuote", {"allow" : "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Quote::getQuoteUpload", {"allow" : "user"}],
+        ["CommunityVoices\\App\\Api\\View\\Quote::getQuoteUpload", {"allow" : "user"}]
     ]
 }

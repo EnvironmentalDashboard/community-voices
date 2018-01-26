@@ -102,6 +102,13 @@ class Quote extends Component\View
 
     public function getQuoteUpload($routes, $context)
     {
+        try{
+            $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
+            $quoteAPIView->getQuoteUpload();
+        } catch( Exception $e ) {
+            echo $e-getMessage();
+            return;
+        }
         $paramXML = new SimpleXMLElement('<form/>');
 
         $formModule = new Component\Presenter('Module/Form/QuoteUpload');

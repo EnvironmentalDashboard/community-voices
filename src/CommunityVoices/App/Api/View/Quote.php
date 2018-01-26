@@ -28,6 +28,11 @@ class Quote
         return $response;
     }
 
+    public function getQuoteUpload()
+    {
+        // intentionally blank
+    }
+
     public function postQuote()
     {
       $clientStateMapper = $this->mapperFactory->createClientStateMapper();

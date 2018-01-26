@@ -27,6 +27,11 @@ class Quote
         $this->quoteLookup->findById($quoteId);
     }
 
+    public function getQuoteUpload()
+    {
+        // intentionally blank
+    }
+
     public function postQuote($request, $identity)
     {
         $text = $request->request->get('text');
