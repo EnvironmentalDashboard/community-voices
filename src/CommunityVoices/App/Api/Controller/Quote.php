@@ -11,7 +11,7 @@ class Quote
 
     public function __construct(
         Service\QuoteLookup $quoteLookup,
-        Service\QuoteUpload $quoteManagement
+        Service\QuoteManagement $quoteManagement
     ){
         $this->quoteLookup = $quoteLookup;
         $this->quoteManagement = $quoteManagement;
