@@ -8,7 +8,7 @@
             <p>Attribution missing.</p>
         </xsl:if>
 
-        <form action='./authenticate' method='post'>
+        <form action='./quotes/authenticate' method='post'>
 
             Quote: <input type='text' name='text' />
 
