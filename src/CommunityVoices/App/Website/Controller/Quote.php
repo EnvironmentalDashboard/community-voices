@@ -29,6 +29,13 @@ class Quote
         $apiController->getQuote($request);
     }
 
+    public function getAllQuote($request)
+    {
+        $apiController = $this->secureContainer->contain($this->quoteAPIController);
+
+        $apiController->getAllQuote($request);
+    }
+
     public function getQuoteUpload()
     {
 

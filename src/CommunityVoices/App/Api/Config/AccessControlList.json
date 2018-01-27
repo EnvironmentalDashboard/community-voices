@@ -13,6 +13,9 @@
         ["CommunityVoices\\App\\Api\\Controller\\Quote::getQuote", {"allow" : "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Quote::getQuote", {"allow" : "guest"}],
 
+        ["CommunityVoices\\App\\Api\\Controller\\Quote::getAllQuote", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Quote::getAllQuote", {"allow" : "guest"}],
+
         ["CommunityVoices\\App\\Api\\Controller\\Quote::getQuoteUpload", {"allow" : "user"}],
         ["CommunityVoices\\App\\Api\\View\\Quote::getQuoteUpload", {"allow" : "user"}]
     ]

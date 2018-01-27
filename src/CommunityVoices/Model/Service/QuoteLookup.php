@@ -73,10 +73,10 @@ class QuoteLookup
         $quoteCollection = new Entity\QuoteCollection;
 
         $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
-        $quoteCollectionMapper->fetchAll($quoteCollection);
+        $quoteCollectionMapper->fetch($quoteCollection);
 
         // I am uncertain about this
-        $this->stateObserver->setSubject('quoteLookup');
+        $this->stateObserver->setSubject('quoteFindAll');
         $this->stateObserver->addEntry('quoteCollection', $quoteCollection);
 
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);

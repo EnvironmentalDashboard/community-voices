@@ -33,10 +33,10 @@ class Quote
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
 
-        $stateObserver->setSubject('quoteFinaAll');
-        $quote = $stateObserver->getEntry('quoteCollection')[0];
+        $stateObserver->setSubject('quoteFindAll');
+        $quoteCollection = $stateObserver->getEntry('quoteCollection')[0];
 
-        $response = new HttpFoundation\JsonResponse($quote->toArray());
+        $response = new HttpFoundation\JsonResponse($quoteCollection->toArray());
 
         return $response;
     }

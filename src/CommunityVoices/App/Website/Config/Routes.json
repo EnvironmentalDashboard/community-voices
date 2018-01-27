@@ -50,6 +50,15 @@
         }
     },
 
+    "getAllQuote": {
+        "notation": "/quotes",
+        "method": "get",
+        "defaults": {
+            "resource": "Quote",
+            "action": "getAllQuote"
+        }
+    },
+
     "getQuote": {
         "notation": "/quotes/{id}",
         "method": "get",
