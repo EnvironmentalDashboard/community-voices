@@ -103,6 +103,18 @@ class Quote extends Component\View
 
     public function getAllQuote($routes, $context)
     {
+        /**
+         * Gather identity information
+         */
+        $identity = $this->recognitionAdapter->identify();
+
+        $identityXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($identity->toArray())
+        );
+
+        /**
+         * Gather quote information
+         */
         $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
 
         $quoteXMLElement = new SimpleXMLElement(
@@ -111,9 +123,44 @@ class Quote extends Component\View
             ))
         );
 
+        /**
+         * Quote XML Package
+         */
+        $quotePackageElement = new Helper\SimpleXMLElementExtension('<package/>');
+
+        $packagedQuote = $quotePackageElement->addChild('domain');
+        $packagedQuote->adopt($quoteXMLElement);
+
+        $packagedIdentity = $quotePackageElement->addChild('identity');
+        $packagedIdentity->adopt($identityXMLElement);
+
+        /**
+         * Generate Quote module
+         */
+        $quoteModule = new Component\Presenter('Module/QuoteCollection');
+        $quoteModuleXML = $quoteModule->generate($quotePackageElement);
+
+        /**
+         * Get base URL
+         */
+        $urlGenerator = new UrlGenerator($routes, $context);
+        $baseUrl = $urlGenerator->generate('root');
+
+        /**
+         * Prepare template
+         */
+        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
+
+        $domainXMLElement->addChild('main-pane', $quoteModuleXML);
+        $domainXMLElement->addChild('baseUrl', $baseUrl);
+        $domainXMLElement->addChild('title', "Community Voices: All Quotes");
+
+        $domainIdentity = $domainXMLElement->addChild('identity');
+        $domainIdentity->adopt($identityXMLElement);
+
         $presentation = new Component\Presenter('SinglePane');
 
-        $response = new HttpFoundation\Response($presentation->generate($quoteXMLElement));
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 
         $this->finalize($response);
         return $response;
