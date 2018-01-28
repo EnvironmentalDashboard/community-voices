@@ -62,6 +62,7 @@ class Quote extends Media
     public function setDateRecorded($dateRecorded)
     {
         $this->dateRecorded = strtotime($dateRecorded);
+
     }
 
     public function getPublicDocumentLink()

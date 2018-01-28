@@ -153,7 +153,7 @@ class Quote extends Media
         $statement->bindValue(':text', $quote->getText());
         $statement->bindValue(':attribution', $quote->getAttribution());
         $statement->bindValue(':sub_attribution', $quote->getSubAttribution());
-        $statement->bindValue(':date_recorded', $quote->getDateRecorded());
+        $statement->bindValue(':date_recorded', date('Y-m-d', $quote->getDateRecorded()));
         $statement->bindValue(':public_document_link', $quote->getPublicDocumentLink());
         $statement->bindValue(':source_document_link', $quote->getSourceDocumentLink());
 
