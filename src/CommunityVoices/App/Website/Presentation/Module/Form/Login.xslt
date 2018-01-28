@@ -8,7 +8,7 @@
             <p>Incorrect user/pass combination.</p>
         </xsl:if>
 
-        <form action='./authenticate' method='post'>
+        <form action='./login/authenticate' method='post'>
             Email:
             <xsl:choose>
                 <xsl:when test="@email-value">

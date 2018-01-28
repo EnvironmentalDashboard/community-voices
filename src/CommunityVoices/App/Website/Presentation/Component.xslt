@@ -3,15 +3,24 @@
 
     <xsl:template name="common-header">
         <header>
-            <xsl:choose>
-                <xsl:when test="identity/user/id &gt; 0">
-                    Welcome, <xsl:value-of select="identity/user/firstName" />!
-                    <a href="./logout">Logout</a>
-                </xsl:when>
-                <xsl:otherwise>
-                    <a href="./login">Login</a>
-                </xsl:otherwise>
-            </xsl:choose>
+
+          <nav>
+              <ul>
+                  <li><a href="./">Home</a></li>
+                  <li><a href="./quotes">Quotes</a></li>
+                  <li>
+                    <xsl:choose>
+                        <xsl:when test="identity/user/id &gt; 0">
+                            Welcome, <xsl:value-of select="identity/user/firstName" />!
+                            <a href="./logout">Logout</a>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <a href="./login">Login</a>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                  </li>
+              </ul>
+          </nav>
         </header>
     </xsl:template>
 

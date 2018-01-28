@@ -5,21 +5,21 @@
         "defaults": {}
     },
 
-    "postLogin": {
-        "notation": "/authenticate",
-        "method": "post",
-        "defaults": {
-            "resource": "Identification",
-            "action": "postCredentials"
-        }
-    },
-
     "getLogin": {
         "notation": "/login",
         "method": "get",
         "defaults": {
             "resource": "Identification",
             "action": "getLogin"
+        }
+    },
+
+    "postLogin": {
+        "notation": "/login/authenticate",
+        "method": "post",
+        "defaults": {
+            "resource": "Identification",
+            "action": "postCredentials"
         }
     },
 
@@ -59,18 +59,6 @@
         }
     },
 
-    "getQuote": {
-        "notation": "/quotes/{id}",
-        "method": "get",
-        "defaults": {
-            "resource": "Quote",
-            "action": "getQuote"
-        },
-        "requirements": {
-            "id": "[0-9]"
-        }
-    },
-
     "getQuoteUpload": {
         "notation": "/quotes/new",
         "method": "get",
@@ -86,6 +74,15 @@
         "defaults": {
             "resource": "Quote",
             "action": "postQuoteUpload"
+        }
+    },
+
+    "getQuote": {
+        "notation": "/quotes/{id}",
+        "method": "get",
+        "defaults": {
+            "resource": "Quote",
+            "action": "getQuote"
         }
     }
 }
