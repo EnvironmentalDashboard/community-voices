@@ -6,16 +6,16 @@
 
           <nav>
               <ul>
-                  <li><a href="./">Home</a></li>
-                  <li><a href="./quotes">Quotes</a></li>
+                  <li><a href="http://localhost:8888/community-voices/">Home</a></li>
+                  <li><a href="http://localhost:8888/community-voices/quotes">Quotes</a></li>
                   <li>
                     <xsl:choose>
                         <xsl:when test="identity/user/id &gt; 0">
                             Welcome, <xsl:value-of select="identity/user/firstName" />!
-                            <a href="./logout">Logout</a>
+                            <a href="http://localhost:8888/community-voices/logout">Logout</a>
                         </xsl:when>
                         <xsl:otherwise>
-                            <a href="./login">Login</a>
+                            <a href="http://localhost:8888/community-voices/login">Login</a>
                         </xsl:otherwise>
                     </xsl:choose>
                   </li>
@@ -26,7 +26,8 @@
 
     <xsl:template name="common-footer">
         <footer>
-            Some rights reserved
+            Some rights reserved<br/>
+            Environmental Dasbhoard
         </footer>
     </xsl:template>
 
