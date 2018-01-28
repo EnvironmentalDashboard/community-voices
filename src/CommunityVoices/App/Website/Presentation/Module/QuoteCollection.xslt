@@ -3,7 +3,7 @@
 
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
 
-	<xsl:variable name="isManager" select="package/identity/user/role = 'manager' 
+	<xsl:variable name="isManager" select="package/identity/user/role = 'manager'
 		or package/identity/user/role = 'administrator'"/>
 
 	<xsl:template match="/package">
@@ -16,31 +16,33 @@
 
 					<li>
 
-						<a href= "quotes/{id}"/> 
+						<a href= "quotes/{id}"/>
 
-							<p> 
-								<xsl:value-of select='text' /> 
-								- 
+							<p>
+								<xsl:value-of select='text' />
+								-
 								<xsl:value-of select='attribution' />,
-								<xsl:value-of select='subAttribution' /> 
+								<xsl:value-of select='subAttribution' />
 							</p>
 
 						<a/>
 
 						<xsl:if test="$isManager">
 
-							Status: 
+							Status:
 							<xsl:value-of select='status' />
 
 						</xsl:if>
 
 					</li>
 
-				</xsl:if>			
+				</xsl:if>
 
 			</xsl:for-each>
 
 		</ul>
+
+		<a href="./quotes/new">Upload new quote!</a> 
 
 	</xsl:template>
 
