@@ -20,8 +20,9 @@
             </xsl:choose>
             <br/>
 
-            Password: <input type='password' name='password'/>
+            Password: <input type='password' name='password'/><br/>
 
+            Remember Me:
             <xsl:choose>
                 <xsl:when test="@remember-value &gt; 0">
                     <input type='checkbox' name='remember' checked='{@remember-value}'/>
@@ -29,7 +30,7 @@
                 <xsl:otherwise>
                     <input type='checkbox' name='remember' />
                 </xsl:otherwise>
-            </xsl:choose>
+            </xsl:choose><br/>
 
             <input type='submit'/>
         </form>
