@@ -25,6 +25,17 @@
             Sub-Attribution: <input type='text' name='subAttribution' /><br />
             Date Recorded: <input type='text' name='dateRecorded' /><br />
 
+            Approve:
+            <xsl:choose>
+              <xsl:when test="@approve-value &gt; 0">
+                  <input type='checkbox' name='approve' checked='{@approve-value}'/>
+              </xsl:when>
+              <xsl:otherwise>
+                  <input type='checkbox' name='approve' />
+              </xsl:otherwise>
+            </xsl:choose>
+            <br/>
+
             <input type='submit'/>
         </form>
     </xsl:template>

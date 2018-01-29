@@ -43,11 +43,10 @@ class Quote
         $attribution = $request->request->get('attribution');
         $subAttribution = $request->request->get('subAttribution');
         $dateRecorded = $request->request->get('dateRecorded');
-        $publicDocumentLink = $request->request->get('$publicDocumentLink');
-        $sourceDocumentLink = $request->request->get('$sourceDocumentLink');
+        $approved = $request->request->get('approved');
 
         $this->quoteManagement->upload($text, $attribution, $subAttribution,
-                        $dateRecorded, $publicDocumentLink, $sourceDocumentLink,
+                        $dateRecorded, $approved,
                         $identity);
     }
 }

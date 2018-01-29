@@ -36,7 +36,7 @@ class QuoteManagement
      * @return Boolean                     [description]
      */
     public function upload($text, $attribution, $subAttribution,
-                    $dateRecorded, $publicDocumentLink, $sourceDocumentLink,
+                    $dateRecorded, $approved,
                     $addedBy){
 
         /*
@@ -49,10 +49,12 @@ class QuoteManagement
         $quote->setAttribution($attribution);
         $quote->setSubAttribution($subAttribution);
         $quote->setDateRecorded($dateRecorded);
-        $quote->setPublicDocumentLink($publicDocumentLink);
-        $quote->setSourceDocumentLink($sourceDocumentLink);
         $quote->setAddedBy($addedBy);
-        $quote->setStatus(3);                                   // change later
+        if($approved){
+            $quote->setStatus(3);
+        } else {
+            $quote->setStatus(1);
+        }
 
         /*
          * Create error observer w/ appropriate subject and pass to validator
