@@ -9,8 +9,64 @@
 
     <html>
         <head>
-            <title> <xsl:value-of select="title" /> </title> 
+            <title> <xsl:value-of select="title" /> </title>
 
+            <style>
+
+                /* default styling */
+
+                body{
+                    font-size: 15px;
+                    font-family: "Lucida Grande", "Helvetica Nueue", Arial, sans-serif;
+                }
+                header{
+                    text-align: center;
+                    margin-bottom: 50px;
+                }
+                footer{
+                    text-align: right;
+                    background-color: #333;
+                    border: 1px solid #333;
+                    color: #fff;
+                    margin-top: 50px;
+                }
+
+                /* Navigation Bar */
+
+                nav {
+                    background-color: #333;
+                    border: 1px solid #333;
+                    color: #fff;
+                }
+                nav ul li{
+                    display: inline-block;
+                }
+                nav > ul > li > a {
+                    color: #aaa;
+                    line-height: 2em;
+                    padding: 0.5em 2em;
+                    text-decoration: none;
+                }
+
+                /* Submenus */
+
+                nav li > ul {
+                    display: none;
+                }
+                nav li > ul li a {
+                    color: #aaa;
+                    line-height: 2em;
+                    padding: 0.5em 2em;
+                    text-decoration: none;
+                }
+                nav li:hover > ul {
+                    position: absolute;
+                    background-color: #333;
+                    border: 5px solid #444;
+                    display: block;
+                }
+
+            </style>
             <base href="{baseUrl}"/>
         </head>
         <body>

@@ -4,21 +4,27 @@
     <xsl:template name="common-header">
         <header>
 
+          <h1>Community Voices</h1>
+
           <nav>
               <ul>
-                  <li><a href="http://localhost:8888/community-voices/">Home</a></li>
+                  <li><a href="http://localhost:8888/community-voices/landing">Home</a></li>
+                  <li><a href="http://localhost:8888/community-voices/slides">Slides</a></li>
+                  <li><a href="http://localhost:8888/community-voices/images">Images</a></li>
                   <li><a href="http://localhost:8888/community-voices/quotes">Quotes</a></li>
-                  <li>
                     <xsl:choose>
                         <xsl:when test="identity/user/id &gt; 0">
-                            Welcome, <xsl:value-of select="identity/user/firstName" />!
-                            <a href="http://localhost:8888/community-voices/logout">Logout</a>
+                            <li>
+                                Welcome, <xsl:value-of select="identity/user/firstName" />!
+                                <ul>
+                                    <li><a href="http://localhost:8888/community-voices/logout">Logout</a></li>
+                                </ul>
+                            </li>
                         </xsl:when>
                         <xsl:otherwise>
-                            <a href="http://localhost:8888/community-voices/login">Login</a>
+                            <li><a href="http://localhost:8888/community-voices/login">Login</a></li>
                         </xsl:otherwise>
                     </xsl:choose>
-                  </li>
               </ul>
           </nav>
         </header>
