@@ -10,6 +10,7 @@ use CommunityVoices\Model\Service;
 use CommunityVoices\App\Website\Component;
 use CommunityVoices\App\Website\Component\Presenter;
 use Symfony\Component\HttpFoundation;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class Identification extends Component\View
 {
@@ -26,7 +27,7 @@ class Identification extends Component\View
         $this->transcriber = $transcriber;
     }
 
-    public function getLogin()
+    public function getLogin($routes, $context)
     {
         $paramXML = new SimpleXMLElement('<form/>');
 
@@ -40,11 +41,18 @@ class Identification extends Component\View
         );
 
         /**
+         * Get base URL
+         */
+        $urlGenerator = new UrlGenerator($routes, $context);
+        $baseUrl = $urlGenerator->generate('root');
+
+        /**
          * Prepare template
          */
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', $formModuleXML);
+        $domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', 
             "Community Voices: Login"
         );
@@ -63,7 +71,7 @@ class Identification extends Component\View
     /**
      * User authenticaton
      */
-    public function postCredentials()
+    public function postCredentials($routes, $context)
     {
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
@@ -103,6 +111,13 @@ class Identification extends Component\View
             $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
         }
 
+        /**
+         * Get base URL
+         */
+        $urlGenerator = new UrlGenerator($routes, $context);
+        $baseUrl = $urlGenerator->generate('root');
+
+        $domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', 
             "Community Voices: Welcome"
         );
@@ -121,16 +136,23 @@ class Identification extends Component\View
         return $response;
     }
 
-    public function getLogout()
+    public function getLogout($routes, $context)
     {
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($identity->toArray())
         );
 
+        /**
+         * Get base URL
+         */
+        $urlGenerator = new UrlGenerator($routes, $context);
+        $baseUrl = $urlGenerator->generate('root');
+
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', '<p>Logged out.</p>');
+        $domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', 
             "Community Voices: Logout"
         );
