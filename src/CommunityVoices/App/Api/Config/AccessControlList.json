@@ -19,7 +19,7 @@
         ["CommunityVoices\\App\\Api\\Controller\\Quote::getQuoteUpload", {"allow" : "user"}],
         ["CommunityVoices\\App\\Api\\View\\Quote::getQuoteUpload", {"allow" : "user"}],
 
-        ["CommunityVoices\\App\\Api\\Controller\\Quote::postQuote", {"allow" : "user"}],
-        ["CommunityVoices\\App\\Api\\View\\Quote::postQuote", {"allow" : "user"}]
+        ["CommunityVoices\\App\\Api\\Controller\\Quote::postQuoteUpload", {"allow" : "user"}],
+        ["CommunityVoices\\App\\Api\\View\\Quote::postQuoteUpload", {"allow" : "user"}]
     ]
 }

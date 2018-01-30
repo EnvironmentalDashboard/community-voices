@@ -38,7 +38,7 @@ class Quote
 
     public function getQuoteUpload()
     {
-
+        // intentionally blank
     }
 
     public function postQuoteUpload($request)
@@ -46,6 +46,6 @@ class Quote
         $apiController = $this->secureContainer->contain($this->quoteAPIController);
         $identity = $this->recognitionAdapter->identify();
 
-        $apiController->postQuote($request, $identity);
+        $apiController->postQuoteUpload($request, $identity);
     }
 }
