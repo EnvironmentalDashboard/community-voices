@@ -20,6 +20,12 @@
         ["CommunityVoices\\App\\Api\\View\\Quote::getQuoteUpload", {"allow" : "user"}],
 
         ["CommunityVoices\\App\\Api\\Controller\\Quote::postQuoteUpload", {"allow" : "user"}],
-        ["CommunityVoices\\App\\Api\\View\\Quote::postQuoteUpload", {"allow" : "user"}]
+        ["CommunityVoices\\App\\Api\\View\\Quote::postQuoteUpload", {"allow" : "user"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Quote::getQuoteUpdate", {"allow" : "manager"}],
+        ["CommunityVoices\\App\\Api\\View\\Quote::getQuoteUpdate", {"allow" : "manager"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Quote::postQuoteUpdate", {"allow" : "manager"}],
+        ["CommunityVoices\\App\\Api\\View\\Quote::postQuoteUpdate", {"allow" : "manager"}]
     ]
 }
