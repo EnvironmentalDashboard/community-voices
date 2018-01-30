@@ -98,4 +98,60 @@ class QuoteManagement
 
     }
 
+    public function update($text, $attribution, $subAttribution,
+                    $dateRecorded, $status){
+
+        /*
+         * Create Quote entity and set attributes
+         */
+
+        $quote = new Entity\Quote;
+
+        $quote->setText($text);
+        $quote->setAttribution($attribution);
+        $quote->setSubAttribution($subAttribution);
+        $quote->setDateRecorded($dateRecorded);
+        $quote->setAddedBy($addedBy);
+        $quote->setStatus($status);
+
+        /*
+         * Create error observer w/ appropriate subject and pass to validator
+         */
+
+        $this->stateObserver->setSubject('quoteUpdate');
+        $isValid = $quote->validateForUpload($this->stateObserver);
+
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+
+        /*
+         * Stop the upload process and save errors to the application state. If
+         * there is no attribution, there is no point in continuing the upload process.
+         */
+
+       if (!$isValid && $this->stateObserver->hasEntry('attribution', $quote::ERR_ATTRIBUTION_REQUIRED))
+        {
+             $clientState->save($this->stateObserver);
+             return false;
+         }
+
+        $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
+
+        /*
+         * If there are any errors at this point, save the error state and stop
+         * the registration process
+         */
+
+        if ($this->stateObserver->hasEntries()) {
+            $clientState->save($this->stateObserver);
+            return false;
+        }
+
+        /*
+         * save $quote to database
+         */
+
+        $quoteMapper->update($quote);
+
+        return true;
+    }
 }

@@ -55,8 +55,15 @@ class Quote
         // intentionally blank
     }
 
-    public function postQuoteUpdate()
+    public function postQuoteUpdate($request)
     {
-        // @TODO
+      $text = $request->request->get('text');
+      $attribution = $request->request->get('attribution');
+      $subAttribution = $request->request->get('subAttribution');
+      $dateRecorded = $request->request->get('dateRecorded');
+      $status = $request->request->get('status');
+
+      $this->quoteManagement->update($text, $attribution, $subAttribution,
+                                  $dateRecorded, $status);
     }
 }

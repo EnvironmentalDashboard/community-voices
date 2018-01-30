@@ -58,6 +58,6 @@ class Quote
 
     public function postQuoteUpdate()
     {
-        // @TODO
+        // intentionally blank
     }
 }
