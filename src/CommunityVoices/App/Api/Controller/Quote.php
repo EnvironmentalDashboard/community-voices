@@ -50,9 +50,11 @@ class Quote
                         $identity);
     }
 
-    public function getQuoteUpdate()
+    public function getQuoteUpdate($request)
     {
-        // intentionally blank
+      $quoteId = $request->attributes->get('id');
+
+      $this->quoteLookup->findById($quoteId);
     }
 
     public function postQuoteUpdate($request)

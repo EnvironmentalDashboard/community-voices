@@ -8,22 +8,34 @@
             <p>Attribution missing.</p>
         </xsl:if>
 
-        <form action='./quotes/new/authenticate' method='post'>
+        <form method='post'>
+            <xsl:attribute name="action">./quotes/<xsl:value-of select="domain/quote/id"/>/edit/authenticate</xsl:attribute>
 
-            Quote: <input type='text' name='text' /><br />
+            Quote:
+            <input type='text' name='text'>
+                <xsl:attribute name="value"><xsl:value-of select="domain/quote/text"/></xsl:attribute>
+            </input><br />
 
             Attribution:
             <xsl:choose>
                 <xsl:when test='@text'>
-                    <input type='text' name='attribution' value='{@text}'/>
+                    <input type='text' name='attribution' value='{@text}' />
                 </xsl:when>
                 <xsl:otherwise>
-                    <input type='text' name='attribution' />
+                    <input type='text' name='attribution'>
+                        <xsl:attribute name="value"><xsl:value-of select="domain/quote/attribution"/></xsl:attribute>
+                    </input>
                 </xsl:otherwise>
             </xsl:choose><br />
 
-            Sub-Attribution: <input type='text' name='subAttribution' /><br />
-            Date Recorded: <input type='text' name='dateRecorded' /><br />
+            Sub-Attribution:
+            <input type='text' name='subAttribution'>
+                <xsl:attribute name="value"><xsl:value-of select="domain/quote/subAttribution"/></xsl:attribute>
+            </input><br />
+            Date Recorded:
+            <input type='text' name='dateRecorded'>
+                <xsl:attribute name="value"><xsl:value-of select="domain/quote/dateRecorded"/></xsl:attribute>
+            </input><br />
 
             Status: @TODO
             <input type='' name='status' /><br />

@@ -71,6 +71,8 @@ class Quote extends Component\View
         $quoteModule = new Component\Presenter('Module/Quote');
         $quoteModuleXML = $quoteModule->generate($quotePackageElement);
 
+        var_dump($quotePackageElement);
+
         /**
          * Get base URL
          */
@@ -253,7 +255,21 @@ class Quote extends Component\View
 
     public function getQuoteUpdate($routes, $context)
     {
-        $paramXML = new SimpleXMLElement('<form/>');
+        $paramXML = new Helper\SimpleXMLElementExtension('<form/>');
+
+        /**
+         * Gather quote information
+         */
+        $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
+
+        $quoteXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(json_decode(
+                $quoteAPIView->getQuote()->getContent()
+            ))
+        );
+
+        $packagedQuote = $paramXML->addChild('domain');
+        $packagedQuote->adopt($quoteXMLElement);
 
         $formModule = new Component\Presenter('Module/Form/QuoteUpdate');
         $formModuleXML = $formModule->generate($paramXML);
@@ -283,6 +299,8 @@ class Quote extends Component\View
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
+
+        // var_dump($domainIdentity);
 
         $presentation = new Component\Presenter('SinglePane');
 

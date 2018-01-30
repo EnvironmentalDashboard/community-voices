@@ -49,9 +49,11 @@ class Quote
         $apiController->postQuoteUpload($request, $identity);
     }
 
-    public function getQuoteUpdate()
+    public function getQuoteUpdate($request)
     {
-        // intentionally blank
+        $apiController = $this->secureContainer->contain($this->quoteAPIController);
+
+        $apiController->getQuote($request);
     }
 
     public function postQuoteUpdate($request)
