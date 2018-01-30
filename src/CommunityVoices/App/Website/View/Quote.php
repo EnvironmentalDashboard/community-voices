@@ -200,7 +200,7 @@ class Quote extends Component\View
         $domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild(
             'title',
-            "ommunity Voices: Quote Upload"
+            "Community Voices: Quote Upload"
         );
 
         $domainIdentity = $domainXMLElement->addChild('identity');
@@ -219,16 +219,23 @@ class Quote extends Component\View
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
           $this->transcriber->toXml($identity->toArray())
-      );
+        );
+
+        /**
+         * Get base URL
+         */
+        $urlGenerator = new UrlGenerator($routes, $context);
+        $baseUrl = $urlGenerator->generate('root');
 
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
+        $domainXMLElement->addChild('baseUrl', $baseUrl);
 
         $domainXMLElement->addChild(
           'title',
           "Community Voices"
-      );
+        );
 
         /**
          * Prepare template
