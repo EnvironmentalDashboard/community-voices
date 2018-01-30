@@ -32,6 +32,12 @@ class User extends Component\View
         );
 
         /**
+         * Get base URL
+         */
+        $urlGenerator = new UrlGenerator($routes, $context);
+        $baseUrl = $urlGenerator->generate('root');
+
+        /**
          * Prepare modules
          */
         $userModule = new Component\Presenter('Module/User');
@@ -43,7 +49,8 @@ class User extends Component\View
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', $userModuleXML);
-        $domainXMLElement->addChild('title', 
+        $domainXMLElement->addChild('baseUrl', $baseUrl);
+        $domainXMLElement->addChild('title',
             "Community Voices: ".
             $identityXMLElement->firstName.
             "'s Profile"
