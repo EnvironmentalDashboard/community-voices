@@ -150,7 +150,7 @@ class QuoteManagement
          * save $quote to database
          */
 
-        $quoteMapper->update($quote);
+        $quoteMapper->save($quote);
 
         return true;
     }
