@@ -3,7 +3,7 @@
 
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
 
-	<xsl:variable name="isManager" select="package/identity/user/role = 'manager' 
+	<xsl:variable name="isManager" select="package/identity/user/role = 'manager'
 		or package/identity/user/role = 'administrator'"/>
 
 		<xsl:template match="/package">
@@ -16,9 +16,9 @@
 
 					<h2> <xsl:value-of select='domain/quote/text' /> </h2>
 
-					<p> 
+					<p>
 						- <xsl:value-of select='domain/quote/attribution' />,
-						<xsl:value-of select='domain/quote/subAttribution' /> 
+						<xsl:value-of select='domain/quote/subAttribution' />
 					</p>
 
 				</div>
@@ -48,8 +48,16 @@
 						</p>
 
 						<p>
-							Status: 
+							Status:
 							<xsl:value-of select='domain/quote/status' />
+						</p>
+
+						<p>
+							Edit:
+							<a>
+			            <xsl:attribute name="href">./quotes/<xsl:value-of select='domain/quote/id'/>/edit</xsl:attribute>
+									xxx
+			        </a>
 						</p>
 
 					</xsl:if>
@@ -61,7 +69,7 @@
 			<xsl:otherwise>
 				Unauthorized Content
 			</xsl:otherwise>
-			
+
 		</xsl:choose>
 
 	</xsl:template>
