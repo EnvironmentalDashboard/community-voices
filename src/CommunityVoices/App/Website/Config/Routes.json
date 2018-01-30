@@ -84,5 +84,23 @@
             "resource": "Quote",
             "action": "getQuote"
         }
+    },
+
+    "getQuoteUpdate": {
+        "notation": "/quotes/{id}/edit",
+        "method": "get",
+        "defaults": {
+            "resource": "Quote",
+            "action": "getQuoteUpdate"
+        }
+    },
+
+    "postQuoteUpdate": {
+        "notation": "/quotes/{id}/edit/authenticate",
+        "method": "post",
+        "defaults": {
+            "resource": "Quote",
+            "action": "postQuoteUpdate"
+        }
     }
 }
