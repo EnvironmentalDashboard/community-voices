@@ -26,6 +26,12 @@
         ["CommunityVoices\\App\\Api\\View\\Quote::getQuoteUpdate", {"allow" : "manager"}],
 
         ["CommunityVoices\\App\\Api\\Controller\\Quote::postQuoteUpdate", {"allow" : "manager"}],
-        ["CommunityVoices\\App\\Api\\View\\Quote::postQuoteUpdate", {"allow" : "manager"}]
+        ["CommunityVoices\\App\\Api\\View\\Quote::postQuoteUpdate", {"allow" : "manager"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Image::getImage", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Image::getImage", {"allow" : "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Image::getAllImage", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Image::getAllImage", {"allow" : "guest"}]
     ]
 }

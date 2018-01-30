@@ -30,6 +30,10 @@
                     color: #fff;
                     margin-top: 50px;
                 }
+                img{
+                    width:800px;
+                    height:600px;
+                }
 
                 /* Navigation Bar */
 

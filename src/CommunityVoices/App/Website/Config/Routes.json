@@ -102,5 +102,23 @@
             "resource": "Quote",
             "action": "postQuoteUpdate"
         }
+    },
+
+    "getAllImage": {
+        "notation": "/images",
+        "method": "get",
+        "defaults": {
+            "resource": "Image",
+            "action": "getAllImage"
+        }
+    },
+
+    "getImage": {
+        "notation": "/images/{id}",
+        "method": "get",
+        "defaults": {
+            "resource": "Image",
+            "action": "getImage"
+        }
     }
 }
