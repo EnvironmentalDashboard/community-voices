@@ -59,7 +59,6 @@ class Quote
     public function postQuoteUpdate($request)
     {
         $apiController = $this->secureContainer->contain($this->quoteAPIController);
-        $identity = $this->recognitionAdapter->identify();
 
         $apiController->postQuoteUpdate($request);
     }

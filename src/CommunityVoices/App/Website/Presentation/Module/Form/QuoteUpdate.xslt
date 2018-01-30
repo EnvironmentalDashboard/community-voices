@@ -40,6 +40,10 @@
             Status: @TODO
             <input type='' name='status' /><br />
 
+            <input type='hidden' name='id'>
+                <xsl:attribute name="value"><xsl:value-of select="domain/quote/id"/></xsl:attribute>
+            </input>
+
             <input type='submit'/>
         </form>
     </xsl:template>

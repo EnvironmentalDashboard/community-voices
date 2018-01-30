@@ -98,20 +98,25 @@ class QuoteManagement
 
     }
 
-    public function update($text, $attribution, $subAttribution,
-                    $dateRecorded, $status){
+    public function update($id, $text, $attribution, $subAttribution,
+                    $dateRecorded, $status)
+        {
+
+        $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
 
         /*
          * Create Quote entity and set attributes
          */
 
         $quote = new Entity\Quote;
+        $quote->setId((int) $id);
+
+        $quoteMapper->fetch($quote);
 
         $quote->setText($text);
         $quote->setAttribution($attribution);
         $quote->setSubAttribution($subAttribution);
         $quote->setDateRecorded($dateRecorded);
-        $quote->setAddedBy($addedBy);
         $quote->setStatus($status);
 
         /*
@@ -133,8 +138,6 @@ class QuoteManagement
              $clientState->save($this->stateObserver);
              return false;
          }
-
-        $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
 
         /*
          * If there are any errors at this point, save the error state and stop

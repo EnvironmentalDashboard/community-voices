@@ -71,8 +71,6 @@ class Quote extends Component\View
         $quoteModule = new Component\Presenter('Module/Quote');
         $quoteModuleXML = $quoteModule->generate($quotePackageElement);
 
-        var_dump($quotePackageElement);
-
         /**
          * Get base URL
          */
