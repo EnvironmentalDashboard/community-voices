@@ -31,13 +31,13 @@ class Quote
     {
         $this->quoteLookup->findAll();
     }
-    
+
     public function getQuoteUpload()
     {
         // intentionally blank
     }
 
-    public function postQuote($request, $identity)
+    public function postQuoteUpload($request, $identity)
     {
         $text = $request->request->get('text');
         $attribution = $request->request->get('attribution');
@@ -48,5 +48,15 @@ class Quote
         $this->quoteManagement->upload($text, $attribution, $subAttribution,
                         $dateRecorded, $approved,
                         $identity);
+    }
+
+    public function getQuoteUpdate()
+    {
+        // intentionally blank
+    }
+
+    public function postQuoteUpdate()
+    {
+        // @TODO
     }
 }

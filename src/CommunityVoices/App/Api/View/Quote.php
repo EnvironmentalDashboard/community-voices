@@ -40,21 +40,24 @@ class Quote
 
         return $response;
     }
-    
+
     public function getQuoteUpload()
     {
         // intentionally blank
     }
 
-    public function postQuote()
+    public function postQuoteUpload()
     {
-        $clientStateMapper = $this->mapperFactory->createClientStateMapper();
-        $clientStateObserver = $clientStateMapper->retrieve();
+        // intentionally blank
+    }
 
-        $response = new Response(
-          !($clientStateObserver && $clientStateObserver->hasEntries())
-      );
+    public function getQuoteUpdate()
+    {
+        // intentionally blank
+    }
 
-        return $response;
+    public function postQuoteUpdate()
+    {
+        // @TODO
     }
 }
