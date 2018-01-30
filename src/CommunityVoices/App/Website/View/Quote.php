@@ -214,7 +214,7 @@ class Quote extends Component\View
         return $response;
     }
 
-    public function postQuoteUpload()
+    public function postQuoteUpload($routes, $context)
     {
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(

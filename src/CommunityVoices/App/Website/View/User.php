@@ -24,7 +24,7 @@ class User extends Component\View
         $this->transcriber = $transcriber;
     }
 
-    public function getProfile()
+    public function getProfile($routes, $context)
     {
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
