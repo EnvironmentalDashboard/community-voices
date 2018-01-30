@@ -28,10 +28,10 @@
             Approve:
             <xsl:choose>
               <xsl:when test="@approve-value &gt; 0">
-                  <input type='checkbox' name='approve' checked='{@approve-value}'/>
+                  <input type='checkbox' name='approved' checked='{@approve-value}'/>
               </xsl:when>
               <xsl:otherwise>
-                  <input type='checkbox' name='approve' />
+                  <input type='checkbox' name='approved' />
               </xsl:otherwise>
             </xsl:choose>
             <br/>
