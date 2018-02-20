@@ -7,7 +7,7 @@
 
         <form action='./images/new/authenticate' method='post'>
 
-            File: <input type='file' name='filename' /><br />
+            File: <input type='file' name='filename' accept=''.jpg, .jpeg, .png' /><br />
 
             Title: <input type='text' name='title' /><br />
             Description: <input type='text' name='description' /><br />
