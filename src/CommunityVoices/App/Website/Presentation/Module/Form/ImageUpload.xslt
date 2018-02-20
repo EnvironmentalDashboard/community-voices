@@ -5,7 +5,7 @@
 
     <xsl:template match="/form">
 
-        <form action='./images/new/authenticate' method='post'>
+        <form action='./images/new/authenticate' method='post' enctype='multipart/form-data'>
 
             File: <input type='file' name='filename' accept=''.jpg, .jpeg, .png' /><br />
 
