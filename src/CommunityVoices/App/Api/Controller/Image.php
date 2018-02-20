@@ -8,12 +8,14 @@ use CommunityVoices\Model\Service;
 class Image
 {
     protected $imageLookup;
-
+    protected $imageManagement;
 
     public function __construct(
-        Service\ImageLookup $imageLookup
-    ){
+        Service\ImageLookup $imageLookup,
+        Service\ImageManagement $imageManagement)
+    {
         $this->imageLookup = $imageLookup;
+        $this->imageManagement = $imageManagement;
     }
 
     /**
@@ -44,6 +46,8 @@ class Image
       $dateTaken = $request->request->get('dateTaken');
       $photographer = $request->request->get('photographer');
       $organization = $request->request->get('organization');
+
+      var_dump($file);
 
       $this->imageManagement->upload($file, $title, $description, $dateTaken,
                                       $photographer, $organization, $identity);
