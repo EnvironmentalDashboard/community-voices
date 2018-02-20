@@ -166,7 +166,7 @@ class Image extends Component\View
         return $response;
     }
 
-    public function getImageUpload()
+    public function getImageUpload($routes, $context)
     {
         // TODO: code here
         try {
@@ -215,7 +215,7 @@ class Image extends Component\View
         return $response;
     }
 
-    public function postImageUpload()
+    public function postImageUpload($routes, $context)
     {
         // TODO: code here
         $identity = $this->recognitionAdapter->identify();
