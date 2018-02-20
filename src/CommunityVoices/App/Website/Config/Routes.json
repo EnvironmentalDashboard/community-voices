@@ -123,7 +123,7 @@
     },
 
     "postImageUpload":{
-      "notation": "/images/new",
+      "notation": "/images/new/authenticate",
       "method": "post",
       "defaults": {
         "resource": "Image",
