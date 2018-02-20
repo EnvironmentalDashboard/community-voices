@@ -35,4 +35,17 @@ class Image
 
         $apiController->getAllImage($request);
     }
+
+    public function getImageUpload()
+    {
+        // Intentionally blank
+    }
+
+    public function postImageUpload()
+    {
+      $apiController = $this->secureContainer->contain($this->imageAPIController);
+      $identity = $this->recognitionAdapter->identify();
+
+      $apiController->postImageUpload($request, $identity);
+    }
 }
