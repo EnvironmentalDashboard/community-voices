@@ -30,4 +30,22 @@ class Image
     {
         $this->imageLookup->findAll();
     }
+
+    public function getImageUpload()
+    {
+        // intentionally blank
+    }
+
+    public function postImageUpload($request, $identity)
+    {
+      $file = $request->request->get('filename'); // what do we do with this here??
+      $title = $request->request->get('title');
+      $description = $request->request->get('description');
+      $dateTaken = $request->request->get('dateTaken');
+      $photographer = $request->request->get('photographer');
+      $organization = $request->request->get('organization');
+
+      $this->imageManagement->upload($file, $title, $description, $dateTaken,
+                                      $photographer, $organization, $identity);
+    }
 }

@@ -40,4 +40,14 @@ class Image
 
         return $response;
     }
+
+    public function getImageUpload()
+    {
+        // intentionally blank
+    }
+
+    public function postImageUpload()
+    {
+        // intentionally blank
+    }
 }
