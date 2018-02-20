@@ -113,6 +113,24 @@
         }
     },
 
+    "getImageUpload": {
+      "notation": "/images/new",
+      "method": "get",
+      "defaults": {
+          "resource": "Image",
+          "action": "getImageUpload"
+      }
+    },
+
+    "postImageUpload":{
+      "notation": "/images/new",
+      "method": "post",
+      "defaults": {
+        "resource": "Image",
+        "action": "postImageUpload"
+      }
+    },
+
     "getImage": {
         "notation": "/images/{id}",
         "method": "get",
