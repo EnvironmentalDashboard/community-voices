@@ -32,6 +32,12 @@
         ["CommunityVoices\\App\\Api\\View\\Image::getImage", {"allow" : "guest"}],
 
         ["CommunityVoices\\App\\Api\\Controller\\Image::getAllImage", {"allow" : "guest"}],
-        ["CommunityVoices\\App\\Api\\View\\Image::getAllImage", {"allow" : "guest"}]
+        ["CommunityVoices\\App\\Api\\View\\Image::getAllImage", {"allow" : "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Image::getImageUpload", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Image::getImageUpload", {"allow" : "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Image::postImageUpload", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Image::postImageUpload", {"allow" : "guest"}]
     ]
 }
