@@ -168,7 +168,6 @@ class Image extends Component\View
 
     public function getImageUpload($routes, $context)
     {
-        // TODO: code here
         try {
             $imageAPIView = $this->secureContainer->contain($this->imageAPIView);
             $imageAPIView->getImageUpload();
@@ -217,7 +216,6 @@ class Image extends Component\View
 
     public function postImageUpload($routes, $context)
     {
-        // TODO: code here
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
           $this->transcriber->toXml($identity->toArray())
