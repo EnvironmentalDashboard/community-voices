@@ -73,12 +73,18 @@ class QuoteLookup
     public function findAll(int[] $creatorIDs=NULL)
     {
         $quoteCollection = new Entity\QuoteCollection;
-
-        // read creators
+ 
+        // add creators by creator IDs
         foreach ($creatorIDs as $userID){
+            // initialize User object
             $quoteCollection->creators[$userID] = new Entity\User;
             $quoteCollection->creators[$userID]->setId($userID);
-            // not valid User
+
+            // map this new User
+            $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
+            $userMapper->fetch($user);
+
+            // remove invalid User
             if (!$quoteCollection->creators[$userID]->getId()) {
                 unset($quoteCollection->creators[$userID]);
             }
@@ -87,48 +93,17 @@ class QuoteLookup
         $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
         $quoteCollectionMapper->fetch($quoteCollection);
 
-        $this->stateObserver->setSubject('quoteFindAll');
-        $this->stateObserver->addEntry('quoteCollection', $quoteCollection);
-
-        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
-        $clientState->save($this->stateObserver);
-    }
-
-    /**
-     * Find quotes by creator
-     *
-     * @param ID of user who added the quotes $creator
-     *
-     * @throws CommunityVoices\Model\Exception\IdentityNotFound
-     *
-     * @return CommunityVoices\Model\Entity\QuoteCollection
-     */
-    public function findByCreator(int $creator)
-    {
-        $quoteCollection = new Entity\QuoteCollection;
-
-        // instantiate and map data to new User entity
-        $user = new Entity\User;
-        $user->setId($creator);
-
-        $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
-        $userMapper->fetch($user);
-
-        // no valid User
-        if (!$user->getId()) {
-            throw new Exception\IdentityNotFound;
-        }
-
-        $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
         // map data
         // check whether collection empty, do something
 
         // do we really want to grab all tag collections ???
         // if we choose not to, we can make a different toArray() method
 
-        // stateObserver stuff
+        $this->stateObserver->setSubject('quoteFindAll');
+        $this->stateObserver->addEntry('quoteCollection', $quoteCollection);
 
-        // clientState stuff
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($this->stateObserver);
     }
 
     /**
