@@ -19,6 +19,8 @@ class MediaCollection extends Collection
 
     protected $mediaType;
 
+    public $creators;
+
     /**
      * @codeCoverageIgnore
      */

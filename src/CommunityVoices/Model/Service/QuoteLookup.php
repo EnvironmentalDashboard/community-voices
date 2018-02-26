@@ -66,16 +66,27 @@ class QuoteLookup
     /**
      * Grab all the quotes
      *
+     * @param $creatorIDs IDs of user who added the quotes
+     *
      * @return CommunityVoices\Model\Entity\QuoteCollection
      */
-    public function findAll()
+    public function findAll(int[] $creatorIDs=NULL)
     {
         $quoteCollection = new Entity\QuoteCollection;
+
+        // read creators
+        foreach ($creatorIDs as $userID){
+            $quoteCollection->creators[$userID] = new Entity\User;
+            $quoteCollection->creators[$userID]->setId($userID);
+            // not valid User
+            if (!$quoteCollection->creators[$userID]->getId()) {
+                unset($quoteCollection->creators[$userID]);
+            }
+        }
 
         $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
         $quoteCollectionMapper->fetch($quoteCollection);
 
-        // I am uncertain about this
         $this->stateObserver->setSubject('quoteFindAll');
         $this->stateObserver->addEntry('quoteCollection', $quoteCollection);
 

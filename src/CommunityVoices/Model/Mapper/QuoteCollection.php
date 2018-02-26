@@ -9,6 +9,7 @@ use CommunityVoices\Model\Entity;
 
 class QuoteCollection extends DataMapper
 {
+
     public function fetch(Entity\QuoteCollection $quoteCollection)
     {
         return $this->fetchAll($quoteCollection);
@@ -33,7 +34,8 @@ class QuoteCollection extends DataMapper
 					INNER JOIN
 						`community-voices_quotes` quote
 						ON media.id = quote.media_id
-				 ";
+				 "
+				 . $this->query_creators($quoteCollection->creators);
 
         $statement = $this->conn->prepare($query);
 
@@ -44,5 +46,20 @@ class QuoteCollection extends DataMapper
         foreach ($results as $key => $entry) {
             $quoteCollection->addEntityFromParams($entry);
         }
+    }
+
+    // quote_creators is a collection of User object
+    private function query_creators ( $quote_creators)
+    {
+    	if (($quote_creators === NULL) || empty($quote_creators)) {
+    		return "";
+    	} else {
+    		$toRet = " WHERE ";
+    		foreach ($quote_creators as $creator){
+    			$toRet .= (" media.added_by " . " = " . $creator.getID() . " OR");
+    		}
+    		$toRet = rtrim($toRet, "OR");
+    		return $toRet;
+    	}	
     }
 }

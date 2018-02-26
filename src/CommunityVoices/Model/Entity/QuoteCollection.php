@@ -4,7 +4,6 @@ namespace CommunityVoices\Model\Entity;
 
 class QuoteCollection extends MediaCollection
 {
-
     public function __construct(){
         $this->mediaType = self::MEDIA_TYPE_QUOTE;
     }
