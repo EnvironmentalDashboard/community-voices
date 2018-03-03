@@ -30,7 +30,9 @@ class Quote
 
     public function getAllQuote($request)
     {
-        $this->quoteLookup->findAll();
+        $creatorIDs = $request->attributes->get('creatorIDs');
+
+        $this->quoteLookup->findAll($creatorIDs);
     }
 
     public function getQuoteUpload()
