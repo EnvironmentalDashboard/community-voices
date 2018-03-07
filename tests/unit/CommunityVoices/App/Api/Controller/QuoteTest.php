@@ -3,6 +3,7 @@
 namespace CommunityVoices\App\Api\Controller;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Request;
 
 class QuoteTest extends TestCase
 {
@@ -15,18 +16,27 @@ class QuoteTest extends TestCase
       $publicDocumentLink = '';
       $sourceDocumentLink = '';
 
-      $requestBuilder = new \Fracture\Http\RequestBuilder;
+      //$requestBuilder = new \Fracture\Http\RequestBuilder;
 
-      $request = $requestBuilder->create([
-          'get' => [
+      // $request = $requestBuilder->create([
+      //     'get' => [
+      //         'text' => $text,
+      //         'attribution' => $attribution,
+      //         'subAttribution' => $subAttribution,
+      //         'dateRecorded' => $dateRecorded,
+      //         'publicDocumentLink' => $publicDocumentLink,
+      //         'sourceDocumentLink' => $sourceDocumentLink
+      //     ]
+      // ]);
+
+      $request = new Request($query = [
               'text' => $text,
               'attribution' => $attribution,
               'subAttribution' => $subAttribution,
               'dateRecorded' => $dateRecorded,
               'publicDocumentLink' => $publicDocumentLink,
               'sourceDocumentLink' => $sourceDocumentLink
-          ]
-      ]);
+          ]);
 
       $quoteUpload = $this->createMock(Service\QuoteUpload::class);
 
@@ -43,5 +53,29 @@ class QuoteTest extends TestCase
       $quoteController = new Quote($quoteUpload);
 
       $quoteController->postQuote($request);
+  }
+
+  public function test_Get_All_Quote() 
+  {
+      $creatorIDs = [1, 3];
+
+      $request = new Request($query = ['creatorIDs' => $creatorIDs]);
+
+      // $request = $requestBuilder->create([
+      //     'get' => [
+      //         'creatorIDs' => $creatorIDs
+      //     ]
+      // ]);
+
+      $getAllQuote = $this->createMock(Service\QuoteLookup::class);
+
+      $getAllQuote
+          ->expects($this->once())
+          ->method('findAll')
+          ->with($this->equalTo($creatorIDs));
+
+      $quoteController = new Quote($getAllQuote);
+
+      $quoteController->getAllQuote($request);
   }
 }
