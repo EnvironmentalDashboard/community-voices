@@ -4,6 +4,7 @@ namespace CommunityVoices\App\Api\Controller;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
+use CommunityVoices\Model\Service;
 
 class QuoteTest extends TestCase
 {
@@ -25,18 +26,18 @@ class QuoteTest extends TestCase
               'sourceDocumentLink' => $sourceDocumentLink
           ]);
 
-        $quoteUpload = $this->createMock(Service\QuoteUpload::class);
+        $quoteUpload = $this->createMock(Service\QuoteManagement::class);
 
         $quoteUpload
           ->expects($this->once())
           ->method('newQuote')
           ->with(
               $this->equalTo($text),
-                  $this->equalTo($attribution),
-                  $this->equalTo($subAttribution),
-                  $this->equalTo($dateRecorded),
-                  $this->equalTo($publicDocumentLink),
-                  $this->equalTo($sourceDocumentLink)
+              $this->equalTo($attribution),
+              $this->equalTo($subAttribution),
+              $this->equalTo($dateRecorded),
+              $this->equalTo($publicDocumentLink),
+              $this->equalTo($sourceDocumentLink)
           );
 
         $quoteController = new Quote($quoteUpload);
