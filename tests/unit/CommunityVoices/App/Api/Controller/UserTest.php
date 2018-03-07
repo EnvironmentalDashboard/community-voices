@@ -4,6 +4,7 @@ namespace CommunityVoices\App\Api\Controller;
 
 use PHPUnit\Framework\TestCase;
 use CommunityVoices\Model\Service;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @covers CommunityVoices\App\Api\Controller\User
@@ -16,28 +17,38 @@ class UserTest extends TestCase
         $password = $confirmPassword = 'fooblah123';
         $firstName = $lastName = "Doe";
 
-        $requestBuilder = new \Fracture\Http\RequestBuilder;
-
-        $request = $requestBuilder->create([
-            'get' => [
+        $request = new Request($query = [
                 'email' => $email,
                 'password' => $password,
                 'confirmPassword' => $confirmPassword,
                 'firstName' => $firstName,
                 'lastName' => $lastName
-            ]
-        ]);
+            ]);
+
+        // $requestBuilder = new \Fracture\Http\RequestBuilder;
+
+        // $request = $requestBuilder->create([
+        //     'get' => [
+        //         'email' => $email,
+        //         'password' => $password,
+        //         'confirmPassword' => $confirmPassword,
+        //         'firstName' => $firstName,
+        //         'lastName' => $lastName
+        //     ]
+        // ]);
 
         $registrationService = $this->createMock(Service\Registration::class);
 
         $registrationService
             ->expects($this->once())
             ->method('createUser')
-            ->with($this->equalTo($email),
-                    $this->equalTo($password),
-                    $this->equalTo($confirmPassword),
-                    $this->equalTo($firstName),
-                    $this->equalTo($lastName));
+            ->with(
+                $this->equalTo($email),
+                $this->equalTo($password),
+                $this->equalTo($confirmPassword),
+                $this->equalTo($firstName),
+                $this->equalTo($lastName)
+            );
 
         $userController = new User($registrationService);
 

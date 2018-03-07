@@ -7,29 +7,16 @@ use Symfony\Component\HttpFoundation\Request;
 
 class QuoteTest extends TestCase
 {
-  public function test_Post_Quote_Upload() 
-  {
-      $text = 'I always close my eyes when I pee!';
-      $attribution = 'Lars Dreith';
-      $subAttribution = 'Oberlin College 2020';
-      $dateRecorded = 'January 24th, 2018';
-      $publicDocumentLink = '';
-      $sourceDocumentLink = '';
+    public function test_Post_Quote_Upload()
+    {
+        $text = 'I always close my eyes when I ...';
+        $attribution = 'Lars Dreith';
+        $subAttribution = 'Oberlin College 2020';
+        $dateRecorded = 'January 24th, 2018';
+        $publicDocumentLink = '';
+        $sourceDocumentLink = '';
 
-      //$requestBuilder = new \Fracture\Http\RequestBuilder;
-
-      // $request = $requestBuilder->create([
-      //     'get' => [
-      //         'text' => $text,
-      //         'attribution' => $attribution,
-      //         'subAttribution' => $subAttribution,
-      //         'dateRecorded' => $dateRecorded,
-      //         'publicDocumentLink' => $publicDocumentLink,
-      //         'sourceDocumentLink' => $sourceDocumentLink
-      //     ]
-      // ]);
-
-      $request = new Request($query = [
+        $request = new Request($query = [
               'text' => $text,
               'attribution' => $attribution,
               'subAttribution' => $subAttribution,
@@ -38,44 +25,40 @@ class QuoteTest extends TestCase
               'sourceDocumentLink' => $sourceDocumentLink
           ]);
 
-      $quoteUpload = $this->createMock(Service\QuoteUpload::class);
+        $quoteUpload = $this->createMock(Service\QuoteUpload::class);
 
-      $quoteUpload
+        $quoteUpload
           ->expects($this->once())
           ->method('newQuote')
-          ->with($this->equalTo($text),
+          ->with(
+              $this->equalTo($text),
                   $this->equalTo($attribution),
                   $this->equalTo($subAttribution),
                   $this->equalTo($dateRecorded),
                   $this->equalTo($publicDocumentLink),
-                  $this->equalTo($sourceDocumentLink));
+                  $this->equalTo($sourceDocumentLink)
+          );
 
-      $quoteController = new Quote($quoteUpload);
+        $quoteController = new Quote($quoteUpload);
 
-      $quoteController->postQuote($request);
-  }
+        $quoteController->postQuote($request);
+    }
 
-  public function test_Get_All_Quote() 
-  {
-      $creatorIDs = [1, 3];
+    public function test_Get_All_Quote()
+    {
+        $creatorIDs = [1, 3];
 
-      $request = new Request($query = ['creatorIDs' => $creatorIDs]);
+        $request = new Request($query = ['creatorIDs' => $creatorIDs]);
 
-      // $request = $requestBuilder->create([
-      //     'get' => [
-      //         'creatorIDs' => $creatorIDs
-      //     ]
-      // ]);
+        $getAllQuote = $this->createMock(Service\QuoteLookup::class);
 
-      $getAllQuote = $this->createMock(Service\QuoteLookup::class);
-
-      $getAllQuote
+        $getAllQuote
           ->expects($this->once())
           ->method('findAll')
           ->with($this->equalTo($creatorIDs));
 
-      $quoteController = new Quote($getAllQuote);
+        $quoteController = new Quote($getAllQuote);
 
-      $quoteController->getAllQuote($request);
-  }
+        $quoteController->getAllQuote($request);
+    }
 }
