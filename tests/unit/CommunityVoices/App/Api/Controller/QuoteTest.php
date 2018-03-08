@@ -30,7 +30,7 @@ class QuoteTest extends TestCase
 
         $quoteUpload
           ->expects($this->once())
-          ->method('newQuote')
+          ->method('newQuote') // something need to be fixed here
           ->with(
               $this->equalTo($text),
               $this->equalTo($attribution),
@@ -40,7 +40,7 @@ class QuoteTest extends TestCase
               $this->equalTo($sourceDocumentLink)
           );
 
-        $quoteController = new Quote($quoteUpload);
+        $quoteController = new Quote(null, $quoteUpload);
 
         $quoteController->postQuote($request);
     }
@@ -51,14 +51,15 @@ class QuoteTest extends TestCase
 
         $request = new Request($query = ['creatorIDs' => $creatorIDs]);
 
-        $getAllQuote = $this->createMock(Service\QuoteLookup::class);
+        $quoteLookup = $this->createMock(Service\QuoteLookup::class);
+        $quoteManagement = $this->createMock(Service\QuoteManagement::class);
 
-        $getAllQuote
+        $quoteLookup
           ->expects($this->once())
           ->method('findAll')
           ->with($this->equalTo($creatorIDs));
 
-        $quoteController = new Quote($getAllQuote);
+        $quoteController = new Quote($quoteLookup, $quoteManagement);
 
         $quoteController->getAllQuote($request);
     }
