@@ -14,8 +14,9 @@
 
 					<p> image <xsl:value-of select='domain/image/id' /> </p>
 
-					<img>
+					<img style="width:500px;height:600px;">
 							<xsl:attribute name="src"><xsl:value-of select='domain/image/filename' /></xsl:attribute>
+							<xsl:attribute name="alt"><xsl:value-of select='domain/image/title' /></xsl:attribute>
 					</img>
 
 					<p>
