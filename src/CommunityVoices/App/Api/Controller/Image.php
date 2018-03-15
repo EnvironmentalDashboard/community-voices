@@ -40,16 +40,16 @@ class Image
 
     public function postImageUpload($request, $identity)
     {
-      $file = $request->request->get('filename'); // what do we do with this here??
+      $file = $request->files->get('file');
       $title = $request->request->get('title');
       $description = $request->request->get('description');
       $dateTaken = $request->request->get('dateTaken');
       $photographer = $request->request->get('photographer');
       $organization = $request->request->get('organization');
-
-      var_dump($file);
+      $approved = $request->request->get('approved');
 
       $this->imageManagement->upload($file, $title, $description, $dateTaken,
-                                      $photographer, $organization, $identity);
+                                      $photographer, $organization, $identity,
+                                      $approved);
     }
 }

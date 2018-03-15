@@ -25,6 +25,10 @@ class ImageManagement
         $this->stateObserver = $stateObserver;
     }
 
+    private function generateUniqueFileName(){
+      return md5(uniqid());
+    }
+
     /**
      * Uploads a new Image to the database
      * @param  [type] $file         [description]
@@ -37,7 +41,7 @@ class ImageManagement
      * @return [type]               [description]
      */
     public function upload($file, $title, $description, $dateTaken,
-                            $photographer, $organization, $addedBy)
+                            $photographer, $organization, $addedBy, $approved)
         {
 
         /*
@@ -46,8 +50,12 @@ class ImageManagement
 
         $image = new Entity\Image;
 
-        // TODO: process the file
+        $target_dir = "../../../../CV_uploads/images/";
+        $fileName = $this->generateUniqueFileName() . "." . $file->guessExtension();
 
+        $file->move($target_dir, $fileName);
+
+        $image->setFileName($target_dir . $fileName);
         $image->setTitle($title);
         $image->setDescription($description);
         $image->setDateTaken($dateTaken);

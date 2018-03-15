@@ -108,13 +108,13 @@ class Image extends Media
         ])];
     }
 
-    /*
-
-    @TODO implementation must be thought through
-
-    public function validateForUpload(StatusObserver $stateObserver)
+    public function validateForUpload(FlexibleObserver $stateObserver)
     {
         $isValid = true;
+
+        // add cases where it wouldn't be valid!!
+
+        return $isValid;
     }
-    */
+
 }
