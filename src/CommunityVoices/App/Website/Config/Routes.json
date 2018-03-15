@@ -8,6 +8,15 @@
         }
     },
 
+    "landing": {
+        "notation": "/landing",
+        "method": "get",
+        "defaults": {
+            "resource": "Landing",
+            "action": "getLanding"
+        }
+    },
+
     "getLogin": {
         "notation": "/login",
         "method": "get",
