@@ -2,7 +2,10 @@
     "root": {
         "notation": "/",
         "method": "get",
-        "defaults": {}
+        "defaults": {
+            "resource": "Landing",
+            "action": "getLanding"
+        }
     },
 
     "getLogin": {
