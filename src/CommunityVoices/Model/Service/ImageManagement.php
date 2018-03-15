@@ -50,7 +50,7 @@ class ImageManagement
 
         $image = new Entity\Image;
 
-        $target_dir = "../../../../CV_uploads/images/";
+        $target_dir = "../../../../CV_Media/images/";
         $fileName = $this->generateUniqueFileName() . "." . $file->guessExtension();
 
         $file->move($target_dir, $fileName);
