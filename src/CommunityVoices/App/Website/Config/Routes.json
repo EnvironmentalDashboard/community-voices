@@ -62,6 +62,15 @@
         }
     },
 
+    "getSlide": {
+        "notation": "/slides/{id}",
+        "method": "get",
+        "defaults": {
+            "resource": "Slide",
+            "action": "getSlide"
+        }
+    },
+
     "getAllQuote": {
         "notation": "/quotes",
         "method": "get",
