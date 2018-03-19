@@ -70,23 +70,25 @@ class QuoteLookup
      *
      * @return CommunityVoices\Model\Entity\QuoteCollection
      */
-    public function findAll($creatorIDs=NULL)
+    public function findAll($creatorIDs = [])
     {
         $quoteCollection = new Entity\QuoteCollection;
  
-        // add creators by creator IDs
-        foreach ($creatorIDs as $userID){
-            // initialize User object
-            $quoteCollection->creators[$userID] = new Entity\User;
-            $quoteCollection->creators[$userID]->setId($userID);
+        if (! empty($creatorIDs)) {
+            // add creators by creator IDs
+            foreach ($creatorIDs as $userID) {
+                // initialize User object
+                $quoteCollection->creators[$userID] = new Entity\User;
+                $quoteCollection->creators[$userID]->setId($userID);
 
-            // map this new User
-            $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
-            $userMapper->fetch($user);
+                // map this new User
+                $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
+                $userMapper->fetch($user);
 
-            // remove invalid User
-            if (!$quoteCollection->creators[$userID]->getId()) {
-                unset($quoteCollection->creators[$userID]);
+                // remove invalid User
+                if (!$quoteCollection->creators[$userID]->getId()) {
+                    unset($quoteCollection->creators[$userID]);
+                }
             }
         }
 
