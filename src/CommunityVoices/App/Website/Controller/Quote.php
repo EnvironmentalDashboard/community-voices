@@ -33,6 +33,9 @@ class Quote
     {
         $apiController = $this->secureContainer->contain($this->quoteAPIController);
 
+        // see more error by uncomment this line
+        // $request->attributes->set('creatorIDs', [1]);
+
         $apiController->getAllQuote($request);
     }
 

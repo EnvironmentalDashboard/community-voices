@@ -56,7 +56,8 @@ class QuoteCollection extends DataMapper
     	} else {
     		$toRet = " WHERE ";
     		foreach ($quote_creators as $creator){
-    			$toRet .= (" media.added_by " . " = " . $creator.getID() . " OR");
+                $creator_ID = $creator.getID();
+    			$toRet .= (" media.added_by " . " = " . $creator_ID . " OR");
     		}
     		$toRet = rtrim($toRet, "OR");
     		return $toRet;
