@@ -74,23 +74,25 @@ class QuoteLookup
     {
         $quoteCollection = new Entity\QuoteCollection;
  
-        // add creators by creator IDs
+        // Validate creator IDs
         if (! empty($creatorIDs)) {
             foreach ($creatorIDs as $userID) {
-                // initialize User object
-                $quoteCollection->creators[$userID] = new Entity\User;
-                $quoteCollection->creators[$userID]->setId($userID);
+                // initialize User objects
+                $user = new Entity\User;
+                $user->setId($userID);
 
                 // map this new User
                 $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
-                $userMapper->fetch($quoteCollection->creators[$userID]);
+                $userMapper->fetch($user);
 
-                // remove invalid User
-                if (!$quoteCollection->creators[$userID]->getId()) {
+                // remove invalid User @TODO
+                if (!$user->getId()) {
                     unset($quoteCollection->creators[$userID]);
                 }
             }
         }
+
+        $quoteCollection->creators = $creatorIDs;
 
         $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
         $quoteCollectionMapper->fetch($quoteCollection);

@@ -33,8 +33,8 @@ class Quote
     {
         $apiController = $this->secureContainer->contain($this->quoteAPIController);
 
-        // see more error by uncomment this line
-        // $request->attributes->set('creatorIDs', [1]);
+        // example of looking up only quotes uploaded by certain users
+        // $request->attributes->set('creatorIDs', [1, 3 ,4 ,5 ,6]);
 
         $apiController->getAllQuote($request);
     }
