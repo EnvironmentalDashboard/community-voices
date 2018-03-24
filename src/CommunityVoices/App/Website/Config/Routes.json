@@ -57,7 +57,7 @@
         "notation": "/register",
         "method": "get",
         "defaults": {
-            "resources": "Identification",
+            "resource": "User",
             "action": "getRegistration"
         }
     },
@@ -66,7 +66,7 @@
         "notation": "/register/authenticate",
         "method": "get",
         "defaults": {
-            "resources": "Identification",
+            "resource": "User",
             "action": "postRegistration"
         }
     },
