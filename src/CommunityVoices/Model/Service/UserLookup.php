@@ -50,12 +50,6 @@ class UserLookup
             throw new Exception\IdentityNotFound;
         }
 
-        $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
-        $userMapper->fetch($user->getAddedBy());
-
-        $groupCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
-        $groupCollectionMapper->fetch($user->getTagCollection());
-
         $this->stateObserver->setSubject('userLookup');
         $this->stateObserver->addEntry('user', $user);
 
