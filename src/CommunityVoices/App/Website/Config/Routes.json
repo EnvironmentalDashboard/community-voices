@@ -64,7 +64,7 @@
 
     "postRegistration": {
         "notation": "/register/authenticate",
-        "method": "get",
+        "method": "post",
         "defaults": {
             "resource": "User",
             "action": "postRegistration"
