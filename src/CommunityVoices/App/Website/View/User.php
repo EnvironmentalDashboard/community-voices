@@ -75,4 +75,86 @@ class User extends Component\View
         $this->finalize($response);
         return $response;
     }
+
+    public function getRegistration($routes, $context)
+    {
+        $paramXML = new SimpleXMLElement('<form/>');
+
+        $formModule = new Component\Presenter('Module/Form/Register');
+        $formModuleXML = $formModule->generate($paramXML);
+
+        /* Gather identity information */
+        $identity = $this->recognitionAdapter->identify();
+        $identityXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($identity->toArray())
+        );
+
+        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
+
+        /**
+         * Get base URL
+         */
+        $urlGenerator = new UrlGenerator($routes, $context);
+        $baseUrl = $urlGenerator->generate('root');
+
+        $domainXMLElement->addChild('main-pane', $formModuleXML);
+        $domainXMLElement->addChild('baseUrl', $baseUrl);
+        $domainXMLElement->addChild('title',
+            "Community Voices: Register"
+        );
+
+        /**
+         * Prepare template
+         */
+        $domainIdentity = $domainXMLElement->addChild('identity');
+        $domainIdentity->adopt($identityXMLElement);
+
+        $presentation = new Component\Presenter('SinglePane');
+
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
+
+        $this->finalize($response);
+        return $response;
+    }
+
+    public function postRegistration($routes, $context)
+    {
+        /* Gather identity information */
+        $identity = $this->recognitionAdapter->identify();
+        $identityXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($identity->toArray())
+        );
+
+        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
+
+        if( !$identity->getId() ){
+            // @TODO
+        } else {
+            $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
+        }
+
+        /**
+         * Get base URL
+         */
+        $urlGenerator = new UrlGenerator($routes, $context);
+        $baseUrl = $urlGenerator->generate('root');
+
+        $domainXMLElement->addChild('baseUrl', $baseUrl);
+        $domainXMLElement->addChild('title',
+            "Community Voices: Welcome"
+        );
+
+        /**
+         * Prepare template
+         */
+        $domainIdentity = $domainXMLElement->addChild('identity');
+        $domainIdentity->adopt($identityXMLElement);
+
+        $presentation = new Component\Presenter('SinglePane');
+
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
+
+        $this->finalize($response);
+        return $response;
+    }
 }

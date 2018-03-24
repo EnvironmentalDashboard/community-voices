@@ -27,11 +27,23 @@ class User
 
     public function getProfile($request)
     {
-      $apiController = $this->secureContainer->contain($this->userAPIController);
-      $apiController->getUser($request);
+        $apiController = $this->secureContainer->contain($this->userAPIController);
+        $apiController->getUser($request);
     }
 
     public function getProtectedPage($request)
+    {
+        $apiController = $this->secureContainer->contain($this->userAPIController);
+
+        $apiController->postUser($request);
+    }
+
+    public function getRegistration($request)
+    {
+        // Intentionally Empty
+    }
+
+    public function postRegistration($request)
     {
         $apiController = $this->secureContainer->contain($this->userAPIController);
 
