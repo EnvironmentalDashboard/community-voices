@@ -21,14 +21,14 @@ class User
         Api\Component\SecureContainer $secureContainer
     ) {
         $this->recognitionAdapter = $recognitionAdapter;
-
         $this->userAPIController = $userAPIController;
-
         $this->secureContainer = $secureContainer;
     }
 
     public function getProfile($request)
     {
+      $apiController = $this->secureContainer->contain($this->userAPIController);
+      $apiController->getUser($request);
     }
 
     public function getProtectedPage($request)
