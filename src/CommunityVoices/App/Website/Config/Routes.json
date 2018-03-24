@@ -17,6 +17,15 @@
         }
     },
 
+    "getProtectedPage": {
+        "notation": "/protected",
+        "method": "get",
+        "defaults": {
+            "resource": "User",
+            "action": "getProtectedPage"
+        }
+    },
+
     "getLogin": {
         "notation": "/login",
         "method": "get",
@@ -50,15 +59,6 @@
         "defaults": {
             "resource": "User",
             "action": "getProfile"
-        }
-    },
-
-    "getProtectedPage": {
-        "notation": "/protected",
-        "method": "get",
-        "defaults": {
-            "resource": "User",
-            "action": "getProtectedPage"
         }
     },
 
@@ -134,6 +134,15 @@
         }
     },
 
+    "getImage": {
+        "notation": "/images/{id}",
+        "method": "get",
+        "defaults": {
+            "resource": "Image",
+            "action": "getImage"
+        }
+    },
+
     "getImageUpload": {
       "notation": "/images/new",
       "method": "get",
@@ -150,14 +159,5 @@
         "resource": "Image",
         "action": "postImageUpload"
       }
-    },
-
-    "getImage": {
-        "notation": "/images/{id}",
-        "method": "get",
-        "defaults": {
-            "resource": "Image",
-            "action": "getImage"
-        }
     }
 }
