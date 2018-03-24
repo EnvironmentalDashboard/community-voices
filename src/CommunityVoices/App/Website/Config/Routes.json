@@ -53,6 +53,24 @@
         }
     },
 
+    "getRegistration": {
+        "notation": "/register",
+        "method": "get",
+        "defaults": {
+            "resources": "User",
+            "action": "getRegistration"
+        }
+    },
+
+    "postRegistration": {
+        "notation": "/register/authenticate",
+        "method": "get",
+        "defaults": {
+            "resources": "User",
+            "action": "postRegistration"
+        }
+    },
+
     "getProfile": {
         "notation": "/user/{id}",
         "method": "get",
