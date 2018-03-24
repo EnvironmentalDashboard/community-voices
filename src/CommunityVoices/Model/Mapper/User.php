@@ -119,7 +119,7 @@ class User extends DataMapper
 
         $statement->execute();
 
-        $user->setId($this->conn->lastInsertId());
+        $user->setId((int) $this->conn->lastInsertId());
     }
 
     private function update(Entity\User $user)
