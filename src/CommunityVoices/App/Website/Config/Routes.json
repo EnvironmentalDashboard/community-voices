@@ -45,7 +45,7 @@
     },
 
     "getProfile": {
-        "notation": "/user/me",
+        "notation": "/user/{id}",
         "method": "get",
         "defaults": {
             "resource": "User",

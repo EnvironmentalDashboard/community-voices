@@ -19,7 +19,10 @@
                                 <ul>
                                     <li><a href="{baseUrl}logout">Logout</a></li>
                                     <li>
-                                      <a href="{baseUrl}user/me">View Account</a>
+                                      <a>
+                                        <xsl:attribute name="href">user/<xsl:value-of select="identity/user/id" /></xsl:attribute>
+                                        View Account
+                                      </a>
                                     </li>
                                 </ul>
                             </li>
