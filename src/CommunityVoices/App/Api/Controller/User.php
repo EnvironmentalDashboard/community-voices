@@ -37,7 +37,7 @@ class User
 
     public function getUser($request)
     {
-      var_dump($request);
+      $userId = $request->attributes->get('id');
 
       $this->userLookup->findById($userId);
     }

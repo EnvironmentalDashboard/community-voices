@@ -9,6 +9,7 @@ use \XSLTProcessor;
 use CommunityVoices\Model\Service;
 use CommunityVoices\App\Website\Component;
 use Symfony\Component\HttpFoundation;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class User extends Component\View
 {
