@@ -18,11 +18,15 @@
                                 Welcome, <xsl:value-of select="identity/user/firstName" />!
                                 <ul>
                                     <li><a href="{baseUrl}logout">Logout</a></li>
+                                    <li>
+                                      <a href="{baseUrl}user/me">View Account</a>
+                                    </li>
                                 </ul>
                             </li>
                         </xsl:when>
                         <xsl:otherwise>
                             <li><a href="{baseUrl}login">Login</a></li>
+                            <li><a href="{baseUrl}register">Register</a></li>
                         </xsl:otherwise>
                     </xsl:choose>
               </ul>
