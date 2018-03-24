@@ -33,6 +33,9 @@ class Quote
     {
         $apiController = $this->secureContainer->contain($this->quoteAPIController);
 
+        // example of looking up only quotes uploaded by certain users
+        // $request->attributes->set('creatorIDs', [1, 3 ,4 ,5 ,6]);
+
         $apiController->getAllQuote($request);
     }
 
