@@ -7,10 +7,17 @@ use CommunityVoices\Model\Service;
 class User
 {
     protected $registrationService;
+    protected $userLookup;
+    protected $userManagement;
 
-    public function __construct(Service\Registration $registrationService)
-    {
+    public function __construct(
+        Service\Registration $registrationService,
+        Service\UserLookup $userLookup //,
+        // Service\UserManagement $userManagement
+    ){
         $this->registrationService = $registrationService;
+        $this->userLookup = $userLookup;
+        //$this->userLookup = $userManagement;
     }
 
     /**
@@ -26,5 +33,12 @@ class User
 
         $this->registrationService->createUser($email, $password, $confirmPassword,
             $firstName, $lastName);
+    }
+
+    public function getUser($request)
+    {
+      var_dump($request);
+
+      $this->userLookup->findById($userId);
     }
 }
