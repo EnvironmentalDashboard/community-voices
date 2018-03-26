@@ -34,6 +34,8 @@ class QuoteCollection extends DataMapper
 					INNER JOIN
 						`community-voices_quotes` quote
 						ON media.id = quote.media_id
+          WHERE
+            media.status ='approved'
 				 "
 				 . $this->query_creators($quoteCollection->creators);
 
@@ -60,6 +62,6 @@ class QuoteCollection extends DataMapper
     		}
     		$toRet = rtrim($toRet, "OR");
     		return $toRet;
-    	}	
+    	}
     }
 }
