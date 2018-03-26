@@ -30,6 +30,25 @@ class SlideLookup
     }
 
     /**
+     * Grab all the slides
+     *
+     * @return CommunityVoices\Model\Entity\SlideCollection
+     */
+    public function findAll()
+    {
+        $slideCollection = new Entity\SlideCollection;
+
+        $slideCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\SlideCollection::class);
+        $slideCollectionMapper->fetch($slideCollection);
+
+        $this->stateObserver->setSubject('slideFindAll');
+        $this->stateObserver->addEntry('slideCollection', $slideCollection);
+
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($this->stateObserver);
+    }
+
+    /**
      * Lookup slide by id
      *
      * @param  int $slideId

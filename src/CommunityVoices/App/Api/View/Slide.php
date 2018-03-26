@@ -15,6 +15,19 @@ class Slide
         $this->mapperFactory = $mapperFactory;
     }
 
+    public function getAllSlides()
+    {
+        $clientState = $this->mapperFactory->createClientStateMapper();
+        $stateObserver = $clientState->retrieve();
+
+        $stateObserver->setSubject('slideFindAll');
+        $slideCollection = $stateObserver->getEntry('slideCollection')[0];
+
+        $response = new HttpFoundation\JsonResponse($slideCollection->toArray());
+
+        return $response;
+    }
+
     public function getSlide()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();

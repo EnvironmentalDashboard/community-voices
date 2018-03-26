@@ -32,6 +32,11 @@ class Slide extends Component\View
         $this->slideAPIView = $slideAPIView;
     }
 
+    public function getAllSlides($routes, $context)
+    {
+        // @TODO
+    }
+
     public function getSlide($routes, $context)
     {
         /**

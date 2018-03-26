@@ -22,6 +22,13 @@ class Slide
         $this->secureContainer = $secureContainer;
     }
 
+    public function getAllSlides($request)
+    {
+        $apiController = $this->secureContainer->contain($this->slideAPIController);
+
+        $apiController->getSlides($request);
+    }
+
     public function getSlide($request)
     {
         $apiController = $this->secureContainer->contain($this->slideAPIController);

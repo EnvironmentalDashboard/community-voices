@@ -18,6 +18,10 @@ class Slide
         // $this->slideManagement = $slideManagement;
     }
 
+    public function getAllSlides($request){
+        $this->slideLookup->findAll();
+    }
+
     /**
      * Slide lookup by id
      */

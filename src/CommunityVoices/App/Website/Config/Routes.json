@@ -80,6 +80,15 @@
         }
     },
 
+    "getAllSlide": {
+        "notation": "/slides",
+        "method": "get",
+        "defaults": {
+            "resource": "Slide",
+            "action": "getAllSlides"
+        }
+    },
+
     "getSlide": {
         "notation": "/slides/{id}",
         "method": "get",
