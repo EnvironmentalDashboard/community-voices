@@ -35,10 +35,8 @@ class QuoteCollection extends DataMapper
 						ON media.id = quote.media_id
 		          	WHERE 1
 		         "
-		         . $this->query_status($quoteCollection->status)
-                 . $this->query_creators($quoteCollection->creators);
-
-        var_dump($this->query_status($quoteCollection->status));
+		         . $this->query_prep($quoteCollection->status, "media.status")
+                 . $this->query_prep($quoteCollection->creators, "media.added_by");
 
         $statement = $this->conn->prepare($query);
 
@@ -51,32 +49,19 @@ class QuoteCollection extends DataMapper
         }
     }
 
-    // quote_creators is a collection of status
-    private function query_status($quote_status)
+    // query prepare (turn array into query)
+    // $seq is the array
+    // $type is the name of the field in database
+    private function query_prep($seq, $type)
     {
-        if (($quote_status == null) || empty($quote_status)) {
+        if ($seq == null) {
             return "";
         } else {
             $toRet = array_map(
-            	function($x) {return " media.status='" . $x."'";},
-             	$quote_status);
+            	function($x) use ($type) {return $type . "='" . $x ."'";},
+             	$seq);
             $toRet = implode(" OR ",$toRet);
             return " AND " . $toRet;
-        }
-    }
-
-    // quote_creators is a collection of User object
-    private function query_creators($quote_creators)
-    {
-        if (($quote_creators == null) || empty($quote_creators)) {
-            return "";
-        } else {
-            $toRet = " AND ";
-            foreach ($quote_creators as $creator) {
-                $toRet .= (" media.added_by " . " = " . $creator . " OR");
-            }
-            $toRet = rtrim($toRet, "OR");
-            return $toRet;
         }
     }
 }
