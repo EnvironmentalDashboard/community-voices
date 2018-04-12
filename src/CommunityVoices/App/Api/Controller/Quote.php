@@ -33,7 +33,7 @@ class Quote
         $creatorIDs = $request->attributes->get('creatorIDs');
 
         $status = $request->attributes->get('status');
-        $status = ($status == Null) ? "approved" : $status;
+        $status = ($status == Null) ? ["approved"] : $status;
 
         $this->quoteLookup->findAll($creatorIDs, $status);
     }

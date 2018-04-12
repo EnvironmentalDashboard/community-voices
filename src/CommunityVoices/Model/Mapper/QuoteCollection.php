@@ -33,14 +33,14 @@ class QuoteCollection extends DataMapper
 					INNER JOIN
 						`community-voices_quotes` quote
 						ON media.id = quote.media_id
-		          	WHERE
-		            	media.status = :status
-				 "
+		          	WHERE 1
+		         "
+		         . $this->query_status($quoteCollection->status)
                  . $this->query_creators($quoteCollection->creators);
 
-        $statement = $this->conn->prepare($query);
+        var_dump($this->query_status($quoteCollection->status));
 
-        $statement->bindValue(':status', $quoteCollection->status);
+        $statement = $this->conn->prepare($query);
 
         $statement->execute();
 
@@ -51,10 +51,24 @@ class QuoteCollection extends DataMapper
         }
     }
 
+    // quote_creators is a collection of status
+    private function query_status($quote_status)
+    {
+        if (($quote_status == null) || empty($quote_status)) {
+            return "";
+        } else {
+            $toRet = array_map(
+            	function($x) {return " media.status='" . $x."'";},
+             	$quote_status);
+            $toRet = implode(" OR ",$toRet);
+            return " AND " . $toRet;
+        }
+    }
+
     // quote_creators is a collection of User object
     private function query_creators($quote_creators)
     {
-        if (($quote_creators === null) || empty($quote_creators)) {
+        if (($quote_creators == null) || empty($quote_creators)) {
             return "";
         } else {
             $toRet = " AND ";

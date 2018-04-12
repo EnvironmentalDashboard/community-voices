@@ -37,7 +37,7 @@ class Quote
         // $request->attributes->set('creatorIDs', [1, 3 ,4 ,5 ,6]);
 
         // [example] filter by status
-        // $request->attributes->set('status', 'pending');
+        // $request->attributes->set('status', ['rejected', 'pending']);
 
         $apiController->getAllQuote($request);
     }
