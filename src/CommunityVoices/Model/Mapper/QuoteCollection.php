@@ -57,7 +57,7 @@ class QuoteCollection extends DataMapper
         if (($quote_creators === null) || empty($quote_creators)) {
             return "";
         } else {
-            $toRet = " WHERE ";
+            $toRet = " AND ";
             foreach ($quote_creators as $creator) {
                 $toRet .= (" media.added_by " . " = " . $creator . " OR");
             }

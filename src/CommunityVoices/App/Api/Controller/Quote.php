@@ -32,7 +32,10 @@ class Quote
     {
         $creatorIDs = $request->attributes->get('creatorIDs');
 
-        $this->quoteLookup->findAll($creatorIDs);
+        $status = $request->attributes->get('status');
+        $status = ($status == Null) ? "approved" : $status;
+
+        $this->quoteLookup->findAll($creatorIDs, $status);
     }
 
     public function getQuoteUpload()
