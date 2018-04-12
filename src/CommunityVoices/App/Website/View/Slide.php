@@ -34,7 +34,94 @@ class Slide extends Component\View
 
     public function getAllSlides($routes, $context)
     {
-        // @TODO
+        /**
+         * Gather identity information
+         */
+        $identity = $this->recognitionAdapter->identify();
+
+        $identityXMLElement = new SimpleXMLElement(
+          $this->transcriber->toXml($identity->toArray())
+      );
+
+        /**
+         * Gather slide information
+         */
+        $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
+
+        $slideXMLElement = new SimpleXMLElement(
+          $this->transcriber->toXml(json_decode(
+              $slideAPIView->getSlide()->getContent()
+          ))
+      );
+
+        /**
+         * Slide XML Package
+         */
+        $slidePackageElement = new Helper\SimpleXMLElementExtension('<package/>');
+
+        $packagedSlide = $slidePackageElement->addChild('domain');
+        $packagedSlide->adopt($slideXMLElement);
+
+        $packagedIdentity = $slidePackageElement->addChild('identity');
+        $packagedIdentity->adopt($identityXMLElement);
+
+        /**
+         * Generate slide module
+         */
+        $slideModule = new Component\Presenter('Module/SlideCollection');
+        $slideModuleXML = $slideModule->generate($slidePackageElement);
+
+        /**
+         * Get base URL
+         */
+        $urlGenerator = new UrlGenerator($routes, $context);
+        $baseUrl = $urlGenerator->generate('root');
+
+        /**
+         * Slide XML Package
+         */
+        $slidePackageElement = new Helper\SimpleXMLElementExtension('<package/>');
+
+        $packagedSlide = $slidePackageElement->addChild('domain');
+        $packagedSlide->adopt($slideXMLElement);
+
+        $packagedIdentity = $slidePackageElement->addChild('identity');
+        $packagedIdentity->adopt($identityXMLElement);
+
+        /**
+         * Generate slide module
+         */
+        $slideModule = new Component\Presenter('Module/Slide');
+        $slideModuleXML = $slideModule->generate($slidePackageElement);
+
+        /**
+         * Get base URL
+         */
+        $urlGenerator = new UrlGenerator($routes, $context);
+        $baseUrl = $urlGenerator->generate('root');
+
+        /**
+         * Prepare template
+         */
+        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
+
+        $domainXMLElement->addChild('main-pane', $slideModuleXML);
+        $domainXMLElement->addChild('baseUrl', $baseUrl);
+        $domainXMLElement->addChild(
+            'title',
+            "Community Voices: All Slides".
+            $slideXMLElement->id
+        );
+
+        $domainIdentity = $domainXMLElement->addChild('identity');
+        $domainIdentity->adopt($identityXMLElement);
+
+        $presentation = new Component\Presenter('SinglePane');
+
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
+
+        $this->finalize($response);
+        return $response;
     }
 
     public function getSlide($routes, $context)
