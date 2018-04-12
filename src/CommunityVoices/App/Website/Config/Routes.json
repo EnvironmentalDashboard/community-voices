@@ -161,15 +161,6 @@
         }
     },
 
-    "getImage": {
-        "notation": "/images/{id}",
-        "method": "get",
-        "defaults": {
-            "resource": "Image",
-            "action": "getImage"
-        }
-    },
-
     "getImageUpload": {
       "notation": "/images/new",
       "method": "get",
@@ -177,6 +168,15 @@
           "resource": "Image",
           "action": "getImageUpload"
       }
+    },
+
+    "getImage": {
+        "notation": "/images/{id}",
+        "method": "get",
+        "defaults": {
+            "resource": "Image",
+            "action": "getImage"
+        }
     },
 
     "postImageUpload":{
