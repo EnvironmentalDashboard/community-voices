@@ -70,7 +70,7 @@ class QuoteLookup
      *
      * @return CommunityVoices\Model\Entity\QuoteCollection
      */
-    public function findAll($creatorIDs = [])
+    public function findAll($creatorIDs = [], $status="approved")
     {
         $quoteCollection = new Entity\QuoteCollection;
  
@@ -94,7 +94,10 @@ class QuoteLookup
             }
         }
 
-        $quoteCollection->creators = $valid_creatorIDs;
+        //var_dump($valid_creatorIDs);
+
+        $quoteCollection->creators = $creatorIDs;
+        $quoteCollection->status = $status;
 
         $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
         $quoteCollectionMapper->fetch($quoteCollection);
