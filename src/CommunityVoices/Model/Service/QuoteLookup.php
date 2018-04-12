@@ -70,7 +70,7 @@ class QuoteLookup
      *
      * @return CommunityVoices\Model\Entity\QuoteCollection
      */
-    public function findAll($creatorIDs = [], $status="approved")
+    public function findAll($creatorIDs = [], $status=["approved"])
     {
         $quoteCollection = new Entity\QuoteCollection;
  
@@ -151,36 +151,4 @@ class QuoteLookup
 
         // clientState stuff
     }
-
-    // we are considering doing this in a another way ...
-    // /**
-    //  * Find quotes by status (pending, rejected, approved)
-    //  *
-    //  * @param  quote status $status
-    //  *
-    //  * @throws CommunityVoices\Model\Exception\InvalidStatus
-    //  *
-    //  * @return CommunityVoices\Model\Entity\QuoteCollection
-    //  */
-    // public function findByStatus(int $status)
-    // {
-    //     $quoteCollection = new Entity\QuoteCollection;
-
-    //     // invalid Status
-    //     if (!in_array($status, Entity\Media->allowableStatus)){
-    //         throw new Exception/InvalidStatus;
-    //     }
-
-    //      $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
-    //     // map data
-    //     // check whether collection empty, do something
-
-
-    //     // do we really want to grab all tag collections ???
-    //     // if we choose not to, we can make a different toArray() method
-
-    //     // stateObserver stuff
-
-    //     // clientState stuff
-    // }
 }
