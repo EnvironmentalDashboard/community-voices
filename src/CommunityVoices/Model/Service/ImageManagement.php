@@ -25,8 +25,9 @@ class ImageManagement
         $this->stateObserver = $stateObserver;
     }
 
-    private function generateUniqueFileName(){
-      return md5(uniqid());
+    private function generateUniqueFileName()
+    {
+        return md5(uniqid());
     }
 
     /**
@@ -40,9 +41,16 @@ class ImageManagement
      * @param  [type] $identity     [description]
      * @return [type]               [description]
      */
-    public function upload($file, $title, $description, $dateTaken,
-                            $photographer, $organization, $addedBy, $approved)
-        {
+    public function upload(
+        $file,
+        $title,
+        $description,
+        $dateTaken,
+        $photographer,
+        $organization,
+        $addedBy,
+        $approved
+    ) {
 
         /*
          * Create image entity and set attributes
@@ -63,7 +71,7 @@ class ImageManagement
         $image->setOrganization($organization);
         $image->setAddedBy($addedBy);
 
-        if($approved){
+        if ($approved) {
             $image->setStatus(3);
         } else {
             $image->setStatus(1);
@@ -83,11 +91,10 @@ class ImageManagement
          * there is no attribution, there is no point in continuing the upload process.
          */
 
-       if (!$isValid && $this->stateObserver->hasEntry('attribution', $image::ERR_ATTRIBUTION_REQUIRED))
-        {
-             $clientState->save($this->stateObserver);
-             return false;
-         }
+        if (!$isValid && $this->stateObserver->hasEntry('attribution', $image::ERR_ATTRIBUTION_REQUIRED)) {
+            $clientState->save($this->stateObserver);
+            return false;
+        }
 
         $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
 
@@ -108,13 +115,16 @@ class ImageManagement
         $imageMapper->save($image);
 
         return true;
-
     }
 
-    public function update($id, $text, $attribution, $subAttribution,
-                    $dateRecorded, $status)
-        {
-
+    public function update(
+        $id,
+        $text,
+        $attribution,
+        $subAttribution,
+        $dateRecorded,
+        $status
+    ) {
         $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
 
         /*
@@ -146,11 +156,10 @@ class ImageManagement
          * there is no attribution, there is no point in continuing the upload process.
          */
 
-       if (!$isValid && $this->stateObserver->hasEntry('attribution', $image::ERR_ATTRIBUTION_REQUIRED))
-        {
-             $clientState->save($this->stateObserver);
-             return false;
-         }
+        if (!$isValid && $this->stateObserver->hasEntry('attribution', $image::ERR_ATTRIBUTION_REQUIRED)) {
+            $clientState->save($this->stateObserver);
+            return false;
+        }
 
         /*
          * If there are any errors at this point, save the error state and stop

@@ -11,14 +11,20 @@ class Slide
     protected $slideManagement;
 
     public function __construct(
-        Service\SlideLookup $slideLookup// ,
-        // Service\SlideManagement $slideManagement
-    ){
+        Service\SlideLookup $slideLookup,
+        Service\SlideManagement $slideManagement
+    ) {
         $this->slideLookup = $slideLookup;
-        // $this->slideManagement = $slideManagement;
+        $this->slideManagement = $slideManagement;
     }
 
-    public function getAllSlides($request){
+    /**
+     * Grabs all slides from databbase
+     * @param  Request $request A request from the client's machine
+     * @return SlideCollection  A collection of all slides in the database
+     */
+    public function getAllSlides($request)
+    {
         $this->slideLookup->findAll();
     }
 

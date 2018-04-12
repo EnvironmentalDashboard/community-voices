@@ -12,8 +12,8 @@ class Image
 
     public function __construct(
         Service\ImageLookup $imageLookup,
-        Service\ImageManagement $imageManagement)
-    {
+        Service\ImageManagement $imageManagement
+    ) {
         $this->imageLookup = $imageLookup;
         $this->imageManagement = $imageManagement;
     }
@@ -25,7 +25,7 @@ class Image
     {
         $imageId = $request->attributes->get('id');
 
-        $this->imageLookup->findById($imageId);
+        $this->imageLookup->findById((int) $imageId);
     }
 
     public function getAllImage($request)
@@ -40,16 +40,23 @@ class Image
 
     public function postImageUpload($request, $identity)
     {
-      $file = $request->files->get('file');
-      $title = $request->request->get('title');
-      $description = $request->request->get('description');
-      $dateTaken = $request->request->get('dateTaken');
-      $photographer = $request->request->get('photographer');
-      $organization = $request->request->get('organization');
-      $approved = $request->request->get('approved');
+        $file = $request->files->get('file');
+        $title = $request->request->get('title');
+        $description = $request->request->get('description');
+        $dateTaken = $request->request->get('dateTaken');
+        $photographer = $request->request->get('photographer');
+        $organization = $request->request->get('organization');
+        $approved = $request->request->get('approved');
 
-      $this->imageManagement->upload($file, $title, $description, $dateTaken,
-                                      $photographer, $organization, $identity,
-                                      $approved);
+        $this->imageManagement->upload(
+          $file,
+          $title,
+          $description,
+          $dateTaken,
+          $photographer,
+          $organization,
+          $identity,
+          $approved
+      );
     }
 }
