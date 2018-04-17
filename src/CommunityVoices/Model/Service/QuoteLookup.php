@@ -70,7 +70,7 @@ class QuoteLookup
      *
      * @return CommunityVoices\Model\Entity\QuoteCollection
      */
-    public function findAll($creatorIDs = [], $status=["approved"])
+    public function findAll($creatorIDs=[], $status=[])
     {
         $quoteCollection = new Entity\QuoteCollection;
  

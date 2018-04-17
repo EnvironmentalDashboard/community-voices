@@ -39,7 +39,9 @@ class Quote
         // [example] filter by status
         // $request->attributes->set('status', ['rejected', 'pending']);
 
-        $apiController->getAllQuote($request);
+        $identity = $this->recognitionAdapter->identify();
+
+        $apiController->getAllQuote($request, $identity);
     }
 
     public function getQuoteUpload()

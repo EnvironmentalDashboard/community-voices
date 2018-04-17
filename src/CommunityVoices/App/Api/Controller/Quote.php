@@ -28,12 +28,15 @@ class Quote
         $this->quoteLookup->findById($quoteId);
     }
 
-    public function getAllQuote($request)
+    public function getAllQuote($request, $identity)
     {
         $creatorIDs = $request->attributes->get('creatorIDs');
-
         $status = $request->attributes->get('status');
-        $status = ($status == Null) ? ["approved"] : $status;
+
+        $status = ($status == Null) ? ["approved","pending","rejected"] : $status;
+        if($identity->getRole() <= 2){
+          $status = ["approved"];
+        }
 
         $this->quoteLookup->findAll($creatorIDs, $status);
     }
