@@ -53,6 +53,10 @@ class Quote
         $subAttribution = $request->request->get('subAttribution');
         $dateRecorded = $request->request->get('dateRecorded');
         $approved = $request->request->get('approved');
+        
+        if($identity->getRole() <= 2){
+          $approved = null;
+        }
 
         $this->quoteManagement->upload($text, $attribution, $subAttribution,
                         $dateRecorded, $approved,
