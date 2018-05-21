@@ -1,3 +1,4 @@
+use community_voices;
 /**
  * Addding default Content Categories
  */

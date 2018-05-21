@@ -1,4 +1,11 @@
 /**
+ * Create database
+ */
+CREATE DATABASE IF NOT EXISTS community_voices;
+use community_voices;
+
+
+/**
  * Table skeletons
  */
 
