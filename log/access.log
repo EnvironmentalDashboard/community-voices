@@ -1,0 +1,6 @@
+[2018-06-05 02:02:21] name.NOTICE: identity not found {"input":{"email":"tim@example.com"}} []
+[2018-06-05 02:04:51] name.NOTICE: identity not found {"input":{"email":"tim@example.com"}} []
+[2018-06-05 02:05:21] name.NOTICE: identity not found {"input":{"email":"tim@example.com"}} []
+[2018-06-06 00:26:47] name.INFO: new email identity registered {"user":{"account":1,"identity":1}} []
+[2018-06-06 00:26:47] name.INFO: identity verified {"input":{"token":null},"user":{"account":1,"identity":1}} []
+[2018-06-06 00:27:51] name.INFO: login successful {"input":{"email":"tim@example.com"},"user":{"account":1,"identity":1}} []

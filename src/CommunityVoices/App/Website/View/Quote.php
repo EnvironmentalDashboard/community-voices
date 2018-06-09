@@ -172,7 +172,7 @@ class Quote extends Component\View
             $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
             $quoteAPIView->getQuoteUpload();
         } catch (Exception $e) {
-            echo $e-getMessage();
+            echo $e->getMessage();
             return;
         }
         $paramXML = new SimpleXMLElement('<form/>');

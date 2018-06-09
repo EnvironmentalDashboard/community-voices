@@ -84,6 +84,7 @@ class Registration
          */
         if ($this->stateObserver->hasEntries()) {
             $clientState->save($this->stateObserver);
+            // var_dump($this->stateObserver->getEntriesBySubject('registration')); // NEED TO DISPLAY ERROR TO USER
             return false;
         }
 
