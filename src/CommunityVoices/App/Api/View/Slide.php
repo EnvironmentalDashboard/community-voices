@@ -15,7 +15,7 @@ class Slide
         $this->mapperFactory = $mapperFactory;
     }
 
-    public function getAllSlides()
+    public function getAllSlide()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();

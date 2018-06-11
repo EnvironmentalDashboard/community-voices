@@ -13,6 +13,9 @@
         ["CommunityVoices\\App\\Api\\Controller\\Slide::getSlide", {"allow" : "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Slide::getSlide", {"allow" : "guest"}],
 
+        ["CommunityVoices\\App\\Api\\Controller\\Slide::getAllSlide", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Slide::getAllSlide", {"allow" : "guest"}],
+
         ["CommunityVoices\\App\\Api\\Controller\\Quote::getQuote", {"allow" : "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Quote::getQuote", {"allow" : "guest"}],
 

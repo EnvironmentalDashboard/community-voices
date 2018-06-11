@@ -59,7 +59,7 @@ class SlideLookup
      */
     public function findById(int $slideId)
     {
-        slide = new Entity\Slide;
+        $slide = new Entity\Slide;
         $slide->setId($slideId);
 
         $slideMapper = $this->mapperFactory->createDataMapper(Mapper\Slide::class);

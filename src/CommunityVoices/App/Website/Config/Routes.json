@@ -85,7 +85,7 @@
         "method": "get",
         "defaults": {
             "resource": "Slide",
-            "action": "getAllSlides"
+            "action": "getAllSlide"
         }
     },
 

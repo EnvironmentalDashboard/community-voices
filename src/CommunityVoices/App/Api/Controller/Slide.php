@@ -23,7 +23,7 @@ class Slide
      * @param  Request $request A request from the client's machine
      * @return SlideCollection  A collection of all slides in the database
      */
-    public function getAllSlides($request)
+    public function getAllSlide($request)
     {
         $this->slideLookup->findAll();
     }
@@ -37,4 +37,5 @@ class Slide
 
         $this->slideLookup->findById($slideId);
     }
+
 }

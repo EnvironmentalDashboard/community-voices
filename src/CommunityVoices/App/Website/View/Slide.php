@@ -32,7 +32,7 @@ class Slide extends Component\View
         $this->slideAPIView = $slideAPIView;
     }
 
-    public function getAllSlides($routes, $context)
+    public function getAllSlide($routes, $context)
     {
         /**
          * Gather identity information
@@ -50,7 +50,7 @@ class Slide extends Component\View
 
         $slideXMLElement = new SimpleXMLElement(
           $this->transcriber->toXml(json_decode(
-              $slideAPIView->getSlide()->getContent()
+              $slideAPIView->getAllSlide()->getContent()
           ))
       );
 
