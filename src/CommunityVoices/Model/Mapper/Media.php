@@ -124,7 +124,7 @@ class Media extends DataMapper
 
         $statement = $this->conn->prepare($query);
 
-        $now = time();
+        $now = date('Y-m-d');
 
         $statement->bindValue(':added_by', $media->getAddedBy()->getId());
         $statement->bindValue(':date_created', $now);
