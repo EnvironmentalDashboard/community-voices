@@ -11,76 +11,44 @@
         <head>
             <title> <xsl:value-of select="title" /> </title>
 
-            <style>
-
-                /* default styling */
-
-                body{
-                    font-size: 15px;
-                    font-family: "Lucida Grande", "Helvetica Nueue", Arial, sans-serif;
-                }
-                header{
-                    text-align: center;
-                    margin-bottom: 50px;
-                }
-                footer{
-                    text-align: right;
-                    background-color: #333;
-                    border: 1px solid #333;
-                    color: #fff;
-                    margin-top: 50px;
-                }
-                img{
-                    width:800px;
-                    height:600px;
-                }
-
-                /* Navigation Bar */
-
-                nav {
-                    background-color: #333;
-                    border: 1px solid #333;
-                    color: #fff;
-                }
-                nav ul li{
-                    display: inline-block;
-                }
-                nav > ul > li > a {
-                    color: #aaa;
-                    line-height: 2em;
-                    padding: 0.5em 2em;
-                    text-decoration: none;
-                }
-
-                /* Submenus */
-
-                nav li > ul {
-                    display: none;
-                }
-                nav li > ul li a {
-                    color: #aaa;
-                    line-height: 2em;
-                    padding: 0.5em 2em;
-                    text-decoration: none;
-                }
-                nav li:hover > ul {
-                    position: absolute;
-                    background-color: #333;
-                    border: 5px solid #444;
-                    display: block;
-                }
-
-            </style>
+            <link rel="stylesheet" href="https://environmentaldashboard.org/css/bootstrap.css"/>
             <base href="{baseUrl}"/>
         </head>
         <body>
-            <xsl:call-template name="common-header" />
+            <div class="container">
+                <xsl:call-template name="common-header" />
 
-            <div class="main-pane">
-                <xsl:value-of select="main-pane" disable-output-escaping="yes" />
+                <div class="main-pane">
+                    <xsl:value-of select="main-pane" disable-output-escaping="yes" />
+                </div>
+
+                <xsl:call-template name="common-footer" />
             </div>
-
-            <xsl:call-template name="common-footer" />
+            <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+            <script>
+            $(document).ready(function() {
+                // from https://github.com/bootstrapthemesco/bootstrap-4-multi-dropdown-navbar
+              $('.dropdown-menu a.dropdown-toggle').on('click', function (e) {
+                var $el = $(this);
+                var $parent = $(this).offsetParent(".dropdown-menu");
+                if (!$(this).next().hasClass('show')) {
+                  $(this).parents('.dropdown-menu').first().find( '.show').removeClass("show");
+                }
+                var $subMenu = $(this).next(".dropdown-menu");
+                $subMenu.toggleClass('show');
+                $(this).parent("li").toggleClass('show');
+                $(this).parents('li.nav-item.dropdown.show' ).on( 'hidden.bs.dropdown', function (e) {
+                  $('.dropdown-menu .show').removeClass("show");
+                });
+                if ( !$parent.parent().hasClass('navbar-nav')) {
+                  $el.next().css( { "top": $el[0].offsetTop, "left": -$subMenu.outerWidth() } );
+                }
+                return false;
+              });
+            });
+            </script>
         </body>
     </html>
 
