@@ -58,7 +58,7 @@ class ImageManagement
 
         $image = new Entity\Image;
 
-        $target_dir = "../../../../CV_Media/images/";
+        $target_dir = "../../../CV_Media/images/"; // TODO: change to /var/www/uploads/CV_Media/images/
         $fileName = $this->generateUniqueFileName() . "." . $file->guessExtension();
 
         $file->move($target_dir, $fileName);
