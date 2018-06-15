@@ -12,17 +12,13 @@
 
 				<div class="middle">
 
-					<p> image <xsl:value-of select='domain/image/id' /> </p>
+					<h3><xsl:value-of select='domain/image/title' /></h3>
 
-					<img style="width:500px;height:600px;">
-							<xsl:attribute name="src"><xsl:value-of select='domain/image/filename' /></xsl:attribute>
+					<img style="width:100%;">
+							<xsl:attribute name="src">./uploads/<xsl:value-of select='domain/image/id' /></xsl:attribute>
 							<xsl:attribute name="alt"><xsl:value-of select='domain/image/title' /></xsl:attribute>
 					</img>
-
-					<p>
-						- <xsl:value-of select='domain/image/title' />,
-						<xsl:value-of select='domain/image/description' />
-					</p>
+					<p><xsl:value-of select='domain/image/description' /></p>
 
 				</div>
 

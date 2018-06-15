@@ -18,8 +18,10 @@
             <div class="container">
                 <xsl:call-template name="common-header" />
 
-                <div class="main-pane">
-                    <xsl:value-of select="main-pane" disable-output-escaping="yes" />
+                <div class="row" style="padding:15px">
+                    <div class="col-12">
+                        <xsl:value-of select="main-pane" disable-output-escaping="yes" />
+                    </div>
                 </div>
 
                 <xsl:call-template name="common-footer" />

@@ -4,3 +4,8 @@
 [2018-06-06 00:26:47] name.INFO: new email identity registered {"user":{"account":1,"identity":1}} []
 [2018-06-06 00:26:47] name.INFO: identity verified {"input":{"token":null},"user":{"account":1,"identity":1}} []
 [2018-06-06 00:27:51] name.INFO: login successful {"input":{"email":"tim@example.com"},"user":{"account":1,"identity":1}} []
+[2018-06-15 01:38:18] name.NOTICE: wrong password {"input":{"email":"tim@example.com","key":"1234"},"user":{"account":1,"identity":1}} []
+[2018-06-15 01:40:21] name.NOTICE: identity not found {"input":{"email":"1@1.1"}} []
+[2018-06-15 01:41:13] name.INFO: new email identity registered {"user":{"account":2,"identity":3}} []
+[2018-06-15 01:41:13] name.INFO: identity verified {"input":{"token":null},"user":{"account":2,"identity":3}} []
+[2018-06-15 01:41:24] name.INFO: login successful {"input":{"email":"tim2@example.com"},"user":{"account":2,"identity":3}} []

@@ -8,23 +8,34 @@
 
 	<xsl:template match="/package">
 
-		<ul style="list-style-type:none">
+		<div class="card-columns">
 
 			<xsl:for-each select="domain/imageCollection/image">
 
 				<xsl:if test="$isManager or status = 'approved'">
 
-					<li>
-
-						<a href= "images/{id}"/>
-
-							<p>
-								<xsl:value-of select='title' />
-								-
-								<xsl:value-of select='description' />
-							</p>
-
-						<a/>
+					<div class="card">
+						<a href="images/{id}">
+							<img>
+								<xsl:attribute name="src">./uploads/<xsl:value-of select='id' /></xsl:attribute>
+								<xsl:attribute name="alt"><xsl:value-of select='title' /></xsl:attribute>
+								<xsl:attribute name="class">card-img-top</xsl:attribute>
+							</img>
+						</a>
+						<div class="card-body">
+							<blockquote class="blockquote mb-0 card-body">
+								<h5><xsl:value-of select='title' /></h5>
+								<p><xsl:value-of select='description' /></p>
+								<footer class='blockquote-footer'>
+	                <small class='text-muted'>
+	                  <cite>
+	                  	<xsl:attribute name="title"><xsl:value-of select='photographer' /></xsl:attribute>
+	                  	<xsl:value-of select='photographer' />
+	                  </cite>
+	                </small>
+	              </footer>
+							</blockquote>
+						</div>
 
 						<xsl:if test="$isManager">
 
@@ -33,13 +44,13 @@
 
 						</xsl:if>
 
-					</li>
+					</div>
 
 				</xsl:if>
 
 			</xsl:for-each>
 
-		</ul>
+		</div>
 
 		<a href="./images/new">Upload new image!</a>
 

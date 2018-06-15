@@ -10,28 +10,21 @@
 
 			<xsl:choose><xsl:when test="$isManager or domain/quote/status = 'approved'">
 
-				<div class="middle">
-
-					<p> Quote <xsl:value-of select='domain/quote/id' /> </p>
-
-					<h2> <xsl:value-of select='domain/quote/text' /> </h2>
-
-					<p>
-						- <xsl:value-of select='domain/quote/attribution' />,
-						<xsl:value-of select='domain/quote/subAttribution' />
-					</p>
-
-				</div>
-
-				<div class="right">
-
-					<p>	Date Created: <xsl:value-of select='domain/quote/dateRecorded' /> </p>
-
-					<p> Tags: TODO </p>
-
-					<!-- Information for Manager & above -->
-
-					<xsl:if test="$isManager">
+				<div class="card">
+					<div class="card-body">
+						<blockquote class="blockquote mb-0 card-body">
+							<p><xsl:value-of select='domain/quote/text' /></p>
+							<footer class='blockquote-footer'>
+                <small class='text-muted'>
+                  <cite>
+                  	<xsl:attribute name="title"><xsl:value-of select='domain/quote/attribution' /></xsl:attribute>
+                  	<xsl:value-of select='domain/quote/attribution' /><br/>
+                  	<xsl:value-of select='domain/quote/subAttribution' />
+                  </cite>
+                </small>
+              </footer>
+						</blockquote>
+						<xsl:if test="$isManager">
 
 						<p>---- Internal Information Below ----</p>
 
@@ -61,8 +54,13 @@
 						</p>
 
 					</xsl:if>
-
+					</div>
 				</div>
+
+					<!-- <p>	Date Created: <xsl:value-of select='domain/quote/dateRecorded' /> </p>
+
+					<p> Tags: TODO </p> -->
+
 
 			</xsl:when>
 

@@ -5,16 +5,37 @@
 
     <xsl:template match="/form">
 
-        <form action='./images/new/authenticate' method='post' enctype='multipart/form-data'>
+        <form action='./images/new/authenticate' method='post' enctype='multipart/form-data' style="max-width:400px;margin: 0 auto">
 
-            File: <input type='file' name='file' accept='.jpg, .jpeg, .png' /><br />
+            <div class="custom-file">
+              <label for="file" class="custom-file-label">File</label>
+              <input class="custom-file-input" id="file" type='file' name='file' accept='.jpg, .jpeg, .png' />
+            </div>
 
-            Title: <input type='text' name='title' /><br />
-            Description: <input type='text' name='description' /><br />
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input class="form-control" id="title" type='text' name='title' />
+            </div>
 
-            Date Taken: <input type='text' name='dateTaken' /><br />
-            Photographer: <input type='text' name='photographer' /><br />
-            Organization: <input type='text' name='organization' /><br />
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input class="form-control" id="description" type='text' name='description' />
+            </div>
+
+            <div class="form-group">
+              <label for="dateTaken">Date Taken</label>
+              <input class="form-control" id="dateTaken" type='text' name='dateTaken' />
+            </div>
+
+            <div class="form-group">
+              <label for="photographer">Photographer</label>
+              <input class="form-control" id="photographer" type='text' name='photographer' />
+            </div>
+
+            <div class="form-group">
+              <label for="organization">Organization</label>
+              <input class="form-control" id="organization" type='text' name='organization' />
+            </div>
 
             Approve:
             <xsl:choose>
@@ -27,7 +48,7 @@
             </xsl:choose>
             <br/>
 
-            <input type='submit'/>
+            <input type='submit' class="btn btn-primary" />
         </form>
     </xsl:template>
 

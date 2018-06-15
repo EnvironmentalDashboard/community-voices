@@ -8,22 +8,34 @@
             <p>Attribution missing.</p>
         </xsl:if>
 
-        <form action='./quotes/new/authenticate' method='post'>
+        <form action='./quotes/new/authenticate' method='post' style="max-width:400px;margin: 0 auto">
 
-            Quote: <input type='text' name='text' /><br />
+            <div class="form-group">
+              <label for="text">Quote</label>
+              <input class="form-control" id="text" type='text' name='text' />
+            </div>
 
-            Attribution:
-            <xsl:choose>
-                <xsl:when test='@text'>
-                    <input type='text' name='attribution' value='{@text}'/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <input type='text' name='attribution' />
-                </xsl:otherwise>
-            </xsl:choose><br />
+            <div class="form-group">
+              <label for="attribution">Attribution</label>
+                <xsl:choose>
+                    <xsl:when test='@text'>
+                        <input type='text' class="form-control" id='attribution' name='attribution' value='{@text}'/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <input type='text' class="form-control" id='attribution' name='attribution' />
+                    </xsl:otherwise>
+                </xsl:choose>
+                </div>
 
-            Sub-Attribution: <input type='text' name='subAttribution' /><br />
-            Date Recorded: <input type='text' name='dateRecorded' /><br />
+            <div class="form-group">
+              <label for="subAttribution">Sub-Attribution</label>
+              <input class="form-control" id="subAttribution" type='text' name='subAttribution' />
+            </div>
+
+            <div class="form-group">
+              <label for="dateRecorded">Date Recorded</label>
+              <input class="form-control" id="dateRecorded" type='text' name='dateRecorded' />
+            </div>
 
             Approve:
             <xsl:choose>
@@ -36,7 +48,7 @@
             </xsl:choose>
             <br/>
 
-            <input type='submit'/>
+            <input type='submit' class='btn btn-primary' />
         </form>
     </xsl:template>
 

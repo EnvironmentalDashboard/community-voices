@@ -58,6 +58,7 @@ class Image extends Component\View
                 $imageAPIView->getImage()->getContent()
             ))
         );
+        $imageXMLElement->addChild('url', "http://localhost:8080/community-voices/uploads/{$imageXMLElement->id}");
 
         /**
          * image XML Package
@@ -121,12 +122,15 @@ class Image extends Component\View
          * Gather image information
          */
         $imageAPIView = $this->secureContainer->contain($this->imageAPIView);
-
         $imageXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
                 $imageAPIView->getAllImage()->getContent()
             ))
         );
+        // foreach ($imageXMLElement->image as $image) {
+        //     $image->addChild('url', "http://localhost:8080/community-voices/uploads/{$image->id}"); // TODO: add earlier
+        // }
+        // die;
 
         /**
          * image XML Package

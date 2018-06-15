@@ -8,39 +8,39 @@
 
 	<xsl:template match="/package">
 
-		<ul style="list-style-type:none">
+		<div class="card-columns">
 
 			<xsl:for-each select="domain/quoteCollection/quote">
 
 				<xsl:if test="$isManager or status = 'approved'">
 
-					<li>
-
-						<a href= "quotes/{id}"/>
-
-							<p>
-								<xsl:value-of select='text' />
-								-
-								<xsl:value-of select='attribution' />,
-								<xsl:value-of select='subAttribution' />
-							</p>
-
-						<a/>
-
-						<xsl:if test="$isManager">
-
-							Status:
-							<xsl:value-of select='status' />
-
-						</xsl:if>
-
-					</li>
-
+					<a href='quotes/{id}'>
+						<div class="card">
+							<div class="card-body">
+								<blockquote class="blockquote mb-0 card-body">
+									<p><xsl:value-of select='text' /></p>
+									<footer class='blockquote-footer'>
+		                <small class='text-muted'>
+		                  <cite>
+		                  	<xsl:attribute name="title"><xsl:value-of select='attribute' /></xsl:attribute>
+		                  	<xsl:value-of select='attribution' /><br/>
+		                  	<xsl:value-of select='subAttribution' />
+		                  </cite>
+		                </small>
+		              </footer>
+								</blockquote>
+								<xsl:if test="$isManager">
+									Status:
+									<xsl:value-of select='status' />
+								</xsl:if>
+							</div>
+						</div>
+					</a>
 				</xsl:if>
 
 			</xsl:for-each>
 
-		</ul>
+		</div>
 
 		<a href="./quotes/new">Upload new quote!</a> 
 
