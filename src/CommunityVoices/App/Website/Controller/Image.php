@@ -22,6 +22,13 @@ class Image
         $this->secureContainer = $secureContainer;
     }
 
+    public function sendImage($request)
+    {
+        $apiController = $this->secureContainer->contain($this->imageAPIController);
+
+        $apiController->sendImage($request);
+    }
+
     public function getImage($request)
     {
         $apiController = $this->secureContainer->contain($this->imageAPIController);

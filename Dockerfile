@@ -23,4 +23,4 @@ CMD /usr/sbin/apache2ctl -D FOREGROUND
 
 # to run:
 # docker build -t community-voices .
-# docker run -dit -p 8080:80 -v $(pwd):/var/www/html/ -e "MYSQL_HOST=159.89.232.129" -e "MYSQL_DB=community_voices" -e "MYSQL_USER=public_cv" -e "MYSQL_PASS=1234" --name cv_container community-voices
+# docker run -dit -p 8080:80 -v /var/www/uploads/CV_Media/images/:/var/www/uploads/CV_Media/images/ -v $(pwd):/var/www/html/ -e "MYSQL_HOST=159.89.232.129" -e "MYSQL_DB=community_voices" -e "MYSQL_USER=public_cv" -e "MYSQL_PASS=1234" --name PROD_CV community-voices

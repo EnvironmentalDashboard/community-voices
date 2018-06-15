@@ -32,6 +32,11 @@ class Image extends Component\View
         $this->imageAPIView = $imageAPIView;
     }
 
+    public function sendImage($routes, $context)
+    {
+        // wut
+    }
+
     public function getImage($routes, $context)
     {
         /**

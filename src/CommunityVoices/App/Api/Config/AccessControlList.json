@@ -44,6 +44,9 @@
         ["CommunityVoices\\App\\Api\\View\\Image::getImageUpload", {"allow" : "guest"}],
 
         ["CommunityVoices\\App\\Api\\Controller\\Image::postImageUpload", {"allow" : "guest"}],
-        ["CommunityVoices\\App\\Api\\View\\Image::postImageUpload", {"allow" : "guest"}]
+        ["CommunityVoices\\App\\Api\\View\\Image::postImageUpload", {"allow" : "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Image::sendImage", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Image::sendImage", {"allow" : "guest"}]
     ]
 }

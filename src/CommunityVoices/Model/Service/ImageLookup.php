@@ -29,6 +29,29 @@ class ImageLookup
         $this->stateObserver = $stateObserver;
     }
 
+    public function printById(int $imageId)
+    {
+        $image = new Entity\Image;
+        $image->setId($imageId);
+
+        $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
+        $imageMapper->fetch($image);
+
+        if (!$image->getId()) {
+            throw new Exception\IdentityNotFound;
+        }
+        $fn = $image->getFilename();
+        if (!file_exists($fn)) {
+            throw new Exception\IdentityNotFound;
+        }
+
+        $extension = explode('.', $fn)[1];
+        $extension = ($extension === 'jpg') ? 'jpeg' : $extension;
+        header('Content-type: image/' . $extension);
+        readfile($fn);
+        exit;
+    }
+
     /**
      * Lookup image by id
      *

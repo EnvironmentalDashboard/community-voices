@@ -186,5 +186,14 @@
         "resource": "Image",
         "action": "postImageUpload"
       }
+    },
+
+    "sendImage":{
+      "notation": "/uploads/{id}",
+      "method": "get",
+      "defaults": {
+        "resource": "Image",
+        "action": "sendImage"
+      }
     }
 }

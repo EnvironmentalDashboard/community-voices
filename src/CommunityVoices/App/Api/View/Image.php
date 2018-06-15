@@ -15,6 +15,11 @@ class Image
         $this->mapperFactory = $mapperFactory;
     }
 
+    public function sendImage()
+    {
+        // wut
+    }
+
     public function getImage()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();

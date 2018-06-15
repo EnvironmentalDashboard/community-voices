@@ -18,6 +18,13 @@ class Image
         $this->imageManagement = $imageManagement;
     }
 
+    public function sendImage($request)
+    {
+        $imageId = $request->attributes->get('id');
+
+        $this->imageLookup->printById((int) $imageId);
+    }
+
     /**
      * image lookup by id
      */
