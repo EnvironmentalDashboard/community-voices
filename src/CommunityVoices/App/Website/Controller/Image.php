@@ -55,4 +55,18 @@ class Image
 
       $apiController->postImageUpload($request, $identity);
     }
+
+    public function getImageUpdate($request)
+    {
+        $apiController = $this->secureContainer->contain($this->imageAPIController);
+
+        $apiController->getImage($request);
+    }
+
+    public function postImageUpdate($request)
+    {
+        $apiController = $this->secureContainer->contain($this->imageAPIController);
+
+        $apiController->postImageUpdate($request);
+    }
 }

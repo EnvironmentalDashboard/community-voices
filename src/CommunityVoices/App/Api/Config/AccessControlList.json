@@ -47,6 +47,12 @@
         ["CommunityVoices\\App\\Api\\View\\Image::postImageUpload", {"allow" : "guest"}],
 
         ["CommunityVoices\\App\\Api\\Controller\\Image::sendImage", {"allow" : "guest"}],
-        ["CommunityVoices\\App\\Api\\View\\Image::sendImage", {"allow" : "guest"}]
+        ["CommunityVoices\\App\\Api\\View\\Image::sendImage", {"allow" : "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Image::getImageUpdate", {"allow" : "manager"}],
+        ["CommunityVoices\\App\\Api\\View\\Image::getImageUpdate", {"allow" : "manager"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Image::postImageUpdate", {"allow" : "manager"}],
+        ["CommunityVoices\\App\\Api\\View\\Image::postImageUpdate", {"allow" : "manager"}]
     ]
 }

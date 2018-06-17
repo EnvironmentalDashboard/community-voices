@@ -58,7 +58,6 @@ class Image extends Component\View
                 $imageAPIView->getImage()->getContent()
             ))
         );
-        $imageXMLElement->addChild('url', "http://localhost:8080/community-voices/uploads/{$imageXMLElement->id}");
 
         /**
          * image XML Package
@@ -95,6 +94,7 @@ class Image extends Component\View
             "Community Voices: Image ".
             $imageXMLElement->id
         );
+        $domainXMLElement->addChild('navbarSection', "image");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -127,10 +127,6 @@ class Image extends Component\View
                 $imageAPIView->getAllImage()->getContent()
             ))
         );
-        // foreach ($imageXMLElement->image as $image) {
-        //     $image->addChild('url', "http://localhost:8080/community-voices/uploads/{$image->id}"); // TODO: add earlier
-        // }
-        // die;
 
         /**
          * image XML Package
@@ -163,6 +159,7 @@ class Image extends Component\View
         $domainXMLElement->addChild('main-pane', $imageModuleXML);
         $domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: All Images");
+        $domainXMLElement->addChild('navbarSection', "image");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -211,6 +208,7 @@ class Image extends Component\View
             'title',
             "Community Voices: Image Upload"
         );
+        $domainXMLElement->addChild('navbarSection', "image");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -245,6 +243,103 @@ class Image extends Component\View
           'title',
           "Community Voices"
         );
+        $domainXMLElement->addChild('navbarSection', "image");
+
+        /**
+         * Prepare template
+         */
+        $domainIdentity = $domainXMLElement->addChild('identity');
+        $domainIdentity->adopt($identityXMLElement);
+
+        $presentation = new Component\Presenter('SinglePane');
+
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
+
+        $this->finalize($response);
+        return $response;
+    }
+
+    public function getImageUpdate($routes, $context)
+    {
+        $paramXML = new Helper\SimpleXMLElementExtension('<form/>');
+
+        /**
+         * Gather image information
+         */
+        $imageAPIView = $this->secureContainer->contain($this->imageAPIView);
+
+        $imageXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(json_decode(
+                $imageAPIView->getImage()->getContent()
+            ))
+        );
+
+        $packagedImage = $paramXML->addChild('domain');
+        $packagedImage->adopt($imageXMLElement);
+
+        $formModule = new Component\Presenter('Module/Form/ImageUpdate');
+        $formModuleXML = $formModule->generate($paramXML);
+
+        $identity = $this->recognitionAdapter->identify();
+
+        $identityXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($identity->toArray())
+        );
+
+        /**
+         * Get base URL
+         */
+        $urlGenerator = new UrlGenerator($routes, $context);
+        $baseUrl = $urlGenerator->generate('root');
+
+        //
+
+        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
+
+        $domainXMLElement->addChild('main-pane', $formModuleXML);
+        $domainXMLElement->addChild('baseUrl', $baseUrl);
+        $domainXMLElement->addChild(
+            'title',
+            "Community Voices: Image Update"
+        );
+        $domainXMLElement->addChild('navbarSection', "image");
+
+        $domainIdentity = $domainXMLElement->addChild('identity');
+        $domainIdentity->adopt($identityXMLElement);
+
+        // var_dump($domainIdentity);
+
+        $presentation = new Component\Presenter('SinglePane');
+
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
+
+        $this->finalize($response);
+        return $response;
+    }
+
+    public function postImageUpdate($routes, $context)
+    {
+        $identity = $this->recognitionAdapter->identify();
+        $identityXMLElement = new SimpleXMLElement(
+          $this->transcriber->toXml($identity->toArray())
+        );
+
+        /**
+         * Get base URL
+         */
+        $urlGenerator = new UrlGenerator($routes, $context);
+        $baseUrl = $urlGenerator->generate('root');
+
+        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
+
+        $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
+        $domainXMLElement->addChild('baseUrl', $baseUrl);
+
+        $domainXMLElement->addChild(
+          'title',
+          "Community Voices"
+        );
+        $domainXMLElement->addChild('navbarSection', "image");
 
         /**
          * Prepare template

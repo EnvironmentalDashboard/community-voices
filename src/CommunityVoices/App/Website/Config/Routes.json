@@ -179,6 +179,24 @@
         }
     },
 
+    "getImageUpdate": {
+        "notation": "/images/{id}/edit",
+        "method": "get",
+        "defaults": {
+            "resource": "Image",
+            "action": "getImageUpdate"
+        }
+    },
+
+    "postImageUpdate": {
+        "notation": "/images/{id}/edit/authenticate",
+        "method": "post",
+        "defaults": {
+            "resource": "Image",
+            "action": "postImageUpdate"
+        }
+    },
+
     "postImageUpload":{
       "notation": "/images/new/authenticate",
       "method": "post",

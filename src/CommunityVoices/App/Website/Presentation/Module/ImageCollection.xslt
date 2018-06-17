@@ -23,7 +23,7 @@
 							</img>
 						</a>
 						<div class="card-body">
-							<blockquote class="blockquote mb-0 card-body">
+							<blockquote class="blockquote mb-0">
 								<h5><xsl:value-of select='title' /></h5>
 								<p><xsl:value-of select='description' /></p>
 								<footer class='blockquote-footer'>
@@ -31,18 +31,18 @@
 	                  <cite>
 	                  	<xsl:attribute name="title"><xsl:value-of select='photographer' /></xsl:attribute>
 	                  	<xsl:value-of select='photographer' />
+	                  	<xsl:if test="organization != ''">, <xsl:value-of select='organization' /></xsl:if>
 	                  </cite>
 	                </small>
 	              </footer>
 							</blockquote>
 						</div>
-
-						<xsl:if test="$isManager">
-
-							Status:
-							<xsl:value-of select='status' />
-
-						</xsl:if>
+						<div class="card-footer text-muted">
+							<p class='mt-0 mb-0'><xsl:value-of select='dateTaken' /></p>
+							<xsl:if test="$isManager">
+								<p class='mt-0 mb-0'>Status: <xsl:value-of select='status' /></p>
+							</xsl:if>
+						</div>
 
 					</div>
 

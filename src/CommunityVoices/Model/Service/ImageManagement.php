@@ -119,12 +119,13 @@ class ImageManagement
 
     public function update(
         $id,
-        $text,
-        $attribution,
-        $subAttribution,
-        $dateRecorded,
+        $title,
+        $description,
+        $dateTaken,
+        $photographer,
+        $organization,
         $status
-    ) {
+      ) {
         $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
 
         /*
@@ -136,10 +137,11 @@ class ImageManagement
 
         $imageMapper->fetch($image);
 
-        $image->setText($text);
-        $image->setAttribution($attribution);
-        $image->setSubAttribution($subAttribution);
-        $image->setDateRecorded($dateRecorded);
+        $image->setTitle($title);
+        $image->setDescription($description);
+        $image->setDateTaken($dateTaken);
+        $image->setPhotographer($photographer);
+        $image->setOrganization($organization);
         $image->setStatus($status);
 
         /*

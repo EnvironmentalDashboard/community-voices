@@ -66,4 +66,32 @@ class Image
           $approved
       );
     }
+
+    public function getImageUpdate($request)
+    { // what does this do??
+      $imageId = $request->attributes->get('id');
+      $this->imageLookup->findById($imageId);
+    }
+
+    public function postImageUpdate($request)
+    {
+      $id = $request->request->get('id');
+      $title = $request->request->get('title');
+      $description = $request->request->get('description');
+      $dateTaken = $request->request->get('dateTaken');
+      $photographer = $request->request->get('photographer');
+      $organization = $request->request->get('organization');
+      $status = ($request->request->get('approved') !== null) ? 'approved' : 'pending';
+
+      $this->imageManagement->update(
+        $id,
+        $title,
+        $description,
+        $dateTaken,
+        $photographer,
+        $organization,
+        $status
+      );
+    }
+    // 
 }
