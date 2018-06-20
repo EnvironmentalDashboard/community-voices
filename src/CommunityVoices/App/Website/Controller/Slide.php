@@ -35,4 +35,9 @@ class Slide
 
         $apiController->getSlide($request);
     }
+
+    public function getSlideUpload()
+    {
+        // intentionally blank
+    }
 }

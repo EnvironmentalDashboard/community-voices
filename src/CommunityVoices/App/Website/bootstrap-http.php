@@ -13,9 +13,10 @@ use CommunityVoices\App\Website;
 use CommunityVoices\Model;
 
 /**
- * Set time zone
+ * Set time zone, header
  */
 date_default_timezone_set('America/New_York');
+header('Content-Type: application/json');
 
 require __DIR__ . '/../../../../vendor/autoload.php';
 

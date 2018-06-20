@@ -54,6 +54,26 @@
               });
             });
             </script>
+            <xsl:if test="extraJS = 'create-slide'">
+                <script>
+                    //<![CDATA[
+                    $.getJSON('http://api.example.com:8080/community-voices/quotes', { }, function(data) {
+                        $.each(data['quoteCollection'], function(index, element) {
+                            //console.log(element['quote']);
+                            var html = '<div class="card p-3"><blockquote class="blockquote mb-0 card-body"><p>' + element['quote']['text'] + '</p><footer class="blockquote-footer"><small class="text-muted">' + element['quote']['attribution'] + '</small></footer></blockquote></div>';
+                            $('#ajax-quotes').append(html);
+                        });
+                    });
+                    $.getJSON('http://api.example.com:8080/community-voices/images', { }, function(data) {
+                        $.each(data['imageCollection'], function(index, element) {
+                            //console.log(element['image']['id']);
+                            var html = '<div class="card bg-dark text-white"><img class="card-img" src="/community-voices/uploads/'+element['image']['id']+'" alt="Card image" /><div class="card-img-overlay"><h5 class="card-title">' + element['image']['title'] + '</h5><p class="card-text">' + element['image']['description'] + '</p><p class="card-text">' + element['image']['dateCreated'] + '</p></div></div>';
+                            $('#ajax-images').append(html);
+                        });
+                    });
+                    //]]>
+                </script>
+            </xsl:if>
         </body>
     </html>
 

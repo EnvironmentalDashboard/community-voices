@@ -40,4 +40,9 @@ class Slide
 
         return $response;
     }
+
+    public function getSlideUpload()
+    {
+        // intentionally blank
+    }
 }

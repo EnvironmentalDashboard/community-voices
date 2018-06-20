@@ -192,4 +192,54 @@ class Slide extends Component\View
         $this->finalize($response);
         return $response;
     }
+
+    public function getSlideUpload($routes, $context)
+    {
+        try {
+            $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
+            $slideAPIView->getSlideUpload();
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return;
+        }
+        $paramXML = new SimpleXMLElement('<form/>');
+
+        $formModule = new Component\Presenter('Module/Form/SlideUpload');
+        $formModuleXML = $formModule->generate($paramXML);
+
+        $identity = $this->recognitionAdapter->identify();
+
+        $identityXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($identity->toArray())
+        );
+
+        /**
+         * Get base URL
+         */
+        $urlGenerator = new UrlGenerator($routes, $context);
+        $baseUrl = $urlGenerator->generate('root');
+
+        //
+
+        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
+
+        $domainXMLElement->addChild('main-pane', $formModuleXML);
+        $domainXMLElement->addChild('baseUrl', $baseUrl);
+        $domainXMLElement->addChild(
+            'title',
+            "Community Voices: Slide Upload"
+        );
+        $domainXMLElement->addChild('navbarSection', "slide");
+        $domainXMLElement->addChild('extraJS', "create-slide");
+
+        $domainIdentity = $domainXMLElement->addChild('identity');
+        $domainIdentity->adopt($identityXMLElement);
+
+        $presentation = new Component\Presenter('SinglePane');
+
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
+
+        $this->finalize($response);
+        return $response;
+    }
 }

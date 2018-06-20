@@ -38,4 +38,9 @@ class Slide
         $this->slideLookup->findById($slideId);
     }
 
+    public function getSlideUpload()
+    {
+        // intentionally blank
+    }
+
 }

@@ -89,6 +89,15 @@
         }
     },
 
+    "getSlideUpload": {
+        "notation": "/slides/new",
+        "method": "get",
+        "defaults": {
+            "resource": "Slide",
+            "action": "getSlideUpload"
+        }
+    },
+
     "getSlide": {
         "notation": "/slides/{id}",
         "method": "get",
