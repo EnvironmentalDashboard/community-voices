@@ -1,5 +1,6 @@
 vendor/
 tests/coverage
 CV_Media/
+log/
 .ftpconfig
 .DS_Store

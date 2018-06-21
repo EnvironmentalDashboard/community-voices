@@ -45,4 +45,9 @@ class Slide
     {
         // intentionally blank
     }
+
+    public function postSlideUpload()
+    {
+        // intentionally blank
+    }
 }

@@ -43,4 +43,19 @@ class Slide
         // intentionally blank
     }
 
+    public function postSlideUpload($request, $identity)
+    {
+        $imageId = $request->request->get('image_id');
+        $quoteId = $request->request->get('quote_id');
+        $contentCategory = $request->request->get('content_category');
+        $dateRecorded = 'now';
+        $approved = null;//$request->request->get('approved');
+
+        // if ($identity->getRole() <= 2){
+        //   $approved = null;
+        // }
+
+        $this->slideManagement->upload($quoteId, $imageId, $contentCategory, $dateRecorded, $approved, $identity);
+    }
+
 }

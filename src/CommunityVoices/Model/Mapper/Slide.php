@@ -162,10 +162,9 @@ class Slide extends Media
     }
 
     /**
-     * Invokes parent::delete() method as the Media table's deletion is set to
-     * cascade to child rows in the database
+     * Creates a slide in database
      *
-     * @param  Media $slide to delete
+     * @param  Media $slide to save
      */
     protected function create(Entity\Media $slide)
     {
@@ -187,8 +186,8 @@ class Slide extends Media
         $statement->bindValue(':quote_id', $slide->getQuote()->getId());
         $statement->bindValue(':probability', $slide->getProbability());
         $statement->bindValue(':decay_percent', $slide->getDecayPercent());
-        $statement->bindValue(':decay_start', $slide->getDecayStart());
-        $statement->bindValue(':decay_end', $slide->getDecayEnd());
+        $statement->bindValue(':decay_start', date('Y-m-d', $slide->getDecayStart()));
+        $statement->bindValue(':decay_end', date('Y-m-d', $slide->getDecayEnd()));
 
         $statement->execute();
     }

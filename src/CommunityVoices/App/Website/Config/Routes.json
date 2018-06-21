@@ -98,6 +98,15 @@
         }
     },
 
+    "postSlideUpload": {
+        "notation": "/slides/new/authenticate",
+        "method": "post",
+        "defaults": {
+            "resource": "Slide",
+            "action": "postSlideUpload"
+        }
+    },
+
     "getSlide": {
         "notation": "/slides/{id}",
         "method": "get",

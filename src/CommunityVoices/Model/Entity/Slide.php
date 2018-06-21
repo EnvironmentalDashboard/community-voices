@@ -2,6 +2,8 @@
 
 namespace CommunityVoices\Model\Entity;
 
+use CommunityVoices\Model\Contract\FlexibleObserver;
+
 class Slide extends Media
 {
     /**
@@ -122,7 +124,7 @@ class Slide extends Media
         $this->organizationCategoryCollection = $organizationCategoryCollection;
     }
 
-    public function validateForUpload(StatusObserver $stateObserver)
+    public function validateForUpload(FlexibleObserver $stateObserver)
     {
         $isValid = true;
 

@@ -19,6 +19,9 @@
         ["CommunityVoices\\App\\Api\\Controller\\Slide::getSlideUpload", {"allow" : "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Slide::getSlideUpload", {"allow" : "guest"}],
 
+        ["CommunityVoices\\App\\Api\\Controller\\Slide::postSlideUpload", {"allow" : "user"}],
+        ["CommunityVoices\\App\\Api\\View\\Slide::postSlideUpload", {"allow" : "user"}],
+
         ["CommunityVoices\\App\\Api\\Controller\\Quote::getQuote", {"allow" : "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Quote::getQuote", {"allow" : "guest"}],
 

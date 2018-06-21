@@ -33,6 +33,7 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
             <script>
+            //<![CDATA[
             $(document).ready(function() {
                 // from https://github.com/bootstrapthemesco/bootstrap-4-multi-dropdown-navbar
               $('.dropdown-menu a.dropdown-toggle').on('click', function (e) {
@@ -53,24 +54,83 @@
                 return false;
               });
             });
+            //]]>
             </script>
             <xsl:if test="extraJS = 'create-slide'">
                 <script>
                     //<![CDATA[
+                    var $quote_container = $('#ajax-quotes');
+                    var $image_container = $('#ajax-images');
+                    var $content_categories = $('#content-categories');
                     $.getJSON('http://api.example.com:8080/community-voices/quotes', { }, function(data) {
                         $.each(data['quoteCollection'], function(index, element) {
-                            //console.log(element['quote']);
-                            var html = '<div class="card p-3"><blockquote class="blockquote mb-0 card-body"><p>' + element['quote']['text'] + '</p><footer class="blockquote-footer"><small class="text-muted">' + element['quote']['attribution'] + '</small></footer></blockquote></div>';
-                            $('#ajax-quotes').append(html);
+                            var html = '<div class="card p-3 ajax-quote" data-id="'+element['quote']['id']+'" data-text="'+element['quote']['text']+'"><blockquote class="blockquote mb-0 card-body"><p>' + element['quote']['text'] + '</p><footer class="blockquote-footer"><small class="text-muted">' + element['quote']['attribution'] + '</small></footer></blockquote></div>';
+                            $quote_container.append(html);
                         });
                     });
                     $.getJSON('http://api.example.com:8080/community-voices/images', { }, function(data) {
                         $.each(data['imageCollection'], function(index, element) {
                             //console.log(element['image']['id']);
-                            var html = '<div class="card bg-dark text-white"><img class="card-img" src="/community-voices/uploads/'+element['image']['id']+'" alt="Card image" /><div class="card-img-overlay"><h5 class="card-title">' + element['image']['title'] + '</h5><p class="card-text">' + element['image']['description'] + '</p><p class="card-text">' + element['image']['dateCreated'] + '</p></div></div>';
-                            $('#ajax-images').append(html);
+                            var html = '<div class="card bg-dark text-white ajax-image" data-id="'+element['image']['id']+'"><img class="card-img" src="/community-voices/uploads/'+element['image']['id']+'" alt="Card image" /><div class="card-img-overlay"><h5 class="card-title">' + element['image']['title'] + '</h5><p class="card-text">' + element['image']['description'] + '</p><p class="card-text">' + element['image']['dateCreated'] + '</p></div></div>';
+                            $image_container.append(html);
                         });
                     });
+                    $(document).on('click', '.ajax-quote', function(e) {
+                        var text = makeSVG('text', {x: '50%', y: '45%', fill: '#fff', 'font-size': '4px'});
+                        text = $(text).text($(this).data('text'));
+                        $('#render').append(text);
+                        $("input[name='quote_id']").val($(this).data('id'));
+                    });
+                    $(document).on('click', '.ajax-image', function(e) {
+                        var image = makeSVG('image', {x: 10, y: 10, width: '35%', 'xlink:href': '/community-voices/uploads/'+$(this).data('id')});
+                        $('#render').prepend(image);
+                        $("input[name='image_id']").val($(this).data('id'));
+                    });
+                    $('#content-categories img').on('click', function() {
+                        var image = makeSVG('image', {x: 0, y: 5, width: '100%', 'xlink:href': $(this).attr('src')});
+                        //document.getElementById('render').appendChild(image);
+                        $('#render').append(image);
+                        $("input[name='content_category']").val($(this).data('id'));
+                    });
+                    var $prev_btn = $('#quote-btn');
+                    $('#quote-btn').on('click', function(e) {
+                        e.preventDefault();
+                        $quote_container.css('display', '');
+                        $image_container.css('display', 'none');
+                        $content_categories.css('display', 'none');
+                        $(this).addClass('active');
+                        $prev_btn.removeClass('active');
+                        $prev_btn = $(this);
+                    });
+                    $('#img-btn').on('click', function(e) {
+                        e.preventDefault();
+                        $quote_container.css('display', 'none');
+                        $image_container.css('display', '');
+                        $content_categories.css('display', 'none');
+                        $(this).addClass('active');
+                        $prev_btn.removeClass('active');
+                        $prev_btn = $(this);
+                    });
+                    $('#cc-btn').on('click', function(e) {
+                        e.preventDefault();
+                        $quote_container.css('display', 'none');
+                        $image_container.css('display', 'none');
+                        $content_categories.css('display', '');
+                        $(this).addClass('active');
+                        $prev_btn.removeClass('active');
+                        $prev_btn = $(this);
+                    });
+                    function makeSVG(tag, attrs) { // https://stackoverflow.com/a/3642265/2624391
+                        var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+                        for (var k in attrs) {
+                            if (k == 'xlink:href') {
+                                el.setAttributeNS("http://www.w3.org/1999/xlink", 'xlink:href', attrs[k]);
+                            } else {
+                                el.setAttribute(k, attrs[k]);
+                            }
+                        }
+                        return el;
+                    }
                     //]]>
                 </script>
             </xsl:if>

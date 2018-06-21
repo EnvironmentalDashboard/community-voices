@@ -40,4 +40,12 @@ class Slide
     {
         // intentionally blank
     }
+
+    public function postSlideUpload($request)
+    {
+        $apiController = $this->secureContainer->contain($this->slideAPIController);
+        $identity = $this->recognitionAdapter->identify();
+
+        $apiController->postSlideUpload($request, $identity);
+    }
 }

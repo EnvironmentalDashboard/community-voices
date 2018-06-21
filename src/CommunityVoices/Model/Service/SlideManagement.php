@@ -26,57 +26,62 @@ class SlideManagement
     }
 
     /**
-     * Maps a new quote to the database
-     * @param  String $text               [description]
-     * @param  String $attribution        [description]
-     * @param  String $subAttribution     [description]
-     * @param  String $dateRecorded       [description]
-     * @param  String $publicDocumentLink [description]
-     * @param  String $sourceDocumentLink [description]
+     * Maps a new slide to the database
      * @return Boolean                     [description]
      */
-    public function upload($text, $attribution, $subAttribution,
+    public function upload($quoteId, $imageId, $contentCategory,
                     $dateRecorded, $approved,
-                    $addedBy){
+                    $addedBy) {
+
+        $quote = new Entity\Quote;
+        $quote->setId((int) $quoteId);
+
+        $image = new Entity\Image;
+        $image->setId((int) $imageId);
+
+        $category = new Entity\ContentCategory;
+        $category->setId((int) $contentCategory);
 
         /*
          * Create Slide entity and set attributes
          */
+        $slide = new Entity\Slide;
 
-        $quote = new Entity\Slide;
-
-        $quote->setText($text);
-        $quote->setAttribution($attribution);
-        $quote->setSubAttribution($subAttribution);
-        $quote->setDateRecorded($dateRecorded);
-        $quote->setAddedBy($addedBy);
-        if($approved){
-            $quote->setStatus(3);
+        $slide->setContentCategory($category);
+        $slide->setImage($image);
+        $slide->setQuote($quote);
+        $slide->setProbability(0);
+        $slide->setDecayPercent(0);
+        $slide->setDecayEnd(time()+3600);
+        $slide->setDecayStart(time());
+        // $slide->setDateRecorded($dateRecorded);
+        $slide->setAddedBy($addedBy);
+        if ($approved) {
+            $slide->setStatus(3);
         } else {
-            $quote->setStatus(1);
+            $slide->setStatus(1);
         }
 
         /*
          * Create error observer w/ appropriate subject and pass to validator
          */
 
-        $this->stateObserver->setSubject('quoteUpload');
-        $isValid = $quote->validateForUpload($this->stateObserver);
+        $this->stateObserver->setSubject('slideUpload');
+        $isValid = $slide->validateForUpload($this->stateObserver);
 
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
 
         /*
-         * Stop the upload process and save errors to the application state. If
-         * there is no attribution, there is no point in continuing the upload process.
+         * Stop the upload process and save errors to the application state.
          */
-
-       if (!$isValid && $this->stateObserver->hasEntry('attribution', $quote::ERR_ATTRIBUTION_REQUIRED))
+        // $this->stateObserver->getEntries() to see errors
+        if (!$isValid) // && $this->stateObserver->hasEntry('attribution', $quote::ERR_ATTRIBUTION_REQUIRED)
         {
              $clientState->save($this->stateObserver);
              return false;
          }
 
-        $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Slide::class);
+        $slideMapper = $this->mapperFactory->createDataMapper(Mapper\Slide::class);
 
         /*
          * If there are any errors at this point, save the error state and stop
@@ -89,10 +94,9 @@ class SlideManagement
         }
 
         /*
-         * save $quote to database
+         * save $slide to database
          */
-
-        $quoteMapper->save($quote);
+        $slideMapper->save($slide);
 
         return true;
 
