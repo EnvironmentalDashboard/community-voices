@@ -114,6 +114,7 @@ class Media implements HasId
 
     public function toArray()
     {
+
         return ['media' => [
             'id' => $this->id,
             'addedBy' => $this->addedBy ? $this->addedBy->toArray() : null,

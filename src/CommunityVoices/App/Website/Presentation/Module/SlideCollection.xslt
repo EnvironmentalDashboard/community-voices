@@ -19,10 +19,9 @@
 						<a href= "slides/{id}"/>
 
 							<p>
-								<xsl:value-of select='text' />
-								-
-								<xsl:value-of select='attribution' />,
-								<xsl:value-of select='subAttribution' />
+								<xsl:value-of select='image' />,
+								<xsl:value-of select='quote/quote/text' />,
+								<xsl:value-of select='contentCategory/contentCategory/id' />
 							</p>
 
 						<a/>
@@ -41,8 +40,6 @@
 			</xsl:for-each>
 
 		</ul>
-
-		<a href="./slides/new">Upload new slide!</a> 
 
 	</xsl:template>
 

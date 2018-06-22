@@ -156,7 +156,7 @@ class User implements HasId, Palladium\Contract\HasId
             'email' => $this->email,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
-            'role' => $this->allowableRole[$this->role]
+            'role' => $this->role ? $this->allowableRole[$this->role] : null
         ]];
     }
 }

@@ -41,7 +41,7 @@ class Slide extends Component\View
 
         $identityXMLElement = new SimpleXMLElement(
           $this->transcriber->toXml($identity->toArray())
-      );
+        );
 
         /**
          * Gather slide information
@@ -52,7 +52,7 @@ class Slide extends Component\View
           $this->transcriber->toXml(json_decode(
               $slideAPIView->getAllSlide()->getContent()
           ))
-      );
+        );
 
         /**
          * Slide XML Package
@@ -68,6 +68,8 @@ class Slide extends Component\View
         /**
          * Generate slide module
          */
+        // var_dump($slidePackageElement->domain->slideCollection->slide->contentCategory->contentCategory->id);exit;
+        // var_dump($slidePackageElement->domain->slideCollection->slide->quote->quote->text);exit;
         $slideModule = new Component\Presenter('Module/SlideCollection');
         $slideModuleXML = $slideModule->generate($slidePackageElement);
 
@@ -76,23 +78,6 @@ class Slide extends Component\View
          */
         $urlGenerator = new UrlGenerator($routes, $context);
         $baseUrl = $urlGenerator->generate('root');
-
-        /**
-         * Slide XML Package
-         */
-        $slidePackageElement = new Helper\SimpleXMLElementExtension('<package/>');
-
-        $packagedSlide = $slidePackageElement->addChild('domain');
-        $packagedSlide->adopt($slideXMLElement);
-
-        $packagedIdentity = $slidePackageElement->addChild('identity');
-        $packagedIdentity->adopt($identityXMLElement);
-
-        /**
-         * Generate slide module
-         */
-        $slideModule = new Component\Presenter('Module/Slide');
-        $slideModuleXML = $slideModule->generate($slidePackageElement);
 
         /**
          * Get base URL
@@ -112,6 +97,7 @@ class Slide extends Component\View
             "Community Voices: All Slides".
             $slideXMLElement->id
         );
+        $domainXMLElement->addChild('navbarSection', "slide");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -181,6 +167,7 @@ class Slide extends Component\View
             "Community Voices: Slide ".
             $slideXMLElement->id
         );
+        $domainXMLElement->addChild('navbarSection', "slide");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -265,7 +252,6 @@ class Slide extends Component\View
           'title',
           "Community Voices"
         );
-        $domainXMLElement->addChild('navbarSection', "slide");
 
         /**
          * Prepare template

@@ -191,8 +191,8 @@ class Slide extends Media
     {
         return ['slide' => array_merge(parent::toArray()['media'], [
             'contentCategory' => $this->contentCategory ? $this->contentCategory->toArray() : null,
-            'image' => $this->image ? $this->image->toArray() : null,
-            'quote' => $this->quote ? $this->quote->toArray() : null,
+            'image' => $this->image ? $this->image->getId() : null,//$this->image ? $this->image->toArray() : null,
+            'quote' => $this->quote ? $this->quote->toArray() : null,//$this->quote ? $this->quote->toArray() : null,
             'probability' => $this->probability,
             'decayPercent' => $this->decayPercent,
             'decayStart' => $this->decayStart,

@@ -22,9 +22,7 @@ class Slide
 
         $stateObserver->setSubject('slideFindAll');
         $slideCollection = $stateObserver->getEntry('slideCollection')[0];
-
         $response = new HttpFoundation\JsonResponse($slideCollection->toArray());
-
         return $response;
     }
 

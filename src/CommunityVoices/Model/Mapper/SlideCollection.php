@@ -6,6 +6,7 @@ use PDO;
 use InvalidArgumentException;
 use CommunityVoices\Model\Component\DataMapper;
 use CommunityVoices\Model\Entity;
+use CommunityVoices\Model\Mapper;
 
 class SlideCollection extends DataMapper
 {
@@ -46,6 +47,17 @@ class SlideCollection extends DataMapper
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($results as $key => $entry) {
+            $imgMapper = new Mapper\Image($this->conn);
+            $quoteMapper = new Mapper\Quote($this->conn);
+            $entry['image'] = new Entity\Image;
+            $entry['image']->setId($entry['imageId']);
+            $imgMapper->fetch($entry['image']);
+            $entry['quote'] = new Entity\Quote;
+            $entry['quote']->setId($entry['quoteId']);
+            $quoteMapper->fetch($entry['quote']);
+            $contentCategory = new Entity\ContentCategory;
+            $contentCategory->setId((int) $entry['contentCategoryId']);
+            $entry['ContentCategory'] = $contentCategory;
             $slideCollection->addEntityFromParams($entry);
         }
     }
