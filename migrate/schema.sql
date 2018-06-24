@@ -64,7 +64,7 @@ CREATE TABLE `community-voices_media` (
     `id` int(21) NOT NULL,
     `added_by` int(11) NOT NULL,
     `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `type` enum('slide','image','quote') NOT NULL,
+    `type` enum('slide','image','quote','article') NOT NULL,
     `status` enum('pending','rejected','approved') NOT NULL
 );
 
@@ -86,6 +86,13 @@ CREATE TABLE `community-voices_quotes` (
     `date_recorded` datetime DEFAULT NULL,
     `public_document_link` varchar(255) DEFAULT NULL,
     `source_document_link` varchar(255) DEFAULT NULL
+);
+
+CREATE TABLE `community-voices_articles` (
+    `media_id` int(21) NOT NULL,
+    `text` text,
+    `author` varchar(255) DEFAULT NULL,
+    `date_recorded` datetime DEFAULT NULL
 );
 
 CREATE TABLE `community-voices_slides` (
@@ -152,6 +159,9 @@ ALTER TABLE `community-voices_organization-categories`
 ALTER TABLE `community-voices_quotes`
     ADD PRIMARY KEY (`media_id`);
 
+ALTER TABLE `community-voices_articles`
+    ADD PRIMARY KEY (`media_id`);
+
 ALTER TABLE `community-voices_slides`
     ADD PRIMARY KEY (`media_id`),
     ADD UNIQUE KEY `image_id` (`image_id`,`quote_id`),
@@ -214,6 +224,9 @@ ALTER TABLE `community-voices_organization-categories`
 
 ALTER TABLE `community-voices_quotes`
     ADD CONSTRAINT `community-voices_quotes_fk0` FOREIGN KEY (`media_id`) REFERENCES `community-voices_media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `community-voices_articles`
+    ADD CONSTRAINT `community-voices_articles_fk0` FOREIGN KEY (`media_id`) REFERENCES `community-voices_media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `community-voices_slides`
     ADD CONSTRAINT `community-voices_slides_fk0` FOREIGN KEY (`media_id`) REFERENCES `community-voices_media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,

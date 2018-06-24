@@ -231,5 +231,60 @@
         "resource": "Image",
         "action": "sendImage"
       }
+    },
+
+    "getAllArticle": {
+        "notation": "/articles",
+        "method": "get",
+        "defaults": {
+            "resource": "Article",
+            "action": "getAllArticle"
+        }
+    },
+
+    "getArticleUpload": {
+        "notation": "/articles/new",
+        "method": "get",
+        "defaults": {
+            "resource": "Article",
+            "action": "getArticleUpload"
+        }
+    },
+
+    "postArticleUpload": {
+        "notation": "/articles/new/authenticate",
+        "method": "post",
+        "defaults": {
+            "resource": "Article",
+            "action": "postArticleUpload"
+        }
+    },
+
+    "getArticle": {
+        "notation": "/articles/{id}",
+        "method": "get",
+        "defaults": {
+            "resource": "Article",
+            "action": "getArticle"
+        }
+    },
+
+    "getArticleUpdate": {
+        "notation": "/articles/{id}/edit",
+        "method": "get",
+        "defaults": {
+            "resource": "Article",
+            "action": "getArticleUpdate"
+        }
+    },
+
+    "postArticleUpdate": {
+        "notation": "/articles/{id}/edit/authenticate",
+        "method": "post",
+        "defaults": {
+            "resource": "Article",
+            "action": "postArticleUpdate"
+        }
     }
+    
 }

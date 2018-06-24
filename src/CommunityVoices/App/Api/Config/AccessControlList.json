@@ -62,6 +62,24 @@
         ["CommunityVoices\\App\\Api\\View\\Image::postImageUpdate", {"allow" : "manager"}],
 
         ["CommunityVoices\\App\\Api\\Controller\\Landing::getLanding", {"allow" : "guest"}],
-        ["CommunityVoices\\App\\Api\\View\\Landing::getLanding", {"allow" : "guest"}]
+        ["CommunityVoices\\App\\Api\\View\\Landing::getLanding", {"allow" : "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Article::getArticle", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Article::getArticle", {"allow" : "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Article::getAllArticle", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Article::getAllArticle", {"allow" : "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Article::getArticleUpload", {"allow" : "user"}],
+        ["CommunityVoices\\App\\Api\\View\\Article::getArticleUpload", {"allow" : "user"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Article::postArticleUpload", {"allow" : "user"}],
+        ["CommunityVoices\\App\\Api\\View\\Article::postArticleUpload", {"allow" : "user"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Article::getArticleUpdate", {"allow" : "manager"}],
+        ["CommunityVoices\\App\\Api\\View\\Article::getArticleUpdate", {"allow" : "manager"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Article::postArticleUpdate", {"allow" : "manager"}],
+        ["CommunityVoices\\App\\Api\\View\\Article::postArticleUpdate", {"allow" : "manager"}]
     ]
 }
