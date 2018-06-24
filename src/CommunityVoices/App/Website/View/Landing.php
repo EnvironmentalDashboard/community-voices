@@ -84,6 +84,7 @@ class Landing extends Component\View
             'title',
             "Community Voices: Landing Page"
         );
+        $domainXMLElement->addChild('Landing', 'dsf');
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);

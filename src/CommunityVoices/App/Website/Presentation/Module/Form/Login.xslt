@@ -1,43 +1,88 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    version="1.0">
+  version="1.0">
 
-    <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+  <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
 
-    <xsl:template match="/form">
-        <div class="row" style="padding:15px;">
-            <div class="col-12">
-                <xsl:if test="@failure">
-                    <p>Incorrect user/pass combination.</p>
-                </xsl:if>
+  <xsl:template match="/form">
+    <style>
+      .form-signin {
+      width: 100%;
+      max-width: 330px;
+      padding: 15px;
+      margin: auto;
+      }
+      .form-signin .checkbox {
+      font-weight: 400;
+      }
+      .form-signin .form-control {
+      position: relative;
+      box-sizing: border-box;
+      height: auto;
+      padding: 10px;
+      font-size: 16px;
+      }
+      .form-signin .form-control:focus {
+      z-index: 2;
+      }
+      .form-signin input[type="email"] {
+      margin-bottom: -1px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+      }
+      .form-signin input[type="password"] {
+      margin-bottom: 10px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      }
+    </style>
+    <div class="row" style="padding:15px;">
+      <div class="col-12">
+        <xsl:if test="@failure">
+          <p>Incorrect user/pass combination.</p>
+        </xsl:if>
 
-                <form action='./login/authenticate' method='post'>
-                    Email:
-                    <xsl:choose>
-                        <xsl:when test="@email-value">
-                            <input type='input' name='email' value='{@email-value}'/>
+        <form class="form-signin mb-5 pb-5" action='./login/authenticate' method='post'>
+          <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+          <label for="email" class="sr-only">Email address</label>
+          <xsl:choose>
+              <xsl:when test="@email-value">
+                  <input type='email' name='email' id="email" value='{@email-value}' class="form-control" placeholder="Email address" required="" autofocus="" />
+              </xsl:when>
+              <xsl:otherwise>
+                  <input type='email' name='email' id="email" class="form-control" placeholder="Email address" required="" autofocus=""/>
+              </xsl:otherwise>
+          </xsl:choose>
+          <label for="password" class="sr-only">Password</label>
+          <input type="password" name="password" id="password" class="form-control" placeholder="Password" required="" />
+          <div class="checkbox mb-3">
+            <label>
+              <xsl:choose>
+                        <xsl:when test="@remember-value &gt; 0">
+                            <input type='checkbox' name='remember' checked='{@remember-value}'/> Remember me
                         </xsl:when>
                         <xsl:otherwise>
-                            <input type='input' name='email'/>
+                            <input type='checkbox' name='remember' /> Remember me
                         </xsl:otherwise>
                     </xsl:choose>
+            </label>
+          </div>
+          <button class="btn btn-lg btn-primary btn-block mb-5" type="submit">Sign in</button>
+        </form>
+
+                <!-- <form >
+                    Email:
+            
                     <br/>
 
-                    Password: <input type='password' name='password'/><br/>
+                    Password: <br/>
 
                     Remember Me:
-                    <xsl:choose>
-                        <xsl:when test="@remember-value &gt; 0">
-                            <input type='checkbox' name='remember' checked='{@remember-value}'/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <input type='checkbox' name='remember' />
-                        </xsl:otherwise>
-                    </xsl:choose><br/>
+                    <br/>
 
                     <input type='submit'/>
-                </form>
-            </div>
-        </div>
-    </xsl:template>
+                  </form> -->
+                </div>
+              </div>
+            </xsl:template>
 
-</xsl:stylesheet>
+          </xsl:stylesheet>

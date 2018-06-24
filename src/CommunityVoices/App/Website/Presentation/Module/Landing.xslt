@@ -10,11 +10,6 @@
       <div class="row" style="padding:15px;">
         <div class="col-12">
           <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-              <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-            </ol>
             <div class="carousel-inner">
               <xsl:for-each select="domain/slideCollection/slide">
                 <xsl:variable name="i" select="position()" />
@@ -28,6 +23,29 @@
                               <xsl:attribute name="xlink:href">/community-voices/uploads/<xsl:value-of select='image' /></xsl:attribute>
                             </image>
                             <text x="50%" y="45%" fill="#fff" font-size="4px"><xsl:value-of select='quote/quote/text' /></text>
+                            <!-- <text x="50%" y="45%" fill="#fff" font-size="4px"><xsl:value-of select='contentCategory/contentCategory/id' /></text> -->
+                            <image x="0" y="5" width="100%">
+                              <xsl:choose>
+                                <xsl:when test="contentCategory/contentCategory/id = 1">
+                                  <xsl:attribute name="xlink:href">https://environmentaldashboard.org/cv_slides/categorybars/serving-our-community.png</xsl:attribute>
+                                </xsl:when>
+                                <xsl:when test="contentCategory/contentCategory/id = 2">
+                                  <xsl:attribute name="xlink:href">https://environmentaldashboard.org/cv_slides/categorybars/our-downtown.png</xsl:attribute>
+                                </xsl:when>
+                                <xsl:when test="contentCategory/contentCategory/id = 3">
+                                  <xsl:attribute name="xlink:href">https://environmentaldashboard.org/cv_slides/categorybars/next-generation.png</xsl:attribute>
+                                </xsl:when>
+                                <xsl:when test="contentCategory/contentCategory/id = 4">
+                                  <xsl:attribute name="xlink:href">https://environmentaldashboard.org/cv_slides/categorybars/heritage.png</xsl:attribute>
+                                </xsl:when>
+                                <xsl:when test="contentCategory/contentCategory/id = 5">
+                                  <xsl:attribute name="xlink:href">https://environmentaldashboard.org/cv_slides/categorybars/nature_photos.png</xsl:attribute>
+                                </xsl:when>
+                                <xsl:when test="contentCategory/contentCategory/id = 6">
+                                  <xsl:attribute name="xlink:href">https://environmentaldashboard.org/cv_slides/categorybars/neighbors.png</xsl:attribute>
+                                </xsl:when>
+                              </xsl:choose>
+                            </image>
                           </g>
                         </svg>
                     </div>
@@ -41,6 +59,28 @@
                               <xsl:attribute name="xlink:href">/community-voices/uploads/<xsl:value-of select='image' /></xsl:attribute>
                             </image>
                             <text x="50%" y="45%" fill="#fff" font-size="4px"><xsl:value-of select='quote/quote/text' /></text>
+                            <image x="0" y="5" width="100%">
+                              <xsl:choose>
+                                <xsl:when test="contentCategory/contentCategory/id = 1">
+                                  <xsl:attribute name="xlink:href">https://environmentaldashboard.org/cv_slides/categorybars/serving-our-community.png</xsl:attribute>
+                                </xsl:when>
+                                <xsl:when test="contentCategory/contentCategory/id = 2">
+                                  <xsl:attribute name="xlink:href">https://environmentaldashboard.org/cv_slides/categorybars/our-downtown.png</xsl:attribute>
+                                </xsl:when>
+                                <xsl:when test="contentCategory/contentCategory/id = 3">
+                                  <xsl:attribute name="xlink:href">https://environmentaldashboard.org/cv_slides/categorybars/next-generation.png</xsl:attribute>
+                                </xsl:when>
+                                <xsl:when test="contentCategory/contentCategory/id = 4">
+                                  <xsl:attribute name="xlink:href">https://environmentaldashboard.org/cv_slides/categorybars/heritage.png</xsl:attribute>
+                                </xsl:when>
+                                <xsl:when test="contentCategory/contentCategory/id = 5">
+                                  <xsl:attribute name="xlink:href">https://environmentaldashboard.org/cv_slides/categorybars/nature_photos.png</xsl:attribute>
+                                </xsl:when>
+                                <xsl:when test="contentCategory/contentCategory/id = 6">
+                                  <xsl:attribute name="xlink:href">https://environmentaldashboard.org/cv_slides/categorybars/neighbors.png</xsl:attribute>
+                                </xsl:when>
+                              </xsl:choose>
+                            </image>
                           </g>
                         </svg>
                     </div>

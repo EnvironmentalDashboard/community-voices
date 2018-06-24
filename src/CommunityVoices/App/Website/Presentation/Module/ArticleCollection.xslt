@@ -11,23 +11,22 @@
       <div class="col-12">
         <div class="card-columns">
 
-          <xsl:for-each select="domain/articleCollection/quote">
+          <xsl:for-each select="domain/articleCollection/article">
 
             <xsl:if test="$isManager or status = 'approved'">
 
-              <a href='quotes/{id}' style="color: inherit; text-decoration: inherit;">
+              <a href='articles/{id}' style="color: inherit; text-decoration: inherit;">
                 <div class="card">
                   <div class="card-header">
-                    Quote
+                    Article
                   </div>
                   <div class="card-body">
                     <blockquote class="blockquote mb-0">
                       <p><xsl:value-of select='text' /></p>
                       <footer class='blockquote-footer'>
                         <cite>
-                          <xsl:attribute name="title"><xsl:value-of select='attribution' /></xsl:attribute>
-                          <xsl:value-of select='attribution' />
-                          <xsl:value-of select='subAttribution' />
+                          <xsl:attribute name="title"><xsl:value-of select='author' /></xsl:attribute>
+                          <xsl:value-of select='author' />
                         </cite>
                       </footer>
                     </blockquote>

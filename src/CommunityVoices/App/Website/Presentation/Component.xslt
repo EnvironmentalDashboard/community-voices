@@ -64,9 +64,10 @@
             </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink5">
                 <a class="dropdown-item" href="{baseUrl}landing">Home</a>
-                <a class="dropdown-item" href="{baseUrl}slides">Slides</a>
                 <a class="dropdown-item" href="{baseUrl}images">Images</a>
                 <a class="dropdown-item" href="{baseUrl}quotes">Quotes</a>
+                <a class="dropdown-item" href="{baseUrl}slides">Slides</a>
+                <a class="dropdown-item" href="{baseUrl}articles">Articles</a>
                 <xsl:choose>
                   <xsl:when test="identity/user/id &gt; 0">
                     <a class="dropdown-item" href="{baseUrl}logout">Logout <xsl:value-of select="identity/user/firstName" /></a>
