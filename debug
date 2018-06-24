@@ -1,0 +1,116 @@
+diff --git a/src/CommunityVoices/App/Api/Controller/Image.php b/src/CommunityVoices/App/Api/Controller/Image.php
+index 714471f..2d4983d 100755
+--- a/src/CommunityVoices/App/Api/Controller/Image.php
++++ b/src/CommunityVoices/App/Api/Controller/Image.php
+@@ -37,7 +37,7 @@ class Image
+ 
+     public function getAllImage($request)
+     {
+-        $this->imageLookup->findAll();
++        $this->imageLookup->findAll(); /* NEED TO ADD ?page TO QUERY STRING */
+     }
+ 
+     public function getImageUpload()
+diff --git a/src/CommunityVoices/App/Website/Presentation/Component.xslt b/src/CommunityVoices/App/Website/Presentation/Component.xslt
+index 8c6070f..d29ecba 100755
+--- a/src/CommunityVoices/App/Website/Presentation/Component.xslt
++++ b/src/CommunityVoices/App/Website/Presentation/Component.xslt
+@@ -71,10 +71,10 @@
+                 <xsl:choose>
+                   <xsl:when test="identity/user/id &gt; 0">
+                     <a class="dropdown-item" href="{baseUrl}logout">Logout <xsl:value-of select="identity/user/firstName" /></a>
+-                    <a class="dropdown-item">
++                    <!-- <a class="dropdown-item">
+                       <xsl:attribute name="href">user/<xsl:value-of select="identity/user/id" /></xsl:attribute>
+                       View Account
+-                    </a>
++                    </a> -->
+                   </xsl:when>
+                   <xsl:otherwise>
+                     <a class="dropdown-item" href="{baseUrl}login">Login</a>
+diff --git a/src/CommunityVoices/Model/Mapper/ImageCollection.php b/src/CommunityVoices/Model/Mapper/ImageCollection.php
+index 0f63a7d..d4eca1e 100755
+--- a/src/CommunityVoices/Model/Mapper/ImageCollection.php
++++ b/src/CommunityVoices/Model/Mapper/ImageCollection.php
+@@ -9,19 +9,25 @@ use CommunityVoices\Model\Entity;
+ 
+ class ImageCollection extends DataMapper
+ {
+-    public function fetch(Entity\ImageCollection $imageCollection, $status = 3)
++    public function fetch(Entity\ImageCollection $imageCollection, int $limit = 5, int $offset = 0, int $status = 3)
+     {
+         if( $status == 3 ){
+-            return $this->fetchAll($imageCollection);
++            return $this->fetchAll($imageCollection, $limit, $offset);
+         } elseif( $status == 2 ) {
+-            return $this->fetchRejected($imageCollection);
++            return $this->fetchRejected($imageCollection, $limit, $offset);
+         } elseif( $status == 1 ) {
+-            return $this->fetchPending($imageCollection);
++            return $this->fetchPending($imageCollection, $limit, $offset);
+         }
+     }
+ 
+-    private function fetchAll(Entity\ImageCollection $imageCollection)
++    private function fetchAll(Entity\ImageCollection $imageCollection, int $limit = 5, int $offset = 0)
+     {
++        if (!is_int($limit)) {
++            $limit = 5;
++        }
++        if (!is_int($offset)) {
++            $offset = 0;
++        }
+         $query = " 	SELECT
+ 						media.id 						AS id,
+ 						media.added_by 					AS addedBy,
+@@ -42,6 +48,7 @@ class ImageCollection extends DataMapper
+ 						ON media.id = image.media_id
+           WHERE
+             media.status = 'approved'
++            LIMIT {$offset}, {$limit}
+ 				 ";
+ 
+         $statement = $this->conn->prepare($query);
+@@ -55,8 +62,14 @@ class ImageCollection extends DataMapper
+         }
+     }
+ 
+-    private function fetchPending(Entity\ImageCollection $imageCollection)
++    private function fetchPending(Entity\ImageCollection $imageCollection, int $limit = 5, int $offset = 0)
+     {
++        if (!is_int($limit)) {
++            $limit = 5;
++        }
++        if (!is_int($offset)) {
++            $offset = 0;
++        }
+         $query = " 	SELECT
+ 						media.id 						AS id,
+ 						media.added_by 					AS addedBy,
+@@ -77,6 +90,7 @@ class ImageCollection extends DataMapper
+ 						ON media.id = image.media_id
+           WHERE
+             media.status = 'pending'
++            LIMIT {$offset}, {$limit}
+ 				 ";
+ 
+         $statement = $this->conn->prepare($query);
+diff --git a/src/CommunityVoices/Model/Service/ImageLookup.php b/src/CommunityVoices/Model/Service/ImageLookup.php
+index 27ecbd2..f648ad7 100755
+--- a/src/CommunityVoices/Model/Service/ImageLookup.php
++++ b/src/CommunityVoices/Model/Service/ImageLookup.php
+@@ -91,12 +91,12 @@ class ImageLookup
+      *
+      * @return CommunityVoices\Model\Entity\ImageCollection
+      */
+-    public function findAll()
++    public function findAll(int $limit = 5, int $offset = 0)
+     {
+         $imageCollection = new Entity\ImageCollection;
+ 
+         $imageCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\ImageCollection::class);
+-        $imageCollectionMapper->fetch($imageCollection);
++        $imageCollectionMapper->fetch($imageCollection, $limit, $offset);
+ 
+         // I am uncertain about this
+         $this->stateObserver->setSubject('imageFindAll');

@@ -71,10 +71,10 @@
                 <xsl:choose>
                   <xsl:when test="identity/user/id &gt; 0">
                     <a class="dropdown-item" href="{baseUrl}logout">Logout <xsl:value-of select="identity/user/firstName" /></a>
-                    <a class="dropdown-item">
+                    <!-- <a class="dropdown-item">
                       <xsl:attribute name="href">user/<xsl:value-of select="identity/user/id" /></xsl:attribute>
                       View Account
-                    </a>
+                    </a> -->
                   </xsl:when>
                   <xsl:otherwise>
                     <a class="dropdown-item" href="{baseUrl}login">Login</a>

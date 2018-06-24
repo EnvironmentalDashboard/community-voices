@@ -9,19 +9,25 @@ use CommunityVoices\Model\Entity;
 
 class ImageCollection extends DataMapper
 {
-    public function fetch(Entity\ImageCollection $imageCollection, $status = 3)
+    public function fetch(Entity\ImageCollection $imageCollection, int $limit = 5, int $offset = 0, int $status = 3)
     {
         if( $status == 3 ){
-            return $this->fetchAll($imageCollection);
+            return $this->fetchAll($imageCollection, $limit, $offset);
         } elseif( $status == 2 ) {
-            return $this->fetchRejected($imageCollection);
+            return $this->fetchRejected($imageCollection, $limit, $offset);
         } elseif( $status == 1 ) {
-            return $this->fetchPending($imageCollection);
+            return $this->fetchPending($imageCollection, $limit, $offset);
         }
     }
 
-    private function fetchAll(Entity\ImageCollection $imageCollection)
+    private function fetchAll(Entity\ImageCollection $imageCollection, int $limit = 5, int $offset = 0)
     {
+        if (!is_int($limit)) {
+            $limit = 5;
+        }
+        if (!is_int($offset)) {
+            $offset = 0;
+        }
         $query = " 	SELECT
 						media.id 						AS id,
 						media.added_by 					AS addedBy,
@@ -42,6 +48,7 @@ class ImageCollection extends DataMapper
 						ON media.id = image.media_id
           WHERE
             media.status = 'approved'
+            LIMIT {$offset}, {$limit}
 				 ";
 
         $statement = $this->conn->prepare($query);
@@ -55,8 +62,14 @@ class ImageCollection extends DataMapper
         }
     }
 
-    private function fetchPending(Entity\ImageCollection $imageCollection)
+    private function fetchPending(Entity\ImageCollection $imageCollection, int $limit = 5, int $offset = 0)
     {
+        if (!is_int($limit)) {
+            $limit = 5;
+        }
+        if (!is_int($offset)) {
+            $offset = 0;
+        }
         $query = " 	SELECT
 						media.id 						AS id,
 						media.added_by 					AS addedBy,
@@ -77,6 +90,7 @@ class ImageCollection extends DataMapper
 						ON media.id = image.media_id
           WHERE
             media.status = 'pending'
+            LIMIT {$offset}, {$limit}
 				 ";
 
         $statement = $this->conn->prepare($query);

@@ -91,12 +91,12 @@ class ImageLookup
      *
      * @return CommunityVoices\Model\Entity\ImageCollection
      */
-    public function findAll()
+    public function findAll(int $limit = 5, int $offset = 0)
     {
         $imageCollection = new Entity\ImageCollection;
 
         $imageCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\ImageCollection::class);
-        $imageCollectionMapper->fetch($imageCollection);
+        $imageCollectionMapper->fetch($imageCollection, $limit, $offset);
 
         // I am uncertain about this
         $this->stateObserver->setSubject('imageFindAll');

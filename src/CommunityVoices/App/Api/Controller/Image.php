@@ -37,7 +37,7 @@ class Image
 
     public function getAllImage($request)
     {
-        $this->imageLookup->findAll();
+        $this->imageLookup->findAll(); /* NEED TO ADD ?page TO QUERY STRING */
     }
 
     public function getImageUpload()
