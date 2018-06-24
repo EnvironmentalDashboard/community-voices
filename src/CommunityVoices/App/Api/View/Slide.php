@@ -21,8 +21,11 @@ class Slide
         $stateObserver = $clientState->retrieve();
 
         $stateObserver->setSubject('slideFindAll');
-        $slideCollection = $stateObserver->getEntry('slideCollection')[0];
-        $response = new HttpFoundation\JsonResponse($slideCollection->toArray());
+        $slideCollection = $stateObserver->getEntry('slideCollection')[0]->toArray();
+        // for ($i = 0; $i < count($slideCollection['slideCollection']); $i++) { 
+        //     $slideCollection['slideCollection'][$i]['slide']['quote']['quote']['SVGtext'] = $this->SVGText($slideCollection['slideCollection'][$i]['slide']['quote']['quote']['text']);
+        // }
+        $response = new HttpFoundation\JsonResponse($slideCollection);
         return $response;
     }
 
@@ -48,4 +51,19 @@ class Slide
     {
         // intentionally blank
     }
+
+    // private function SVGText($str) {
+    //     $ret = '<text x="50%" y="45%" fill="#fff" font-size="4px">';
+    //     $i = 0;
+    //     foreach (explode(' ', $str) as $w => $word) {
+    //         if ($w % 5 === 0) {
+    //             $ret .= '<tspan dy="2">';
+    //         }
+    //         $ret .= "{$word}";
+    //         if ($w % 5 === 0) {
+    //             $ret .= '</tspan>';
+    //         }
+    //     }
+    //     return $ret . '</text>';
+    // }
 }

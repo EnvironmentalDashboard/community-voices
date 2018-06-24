@@ -9,18 +9,11 @@
 	<xsl:template match="/package">
 
 		<div class="row" style="padding:15px;">
-      <div class="col-12">
 				<xsl:for-each select="domain/slideCollection/slide">
 
 					<xsl:if test="$isManager or status = 'approved'">
 
-						<!-- <xsl:variable name="i" select="position()" />
-						<xsl:copy>
-		         <xsl:value-of select="concat('$i = ', $i)"/>
-		        </xsl:copy> -->
-		        <!-- https://stackoverflow.com/questions/3344965/increment-a-value-in-xslt -->
-
-						<div class="col-sm-3">
+						<div class="col-xl-3 col-md-4 col-sm-6">
 
 							<a href= "slides/{id}"/>
 
@@ -76,7 +69,6 @@
 					</xsl:if>
 
 				</xsl:for-each>
-			</div>
 		</div>
 
 

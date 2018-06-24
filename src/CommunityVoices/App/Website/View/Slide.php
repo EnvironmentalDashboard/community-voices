@@ -260,4 +260,5 @@ class Slide extends Component\View
         $this->finalize($response);
         return $response;
     }
+
 }
