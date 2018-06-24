@@ -8,51 +8,54 @@
 
 	<xsl:template match="/package">
 
-		<div class="card-columns">
+		<div class="row" style="padding:15px;">
+      <div class="col-12">
 
-			<xsl:for-each select="domain/imageCollection/image">
+			<div class="card-columns">
 
-				<xsl:if test="$isManager or status = 'approved'">
+				<xsl:for-each select="domain/imageCollection/image">
 
-					<div class="card">
-						<a href="images/{id}">
-							<img>
-								<xsl:attribute name="src">./uploads/<xsl:value-of select='id' /></xsl:attribute>
-								<xsl:attribute name="alt"><xsl:value-of select='title' /></xsl:attribute>
-								<xsl:attribute name="class">card-img-top</xsl:attribute>
-							</img>
-						</a>
-						<div class="card-body">
-							<blockquote class="blockquote mb-0">
-								<h5><xsl:value-of select='title' /></h5>
-								<p><xsl:value-of select='description' /></p>
-								<footer class='blockquote-footer'>
-	                <small class='text-muted'>
-	                  <cite>
-	                  	<xsl:attribute name="title"><xsl:value-of select='photographer' /></xsl:attribute>
-	                  	<xsl:value-of select='photographer' />
-	                  	<xsl:if test="organization != ''">, <xsl:value-of select='organization' /></xsl:if>
-	                  </cite>
-	                </small>
-	              </footer>
-							</blockquote>
+					<xsl:if test="$isManager or status = 'approved'">
+
+						<div class="card">
+							<a href="images/{id}">
+								<img>
+									<xsl:attribute name="src">./uploads/<xsl:value-of select='id' /></xsl:attribute>
+									<xsl:attribute name="alt"><xsl:value-of select='title' /></xsl:attribute>
+									<xsl:attribute name="class">card-img-top</xsl:attribute>
+								</img>
+							</a>
+							<div class="card-body">
+								<blockquote class="blockquote mb-0">
+									<h5><xsl:value-of select='title' /></h5>
+									<p><xsl:value-of select='description' /></p>
+									<footer class='blockquote-footer'>
+		                <small class='text-muted'>
+		                  <cite>
+		                  	<xsl:attribute name="title"><xsl:value-of select='photographer' /></xsl:attribute>
+		                  	<xsl:value-of select='photographer' />
+		                  	<xsl:if test="organization != ''">, <xsl:value-of select='organization' /></xsl:if>
+		                  </cite>
+		                </small>
+		              </footer>
+								</blockquote>
+							</div>
+							<div class="card-footer text-muted">
+								<p class='mt-0 mb-0'><xsl:value-of select='dateTaken' /></p>
+								<xsl:if test="$isManager">
+									<p class='mt-0 mb-0'>Status: <xsl:value-of select='status' /></p>
+								</xsl:if>
+							</div>
+
 						</div>
-						<div class="card-footer text-muted">
-							<p class='mt-0 mb-0'><xsl:value-of select='dateTaken' /></p>
-							<xsl:if test="$isManager">
-								<p class='mt-0 mb-0'>Status: <xsl:value-of select='status' /></p>
-							</xsl:if>
-						</div>
 
-					</div>
+					</xsl:if>
 
-				</xsl:if>
+				</xsl:for-each>
 
-			</xsl:for-each>
-
+			</div>
 		</div>
-
-		<a href="./images/new">Upload new image!</a>
+	</div>
 
 	</xsl:template>
 

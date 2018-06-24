@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 class Landing extends Component\View
 {
     protected $recognitionAdapter;
-    // protected $landingAPIView;
+    protected $landingAPIView;
     protected $secureContainer;
     protected $transcriber;
 
@@ -22,14 +22,14 @@ class Landing extends Component\View
         Component\RecognitionAdapter $recognitionAdapter,
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
-        Api\Component\SecureContainer $secureContainer //,
-        // Api\View\Landing $landingAPIView
+        Api\Component\SecureContainer $secureContainer,
+        Api\View\Landing $landingAPIView
     ) {
         $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
         $this->transcriber = $transcriber;
         $this->secureContainer = $secureContainer;
-        // $this->landingAPIView = $landingAPIView;
+        $this->landingAPIView = $landingAPIView;
     }
 
     public function getLanding($routes, $context){
@@ -42,8 +42,24 @@ class Landing extends Component\View
             $this->transcriber->toXml($identity->toArray())
         );
 
+        /**
+         * Gather landing information
+         */
+        $landingAPIView = $this->secureContainer->contain($this->landingAPIView);
+
+        $landingXMLElement = new SimpleXMLElement(
+          $this->transcriber->toXml(json_decode(
+              $landingAPIView->getLanding()->getContent()
+          ))
+        );
+
         $landingPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
-        // @TODO - landing page carousel
+
+        $packagedLanding = $landingPackageElement->addChild('domain');
+        $packagedLanding->adopt($landingXMLElement);
+
+        $packagedIdentity = $landingPackageElement->addChild('identity');
+        $packagedIdentity->adopt($identityXMLElement);
 
         /**
          * Generate landing module

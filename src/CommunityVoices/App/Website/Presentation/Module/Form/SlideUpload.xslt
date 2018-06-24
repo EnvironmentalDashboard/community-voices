@@ -3,6 +3,8 @@
     <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
 
     <xsl:template match="/form">
+        <div class="row" style="padding:15px;">
+          <div class="col-12">
         <style>
           /* Temporary CSS block until better location found */
           .card-columns .card {cursor:pointer}
@@ -154,6 +156,8 @@
         
 
         <svg height="1080" width="1920" style="width:100%;height:auto" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect width="100%" height="100%" style="fill:rgb(0,0,0)" /><g id="render"></g></svg>
+      </div>
+    </div>
     </xsl:template>
 
 </xsl:stylesheet>

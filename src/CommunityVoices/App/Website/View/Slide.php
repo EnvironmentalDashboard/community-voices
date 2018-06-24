@@ -80,12 +80,6 @@ class Slide extends Component\View
         $baseUrl = $urlGenerator->generate('root');
 
         /**
-         * Get base URL
-         */
-        $urlGenerator = new UrlGenerator($routes, $context);
-        $baseUrl = $urlGenerator->generate('root');
-
-        /**
          * Prepare template
          */
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');

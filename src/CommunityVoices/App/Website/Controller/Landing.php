@@ -14,16 +14,18 @@ class Landing
 
     public function __construct(
         Component\RecognitionAdapter $recognitionAdapter,
-        Api\Controller\Image $imageAPIController,
+        Api\Controller\Landing $landingAPIController,
         Api\Component\SecureContainer $secureContainer
     ) {
         $this->recognitionAdapter = $recognitionAdapter;
-        $this->imageAPIController = $imageAPIController;
+        $this->landingAPIController = $landingAPIController;
         $this->secureContainer = $secureContainer;
     }
 
-    public function getLanding(){
-        // Intentionally blank
+    public function getLanding($request){
+        $apiController = $this->secureContainer->contain($this->landingAPIController);
+
+        $apiController->getLanding($request);
     }
 
 }

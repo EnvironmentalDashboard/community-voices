@@ -21,11 +21,7 @@
                     <xsl:call-template name="sub-header" />
                 </xsl:if>
 
-                <div class="row" style="padding:15px;">
-                    <div class="col-12">
-                        <xsl:value-of select="main-pane" disable-output-escaping="yes" />
-                    </div>
-                </div>
+                <xsl:value-of select="main-pane" disable-output-escaping="yes" />
 
                 <xsl:call-template name="common-footer" />
             </div>
