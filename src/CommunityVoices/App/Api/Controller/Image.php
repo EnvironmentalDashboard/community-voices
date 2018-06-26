@@ -37,9 +37,18 @@ class Image
 
     public function getAllImage($request)
     {
-        $title = $request->query->get('page');
-        // var_dump($title);die;
-        $this->imageLookup->findAll(); /* NEED TO ADD ?page TO QUERY STRING */
+        $sort = $request->query->get('sort');
+        $sort = ($sort === 'title' || $sort === 'photographer' || $sort === 'date_taken') ? $sort : 'date_taken';
+        
+        $order = $request->query->get('order');
+        $order = ($order === 'DESC' || $order === 'ASC') ? $order : 'DESC';
+        
+        $page = (int) $request->query->get('page');
+        $page = ($page > 0) ? $page - 1 : 0; // current page, make page 0-based
+        $limit = 2; // number of items per page
+        $offset = $limit * $page;
+        
+        $this->imageLookup->findAll($limit, $offset, $sort, $order);
     }
 
     public function getImageUpload()
