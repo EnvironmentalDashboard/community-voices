@@ -37,6 +37,8 @@ class Image
 
     public function getAllImage($request)
     {
+        $title = $request->query->get('page');
+        // var_dump($title);die;
         $this->imageLookup->findAll(); /* NEED TO ADD ?page TO QUERY STRING */
     }
 

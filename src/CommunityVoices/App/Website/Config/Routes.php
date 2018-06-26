@@ -1,5 +1,4 @@
 <?php
-
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
 
@@ -24,5 +23,6 @@ foreach ($config as $name => $options) {
         )
     );
 }
+
 
 return $collection;

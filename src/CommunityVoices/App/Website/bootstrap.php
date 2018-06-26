@@ -67,6 +67,8 @@ $uri = isset($_SERVER['REQUEST_URI'])
             ? $_SERVER['REQUEST_URI']
             : '/';
 
+$uri = explode('?', $uri)[0];
+
 $parameters = new Symfony\Component\HttpFoundation\ParameterBag($matcher->match($uri));
 
 $request->attributes = $parameters;
