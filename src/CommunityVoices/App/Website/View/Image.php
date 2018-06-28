@@ -183,8 +183,6 @@ class Image extends Component\View
         $domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: All Images");
         $domainXMLElement->addChild('extraJS', 'images');
-        // $domainXMLElement->addChild('count', $count);
-        // $domainXMLElement->addChild('navbarSection', "image");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);

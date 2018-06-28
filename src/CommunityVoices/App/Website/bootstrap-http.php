@@ -13,14 +13,13 @@ use CommunityVoices\App\Website;
 use CommunityVoices\Model;
 
 /**
- * Set time zone, header
+ * Set time zone
  */
 date_default_timezone_set('America/New_York');
-header('Content-Type: application/json');
 
 require __DIR__ . '/../../../../vendor/autoload.php';
 
-$production_server = (posix_uname()['nodename'] === 'environmentaldashboard');
+$production_server = (getenv('SERVER') === 'environmentaldashboard');
 
 /**
  * Injector
@@ -70,7 +69,7 @@ $uri = isset($_SERVER['REQUEST_URI'])
             ? $_SERVER['REQUEST_URI']
             : '/';
 
-$uri = ($production_server) ? '/community-voices' . substr(explode('?', $uri)[0], 1) : explode('?', $uri)[0];
+$uri = ($production_server) ? '/community-voices' . substr(explode('?', $uri)[0], 1) : explode('?', $uri)[0]; // TODO: fix!
 
 $parameters = new Symfony\Component\HttpFoundation\ParameterBag($matcher->match($uri));
 

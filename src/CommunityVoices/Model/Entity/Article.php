@@ -15,7 +15,7 @@ class Article extends Media
 
     public function __construct()
     {
-        $this->type = self::TYPE_QUOTE;
+        $this->type = self::TYPE_ARTICLE;
     }
 
     public function getText()

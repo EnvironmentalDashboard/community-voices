@@ -5,7 +5,7 @@ namespace CommunityVoices\Model\Entity;
 class ArticleCollection extends MediaCollection
 {
     public function __construct(){
-        $this->mediaType = self::MEDIA_TYPE_QUOTE;
+        $this->mediaType = self::MEDIA_TYPE_ARTICLE;
     }
 
     /**

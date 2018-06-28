@@ -13,6 +13,7 @@ class Media implements HasId
     const TYPE_SLIDE = 1;
     const TYPE_IMAGE = 2;
     const TYPE_QUOTE = 3;
+    const TYPE_ARTICLE = 4;
 
     const STATUS_PENDING = 1;
     const STATUS_REJECTED = 2;
@@ -21,7 +22,8 @@ class Media implements HasId
     protected $allowableType = [
         self::TYPE_SLIDE,
         self::TYPE_IMAGE,
-        self::TYPE_QUOTE
+        self::TYPE_QUOTE,
+        self::TYPE_ARTICLE
     ];
 
     protected $allowableStatus = [
