@@ -39,9 +39,10 @@ class Image
         $stateObserver = $clientState->retrieve();
 
         $stateObserver->setSubject('imageFindAll');
-        $imageCollection = $stateObserver->getEntry('imageCollection')[0];
+        $imageCollection = $stateObserver->getEntry('imageCollection')[0]->toArray();
+        $imageCollection['imageCollectionPhotographers'] = $stateObserver->getEntry('imageCollectionPhotographers')[0];
 
-        $response = new HttpFoundation\JsonResponse($imageCollection->toArray());
+        $response = new HttpFoundation\JsonResponse($imageCollection);
 
         return $response;
     }

@@ -54,7 +54,7 @@
             </script>
             <xsl:if test="extraJS = 'create-slide'">
                 <script>
-                    //<![CDATA[
+                    <![CDATA[
                     var $quote_container = $('#ajax-quotes');
                     var $image_container = $('#ajax-images');
                     var $content_categories = $('#content-categories');
@@ -127,7 +127,37 @@
                         }
                         return el;
                     }
-                    //]]>
+                    ]]>
+                </script>
+            </xsl:if>
+            <xsl:if test="extraJS = 'images'">
+                <script>
+                    <![CDATA[
+                    var photographers = [];
+                    $('.photographer-toggle').on('click', function(e) {
+                        e.preventDefault();
+                        var clicked = $(this);
+                        clicked.parent().dropdown('toggle');
+                        var photographer = clicked.data('photographer');
+                        if (!inArray(photographer, photographers)) {
+                            photographers.push(photographer);
+                            clicked.addClass('active');
+                        } else {
+                            var index = photographers.indexOf(photographer);
+                            if (index > -1) {
+                                photographers.splice(index, 1);
+                            }
+                            clicked.removeClass('active');
+                        }
+                    });
+                    function inArray(needle, haystack) {
+                        var length = haystack.length;
+                        for(var i = 0; i < length; i++) {
+                            if(haystack[i] == needle) return true;
+                        }
+                        return false;
+                    }
+                    ]]>
                 </script>
             </xsl:if>
         </body>

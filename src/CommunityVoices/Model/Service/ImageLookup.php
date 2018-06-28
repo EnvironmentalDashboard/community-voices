@@ -94,13 +94,16 @@ class ImageLookup
     public function findAll(int $limit = 5, int $offset = 0, $sort = 'date_taken', $order = 'DESC')
     {
         $imageCollection = new Entity\ImageCollection;
+        $imageCollectionPhotographers = new \stdClass();
 
         $imageCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\ImageCollection::class);
         $imageCollectionMapper->fetch($imageCollection, $limit, $offset, $sort, $order);
+        $imageCollectionMapper->photographers($imageCollectionPhotographers);
 
         // I am uncertain about this
         $this->stateObserver->setSubject('imageFindAll');
         $this->stateObserver->addEntry('imageCollection', $imageCollection);
+        $this->stateObserver->addEntry('imageCollectionPhotographers', $imageCollectionPhotographers);
 
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
         $clientState->save($this->stateObserver);

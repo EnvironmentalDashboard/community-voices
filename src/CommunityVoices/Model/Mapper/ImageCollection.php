@@ -9,7 +9,18 @@ use CommunityVoices\Model\Entity;
 
 class ImageCollection extends DataMapper
 {
-    public function fetch(Entity\ImageCollection $imageCollection, int $limit = 5, int $offset = 0, int $status = 3)
+
+    public function photographers(\stdClass $container) {
+        $photographers = [];
+        foreach ($this->conn->query('SELECT DISTINCT photographer FROM `community-voices_images` ORDER BY photographer ASC') as $row) {
+            $obj = new \stdClass();
+            $obj->photographer = $row['photographer'];
+            $photographers[] = $obj;
+        }
+        $container->allPhotographers = $photographers;
+    }
+
+    public function fetch(Entity\ImageCollection $imageCollection, int $limit = 5, int $offset = 0, $sort = 'date_taken', $order = 'DESC', int $status = 3)
     {
         if( $status == 3 ){
             return $this->fetchAll($imageCollection, $limit, $offset);
@@ -20,7 +31,7 @@ class ImageCollection extends DataMapper
         }
     }
 
-    private function fetchAll(Entity\ImageCollection $imageCollection, int $limit = 5, int $offset = 0)
+    private function fetchAll(Entity\ImageCollection $imageCollection, int $limit = 5, int $offset = 0, $sort = 'date_taken', $order = 'DESC')
     {
         if (!is_int($limit)) {
             $limit = 5;
@@ -49,8 +60,8 @@ class ImageCollection extends DataMapper
                   ON media.id = image.media_id
                   WHERE
                     media.status = 'approved'
-                  LIMIT {$offset}, {$limit}
-                  ORDER BY image.{$sort} {$order}"; // $offset, $limit, $sort, $order sanitized by Image API Controller
+                  ORDER BY image.{$sort} {$order}
+                  LIMIT {$offset}, {$limit}"; // $offset, $limit, $sort, $order sanitized by Image API Controller
 
 
         $statement = $this->conn->prepare($query);
@@ -86,8 +97,8 @@ class ImageCollection extends DataMapper
                   ON media.id = image.media_id
                   WHERE
                     media.status = 'pending'
-                  LIMIT {$offset}, {$limit}
-                  ORDER BY image.{$sort} {$order}";
+                  ORDER BY image.{$sort} {$order}
+                  LIMIT {$offset}, {$limit}";
 
         $statement = $this->conn->prepare($query);
 

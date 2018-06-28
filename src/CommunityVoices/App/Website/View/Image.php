@@ -122,10 +122,17 @@ class Image extends Component\View
          * Gather image information
          */
         $imageAPIView = $this->secureContainer->contain($this->imageAPIView);
+        $json = json_decode($imageAPIView->getAllImage()->getContent());
+        $obj = new \stdClass();
+        $obj->imageCollection = $json->imageCollection;
         $imageXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $imageAPIView->getAllImage()->getContent()
-            ))
+            $this->transcriber->toXml($obj)
+        );
+
+        // Get all photographers for menu
+        $photographers = $json->imageCollectionPhotographers;
+        $photographerXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($photographers)
         );
 
         /**
@@ -135,6 +142,7 @@ class Image extends Component\View
 
         $packagedImage = $imagePackageElement->addChild('domain');
         $packagedImage->adopt($imageXMLElement);
+        $packagedImage->adopt($photographerXMLElement);
 
         $packagedIdentity = $imagePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
@@ -159,7 +167,8 @@ class Image extends Component\View
         $domainXMLElement->addChild('main-pane', $imageModuleXML);
         $domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: All Images");
-        $domainXMLElement->addChild('navbarSection', "image");
+        $domainXMLElement->addChild('extraJS', 'images');
+        // $domainXMLElement->addChild('navbarSection', "image");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);

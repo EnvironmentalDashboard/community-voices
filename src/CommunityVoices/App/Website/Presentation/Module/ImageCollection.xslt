@@ -8,9 +8,40 @@
 
 	<xsl:template match="/package">
 
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="btn btn-primary btn-outline-primary mr-2" href="./images/new">+ Add image</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#subNavbar" aria-controls="subNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="subNavbar">
+      	<!-- <a href="./images/new" class="btn btn-primary btn-outline-primary">+ Add image</a> -->
+        <div class="btn-group" role="group" aria-label="Sort results">
+				  <a class="btn btn-outline-primary active" href="#">Newest first</a>
+				  <div class="btn-group" role="group">
+				    <button id="btnGroupDrop1" type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				      Photographer
+				    </button>
+				    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+				    	<xsl:for-each select="domain/allPhotographers/photographer">
+				    		<button class="dropdown-item photographer-toggle" data-photographer="{.}">
+				    			<xsl:value-of select="."></xsl:value-of>
+				    		</button>
+							</xsl:for-each>
+				    </div>
+				  </div>
+				  <a class="btn btn-outline-primary" href="#">Organization: A-Z</a>
+				</div>
+        <!-- <form class="form-inline pull-right" style="min-width: 28%"> -->
+        <form class="form-inline pull-right" style="position: absolute; right: 16px;">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search images" aria-label="Search" />
+          <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+
 		<div class="row" style="padding:15px;">
       <div class="col-12">
-
 			<div class="card-columns">
 
 				<xsl:for-each select="domain/imageCollection/image">
