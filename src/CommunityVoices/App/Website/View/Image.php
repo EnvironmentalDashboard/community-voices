@@ -125,14 +125,28 @@ class Image extends Component\View
         $json = json_decode($imageAPIView->getAllImage()->getContent());
         $obj = new \stdClass();
         $obj->imageCollection = $json->imageCollection;
+        $count = $obj->imageCollection->count;
+        $limit = $obj->imageCollection->limit;
+        $page = $obj->imageCollection->page;
+        unset($obj->imageCollection->count); // TODO: fix!
+        unset($obj->imageCollection->limit);
+        unset($obj->imageCollection->page);
+        $obj->imageCollection = (array) $obj->imageCollection;
         $imageXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($obj)
         );
 
-        // Get all photographers for menu
+        // Get all photographers for menu -- should this be done a different way?
         $photographers = $json->imageCollectionPhotographers;
         $photographerXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($photographers)
+        );
+
+        // TODO fix
+        $pagination = new \stdClass();
+        $pagination->div = $this->paginationHTML($count, $limit, $page); // TODO: generate pagination html from $count
+        $paginationXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($pagination)
         );
 
         /**
@@ -143,6 +157,7 @@ class Image extends Component\View
         $packagedImage = $imagePackageElement->addChild('domain');
         $packagedImage->adopt($imageXMLElement);
         $packagedImage->adopt($photographerXMLElement);
+        $packagedImage->adopt($paginationXMLElement);
 
         $packagedIdentity = $imagePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
@@ -168,6 +183,7 @@ class Image extends Component\View
         $domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: All Images");
         $domainXMLElement->addChild('extraJS', 'images');
+        // $domainXMLElement->addChild('count', $count);
         // $domainXMLElement->addChild('navbarSection', "image");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
@@ -187,7 +203,7 @@ class Image extends Component\View
             $imageAPIView = $this->secureContainer->contain($this->imageAPIView);
             $imageAPIView->getImageUpload();
         } catch (Exception $e) {
-            echo $e-getMessage();
+            echo $e->getMessage();
             return;
         }
         $paramXML = new SimpleXMLElement('<form/>');
@@ -362,5 +378,31 @@ class Image extends Component\View
 
         $this->finalize($response);
         return $response;
+    }
+
+    private function paginationHTML(int $count, int $limit, int $page) {
+        parse_str($_SERVER['QUERY_STRING'], $qs);
+        $final_page = ceil($count / $limit);
+        $ret = '<nav aria-label="Page navigation example" class="text-center"><ul class="pagination" style="display: inline-flex;">';
+        if ($page > 0) {
+            $ret .= '<li class="page-item"><a class="page-link" href="images?';
+            $ret .= http_build_query(array_replace($qs, ['page' => $page]));
+            $ret .= '" aria-label="Previous"><span aria-hidden="true">&#171;</span><span class="sr-only">Previous</span></a></li>';
+        }
+        for ($i = 1; $i <= $final_page; $i++) {
+            if ($page + 1 === $i) {
+                $ret .= '<li class="page-item active"><a class="page-link" href="images?'. http_build_query(array_replace($qs, ['page' => $i])).'">' . $i . '</a></li>';
+            }
+            else {
+                $ret .= '<li class="page-item"><a class="page-link" href="images?'. http_build_query(array_replace($qs, ['page' => $i])).'">' . $i . '</a></li>';
+            }
+        }
+        if ($page + 1 < $final_page) {
+            $ret .= '<li class="page-item"><a class="page-link" href="images?';
+            $ret .= http_build_query(array_replace($qs, ['page' => $page+2]));
+            $ret .= '" aria-label="Next"><span aria-hidden="true">&#187;</span><span class="sr-only">Next</span></a></li>';
+        }
+        $ret .= '</ul></nav>';
+        return $ret;
     }
 }

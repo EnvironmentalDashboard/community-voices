@@ -48,7 +48,7 @@ class Image
         $limit = 2; // number of items per page
         $offset = $limit * $page;
         
-        $this->imageLookup->findAll($limit, $offset, $sort, $order);
+        $this->imageLookup->findAll($limit, $offset, $sort, $order, $page);
     }
 
     public function getImageUpload()

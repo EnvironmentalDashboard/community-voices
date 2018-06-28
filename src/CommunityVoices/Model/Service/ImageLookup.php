@@ -91,9 +91,11 @@ class ImageLookup
      *
      * @return CommunityVoices\Model\Entity\ImageCollection
      */
-    public function findAll(int $limit = 5, int $offset = 0, $sort = 'date_taken', $order = 'DESC')
+    public function findAll(int $limit = 5, int $offset = 0, string $sort = 'date_taken', string $order = 'DESC', int $page = 0)
     {
         $imageCollection = new Entity\ImageCollection;
+        $imageCollection->setPage($page);
+        $imageCollection->setLimit($limit);
         $imageCollectionPhotographers = new \stdClass();
 
         $imageCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\ImageCollection::class);

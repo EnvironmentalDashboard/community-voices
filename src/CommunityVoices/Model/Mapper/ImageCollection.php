@@ -40,7 +40,7 @@ class ImageCollection extends DataMapper
             $offset = 0;
         }
 
-        $query = "SELECT
+        $query = "SELECT SQL_CALC_FOUND_ROWS
                     media.id                        AS id,
                     media.added_by                  AS addedBy,
                     media.date_created              AS dateCreated,
@@ -65,10 +65,10 @@ class ImageCollection extends DataMapper
 
 
         $statement = $this->conn->prepare($query);
-
         $statement->execute();
 
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $imageCollection->setCount($this->conn->query('SELECT FOUND_ROWS()')->fetchColumn());
 
         foreach ($results as $key => $entry) {
             $imageCollection->addEntityFromParams($entry);
@@ -77,7 +77,7 @@ class ImageCollection extends DataMapper
 
     private function fetchPending(Entity\ImageCollection $imageCollection, int $limit = 5, int $offset = 0, $sort = 'date_taken', $order = 'DESC')
     {
-        $query = "SELECT
+        $query = "SELECT SQL_CALC_FOUND_ROWS
                     media.id                        AS id,
                     media.added_by                  AS addedBy,
                     media.date_created              AS dateCreated,
@@ -101,10 +101,11 @@ class ImageCollection extends DataMapper
                   LIMIT {$offset}, {$limit}";
 
         $statement = $this->conn->prepare($query);
-
         $statement->execute();
 
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+        
+        $imageCollection->setCount($this->conn->query('SELECT FOUND_ROWS()')->fetchColumn());
 
         foreach ($results as $key => $entry) {
             $imageCollection->addEntityFromParams($entry);
