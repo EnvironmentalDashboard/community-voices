@@ -144,7 +144,7 @@ class Image extends Component\View
 
         // TODO fix
         $pagination = new \stdClass();
-        $pagination->div = $this->paginationHTML($count, $limit, $page); // TODO: generate pagination html from $count
+        $pagination->div = $this->paginationHTML($count, $limit, $page);
         $paginationXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($pagination)
         );
