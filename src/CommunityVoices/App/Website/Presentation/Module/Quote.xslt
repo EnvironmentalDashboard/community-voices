@@ -46,6 +46,11 @@
 												Edit
 						        </a>
 									</p>
+									<p>
+										<xsl:for-each select="domain/quote/tagCollection/groupCollection/group">
+											<xsl:value-of select="label"></xsl:value-of>, 
+										</xsl:for-each>
+									</p>
 			          </xsl:if>
 		          </div>
 		        </div>

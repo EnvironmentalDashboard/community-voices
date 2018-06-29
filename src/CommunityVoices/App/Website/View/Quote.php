@@ -68,6 +68,7 @@ class Quote extends Component\View
         /**
          * Generate Quote module
          */
+        // var_dump($quotePackageElement->domain->quote->tagCollection->groupCollection ->group->label);die;
         $quoteModule = new Component\Presenter('Module/Quote');
         $quoteModuleXML = $quoteModule->generate($quotePackageElement);
 
