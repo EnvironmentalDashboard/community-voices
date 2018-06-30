@@ -142,6 +142,11 @@ class Image extends Component\View
             $this->transcriber->toXml($photographers)
         );
 
+        $tags = $json->tags;
+        $tagXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($tags)
+        );
+
         // TODO fix
         $pagination = new \stdClass();
         $pagination->div = $this->paginationHTML($count, $limit, $page);
@@ -158,6 +163,7 @@ class Image extends Component\View
         $packagedImage->adopt($imageXMLElement);
         $packagedImage->adopt($photographerXMLElement);
         $packagedImage->adopt($paginationXMLElement);
+        $packagedImage->adopt($tagXMLElement);
 
         $packagedIdentity = $imagePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);

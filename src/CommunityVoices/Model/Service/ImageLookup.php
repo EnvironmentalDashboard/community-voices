@@ -105,6 +105,9 @@ class ImageLookup
         $imageCollectionMapper->fetch($imageCollection, $limit, $offset, $sort, $order);
         $imageCollectionMapper->photographers($imageCollectionPhotographers);
 
+        $tagLookup = new TagLookup($this->mapperFactory, $this->stateObserver);
+        $tagLookup->findAll();
+
         // I am uncertain about this
         $this->stateObserver->setSubject('imageFindAll');
         $this->stateObserver->addEntry('imageCollection', $imageCollection);

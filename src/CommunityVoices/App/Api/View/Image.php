@@ -42,6 +42,9 @@ class Image
         $imageCollection = $stateObserver->getEntry('imageCollection')[0]->toArray();
         $imageCollection['imageCollectionPhotographers'] = $stateObserver->getEntry('imageCollectionPhotographers')[0];
 
+        $stateObserver->setSubject('tagLookup');
+        $imageCollection['tags'] = $stateObserver->getEntry('tag')[0]->toArray();
+
         $response = new HttpFoundation\JsonResponse($imageCollection);
 
         return $response;

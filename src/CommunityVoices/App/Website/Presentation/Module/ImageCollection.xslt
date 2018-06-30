@@ -8,40 +8,59 @@
 
 	<xsl:template match="/package">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="btn btn-primary btn-outline-primary mr-2" href="./images/new">+ Add image</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#subNavbar" aria-controls="subNavbar" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="subNavbar">
-      	<!-- <a href="./images/new" class="btn btn-primary btn-outline-primary">+ Add image</a> -->
-        <div class="btn-group" role="group" aria-label="Sort results">
-				  <a class="btn btn-outline-primary active" href="#">Newest first</a>
-				  <div class="btn-group" role="group">
-				    <button id="btnGroupDrop1" type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				      Photographer
-				    </button>
-				    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-				    	<xsl:for-each select="domain/allPhotographers/photographer">
-				    		<button class="dropdown-item photographer-toggle" data-photographer="{.}">
-				    			<xsl:value-of select="."></xsl:value-of>
-				    		</button>
-							</xsl:for-each>
-				    </div>
-				  </div>
-				  <a class="btn btn-outline-primary" href="#">Organization: A-Z</a>
-				</div>
-        <!-- <form class="form-inline pull-right" style="min-width: 28%"> -->
-        <form class="form-inline pull-right" style="position: absolute; right: 16px;">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search images" aria-label="Search" />
-          <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-        </form>
-      </div>
+    <nav class="navbar navbar-light bg-light">
+    	<a class="navbar-brand" href="#">Images</a>
+    	<a class="btn btn-outline-primary active mr-auto" href="#">Newest first</a>
+      <a class="btn btn-outline-primary" href="./images/new">+ Add image</a>
     </nav>
 
 		<div class="row" style="padding:15px;">
-      <div class="col-12">
+			<div class="col-sm-3">
+				<div class="card bg-light mb-3">
+          <div class="card-header bg-transparent">Search Images</div>
+          <div class="card-body">
+          	<form action="" method="GET">
+          		<div class="form-group">
+          			<label for="search">Search</label>
+          			<input type="text" class="form-control" name="search" id="search" placeholder="Enter search terms" />
+          		</div>
+							<div class="form-group">
+						    <label for="tags">Tags</label>
+						    <select multiple="" class="form-control" id="tags" name="tags">
+						      <xsl:for-each select="domain/groupCollection/group">
+                    <option>
+                      <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
+                      <xsl:value-of select="label"></xsl:value-of>
+                    </option>
+                  </xsl:for-each>
+						    </select>
+						  </div>
+							<div class="form-group">
+						    <label for="photographer">Photographer</label>
+						    <select multiple="" class="form-control" id="photographer" name="photographer">
+						      <xsl:for-each select="domain/allPhotographers/photographer">
+						    		<option value="{.}">
+						    			<xsl:value-of select="."></xsl:value-of>
+						    		</option>
+									</xsl:for-each>
+						    </select>
+						  </div>
+						  <div class="form-group">
+						    <label for="org">Organization</label>
+						    <select multiple="" class="form-control" id="org" name="org">
+						      <option>1</option>
+						      <option>2</option>
+						      <option>3</option>
+						      <option>4</option>
+						      <option>5</option>
+						    </select>
+						  </div>
+						</form>
+          </div>
+          <div class="card-footer bg-transparent"><button type="button" id="reset" class="btn btn-secondary">Reset</button> <input type="submit" name="submit" value="Search" class="btn btn-primary" /></div>
+        </div>
+			</div>
+      <div class="col-sm-9">
 			<div class="card-columns">
 
 				<xsl:for-each select="domain/imageCollection/image">
