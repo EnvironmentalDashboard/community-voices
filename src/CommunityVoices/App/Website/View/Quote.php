@@ -171,17 +171,6 @@ class Quote extends Component\View
 
     public function getQuoteUpload($routes, $context)
     {
-        try {
-            $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
-            $quoteAPIView->getQuoteUpload();
-        } catch (Exception $e) {
-            echo $e->getMessage();
-            return;
-        }
-        $paramXML = new SimpleXMLElement('<form/>');
-
-        $formModule = new Component\Presenter('Module/Form/QuoteUpload');
-        $formModuleXML = $formModule->generate($paramXML);
 
         $identity = $this->recognitionAdapter->identify();
 
@@ -189,31 +178,41 @@ class Quote extends Component\View
             $this->transcriber->toXml($identity->toArray())
         );
 
+        $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
+
+        $quoteXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(json_decode(
+                $quoteAPIView->getQuoteUpload()->getContent()
+            ))
+        );
+
+        $quotePackageElement = new Helper\SimpleXMLElementExtension('<package/>');
+        $packagedQuote = $quotePackageElement->addChild('domain');
+        $packagedQuote->adopt($quoteXMLElement);
+        $packagedIdentity = $quotePackageElement->addChild('identity');
+        $packagedIdentity->adopt($identityXMLElement);
+        $quoteModule = new Component\Presenter('Module/Form/QuoteUpload');
+        $quoteModuleXML = $quoteModule->generate($quotePackageElement);
         /**
          * Get base URL
          */
         $urlGenerator = new UrlGenerator($routes, $context);
         $baseUrl = $urlGenerator->generate('root');
-
-        //
-
+        /**
+         * Prepare template
+         */
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
-
-        $domainXMLElement->addChild('main-pane', $formModuleXML);
+        $domainXMLElement->addChild('main-pane', $quoteModuleXML);
         $domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild(
             'title',
-            "Community Voices: Quote Upload"
+            "Community Voices: Quote ".
+            $quoteXMLElement->id
         );
-        $domainXMLElement->addChild('navbarSection', "quote");
-
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
-
         $presentation = new Component\Presenter('SinglePane');
-
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
-
         $this->finalize($response);
         return $response;
     }

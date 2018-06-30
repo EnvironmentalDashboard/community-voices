@@ -35,6 +35,12 @@ class GroupCollection extends DataMapper
         }
     }
 
+    public function fetchAllTags(Entity\GroupCollection $groupCollection) {
+        foreach ($this->conn->query("SELECT id, label FROM `community-voices_groups` WHERE type = 'tag'") as $row) {
+            $groupCollection->addEntityFromParams($row);
+        }
+    }
+
     private function fetchChildrenOfMedia(Entity\GroupCollection $groupCollection)
     {
         $query = "SELECT

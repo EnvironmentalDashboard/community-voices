@@ -44,9 +44,10 @@ class Quote
         $apiController->getAllQuote($request, $identity);
     }
 
-    public function getQuoteUpload()
+    public function getQuoteUpload($request)
     {
-        // intentionally blank
+        $apiController = $this->secureContainer->contain($this->quoteAPIController);
+        $apiController->getQuoteUpload($request);
     }
 
     public function postQuoteUpload($request)

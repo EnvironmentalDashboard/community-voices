@@ -12,10 +12,12 @@ class Quote
 
     public function __construct(
         Service\QuoteLookup $quoteLookup,
-        Service\QuoteManagement $quoteManagement
+        Service\QuoteManagement $quoteManagement,
+        Service\TagLookup $tagLookup
     ){
         $this->quoteLookup = $quoteLookup;
         $this->quoteManagement = $quoteManagement;
+        $this->tagLookup = $tagLookup;
     }
 
     /**
@@ -43,7 +45,8 @@ class Quote
 
     public function getQuoteUpload()
     {
-        // intentionally blank
+        // SECOND METHOD CALLED
+        $this->tagLookup->findAll();
     }
 
     public function postQuoteUpload($request, $identity)
