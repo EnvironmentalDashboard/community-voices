@@ -20,6 +20,16 @@ class ImageCollection extends DataMapper
         $container->allPhotographers = $photographers;
     }
 
+    public function orgs(\stdClass $container) {
+        $orgs = [];
+        foreach ($this->conn->query('SELECT DISTINCT organization FROM `community-voices_images` WHERE organization != "" ORDER BY organization ASC') as $row) {
+            $obj = new \stdClass();
+            $obj->org = $row['organization'];
+            $orgs[] = $obj;
+        }
+        $container->allOrgs = $orgs;
+    }
+
     public function fetch(Entity\ImageCollection $imageCollection, int $limit = 5, int $offset = 0, $sort = 'date_taken', $order = 'DESC', int $status = 3)
     {
         if( $status == 3 ){

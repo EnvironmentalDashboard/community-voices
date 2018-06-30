@@ -100,10 +100,12 @@ class ImageLookup
         $imageCollection->setPage($page);
         $imageCollection->setLimit($limit);
         $imageCollectionPhotographers = new \stdClass();
+        $imageCollectionOrgs = new \stdClass();
 
         $imageCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\ImageCollection::class);
         $imageCollectionMapper->fetch($imageCollection, $limit, $offset, $sort, $order);
         $imageCollectionMapper->photographers($imageCollectionPhotographers);
+        $imageCollectionMapper->orgs($imageCollectionOrgs);
 
         $tagLookup = new TagLookup($this->mapperFactory, $this->stateObserver);
         $tagLookup->findAll();
@@ -112,6 +114,7 @@ class ImageLookup
         $this->stateObserver->setSubject('imageFindAll');
         $this->stateObserver->addEntry('imageCollection', $imageCollection);
         $this->stateObserver->addEntry('imageCollectionPhotographers', $imageCollectionPhotographers);
+        $this->stateObserver->addEntry('imageCollectionOrgs', $imageCollectionOrgs);
 
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
         $clientState->save($this->stateObserver);

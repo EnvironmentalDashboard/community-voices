@@ -41,6 +41,7 @@ class Image
         $stateObserver->setSubject('imageFindAll');
         $imageCollection = $stateObserver->getEntry('imageCollection')[0]->toArray();
         $imageCollection['imageCollectionPhotographers'] = $stateObserver->getEntry('imageCollectionPhotographers')[0];
+        $imageCollection['imageCollectionOrgs'] = $stateObserver->getEntry('imageCollectionOrgs')[0];
 
         $stateObserver->setSubject('tagLookup');
         $imageCollection['tags'] = $stateObserver->getEntry('tag')[0]->toArray();

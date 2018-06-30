@@ -142,6 +142,11 @@ class Image extends Component\View
             $this->transcriber->toXml($photographers)
         );
 
+        $orgs = $json->imageCollectionOrgs;
+        $orgXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($orgs)
+        );
+
         $tags = $json->tags;
         $tagXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($tags)
@@ -162,6 +167,7 @@ class Image extends Component\View
         $packagedImage = $imagePackageElement->addChild('domain');
         $packagedImage->adopt($imageXMLElement);
         $packagedImage->adopt($photographerXMLElement);
+        $packagedImage->adopt($orgXMLElement);
         $packagedImage->adopt($paginationXMLElement);
         $packagedImage->adopt($tagXMLElement);
 

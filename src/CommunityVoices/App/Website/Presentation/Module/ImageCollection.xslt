@@ -48,11 +48,11 @@
 						  <div class="form-group">
 						    <label for="org">Organization</label>
 						    <select multiple="" class="form-control" id="org" name="org">
-						      <option>1</option>
-						      <option>2</option>
-						      <option>3</option>
-						      <option>4</option>
-						      <option>5</option>
+						      <xsl:for-each select="domain/allOrgs/org">
+						    		<option value="{.}">
+						    			<xsl:value-of select="."></xsl:value-of>
+						    		</option>
+									</xsl:for-each>
 						    </select>
 						  </div>
 						</form>
