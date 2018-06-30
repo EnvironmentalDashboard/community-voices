@@ -37,7 +37,11 @@
                     Status:
                     <xsl:value-of select='domain/image/status' />
                   </p>
-                  <p class='mt-0 mb-0'>Tags: TODO</p>
+                  <p class='mt-0 mb-0'>
+                    <xsl:for-each select="domain/image/tagCollection/groupCollection/group">
+                      <xsl:value-of select="label"></xsl:value-of>, 
+                    </xsl:for-each>
+                  </p>
                   <p class='mt-0 mb-0'>
                     <a>
                         <xsl:attribute name="href">./images/<xsl:value-of select='domain/image/id'/>/edit</xsl:attribute>

@@ -55,10 +55,6 @@
 		          </div>
 		        </div>
 
-							<!-- <p>	Date Created: <xsl:value-of select='domain/quote/dateRecorded' /> </p>
-
-							<p> Tags: TODO </p> -->
-
 
 					</xsl:when>
 

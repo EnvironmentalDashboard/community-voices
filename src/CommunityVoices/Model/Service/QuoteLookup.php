@@ -43,7 +43,7 @@ class QuoteLookup
         $quote = new Entity\Quote;
         $quote->setId($quoteId);
 
-        $tags = new Entity\GroupCollection; // is this really it
+        $tags = new Entity\GroupCollection;
         $tags->forGroupType(1);
         $tags->forParent($quote);
         $quote->setTagCollection($tags);
@@ -59,9 +59,7 @@ class QuoteLookup
         $userMapper->fetch($quote->getAddedBy());
 
         $groupCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
-        $groupCollectionMapper->fetch($quote->getTagCollection());//need to setTagCollection(GroupCollection)
-        // var_dump($quote->getTagCollection());die;
-        // var_dump($quote);die;
+        $groupCollectionMapper->fetch($quote->getTagCollection());
 
         $this->stateObserver->setSubject('quoteLookup');
         $this->stateObserver->addEntry('quote', $quote);
