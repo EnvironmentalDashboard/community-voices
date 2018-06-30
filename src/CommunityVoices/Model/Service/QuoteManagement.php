@@ -37,7 +37,7 @@ class QuoteManagement
      */
     public function upload($text, $attribution, $subAttribution,
                     $dateRecorded, $approved,
-                    $addedBy){
+                    $addedBy, $tags){
 
         /*
          * Create Quote entity and set attributes
@@ -93,6 +93,18 @@ class QuoteManagement
          */
 
         $quoteMapper->save($quote);
+
+        $qid = $quote->getId();
+        $tagCollection = new Entity\GroupCollection;
+        foreach ($tags as $tid) {
+            $tag = new Entity\Tag;
+            $tag->setMediaId($qid);
+            $tag->setGroupId($tid);
+            $tagCollection->addEntity($tag);
+        }
+
+        $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
+        $tagMapper->saveTags($tagCollection);
 
         return true;
 

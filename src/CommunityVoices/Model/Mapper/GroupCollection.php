@@ -41,6 +41,13 @@ class GroupCollection extends DataMapper
         }
     }
 
+    public function saveTags(Entity\GroupCollection $groupCollection) {
+        foreach ($groupCollection->getCollection() as $tag) {
+            $stmt = $this->conn->prepare("INSERT INTO `community-voices_media-group-map` (media_id, group_id) VALUES (?, ?)");
+            $stmt->execute([$tag->getMediaId(), $tag->getGroupId()]);
+        }
+    }
+
     private function fetchChildrenOfMedia(Entity\GroupCollection $groupCollection)
     {
         $query = "SELECT

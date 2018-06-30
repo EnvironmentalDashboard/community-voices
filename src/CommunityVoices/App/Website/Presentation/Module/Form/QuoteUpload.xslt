@@ -42,7 +42,7 @@
 
               <div class="form-group">
                 <label for="tags">Tags</label>
-                <select multiple="" class="form-control" id="tags">
+                <select multiple="" class="form-control" id="tags" name="tags[]">
                   <xsl:for-each select="domain/groupCollection/group">
                     <option>
                       <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>

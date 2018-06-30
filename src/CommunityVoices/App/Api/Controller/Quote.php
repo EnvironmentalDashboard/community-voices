@@ -55,6 +55,7 @@ class Quote
         $subAttribution = $request->request->get('subAttribution');
         $dateRecorded = $request->request->get('dateRecorded');
         $approved = $request->request->get('approved');
+        $tags = $request->request->get('tags');
         
         if($identity->getRole() <= 2){
           $approved = null;
@@ -62,7 +63,7 @@ class Quote
 
         $this->quoteManagement->upload($text, $attribution, $subAttribution,
                         $dateRecorded, $approved,
-                        $identity);
+                        $identity, $tags);
     }
 
     public function getQuoteUpdate($request)

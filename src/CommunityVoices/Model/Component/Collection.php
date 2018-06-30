@@ -54,6 +54,11 @@ abstract class Collection implements ArrayAccess, Countable, Iterator
         $this->collection[] = $instance;
     }
 
+    
+    public function getCollection() {
+        return $this->collection;
+    }
+
     /**
      * Clears the collection, resets the index for re-initialization of collection.
      * @param Object $instance The instance to be cleared
