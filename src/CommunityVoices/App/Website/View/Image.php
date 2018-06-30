@@ -197,6 +197,48 @@ class Image extends Component\View
 
     public function getImageUpload($routes, $context)
     {
+        $identity = $this->recognitionAdapter->identify();
+
+        $identityXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($identity->toArray())
+        );
+
+        $imageAPIView = $this->secureContainer->contain($this->imageAPIView);
+
+        $imageXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(json_decode(
+                $imageAPIView->getImageUpload()->getContent()
+            ))
+        );
+
+        $imagePackageElement = new Helper\SimpleXMLElementExtension('<package/>');
+        $packagedImage = $imagePackageElement->addChild('domain');
+        $packagedImage->adopt($imageXMLElement);
+        $packagedIdentity = $imagePackageElement->addChild('identity');
+        $packagedIdentity->adopt($identityXMLElement);
+        $imageModule = new Component\Presenter('Module/Form/ImageUpload');
+        $imageModuleXML = $imageModule->generate($imagePackageElement);
+        /**
+         * Get base URL
+         */
+        $urlGenerator = new UrlGenerator($routes, $context);
+        $baseUrl = $urlGenerator->generate('root');
+        /**
+         * Prepare template
+         */
+        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
+        $domainXMLElement->addChild('main-pane', $imageModuleXML);
+        $domainXMLElement->addChild('baseUrl', $baseUrl);
+        $domainXMLElement->addChild('title', "Community Voices: Image Upload");
+        $domainIdentity = $domainXMLElement->addChild('identity');
+        $domainIdentity->adopt($identityXMLElement);
+        $presentation = new Component\Presenter('SinglePane');
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
+        $this->finalize($response);
+        return $response;
+
+
+
         try {
             $imageAPIView = $this->secureContainer->contain($this->imageAPIView);
             $imageAPIView->getImageUpload();

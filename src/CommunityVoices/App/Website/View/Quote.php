@@ -204,11 +204,7 @@ class Quote extends Component\View
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
         $domainXMLElement->addChild('main-pane', $quoteModuleXML);
         $domainXMLElement->addChild('baseUrl', $baseUrl);
-        $domainXMLElement->addChild(
-            'title',
-            "Community Voices: Quote ".
-            $quoteXMLElement->id
-        );
+        $domainXMLElement->addChild('title', "Community Voices: Quote Upload");
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
         $presentation = new Component\Presenter('SinglePane');

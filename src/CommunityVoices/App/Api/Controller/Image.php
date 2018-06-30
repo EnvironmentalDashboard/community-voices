@@ -12,10 +12,12 @@ class Image
 
     public function __construct(
         Service\ImageLookup $imageLookup,
-        Service\ImageManagement $imageManagement
+        Service\ImageManagement $imageManagement,
+        Service\TagLookup $tagLookup
     ) {
         $this->imageLookup = $imageLookup;
         $this->imageManagement = $imageManagement;
+        $this->tagLookup = $tagLookup;
     }
 
     public function sendImage($request)
@@ -53,7 +55,7 @@ class Image
 
     public function getImageUpload()
     {
-        // intentionally blank
+        $this->tagLookup->findAll();
     }
 
     public function postImageUpload($request, $identity)
@@ -65,6 +67,7 @@ class Image
         $photographer = $request->request->get('photographer');
         $organization = $request->request->get('organization');
         $approved = $request->request->get('approved');
+        $tags = $request->request->get('tags');
 
         $this->imageManagement->upload(
           $file,
@@ -74,7 +77,8 @@ class Image
           $photographer,
           $organization,
           $identity,
-          $approved
+          $approved,
+          $tags
       );
     }
 

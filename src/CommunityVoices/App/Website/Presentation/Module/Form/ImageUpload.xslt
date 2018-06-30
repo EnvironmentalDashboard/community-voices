@@ -3,7 +3,7 @@
 
     <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
 
-    <xsl:template match="/form">
+    <xsl:template match="/package">
 
       <div class="row" style="padding:15px;">
         <div class="col-12">
@@ -38,6 +38,18 @@
               <div class="form-group">
                 <label for="organization">Organization</label>
                 <input class="form-control" id="organization" type='text' name='organization' />
+              </div>
+
+              <div class="form-group">
+                <label for="tags">Tags</label>
+                <select multiple="" class="form-control" id="tags" name="tags[]">
+                  <xsl:for-each select="domain/groupCollection/group">
+                    <option>
+                      <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
+                      <xsl:value-of select="label"></xsl:value-of>
+                    </option>
+                  </xsl:for-each>
+                </select>
               </div>
 
               Approve:

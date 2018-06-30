@@ -45,7 +45,8 @@ class Image
 
     public function getImageUpload($request)
     {
-        // Intentionally blank
+        $apiController = $this->secureContainer->contain($this->imageAPIController);
+        $apiController->getImageUpload($request);
     }
 
     public function postImageUpload($request)

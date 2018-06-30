@@ -49,7 +49,8 @@ class ImageManagement
         $photographer,
         $organization,
         $addedBy,
-        $approved
+        $approved,
+        $tags
     ) {
 
         /*
@@ -113,6 +114,18 @@ class ImageManagement
          */
 
         $imageMapper->save($image);
+
+        $iid = $image->getId();
+        $tagCollection = new Entity\GroupCollection;
+        foreach ($tags as $tid) {
+            $tag = new Entity\Tag;
+            $tag->setMediaId($iid);
+            $tag->setGroupId($tid);
+            $tagCollection->addEntity($tag);
+        }
+
+        $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
+        $tagMapper->saveTags($tagCollection);
 
         return true;
     }
