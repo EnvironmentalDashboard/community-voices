@@ -45,7 +45,6 @@ class Quote
 
     public function getQuoteUpload()
     {
-        // SECOND METHOD CALLED
         $this->tagLookup->findAll();
     }
 

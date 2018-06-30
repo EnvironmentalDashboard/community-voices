@@ -113,10 +113,10 @@ $resource = $request->attributes->get('resource');
 $action = $request->attributes->get('action');
 $method = $request->attributes->get('method');
 
-$controller = $injector->make("CommunityVoices\\App\\Website\\Controller\\" . $resource);
+$controller = $injector->make("CommunityVoices\\App\\Website\\Controller\\" . $resource); // will call the website controller which will call the api controller to gather requested data using services (which use mappers to make queries to database) and store in an object referenced in the api view as $stateObserver
 $controller->{$action}($request);
 
-$view = $injector->make("CommunityVoices\\App\\Website\\View\\" . $resource);
+$view = $injector->make("CommunityVoices\\App\\Website\\View\\" . $resource); // will call the website view which will set xslt template, variables, etc. and format a response, getting data from the api view which will fetch data from the $stateObserver array (api view usually called very early in website view)
 $response = $view->{$action}($routes, $context);
 
 $response->send();
