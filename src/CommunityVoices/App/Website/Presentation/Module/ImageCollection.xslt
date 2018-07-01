@@ -18,26 +18,26 @@
 			<div class="col-sm-3">
 				<div class="card bg-light mb-3">
           <div class="card-header bg-transparent">Search Images</div>
-          <div class="card-body">
-          	<form action="" method="GET">
-          		<div class="form-group">
-          			<label for="search">Search</label>
-          			<input type="text" class="form-control" name="search" id="search" placeholder="Enter search terms" />
-          		</div>
+          <form action="" method="GET">
+	          <div class="card-body">
+	        		<div class="form-group">
+	        			<label for="search">Search</label>
+	        			<input type="text" class="form-control" name="search" id="search" placeholder="Enter search terms" />
+	        		</div>
 							<div class="form-group">
 						    <label for="tags">Tags</label>
-						    <select multiple="" class="form-control" id="tags" name="tags">
+						    <select multiple="" class="form-control" id="tags" name="tags[]">
 						      <xsl:for-each select="domain/groupCollection/group">
-                    <option>
-                      <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
-                      <xsl:value-of select="label"></xsl:value-of>
-                    </option>
-                  </xsl:for-each>
+	                  <option>
+	                    <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
+	                    <xsl:value-of select="label"></xsl:value-of>
+	                  </option>
+	                </xsl:for-each>
 						    </select>
 						  </div>
 							<div class="form-group">
-						    <label for="photographer">Photographer</label>
-						    <select multiple="" class="form-control" id="photographer" name="photographer">
+						    <label for="photographers">Photographer</label>
+						    <select multiple="" class="form-control" id="photographers" name="photographers[]">
 						      <xsl:for-each select="domain/allPhotographers/photographer">
 						    		<option value="{.}">
 						    			<xsl:value-of select="."></xsl:value-of>
@@ -46,8 +46,8 @@
 						    </select>
 						  </div>
 						  <div class="form-group">
-						    <label for="org">Organization</label>
-						    <select multiple="" class="form-control" id="org" name="org">
+						    <label for="orgs">Organization</label>
+						    <select multiple="" class="form-control" id="orgs" name="orgs[]">
 						      <xsl:for-each select="domain/allOrgs/org">
 						    		<option value="{.}">
 						    			<xsl:value-of select="."></xsl:value-of>
@@ -55,9 +55,9 @@
 									</xsl:for-each>
 						    </select>
 						  </div>
-						</form>
-          </div>
-          <div class="card-footer bg-transparent"><button type="button" id="reset" class="btn btn-secondary">Reset</button> <input type="submit" name="submit" value="Search" class="btn btn-primary" /></div>
+	          </div>
+	          <div class="card-footer bg-transparent"><button type="button" id="reset" class="btn btn-secondary">Reset</button> <button type="submit" class="btn btn-primary">Search</button></div>
+          </form>
         </div>
 			</div>
       <div class="col-sm-9">

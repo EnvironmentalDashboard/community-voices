@@ -388,7 +388,7 @@ class Image extends Component\View
     private function paginationHTML(int $count, int $limit, int $page) {
         parse_str($_SERVER['QUERY_STRING'], $qs);
         $final_page = ceil($count / $limit);
-        $ret = '<nav aria-label="Page navigation example" class="text-center"><ul class="pagination" style="display: inline-flex;">';
+        $ret = '<![CDATA[<nav aria-label="Page navigation example" class="text-center"><ul class="pagination" style="display: inline-flex;">';
         if ($page > 0) {
             $ret .= '<li class="page-item"><a class="page-link" href="images?';
             $ret .= http_build_query(array_replace($qs, ['page' => $page]));
@@ -407,7 +407,7 @@ class Image extends Component\View
             $ret .= http_build_query(array_replace($qs, ['page' => $page+2]));
             $ret .= '" aria-label="Next"><span aria-hidden="true">&#187;</span><span class="sr-only">Next</span></a></li>';
         }
-        $ret .= '</ul></nav>';
+        $ret .= '</ul></nav>]]>';
         return $ret;
     }
 }

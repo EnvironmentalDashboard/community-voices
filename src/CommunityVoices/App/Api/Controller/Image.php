@@ -39,18 +39,17 @@ class Image
 
     public function getAllImage($request)
     {
-        $sort = $request->query->get('sort');
-        $sort = ($sort === 'title' || $sort === 'photographer' || $sort === 'date_taken') ? $sort : 'date_taken';
-        
-        $order = $request->query->get('order');
-        $order = ($order === 'DESC' || $order === 'ASC') ? $order : 'DESC';
+
+        $search = (string) $request->query->get('search');
+        $tags = $request->query->get('tags');
+        $photographers = $request->query->get('photographers');
+        $orgs = $request->query->get('orgs');
         
         $page = (int) $request->query->get('page');
         $page = ($page > 0) ? $page - 1 : 0; // current page, make page 0-based
         $limit = 2; // number of items per page
         $offset = $limit * $page;
-        
-        $this->imageLookup->findAll($limit, $offset, $sort, $order, $page);
+        $this->imageLookup->findAll($page, $limit, $offset, $search, $tags, $photographers, $orgs);
     }
 
     public function getImageUpload()
