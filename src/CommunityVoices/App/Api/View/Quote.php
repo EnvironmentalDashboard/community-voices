@@ -34,9 +34,12 @@ class Quote
         $stateObserver = $clientState->retrieve();
 
         $stateObserver->setSubject('quoteFindAll');
-        $quoteCollection = $stateObserver->getEntry('quoteCollection')[0];
+        $quoteCollection = $stateObserver->getEntry('quoteCollection')[0]->toArray();
 
-        $response = new HttpFoundation\JsonResponse($quoteCollection->toArray());
+        $stateObserver->setSubject('tagLookup');
+        $quoteCollection['tags'] = $stateObserver->getEntry('tag')[0]->toArray();
+
+        $response = new HttpFoundation\JsonResponse($quoteCollection);
 
         return $response;
     }

@@ -107,6 +107,9 @@ class QuoteLookup
         $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
         $quoteCollectionMapper->fetch($quoteCollection);
 
+        $tagLookup = new TagLookup($this->mapperFactory, $this->stateObserver);
+        $tagLookup->findAll();
+
         // map data
         // check whether collection empty, do something
 

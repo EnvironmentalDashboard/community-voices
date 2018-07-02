@@ -118,11 +118,18 @@ class Quote extends Component\View
          * Gather quote information
          */
         $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
+        $json = json_decode($quoteAPIView->getAllQuote()->getContent());
+
+        $obj = new \stdClass();
+        $obj->imageCollection = $json->imageCollection;
 
         $quoteXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $quoteAPIView->getAllQuote()->getContent()
-            ))
+            $this->transcriber->toXml($obj)
+        );
+
+        $tags = $json->tags;
+        $tagXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($tags)
         );
 
         /**
@@ -132,6 +139,7 @@ class Quote extends Component\View
 
         $packagedQuote = $quotePackageElement->addChild('domain');
         $packagedQuote->adopt($quoteXMLElement);
+        $packagedQuote->adopt($tagXMLElement);
 
         $packagedIdentity = $quotePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
@@ -156,7 +164,6 @@ class Quote extends Component\View
         $domainXMLElement->addChild('main-pane', $quoteModuleXML);
         $domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: All Quotes");
-        $domainXMLElement->addChild('navbarSection', "quote");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
