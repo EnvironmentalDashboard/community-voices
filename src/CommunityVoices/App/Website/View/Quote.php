@@ -121,7 +121,7 @@ class Quote extends Component\View
         $json = json_decode($quoteAPIView->getAllQuote()->getContent());
 
         $obj = new \stdClass();
-        $obj->imageCollection = $json->imageCollection;
+        $obj->quoteCollection = $json->quoteCollection;
 
         $quoteXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($obj)
@@ -132,6 +132,11 @@ class Quote extends Component\View
             $this->transcriber->toXml($tags)
         );
 
+        $attributions = $json->quoteCollectionAttributions;
+        $attributionXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($attributions)
+        );
+
         /**
          * Quote XML Package
          */
@@ -140,6 +145,7 @@ class Quote extends Component\View
         $packagedQuote = $quotePackageElement->addChild('domain');
         $packagedQuote->adopt($quoteXMLElement);
         $packagedQuote->adopt($tagXMLElement);
+        $packagedQuote->adopt($attributionXMLElement);
 
         $packagedIdentity = $quotePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);

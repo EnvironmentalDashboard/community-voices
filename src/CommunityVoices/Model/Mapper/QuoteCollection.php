@@ -9,6 +9,17 @@ use CommunityVoices\Model\Entity;
 
 class QuoteCollection extends DataMapper
 {
+
+    public function attributions(\stdClass $container) {
+        $attributions = [];
+        foreach ($this->conn->query('SELECT DISTINCT attribution FROM `community-voices_quotes` ORDER BY attribution ASC') as $row) {
+            $obj = new \stdClass();
+            $obj->attribution = $row['attribution'];
+            $attributions[] = $obj;
+        }
+        $container->allAttributions = $attributions;
+    }
+
     public function fetch(Entity\QuoteCollection $quoteCollection)
     {
         $this->fetchAll($quoteCollection);

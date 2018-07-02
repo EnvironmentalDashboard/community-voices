@@ -78,6 +78,7 @@ class QuoteLookup
     public function findAll($creatorIDs=[], $status=[])
     {
         $quoteCollection = new Entity\QuoteCollection;
+        $quoteCollectionAttributions = new \stdClass();
  
         $valid_creatorIDs = [];
 
@@ -106,6 +107,7 @@ class QuoteLookup
 
         $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
         $quoteCollectionMapper->fetch($quoteCollection);
+        $quoteCollectionMapper->attributions($quoteCollectionAttributions);
 
         $tagLookup = new TagLookup($this->mapperFactory, $this->stateObserver);
         $tagLookup->findAll();
@@ -118,6 +120,7 @@ class QuoteLookup
 
         $this->stateObserver->setSubject('quoteFindAll');
         $this->stateObserver->addEntry('quoteCollection', $quoteCollection);
+        $this->stateObserver->addEntry('quoteCollectionAttributions', $quoteCollectionAttributions);
 
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
         $clientState->save($this->stateObserver);

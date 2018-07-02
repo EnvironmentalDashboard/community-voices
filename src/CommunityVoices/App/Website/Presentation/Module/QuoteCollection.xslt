@@ -26,7 +26,16 @@
                       <xsl:value-of select="label"></xsl:value-of>
                     </option>
                   </xsl:for-each>
-                  <option value="">1</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="attributions">Attribution</label>
+                <select multiple="" class="form-control" id="attributions" name="attributions[]">
+                  <xsl:for-each select="domain/allAttributions/attribution">
+                    <option value="{.}">
+                      <xsl:value-of select="."></xsl:value-of>
+                    </option>
+                  </xsl:for-each>
                 </select>
               </div>
             </div>
