@@ -48,9 +48,11 @@ class ImageCollection extends DataMapper
         if ($search == '') {
             $search_query = '';
         } else {
-            $search_query = 'AND (title LIKE ? OR description LIKE ?)';
-            $params[] = $search;
-            $params[] = $search;
+            $search_query = 'AND (title LIKE ? OR description LIKE ? OR photographer LIKE ? OR organization LIKE ?)';
+            $params[] = "%{$search}%";
+            $params[] = "%{$search}%";
+            $params[] = "%{$search}%";
+            $params[] = "%{$search}%";
         }
         if ($tags == null) {
             $tag_query = '';
