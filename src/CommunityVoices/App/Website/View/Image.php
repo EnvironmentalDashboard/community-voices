@@ -109,6 +109,7 @@ class Image extends Component\View
 
     public function getAllImage($routes, $context)
     {
+        parse_str($_SERVER['QUERY_STRING'], $qs);
         /**
          * Gather identity information
          */
@@ -154,7 +155,7 @@ class Image extends Component\View
 
         // TODO fix
         $pagination = new \stdClass();
-        $pagination->div = $this->paginationHTML($count, $limit, $page);
+        $pagination->div = $this->paginationHTML($qs, $count, $limit, $page);
         $paginationXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($pagination)
         );
@@ -170,6 +171,15 @@ class Image extends Component\View
         $packagedImage->adopt($orgXMLElement);
         $packagedImage->adopt($paginationXMLElement);
         $packagedImage->adopt($tagXMLElement);
+        
+        foreach ($qs as $key => $value) {
+            if ($key === 'search') {
+                $packagedImage->addChild($key, $value);
+            } else {
+                $packagedImage->addChild($key, (is_array($value)) ? ','.implode(',', $value).',' : ','.$value.',');
+            }
+        }
+        // var_dump($packagedImage);die;
 
         $packagedIdentity = $imagePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
@@ -195,7 +205,6 @@ class Image extends Component\View
         $domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: All Images");
         $domainXMLElement->addChild('extraJS', 'images');
-
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
 
@@ -385,8 +394,7 @@ class Image extends Component\View
         return $response;
     }
 
-    private function paginationHTML(int $count, int $limit, int $page) {
-        parse_str($_SERVER['QUERY_STRING'], $qs);
+    private function paginationHTML(array $qs, int $count, int $limit, int $page) {
         $final_page = ceil($count / $limit);
         $ret = '<![CDATA[<nav aria-label="Page navigation example" class="text-center"><ul class="pagination" style="display: inline-flex;">';
         if ($page > 0) {

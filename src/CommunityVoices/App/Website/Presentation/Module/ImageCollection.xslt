@@ -6,6 +6,11 @@
 	<xsl:variable name="isManager" select="package/identity/user/role = 'manager'
 		or package/identity/user/role = 'administrator'"/>
 
+	<xsl:variable name="search" select="package/domain/search"/>
+	<xsl:variable name="tags" select="package/domain/tags"/>
+	<xsl:variable name="photographers" select="package/domain/photographers"/>
+	<xsl:variable name="orgs" select="package/domain/orgs"/>
+
 	<xsl:template match="/package">
 
     <nav class="navbar navbar-light bg-light">
@@ -22,14 +27,18 @@
 	          <div class="card-body">
 	        		<div class="form-group">
 	        			<label for="search">Search</label>
-	        			<input type="text" class="form-control" name="search" id="search" placeholder="Enter search terms" />
+	        			<input type="text" class="form-control" name="search" id="search" placeholder="Enter search terms" value="{$search}" />
 	        		</div>
 							<div class="form-group">
 						    <label for="tags">Tags</label>
 						    <select multiple="" class="form-control" id="tags" name="tags[]">
 						      <xsl:for-each select="domain/groupCollection/group">
 	                  <option>
-	                    <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
+	                  	<xsl:if test="contains($tags, concat(',', id, ','))">
+	                  		<xsl:attribute name="selected">selected</xsl:attribute>
+	                  	</xsl:if>
+	                  	<xsl:attribute name="data-test"><xsl:value-of select="/domain"></xsl:value-of></xsl:attribute>
+	                  	<xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
 	                    <xsl:value-of select="label"></xsl:value-of>
 	                  </option>
 	                </xsl:for-each>
@@ -40,6 +49,9 @@
 						    <select multiple="" class="form-control" id="photographers" name="photographers[]">
 						      <xsl:for-each select="domain/allPhotographers/photographer">
 						    		<option value="{.}">
+						    			<xsl:if test="contains($photographers, concat(',', ., ','))">
+	                  		<xsl:attribute name="selected">selected</xsl:attribute>
+	                  	</xsl:if>
 						    			<xsl:value-of select="."></xsl:value-of>
 						    		</option>
 									</xsl:for-each>
@@ -50,6 +62,9 @@
 						    <select multiple="" class="form-control" id="orgs" name="orgs[]">
 						      <xsl:for-each select="domain/allOrgs/org">
 						    		<option value="{.}">
+						    			<xsl:if test="contains($orgs, concat(',', ., ','))">
+	                  		<xsl:attribute name="selected">selected</xsl:attribute>
+	                  	</xsl:if>
 						    			<xsl:value-of select="."></xsl:value-of>
 						    		</option>
 									</xsl:for-each>
@@ -58,6 +73,11 @@
 	          </div>
 	          <div class="card-footer bg-transparent"><button type="button" id="reset" class="btn btn-secondary">Reset</button> <button type="submit" class="btn btn-primary">Search</button></div>
           </form>
+          <!-- <xsl:value-of select="domain/qs"></xsl:value-of> -->
+          <xsl:for-each select="domain/qs">
+          	<xsl:value-of select="."></xsl:value-of>
+          </xsl:for-each>
+          <xsl:value-of select="domain/test"></xsl:value-of>
         </div>
 			</div>
       <div class="col-sm-9">
