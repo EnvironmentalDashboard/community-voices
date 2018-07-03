@@ -27,6 +27,7 @@ class Slide extends Media
 
     private $image;
     private $quote;
+    private $formattedText;
 
     private $probability = 1;
     private $decayPercent = 0;
@@ -72,6 +73,21 @@ class Slide extends Media
     public function setQuote(Quote $quote)
     {
         $this->quote = $quote;
+    }
+
+    public function getFormattedText()
+    {
+        return $this->formattedText;
+    }
+
+    public function setFormattedText(string $text)
+    {
+        $this->formattedText = $text;
+    }
+
+    public function createFormattedText(Quote $quote)
+    {
+        $this->formattedText = $this->format_text($quote->getText());
     }
 
     public function getProbability()
@@ -122,6 +138,20 @@ class Slide extends Media
     public function setOrganizationCategoryCollection(GroupCollection $organizationCategoryCollection)
     {
         $this->organizationCategoryCollection = $organizationCategoryCollection;
+    }
+
+    private function format_text(string $text) {
+        $counter = 0;
+        $ret = '<tspan>';
+        foreach (str_split($text) as $char) {
+            if ($counter > 10) {
+                $counter = 0;
+                $ret .= '</tspan><tspan dy="2">';
+            }
+            $ret .= $char;
+            $counter++;
+        }
+        return $ret . '</tspan>';
     }
 
     public function validateForUpload(FlexibleObserver $stateObserver)
@@ -193,6 +223,7 @@ class Slide extends Media
             'contentCategory' => $this->contentCategory ? $this->contentCategory->toArray() : null,
             'image' => $this->image ? $this->image->getId() : null,//$this->image ? $this->image->toArray() : null,
             'quote' => $this->quote ? $this->quote->toArray() : null,//$this->quote ? $this->quote->toArray() : null,
+            'tspan' => $this->formattedText,
             'probability' => $this->probability,
             'decayPercent' => $this->decayPercent,
             'decayStart' => $this->decayStart,

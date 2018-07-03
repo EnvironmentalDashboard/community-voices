@@ -85,6 +85,7 @@ class Slide extends Media
                         child.content_category_id           AS contentCategoryId,
                         child.image_id                      AS imageId,
                         child.quote_id                      AS quoteId,
+                        child.formatted_text                AS FormattedText,
                         child.probability                   AS probability,
                         child.decay_percent                 AS decayPercent,
                         child.decay_start                   AS decayStart,
@@ -140,6 +141,7 @@ class Slide extends Media
                         content_category_id = :content_category_id
                         image_id = :image_id,
                         quote_id = :quote_id,
+                        formatted_text = :formatted_text,
                         probability = :probability,
                         decay_percent = :decay_percent,
                         decay_start = :decay_start,
@@ -149,10 +151,12 @@ class Slide extends Media
 
         $statement = $this->conn->prepare($query);
 
+        $slide->createFormattedText($slide->getQuote());
         $statement->bindValue(':media_id', $slide->getId());
         $statement->bindValue(':content_category_id', $slide->getContentCategory()->getId());
         $statement->bindValue(':image_id', $slide->getImage()->getId());
         $statement->bindValue(':quote_id', $slide->getQuote()->getId());
+        $statement->bindValue(':formatted_text', $slide->getFormattedText());
         $statement->bindValue(':probability', $slide->getProbability());
         $statement->bindValue(':decay_percent', $slide->getDecayPercent());
         $statement->bindValue(':decay_start', $slide->getDecayStart());
@@ -172,18 +176,20 @@ class Slide extends Media
 
         $query = "INSERT INTO
                         `community-voices_slides`
-                        (media_id, content_category_id, image_id, quote_id, probability,
+                        (media_id, content_category_id, image_id, quote_id, formatted_text, probability,
                             decay_percent, decay_start, decay_end)
                     VALUES
-                        (:media_id, :content_category_id, :image_id, :quote_id, :probability,
+                        (:media_id, :content_category_id, :image_id, :quote_id, :formatted_text, :probability,
                             :decay_percent, :decay_start, :decay_end)";
 
         $statement = $this->conn->prepare($query);
 
+        $slide->createFormattedText($slide->getQuote());
         $statement->bindValue(':media_id', $slide->getId());
         $statement->bindValue(':content_category_id', $slide->getContentCategory()->getId());
         $statement->bindValue(':image_id', $slide->getImage()->getId());
         $statement->bindValue(':quote_id', $slide->getQuote()->getId());
+        $statement->bindValue(':formatted_text', $slide->getFormattedText());
         $statement->bindValue(':probability', $slide->getProbability());
         $statement->bindValue(':decay_percent', $slide->getDecayPercent());
         $statement->bindValue(':decay_start', date('Y-m-d', $slide->getDecayStart()));

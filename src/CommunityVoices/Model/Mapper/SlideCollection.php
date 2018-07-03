@@ -26,6 +26,7 @@ class SlideCollection extends DataMapper
                         slide.content_category_id       AS contentCategoryId,
                         slide.image_id                  AS imageId,
                         slide.quote_id                  AS quoteId,
+                        slide.formatted_text            AS formattedText,
                         slide.probability               AS probability,
                         slide.decay_percent             AS decayPercent,
                         slide.decay_start               AS decayStart,

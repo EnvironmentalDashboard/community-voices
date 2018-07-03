@@ -69,7 +69,7 @@ class Slide extends Component\View
          * Generate slide module
          */
         // var_dump($slidePackageElement->domain->slideCollection->slide->contentCategory->contentCategory->id);exit;
-        // var_dump($slidePackageElement->domain->slideCollection->slide->quote->quote->text);exit;
+        // var_dump($slidePackageElement->domain->slideCollection->slide->formattedText->asXML());exit;
         $slideModule = new Component\Presenter('Module/SlideCollection');
         $slideModuleXML = $slideModule->generate($slidePackageElement);
 
