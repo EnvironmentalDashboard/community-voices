@@ -56,6 +56,9 @@ class ArticleLookup
         $groupCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
         $groupCollectionMapper->fetch($article->getTagCollection());
 
+        $Parsedown = new \Parsedown();
+        $article->setText($Parsedown->text($article->getText()));
+
         $this->stateObserver->setSubject('articleLookup');
         $this->stateObserver->addEntry('article', $article);
 
@@ -101,6 +104,11 @@ class ArticleLookup
 
         $articleCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\ArticleCollection::class);
         $articleCollectionMapper->fetch($articleCollection);
+
+        $Parsedown = new \Parsedown();
+        foreach ($articleCollection->getCollection() as $article) {
+            $article->setText($Parsedown->text($article->getText()));
+        }
 
         // map data
         // check whether collection empty, do something

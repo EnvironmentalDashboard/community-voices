@@ -20,7 +20,8 @@
 		          </div>
 		          <div class="card-body">
 		            <blockquote class="blockquote mb-0">
-		              <p><xsl:value-of select='domain/article/text' /></p>
+		              <xsl:value-of select='domain/article/text' />
+		              <!-- <p><xsl:copy-of select='domain/article/text' disable-output-escaping="no" /></p> -->
 		              <footer class='blockquote-footer'>
 		                <cite>
 		                  <xsl:attribute name="title"><xsl:value-of select='domain/article/attribution' /></xsl:attribute>

@@ -6,7 +6,8 @@
         "monolog/monolog": "^1.23",
         "symfony/routing": "^3.3",
         "symfony/config": "^3.3",
-        "symfony/http-foundation": "^3.3"
+        "symfony/http-foundation": "^3.3",
+        "erusev/parsedown": "^1.7"
     },
     "autoload": {
         "psr-4": {

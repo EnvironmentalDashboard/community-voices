@@ -5,11 +5,18 @@
 
   <xsl:variable name="isManager" select="package/identity/user/role = 'manager'
     or package/identity/user/role = 'administrator'"/>
-    <xsl:variable name="search" select="package/domain/search"/>
-    <xsl:variable name="tags" select="package/domain/tags"/>
-    <xsl:variable name="attributions" select="package/domain/attributions"/>
+  <xsl:variable name="search" select="package/domain/search"/>
+  <xsl:variable name="tags" select="package/domain/tags"/>
+  <xsl:variable name="attributions" select="package/domain/attributions"/>
 
   <xsl:template match="/package">
+
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="#">Quotes</a>
+      <a class="btn btn-outline-primary active mr-auto" href="#">Newest first</a>
+      <a class="btn btn-outline-primary" href="./quotes/new">+ Add quote</a>
+    </nav>
+
     <div class="row" style="padding:15px;">
       <div class="col-sm-3">
         <div class="card bg-light mb-3">
