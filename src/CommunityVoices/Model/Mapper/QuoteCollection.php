@@ -20,13 +20,36 @@ class QuoteCollection extends DataMapper
         $container->allAttributions = $attributions;
     }
 
-    public function fetch(Entity\QuoteCollection $quoteCollection)
+    public function fetch(Entity\QuoteCollection $quoteCollection, $search = '', $tags = null, $attributions = null)
     {
-        $this->fetchAll($quoteCollection);
+        $this->fetchAll($quoteCollection, $search, $tags, $attributions);
     }
 
-    private function fetchAll(Entity\QuoteCollection $quoteCollection)
+    private function fetchAll(Entity\QuoteCollection $quoteCollection, $search, $tags, $attributions)
     {
+
+        $params = [];
+        if ($search == '') {
+            $search_query = '';
+        } else {
+            $search_query = 'AND (text LIKE ? OR attribution LIKE ? OR sub_attribution LIKE ?)';
+            $params[] = "%{$search}%";
+            $params[] = "%{$search}%";
+            $params[] = "%{$search}%";
+        }
+        if ($tags == null) {
+            $tag_query = '';
+        } else {
+            $tag_query = 'AND id IN (SELECT media_id FROM `community-voices_media-group-map` WHERE group_id IN ('.implode(',', array_map('intval', $tags)).'))';
+        }
+        if ($attributions == null) {
+            $attribution_query = '';
+        } else {
+            $attribution_query = 'AND attribution IN ('.rtrim(str_repeat('?,', count($attributions)), ',').')';
+            foreach ($attributions as $param) {
+                $params[] = $param;
+            }
+        }
         $query = " 	SELECT
 						media.id 						AS id,
 						media.added_by 					AS addedBy,
@@ -45,13 +68,14 @@ class QuoteCollection extends DataMapper
 						`community-voices_quotes` quote
 						ON media.id = quote.media_id
 		          	WHERE 1
+                    {$search_query} {$tag_query} {$attribution_query}
 		         "
 		         . $this->query_prep($quoteCollection->status, "media.status")
                  . $this->query_prep($quoteCollection->creators, "media.added_by");
-
+                 
         $statement = $this->conn->prepare($query);
 
-        $statement->execute();
+        $statement->execute($params);
 
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -71,7 +95,7 @@ class QuoteCollection extends DataMapper
             $toRet = array_map(
             	function($x) use ($type) {return $type . "='" . $x ."'";},
              	$seq);
-            $toRet = implode(" OR ",$toRet);
+            $toRet = '(' .implode(" OR ",$toRet).')';
             return " AND " . $toRet;
         }
     }

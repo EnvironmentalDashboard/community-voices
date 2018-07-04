@@ -32,6 +32,11 @@ class Quote
 
     public function getAllQuote($request, $identity)
     {
+
+        $search = (string) $request->query->get('search');
+        $tags = $request->query->get('tags');
+        $attributions = $request->query->get('attributions');
+
         $creatorIDs = $request->attributes->get('creatorIDs');
         $status = $request->attributes->get('status');
 
@@ -39,8 +44,7 @@ class Quote
         if($identity->getRole() <= 2){
           $status = ["approved"];
         }
-
-        $this->quoteLookup->findAll($creatorIDs, $status);
+        $this->quoteLookup->findAll($search, $tags, $attributions, $creatorIDs, $status);
     }
 
     public function getQuoteUpload()
