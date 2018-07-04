@@ -5,6 +5,9 @@
 
   <xsl:variable name="isManager" select="package/identity/user/role = 'manager'
     or package/identity/user/role = 'administrator'"/>
+    <xsl:variable name="search" select="package/domain/search"/>
+    <xsl:variable name="tags" select="package/domain/tags"/>
+    <xsl:variable name="attributions" select="package/domain/attributions"/>
 
   <xsl:template match="/package">
     <div class="row" style="padding:15px;">
@@ -15,13 +18,16 @@
             <div class="card-body">
               <div class="form-group">
                 <label for="search">Search</label>
-                <input type="text" class="form-control" name="search" id="search" placeholder="Enter search terms" />
+                <input type="text" class="form-control" name="search" id="search" placeholder="Enter search terms" value="{$search}" />
               </div>
               <div class="form-group">
                 <label for="tags">Tags</label>
                 <select multiple="" class="form-control" id="tags" name="tags[]">
                   <xsl:for-each select="domain/groupCollection/group">
                     <option>
+                      <xsl:if test="contains($tags, concat(',', id, ','))">
+                        <xsl:attribute name="selected">selected</xsl:attribute>
+                      </xsl:if>
                       <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
                       <xsl:value-of select="label"></xsl:value-of>
                     </option>
@@ -33,6 +39,9 @@
                 <select multiple="" class="form-control" id="attributions" name="attributions[]">
                   <xsl:for-each select="domain/allAttributions/attribution">
                     <option value="{.}">
+                      <xsl:if test="contains($attributions, concat(',', ., ','))">
+                        <xsl:attribute name="selected">selected</xsl:attribute>
+                      </xsl:if>
                       <xsl:value-of select="."></xsl:value-of>
                     </option>
                   </xsl:for-each>

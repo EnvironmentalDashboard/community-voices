@@ -105,6 +105,8 @@ class Quote extends Component\View
 
     public function getAllQuote($routes, $context)
     {
+        parse_str($_SERVER['QUERY_STRING'], $qs);
+
         /**
          * Gather identity information
          */
@@ -147,6 +149,14 @@ class Quote extends Component\View
         $packagedQuote->adopt($tagXMLElement);
         $packagedQuote->adopt($attributionXMLElement);
 
+        foreach ($qs as $key => $value) {
+            if ($key === 'search') {
+                $packagedQuote->addChild($key, $value);
+            } else {
+                $packagedQuote->addChild($key, (is_array($value)) ? ','.implode(',', $value).',' : ','.$value.',');
+            }
+        }
+// var_dump($packagedQuote->tags->asXML());die;
         $packagedIdentity = $quotePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
 
