@@ -32,7 +32,7 @@ class ArticleManagement
      * @param  String $dateRecorded       [description]
      * @return Boolean                     [description]
      */
-    public function upload($text, $author, $dateRecorded, $approved, $addedBy)
+    public function upload(Entity\Image $image, $text, $author, $dateRecorded, $approved, $addedBy)
     {
         /*
          * Create Article entity and set attributes
@@ -44,6 +44,7 @@ class ArticleManagement
         $article->setAuthor($author);
         $article->setDateRecorded($dateRecorded);
         $article->setAddedBy($addedBy);
+        $article->setImage($image);
         if($approved){
             $article->setStatus(3);
         } else {
@@ -85,7 +86,6 @@ class ArticleManagement
         /*
          * save $article to database
          */
-
         $articleMapper->save($article);
 
         return true;

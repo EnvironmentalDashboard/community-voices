@@ -113,7 +113,7 @@ class Article extends Media
         $statement->bindValue(':media_id', $article->getId());
         $statement->bindValue(':text', $article->getText());
         $statement->bindValue(':author', $article->getAuthor());
-        $statement->bindValue(':date_recorded', date('Y-m-d', $article->getDateRecorded()));
+        $statement->bindValue(':date_recorded', date('Y-m-d H:i:s', $article->getDateRecorded()));
 
         $statement->execute();
     }
@@ -123,7 +123,6 @@ class Article extends Media
         /**
          * Create parent row
          */
-
         parent::create($article);
 
         /**
@@ -132,17 +131,18 @@ class Article extends Media
 
         $query = "INSERT INTO
                         `community-voices_articles`
-                        (media_id, text, author, date_recorded)
+                        (media_id, image_id, text, author, date_recorded)
                     VALUES
-                        (:media_id, :text, :author, :date_recorded)";
+                        (:media_id, :image_id, :text, :author, :date_recorded)";
 
         $statement = $this->conn->prepare($query);
 
         $statement->bindValue(':media_id', $article->getId());
+        $statement->bindValue(':image_id', $article->getImage()->getId());
         $statement->bindValue(':text', $article->getText());
         $statement->bindValue(':author', $article->getAuthor());
-        $statement->bindValue(':date_recorded', date('Y-m-d', $article->getDateRecorded()));
-
+        $statement->bindValue(':date_recorded', date('Y-m-d H:i:s', $article->getDateRecorded()));
+        $statement->bindValue(':image_id', $article->getImage()->getId());
         $statement->execute();
     }
 }

@@ -10,11 +10,21 @@
               <p>Author missing.</p>
           </xsl:if>
 
-          <form action='./articles/new/authenticate' method='post'>
+          <form action='./articles/new/authenticate' method='post' enctype='multipart/form-data'>
+
+              <div class="custom-file">
+                <label for="file" class="custom-file-label">File</label>
+                <input class="custom-file-input" id="file" type='file' name='file' accept='.jpg, .jpeg, .png' />
+              </div>
 
               <div class="form-group">
                 <label for="text">Enter article below</label>
                 <textarea name="text" id="text" cols="25" rows="20" class="form-control"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="title">Title</label>
+                <input class="form-control" id="title" type='text' name='title' style='max-width: 200px' />
               </div>
 
               <div class="form-group">

@@ -9,7 +9,7 @@ class Article extends Media
     const ERR_AUTHOR_REQUIRED = 'Articles must have an author.';
 
     private $text;
-
+    private $image;
     private $author;
     private $dateRecorded;
 
@@ -28,6 +28,16 @@ class Article extends Media
         $this->text = $text;
     }
 
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage(Image $image)
+    {
+        $this->image = $image;
+    }
+
     public function getAuthor()
     {
         return $this->author;
@@ -43,9 +53,9 @@ class Article extends Media
         return $this->dateRecorded;
     }
 
-    public function setDateRecorded($dateRecorded)
+    public function setDateRecorded(int $dateRecorded)
     {
-        $this->dateRecorded = strtotime($dateRecorded);
+        $this->dateRecorded = (int) $dateRecorded;
 
     }
 

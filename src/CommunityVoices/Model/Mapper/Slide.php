@@ -192,8 +192,8 @@ class Slide extends Media
         $statement->bindValue(':formatted_text', $slide->getFormattedText());
         $statement->bindValue(':probability', $slide->getProbability());
         $statement->bindValue(':decay_percent', $slide->getDecayPercent());
-        $statement->bindValue(':decay_start', date('Y-m-d', $slide->getDecayStart()));
-        $statement->bindValue(':decay_end', date('Y-m-d', $slide->getDecayEnd()));
+        $statement->bindValue(':decay_start', date('Y-m-d H:i:s', $slide->getDecayStart()));
+        $statement->bindValue(':decay_end', date('Y-m-d H:i:s', $slide->getDecayEnd()));
 
         $statement->execute();
     }

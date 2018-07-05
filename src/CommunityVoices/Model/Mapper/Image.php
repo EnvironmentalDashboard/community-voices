@@ -129,10 +129,10 @@ class Image extends Media
         $statement->bindValue(':generated_tags', $image->getGeneratedTags());
         $statement->bindValue(':title', $image->getTitle());
         $statement->bindValue(':description', $image->getDescription());
-        $statement->bindValue(':date_taken', $image->getDateTaken());
+        $statement->bindValue(':date_taken', date('Y-m-d H:i:s', $image->getDateTaken()));
         $statement->bindValue(':photographer', $image->getPhotographer());
         $statement->bindValue(':organization', $image->getOrganization());
-
+        
         $statement->execute();
     }
 

@@ -9,13 +9,16 @@ class Article
 {
     protected $articleLookup;
     protected $articleManagement;
+    protected $imageManagement;
 
     public function __construct(
         Service\ArticleLookup $articleLookup,
-        Service\ArticleManagement $articleManagement
+        Service\ArticleManagement $articleManagement,
+        Service\ImageManagement $imageManagement
     ){
         $this->articleLookup = $articleLookup;
         $this->articleManagement = $articleManagement;
+        $this->imageManagement = $imageManagement;
     }
 
     /**
@@ -48,16 +51,21 @@ class Article
 
     public function postArticleUpload($request, $identity)
     {
+        $file = $request->files->get('file');
         $text = $request->request->get('text');
         $author = $request->request->get('author');
-        $dateRecorded = $request->request->get('dateRecorded');
         $approved = $request->request->get('approved');
+        $dateRecorded = $request->request->get('dateRecorded');
+        $strtotime = strtotime($dateRecorded);
+        $dateRecorded = ($strtotime) ? $strtotime : time();
         
         if($identity->getRole() <= 2){
           $approved = null;
         }
 
-        $this->articleManagement->upload($text, $author, $dateRecorded, $approved, $identity);
+        $uploaded_image = $this->imageManagement->upload($file, null, null, $dateRecorded, null, null, $identity, $approved, null);
+
+        $this->articleManagement->upload($uploaded_image, $text, $author, $dateRecorded, $approved, $identity);
     }
 
     public function getArticleUpdate($request)
@@ -68,7 +76,8 @@ class Article
     }
 
     public function postArticleUpdate($request)
-    {
+    { // TODO
+      $file = $request->files->get('file');
       $text = $request->request->get('text');
       $author = $request->request->get('author');
       $dateRecorded = $request->request->get('dateRecorded');
