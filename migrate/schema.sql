@@ -9,6 +9,15 @@ use community_voices;
  * Table skeletons
  */
 
+CREATE TABLE `community-voices_articles` (
+    `media_id` int(21) NOT NULL,
+    `image_id` int(21) DEFAULT NULL,
+    `title` varchar(255) DEFAULT NULL,
+    `text` text,
+    `author` varchar(255) DEFAULT NULL,
+    `date_recorded` datetime DEFAULT NULL
+);
+
 CREATE TABLE `community-voices_content-categories` (
     `group_id` int(21) NOT NULL,
     `media_filename` varchar(255) NOT NULL
@@ -68,6 +77,12 @@ CREATE TABLE `community-voices_media` (
     `status` enum('pending','rejected','approved') NOT NULL
 );
 
+CREATE TABLE `community-voices_media-article-map` (
+  `id` int(21) NOT NULL,
+  `article_id` int(21) NOT NULL,
+  `media_id` int(21) NOT NULL
+);
+
 CREATE TABLE `community-voices_media-group-map` (
     `id` int(21) NOT NULL,
     `media_id` int(21) NOT NULL,
@@ -86,13 +101,6 @@ CREATE TABLE `community-voices_quotes` (
     `date_recorded` datetime DEFAULT NULL,
     `public_document_link` varchar(255) DEFAULT NULL,
     `source_document_link` varchar(255) DEFAULT NULL
-);
-
-CREATE TABLE `community-voices_articles` (
-    `media_id` int(21) NOT NULL,
-    `text` text,
-    `author` varchar(255) DEFAULT NULL,
-    `date_recorded` datetime DEFAULT NULL
 );
 
 CREATE TABLE `community-voices_slides` (
@@ -123,6 +131,10 @@ CREATE TABLE `community-voices_users` (
  * Keys (primaries, unique)
  */
 
+ALTER TABLE `community-voices_articles`
+    ADD PRIMARY KEY (`media_id`);
+    ADD UNIQUE KEY `image_id` (`image_id`);
+
 ALTER TABLE `community-voices_content-categories`
     ADD PRIMARY KEY (`group_id`);
 
@@ -149,6 +161,9 @@ ALTER TABLE `community-voices_media`
     ADD PRIMARY KEY (`id`),
     ADD KEY `community-voices_media_fk0` (`added_by`);
 
+ALTER TABLE `community-voices_media-article-map`
+    ADD PRIMARY KEY (`id`);
+
 ALTER TABLE `community-voices_media-group-map`
     ADD PRIMARY KEY (`id`),
     ADD KEY `community-voices_media-group-map_fk0` (`media_id`),
@@ -158,9 +173,6 @@ ALTER TABLE `community-voices_organization-categories`
     ADD PRIMARY KEY (`group_id`);
 
 ALTER TABLE `community-voices_quotes`
-    ADD PRIMARY KEY (`media_id`);
-
-ALTER TABLE `community-voices_articles`
     ADD PRIMARY KEY (`media_id`);
 
 ALTER TABLE `community-voices_slides`
@@ -190,6 +202,8 @@ ALTER TABLE `community-voices_locations`
     MODIFY `id` int(21) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `community-voices_media`
     MODIFY `id` int(21) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `community-voices_media-article-map`
+    MODIFY `id` int(21) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `community-voices_media-group-map`
     MODIFY `id` int(21) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `community-voices_users`
@@ -198,6 +212,10 @@ ALTER TABLE `community-voices_users`
 /**
  * Foreign key constraints
  */
+
+ALTER TABLE `community-voices_articles`
+    ADD CONSTRAINT `community-voices_articles_fk0` FOREIGN KEY (`media_id`) REFERENCES `community-voices_media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `community-voices_articles_fk1` FOREIGN KEY (`image_id`) REFERENCES `community-voices_images` (`media_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `community-voices_content-categories`
     ADD CONSTRAINT `community-voices_content-categories_fk0` FOREIGN KEY (`group_id`) REFERENCES `community-voices_groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -225,9 +243,6 @@ ALTER TABLE `community-voices_organization-categories`
 
 ALTER TABLE `community-voices_quotes`
     ADD CONSTRAINT `community-voices_quotes_fk0` FOREIGN KEY (`media_id`) REFERENCES `community-voices_media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `community-voices_articles`
-    ADD CONSTRAINT `community-voices_articles_fk0` FOREIGN KEY (`media_id`) REFERENCES `community-voices_media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `community-voices_slides`
     ADD CONSTRAINT `community-voices_slides_fk0` FOREIGN KEY (`media_id`) REFERENCES `community-voices_media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
