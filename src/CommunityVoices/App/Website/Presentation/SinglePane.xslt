@@ -73,7 +73,24 @@
                     });
                     $(document).on('click', '.ajax-quote', function(e) {
                         var text = makeSVG('text', {x: '50%', y: '45%', fill: '#fff', 'font-size': '4px'});
-                        text = $(text).text($(this).data('text'));
+                        var s = $(this).data('text');
+                        var arr = [];
+                        arr[0] = '';
+                        var tspans = 0, counter = 0;
+                        for (var i = 0; i < s.length; i++) {
+                            var char = s.charAt(i);
+                            arr[tspans] += char;
+                            if (counter++ > 10 && char === ' ') {
+                                tspans++;
+                                counter = 0;
+                                arr[tspans] = '';
+                            }
+                        }
+                        for (var i = 0; i < arr.length; i++) {
+                            var tspan = makeSVG('tspan', {dy: 4, x: '50%'});
+                            tspan = $(tspan).text(arr[i]);
+                            text.append(tspan[0]);
+                        }
                         $('#render').append(text);
                         $("input[name='quote_id']").val($(this).data('id'));
                     });
