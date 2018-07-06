@@ -66,7 +66,7 @@ class Image extends Media
         return $this->dateTaken;
     }
 
-    public function setDateTaken(int $dateTaken)
+    public function setDateTaken($dateTaken)
     {
         $input = (int) $dateTaken;
 
