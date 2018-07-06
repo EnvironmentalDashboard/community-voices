@@ -53,7 +53,7 @@ class Article extends Media
         return $this->dateRecorded;
     }
 
-    public function setDateRecorded(int $dateRecorded)
+    public function setDateRecorded($dateRecorded)
     {
         $this->dateRecorded = (int) $dateRecorded;
 
