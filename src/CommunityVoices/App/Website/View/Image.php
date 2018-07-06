@@ -132,7 +132,7 @@ class Image extends Component\View
         unset($obj->imageCollection->count); // TODO: fix!
         unset($obj->imageCollection->limit);
         unset($obj->imageCollection->page);
-        $obj->imageCollection = (array) $obj->imageCollection;
+        $obj->imageCollection = array_values((array) $obj->imageCollection);
         $imageXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($obj)
         );
