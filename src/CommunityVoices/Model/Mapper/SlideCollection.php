@@ -10,14 +10,14 @@ use CommunityVoices\Model\Mapper;
 
 class SlideCollection extends DataMapper
 {
-    public function fetch(Entity\SlideCollection $slideCollection)
+    public function fetch(Entity\SlideCollection $slideCollection, int $limit, int $offset)
     {
-        $this->fetchAll($slideCollection);
+        $this->fetchAll($slideCollection, $limit, $offset);
     }
 
-    private function fetchAll(Entity\SlideCollection $slideCollection)
+    private function fetchAll(Entity\SlideCollection $slideCollection, int $limit, int $offset)
     {
-        $query = " 	SELECT
+        $query = " 	SELECT SQL_CALC_FOUND_ROWS
 						media.id 						AS id,
 						media.added_by 					AS addedBy,
 						media.date_created 				AS dateCreated,
@@ -39,13 +39,16 @@ class SlideCollection extends DataMapper
 		          	WHERE 1
 		         "
 		         . $this->query_prep($slideCollection->status, "media.status")
-                 . $this->query_prep($slideCollection->creators, "media.added_by");
+                 . $this->query_prep($slideCollection->creators, "media.added_by")
+                 . " LIMIT {$offset}, {$limit}";
 
         $statement = $this->conn->prepare($query);
 
         $statement->execute();
 
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        $slideCollection->setCount($this->conn->query('SELECT FOUND_ROWS()')->fetchColumn());
 
         foreach ($results as $key => $entry) {
             $imgMapper = new Mapper\Image($this->conn);

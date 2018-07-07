@@ -82,12 +82,7 @@ class Slide extends Media
 
     public function setFormattedText(string $text)
     {
-        $this->formattedText = $text;
-    }
-
-    public function createFormattedText(Quote $quote)
-    {
-        $this->formattedText = $this->format_text($quote->getText());
+        $this->formattedText = $this->format_text($text);
     }
 
     public function getProbability()

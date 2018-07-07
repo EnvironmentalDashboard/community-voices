@@ -12,7 +12,7 @@ class QuoteCollection extends DataMapper
 
     public function attributions(\stdClass $container) {
         $attributions = [];
-        foreach ($this->conn->query('SELECT DISTINCT attribution FROM `community-voices_quotes` ORDER BY attribution ASC') as $row) {
+        foreach ($this->conn->query('SELECT DISTINCT attribution FROM `community-voices_quotes` WHERE attribution != "" ORDER BY attribution ASC') as $row) {
             $obj = new \stdClass();
             $obj->attribution = '<![CDATA['.htmlspecialchars($row['attribution']).']]>';
             $attributions[] = $obj;

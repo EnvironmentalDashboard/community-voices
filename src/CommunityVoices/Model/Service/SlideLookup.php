@@ -34,12 +34,14 @@ class SlideLookup
      *
      * @return CommunityVoices\Model\Entity\SlideCollection
      */
-    public function findAll()
+    public function findAll(int $page, int $limit, int $offset)
     {
         $slideCollection = new Entity\SlideCollection;
+        $slideCollection->setPage($page);
+        $slideCollection->setLimit($limit);
 
         $slideCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\SlideCollection::class);
-        $slideCollectionMapper->fetch($slideCollection);
+        $slideCollectionMapper->fetch($slideCollection, $limit, $offset);
 
         $this->stateObserver->setSubject('slideFindAll');
         $this->stateObserver->addEntry('slideCollection', $slideCollection);

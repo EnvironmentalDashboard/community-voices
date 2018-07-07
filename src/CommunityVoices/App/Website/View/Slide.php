@@ -34,6 +34,8 @@ class Slide extends Component\View
 
     public function getAllSlide($routes, $context)
     {
+        parse_str($_SERVER['QUERY_STRING'], $qs);
+
         /**
          * Gather identity information
          */
@@ -47,11 +49,25 @@ class Slide extends Component\View
          * Gather slide information
          */
         $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
+        $json = json_decode($slideAPIView->getAllSlide()->getContent());
+        $obj = new \stdClass();
+        $obj->slideCollection = $json->slideCollection;
+        $count = $obj->slideCollection->count;
+        $limit = $obj->slideCollection->limit;
+        $page = $obj->slideCollection->page;
+        unset($obj->slideCollection->count);
+        unset($obj->slideCollection->limit);
+        unset($obj->slideCollection->page);
+        $obj->slideCollection = array_values((array) $obj->slideCollection);
 
         $slideXMLElement = new SimpleXMLElement(
-          $this->transcriber->toXml(json_decode(
-              $slideAPIView->getAllSlide()->getContent()
-          ))
+          $this->transcriber->toXml($obj)
+        );
+
+        $pagination = new \stdClass();
+        $pagination->div = $this->paginationHTML($qs, $count, $limit, $page);
+        $paginationXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($pagination)
         );
 
         /**
@@ -61,6 +77,7 @@ class Slide extends Component\View
 
         $packagedSlide = $slidePackageElement->addChild('domain');
         $packagedSlide->adopt($slideXMLElement);
+        $packagedSlide->adopt($paginationXMLElement);
 
         $packagedIdentity = $slidePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
@@ -68,8 +85,8 @@ class Slide extends Component\View
         /**
          * Generate slide module
          */
-        // var_dump($slidePackageElement->domain->slideCollection->slide->contentCategory->contentCategory->id);exit;
-        // var_dump($slidePackageElement->domain->slideCollection->slide->formattedText->asXML());exit;
+        // var_dump($slidePackageElement->domain->slideCollection->slide->tspan->asXML());exit;
+        // var_dump($slidePackageElement->domain->slideCollection->slide->quote->quote->text->asXML());exit;
         $slideModule = new Component\Presenter('Module/SlideCollection');
         $slideModuleXML = $slideModule->generate($slidePackageElement);
 
