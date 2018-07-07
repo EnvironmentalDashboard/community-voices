@@ -124,6 +124,14 @@ class Quote extends Component\View
 
         $obj = new \stdClass();
         $obj->quoteCollection = $json->quoteCollection;
+        $count = $obj->quoteCollection->count;
+        $limit = $obj->quoteCollection->limit;
+        $page = $obj->quoteCollection->page;
+        unset($obj->quoteCollection->count);
+        unset($obj->quoteCollection->limit);
+        unset($obj->quoteCollection->page);
+        $obj->quoteCollection = array_values((array) $obj->quoteCollection);
+
         $quoteXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($obj)
         );
@@ -131,6 +139,12 @@ class Quote extends Component\View
         $tags = $json->tags;
         $tagXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($tags)
+        );
+
+        $pagination = new \stdClass();
+        $pagination->div = $this->paginationHTML($qs, $count, $limit, $page);
+        $paginationXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($pagination)
         );
 
         $attributions = $json->quoteCollectionAttributions;
@@ -147,6 +161,7 @@ class Quote extends Component\View
         $packagedQuote->adopt($quoteXMLElement);
         $packagedQuote->adopt($tagXMLElement);
         $packagedQuote->adopt($attributionXMLElement);
+        $packagedQuote->adopt($paginationXMLElement);
 
         foreach ($qs as $key => $value) {
             if ($key === 'search') {

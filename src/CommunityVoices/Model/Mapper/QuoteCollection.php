@@ -20,12 +20,12 @@ class QuoteCollection extends DataMapper
         $container->allAttributions = $attributions;
     }
 
-    public function fetch(Entity\QuoteCollection $quoteCollection, $search = '', $tags = null, $attributions = null)
+    public function fetch(Entity\QuoteCollection $quoteCollection, $search = '', $tags = null, $attributions = null, int $limit, int $offset)
     {
-        $this->fetchAll($quoteCollection, $search, $tags, $attributions);
+        $this->fetchAll($quoteCollection, $search, $tags, $attributions, $limit, $offset);
     }
 
-    private function fetchAll(Entity\QuoteCollection $quoteCollection, $search, $tags, $attributions)
+    private function fetchAll(Entity\QuoteCollection $quoteCollection, $search, $tags, $attributions, int $limit, int $offset)
     {
 
         $params = [];
@@ -50,7 +50,7 @@ class QuoteCollection extends DataMapper
                 $params[] = $param;
             }
         }
-        $query = " 	SELECT
+        $query = " 	SELECT SQL_CALC_FOUND_ROWS
 						media.id 						AS id,
 						media.added_by 					AS addedBy,
 						media.date_created 				AS dateCreated,
@@ -71,13 +71,16 @@ class QuoteCollection extends DataMapper
                     {$search_query} {$tag_query} {$attribution_query}
 		         "
 		         . $this->query_prep($quoteCollection->status, "media.status")
-                 . $this->query_prep($quoteCollection->creators, "media.added_by");
-                 
+                 . $this->query_prep($quoteCollection->creators, "media.added_by")
+                 . " LIMIT {$offset}, {$limit}";
+
         $statement = $this->conn->prepare($query);
 
         $statement->execute($params);
 
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        $quoteCollection->setCount($this->conn->query('SELECT FOUND_ROWS()')->fetchColumn());
 
         foreach ($results as $key => $entry) {
             $quoteCollection->addEntityFromParams($entry);

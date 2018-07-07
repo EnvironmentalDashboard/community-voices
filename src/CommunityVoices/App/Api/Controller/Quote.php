@@ -44,7 +44,13 @@ class Quote
         if($identity->getRole() <= 2){
           $status = ["approved"];
         }
-        $this->quoteLookup->findAll($search, $tags, $attributions, $creatorIDs, $status);
+
+        $page = (int) $request->query->get('page');
+        $page = ($page > 0) ? $page - 1 : 0; // current page, make page 0-based
+        $limit = 25; // number of items per page
+        $offset = $limit * $page;
+
+        $this->quoteLookup->findAll($page, $limit, $offset, $search, $tags, $attributions, $creatorIDs, $status);
     }
 
     public function getQuoteUpload()

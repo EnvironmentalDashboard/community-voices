@@ -97,6 +97,12 @@
         </div>
       </div>
     </div>
+    <div class="row" style="padding:15px;">
+      <div class="col-12">
+        <!-- <xsl:value-of select="domain/count"></xsl:value-of> -->
+        <xsl:copy-of select="domain/div"></xsl:copy-of>
+      </div>
+    </div>
 
   </xsl:template>
 

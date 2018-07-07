@@ -75,9 +75,11 @@ class QuoteLookup
      *
      * @return CommunityVoices\Model\Entity\QuoteCollection
      */
-    public function findAll($search = '', $tags = null, $attributions = null, $creatorIDs=[], $status=[])
+    public function findAll(int $page, int $limit, int $offset, $search = '', $tags = null, $attributions = null, $creatorIDs=[], $status=[])
     {
         $quoteCollection = new Entity\QuoteCollection;
+        $quoteCollection->setPage($page);
+        $quoteCollection->setLimit($limit);
         $quoteCollectionAttributions = new \stdClass();
  
         $valid_creatorIDs = [];
@@ -106,7 +108,7 @@ class QuoteLookup
         $quoteCollection->status = $status;
 
         $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
-        $quoteCollectionMapper->fetch($quoteCollection, $search, $tags, $attributions);
+        $quoteCollectionMapper->fetch($quoteCollection, $search, $tags, $attributions, $limit, $offset);
         $quoteCollectionMapper->attributions($quoteCollectionAttributions);
 
         $tagLookup = new TagLookup($this->mapperFactory, $this->stateObserver);
