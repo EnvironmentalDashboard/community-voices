@@ -403,6 +403,15 @@ class Image extends Component\View
             $ret .= '" aria-label="Previous"><span aria-hidden="true">&#171;</span><span class="sr-only">Previous</span></a></li>';
         }
         for ($i = 1; $i <= $final_page; $i++) {
+            if ($page > 20 && $i > 3 && $ok) {
+                $i = $page - 2;
+                $ok = false;
+                $ret .= "<li class='page-item'><span class='page-link'>...</span></li>";
+            }
+            if ($i >= 20 && $final_page > ($i+3) && $page+3 < $i) {
+                $i = $final_page - 3;
+                $ret .= "<li class='page-item'><span class='page-link'>...</span></li>";
+            }
             if ($page + 1 === $i) {
                 $ret .= '<li class="page-item active"><a class="page-link" href="images?'. http_build_query(array_replace($qs, ['page' => $i])).'">' . $i . '</a></li>';
             }

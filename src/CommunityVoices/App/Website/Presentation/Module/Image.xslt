@@ -13,7 +13,7 @@
 
             <div class="card mb-3">
               <img class="card-img-top">
-                <xsl:attribute name="src">./uploads/<xsl:value-of select='domain/image/id' /></xsl:attribute>
+                <xsl:attribute name="src">https://environmentaldashboard.org/cv/uploads/<xsl:value-of select='domain/image/id' /></xsl:attribute>
                 <xsl:attribute name="alt"><xsl:value-of select='domain/image/title' /></xsl:attribute>
               </img>
               <div class="card-body">

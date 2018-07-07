@@ -90,7 +90,7 @@
 						<div class="card">
 							<a href="images/{id}">
 								<img>
-									<xsl:attribute name="src">./uploads/<xsl:value-of select='id' /></xsl:attribute>
+									<xsl:attribute name="src">https://environmentaldashboard.org/cv/uploads/<xsl:value-of select='id' /></xsl:attribute>
 									<xsl:attribute name="alt"><xsl:value-of select='title' /></xsl:attribute>
 									<xsl:attribute name="class">card-img-top</xsl:attribute>
 								</img>

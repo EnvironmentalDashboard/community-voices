@@ -58,16 +58,16 @@
                     var $quote_container = $('#ajax-quotes');
                     var $image_container = $('#ajax-images');
                     var $content_categories = $('#content-categories');
-                    $.getJSON('http://api.environmentaldashboard.org/community-voices/quotes', { }, function(data) {
+                    $.getJSON('http://api.environmentaldashboard.org/cv/quotes', { }, function(data) {
                         $.each(data['quoteCollection'], function(index, element) {
                             var html = '<div class="card p-3 ajax-quote" data-id="'+element['quote']['id']+'" data-text="'+element['quote']['text']+'"><blockquote class="blockquote mb-0 card-body"><p>' + element['quote']['text'] + '</p><footer class="blockquote-footer"><small class="text-muted">' + element['quote']['attribution'] + '</small></footer></blockquote></div>';
                             $quote_container.append(html);
                         });
                     });
-                    $.getJSON('http://api.environmentaldashboard.org/community-voices/images', { }, function(data) {
+                    $.getJSON('http://api.environmentaldashboard.org/cv/images', { }, function(data) {
                         $.each(data['imageCollection'], function(index, element) {
                             //console.log(element['image']['id']);
-                            var html = '<div class="card bg-dark text-white ajax-image" data-id="'+element['image']['id']+'"><img class="card-img" src="/community-voices/uploads/'+element['image']['id']+'" alt="Card image" /><div class="card-img-overlay"><h5 class="card-title">' + element['image']['title'] + '</h5><p class="card-text">' + element['image']['description'] + '</p><p class="card-text">' + element['image']['dateCreated'] + '</p></div></div>';
+                            var html = '<div class="card bg-dark text-white ajax-image" data-id="'+element['image']['id']+'"><img class="card-img" src="/cv/uploads/'+element['image']['id']+'" alt="Card image" /><div class="card-img-overlay"><h5 class="card-title">' + element['image']['title'] + '</h5><p class="card-text">' + element['image']['description'] + '</p><p class="card-text">' + element['image']['dateCreated'] + '</p></div></div>';
                             $image_container.append(html);
                         });
                     });
@@ -95,7 +95,7 @@
                         $("input[name='quote_id']").val($(this).data('id'));
                     });
                     $(document).on('click', '.ajax-image', function(e) {
-                        var image = makeSVG('image', {x: 10, y: 10, width: '35%', 'xlink:href': '/community-voices/uploads/'+$(this).data('id')});
+                        var image = makeSVG('image', {x: 10, y: 10, width: '35%', 'xlink:href': '/cv/uploads/'+$(this).data('id')});
                         $('#render').prepend(image);
                         $("input[name='image_id']").val($(this).data('id'));
                     });

@@ -18,7 +18,7 @@ class ImageCollection extends DataMapper
 
     public function photographers(\stdClass $container) {
         $photographers = [];
-        foreach ($this->conn->query('SELECT DISTINCT photographer FROM `community-voices_images` WHERE photographers != "" ORDER BY photographer ASC') as $row) {
+        foreach ($this->conn->query('SELECT DISTINCT photographer FROM `community-voices_images` WHERE photographer != "" ORDER BY photographer ASC') as $row) {
             $obj = new \stdClass();
             $obj->photographer = $row['photographer'];
             $photographers[] = $obj;
