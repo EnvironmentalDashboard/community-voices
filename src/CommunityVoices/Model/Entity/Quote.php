@@ -31,7 +31,7 @@ class Quote extends Media
 
     public function setText($text)
     {
-        $this->text = $text;
+        $this->text = '<![CDATA['.htmlspecialchars($text).']]>';
     }
 
     public function getAttribution()
@@ -41,7 +41,7 @@ class Quote extends Media
 
     public function setAttribution($attribution)
     {
-        $this->attribution = $attribution;
+        $this->attribution = '<![CDATA['.htmlspecialchars($attribution).']]>';
     }
 
     public function getSubAttribution()
@@ -51,7 +51,7 @@ class Quote extends Media
 
     public function setSubAttribution($subAttribution)
     {
-        $this->subAttribution = $subAttribution;
+        $this->subAttribution = '<![CDATA['.htmlspecialchars($subAttribution).']]>';
     }
 
     public function getDateRecorded()
@@ -111,9 +111,9 @@ class Quote extends Media
     public function toArray()
     {
         return ['quote' => array_merge(parent::toArray()['media'], [
-            'text' => htmlspecialchars($this->text),
-            'attribution' => htmlspecialchars($this->attribution),
-            'subAttribution' => htmlspecialchars($this->subAttribution),
+            'text' => $this->text,
+            'attribution' => $this->attribution,
+            'subAttribution' => $this->subAttribution,
             'dateRecorded' => date("M j\, Y", $this->dateRecorded),
             'publicDocumentLink' => $this->publicDocumentLink,
             'sourceDocumentLink' => $this->sourceDocumentLink

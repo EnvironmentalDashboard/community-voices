@@ -124,7 +124,6 @@ class Quote extends Component\View
 
         $obj = new \stdClass();
         $obj->quoteCollection = $json->quoteCollection;
-
         $quoteXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($obj)
         );
