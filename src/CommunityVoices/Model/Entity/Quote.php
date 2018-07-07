@@ -111,9 +111,9 @@ class Quote extends Media
     public function toArray()
     {
         return ['quote' => array_merge(parent::toArray()['media'], [
-            'text' => $this->text,
-            'attribution' => $this->attribution,
-            'subAttribution' => $this->subAttribution,
+            'text' => htmlspecialchars($this->text),
+            'attribution' => htmlspecialchars($this->attribution),
+            'subAttribution' => htmlspecialchars($this->subAttribution),
             'dateRecorded' => date("M j\, Y", $this->dateRecorded),
             'publicDocumentLink' => $this->publicDocumentLink,
             'sourceDocumentLink' => $this->sourceDocumentLink

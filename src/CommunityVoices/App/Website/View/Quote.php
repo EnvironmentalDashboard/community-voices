@@ -156,7 +156,7 @@ class Quote extends Component\View
                 $packagedQuote->addChild($key, (is_array($value)) ? ','.implode(',', $value).',' : ','.$value.',');
             }
         }
-// var_dump($packagedQuote->tags->asXML());die;
+
         $packagedIdentity = $quotePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
 
