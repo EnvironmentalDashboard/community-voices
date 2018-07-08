@@ -25,7 +25,10 @@ class Slide
         // for ($i = 0; $i < count($slideCollection['slideCollection']); $i++) { 
         //     $slideCollection['slideCollection'][$i]['slide']['quote']['quote']['SVGtext'] = $this->SVGText($slideCollection['slideCollection'][$i]['slide']['quote']['quote']['text']);
         // }
-        $response = new HttpFoundation\JsonResponse($slideCollection);
+
+        // var_dump(($slideCollection['slideCollection']));
+        // die;
+        $response = new HttpFoundation\JsonResponse($this->convert_from_latin1_to_utf8_recursively($slideCollection));
         return $response;
     }
 
@@ -52,18 +55,21 @@ class Slide
         // intentionally blank
     }
 
-    // private function SVGText($str) {
-    //     $ret = '<text x="50%" y="45%" fill="#fff" font-size="4px">';
-    //     $i = 0;
-    //     foreach (explode(' ', $str) as $w => $word) {
-    //         if ($w % 5 === 0) {
-    //             $ret .= '<tspan dy="2">';
-    //         }
-    //         $ret .= "{$word}";
-    //         if ($w % 5 === 0) {
-    //             $ret .= '</tspan>';
-    //         }
-    //     }
-    //     return $ret . '</text>';
-    // }
+    private function convert_from_latin1_to_utf8_recursively($dat)
+    { // TODO: fix!
+      if (is_string($dat)) {
+         return utf8_encode($dat);
+      } elseif (is_array($dat)) {
+         $ret = [];
+         foreach ($dat as $i => $d) $ret[ $i ] = self::convert_from_latin1_to_utf8_recursively($d);
+
+         return $ret;
+      } elseif (is_object($dat)) {
+         foreach ($dat as $i => $d) $dat->$i = self::convert_from_latin1_to_utf8_recursively($d);
+
+         return $dat;
+      } else {
+         return $dat;
+      }
+   }
 }

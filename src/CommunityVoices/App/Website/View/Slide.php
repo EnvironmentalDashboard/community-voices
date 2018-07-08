@@ -49,7 +49,9 @@ class Slide extends Component\View
          * Gather slide information
          */
         $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
+        // var_dump($slideAPIView->getAllSlide()->getContent());die;
         $json = json_decode($slideAPIView->getAllSlide()->getContent());
+        // var_dump($json->slideCollection);die;
         $obj = new \stdClass();
         $obj->slideCollection = $json->slideCollection;
         $count = $obj->slideCollection->count;
@@ -59,11 +61,11 @@ class Slide extends Component\View
         unset($obj->slideCollection->limit);
         unset($obj->slideCollection->page);
         $obj->slideCollection = array_values((array) $obj->slideCollection);
-
+// var_dump(($obj->slideCollection));exit;
         $slideXMLElement = new SimpleXMLElement(
           $this->transcriber->toXml($obj)
         );
-
+// var_dump($slideXMLElement);die;
         $pagination = new \stdClass();
         $pagination->div = $this->paginationHTML($qs, $count, $limit, $page);
         $paginationXMLElement = new SimpleXMLElement(

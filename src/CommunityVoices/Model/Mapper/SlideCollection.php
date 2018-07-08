@@ -62,8 +62,14 @@ class SlideCollection extends DataMapper
             $contentCategory = new Entity\ContentCategory;
             $contentCategory->setId((int) $entry['contentCategoryId']);
             $entry['ContentCategory'] = $contentCategory;
+            if ($entry['formattedText'] == '') {
+                $entry['formattedText'] = clone $entry['quote'];
+            }
+            // var_dump($entry);
             $slideCollection->addEntityFromParams($entry);
+            // var_dump($slideCollection);die;
         }
+        // var_dump($slideCollection);die;
     }
 
     // query prepare (turn array into query)

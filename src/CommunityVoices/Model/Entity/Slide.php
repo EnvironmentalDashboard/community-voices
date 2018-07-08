@@ -80,9 +80,14 @@ class Slide extends Media
         return $this->formattedText;
     }
 
-    public function setFormattedText(string $text)
+    public function setFormattedText($text)
     {
-        $this->formattedText = $this->format_text($text);
+        if ($text instanceof Quote) {
+            $this->formattedText = $this->format_text($text->getText());
+            // var_dump($text->getText());die;
+        } else {
+            $this->formattedText = $this->format_text($text);
+        }
     }
 
     public function getProbability()
@@ -133,20 +138,6 @@ class Slide extends Media
     public function setOrganizationCategoryCollection(GroupCollection $organizationCategoryCollection)
     {
         $this->organizationCategoryCollection = $organizationCategoryCollection;
-    }
-
-    private function format_text(string $text) {
-        $counter = 0;
-        $ret = '<tspan>';
-        foreach (str_split($text) as $char) {
-            if ($counter > 10) {
-                $counter = 0;
-                $ret .= '</tspan><tspan dy="2">';
-            }
-            $ret .= $char;
-            $counter++;
-        }
-        return $ret . '</tspan>';
     }
 
     public function validateForUpload(FlexibleObserver $stateObserver)
@@ -212,13 +203,26 @@ class Slide extends Media
         return $isValid;
     }
 
+    private function format_text(string $text) {
+        $counter = 0;
+        $ret = '<text x="50%" y="'.(25 + ( (10/strlen($text)) * 75 )).'%" fill="#fff" font-size="4px">';
+        foreach (str_split($text) as $char) {
+            if ($counter++ > 20 && $char === ' ') {
+                $counter = 0;
+                $ret .= '</tspan><tspan x="50%" dy="4">';
+            }
+            $ret .= $char;
+        }
+        return $ret . '</text>';
+    }
+
     public function toArray()
     {
         return ['slide' => array_merge(parent::toArray()['media'], [
             'contentCategory' => $this->contentCategory ? $this->contentCategory->toArray() : null,
             'image' => $this->image ? $this->image->getId() : null,//$this->image ? $this->image->toArray() : null,
             'quote' => $this->quote ? $this->quote->toArray() : null,//$this->quote ? $this->quote->toArray() : null,
-            'tspan' => $this->formattedText,
+            'g' => $this->formattedText,
             'probability' => $this->probability,
             'decayPercent' => $this->decayPercent,
             'decayStart' => $this->decayStart,
