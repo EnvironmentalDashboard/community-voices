@@ -123,14 +123,21 @@ class Quote extends Component\View
         $json = json_decode($quoteAPIView->getAllQuote()->getContent());
 
         $obj = new \stdClass();
-        $obj->quoteCollection = $json->quoteCollection;
-        $count = $obj->quoteCollection->count;
-        $limit = $obj->quoteCollection->limit;
-        $page = $obj->quoteCollection->page;
-        unset($obj->quoteCollection->count);
-        unset($obj->quoteCollection->limit);
-        unset($obj->quoteCollection->page);
-        $obj->quoteCollection = array_values((array) $obj->quoteCollection);
+        $obj->quoteCollection = (array) $json->quoteCollection;
+        $count = $obj->quoteCollection['count'];
+        $limit = $obj->quoteCollection['limit'];
+        $page = $obj->quoteCollection['page'];
+        unset($obj->quoteCollection['count']);
+        unset($obj->quoteCollection['limit']);
+        unset($obj->quoteCollection['page']);
+        $quoteCollection = [];
+        for ($i=0; $i < count($obj->quoteCollection); $i++) { 
+            $quoteCollection[$i] = $obj->quoteCollection[$i];
+            $quoteCollection[$i]->quote->text = htmlspecialchars($quoteCollection[$i]->quote->text);
+            $quoteCollection[$i]->quote->attribution = htmlspecialchars($quoteCollection[$i]->quote->attribution);
+            $quoteCollection[$i]->quote->subAttribution = htmlspecialchars($quoteCollection[$i]->quote->subAttribution);
+        }
+        $obj->quoteCollection = $quoteCollection;
 
         $quoteXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($obj)

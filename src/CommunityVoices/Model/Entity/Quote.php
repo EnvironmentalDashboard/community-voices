@@ -31,7 +31,7 @@ class Quote extends Media
 
     public function setText($text)
     {
-        $this->text = htmlspecialchars(htmlspecialchars($text));
+        $this->text = htmlspecialchars($text);
     }
 
     public function getAttribution()
@@ -41,7 +41,7 @@ class Quote extends Media
 
     public function setAttribution($attribution)
     {
-        $this->attribution = htmlspecialchars(htmlspecialchars($attribution));
+        $this->attribution = htmlspecialchars($attribution);
     }
 
     public function getSubAttribution()
@@ -51,7 +51,7 @@ class Quote extends Media
 
     public function setSubAttribution($subAttribution)
     {
-        $this->subAttribution = htmlspecialchars(htmlspecialchars($subAttribution));
+        $this->subAttribution = htmlspecialchars($subAttribution);
     }
 
     public function getDateRecorded()
