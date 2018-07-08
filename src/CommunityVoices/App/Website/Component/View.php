@@ -24,7 +24,7 @@ class View
 
     protected function paginationHTML(array $qs, int $count, int $limit, int $page) {
         $final_page = ceil($count / $limit);
-        $ret = '<![CDATA[<nav aria-label="Page navigation example" class="text-center"><ul class="pagination" style="display: inline-flex;">';
+        $ret = '<nav aria-label="Page navigation example" class="text-center"><ul class="pagination" style="display: inline-flex;">';
         if ($page > 0) {
             $ret .= '<li class="page-item"><a class="page-link" href="images?';
             $ret .= htmlspecialchars(http_build_query(array_replace($qs, ['page' => $page])));
@@ -52,7 +52,7 @@ class View
             $ret .= htmlspecialchars(http_build_query(array_replace($qs, ['page' => $page+2])));
             $ret .= '" aria-label="Next"><span aria-hidden="true">&#187;</span><span class="sr-only">Next</span></a></li>';
         }
-        $ret .= '</ul></nav>]]>';
+        $ret .= '</ul></nav>';
         return $ret;
     }
 }
