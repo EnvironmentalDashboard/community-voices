@@ -10,13 +10,20 @@ use CommunityVoices\Model\Mapper;
 
 class SlideCollection extends DataMapper
 {
-    public function fetch(Entity\SlideCollection $slideCollection, int $limit, int $offset)
+    public function fetch(Entity\SlideCollection $slideCollection, int $limit, int $offset, array $contentCategories = [])
     {
-        $this->fetchAll($slideCollection, $limit, $offset);
+        $this->fetchAll($slideCollection, $limit, $offset, $contentCategories);
     }
 
-    private function fetchAll(Entity\SlideCollection $slideCollection, int $limit, int $offset)
+    private function fetchAll(Entity\SlideCollection $slideCollection, int $limit, int $offset, array $contentCategories = [])
     {
+        $content_category_query = '1';
+        $count = count($contentCategories);
+        if ($count === 1) {
+            $content_category_query = 'content_category_id = ' . intval($contentCategories[0]);
+        } elseif ($count > 1) {
+            $content_category_query = 'content_category_id IN (' . implode(',', array_map('intval', $contentCategories)) . ')';
+        }
         $query = " 	SELECT SQL_CALC_FOUND_ROWS
 						media.id 						AS id,
 						media.added_by 					AS addedBy,
@@ -36,7 +43,7 @@ class SlideCollection extends DataMapper
 					INNER JOIN
 						`community-voices_slides` slide
 						ON media.id = slide.media_id
-		          	WHERE 1
+		          	WHERE {$content_category_query}
 		         "
 		         . $this->query_prep($slideCollection->status, "media.status")
                  . $this->query_prep($slideCollection->creators, "media.added_by")
