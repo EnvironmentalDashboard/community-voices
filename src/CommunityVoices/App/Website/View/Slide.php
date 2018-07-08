@@ -53,14 +53,22 @@ class Slide extends Component\View
         $json = json_decode($slideAPIView->getAllSlide()->getContent());
         // var_dump($json->slideCollection);die;
         $obj = new \stdClass();
-        $obj->slideCollection = $json->slideCollection;
-        $count = $obj->slideCollection->count;
-        $limit = $obj->slideCollection->limit;
-        $page = $obj->slideCollection->page;
-        unset($obj->slideCollection->count);
-        unset($obj->slideCollection->limit);
-        unset($obj->slideCollection->page);
-        $obj->slideCollection = array_values((array) $obj->slideCollection);
+        $obj->slideCollection = (array) $json->slideCollection;
+        $count = $obj->slideCollection['count'];
+        $limit = $obj->slideCollection['limit'];
+        $page = $obj->slideCollection['page'];
+        unset($obj->slideCollection['count']);
+        unset($obj->slideCollection['limit']);
+        unset($obj->slideCollection['page']);
+        $slideCollection = [];
+        for ($i=0; $i < count($obj->slideCollection); $i++) { 
+            $slideCollection[$i] = $obj->slideCollection[$i];
+            $slideCollection[$i]->slide->g = htmlspecialchars($slideCollection[$i]->slide->g);
+            $slideCollection[$i]->slide->quote->quote->text = htmlspecialchars($slideCollection[$i]->slide->quote->quote->text);
+            $slideCollection[$i]->slide->quote->quote->attribution = htmlspecialchars($slideCollection[$i]->slide->quote->quote->attribution);
+            $slideCollection[$i]->slide->quote->quote->subAttribution = htmlspecialchars($slideCollection[$i]->slide->quote->quote->subAttribution);
+        }
+        $obj->slideCollection = $slideCollection;
 // var_dump(($obj->slideCollection));exit;
         $slideXMLElement = new SimpleXMLElement(
           $this->transcriber->toXml($obj)
@@ -88,7 +96,6 @@ class Slide extends Component\View
          * Generate slide module
          */
         // var_dump($slidePackageElement->domain->slideCollection->slide->tspan->asXML());exit;
-        // var_dump($slidePackageElement->domain->slideCollection->slide->quote->quote->text->asXML());exit;
         $slideModule = new Component\Presenter('Module/SlideCollection');
         $slideModuleXML = $slideModule->generate($slidePackageElement);
 
@@ -229,7 +236,6 @@ class Slide extends Component\View
             'title',
             "Community Voices: Slide Upload"
         );
-        $domainXMLElement->addChild('navbarSection', "slide");
         $domainXMLElement->addChild('extraJS', "create-slide");
 
         $domainIdentity = $domainXMLElement->addChild('identity');

@@ -36,7 +36,7 @@
                 var $el = $(this);
                 var $parent = $(this).offsetParent(".dropdown-menu");
                 if (!$(this).next().hasClass('show')) {
-                  $(this).parents('.dropdown-menu').first().find( '.show').removeClass("show");
+                  $(this).parents('.dropdown-menu').find('.card-columns').find( '.show').removeClass("show");
                 }
                 var $subMenu = $(this).next(".dropdown-menu");
                 $subMenu.toggleClass('show');
@@ -62,7 +62,7 @@
                         $.each(data['quoteCollection'], function(index, element) {
                             if (typeof element === 'object') {
                                 var html = '<div class="card p-3 ajax-quote" data-id="'+element['quote']['id']+'" data-text="'+element['quote']['text']+'"><blockquote class="blockquote mb-0 card-body"><p>' + element['quote']['text'] + '</p><footer class="blockquote-footer"><small class="text-muted">' + element['quote']['attribution'] + '</small></footer></blockquote></div>';
-                                $quote_container.append(html);
+                                $quote_container.find('.card-columns').append(html);
                             }
                         });
                     });
@@ -70,21 +70,21 @@
                         $.each(data['imageCollection'], function(index, element) {
                             //console.log(element['image']['id']);
                             if (typeof element === 'object') {
-                                var html = '<div class="card bg-dark text-white ajax-image" data-id="'+element['image']['id']+'"><img class="card-img" src="/cv/uploads/'+element['image']['id']+'" alt="Card image" /><div class="card-img-overlay"><h5 class="card-title">' + element['image']['title'] + '</h5><p class="card-text">' + element['image']['description'] + '</p><p class="card-text">' + element['image']['dateCreated'] + '</p></div></div>';
-                                $image_container.append(html);
+                                var html = '<div class="card bg-dark text-white ajax-image" data-id="'+element['image']['id']+'"><img class="card-img" src="https://api.environmentaldashboard.org/cv/uploads/'+element['image']['id']+'" alt="Card image" /><div class="card-img-overlay"><h5 class="card-title">' + element['image']['title'] + '</h5><p class="card-text">' + element['image']['description'] + '</p><p class="card-text">' + element['image']['dateCreated'] + '</p></div></div>';
+                                $image_container.find('.card-columns').append(html);
                             }
                         });
                     });
                     $(document).on('click', '.ajax-quote', function(e) {
-                        var text = makeSVG('text', {x: '50%', y: '45%', fill: '#fff', 'font-size': '4px'});
                         var s = $(this).data('text');
+                        var text = makeSVG('text', {x: '50%', y: (25 + ( (10/s.length) * 75 ))+'%', fill: '#fff', 'font-size': '4px'});
                         var arr = [];
                         arr[0] = '';
                         var tspans = 0, counter = 0;
                         for (var i = 0; i < s.length; i++) {
                             var char = s.charAt(i);
                             arr[tspans] += char;
-                            if (counter++ > 10 && char === ' ') {
+                            if (counter++ > 17 && char === ' ') {
                                 tspans++;
                                 counter = 0;
                                 arr[tspans] = '';
@@ -99,7 +99,7 @@
                         $("input[name='quote_id']").val($(this).data('id'));
                     });
                     $(document).on('click', '.ajax-image', function(e) {
-                        var image = makeSVG('image', {x: 10, y: 10, width: '35%', 'xlink:href': '/cv/uploads/'+$(this).data('id')});
+                        var image = makeSVG('image', {x: 10, y: 10, width: '35%', 'xlink:href': 'https://api.environmentaldashboard.org/cv/uploads/'+$(this).data('id')});
                         $('#render').prepend(image);
                         $("input[name='image_id']").val($(this).data('id'));
                     });

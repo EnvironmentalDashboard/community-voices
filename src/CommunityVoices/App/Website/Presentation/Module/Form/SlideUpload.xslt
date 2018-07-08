@@ -10,7 +10,7 @@
           .card-columns .card {cursor:pointer}
           .card-columns .card:hover {border-color:#21a7df}
         </style>
-        <h2 class="mb-4">Select a quote, image, and content category to make a slide</h2>
+        <h2 class="mb-4">Create a slide</h2>
         <div class="row">
           <div class="col-sm-3">
             <ul class="nav flex-column nav-pills mb-4">
@@ -44,30 +44,40 @@
             </form>
           </div>
           <div class="col-sm-9">
-            <div><div class="card-columns" id="ajax-quotes"></div></div>
-            <div><div class="card-columns" id="ajax-images" style="display:none"></div></div>
-            <div><div class="card-columns" id="content-categories" style="display:none">
-              <div class="card bg-dark text-white">
-                <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/heritage.png" data-id="4" alt="Card image" />
+            <div><div id="ajax-quotes">
+              <h2 class="mb-4">Select a quote</h2>
+              <div class="card-columns"></div>
+            </div></div>
+            <div><div style="display:none" id="ajax-images">
+              <h2 class="mb-4">Select an image</h2>
+              <div class="card-columns"></div>
+            </div></div>
+            <div><div style="display:none" id="content-categories">
+              <h2 class="mb-4">Select a content category</h2>
+              <div class="card-columns">
+                <div class="card bg-dark text-white">
+                  <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/heritage.png" data-id="4" alt="Card image" />
+                </div>
+                <div class="card bg-dark text-white">
+                  <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/nature_photos.png" data-id="5" alt="Card image" />
+                </div>
+                <div class="card bg-dark text-white">
+                  <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/neighbors.png" data-id="6" alt="Card image" />
+                </div>
+                <div class="card bg-dark text-white">
+                  <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/next-generation.png" data-id="3" alt="Card image" />
+                </div>
+                <div class="card bg-dark text-white">
+                  <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/our-downtown.png" data-id="2" alt="Card image" />
+                </div>
+                <div class="card bg-dark text-white">
+                  <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/serving-our-community.png" data-id="1" alt="Card image" />
+                </div>
               </div>
-              <div class="card bg-dark text-white">
-                <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/nature_photos.png" data-id="5" alt="Card image" />
-              </div>
-              <div class="card bg-dark text-white">
-                <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/neighbors.png" data-id="6" alt="Card image" />
-              </div>
-              <div class="card bg-dark text-white">
-                <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/next-generation.png" data-id="3" alt="Card image" />
-              </div>
-              <div class="card bg-dark text-white">
-                <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/our-downtown.png" data-id="2" alt="Card image" />
-              </div>
-              <div class="card bg-dark text-white">
-                <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/serving-our-community.png" data-id="1" alt="Card image" />
-              </div>
-            </div>
+            </div></div>
+
           </div>
-        </div></div>
+        </div>
 
         <!-- <div class="mb-5 mt-5"><div id="accordion" class="mb-5">
           <div class="card">
