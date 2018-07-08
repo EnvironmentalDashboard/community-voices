@@ -207,7 +207,7 @@ class Slide extends Media
         $counter = 0;
         $ret = '<text x="50%" y="'.(25 + ( (10/strlen($text)) * 75 )).'%" fill="#fff" font-size="4px">';
         foreach (str_split($text) as $char) {
-            if ($counter++ > 20 && $char === ' ') {
+            if ($counter++ > 17 && $char === ' ') {
                 $counter = 0;
                 $ret .= '</tspan><tspan x="50%" dy="4">';
             }

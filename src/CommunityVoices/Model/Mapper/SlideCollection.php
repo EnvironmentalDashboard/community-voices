@@ -65,11 +65,8 @@ class SlideCollection extends DataMapper
             if ($entry['formattedText'] == '') {
                 $entry['formattedText'] = clone $entry['quote'];
             }
-            // var_dump($entry);
             $slideCollection->addEntityFromParams($entry);
-            // var_dump($slideCollection);die;
         }
-        // var_dump($slideCollection);die;
     }
 
     // query prepare (turn array into query)

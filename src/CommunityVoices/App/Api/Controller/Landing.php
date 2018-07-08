@@ -25,7 +25,7 @@ class Landing
      */
     public function getLanding($request)
     {
-        $this->slideLookup->findAll();
+        $this->slideLookup->findAll(0, 5, 0);
     }
 
 }

@@ -46,11 +46,12 @@ class Landing extends Component\View
          * Gather landing information
          */
         $landingAPIView = $this->secureContainer->contain($this->landingAPIView);
+        $json = json_decode($landingAPIView->getLanding()->getContent());
+        $obj = new \stdClass;
+        $obj->slideCollection = array_values((array) $json->slideCollection);
 
         $landingXMLElement = new SimpleXMLElement(
-          $this->transcriber->toXml(json_decode(
-              $landingAPIView->getLanding()->getContent()
-          ))
+          $this->transcriber->toXml($obj)
         );
 
         $landingPackageElement = new Helper\SimpleXMLElementExtension('<package/>');

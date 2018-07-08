@@ -20,9 +20,10 @@
                           <rect width="100%" height="100%" style="fill:rgb(0,0,0)" />
                           <g id="render">
                             <image x="10" y="10" width="35%">
-                              <xsl:attribute name="xlink:href">/cv/uploads/<xsl:value-of select='image' /></xsl:attribute>
+                              <xsl:attribute name="xlink:href">https://environmentaldashboard.org/cv/uploads/<xsl:value-of select='image' /></xsl:attribute>
                             </image>
-                            <text x="50%" y="45%" fill="#fff" font-size="4px"><xsl:copy-of select='tspan' /></text>
+                            <!-- <text x="50%" y="45%" fill="#fff" font-size="4px"><xsl:copy-of select='tspan' /></text> -->
+                            <xsl:copy-of select='g' />
                             <image x="0" y="5" width="100%">
                               <xsl:choose>
                                 <xsl:when test="contentCategory/contentCategory/id = 1">
@@ -55,9 +56,10 @@
                           <rect width="100%" height="100%" style="fill:rgb(0,0,0)" />
                           <g id="render">
                             <image x="10" y="10" width="35%">
-                              <xsl:attribute name="xlink:href">/cv/uploads/<xsl:value-of select='image' /></xsl:attribute>
+                              <xsl:attribute name="xlink:href">https://environmentaldashboard.org/cv/uploads/<xsl:value-of select='image' /></xsl:attribute>
                             </image>
-                            <text x="50%" y="45%" fill="#fff" font-size="4px"><xsl:value-of select='tspan' /></text>
+                            <!-- <text x="50%" y="45%" fill="#fff" font-size="4px"><xsl:value-of select='tspan' /></text> -->
+                            <xsl:copy-of select='g' />
                             <image x="0" y="5" width="100%">
                               <xsl:choose>
                                 <xsl:when test="contentCategory/contentCategory/id = 1">
