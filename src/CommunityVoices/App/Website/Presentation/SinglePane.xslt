@@ -193,7 +193,10 @@
                         $.getJSON('https://api.environmentaldashboard.org/cv/slides', { content_category: [cc], per_page: 5 }, function(data) {
                             $.each(data['slideCollection'], function(index, element) {
                                 if (typeof element === 'object') {
-                                    $(items[index]).find('image')[0].setAttribute('xlink:href', 'https://environmentaldashboard.org/cv/uploads/'+element['slide']['image']);
+                                    var main_img = $(items[index]).find('image')[0];
+                                    //console.log(element['slide']['image']['image']['id'], element['slide']['image']['image']['SvgTextPos']);
+                                    main_img.setAttribute('xlink:href', 'https://environmentaldashboard.org/cv/uploads/'+element['slide']['image']['image']['id']);
+                                    main_img.setAttribute('y', element['slide']['image']['image']['position']);
                                     $(items[index]).find('image')[1].setAttribute('xlink:href', cc_map[cc]);
                                     
                                     var text_node = $(items[index]).find('text')[0];

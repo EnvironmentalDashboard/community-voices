@@ -226,6 +226,7 @@ class Slide extends Media
             'decayPercent' => $this->decayPercent,
             'decayStart' => $this->decayStart,
             'decayEnd' => $this->decayEnd,
+            'SvgTextPos' => (file_exists($this->image->getFilename()) && getimagesize($this->image->getFilename())[1] > 400) ? 3 : 10,
             'organizationCategoryCollection' => $this->organizationCategoryCollection
                 ? $this->organizationCategoryCollection->toArray()
                 : null
