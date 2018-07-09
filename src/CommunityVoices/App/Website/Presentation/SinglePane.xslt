@@ -132,7 +132,7 @@
                         return el;
                     }
                     function formatText (s) {
-                        var text = makeSVG('text', {x: '50%', y: (25 + ( (10/s.length) * 75 ))+'%', fill: '#fff', 'font-size': '4px'});
+                        var text = makeSVG('text', {x: '50%', y: (25 + ( (10/s.length) * 75 ))+'%', fill: '#fff', 'font-size': '4px', 'font-family': 'Biko, Multicolore, Helvetica, sans-serif'});
                         var arr = [];
                         arr[0] = '';
                         var tspans = 0, counter = 0;
@@ -194,9 +194,9 @@
                             $.each(data['slideCollection'], function(index, element) {
                                 if (typeof element === 'object') {
                                     var main_img = $(items[index]).find('image')[0];
-                                    //console.log(element['slide']['image']['image']['id'], element['slide']['image']['image']['SvgTextPos']);
+                                    //console.log(element['slide']['image']['image']['id'], element['slide']['SvgImagePos']);
                                     main_img.setAttribute('xlink:href', 'https://environmentaldashboard.org/cv/uploads/'+element['slide']['image']['image']['id']);
-                                    main_img.setAttribute('y', element['slide']['image']['image']['position']);
+                                    main_img.setAttribute('y', element['slide']['SvgImagePos']);
                                     $(items[index]).find('image')[1].setAttribute('xlink:href', cc_map[cc]);
                                     
                                     var text_node = $(items[index]).find('text')[0];
@@ -227,7 +227,7 @@
                         return el;
                     }
                     function formatText (s) {
-                        var text = makeSVG('text', {x: '50%', y: (25 + ( (10/s.length) * 75 ))+'%', fill: '#fff', 'font-size': '4px'});
+                        var text = makeSVG('text', {x: '50%', y: (25 + ( (10/s.length) * 75 ))+'%', fill: '#fff', 'font-size': '4px', 'font-family': 'Biko, Multicolore, Helvetica, sans-serif'});
                         var arr = [];
                         arr[0] = '';
                         var tspans = 0, counter = 0;
