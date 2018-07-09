@@ -205,7 +205,7 @@ class Slide extends Media
 
     private function format_text(string $text) {
         $counter = 0;
-        $ret = '<text x="50%" y="'.(25 + ( (10/strlen($text)) * 75 )).'%" fill="#fff" font-size="4px">';
+        $ret = '<text font-family="Multicolore, Helvetica, sans-serif" x="50%" y="'.(25 + ( (10/strlen($text)) * 75 )).'%" fill="#fff" font-size="4px">';
         foreach (str_split($text) as $char) {
             if ($counter++ > 17 && $char === ' ') {
                 $counter = 0;
