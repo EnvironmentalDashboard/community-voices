@@ -151,7 +151,23 @@
                     ]]>
                 </script>
             </xsl:if>
-            <xsl:if test="extraJS = 'images'">
+            <xsl:if test="extraJS = 'landing'">
+                <script>
+                    <![CDATA[
+                    $('.selector-img').on('click', function() {
+                        var cc = $(this).data('cc');
+                        if (cc === 'rand') {
+                            cc = getRandomInt(1, 6);
+                        }
+                        $.getJSON('https://api.environmentaldashboard.org/cv/slides', { content_category: [cc] }, function(data) {
+                            $.each(data['slideCollection'], function(index, element) {
+                                console.log(element);
+                            });
+                        });
+                    });
+                    function getRandomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+                    ]]>
+                </script>
             </xsl:if>
         </body>
     </html>

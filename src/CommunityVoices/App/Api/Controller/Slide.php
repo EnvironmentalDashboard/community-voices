@@ -29,7 +29,8 @@ class Slide
         $page = ($page > 0) ? $page - 1 : 0; // current page, make page 0-based
         $limit = 25; // number of items per page
         $offset = $limit * $page;
-        $this->slideLookup->findAll($page, $limit, $offset);
+        $cc = (is_array($request->query->get('content_category'))) ? $request->query->get('content_category') : [];
+        $this->slideLookup->findAll($page, $limit, $offset, $cc);
     }
 
     /**
