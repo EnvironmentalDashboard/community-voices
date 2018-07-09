@@ -48,7 +48,19 @@ class Landing extends Component\View
         $landingAPIView = $this->secureContainer->contain($this->landingAPIView);
         $json = json_decode($landingAPIView->getLanding()->getContent());
         $obj = new \stdClass;
-        $obj->slideCollection = array_values((array) $json->slideCollection);
+        $obj->slideCollection = (array) $json->slideCollection;
+        unset($obj->slideCollection['count']);
+        unset($obj->slideCollection['limit']);
+        unset($obj->slideCollection['page']);
+        $slideCollection = [];
+        for ($i=0; $i < count($obj->slideCollection); $i++) {
+            $slideCollection[$i] = $obj->slideCollection[$i];
+            $slideCollection[$i]->slide->g = htmlspecialchars($slideCollection[$i]->slide->g);
+            $slideCollection[$i]->slide->quote->quote->text = htmlspecialchars($slideCollection[$i]->slide->quote->quote->text);
+            $slideCollection[$i]->slide->quote->quote->attribution = htmlspecialchars($slideCollection[$i]->slide->quote->quote->attribution);
+            $slideCollection[$i]->slide->quote->quote->subAttribution = htmlspecialchars($slideCollection[$i]->slide->quote->quote->subAttribution);
+        }
+        $obj->slideCollection = $slideCollection;
 
         $landingXMLElement = new SimpleXMLElement(
           $this->transcriber->toXml($obj)
