@@ -80,13 +80,12 @@ class Slide extends Media
         return $this->formattedText;
     }
 
-    public function setFormattedText($text)
+    public function setFormattedText($textOrQuote, $attributionOrNull = null)
     {
-        if ($text instanceof Quote) {
-            $this->formattedText = $this->format_text($text->getText());
-            // var_dump($text->getText());die;
+        if ($textOrQuote instanceof Quote) {
+            $this->formattedText = $this->format_text($textOrQuote->getText(), $textOrQuote->getAttribution());
         } else {
-            $this->formattedText = $this->format_text($text);
+            $this->formattedText = $this->format_text($textOrQuote, $attributionOrNull);
         }
     }
 
@@ -203,24 +202,24 @@ class Slide extends Media
         return $isValid;
     }
 
-    private function format_text(string $text) {
+    private function format_text(string $text, string $attribution) {
         $counter = 0;
-        $ret = '<text font-family="Multicolore, Helvetica, sans-serif" x="50%" y="'.(25 + ( (10/strlen($text)) * 75 )).'%" fill="#fff" font-size="4px">';
+        $ret = '<text font-family="Biko, Multicolore, Helvetica, sans-serif" x="50%" y="'.(20 + ( (10/strlen($text)) * 75 )).'%" fill="#fff" font-size="4px"><tspan>';
         foreach (str_split($text) as $char) {
-            if ($counter++ > 14 && $char === ' ') {
+            if ($counter++ > 17 && $char === ' ') {
                 $counter = 0;
                 $ret .= '</tspan><tspan x="50%" dy="4">';
             }
             $ret .= $char;
         }
-        return $ret . '</text>';
+        return $ret . '</tspan><tspan font-size="2px" x="50%" dy="5">&#8212; '.$attribution.'</tspan></text>';
     }
 
     public function toArray()
     {
         return ['slide' => array_merge(parent::toArray()['media'], [
             'contentCategory' => $this->contentCategory ? $this->contentCategory->toArray() : null,
-            'image' => $this->image ? $this->image->getId() : null,//$this->image ? $this->image->toArray() : null,
+            'image' => $this->image ? $this->image->toArray() : null,//$this->image ? $this->image->toArray() : null,
             'quote' => $this->quote ? $this->quote->toArray() : null,//$this->quote ? $this->quote->toArray() : null,
             'g' => $this->formattedText,
             'probability' => $this->probability,

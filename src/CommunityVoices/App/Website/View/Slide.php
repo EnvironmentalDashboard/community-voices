@@ -65,6 +65,8 @@ class Slide extends Component\View
             $slide->slide->quote->quote->text = htmlspecialchars($slide->slide->quote->quote->text);
             $slide->slide->quote->quote->attribution = htmlspecialchars($slide->slide->quote->quote->attribution);
             $slide->slide->quote->quote->subAttribution = htmlspecialchars($slide->slide->quote->quote->subAttribution);
+            $fn = $slide->slide->image->image->filename;
+            $slide->slide->image->image->position = (file_exists($fn) && getimagesize($fn)[1] > 400) ? 3 : 10;
         }
         $obj->slideCollection = array_values($obj->slideCollection);
         // $obj->slideCollection = $slideCollection;

@@ -77,24 +77,7 @@
                     });
                     $(document).on('click', '.ajax-quote', function(e) {
                         var s = $(this).data('text');
-                        var text = makeSVG('text', {x: '50%', y: (25 + ( (10/s.length) * 75 ))+'%', fill: '#fff', 'font-size': '4px'});
-                        var arr = [];
-                        arr[0] = '';
-                        var tspans = 0, counter = 0;
-                        for (var i = 0; i < s.length; i++) {
-                            var char = s.charAt(i);
-                            arr[tspans] += char;
-                            if (counter++ > 14 && char === ' ') {
-                                tspans++;
-                                counter = 0;
-                                arr[tspans] = '';
-                            }
-                        }
-                        for (var i = 0; i < arr.length; i++) {
-                            var tspan = makeSVG('tspan', {dy: 4, x: '50%'});
-                            tspan = $(tspan).text(arr[i]);
-                            text.append(tspan[0]);
-                        }
+                        var text = formatText(s);
                         $('#render').append(text);
                         $("input[name='quote_id']").val($(this).data('id'));
                     });
@@ -148,16 +131,49 @@
                         }
                         return el;
                     }
+                    function formatText (s) {
+                        var text = makeSVG('text', {x: '50%', y: (25 + ( (10/s.length) * 75 ))+'%', fill: '#fff', 'font-size': '4px'});
+                        var arr = [];
+                        arr[0] = '';
+                        var tspans = 0, counter = 0;
+                        for (var i = 0; i < s.length; i++) {
+                            var char = s.charAt(i);
+                            arr[tspans] += char;
+                            if (counter++ > 17 && char === ' ') {
+                                tspans++;
+                                counter = 0;
+                                arr[tspans] = '';
+                            }
+                        }
+                        for (var i = 0; i < arr.length; i++) {
+                            var tspan = makeSVG('tspan', {dy: 4, x: '50%'});
+                            tspan = $(tspan).text(arr[i]);
+                            text.append(tspan[0]);
+                        }
+                        return text;
+                    }
+                    var css = `@font-face {
+                              font-family: 'Biko';
+                              src: url('https://environmentaldashboard.org/fonts/biko/Biko_Regular.otf');
+                                }
+                              text {font-family: 'Biko';}`,
+                        head = document.head || document.getElementsByTagName('head')[0],
+                        style = document.createElement('style');
+
+                    style.type = 'text/css';
+                    if (style.styleSheet){
+                      // This is required for IE8 and below.
+                      style.styleSheet.cssText = css;
+                    } else {
+                      style.appendChild(document.createTextNode(css));
+                    }
+                    head.appendChild(style);
                     ]]>
                 </script>
             </xsl:if>
             <xsl:if test="extraJS = 'landing'">
                 <script>
                     <![CDATA[
-                    /*var items = $('.carousel-item');
-                        for (var i = items.length - 1; i >= 0; i--) {
-                            console.log($(items[i]).find('image')[0]);
-                        }*/
                     var items = $('.carousel-item');
                     var cc_map = {
                         1: 'https://environmentaldashboard.org/cv_slides/categorybars/serving-our-community.png',
@@ -189,24 +205,7 @@
                                     var tmp = $('#tmp');
                                     s = tmp.html(s).text();
                                     tmp.html('');
-                                    var text = makeSVG('text', {x: '50%', y: (25 + ( (10/s.length) * 75 ))+'%', fill: '#fff', 'font-size': '4px'});
-                                    var arr = [];
-                                    arr[0] = '';
-                                    var tspans = 0, counter = 0;
-                                    for (var i = 0; i < s.length; i++) {
-                                        var char = s.charAt(i);
-                                        arr[tspans] += char;
-                                        if (counter++ > 14 && char === ' ') {
-                                            tspans++;
-                                            counter = 0;
-                                            arr[tspans] = '';
-                                        }
-                                    }
-                                    for (var i = 0; i < arr.length; i++) {
-                                        var tspan = makeSVG('tspan', {dy: 4, x: '50%'});
-                                        tspan = $(tspan).text(arr[i]);
-                                        text.append(tspan[0]);
-                                    }
+                                    var text = formatText(s);
                                     text_parent.append(text);
                                 }
                             });
@@ -224,6 +223,43 @@
                         }
                         return el;
                     }
+                    function formatText (s) {
+                        var text = makeSVG('text', {x: '50%', y: (25 + ( (10/s.length) * 75 ))+'%', fill: '#fff', 'font-size': '4px'});
+                        var arr = [];
+                        arr[0] = '';
+                        var tspans = 0, counter = 0;
+                        for (var i = 0; i < s.length; i++) {
+                            var char = s.charAt(i);
+                            arr[tspans] += char;
+                            if (counter++ > 17 && char === ' ') {
+                                tspans++;
+                                counter = 0;
+                                arr[tspans] = '';
+                            }
+                        }
+                        for (var i = 0; i < arr.length; i++) {
+                            var tspan = makeSVG('tspan', {dy: 4, x: '50%'});
+                            tspan = $(tspan).text(arr[i]);
+                            text.append(tspan[0]);
+                        }
+                        return text;
+                    }
+                    var css = `@font-face {
+                              font-family: 'Biko';
+                              src: url('https://environmentaldashboard.org/fonts/biko/Biko_Regular.otf');
+                                }
+                              text {font-family: 'Biko';}`,
+                        head = document.head || document.getElementsByTagName('head')[0],
+                        style = document.createElement('style');
+
+                    style.type = 'text/css';
+                    if (style.styleSheet){
+                      // This is required for IE8 and below.
+                      style.styleSheet.cssText = css;
+                    } else {
+                      style.appendChild(document.createTextNode(css));
+                    }
+                    head.appendChild(style);
                     ]]>
                 </script>
             </xsl:if>
