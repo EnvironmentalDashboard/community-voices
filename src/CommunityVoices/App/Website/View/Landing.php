@@ -52,15 +52,13 @@ class Landing extends Component\View
         unset($obj->slideCollection['count']);
         unset($obj->slideCollection['limit']);
         unset($obj->slideCollection['page']);
-        $slideCollection = [];
-        for ($i=0; $i < count($obj->slideCollection); $i++) {
-            $slideCollection[$i] = $obj->slideCollection[$i];
-            $slideCollection[$i]->slide->g = htmlspecialchars($slideCollection[$i]->slide->g);
-            $slideCollection[$i]->slide->quote->quote->text = htmlspecialchars($slideCollection[$i]->slide->quote->quote->text);
-            $slideCollection[$i]->slide->quote->quote->attribution = htmlspecialchars($slideCollection[$i]->slide->quote->quote->attribution);
-            $slideCollection[$i]->slide->quote->quote->subAttribution = htmlspecialchars($slideCollection[$i]->slide->quote->quote->subAttribution);
+        foreach ($obj->slideCollection as $key => $slide) {
+            $slide->slide->g = htmlspecialchars($slide->slide->g);
+            $slide->slide->quote->quote->text = htmlspecialchars($slide->slide->quote->quote->text);
+            $slide->slide->quote->quote->attribution = htmlspecialchars($slide->slide->quote->quote->attribution);
+            $slide->slide->quote->quote->subAttribution = htmlspecialchars($slide->slide->quote->quote->subAttribution);
         }
-        $obj->slideCollection = $slideCollection;
+        $obj->slideCollection = array_values($obj->slideCollection);
 
         $landingXMLElement = new SimpleXMLElement(
           $this->transcriber->toXml($obj)

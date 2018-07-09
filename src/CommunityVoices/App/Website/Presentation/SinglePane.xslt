@@ -84,7 +84,7 @@
                         for (var i = 0; i < s.length; i++) {
                             var char = s.charAt(i);
                             arr[tspans] += char;
-                            if (counter++ > 17 && char === ' ') {
+                            if (counter++ > 14 && char === ' ') {
                                 tspans++;
                                 counter = 0;
                                 arr[tspans] = '';

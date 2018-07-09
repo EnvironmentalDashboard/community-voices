@@ -130,14 +130,12 @@ class Quote extends Component\View
         unset($obj->quoteCollection['count']);
         unset($obj->quoteCollection['limit']);
         unset($obj->quoteCollection['page']);
-        $quoteCollection = [];
-        for ($i=0; $i < count($obj->quoteCollection); $i++) { 
-            $quoteCollection[$i] = $obj->quoteCollection[$i];
-            $quoteCollection[$i]->quote->text = htmlspecialchars($quoteCollection[$i]->quote->text);
-            $quoteCollection[$i]->quote->attribution = htmlspecialchars($quoteCollection[$i]->quote->attribution);
-            $quoteCollection[$i]->quote->subAttribution = htmlspecialchars($quoteCollection[$i]->quote->subAttribution);
+        foreach ($obj->quoteCollection as $key => $quote) {
+            $quote->quote->text = htmlspecialchars($quote->quote->text);
+            $quote->quote->attribution = htmlspecialchars($quote->quote->attribution);
+            $quote->quote->subAttribution = htmlspecialchars($quote->quote->subAttribution);
         }
-        $obj->quoteCollection = $quoteCollection;
+        $obj->quoteCollection = array_values($obj->quoteCollection);
 
         $quoteXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($obj)
