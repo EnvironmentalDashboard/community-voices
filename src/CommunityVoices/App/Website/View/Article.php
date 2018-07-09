@@ -104,6 +104,8 @@ class Article extends Component\View
 
     public function getAllArticle($routes, $context)
     {
+
+        parse_str($_SERVER['QUERY_STRING'], $qs);
         /**
          * Gather identity information
          */
@@ -118,10 +120,24 @@ class Article extends Component\View
          */
         $articleAPIView = $this->secureContainer->contain($this->articleAPIView);
 
+        $json = json_decode($articleAPIView->getAllArticle()->getContent());
+        $obj = new \stdClass();
+        $obj->articleCollection = (array) $json->articleCollection;
+        $count = $obj->articleCollection['count'];
+        $limit = $obj->articleCollection['limit'];
+        $page = $obj->articleCollection['page'];
+        unset($obj->articleCollection['count']);
+        unset($obj->articleCollection['limit']);
+        unset($obj->articleCollection['page']);
+
         $articleXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $articleAPIView->getAllArticle()->getContent()
-            ))
+            $this->transcriber->toXml($obj)
+        );
+
+        $pagination = new \stdClass();
+        $pagination->div = $this->paginationHTML($qs, $count, $limit, $page);
+        $paginationXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($pagination)
         );
 
         /**
@@ -131,6 +147,7 @@ class Article extends Component\View
 
         $packagedArticle = $articlePackageElement->addChild('domain');
         $packagedArticle->adopt($articleXMLElement);
+        $packagedArticle->adopt($paginationXMLElement);
 
         $packagedIdentity = $articlePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);

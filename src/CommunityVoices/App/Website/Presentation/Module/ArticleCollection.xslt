@@ -18,7 +18,12 @@
                 <li class="media">
                   <img class="mr-3" src="https://environmentaldashboard.org/cv/uploads/{image}" alt="{title}" style="max-width:200px" />
                   <div class="media-body">
-                    <h5 class="mt-0 mb-1"><xsl:value-of select='title' /> &#160;&#160;&#160;<small class="text-muted"><xsl:value-of select='author' /></small></h5>
+                    <h5 class="mt-0 mb-1">
+                      <xsl:value-of select='title' />
+                      <xsl:if test="author != ''">
+                        &#160;&#160;&#160;<small class="text-muted"><xsl:value-of select='author' /></small>
+                      </xsl:if>
+                    </h5>
                     <p><a class="btn btn-primary" href='articles/{id}'>Read more</a></p>
                   </div>
                 </li>
@@ -28,6 +33,12 @@
 
           </xsl:for-each>
 
+      </div>
+    </div>
+
+    <div class="row" style="padding:15px;">
+      <div class="col-12">
+        <xsl:copy-of select="domain/div"></xsl:copy-of>
       </div>
     </div>
 

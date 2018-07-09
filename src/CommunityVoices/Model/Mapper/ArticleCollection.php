@@ -9,14 +9,14 @@ use CommunityVoices\Model\Entity;
 
 class ArticleCollection extends DataMapper
 {
-    public function fetch(Entity\ArticleCollection $articleCollection)
+    public function fetch(Entity\ArticleCollection $articleCollection, int $limit, int $offset)
     {
-        $this->fetchAll($articleCollection);
+        $this->fetchAll($articleCollection, $limit, $offset);
     }
 
-    private function fetchAll(Entity\ArticleCollection $articleCollection)
+    private function fetchAll(Entity\ArticleCollection $articleCollection, int $limit, int $offset)
     {
-        $query = " 	SELECT
+        $query = " 	SELECT SQL_CALC_FOUND_ROWS
 						media.id 						AS id,
 						media.added_by 					AS addedBy,
 						media.date_created 				AS dateCreated,
@@ -35,11 +35,14 @@ class ArticleCollection extends DataMapper
 		          	WHERE 1
 		         "
 		         . $this->query_prep($articleCollection->status, "media.status")
-                 . $this->query_prep($articleCollection->creators, "media.added_by");
+                 . $this->query_prep($articleCollection->creators, "media.added_by")
+                 . " LIMIT {$offset}, {$limit}";
 
         $statement = $this->conn->prepare($query);
 
         $statement->execute();
+
+        $articleCollection->setCount($this->conn->query('SELECT FOUND_ROWS()')->fetchColumn());
 
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 

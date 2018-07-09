@@ -73,9 +73,11 @@ class ArticleLookup
      *
      * @return CommunityVoices\Model\Entity\ArticleCollection
      */
-    public function findAll($creatorIDs=[], $status=[])
+    public function findAll($page, $limit, $offset, $creatorIDs=[], $status=[])
     {
         $articleCollection = new Entity\ArticleCollection;
+        $articleCollection->setPage($page);
+        $articleCollection->setLimit($limit);
  
         $valid_creatorIDs = [];
 
@@ -103,7 +105,7 @@ class ArticleLookup
         $articleCollection->status = $status;
 
         $articleCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\ArticleCollection::class);
-        $articleCollectionMapper->fetch($articleCollection);
+        $articleCollectionMapper->fetch($articleCollection, $limit, $offset);
 
         $Parsedown = new \Parsedown();
         foreach ($articleCollection->getCollection() as $article) {

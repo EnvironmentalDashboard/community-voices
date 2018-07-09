@@ -41,7 +41,11 @@ class Article
           $status = ["approved"];
         }
 
-        $this->articleLookup->findAll($creatorIDs, $status);
+        $page = (int) $request->query->get('page');
+        $page = ($page > 0) ? $page - 1 : 0; // current page, make page 0-based
+        $limit = 10; // number of items per page
+        $offset = $limit * $page;
+        $this->articleLookup->findAll($page, $limit, $offset, $creatorIDs, $status);
     }
 
     public function getArticleUpload()
