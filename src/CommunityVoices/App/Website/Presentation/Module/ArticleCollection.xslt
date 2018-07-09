@@ -9,40 +9,25 @@
   <xsl:template match="/package">
     <div class="row" style="padding:15px;">
       <div class="col-12">
-        <div class="card-columns">
 
           <xsl:for-each select="domain/articleCollection/article">
 
             <xsl:if test="$isManager or status = 'approved'">
 
-              <a href='articles/{id}' style="color: inherit; text-decoration: inherit;">
-                <div class="card">
-                  <div class="card-header">
-                    Article
+              <ul class="list-unstyled">
+                <li class="media">
+                  <img class="mr-3" src="https://environmentaldashboard.org/cv/uploads/{image}" alt="{title}" style="max-width:200px" />
+                  <div class="media-body">
+                    <h5 class="mt-0 mb-1"><xsl:value-of select='title' /> &#160;&#160;&#160;<small class="text-muted"><xsl:value-of select='author' /></small></h5>
+                    <p><a class="btn btn-primary" href='articles/{id}'>Read more</a></p>
                   </div>
-                  <div class="card-body">
-                    <blockquote class="blockquote mb-0">
-                      <p><xsl:value-of select='text' /></p>
-                      <footer class='blockquote-footer'>
-                        <cite>
-                          <xsl:attribute name="title"><xsl:value-of select='author' /></xsl:attribute>
-                          <xsl:value-of select='author' />
-                        </cite>
-                      </footer>
-                    </blockquote>
-                  </div>
-                  <xsl:if test="$isManager">
-                    <div class="card-footer text-muted">
-                      Status: <xsl:value-of select='status' />
-                    </div>
-                  </xsl:if>
-                </div>
-              </a>
+                </li>
+              </ul>
+
             </xsl:if>
 
           </xsl:for-each>
 
-        </div>
       </div>
     </div>
 

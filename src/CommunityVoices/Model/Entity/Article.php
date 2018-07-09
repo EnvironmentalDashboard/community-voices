@@ -9,6 +9,7 @@ class Article extends Media
     const ERR_AUTHOR_REQUIRED = 'Articles must have an author.';
 
     private $text;
+    private $title;
     private $image;
     private $author;
     private $dateRecorded;
@@ -16,6 +17,16 @@ class Article extends Media
     public function __construct()
     {
         $this->type = self::TYPE_ARTICLE;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function setTitle($text)
+    {
+        $this->title = $text;
     }
 
     public function getText()
@@ -59,7 +70,6 @@ class Article extends Media
 
     }
 
-
     public function validateForUpload(FlexibleObserver $stateObserver)
     {
         $isValid = true;
@@ -75,9 +85,11 @@ class Article extends Media
     public function toArray()
     {
         return ['article' => array_merge(parent::toArray()['media'], [
+            'title' => $this->title,
             'text' => $this->text,
             'author' => $this->author,
-            'dateRecorded' => date("M j\, Y", $this->dateRecorded)
+            'dateRecorded' => date("M j\, Y", $this->dateRecorded),
+            'image' => $this->image->getId()
         ])];
     }
 }

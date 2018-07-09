@@ -22,6 +22,8 @@ class ArticleCollection extends DataMapper
 						media.date_created 				AS dateCreated,
                         CAST(media.type AS UNSIGNED)    AS type,
                         CAST(media.status AS UNSIGNED)  AS status,
+                        article.image_id                AS image,
+                        article.title                   AS title,
                         article.text                    AS text,
                         article.author                  AS author,
                         article.date_recorded           AS dateRecorded
@@ -42,6 +44,9 @@ class ArticleCollection extends DataMapper
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($results as $key => $entry) {
+            $image = new Entity\Image;
+            $image->setId($entry['image']);
+            $entry['image'] = $image;
             $articleCollection->addEntityFromParams($entry);
         }
     }
