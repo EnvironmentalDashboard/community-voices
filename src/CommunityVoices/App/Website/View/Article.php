@@ -129,6 +129,12 @@ class Article extends Component\View
         unset($obj->articleCollection['count']);
         unset($obj->articleCollection['limit']);
         unset($obj->articleCollection['page']);
+        foreach ($obj->articleCollection as $key => $article) {
+            $article->article->text = htmlspecialchars($article->article->text);
+            $article->article->title = htmlspecialchars($article->article->title);
+            $article->article->author = htmlspecialchars($article->article->author);
+        }
+        $obj->articleCollection = array_values($obj->articleCollection);
 
         $articleXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($obj)
