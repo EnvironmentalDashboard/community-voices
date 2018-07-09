@@ -154,18 +154,76 @@
             <xsl:if test="extraJS = 'landing'">
                 <script>
                     <![CDATA[
+                    /*var items = $('.carousel-item');
+                        for (var i = items.length - 1; i >= 0; i--) {
+                            console.log($(items[i]).find('image')[0]);
+                        }*/
+                    var items = $('.carousel-item');
+                    var cc_map = {
+                        1: 'https://environmentaldashboard.org/cv_slides/categorybars/serving-our-community.png',
+                        2: 'https://environmentaldashboard.org/cv_slides/categorybars/our-downtown.png',
+                        3: 'https://environmentaldashboard.org/cv_slides/categorybars/next-generation.png',
+                        4: 'https://environmentaldashboard.org/cv_slides/categorybars/heritage.png',
+                        5: 'https://environmentaldashboard.org/cv_slides/categorybars/nature_photos.png',
+                        6: 'https://environmentaldashboard.org/cv_slides/categorybars/neighbors.png'
+                    };
+
                     $('.selector-img').on('click', function() {
                         var cc = $(this).data('cc');
                         if (cc === 'rand') {
                             cc = getRandomInt(1, 6);
                         }
-                        $.getJSON('https://api.environmentaldashboard.org/cv/slides', { content_category: [cc] }, function(data) {
+                        
+                        $.getJSON('https://api.environmentaldashboard.org/cv/slides', { content_category: [cc], per_page: 5 }, function(data) {
                             $.each(data['slideCollection'], function(index, element) {
-                                console.log(element);
+                                if (typeof element === 'object') {
+                                    $(items[index]).find('image')[0].setAttribute('xlink:href', 'https://environmentaldashboard.org/cv/uploads/'+element['slide']['image']);
+                                    $(items[index]).find('image')[1].setAttribute('xlink:href', cc_map[cc]);
+                                    
+                                    var text_node = $(items[index]).find('text')[0];
+                                    text_node.parentNode.removeChild(text_node);
+
+                                    var text_parent = $(items[index]).find('#render');
+
+                                    var s = element['slide']['quote']['quote']['text'];
+                                    var tmp = $('#tmp');
+                                    s = tmp.html(s).text();
+                                    tmp.html('');
+                                    var text = makeSVG('text', {x: '50%', y: (25 + ( (10/s.length) * 75 ))+'%', fill: '#fff', 'font-size': '4px'});
+                                    var arr = [];
+                                    arr[0] = '';
+                                    var tspans = 0, counter = 0;
+                                    for (var i = 0; i < s.length; i++) {
+                                        var char = s.charAt(i);
+                                        arr[tspans] += char;
+                                        if (counter++ > 14 && char === ' ') {
+                                            tspans++;
+                                            counter = 0;
+                                            arr[tspans] = '';
+                                        }
+                                    }
+                                    for (var i = 0; i < arr.length; i++) {
+                                        var tspan = makeSVG('tspan', {dy: 4, x: '50%'});
+                                        tspan = $(tspan).text(arr[i]);
+                                        text.append(tspan[0]);
+                                    }
+                                    text_parent.append(text);
+                                }
                             });
                         });
                     });
                     function getRandomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+                    function makeSVG(tag, attrs) {
+                        var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+                        for (var k in attrs) {
+                            if (k == 'xlink:href') {
+                                el.setAttributeNS("http://www.w3.org/1999/xlink", 'xlink:href', attrs[k]);
+                            } else {
+                                el.setAttribute(k, attrs[k]);
+                            }
+                        }
+                        return el;
+                    }
                     ]]>
                 </script>
             </xsl:if>
