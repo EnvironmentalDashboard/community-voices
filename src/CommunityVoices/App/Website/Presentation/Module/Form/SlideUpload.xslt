@@ -46,12 +46,12 @@
           <div class="col-sm-9">
             <div><div id="ajax-quotes">
               <h2 class="mb-4">Select a quote</h2>
-              <p><a href="#" class="btn btn-outline-primary disabled" disabled="">Previous page</a> <a id="next-quote" href="#" class="btn btn-outline-primary float-right">Next page</a></p>
+              <p><a id="prev-quote" href="" class="btn btn-outline-primary">&#8592; Previous page</a> <a id="next-quote" href="" class="btn btn-outline-primary float-right">&#8594; Next page</a></p>
               <div class="card-columns"></div>
             </div></div>
             <div><div style="display:none" id="ajax-images">
               <h2 class="mb-4">Select an image</h2>
-              <p><a href="#" class="btn btn-outline-primary disabled" disabled="">Previous page</a> <a id="next-image" href="#" class="btn btn-outline-primary float-right">Next page</a></p>
+              <p><a id="prev-image" href="" class="btn btn-outline-primary">&#8592; Previous page</a> <a id="next-image" href="" class="btn btn-outline-primary float-right">&#8594; Next page</a></p>
               <div class="card-columns"></div>
             </div></div>
             <div><div style="display:none" id="content-categories">
