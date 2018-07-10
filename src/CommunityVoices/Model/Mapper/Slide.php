@@ -4,6 +4,7 @@ namespace CommunityVoices\Model\Mapper;
 
 use PDO;
 use CommunityVoices\Model\Entity;
+use CommunityVoices\Model\Mapper;
 
 // Entity\User, Entity\ContentCategory, Entity\Image, Entity\Quote, Entity\GroupCollection, Entity\Media
 
@@ -85,7 +86,7 @@ class Slide extends Media
                         child.content_category_id           AS contentCategoryId,
                         child.image_id                      AS imageId,
                         child.quote_id                      AS quoteId,
-                        child.formatted_text                AS FormattedText,
+                        child.formatted_text                AS formattedText,
                         child.probability                   AS probability,
                         child.decay_percent                 AS decayPercent,
                         child.decay_start                   AS decayStart,
@@ -107,9 +108,32 @@ class Slide extends Media
         $results = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($results) {
-            $convertedParams = $this->convertRelations($this->relations, $results);
+            $imgMapper = new Mapper\Image($this->conn);
+            $quoteMapper = new Mapper\Quote($this->conn);
+            $results['image'] = new Entity\Image;
+            $results['image']->setId($results['imageId']);
+            $imgMapper->fetch($results['image']);
+            $results['quote'] = new Entity\Quote;
+            $results['quote']->setId($results['quoteId']);
+            $quoteMapper->fetch($results['quote']);
+            $user = new Entity\User;
+            $user->setId($results['addedBy']);
+            $results['addedBy'] = $user;
+            $contentCategory = new Entity\ContentCategory;
+            $contentCategory->setId($results['contentCategoryId']);
+            $results['ContentCategory'] = $contentCategory;
+            $tagCollection = new Entity\GroupCollection;
+            $tagCollection->forParentId($results['id']);
+            $tagCollection->forParentType(0);
+            $results['TagCollection'] = $tagCollection;
+            if ($results['formattedText'] == '') {
+                $results['formattedText'] = clone $results['quote'];
+            }
+            // TODO: use convertRelations() instead of above
+            // $convertedParams = $this->convertRelations($this->relations, $results);
 
-            $this->populateEntity($slide, array_merge($results, $convertedParams));
+            // $this->populateEntity($slide, array_merge($results, $convertedParams));
+            $this->populateEntity($slide, $results);
         } else {
             $slide->setId(null);
         }
