@@ -47,7 +47,8 @@ class Image
         
         $page = (int) $request->query->get('page');
         $page = ($page > 0) ? $page - 1 : 0; // current page, make page 0-based
-        $limit = 15; // number of items per page
+        $limit = (int) $request->query->get('per_page');
+        $limit = ($limit > 0) ? $limit : 15; // number of items per page
         $offset = $limit * $page;
         $this->imageLookup->findAll($page, $limit, $offset, $search, $tags, $photographers, $orgs);
     }

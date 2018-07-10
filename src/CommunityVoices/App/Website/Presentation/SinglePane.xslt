@@ -55,10 +55,11 @@
             <xsl:if test="extraJS = 'create-slide'">
                 <script>
                     <![CDATA[
+                    var current_page = 1;
                     var $quote_container = $('#ajax-quotes');
                     var $image_container = $('#ajax-images');
                     var $content_categories = $('#content-categories');
-                    $.getJSON('https://api.environmentaldashboard.org/cv/quotes', { }, function(data) {
+                    $.getJSON('https://api.environmentaldashboard.org/cv/quotes', { per_page: 15, page: 1 }, function(data) {
                         $.each(data['quoteCollection'], function(index, element) {
                             if (typeof element === 'object') {
                                 var html = '<div class="card p-3 ajax-quote" data-id="'+element['quote']['id']+'" data-text="'+element['quote']['text']+'"><blockquote class="blockquote mb-0 card-body"><p>' + element['quote']['text'] + '</p><footer class="blockquote-footer"><small class="text-muted">' + element['quote']['attribution'] + '</small></footer></blockquote></div>';
@@ -66,7 +67,7 @@
                             }
                         });
                     });
-                    $.getJSON('https://api.environmentaldashboard.org/cv/images', { }, function(data) {
+                    $.getJSON('https://api.environmentaldashboard.org/cv/images', { per_page: 8, page: 1 }, function(data) {
                         $.each(data['imageCollection'], function(index, element) {
                             //console.log(element['image']['id']);
                             if (typeof element === 'object') {
@@ -119,6 +120,16 @@
                         $(this).addClass('active');
                         $prev_btn.removeClass('active');
                         $prev_btn = $(this);
+                    });
+                    $('#next-quote').on('click', function(e) {
+                        e.preventDefault();
+                        $quote_container.find('.card-columns').empty();
+                        current_page++;
+                    });
+                    $('#next-img').on('click', function(e) {
+                        e.preventDefault();
+                        $image_container.find('.card-columns').empty();
+                        current_page++;
                     });
                     function makeSVG(tag, attrs) { // https://stackoverflow.com/a/3642265/2624391
                         var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
