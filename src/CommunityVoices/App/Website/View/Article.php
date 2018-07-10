@@ -53,6 +53,7 @@ class Article extends Component\View
                 $articleAPIView->getArticle()->getContent()
             ))
         );
+        // var_dump($articleXMLElement->title->asXML());die;
 
         /**
          * Article XML Package

@@ -40,6 +40,8 @@ class Article extends Media
                         parent.date_created             AS dateCreated,
                         CAST(parent.type AS UNSIGNED)   AS type,
                         CAST(parent.status AS UNSIGNED) AS status,
+                        child.image_id                  AS image,
+                        child.title                     AS title,
                         child.text                      AS text,
                         child.author                    AS author,
                         child.date_recorded             AS dateRecorded
@@ -58,6 +60,10 @@ class Article extends Media
         $statement->execute();
 
         $results = $statement->fetch(PDO::FETCH_ASSOC);
+
+        $image = new Entity\Image;
+        $image->setId($results['image']);
+        $results['image'] = $image;
 
         if ($results) {
             $convertedParams = $this->convertRelations(
