@@ -56,30 +56,43 @@
                 <script>
                     <![CDATA[
                     var current_quote = 1, current_image = 1;
+                    var list_view = true;
                     var $quote_container = $('#ajax-quotes');
                     var $image_container = $('#ajax-images');
                     var $content_categories = $('#content-categories');
                     function getQuote(page) {
-                    $.getJSON('https://api.environmentaldashboard.org/cv/quotes', { per_page: 10, page: page }, function(data) {
-                        $.each(data['quoteCollection'], function(index, element) {
-                            if (typeof element === 'object') {
-                                var html = '<div class="card p-3 ajax-quote" data-id="'+element['quote']['id']+'" data-text="'+element['quote']['text']+'"><blockquote class="blockquote mb-0 card-body"><p>' + element['quote']['text'] + '</p><footer class="blockquote-footer"><small class="text-muted">' + element['quote']['attribution'] + '</small></footer></blockquote></div>';
-                                $quote_container.find('.card-columns').append(html);
+                        $.getJSON('https://api.environmentaldashboard.org/cv/quotes', { per_page: 10, page: page }, function(data) {
+                            if (list_view) {
+                                var html = '<div class="card"><div class="card-header">Quotes</div><ul class="list-group list-group-flush">';
+                            } else {
+                                var html = '<div class="card-columns">';
                             }
+                            $.each(data['quoteCollection'], function(index, element) {
+                                if (typeof element === 'object') {
+                                    if (list_view) {
+                                        //html += '<li class="list-group-item ajax-quote" data-id="'+element['quote']['id']+'" data-text="'+element['quote']['text']+'">'+element['quote']['text']+'</li>';
+                                        html += '<li class="list-group-item ajax-quote" data-id="'+element['quote']['id']+'" data-text="'+element['quote']['text']+'"><blockquote class="blockquote mb-0"><p>'+element['quote']['text']+'</p><footer class="blockquote-footer">'+element['quote']['attribution']+'</footer></blockquote></li>';
+                                    } else {
+                                        html += '<div class="card p-3 ajax-quote" data-id="'+element['quote']['id']+'" data-text="'+element['quote']['text']+'"><blockquote class="blockquote mb-0 card-body"><p>' + element['quote']['text'] + '</p><footer class="blockquote-footer"><small class="text-muted">' + element['quote']['attribution'] + '</small></footer></blockquote></div>';
+                                    }
+                                }
+                            });
+                            html += (list_view) ? '</ul></div>' : '</div>';
+                            $quote_container.find('.selectables').append(html);
                         });
-                    });
                     }
                     getQuote(1);
                     function getImage(page) {
-                    $.getJSON('https://api.environmentaldashboard.org/cv/images', { per_page: 8, page: page }, function(data) {
-                        $.each(data['imageCollection'], function(index, element) {
-                            //console.log(element['image']['id']);
-                            if (typeof element === 'object') {
-                                var html = '<div class="card bg-dark text-white ajax-image" data-id="'+element['image']['id']+'"><img class="card-img" src="https://api.environmentaldashboard.org/cv/uploads/'+element['image']['id']+'" alt="Card image" /><div class="card-img-overlay"><h5 class="card-title">' + element['image']['title'] + '</h5><p class="card-text">' + element['image']['description'] + '</p><p class="card-text">' + element['image']['dateCreated'] + '</p></div></div>';
-                                $image_container.find('.card-columns').append(html);
-                            }
+                        $.getJSON('https://api.environmentaldashboard.org/cv/images', { per_page: 8, page: page }, function(data) {
+                            var html = '<div class="card-columns">';
+                            $.each(data['imageCollection'], function(index, element) {
+                                if (typeof element === 'object') {
+                                    html += '<div class="card bg-dark text-white ajax-image" data-id="'+element['image']['id']+'"><img class="card-img" src="https://api.environmentaldashboard.org/cv/uploads/'+element['image']['id']+'" alt="Card image" /><div class="card-img-overlay"><h5 class="card-title">' + element['image']['title'] + '</h5><p class="card-text">' + element['image']['description'] + '</p><p class="card-text">' + element['image']['dateCreated'] + '</p></div></div>';
+                                }
+                            });
+                            html += '</div>';
+                            $image_container.find('.selectables').append(html);
                         });
-                    });
                     }
                     getImage(1);
                     $(document).on('click', '.ajax-quote', function(e) {
@@ -129,13 +142,29 @@
                     });
                     $('#next-quote').on('click', function(e) {
                         e.preventDefault();
-                        $quote_container.find('.card-columns').empty();
+                        $quote_container.find('.selectables').empty();
                         getQuote(++current_quote);
                     });
                     $('#next-image').on('click', function(e) {
                         e.preventDefault();
-                        $image_container.find('.card-columns').empty();
+                        $image_container.find('.selectables').empty();
                         getImage(++current_image);
+                    });
+                    $('#list-view').on('click', function(e) {
+                        e.preventDefault();
+                        list_view = true;
+                        $quote_container.find('.selectables').empty();
+                        getQuote(current_quote);
+                        $(this).css('fill', '#21a7df');
+                        $('#gallery-view').css('fill', '#333');
+                    });
+                    $('#gallery-view').on('click', function(e) {
+                        e.preventDefault();
+                        list_view = false;
+                        $quote_container.find('.selectables').empty();
+                        getQuote(current_quote);
+                        $(this).css('fill', '#21a7df');
+                        $('#list-view').css('fill', '#333');
                     });
                     function makeSVG(tag, attrs) { // https://stackoverflow.com/a/3642265/2624391
                         var el = document.createElementNS('http://www.w3.org/2000/svg', tag);

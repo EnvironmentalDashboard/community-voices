@@ -7,7 +7,7 @@
           <div class="col-12">
         <style>
           /* Temporary CSS block until better location found */
-          .card-columns .card {cursor:pointer}
+          .selectables, #list-view, #gallery-view {cursor:pointer}
           .card-columns .card:hover {border-color:#21a7df}
         </style>
         <h2 class="mb-4">Create a slide</h2>
@@ -45,14 +45,18 @@
           </div>
           <div class="col-sm-9">
             <div><div id="ajax-quotes">
-              <h2 class="mb-4">Select a quote</h2>
+              <h2 class="mb-0">Select a quote</h2>
+              <p class="mb-2 mt-0">Select view:
+                <svg id="list-view" width="20" height="20" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg" style="position:relative;top:5px;fill:#21a7df"><path d="M832 1024v384q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90v-384q0-52 38-90t90-38h512q52 0 90 38t38 90zm0-768v384q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90v-384q0-52 38-90t90-38h512q52 0 90 38t38 90zm896 768v384q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90v-384q0-52 38-90t90-38h512q52 0 90 38t38 90zm0-768v384q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90v-384q0-52 38-90t90-38h512q52 0 90 38t38 90z"/></svg>
+                <svg id="gallery-view" width="20" height="20" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg" style="position:relative;top:5px;left:5px;fill:#333"><path d="M256 1312v192q0 13-9.5 22.5t-22.5 9.5h-192q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h192q13 0 22.5 9.5t9.5 22.5zm0-384v192q0 13-9.5 22.5t-22.5 9.5h-192q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h192q13 0 22.5 9.5t9.5 22.5zm0-384v192q0 13-9.5 22.5t-22.5 9.5h-192q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h192q13 0 22.5 9.5t9.5 22.5zm1536 768v192q0 13-9.5 22.5t-22.5 9.5h-1344q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1344q13 0 22.5 9.5t9.5 22.5zm-1536-1152v192q0 13-9.5 22.5t-22.5 9.5h-192q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h192q13 0 22.5 9.5t9.5 22.5zm1536 768v192q0 13-9.5 22.5t-22.5 9.5h-1344q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1344q13 0 22.5 9.5t9.5 22.5zm0-384v192q0 13-9.5 22.5t-22.5 9.5h-1344q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1344q13 0 22.5 9.5t9.5 22.5zm0-384v192q0 13-9.5 22.5t-22.5 9.5h-1344q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1344q13 0 22.5 9.5t9.5 22.5z"/></svg>
+              </p>
               <p><a id="prev-quote" href="" class="btn btn-outline-primary">&#8592; Previous page</a> <a id="next-quote" href="" class="btn btn-outline-primary float-right">&#8594; Next page</a></p>
-              <div class="card-columns"></div>
+              <div class="selectables"></div>
             </div></div>
             <div><div style="display:none" id="ajax-images">
               <h2 class="mb-4">Select an image</h2>
               <p><a id="prev-image" href="" class="btn btn-outline-primary">&#8592; Previous page</a> <a id="next-image" href="" class="btn btn-outline-primary float-right">&#8594; Next page</a></p>
-              <div class="card-columns"></div>
+              <div class="selectables"></div>
             </div></div>
             <div><div style="display:none" id="content-categories">
               <h2 class="mb-4">Select a content category</h2>
