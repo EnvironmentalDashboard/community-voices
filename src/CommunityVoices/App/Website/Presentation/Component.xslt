@@ -63,22 +63,22 @@
               Community Voices
             </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink5">
-                <a class="dropdown-item" href="{baseUrl}landing">Home</a>
-                <a class="dropdown-item" href="{baseUrl}images">Images</a>
-                <a class="dropdown-item" href="{baseUrl}quotes">Quotes</a>
-                <a class="dropdown-item" href="{baseUrl}slides">Slides</a>
-                <a class="dropdown-item" href="{baseUrl}articles">Articles</a>
+                <a class="dropdown-item" href="/cv/landing">Home</a>
+                <a class="dropdown-item" href="/cv/images">Images</a>
+                <a class="dropdown-item" href="/cv/quotes">Quotes</a>
+                <a class="dropdown-item" href="/cv/slides">Slides</a>
+                <a class="dropdown-item" href="/cv/articles">Articles</a>
                 <xsl:choose>
                   <xsl:when test="identity/user/id &gt; 0">
-                    <a class="dropdown-item" href="{baseUrl}logout">Logout <xsl:value-of select="identity/user/firstName" /></a>
+                    <a class="dropdown-item" href="/cv/logout">Logout <xsl:value-of select="identity/user/firstName" /></a>
                     <!-- <a class="dropdown-item">
                       <xsl:attribute name="href">user/<xsl:value-of select="identity/user/id" /></xsl:attribute>
                       View Account
                     </a> -->
                   </xsl:when>
                   <xsl:otherwise>
-                    <a class="dropdown-item" href="{baseUrl}login">Login</a>
-                    <a class="dropdown-item" href="{baseUrl}register">Register</a>
+                    <a class="dropdown-item" href="/cv/login">Login</a>
+                    <a class="dropdown-item" href="/cv/register">Register</a>
                   </xsl:otherwise>
                 </xsl:choose>
               </div>

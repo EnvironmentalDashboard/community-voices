@@ -35,8 +35,8 @@ class User extends Component\View
         /**
          * Get base URL
          */
-        $urlGenerator = new UrlGenerator($routes, $context);
-        $baseUrl = $urlGenerator->generate('root');
+        //$urlGenerator = new UrlGenerator($routes, $context);
+        //$baseUrl = $urlGenerator->generate('root');
 
         /**
          * Prepare modules
@@ -50,7 +50,7 @@ class User extends Component\View
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', $userModuleXML);
-        $domainXMLElement->addChild('baseUrl', $baseUrl);
+        //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title',
             "Community Voices: ".
             $identityXMLElement->firstName.
@@ -94,11 +94,11 @@ class User extends Component\View
         /**
          * Get base URL
          */
-        $urlGenerator = new UrlGenerator($routes, $context);
-        $baseUrl = $urlGenerator->generate('root');
+        //$urlGenerator = new UrlGenerator($routes, $context);
+        //$baseUrl = $urlGenerator->generate('root');
 
         $domainXMLElement->addChild('main-pane', $formModuleXML);
-        $domainXMLElement->addChild('baseUrl', $baseUrl);
+        //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title',
             "Community Voices: Register"
         );
@@ -136,10 +136,10 @@ class User extends Component\View
         /**
          * Get base URL
          */
-        $urlGenerator = new UrlGenerator($routes, $context);
-        $baseUrl = $urlGenerator->generate('root');
+        //$urlGenerator = new UrlGenerator($routes, $context);
+        //$baseUrl = $urlGenerator->generate('root');
 
-        $domainXMLElement->addChild('baseUrl', $baseUrl);
+        //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title',
             "Community Voices: Welcome"
         );

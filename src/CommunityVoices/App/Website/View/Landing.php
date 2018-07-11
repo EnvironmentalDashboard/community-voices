@@ -81,8 +81,8 @@ class Landing extends Component\View
         /**
          * Get base URL
          */
-        $urlGenerator = new UrlGenerator($routes, $context);
-        $baseUrl = $urlGenerator->generate('root');
+        //$urlGenerator = new UrlGenerator($routes, $context);
+        //$baseUrl = $urlGenerator->generate('root');
 
         /**
          * Prepare template
@@ -90,7 +90,7 @@ class Landing extends Component\View
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', $landingModuleXML);
-        $domainXMLElement->addChild('baseUrl', $baseUrl);
+        //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild(
             'title',
             "Community Voices: Landing Page"

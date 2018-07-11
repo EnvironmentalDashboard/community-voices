@@ -75,8 +75,8 @@ class Article extends Component\View
         /**
          * Get base URL
          */
-        $urlGenerator = new UrlGenerator($routes, $context);
-        $baseUrl = $urlGenerator->generate('root');
+        //$urlGenerator = new UrlGenerator($routes, $context);
+        //$baseUrl = $urlGenerator->generate('root');
 
         /**
          * Prepare template
@@ -84,7 +84,7 @@ class Article extends Component\View
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', $articleModuleXML);
-        $domainXMLElement->addChild('baseUrl', $baseUrl);
+        //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild(
             'title',
             "Community Voices: Article ".
@@ -168,8 +168,8 @@ class Article extends Component\View
         /**
          * Get base URL
          */
-        $urlGenerator = new UrlGenerator($routes, $context);
-        $baseUrl = $urlGenerator->generate('root');
+        //$urlGenerator = new UrlGenerator($routes, $context);
+        //$baseUrl = $urlGenerator->generate('root');
 
         /**
          * Prepare template
@@ -177,7 +177,7 @@ class Article extends Component\View
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', $articleModuleXML);
-        $domainXMLElement->addChild('baseUrl', $baseUrl);
+        //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: All Articles");
         $domainXMLElement->addChild('navbarSection', "article");
 
@@ -215,15 +215,15 @@ class Article extends Component\View
         /**
          * Get base URL
          */
-        $urlGenerator = new UrlGenerator($routes, $context);
-        $baseUrl = $urlGenerator->generate('root');
+        //$urlGenerator = new UrlGenerator($routes, $context);
+        //$baseUrl = $urlGenerator->generate('root');
 
         //
 
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', $formModuleXML);
-        $domainXMLElement->addChild('baseUrl', $baseUrl);
+        //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild(
             'title',
             "Community Voices: Article Upload"
@@ -251,13 +251,13 @@ class Article extends Component\View
         /**
          * Get base URL
          */
-        $urlGenerator = new UrlGenerator($routes, $context);
-        $baseUrl = $urlGenerator->generate('root');
+        //$urlGenerator = new UrlGenerator($routes, $context);
+        //$baseUrl = $urlGenerator->generate('root');
 
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
-        $domainXMLElement->addChild('baseUrl', $baseUrl);
+        //$domainXMLElement->addChild('baseUrl', $baseUrl);
 
         $domainXMLElement->addChild(
           'title',
@@ -309,15 +309,15 @@ class Article extends Component\View
         /**
          * Get base URL
          */
-        $urlGenerator = new UrlGenerator($routes, $context);
-        $baseUrl = $urlGenerator->generate('root');
+        //$urlGenerator = new UrlGenerator($routes, $context);
+        //$baseUrl = $urlGenerator->generate('root');
 
         //
 
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', $formModuleXML);
-        $domainXMLElement->addChild('baseUrl', $baseUrl);
+        //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild(
             'title',
             "Community Voices: Article Update"
@@ -347,13 +347,13 @@ class Article extends Component\View
         /**
          * Get base URL
          */
-        $urlGenerator = new UrlGenerator($routes, $context);
-        $baseUrl = $urlGenerator->generate('root');
+        //$urlGenerator = new UrlGenerator($routes, $context);
+        //$baseUrl = $urlGenerator->generate('root');
 
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
-        $domainXMLElement->addChild('baseUrl', $baseUrl);
+        //$domainXMLElement->addChild('baseUrl', $baseUrl);
 
         $domainXMLElement->addChild(
           'title',
