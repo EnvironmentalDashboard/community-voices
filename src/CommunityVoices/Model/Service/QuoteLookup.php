@@ -128,6 +128,16 @@ class QuoteLookup
         $clientState->save($this->stateObserver);
     }
 
+    public function attributions($stateObserver) {
+        $attributionCollection = new \stdClass;
+        $attributionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
+        $attributionMapper->attributions($attributionCollection);
+        $stateObserver->setSubject('quoteLookup');
+        $stateObserver->addEntry('attribution', $attributionCollection);
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($stateObserver);
+    }
+
     /**
      * Lookup quotes by Group (e.g. tag, content category)
      *

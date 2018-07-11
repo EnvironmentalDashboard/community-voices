@@ -13,11 +13,13 @@ class Slide
     public function __construct(
         Service\SlideLookup $slideLookup,
         Service\SlideManagement $slideManagement,
-        Service\TagLookup $tagLookup
+        Service\TagLookup $tagLookup,
+        Service\QuoteLookup $quoteLookup
     ) {
         $this->slideLookup = $slideLookup;
         $this->slideManagement = $slideManagement;
         $this->tagLookup = $tagLookup;
+        $this->quoteLookup = $quoteLookup;
     }
 
     /**
@@ -50,7 +52,8 @@ class Slide
 
     public function getSlideUpload()
     {
-        $this->tagLookup->findAll();
+        $stateObserver = $this->tagLookup->findAll(true);
+        $this->quoteLookup->attributions($stateObserver);
     }
 
     public function postSlideUpload($request, $identity)

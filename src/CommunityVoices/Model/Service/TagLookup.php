@@ -29,7 +29,7 @@ class TagLookup
         $this->stateObserver = $stateObserver;
     }
 
-    public function findAll()
+    public function findAll($return = false)
     {
 
         $tagCollection = new Entity\GroupCollection;
@@ -39,6 +39,9 @@ class TagLookup
         $this->stateObserver->setSubject('tagLookup');
         $this->stateObserver->addEntry('tag', $tagCollection);
 
+        if ($return) {
+            return $this->stateObserver;
+        }
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
         $clientState->save($this->stateObserver);
     }

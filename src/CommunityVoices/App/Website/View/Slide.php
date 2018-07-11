@@ -213,9 +213,17 @@ class Slide extends Component\View
             $this->transcriber->toXml($identity->toArray())
         );
 
+        $obj = new \stdClass;
+        $obj->groupCollection = $json->groupCollection;
         $slideXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($json)
+            $this->transcriber->toXml($obj)
         );
+
+        $obj2 = new \stdClass;
+        $obj2->attributionCollection = $json->attributionCollection;
+        $attrXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($obj2)
+        );        
 
         $paramXML = new SimpleXMLElement('<form/>');
         $formModule = new Component\Presenter('Module/Form/SlideUpload');
@@ -225,6 +233,7 @@ class Slide extends Component\View
         $slidePackageElement = new Helper\SimpleXMLElementExtension('<form/>');
         $packagedSlide = $slidePackageElement->addChild('domain');
         $packagedSlide->adopt($slideXMLElement);
+        $packagedSlide->adopt($attrXMLElement);
         $packagedIdentity = $slidePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
         $slideModule = new Component\Presenter('Module/Form/SlideUpload');

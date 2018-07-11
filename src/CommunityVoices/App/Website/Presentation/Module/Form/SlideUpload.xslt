@@ -50,7 +50,7 @@
                 <label class="sr-only" for="inlineFormInputName2">Name</label>
                 <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Jane Doe" />
                 <label class="sr-only" for="tags">Tags</label>
-                <select class="form-control" id="tags">
+                <select class="form-control" id="tags" style="max-width:150px">
                   <xsl:for-each select="domain/groupCollection/group">
                     <option>
                       <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
@@ -59,11 +59,11 @@
                   </xsl:for-each>
                 </select>
                 <label class="sr-only" for="attribution">Attribution</label>
-                <select class="form-control" id="attribution">
-                  <xsl:for-each select="domain/groupCollection/group">
+                <select class="form-control" id="attribution" style="max-width:150px">
+                  <xsl:for-each select="domain/attributionCollection/attribution">
                     <option>
-                      <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
-                      <xsl:value-of select="label"></xsl:value-of>
+                      <xsl:attribute name="value"><xsl:value-of select='.' /></xsl:attribute>
+                      <xsl:value-of select="."></xsl:value-of>
                     </option>
                   </xsl:for-each>
                 </select>
