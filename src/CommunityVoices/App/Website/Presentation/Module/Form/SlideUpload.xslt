@@ -46,11 +46,12 @@
           <div class="col-sm-9">
             <div><div id="ajax-quotes" style="min-height:400px">
               <h2 class="mb-0">Select a quote</h2>
-              <form class="form-inline float-right">
-                <label class="sr-only" for="inlineFormInputName2">Name</label>
-                <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Jane Doe" />
-                <label class="sr-only" for="tags">Tags</label>
-                <select class="form-control" id="tags" style="max-width:150px">
+              <form class="form-inline float-right" action="" method="GET" id="filter-quotes">
+                <label class="sr-only" for="search-quotes">Search quotes</label>
+                <input type="text" class="form-control mb-2 mr-sm-2" id="search-quotes" placeholder="Search" />
+                <label class="sr-only" for="quote-tags">Tags</label>
+                <select class="form-control" id="quote-tags" style="max-width:150px">
+                  <option value="">Select tag</option>
                   <xsl:for-each select="domain/groupCollection/group">
                     <option>
                       <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
@@ -58,8 +59,9 @@
                     </option>
                   </xsl:for-each>
                 </select>
-                <label class="sr-only" for="attribution">Attribution</label>
-                <select class="form-control" id="attribution" style="max-width:150px">
+                <label class="sr-only" for="quote-attributions">Attribution</label>
+                <select class="form-control" id="quote-attributions" style="max-width:150px">
+                  <option value="">Select attribution</option>
                   <xsl:for-each select="domain/attributionCollection/attribution">
                     <option>
                       <xsl:attribute name="value"><xsl:value-of select='.' /></xsl:attribute>

@@ -56,12 +56,14 @@
                 <script>
                     <![CDATA[
                     var current_quote = 1, current_image = 1;
+                    var quote_search = null, quote_tags = null, quote_attrs = null;
                     var list_view = true;
                     var $quote_container = $('#ajax-quotes');
                     var $image_container = $('#ajax-images');
                     var $content_categories = $('#content-categories');
                     function getQuote(page) {
-                        $.getJSON('https://api.environmentaldashboard.org/cv/quotes', { per_page: 10, page: page }, function(data) {
+                    console.log({ per_page: 10, page: page, search: quote_search, tags: quote_tags, attributions: quote_attrs });
+                        $.getJSON('https://api.environmentaldashboard.org/cv/quotes', { per_page: 10, page: page, search: quote_search, tags: quote_tags, attributions: quote_attrs }, function(data) {
                             if (list_view) {
                                 var html = '<div class="card"><div class="card-header">Quotes</div><ul class="list-group list-group-flush">';
                             } else {
@@ -166,6 +168,14 @@
                         $(this).css('fill', '#21a7df');
                         $('#list-view').css('fill', '#333');
                     });
+                    $('#filter-quotes').on('submit', function(e) {
+                        e.preventDefault();
+                        quote_search = $('#search-quotes').val();
+                        quote_tags = $('#quote-tags').val();
+                        quote_attrs = $('#quote-attributions').val();
+                        $quote_container.find('.selectables').empty();
+                        getQuote(1);
+                    })
                     function makeSVG(tag, attrs) { // https://stackoverflow.com/a/3642265/2624391
                         var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
                         for (var k in attrs) {
