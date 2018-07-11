@@ -47,7 +47,15 @@ class Slide
 
     public function getSlideUpload()
     {
-        // intentionally blank
+        $clientState = $this->mapperFactory->createClientStateMapper();
+        $stateObserver = $clientState->retrieve();
+
+        $stateObserver->setSubject('tagLookup');
+        $tag = $stateObserver->getEntry('tag')[0];
+
+        $response = new HttpFoundation\JsonResponse($tag->toArray());
+
+        return $response;
     }
 
     public function postSlideUpload()

@@ -204,23 +204,32 @@ class Slide extends Component\View
 
     public function getSlideUpload($routes, $context)
     {
-        try {
-            $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
-            $slideAPIView->getSlideUpload();
-        } catch (Exception $e) {
-            echo $e->getMessage();
-            return;
-        }
-        $paramXML = new SimpleXMLElement('<form/>');
-
-        $formModule = new Component\Presenter('Module/Form/SlideUpload');
-        $formModuleXML = $formModule->generate($paramXML);
+        $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
+        $json = json_decode($slideAPIView->getSlideUpload()->getContent());
 
         $identity = $this->recognitionAdapter->identify();
 
         $identityXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($identity->toArray())
         );
+
+        $slideXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($json)
+        );
+
+        $paramXML = new SimpleXMLElement('<form/>');
+        $formModule = new Component\Presenter('Module/Form/SlideUpload');
+        $formModuleXML = $formModule->generate($paramXML);
+        // var_dump($formModuleXML);die;
+
+        $slidePackageElement = new Helper\SimpleXMLElementExtension('<form/>');
+        $packagedSlide = $slidePackageElement->addChild('domain');
+        $packagedSlide->adopt($slideXMLElement);
+        $packagedIdentity = $slidePackageElement->addChild('identity');
+        $packagedIdentity->adopt($identityXMLElement);
+        $slideModule = new Component\Presenter('Module/Form/SlideUpload');
+        $slideModuleXML = $slideModule->generate($slidePackageElement);
+        // var_dump($slideModuleXML);die;
 
         /**
          * Get base URL
@@ -229,10 +238,8 @@ class Slide extends Component\View
         $baseUrl = $urlGenerator->generate('root');
 
         //
-
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
-
-        $domainXMLElement->addChild('main-pane', $formModuleXML);
+        $domainXMLElement->addChild('main-pane', $slideModuleXML);
         $domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild(
             'title',
@@ -240,8 +247,6 @@ class Slide extends Component\View
         );
         $domainXMLElement->addChild('extraJS', "create-slide");
 
-        $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
 
         $presentation = new Component\Presenter('SinglePane');
 

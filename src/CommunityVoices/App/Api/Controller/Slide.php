@@ -12,10 +12,12 @@ class Slide
 
     public function __construct(
         Service\SlideLookup $slideLookup,
-        Service\SlideManagement $slideManagement
+        Service\SlideManagement $slideManagement,
+        Service\TagLookup $tagLookup
     ) {
         $this->slideLookup = $slideLookup;
         $this->slideManagement = $slideManagement;
+        $this->tagLookup = $tagLookup;
     }
 
     /**
@@ -48,7 +50,7 @@ class Slide
 
     public function getSlideUpload()
     {
-        // intentionally blank
+        $this->tagLookup->findAll();
     }
 
     public function postSlideUpload($request, $identity)

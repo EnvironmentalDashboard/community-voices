@@ -36,9 +36,10 @@ class Slide
         $apiController->getSlide($request);
     }
 
-    public function getSlideUpload()
+    public function getSlideUpload($request)
     {
-        // intentionally blank
+        $apiController = $this->secureContainer->contain($this->slideAPIController);
+        $apiController->getSlideUpload($request);
     }
 
     public function postSlideUpload($request)
