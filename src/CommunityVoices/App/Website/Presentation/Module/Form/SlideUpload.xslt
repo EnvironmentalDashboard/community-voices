@@ -69,6 +69,12 @@
                     </option>
                   </xsl:for-each>
                 </select>
+                <div class="form-check mb-2 mr-sm-2">
+                  <input class="form-check-input" type="checkbox" id="quote-unused" />
+                  <label class="form-check-label" for="quote-unused">
+                    Show only unpaired quotes
+                  </label>
+                </div>
                 <button type="submit" class="btn btn-primary mb-2">Submit</button>
               </form>
               <p class="mt-5"><a id="prev-quote" href="" class="btn btn-sm btn-outline-primary">&#8592; Previous page</a> <a id="next-quote" href="" class="btn btn-sm btn-outline-primary float-right">&#8594; Next page</a></p>

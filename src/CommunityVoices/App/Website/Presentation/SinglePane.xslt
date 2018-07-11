@@ -56,14 +56,13 @@
                 <script>
                     <![CDATA[
                     var current_quote = 1, current_image = 1;
-                    var quote_search = null, quote_tags = null, quote_attrs = null;
+                    var quote_search = '', quote_tags = '', quote_attrs = '', quote_unused = 0;
                     var list_view = true;
                     var $quote_container = $('#ajax-quotes');
                     var $image_container = $('#ajax-images');
                     var $content_categories = $('#content-categories');
                     function getQuote(page) {
-                    console.log({ per_page: 10, page: page, search: quote_search, tags: quote_tags, attributions: quote_attrs });
-                        $.getJSON('https://api.environmentaldashboard.org/cv/quotes', { per_page: 10, page: page, search: quote_search, tags: quote_tags, attributions: quote_attrs }, function(data) {
+                        $.getJSON('https://api.environmentaldashboard.org/cv/quotes', { per_page: 10, page: page, search: quote_search, tags: quote_tags, attributions: quote_attrs, unused: quote_unused }, function(data) {
                             if (list_view) {
                                 var html = '<div class="card"><div class="card-header">Quotes</div><ul class="list-group list-group-flush">';
                             } else {
@@ -173,6 +172,8 @@
                         quote_search = $('#search-quotes').val();
                         quote_tags = $('#quote-tags').val();
                         quote_attrs = $('#quote-attributions').val();
+                        quote_unused = ($('#quote-unused').val() === 'on') ? 1 : 0;
+                        console.log(quote_unused);
                         $quote_container.find('.selectables').empty();
                         getQuote(1);
                     })
