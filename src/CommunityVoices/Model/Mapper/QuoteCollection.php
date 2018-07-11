@@ -20,12 +20,12 @@ class QuoteCollection extends DataMapper
         $container->allAttributions = $attributions;
     }
 
-    public function fetch(Entity\QuoteCollection $quoteCollection, $search = '', $tags = null, $attributions = null, int $limit, int $offset)
+    public function fetch(Entity\QuoteCollection $quoteCollection, $only_unused, $search = '', $tags = null, $attributions = null, int $limit, int $offset)
     {
-        $this->fetchAll($quoteCollection, $search, $tags, $attributions, $limit, $offset);
+        $this->fetchAll($quoteCollection, $only_unused, $search, $tags, $attributions, $limit, $offset);
     }
 
-    private function fetchAll(Entity\QuoteCollection $quoteCollection, $search, $tags, $attributions, int $limit, int $offset)
+    private function fetchAll(Entity\QuoteCollection $quoteCollection, $only_unused, $search, $tags, $attributions, int $limit, int $offset)
     {
 
         $params = [];
@@ -50,6 +50,10 @@ class QuoteCollection extends DataMapper
                 $params[] = $param;
             }
         }
+        $only_unused_query = '';
+        if ($only_unused) {
+            $only_unused_query = 'AND id NOT IN (SELECT quote_id FROM `community-voices_slides`)';
+        }
         $query = " 	SELECT SQL_CALC_FOUND_ROWS
 						media.id 						AS id,
 						media.added_by 					AS addedBy,
@@ -68,7 +72,7 @@ class QuoteCollection extends DataMapper
 						`community-voices_quotes` quote
 						ON media.id = quote.media_id
 		          	WHERE 1
-                    {$search_query} {$tag_query} {$attribution_query}
+                    {$search_query} {$tag_query} {$attribution_query} {$only_unused_query}
 		         "
 		         . $this->query_prep($quoteCollection->status, "media.status")
                  . $this->query_prep($quoteCollection->creators, "media.added_by")

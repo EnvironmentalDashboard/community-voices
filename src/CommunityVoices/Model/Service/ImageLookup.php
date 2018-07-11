@@ -94,7 +94,7 @@ class ImageLookup
      *
      * @return CommunityVoices\Model\Entity\ImageCollection
      */
-    public function findAll(int $page, int $limit, int $offset, string $search, $tags, $photographers, $orgs)
+    public function findAll(int $page, int $limit, int $offset, int $only_unused, string $search, $tags, $photographers, $orgs)
     {
         $imageCollection = new Entity\ImageCollection;
         $imageCollection->setPage($page);
@@ -103,7 +103,7 @@ class ImageLookup
         $imageCollectionOrgs = new \stdClass();
 
         $imageCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\ImageCollection::class);
-        $imageCollectionMapper->fetch($imageCollection, $search, $tags, $photographers, $orgs, $limit, $offset);
+        $imageCollectionMapper->fetch($imageCollection, $only_unused, $search, $tags, $photographers, $orgs, $limit, $offset);
         $imageCollectionMapper->photographers($imageCollectionPhotographers);
         $imageCollectionMapper->orgs($imageCollectionOrgs);
 

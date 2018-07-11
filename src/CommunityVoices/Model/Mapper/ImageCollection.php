@@ -36,12 +36,12 @@ class ImageCollection extends DataMapper
         $container->allOrgs = $orgs;
     }
 
-    public function fetch(Entity\ImageCollection $imageCollection, string $search = '', $tags = null, $photographers = null, $orgs = null, int $limit = 5, int $offset = 0, int $status = 3)
+    public function fetch(Entity\ImageCollection $imageCollection, int $only_unused, string $search = '', $tags = null, $photographers = null, $orgs = null, int $limit = 5, int $offset = 0, int $status = 3)
     {
-        return $this->fetchAll($imageCollection, $search, $tags, $photographers, $orgs, $limit, $offset, $status);
+        return $this->fetchAll($imageCollection, $only_unused, $search, $tags, $photographers, $orgs, $limit, $offset, $status);
     }
 
-    private function fetchAll(Entity\ImageCollection $imageCollection, string $search, $tags, $photographers, $orgs, int $limit, int $offset, int $status, $sort = 'date_taken', $order = 'DESC')
+    private function fetchAll(Entity\ImageCollection $imageCollection, int $only_unused, string $search, $tags, $photographers, $orgs, int $limit, int $offset, int $status, $sort = 'date_taken', $order = 'DESC')
     {
         $params = [];
 
@@ -75,7 +75,10 @@ class ImageCollection extends DataMapper
                 $params[] = $param;
             }
         }
-
+        $only_unused_query = '';
+        if ($only_unused) {
+            $only_unused_query = 'AND id NOT IN (SELECT image_id FROM `community-voices_slides`)';
+        }
         $query = "SELECT SQL_CALC_FOUND_ROWS
                     media.id                        AS id,
                     media.added_by                  AS addedBy,
@@ -96,7 +99,7 @@ class ImageCollection extends DataMapper
                   ON media.id = image.media_id
                   WHERE
                     media.status = '{$this->status[$status]}'
-                    {$search_query} {$tag_query} {$photographer_query} {$org_query}
+                    {$search_query} {$tag_query} {$photographer_query} {$org_query} {$only_unused_query}
                   ORDER BY image.{$sort} {$order}
                   LIMIT {$offset}, {$limit}";
 

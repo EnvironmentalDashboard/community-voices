@@ -50,7 +50,10 @@ class Image
         $limit = (int) $request->query->get('per_page');
         $limit = ($limit > 0) ? $limit : 15; // number of items per page
         $offset = $limit * $page;
-        $this->imageLookup->findAll($page, $limit, $offset, $search, $tags, $photographers, $orgs);
+        $only_unused = (int) $request->query->get('unused');
+        $only_unused = ($only_unused === 0 || $only_unused === 1) ? $only_unused : 0;
+
+        $this->imageLookup->findAll($page, $limit, $offset, $only_unused, $search, $tags, $photographers, $orgs);
     }
 
     public function getImageUpload()
