@@ -13,6 +13,9 @@
 
             <link rel="stylesheet" href="https://environmentaldashboard.org/css/bootstrap.css"/>
             <base href="{baseUrl}"/>
+            <xsl:if test="comfortaa != ''">
+                <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet" />
+            </xsl:if>
         </head>
         <body>
             <div class="container">
@@ -57,6 +60,7 @@
                     <![CDATA[
                     var current_quote = 1, current_image = 1;
                     var quote_search = '', quote_tags = '', quote_attrs = '', quote_unused = 0;
+                    var image_search = '', image_tags = '';
                     var list_view = true;
                     var $quote_container = $('#ajax-quotes');
                     var $image_container = $('#ajax-images');
@@ -84,7 +88,7 @@
                     }
                     getQuote(1);
                     function getImage(page) {
-                        $.getJSON('https://api.environmentaldashboard.org/cv/images', { per_page: 8, page: page }, function(data) {
+                        $.getJSON('https://api.environmentaldashboard.org/cv/images', { per_page: 8, page: page, search: image_search, tags: image_tags }, function(data) {
                             var html = '<div class="card-columns">';
                             $.each(data['imageCollection'], function(index, element) {
                                 if (typeof element === 'object') {
@@ -173,10 +177,17 @@
                         quote_tags = $('#quote-tags').val();
                         quote_attrs = $('#quote-attributions').val();
                         quote_unused = ($('#quote-unused').val() === 'on') ? 1 : 0;
-                        console.log(quote_unused);
                         $quote_container.find('.selectables').empty();
-                        getQuote(1);
-                    })
+                        getQuote(current_quote);
+                    });
+                    $('#filter-images').on('submit', function(e) {
+                        e.preventDefault();
+                        image_search = $('#search-quotes').val();
+                        image_tags = $('#quote-tags').val();
+                        image_unused = ($('#image-unused').val() === 'on') ? 1 : 0;
+                        $image_container.find('.selectables').empty();
+                        getImage(current_image);
+                    });
                     function makeSVG(tag, attrs) { // https://stackoverflow.com/a/3642265/2624391
                         var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
                         for (var k in attrs) {
@@ -196,7 +207,7 @@
                         for (var i = 0; i < s.length; i++) {
                             var char = s.charAt(i);
                             arr[tspans] += char;
-                            if (counter++ > 17 && char === ' ') {
+                            if (counter++ > 16 && char === ' ') {
                                 tspans++;
                                 counter = 0;
                                 arr[tspans] = '';
@@ -251,9 +262,8 @@
                             $.each(data['slideCollection'], function(index, element) {
                                 if (typeof element === 'object') {
                                     var main_img = $(items[index]).find('image')[0];
-                                    //console.log(element['slide']['image']['image']['id'], element['slide']['SvgImagePos']);
                                     main_img.setAttribute('xlink:href', 'https://environmentaldashboard.org/cv/uploads/'+element['slide']['image']['image']['id']);
-                                    main_img.setAttribute('y', element['slide']['SvgImagePos']);
+                                    main_img.setAttribute('y', 10);
                                     $(items[index]).find('image')[1].setAttribute('xlink:href', cc_map[cc]);
                                     
                                     var text_node = $(items[index]).find('text')[0];
@@ -291,7 +301,7 @@
                         for (var i = 0; i < s.length; i++) {
                             var char = s.charAt(i);
                             arr[tspans] += char;
-                            if (counter++ > 17 && char === ' ') {
+                            if (counter++ > 16 && char === ' ') {
                                 tspans++;
                                 counter = 0;
                                 arr[tspans] = '';
@@ -304,22 +314,6 @@
                         }
                         return text;
                     }
-                    var css = `@font-face {
-                              font-family: 'Biko';
-                              src: url('https://environmentaldashboard.org/fonts/biko/Biko_Regular.otf');
-                                }
-                              text {font-family: 'Biko';}`,
-                        head = document.head || document.getElementsByTagName('head')[0],
-                        style = document.createElement('style');
-
-                    style.type = 'text/css';
-                    if (style.styleSheet){
-                      // This is required for IE8 and below.
-                      style.styleSheet.cssText = css;
-                    } else {
-                      style.appendChild(document.createTextNode(css));
-                    }
-                    head.appendChild(style);
                     ]]>
                 </script>
             </xsl:if>

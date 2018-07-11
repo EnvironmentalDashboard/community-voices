@@ -83,9 +83,9 @@ class Slide extends Media
     public function setFormattedText($textOrQuote, $attributionOrNull = null)
     {
         if ($textOrQuote instanceof Quote) {
-            $this->formattedText = $this->format_text($textOrQuote->getText(), $textOrQuote->getAttribution());
+            $this->formattedText = $this->formatText($textOrQuote->getText(), $textOrQuote->getAttribution());
         } else {
-            $this->formattedText = $this->format_text($textOrQuote, $attributionOrNull);
+            $this->formattedText = $this->formatText($textOrQuote, $attributionOrNull);
         }
     }
 
@@ -202,11 +202,19 @@ class Slide extends Media
         return $isValid;
     }
 
-    private function format_text(string $text, string $attribution) {
+    private function formatText(string $text, string $attribution) {
         $counter = 0;
-        $ret = '<text font-family="Biko, Multicolore, Helvetica, sans-serif" x="50%" y="'.(20 + ( (10/strlen($text)) * 75 )).'%" fill="#fff" font-size="4px"><tspan>';
+        $len = strlen($text);
+        $every = 16;
+        $font_size = 3.8;
+        if ($len > 140) {
+            $font_size = 3;
+            $every = 20;
+        }
+        // var_dump($len);die;
+        $ret = '<text font-family="Comfortaa, Helvetica, sans-serif" x="50%" y="'.(10 + ( (10/$len) * 100 )).'%" fill="#fff" font-size="'.$font_size.'px"><tspan>';
         foreach (str_split($text) as $char) {
-            if ($counter++ > 17 && $char === ' ') {
+            if ($counter++ > $every && $char === ' ') {
                 $counter = 0;
                 $ret .= '</tspan><tspan x="50%" dy="4">';
             }
@@ -215,18 +223,38 @@ class Slide extends Media
         return $ret . '</tspan><tspan font-size="2px" x="50%" dy="5">&#8212; '.$attribution.'</tspan></text>';
     }
 
+    private function formatImage(Image $image) {
+        $fn = $image->getFilename();
+        $final_width = 35;
+        $final_x = 10;
+        $final_y = 10;
+        if (file_exists($fn)) { // it wont exist on local
+            $size = getimagesize($fn);
+            $w = $size[1];
+            $h = $size[0];
+            $aspect_ratio = $w/$h;
+            if ($aspect_ratio > 1.3) {
+                $subtract = ($aspect_ratio-1.3)*200;
+                $final_width -= $subtract;
+                $final_x -= ($subtract/4);
+                $final_y -= ($subtract/2);
+            }
+        }
+        return '<image x="'.$final_x.'px" y="'.$final_y.'px" width="'.$final_width.'px" xlink:href="https://environmentaldashboard.org/cv/uploads/'.$image->getId().'"></image>';
+    }
+
     public function toArray()
     {
         return ['slide' => array_merge(parent::toArray()['media'], [
             'contentCategory' => $this->contentCategory ? $this->contentCategory->toArray() : null,
             'image' => $this->image ? $this->image->toArray() : null,//$this->image ? $this->image->toArray() : null,
             'quote' => $this->quote ? $this->quote->toArray() : null,//$this->quote ? $this->quote->toArray() : null,
-            'g' => $this->formattedText,
+            'g' => $this->formatImage($this->image) . $this->formattedText,
             'probability' => $this->probability,
             'decayPercent' => $this->decayPercent,
             'decayStart' => $this->decayStart,
             'decayEnd' => $this->decayEnd,
-            'SvgImagePos' => (file_exists($this->image->getFilename()) && getimagesize($this->image->getFilename())[1] > 400) ? 3 : 10,
+            // 'SvgImagePos' => $this->imagePos($this->image),
             'organizationCategoryCollection' => $this->organizationCategoryCollection
                 ? $this->organizationCategoryCollection->toArray()
                 : null

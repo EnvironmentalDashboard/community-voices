@@ -77,7 +77,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary mb-2">Submit</button>
               </form>
-              <p class="mt-5"><a id="prev-quote" href="" class="btn btn-sm btn-outline-primary">&#8592; Previous page</a> <a id="next-quote" href="" class="btn btn-sm btn-outline-primary float-right">&#8594; Next page</a></p>
+              <p class="mt-5"><a id="prev-quote" href="" class="btn btn-sm btn-outline-primary">&#8592; Previous page</a> <a id="next-quote" href="" class="btn btn-sm btn-outline-primary float-right">Next page &#8594;</a></p>
               <p class="mb-2 mt-0 d-inline">Select view:
                 <svg id="list-view" width="20" height="20" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg" style="position:relative;top:5px;fill:#21a7df"><path d="M832 1024v384q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90v-384q0-52 38-90t90-38h512q52 0 90 38t38 90zm0-768v384q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90v-384q0-52 38-90t90-38h512q52 0 90 38t38 90zm896 768v384q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90v-384q0-52 38-90t90-38h512q52 0 90 38t38 90zm0-768v384q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90v-384q0-52 38-90t90-38h512q52 0 90 38t38 90z"/></svg>
                 <svg id="gallery-view" width="20" height="20" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg" style="position:relative;top:5px;left:5px;fill:#333"><path d="M256 1312v192q0 13-9.5 22.5t-22.5 9.5h-192q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h192q13 0 22.5 9.5t9.5 22.5zm0-384v192q0 13-9.5 22.5t-22.5 9.5h-192q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h192q13 0 22.5 9.5t9.5 22.5zm0-384v192q0 13-9.5 22.5t-22.5 9.5h-192q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h192q13 0 22.5 9.5t9.5 22.5zm1536 768v192q0 13-9.5 22.5t-22.5 9.5h-1344q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1344q13 0 22.5 9.5t9.5 22.5zm-1536-1152v192q0 13-9.5 22.5t-22.5 9.5h-192q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h192q13 0 22.5 9.5t9.5 22.5zm1536 768v192q0 13-9.5 22.5t-22.5 9.5h-1344q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1344q13 0 22.5 9.5t9.5 22.5zm0-384v192q0 13-9.5 22.5t-22.5 9.5h-1344q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1344q13 0 22.5 9.5t9.5 22.5zm0-384v192q0 13-9.5 22.5t-22.5 9.5h-1344q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1344q13 0 22.5 9.5t9.5 22.5z"/></svg>
@@ -86,7 +86,28 @@
             </div></div>
             <div><div style="display:none;min-height:400px" id="ajax-images">
               <h2 class="mb-4">Select an image</h2>
-              <p><a id="prev-image" href="" class="btn btn-outline-primary">&#8592; Previous page</a> <a id="next-image" href="" class="btn btn-outline-primary float-right">&#8594; Next page</a></p>
+              <form class="form-inline float-right" action="" method="GET" id="filter-images">
+                <label class="sr-only" for="search-images">Search images</label>
+                <input type="text" class="form-control mb-2 mr-sm-2" id="search-images" placeholder="Search" />
+                <label class="sr-only" for="image-tags">Tags</label>
+                <select class="form-control" id="image-tags" style="max-width:150px">
+                  <option value="">Select tag</option>
+                  <xsl:for-each select="domain/groupCollection/group">
+                    <option>
+                      <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
+                      <xsl:value-of select="label"></xsl:value-of>
+                    </option>
+                  </xsl:for-each>
+                </select>
+                <div class="form-check mb-2 mr-sm-2">
+                  <input class="form-check-input" type="checkbox" id="image-unused" />
+                  <label class="form-check-label" for="image-unused">
+                    Show only unpaired images
+                  </label>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+              </form>
+              <p class="mt-5"><a id="prev-image" href="" class="btn btn-sm btn-outline-primary">&#8592; Previous page</a> <a id="next-image" href="" class="btn btn-sm btn-outline-primary float-right">Next page &#8594;</a></p>
               <div class="selectables"></div>
             </div></div>
             <div><div style="display:none" id="content-categories">

@@ -147,11 +147,12 @@ class Slide extends Component\View
          * Gather slide information
          */
         $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
+        $json = json_decode($slideAPIView->getSlide()->getContent());
+
+        $json->slide->g = htmlspecialchars($json->slide->g);
 
         $slideXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $slideAPIView->getSlide()->getContent()
-            ))
+            $this->transcriber->toXml($json)
         );
 
         /**
@@ -190,6 +191,7 @@ class Slide extends Component\View
             $slideXMLElement->id
         );
         $domainXMLElement->addChild('navbarSection', "slide");
+        $domainXMLElement->addChild('comfortaa', "1");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -255,6 +257,7 @@ class Slide extends Component\View
             "Community Voices: Slide Upload"
         );
         $domainXMLElement->addChild('extraJS', "create-slide");
+        $domainXMLElement->addChild('comfortaa', "1");
 
 
         $presentation = new Component\Presenter('SinglePane');

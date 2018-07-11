@@ -96,6 +96,7 @@ class Landing extends Component\View
             "Community Voices: Landing Page"
         );
         $domainXMLElement->addChild('extraJS', 'landing');
+        $domainXMLElement->addChild('comfortaa', "1");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
