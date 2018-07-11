@@ -33,6 +33,7 @@
               <div class="form-group">
                 <label for="quote-tags">Tags</label>
                 <select class="form-control" id="quote-tags" >
+                  <option value="">All</option>
                   <xsl:for-each select="domain/groupCollection/group">
                     <option>
                       <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
@@ -44,6 +45,7 @@
               <div class="form-group">
                 <label for="quote-attributions">Attribution</label>
                 <select class="form-control" id="quote-attributions" >
+                  <option value="">All</option>
                   <xsl:for-each select="domain/attributionCollection/attribution">
                     <option>
                       <xsl:attribute name="value"><xsl:value-of select='.' /></xsl:attribute>
@@ -69,6 +71,7 @@
               <div class="form-group">
                 <label for="image-tags">Tags</label>
                 <select class="form-control" id="image-tags" >
+                  <option value="">All</option>
                   <xsl:for-each select="domain/groupCollection/group">
                     <option>
                       <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>

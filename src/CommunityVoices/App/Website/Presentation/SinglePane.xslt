@@ -101,18 +101,21 @@
                     }
                     getImage(1);
                     $(document).on('click', '.ajax-quote', function(e) {
+                        $('#preview-text').remove();
                         var s = $(this).data('text');
                         var text = formatText(s);
                         $('#render').append(text);
                         $("input[name='quote_id']").val($(this).data('id'));
                     });
                     $(document).on('click', '.ajax-image', function(e) {
-                        var image = makeSVG('image', {x: 10, y: 10, width: '35%', 'xlink:href': 'https://api.environmentaldashboard.org/cv/uploads/'+$(this).data('id')});
+                        $('#preview-image').remove();
+                        var image = makeSVG('image', {id: 'preview-image', x: 10, y: 10, width: '35%', 'xlink:href': 'https://api.environmentaldashboard.org/cv/uploads/'+$(this).data('id')});
                         $('#render').prepend(image);
                         $("input[name='image_id']").val($(this).data('id'));
                     });
                     $('#content-categories img').on('click', function() {
-                        var image = makeSVG('image', {x: 0, y: 5, width: '100%', 'xlink:href': $(this).attr('src')});
+                        $('#preview-cc').remove();
+                        var image = makeSVG('image', {id: 'preview-cc', x: 0, y: 5, width: '100%', 'xlink:href': $(this).attr('src')});
                         //document.getElementById('render').appendChild(image);
                         $('#render').append(image);
                         $("input[name='content_category']").val($(this).data('id'));
@@ -180,7 +183,7 @@
                         quote_search = $('#search-quotes').val();
                         quote_tags = $('#quote-tags').val();
                         quote_attrs = $('#quote-attributions').val();
-                        quote_unused = ($('#quote-unused').val() === 'on') ? 1 : 0;
+                        quote_unused = ($('#quote-unused').is(':checked')) ? 1 : 0;
                         $quote_container.find('.selectables').empty();
                         getQuote(current_quote);
                     });
@@ -188,7 +191,7 @@
                         e.preventDefault();
                         image_search = $('#search-quotes').val();
                         image_tags = $('#quote-tags').val();
-                        image_unused = ($('#image-unused').val() === 'on') ? 1 : 0;
+                        image_unused = ($('#image-unused').is(':checked')) ? 1 : 0;
                         $image_container.find('.selectables').empty();
                         getImage(current_image);
                     });
@@ -204,7 +207,7 @@
                         return el;
                     }
                     function formatText (s) {
-                        var text = makeSVG('text', {x: '50%', y: (25 + ( (10/s.length) * 75 ))+'%', fill: '#fff', 'font-size': '4px', 'font-family': 'Biko, Multicolore, Helvetica, sans-serif'});
+                        var text = makeSVG('text', {id: 'preview-text', x: '50%', y: (25 + ( (10/s.length) * 75 ))+'%', fill: '#fff', 'font-size': '4px', 'font-family': 'Biko, Multicolore, Helvetica, sans-serif'});
                         var arr = [];
                         arr[0] = '';
                         var tspans = 0, counter = 0;
