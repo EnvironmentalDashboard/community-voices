@@ -126,6 +126,8 @@
                         $(this).addClass('active');
                         $prev_btn.removeClass('active');
                         $prev_btn = $(this);
+                        $('#filter-quotes').css('display', '');
+                        $('#filter-images').css('display', 'none');
                     });
                     $('#img-btn').on('click', function(e) {
                         e.preventDefault();
@@ -135,6 +137,8 @@
                         $(this).addClass('active');
                         $prev_btn.removeClass('active');
                         $prev_btn = $(this);
+                        $('#filter-quotes').css('display', 'none');
+                        $('#filter-images').css('display', '');
                     });
                     $('#cc-btn').on('click', function(e) {
                         e.preventDefault();
