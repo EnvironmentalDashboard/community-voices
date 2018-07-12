@@ -45,7 +45,6 @@
                     </div>
                   </xsl:for-each>
                 </div>
-
               </div>
               <div class="form-group">
                 <label for="attributions">Attribution</label>
@@ -66,8 +65,6 @@
                     </div>
                   </xsl:for-each>
                 </div>
-
-                
               </div>
             </div>
             <div class="card-footer bg-transparent"><button type="button" id="reset" class="btn btn-secondary">Reset</button> <button type="submit" class="btn btn-primary">Search</button></div>

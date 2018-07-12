@@ -30,9 +30,10 @@
                 <label for="search-quotes">Search quotes</label>
                 <input type="text" class="form-control" id="search-quotes" placeholder="Search" />
               </div>
+
               <div class="form-group">
                 <label for="quote-tags">Tags</label>
-                <select class="form-control" id="quote-tags" >
+                <select class="form-control" id="quote-tags">
                   <option value="">All</option>
                   <xsl:for-each select="domain/groupCollection/group">
                     <option>
@@ -42,6 +43,7 @@
                   </xsl:for-each>
                 </select>
               </div>
+
               <div class="form-group">
                 <label for="quote-attributions">Attribution</label>
                 <select class="form-control" id="quote-attributions" >
@@ -54,6 +56,7 @@
                   </xsl:for-each>
                 </select>
               </div>
+              
               <div class="form-check mb-2">
                 <input class="form-check-input" type="checkbox" id="quote-unused" />
                 <label class="form-check-label" for="quote-unused">
