@@ -74,10 +74,9 @@
                             $.each(data['quoteCollection'], function(index, element) {
                                 if (typeof element === 'object') {
                                     if (list_view) {
-                                        //html += '<li class="list-group-item ajax-quote" data-id="'+element['quote']['id']+'" data-text="'+element['quote']['text']+'">'+element['quote']['text']+'</li>';
-                                        html += '<li class="list-group-item ajax-quote" data-id="'+element['quote']['id']+'" data-text="'+element['quote']['text']+'"><blockquote class="blockquote mb-0"><p>'+element['quote']['text']+'</p><footer class="blockquote-footer">'+element['quote']['attribution']+'</footer></blockquote></li>';
+                                        html += '<li class="list-group-item ajax-quote" data-id="'+element['quote']['id']+'" data-text="'+element['quote']['text']+'" data-attribution="'+element['quote']['attribution']+'"><blockquote class="blockquote mb-0"><p>'+element['quote']['text']+'</p><footer class="blockquote-footer">'+element['quote']['attribution']+'</footer></blockquote></li>';
                                     } else {
-                                        html += '<div class="card p-3 ajax-quote" data-id="'+element['quote']['id']+'" data-text="'+element['quote']['text']+'"><blockquote class="blockquote mb-0 card-body"><p>' + element['quote']['text'] + '</p><footer class="blockquote-footer"><small class="text-muted">' + element['quote']['attribution'] + '</small></footer></blockquote></div>';
+                                        html += '<div class="card p-3 ajax-quote" data-id="'+element['quote']['id']+'" data-text="'+element['quote']['text']+'" data-attribution="'+element['quote']['attribution']+'"><blockquote class="blockquote mb-0 card-body"><p>' + element['quote']['text'] + '</p><footer class="blockquote-footer"><small class="text-muted">' + element['quote']['attribution'] + '</small></footer></blockquote></div>';
                                     }
                                 }
                             });
@@ -102,13 +101,15 @@
                     $(document).on('click', '.ajax-quote', function(e) {
                         $('#preview-text').remove();
                         var s = $(this).data('text');
-                        var text = formatText(s);
+                        var text = formatText(s, $(this).data('attribution'));
                         $('#render').append(text);
                         $("input[name='quote_id']").val($(this).data('id'));
                     });
                     $(document).on('click', '.ajax-image', function(e) {
                         $('#preview-image').remove();
-                        var image = makeSVG('image', {id: 'preview-image', x: 10, y: 10, width: '35%', 'xlink:href': 'https://api.environmentaldashboard.org/cv/uploads/'+$(this).data('id')});
+                        var w = this.clientWidth, h = this.clientHeight;
+                        console.log(((1/h)*2000));
+                        var image = makeSVG('image', {id: 'preview-image', x: 10, y: ((1/h)*2000), width: (25+((1/h)*2000)) + '%', 'xlink:href': 'https://api.environmentaldashboard.org/cv/uploads/'+$(this).data('id')});
                         $('#render').prepend(image);
                         $("input[name='image_id']").val($(this).data('id'));
                     });
@@ -217,8 +218,8 @@
                         }
                         return el;
                     }
-                    function formatText (s) {
-                        var text = makeSVG('text', {id: 'preview-text', x: '50%', y: (25 + ( (10/s.length) * 75 ))+'%', fill: '#fff', 'font-size': '4px', 'font-family': 'Biko, Multicolore, Helvetica, sans-serif'});
+                    function formatText (s, attribution) {
+                        var text = makeSVG('text', {id: 'preview-text', x: '50%', y: (10 + ( (10/s.length) * 75 ))+'%', fill: '#fff', 'font-size': '4px', 'font-family': 'Comfortaa, Helvetica, sans-serif'});
                         var arr = [];
                         arr[0] = '';
                         var tspans = 0, counter = 0;
@@ -236,24 +237,11 @@
                             tspan = $(tspan).text(arr[i]);
                             text.append(tspan[0]);
                         }
+                        tspan = makeSVG('tspan', {dy: 4, x: '50%', 'font-size': '2px'});
+                        tspan = $(tspan).text('— ' + attribution);
+                        text.append(tspan[0]);
                         return text;
                     }
-                    var css = `@font-face {
-                              font-family: 'Biko';
-                              src: url('https://environmentaldashboard.org/fonts/biko/Biko_Regular.otf');
-                                }
-                              text {font-family: 'Biko';}`,
-                        head = document.head || document.getElementsByTagName('head')[0],
-                        style = document.createElement('style');
-
-                    style.type = 'text/css';
-                    if (style.styleSheet){
-                      // This is required for IE8 and below.
-                      style.styleSheet.cssText = css;
-                    } else {
-                      style.appendChild(document.createTextNode(css));
-                    }
-                    head.appendChild(style);
                     ]]>
                 </script>
             </xsl:if>
@@ -290,10 +278,10 @@
                                     var text_parent = $(items[index]).find('#render');
 
                                     var s = element['slide']['quote']['quote']['text'];
-                                    var tmp = $('#tmp');
+                                    var tmp = $('#tmp'); // TODO: fix
                                     s = tmp.html(s).text();
                                     tmp.html('');
-                                    var text = formatText(s);
+                                    var text = formatText(s, element['slide']['quote']['quote']['attribution']);
                                     text_parent.append(text);
                                 }
                             });
@@ -311,7 +299,7 @@
                         }
                         return el;
                     }
-                    function formatText (s) {
+                    function formatText (s, attribution) {
                         var text = makeSVG('text', {x: '50%', y: (25 + ( (10/s.length) * 75 ))+'%', fill: '#fff', 'font-size': '4px', 'font-family': 'Biko, Multicolore, Helvetica, sans-serif'});
                         var arr = [];
                         arr[0] = '';
