@@ -193,4 +193,30 @@ class ImageLookup
 
         // clientState stuff
     }
+
+    public function photographers($stateObserver, $return = false) {
+        $attributionCollection = new \stdClass;
+        $attributionMapper = $this->mapperFactory->createDataMapper(Mapper\ImageCollection::class);
+        $attributionMapper->photographers($attributionCollection);
+        $stateObserver->setSubject('imageLookup');
+        $stateObserver->addEntry('photographer', $attributionCollection);
+        if ($return) {
+            return $stateObserver;
+        }
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($stateObserver);
+    }
+
+    public function orgs($stateObserver, $return = false) {
+        $attributionCollection = new \stdClass;
+        $attributionMapper = $this->mapperFactory->createDataMapper(Mapper\ImageCollection::class);
+        $attributionMapper->orgs($attributionCollection);
+        $stateObserver->setSubject('imageLookup');
+        $stateObserver->addEntry('org', $attributionCollection);
+        if ($return) {
+            return $stateObserver;
+        }
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($stateObserver);
+    }
 }

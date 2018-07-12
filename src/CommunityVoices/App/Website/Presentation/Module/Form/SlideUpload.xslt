@@ -115,6 +115,48 @@
                   </div>
                 </div>
 
+                <div class="form-group">
+                  <p class="mb-0">Photographer</p>
+                  <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
+                    <xsl:for-each select="domain/PhotographerCollection/photographer">
+                      <div class="form-check">
+                        <input class="form-check-input photo-check" type="checkbox" name="photographers[]">
+                          <xsl:attribute name="id">photographer<xsl:value-of select="position()"></xsl:value-of></xsl:attribute>
+                          <xsl:if test="contains($photographers, concat(',', ., ','))">
+                            <xsl:attribute name="checked">checked</xsl:attribute>
+                          </xsl:if>
+                          <xsl:attribute name="value"><xsl:value-of select='.' /></xsl:attribute>
+                        </input>
+                        <label class="form-check-label">
+                          <xsl:attribute name="for">photographer<xsl:value-of select='position()' /></xsl:attribute>
+                          <xsl:value-of select="."></xsl:value-of>
+                        </label>
+                      </div>
+                    </xsl:for-each>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <p class="mb-0">Organization</p>
+                  <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
+                    <xsl:for-each select="domain/OrgCollection/org">
+                      <div class="form-check">
+                        <input class="form-check-input org-check" type="checkbox" name="orgs[]">
+                          <xsl:attribute name="id">org<xsl:value-of select="position()"></xsl:value-of></xsl:attribute>
+                          <xsl:if test="contains($orgs, concat(',', ., ','))">
+                            <xsl:attribute name="checked">checked</xsl:attribute>
+                          </xsl:if>
+                          <xsl:attribute name="value"><xsl:value-of select='.' /></xsl:attribute>
+                        </input>
+                        <label class="form-check-label">
+                          <xsl:attribute name="for">org<xsl:value-of select='position()' /></xsl:attribute>
+                          <xsl:value-of select="."></xsl:value-of>
+                        </label>
+                      </div>
+                    </xsl:for-each>
+                  </div>
+                </div>
+
                 <div class="form-check mb-2">
                   <input class="form-check-input" type="checkbox" id="image-unused" />
                   <label class="form-check-label" for="image-unused">

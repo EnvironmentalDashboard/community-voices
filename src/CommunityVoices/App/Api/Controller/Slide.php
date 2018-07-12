@@ -14,12 +14,14 @@ class Slide
         Service\SlideLookup $slideLookup,
         Service\SlideManagement $slideManagement,
         Service\TagLookup $tagLookup,
-        Service\QuoteLookup $quoteLookup
+        Service\QuoteLookup $quoteLookup,
+        Service\ImageLookup $imageLookup
     ) {
         $this->slideLookup = $slideLookup;
         $this->slideManagement = $slideManagement;
         $this->tagLookup = $tagLookup;
         $this->quoteLookup = $quoteLookup;
+        $this->imageLookup = $imageLookup;
     }
 
     /**
@@ -53,7 +55,10 @@ class Slide
     public function getSlideUpload()
     {
         $stateObserver = $this->tagLookup->findAll(true);
+        $stateObserver = $this->imageLookup->photographers($stateObserver, true);
+        $stateObserver = $this->imageLookup->orgs($stateObserver, true);
         $this->quoteLookup->attributions($stateObserver);
+
     }
 
     public function postSlideUpload($request, $identity)

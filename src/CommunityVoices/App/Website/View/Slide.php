@@ -207,7 +207,7 @@ class Slide extends Component\View
     public function getSlideUpload($routes, $context)
     {
         parse_str($_SERVER['QUERY_STRING'], $qs);
-        
+
         $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
         $json = json_decode($slideAPIView->getSlideUpload()->getContent());
 
@@ -223,11 +223,23 @@ class Slide extends Component\View
             $this->transcriber->toXml($obj)
         );
 
-        $obj2 = new \stdClass;
-        $obj2->attributionCollection = $json->attributionCollection;
+        $obj = new \stdClass;
+        $obj->attributionCollection = $json->attributionCollection;
         $attrXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($obj2)
-        );        
+            $this->transcriber->toXml($obj)
+        );
+
+        $obj = new \stdClass;
+        $obj->PhotographerCollection = $json->PhotographerCollection;
+        $photoXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($obj)
+        );
+
+        $obj = new \stdClass;
+        $obj->OrgCollection = $json->OrgCollection;
+        $orgXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($obj)
+        );
 
         $paramXML = new SimpleXMLElement('<form/>');
         $formModule = new Component\Presenter('Module/Form/SlideUpload');
@@ -238,6 +250,8 @@ class Slide extends Component\View
         $packagedSlide = $slidePackageElement->addChild('domain');
         $packagedSlide->adopt($slideXMLElement);
         $packagedSlide->adopt($attrXMLElement);
+        $packagedSlide->adopt($photoXMLElement);
+        $packagedSlide->adopt($orgXMLElement);
         $packagedIdentity = $slidePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
         $slideModule = new Component\Presenter('Module/Form/SlideUpload');

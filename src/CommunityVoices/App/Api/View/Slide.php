@@ -49,13 +49,18 @@ class Slide
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
+
         $stateObserver->setSubject('tagLookup');
         $tag = $stateObserver->getEntry('tag')[0]->toArray();
 
         $stateObserver->setSubject('quoteLookup');
         $quote_attributions['attributionCollection'] = $stateObserver->getEntry('attribution')[0]->allAttributions;
 
-        $response = new HttpFoundation\JsonResponse(array_merge($tag, $quote_attributions));
+        $stateObserver->setSubject('imageLookup');
+        $image_photographers['PhotographerCollection'] = $stateObserver->getEntry('photographer')[0]->allPhotographers;
+        $image_orgs['OrgCollection'] = $stateObserver->getEntry('org')[0]->allOrgs;
+
+        $response = new HttpFoundation\JsonResponse(array_merge($tag, $quote_attributions, $image_photographers, $image_orgs));
 
         return $response;
     }

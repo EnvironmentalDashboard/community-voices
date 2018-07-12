@@ -59,7 +59,7 @@
                     <![CDATA[
                     var current_quote = 1, current_image = 1;
                     var quote_search = '', quote_tags = [], quote_attrs = [], quote_unused = 0;
-                    var image_search = '', image_tags = [];
+                    var image_search = '', image_tags = [], photographers = [], orgs = [];
                     var list_view = true;
                     var $quote_container = $('#ajax-quotes');
                     var $image_container = $('#ajax-images');
@@ -86,7 +86,7 @@
                     }
                     getQuote(1);
                     function getImage(page) {
-                        $.getJSON('https://api.environmentaldashboard.org/cv/images', { per_page: 8, page: page, search: image_search, tags: image_tags }, function(data) {
+                        $.getJSON('https://api.environmentaldashboard.org/cv/images', { per_page: 8, page: page, search: image_search, tags: image_tags, photographers: photographers, orgs: orgs }, function(data) {
                             var html = '<div class="card-columns">';
                             $.each(data['imageCollection'], function(index, element) {
                                 if (typeof element === 'object') {
@@ -202,6 +202,12 @@
                         image_tags = [];
                         $('.itag-check:checkbox:checked').each(function() {
                             image_tags.push((this).val());
+                        });
+                        $('.photo-check:checkbox:checked').each(function() {
+                            photographers.push($(this).val());
+                        });
+                        $('.org-check:checkbox:checked').each(function() {
+                            orgs.push($(this).val());
                         });
                         image_unused = ($('#image-unused').is(':checked')) ? 1 : 0;
                         $image_container.find('.selectables').empty();
