@@ -29,30 +29,45 @@
               </div>
               <div class="form-group">
                 <label for="tags">Tags</label>
-                <select multiple="" class="form-control" id="tags" name="tags[]">
+                <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
                   <xsl:for-each select="domain/groupCollection/group">
-                    <option>
-                      <xsl:if test="contains($tags, concat(',', id, ','))">
-                        <xsl:attribute name="selected">selected</xsl:attribute>
-                      </xsl:if>
-                      <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
-                      <xsl:value-of select="label"></xsl:value-of>
-                    </option>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="tags[]" id="tag{id}">
+                        <xsl:if test="contains($tags, concat(',', id, ','))">
+                          <xsl:attribute name="checked">checked</xsl:attribute>
+                        </xsl:if>
+                        <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
+                      </input>
+                      <label class="form-check-label">
+                        <xsl:attribute name="for">tag<xsl:value-of select='id' /></xsl:attribute>
+                        <xsl:value-of select="label"></xsl:value-of>
+                      </label>
+                    </div>
                   </xsl:for-each>
-                </select>
+                </div>
+
               </div>
               <div class="form-group">
                 <label for="attributions">Attribution</label>
-                <select multiple="" class="form-control" id="attributions" name="attributions[]">
+                <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
                   <xsl:for-each select="domain/allAttributions/attribution">
-                    <option value="{.}">
-                      <xsl:if test="contains($attributions, concat(',', ., ','))">
-                        <xsl:attribute name="selected">selected</xsl:attribute>
-                      </xsl:if>
-                      <xsl:value-of select="."></xsl:value-of>
-                    </option>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="attributions[]">
+                        <xsl:attribute name="id">attribution<xsl:value-of select="position()"></xsl:value-of></xsl:attribute>
+                        <xsl:if test="contains($tags, concat(',', ., ','))">
+                          <xsl:attribute name="checked">checked</xsl:attribute>
+                        </xsl:if>
+                        <xsl:attribute name="value"><xsl:value-of select='.' /></xsl:attribute>
+                      </input>
+                      <label class="form-check-label">
+                        <xsl:attribute name="for">attribution<xsl:value-of select='position()' /></xsl:attribute>
+                        <xsl:value-of select="."></xsl:value-of>
+                      </label>
+                    </div>
                   </xsl:for-each>
-                </select>
+                </div>
+
+                
               </div>
             </div>
             <div class="card-footer bg-transparent"><button type="button" id="reset" class="btn btn-secondary">Reset</button> <button type="submit" class="btn btn-primary">Search</button></div>

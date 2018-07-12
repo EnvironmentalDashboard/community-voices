@@ -12,7 +12,6 @@
             <title> <xsl:value-of select="title" /> </title>
 
             <link rel="stylesheet" href="https://environmentaldashboard.org/css/bootstrap.css"/>
-            <!-- <base href="/cv/"/> -->
             <xsl:if test="comfortaa != ''">
                 <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet" />
             </xsl:if>
