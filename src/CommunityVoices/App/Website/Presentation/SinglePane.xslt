@@ -58,8 +58,8 @@
                 <script>
                     <![CDATA[
                     var current_quote = 1, current_image = 1;
-                    var quote_search = '', quote_tags = '', quote_attrs = '', quote_unused = 0;
-                    var image_search = '', image_tags = '';
+                    var quote_search = '', quote_tags = [], quote_attrs = [], quote_unused = 0;
+                    var image_search = '', image_tags = [];
                     var list_view = true;
                     var $quote_container = $('#ajax-quotes');
                     var $image_container = $('#ajax-images');
@@ -67,7 +67,7 @@
                     function getQuote(page) {
                         $.getJSON('https://api.environmentaldashboard.org/cv/quotes', { per_page: 10, page: page, search: quote_search, tags: quote_tags, attributions: quote_attrs, unused: quote_unused }, function(data) {
                             if (list_view) {
-                                var html = '<div class="card"><div class="card-header">Quotes</div><ul class="list-group list-group-flush">';
+                                var html = '<div class="card"><div class="card-header">Quotes <span class="float-right">Select view: <svg id="list-view" width="20" height="20" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg" style="position:relative;top:5px;fill:#21a7df"><path d="M832 1024v384q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90v-384q0-52 38-90t90-38h512q52 0 90 38t38 90zm0-768v384q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90v-384q0-52 38-90t90-38h512q52 0 90 38t38 90zm896 768v384q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90v-384q0-52 38-90t90-38h512q52 0 90 38t38 90zm0-768v384q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90v-384q0-52 38-90t90-38h512q52 0 90 38t38 90z"/></svg> <svg id="gallery-view" width="20" height="20" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg" style="position:relative;top:5px;left:5px;fill:#333"><path d="M256 1312v192q0 13-9.5 22.5t-22.5 9.5h-192q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h192q13 0 22.5 9.5t9.5 22.5zm0-384v192q0 13-9.5 22.5t-22.5 9.5h-192q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h192q13 0 22.5 9.5t9.5 22.5zm0-384v192q0 13-9.5 22.5t-22.5 9.5h-192q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h192q13 0 22.5 9.5t9.5 22.5zm1536 768v192q0 13-9.5 22.5t-22.5 9.5h-1344q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1344q13 0 22.5 9.5t9.5 22.5zm-1536-1152v192q0 13-9.5 22.5t-22.5 9.5h-192q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h192q13 0 22.5 9.5t9.5 22.5zm1536 768v192q0 13-9.5 22.5t-22.5 9.5h-1344q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1344q13 0 22.5 9.5t9.5 22.5zm0-384v192q0 13-9.5 22.5t-22.5 9.5h-1344q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1344q13 0 22.5 9.5t9.5 22.5zm0-384v192q0 13-9.5 22.5t-22.5 9.5h-1344q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1344q13 0 22.5 9.5t9.5 22.5z"/></svg></span></div><ul class="list-group list-group-flush">';
                             } else {
                                 var html = '<div class="card-columns">';
                             }
@@ -128,8 +128,8 @@
                         $(this).addClass('active');
                         $prev_btn.removeClass('active');
                         $prev_btn = $(this);
-                        $('#filter-quotes').css('display', '');
-                        $('#filter-images').css('display', 'none');
+                        $('#filter-quotes').parent().css('display', '');
+                        $('#filter-images').parent().css('display', 'none');
                     });
                     $('#img-btn').on('click', function(e) {
                         e.preventDefault();
@@ -139,8 +139,8 @@
                         $(this).addClass('active');
                         $prev_btn.removeClass('active');
                         $prev_btn = $(this);
-                        $('#filter-quotes').css('display', 'none');
-                        $('#filter-images').css('display', '');
+                        $('#filter-quotes').parent().css('display', 'none');
+                        $('#filter-images').parent().css('display', '');
                     });
                     $('#cc-btn').on('click', function(e) {
                         e.preventDefault();
@@ -150,6 +150,8 @@
                         $(this).addClass('active');
                         $prev_btn.removeClass('active');
                         $prev_btn = $(this);
+                        $('#filter-quotes').parent().css('display', 'none');
+                        $('#filter-images').parent().css('display', 'none');
                     });
                     $('#next-quote').on('click', function(e) {
                         e.preventDefault();
@@ -180,8 +182,15 @@
                     $('#filter-quotes').on('submit', function(e) {
                         e.preventDefault();
                         quote_search = $('#search-quotes').val();
+                        quote_tags = [];
+                        $('.qtag-check:checkbox:checked').each(function() {
+                            quote_tags.push($(this).val());
+                        });
                         quote_tags = $('#quote-tags').val();
-                        quote_attrs = $('#quote-attributions').val();
+                        quote_attrs = [];
+                        $('.attr-check:checkbox:checked').each(function() {
+                            quote_attrs.push($(this).val());
+                        });
                         quote_unused = ($('#quote-unused').is(':checked')) ? 1 : 0;
                         $quote_container.find('.selectables').empty();
                         getQuote(current_quote);
@@ -189,7 +198,10 @@
                     $('#filter-images').on('submit', function(e) {
                         e.preventDefault();
                         image_search = $('#search-quotes').val();
-                        image_tags = $('#quote-tags').val();
+                        image_tags = [];
+                        $('.itag-check:checkbox:checked').each(function() {
+                            image_tags.push((this).val());
+                        });
                         image_unused = ($('#image-unused').is(':checked')) ? 1 : 0;
                         $image_container.find('.selectables').empty();
                         getImage(current_image);

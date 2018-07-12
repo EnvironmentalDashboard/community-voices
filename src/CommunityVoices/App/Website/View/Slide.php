@@ -206,6 +206,8 @@ class Slide extends Component\View
 
     public function getSlideUpload($routes, $context)
     {
+        parse_str($_SERVER['QUERY_STRING'], $qs);
+        
         $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
         $json = json_decode($slideAPIView->getSlideUpload()->getContent());
 
@@ -258,6 +260,14 @@ class Slide extends Component\View
         );
         $domainXMLElement->addChild('extraJS', "create-slide");
         $domainXMLElement->addChild('comfortaa', "1");
+
+        foreach ($qs as $key => $value) {
+            if ($key === 'search') {
+                $domainXMLElement->addChild($key, $value);
+            } else {
+                $domainXMLElement->addChild($key, (is_array($value)) ? ','.implode(',', $value).',' : ','.$value.',');
+            }
+        }
 
 
         $presentation = new Component\Presenter('SinglePane');

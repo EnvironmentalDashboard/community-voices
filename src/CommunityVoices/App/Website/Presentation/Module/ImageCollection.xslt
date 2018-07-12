@@ -31,7 +31,7 @@
 	        		</div>
 
 	        		<div class="form-group">
-                <label for="tags">Tags</label>
+                <p class="mb-0">Tags</p>
                 <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
                   <xsl:for-each select="domain/groupCollection/group">
                     <div class="form-check">
@@ -51,7 +51,7 @@
               </div>
 
               <div class="form-group">
-                <label for="photographers">Photographer</label>
+                <p class="mb-0">Photographer</p>
                 <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
                   <xsl:for-each select="domain/allPhotographers/photographer">
                     <div class="form-check">
@@ -72,7 +72,7 @@
               </div>
 
               <div class="form-group">
-                <label for="orgs">Organization</label>
+                <p class="mb-0">Organization</p>
                 <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
                   <xsl:for-each select="domain/allOrgs/org">
                     <div class="form-check">

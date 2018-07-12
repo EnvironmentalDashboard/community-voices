@@ -28,7 +28,7 @@
                 <input type="text" class="form-control" name="search" id="search" placeholder="Enter search terms" value="{$search}" />
               </div>
               <div class="form-group">
-                <label for="tags">Tags</label>
+                <p class="mb-0">Tags</p>
                 <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
                   <xsl:for-each select="domain/groupCollection/group">
                     <div class="form-check">
@@ -47,13 +47,13 @@
                 </div>
               </div>
               <div class="form-group">
-                <label for="attributions">Attribution</label>
+                <p class="mb-0">Attribution</p>
                 <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
                   <xsl:for-each select="domain/allAttributions/attribution">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="attributions[]">
                         <xsl:attribute name="id">attribution<xsl:value-of select="position()"></xsl:value-of></xsl:attribute>
-                        <xsl:if test="contains($tags, concat(',', ., ','))">
+                        <xsl:if test="contains($attributions, concat(',', ., ','))">
                           <xsl:attribute name="checked">checked</xsl:attribute>
                         </xsl:if>
                         <xsl:attribute name="value"><xsl:value-of select='.' /></xsl:attribute>
