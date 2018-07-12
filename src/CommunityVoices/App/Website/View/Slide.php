@@ -65,6 +65,9 @@ class Slide extends Component\View
             $slide->slide->quote->quote->text = htmlspecialchars($slide->slide->quote->quote->text);
             $slide->slide->quote->quote->attribution = htmlspecialchars($slide->slide->quote->quote->attribution);
             $slide->slide->quote->quote->subAttribution = htmlspecialchars($slide->slide->quote->quote->subAttribution);
+            $slide->slide->quote->quote->attribution = htmlspecialchars($slide->slide->quote->quote->attribution);
+            $slide->slide->quote->quote->text = htmlspecialchars($slide->slide->quote->quote->text);
+            $slide->slide->image->image->title = htmlspecialchars($slide->slide->image->image->title);
             // $fn = $slide->slide->image->image->filename;
             // $slide->slide->image->image->SvgImagePos = (file_exists($fn) && getimagesize($fn)[1] > 400) ? 3 : 10;
             // var_dump($slide->slide->SvgImagePos);die;

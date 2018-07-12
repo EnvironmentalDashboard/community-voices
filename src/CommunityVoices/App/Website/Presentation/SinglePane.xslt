@@ -108,7 +108,6 @@
                     $(document).on('click', '.ajax-image', function(e) {
                         $('#preview-image').remove();
                         var w = this.clientWidth, h = this.clientHeight;
-                        console.log(((1/h)*2000));
                         var image = makeSVG('image', {id: 'preview-image', x: 10, y: ((1/h)*2000), width: (25+((1/h)*2000)) + '%', 'xlink:href': 'https://api.environmentaldashboard.org/cv/uploads/'+$(this).data('id')});
                         $('#render').prepend(image);
                         $("input[name='image_id']").val($(this).data('id'));

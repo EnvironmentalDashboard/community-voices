@@ -73,7 +73,7 @@ class Slide
     private function convert_from_latin1_to_utf8_recursively($dat)
     { // TODO: fix!
       if (is_string($dat)) {
-         return utf8_encode($dat);
+         return htmlspecialchars(utf8_encode($dat));
       } elseif (is_array($dat)) {
          $ret = [];
          foreach ($dat as $i => $d) $ret[ $i ] = self::convert_from_latin1_to_utf8_recursively($d);

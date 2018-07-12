@@ -206,7 +206,7 @@ class Slide extends Media
         $counter = 0;
         $len = strlen($text);
         $every = 16;
-        $font_size = 3.8;
+        $font_size = 3.7;
         if ($len > 140) {
             $font_size = 3;
             $every = 20;
@@ -220,7 +220,17 @@ class Slide extends Media
             }
             $ret .= $char;
         }
-        return $ret . '</tspan><tspan font-size="2px" x="50%" dy="5">&#8212; '.$attribution.'</tspan></text>';
+        $ret .= '</tspan><tspan font-size="2px" x="50%" dy="5">&#8212; ';
+        $once = 0;
+        if (strlen($attribution) > 10) {
+            foreach (explode(',', $attribution) as $part) {
+                if ($once++ === 1) {
+                    $ret .= ',</tspan><tspan font-size="2px" x="52%" dy="2">';
+                }
+                $ret .= $part;
+            }
+        }
+        return $ret . '</tspan></text>';
     }
 
     private function formatImage(Image $image) {
@@ -232,15 +242,17 @@ class Slide extends Media
             $size = getimagesize($fn);
             $w = $size[1];
             $h = $size[0];
+            $final_width = (27+((1/$h)*2000));
+            $final_y = 5 + ((1/$h)*5000);
             $aspect_ratio = $w/$h;
             if ($aspect_ratio > 1.3) {
                 $subtract = ($aspect_ratio-1.3)*200;
-                $final_width -= $subtract;
+                // $final_width -= $subtract;
                 $final_x -= ($subtract/4);
                 $final_y -= ($subtract/2);
             }
         }
-        return '<image x="'.$final_x.'px" y="'.$final_y.'px" width="'.$final_width.'px" xlink:href="https://environmentaldashboard.org/cv/uploads/'.$image->getId().'"></image>';
+        return '<image x="'.$final_x.'px" y="'.$final_y.'px" width="'.$final_width.'%" xlink:href="https://environmentaldashboard.org/cv/uploads/'.$image->getId().'"></image>';
     }
 
     public function toArray()
