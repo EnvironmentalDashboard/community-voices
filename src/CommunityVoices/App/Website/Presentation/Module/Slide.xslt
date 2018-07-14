@@ -14,7 +14,8 @@
 							<xsl:attribute name="xlink:href">https://environmentaldashboard.org/cv/uploads/<xsl:value-of select='domain/slide/image/image/id' /></xsl:attribute>
 						</image> -->
 						<xsl:copy-of select='domain/slide/g' />
-						<image x="0" y="5" width="100%">
+            <!-- <rect width="100px" height="43px" style="fill:red" x="0" y="0" /> -->
+						<image x="0" y="1.75px" width="100%">
               <xsl:choose>
                 <xsl:when test="domain/slide/contentCategory/contentCategory/id = 1">
                   <xsl:attribute name="xlink:href">https://environmentaldashboard.org/cv_slides/categorybars/serving-our-community.png</xsl:attribute>
