@@ -27,7 +27,6 @@ class Slide extends Media
 
     private $image;
     private $quote;
-    private $formattedText;
 
     private $probability = 1;
     private $decayPercent = 0;
@@ -75,19 +74,19 @@ class Slide extends Media
         $this->quote = $quote;
     }
 
-    public function getFormattedText()
-    {
-        return $this->formattedText;
-    }
+    // public function getFormattedText()
+    // {
+    //     return $this->formattedText;
+    // }
 
-    public function setFormattedText($textOrQuote, $attributionOrNull = null)
-    {
-        if ($textOrQuote instanceof Quote) {
-            $this->formattedText = $this->formatText($textOrQuote->getText(), $textOrQuote->getAttribution());
-        } else {
-            $this->formattedText = $this->formatText($textOrQuote, $attributionOrNull);
-        }
-    }
+    // public function setFormattedText($textOrQuote, $attributionOrNull = null)
+    // {
+    //     if ($textOrQuote instanceof Quote) {
+    //         $this->formattedText = $this->formatText($textOrQuote->getText(), $textOrQuote->getAttribution());
+    //     } else {
+    //         $this->formattedText = $this->formatText($textOrQuote, $attributionOrNull);
+    //     }
+    // }
 
     public function getProbability()
     {
@@ -202,30 +201,26 @@ class Slide extends Media
         return $isValid;
     }
 
-    private function formatText(string $text, string $attribution) {
+    private function formatText(string $text, string $attribution, float $image_end) {
+        $space_left = 100 - $image_end;
+        $font_size = $this->convertRange($space_left, 0, 100, 2.7, 3.7);
+        $every = round($this->convertRange($space_left, 0, 100, 14, 25));
         $counter = 0;
         $len = strlen($text);
-        $every = 16;
-        $font_size = 3.7;
-        if ($len > 140) {
-            $font_size = 3;
-            $every = 20;
-        }
-        // var_dump($len);die;
-        $ret = '<text font-family="Comfortaa, Helvetica, sans-serif" x="50%" y="'.(10 + ( (10/$len) * 100 )).'%" fill="#fff" font-size="'.$font_size.'px"><tspan>';
+        $ret = '<text font-family="Comfortaa, Helvetica, sans-serif" x="'.$image_end.'px" y="'.(10 + ( (10/$len) * 100 )).'%" fill="#fff" font-size="'.$font_size.'px"><tspan>';
         foreach (str_split($text) as $char) {
             if ($counter++ > $every && $char === ' ') {
                 $counter = 0;
-                $ret .= '</tspan><tspan x="50%" dy="4">';
+                $ret .= '</tspan><tspan x="'.$image_end.'px" dy="4">';
             }
             $ret .= $char;
         }
-        $ret .= '</tspan><tspan font-size="2px" x="50%" dy="5">&#8212; ';
+        $ret .= '</tspan><tspan font-size="2px" x="'.$image_end.'px" dy="5">&#8212; ';
         $once = 0;
         if (strlen($attribution) > 10) {
             foreach (explode(',', $attribution) as $part) {
                 if ($once++ === 1) {
-                    $ret .= ',</tspan><tspan font-size="2px" x="52%" dy="2">';
+                    $ret .= ',</tspan><tspan font-size="2px" x="'.($image_end+2).'px" dy="2">';
                 }
                 $ret .= $part;
             }
@@ -233,27 +228,39 @@ class Slide extends Media
         return $ret . '</tspan></text>';
     }
 
-    private function formatImage(Image $image) {
+    private function format(Image $image, Quote $quote) {
         $fn = $image->getFilename();
-        $final_width = 35;
-        $final_x = 10;
-        $final_y = 10;
         if (file_exists($fn)) { // it wont exist on local
+            $max_height = 39; // viewBox height is 50px, but minus 7px for content category banner and 4px for margin around image
+            $max_width = 56; // viewBox width is 100px, but image should take at most 60% of space, minus 4px for margin
             $size = getimagesize($fn);
-            $w = $size[1];
-            $h = $size[0];
-            $final_width = (27+((1/$h)*2000));
-            $final_y = 5 + ((1/$h)*5000);
+            $w = $size[0];
+            $h = $size[1];
             $aspect_ratio = $w/$h;
-            if ($aspect_ratio > 1.3) {
-                $subtract = ($aspect_ratio-1.3)*200;
-                // $final_width -= $subtract;
-                $final_x -= ($subtract/4);
-                $final_y -= ($subtract/2);
+            $max_aspect_ratio = $max_width/$max_height;
+            $final_height = $max_height;
+            $final_width = ($final_height * $aspect_ratio);
+            if ($final_width > $max_width) {
+                $final_width = $max_width;
             }
+            $final_y = 2; // 2px on each side = 4px of margin total
+            if ($final_width != $max_width) {
+                $final_x = ($max_width - $final_width) / 4;
+            } else {
+                $final_x = 2;
+            }
+        } else {
+            $final_y = 10;
+            $final_x = 10;
+            $final_width = 35;
         }
-        return '<image x="'.$final_x.'px" y="'.$final_y.'px" width="'.$final_width.'%" xlink:href="https://environmentaldashboard.org/cv/uploads/'.$image->getId().'"></image>';
+        return '<image x="'.$final_x.'px" y="'.$final_y.'px" width="'.$final_width.'px" xlink:href="https://environmentaldashboard.org/cv/uploads/'.$image->getId().'"></image>' . $this->formatText($quote->getText(), $quote->getAttribution(), $final_width + ($final_x*2));
+
     }
+
+    private function convertRange($val, $old_min, $old_max, $new_min, $new_max) {
+        return ((($new_max - $new_min) * ($val - $old_min)) / ($old_max - $old_min)) + $new_min;
+      }
 
     public function toArray()
     {
@@ -261,12 +268,11 @@ class Slide extends Media
             'contentCategory' => $this->contentCategory ? $this->contentCategory->toArray() : null,
             'image' => $this->image ? $this->image->toArray() : null,//$this->image ? $this->image->toArray() : null,
             'quote' => $this->quote ? $this->quote->toArray() : null,//$this->quote ? $this->quote->toArray() : null,
-            'g' => $this->formatImage($this->image) . $this->formattedText,
+            'g' => $this->format($this->image, $this->quote),
             'probability' => $this->probability,
             'decayPercent' => $this->decayPercent,
             'decayStart' => $this->decayStart,
             'decayEnd' => $this->decayEnd,
-            // 'SvgImagePos' => $this->imagePos($this->image),
             'organizationCategoryCollection' => $this->organizationCategoryCollection
                 ? $this->organizationCategoryCollection->toArray()
                 : null

@@ -175,7 +175,7 @@ class Slide extends Media
 
         $statement = $this->conn->prepare($query);
 
-        $slide->setFormattedText($slide->getQuote());
+        // $slide->setFormattedText($slide->getQuote());
         $statement->bindValue(':media_id', $slide->getId());
         $statement->bindValue(':content_category_id', $slide->getContentCategory()->getId());
         $statement->bindValue(':image_id', $slide->getImage()->getId());
@@ -208,7 +208,7 @@ class Slide extends Media
 
         $statement = $this->conn->prepare($query);
 
-        $slide->setFormattedText($slide->getQuote());
+        // $slide->setFormattedText($slide->getQuote());
         $statement->bindValue(':media_id', $slide->getId());
         $statement->bindValue(':content_category_id', $slide->getContentCategory()->getId());
         $statement->bindValue(':image_id', $slide->getImage()->getId());
