@@ -256,13 +256,13 @@ class Slide extends Media
             $final_width = 35;
             $image_href = 'https://environmentaldashboard.org/cv/uploads/'.$image->getId();
         }
-        return '--><image xmlns:xlink="http://www.w3.org/1999/xlink" x="'.$final_x.'px" y="'.$final_y.'px" width="'.$final_width.'px" height="'.$final_height.'px" xlink:href="'.$image_href.'"></image>' . $this->formatText($quote->getText(), $quote->getAttribution(), $final_width + ($final_x*2));
+        return '--><image x="'.$final_x.'px" y="'.$final_y.'px" width="'.$final_width.'px" height="'.$final_height.'px" xlink:href="'.$image_href.'"></image>' . $this->formatText($quote->getText(), $quote->getAttribution(), $final_width + ($final_x*2)) . $this->contentCategoryBar();
 
     }
 
     private function convertRange($val, $old_min, $old_max, $new_min, $new_max) {
         return ((($new_max - $new_min) * ($val - $old_min)) / ($old_max - $old_min)) + $new_min;
-      }
+    }
 
     public function toArray()
     {
@@ -280,4 +280,10 @@ class Slide extends Media
                 : null
         ])];
     }
+
+    private function contentCategoryBar() {
+        $fn = '/var/www/html/src/CommunityVoices/App/Website/Presentation/Static/contentCategory/' . $this->contentCategory->getId() . '.png';
+        return '<image x="0" y="1.75px" width="100%" xlink:href="data:image/png;base64,' . base64_encode(file_get_contents($fn)).'"></image>';
+    }
+
 }
