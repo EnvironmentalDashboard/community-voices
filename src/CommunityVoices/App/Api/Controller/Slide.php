@@ -35,7 +35,7 @@ class Slide
         $page = ($page > 0) ? $page - 1 : 0; // current page, make page 0-based
         $limit = (int) $request->query->get('per_page');
         if ($limit < 1) {
-            $limit = 25; // number of items per page
+            $limit = 12; // number of items per page
         }
         $offset = $limit * $page;
         $cc = (is_array($request->query->get('content_category'))) ? $request->query->get('content_category') : [];
