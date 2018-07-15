@@ -32,10 +32,13 @@
 						<div class="col-sm-2">
 							<xsl:if test="$isManager">
 
-								Status:
-								<xsl:value-of select='status' />
+								<p>Status: <xsl:value-of select='status' /></p>
+								<p>Probability: <xsl:value-of select='probability' /><br />Decay percent: <xsl:value-of select='decayPercent' /></p>
 
 							</xsl:if>
+							<p>Created on <xsl:value-of select='dateCreated' /></p>
+							<p>Image: <a href="/cv/images/{image/image/id}"><xsl:value-of select='image/image/title' /></a>, taken by <xsl:value-of select='image/image/photographer' /> on <xsl:value-of select='image/image/dateTaken' /></p>
+							<p>Quote: <a href="/cv/images/{quote/quote/id}"><xsl:value-of select='quote/quote/text' /></a></p>
 						</div>
 
 					</xsl:if>

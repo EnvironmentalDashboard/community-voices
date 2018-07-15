@@ -24,6 +24,9 @@
                 </h6>
                 <p class="card-text"><xsl:value-of select='domain/image/description' /></p>
                 <p class="card-text"><small class="text-muted">Created <xsl:value-of select='domain/image/dateCreated' /></small></p>
+                <xsl:if test="not(domain/slideId = '')">
+                  <p class="card-text"><a href="/cv/slides/{domain/slideId}">Related slide</a></p>
+                </xsl:if>
               </div>
               <xsl:if test="$isManager">
                 <div class="card-footer text-muted">
@@ -50,15 +53,6 @@
                   </p>
                 </div>
               </xsl:if>
-            </div>
-
-            <div class="middle">
-
-              <img style="width:100%;">
-                  
-              </img>
-              <p></p>
-
             </div>
 
           </xsl:when>

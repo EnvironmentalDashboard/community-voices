@@ -8,6 +8,7 @@ use \XSLTProcessor;
 
 use CommunityVoices\App\Api;
 use CommunityVoices\App\Website\Component;
+use CommunityVoices\Model\Service;
 use Symfony\Component\HttpFoundation;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 
@@ -23,13 +24,15 @@ class Image extends Component\View
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         Api\Component\SecureContainer $secureContainer,
-        Api\View\Image $imageAPIView
+        Api\View\Image $imageAPIView,
+        Service\ImageLookup $imageLookup
     ) {
         $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
         $this->transcriber = $transcriber;
         $this->secureContainer = $secureContainer;
         $this->imageAPIView = $imageAPIView;
+        $this->imageLookup = $imageLookup;
     }
 
     public function sendImage($routes, $context)
@@ -52,11 +55,9 @@ class Image extends Component\View
          * Gather image information
          */
         $imageAPIView = $this->secureContainer->contain($this->imageAPIView);
-
+        $json = json_decode($imageAPIView->getImage()->getContent());
         $imageXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $imageAPIView->getImage()->getContent()
-            ))
+            $this->transcriber->toXml($json)
         );
 
         /**
@@ -66,6 +67,9 @@ class Image extends Component\View
 
         $packagedimage = $imagePackageElement->addChild('domain');
         $packagedimage->adopt($imageXMLElement);
+        $packagedimage->adopt(new SimpleXMLElement(
+            $this->transcriber->toXml(['slideId' => $this->imageLookup->relatedSlide($json->image->id)])
+        ));
 
         $packagedIdentity = $imagePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);

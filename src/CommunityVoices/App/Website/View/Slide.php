@@ -100,7 +100,7 @@ class Slide extends Component\View
         /**
          * Generate slide module
          */
-        // var_dump($slidePackageElement->domain->slideCollection->slide->tspan->asXML());exit;
+        // var_dump($slidePackageElement->domain->slideCollection->slide[0]);exit;
         $slideModule = new Component\Presenter('Module/SlideCollection');
         $slideModuleXML = $slideModule->generate($slidePackageElement);
 
@@ -204,7 +204,7 @@ class Slide extends Component\View
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 
         $this->finalize($response);
-        
+
         header('Content-type: image/svg+xml');
 
         return $response;

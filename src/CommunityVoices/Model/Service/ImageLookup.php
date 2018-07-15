@@ -219,4 +219,15 @@ class ImageLookup
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
         $clientState->save($stateObserver);
     }
+
+    public function relatedSlide(int $image_id) {
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
+        $id = $mapper->relatedSlideId($image_id);
+        return $id;
+        // $slide = new Entity\Slide;
+        // $slide->setId($id);
+        // $mapper = $this->mapperFactory->createDataMapper(Mapper\Slide::class);
+        // $mapper->fetch($slide);
+        // return $slide;
+    }
 }

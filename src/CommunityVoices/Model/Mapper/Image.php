@@ -8,6 +8,14 @@ use CommunityVoices\Model\Entity;
 class Image extends Media
 {
 
+    public function relatedSlideId(int $image_id) {
+        $query = "SELECT media_id FROM `community-voices_slides` WHERE image_id = :id";
+        $statement = $this->conn->prepare($query);
+        $statement->bindValue(':id', $image_id);
+        $statement->execute();
+        return $statement->fetchColumn();
+    }
+
     /**
      * @uses Image::fetchById
      */
