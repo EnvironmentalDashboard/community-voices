@@ -199,11 +199,14 @@ class Slide extends Component\View
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
 
-        $presentation = new Component\Presenter('SinglePane');
+        $presentation = new Component\Presenter('Blank');
 
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 
         $this->finalize($response);
+
+        header('Content-type: image/svg+xml');
+        
         return $response;
     }
 

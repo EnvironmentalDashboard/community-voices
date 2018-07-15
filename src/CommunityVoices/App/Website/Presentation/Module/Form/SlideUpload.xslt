@@ -16,33 +16,6 @@
           /* Temporary CSS block until better location found */
           .selectables, #list-view, #gallery-view {cursor:pointer}
           .card-columns .card:hover {border-color:#21a7df}
-          .form-group ::-webkit-scrollbar {
-              height: 16px;
-              overflow: visible;
-              width: 16px;
-          }
-          .form-group ::-webkit-scrollbar-button {
-              height: 0;
-              width: 0;
-          }
-          .form-group ::-webkit-scrollbar-corner {
-              background: transparent;
-          }
-          .form-group ::-webkit-scrollbar-thumb {
-              background-color: rgba(0,0,0,.2);
-              background-clip: padding-box;
-              border: solid transparent;
-              border-width: 1px 1px 1px 6px;
-              min-height: 28px;
-              padding: 100px 0 0;
-              -webkit-box-shadow: inset 1px 1px 0 rgba(0,0,0,.1), inset 0 -1px 0 rgba(0,0,0,.07);
-              box-shadow: inset 1px 1px 0 rgba(0,0,0,.1), inset 0 -1px 0 rgba(0,0,0,.07);
-          }
-          .form-group ::-webkit-scrollbar-track {
-              background-clip: padding-box;
-              border: solid transparent;
-              border-width: 0 0 0 4px;
-          }
         </style>
         <h2 class="mb-4">Create a slide</h2>
         <div class="row">

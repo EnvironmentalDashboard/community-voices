@@ -249,12 +249,14 @@ class Slide extends Media
             } else {
                 $final_x = 2;
             }
+            $image_href = 'data:' . mime_content_type($fn) . ';base64,' . base64_encode(file_get_contents($fn));
         } else {
             $final_y = 10;
             $final_x = 10;
             $final_width = 35;
+            $image_href = 'https://environmentaldashboard.org/cv/uploads/'.$image->getId();
         }
-        return '<image x="'.$final_x.'px" y="'.$final_y.'px" width="'.$final_width.'px" xlink:href="https://environmentaldashboard.org/cv/uploads/'.$image->getId().'"></image>' . $this->formatText($quote->getText(), $quote->getAttribution(), $final_width + ($final_x*2));
+        return '<image x="'.$final_x.'px" y="'.$final_y.'px" width="'.$final_width.'px" xlink:href="'.$image_href.'"></image>' . $this->formatText($quote->getText(), $quote->getAttribution(), $final_width + ($final_x*2));
 
     }
 
