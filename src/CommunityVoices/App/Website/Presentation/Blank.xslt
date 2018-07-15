@@ -1,9 +1,9 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="1.0">
 
-    <xsl:import href="Component.xslt" />
+    <!-- <xsl:import href="Component.xslt" /> -->
 
-    <xsl:output method="html" doctype-system="about:legacy-compat"/>
+    <xsl:output method="xml" doctype-system="about:legacy-compat" omit-xml-declaration="yes"/>
 
     <xsl:template match="/domain">
 

@@ -6,14 +6,20 @@
 	<xsl:variable name="isManager" select="package/identity/user/role = 'manager'
 		or package/identity/user/role = 'administrator'"/>
 
-		<xsl:template match="/package">
-        <svg height="1080" width="1920" style="width:100%;height:auto" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <xsl:template match="domain/slide/g" name="contents">
+       <xsl:copy-of select="node()"/>
+    </xsl:template>
+
+		<xsl:template match="/package"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">]]>
+        <svg height="1080" width="1920" style="width:100%;height:auto" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
 					<rect width="100%" height="100%" style="fill:rgb(0,0,0)" />
 					<g id="render">
 						<!-- <image x="10" y="{domain/slide/SvgImagePos}" width="35%">
 							<xsl:attribute name="xlink:href">https://environmentaldashboard.org/cv/uploads/<xsl:value-of select='domain/slide/image/image/id' /></xsl:attribute>
 						</image> -->
-						<xsl:copy-of select='domain/slide/g' />
+            <!-- TODO: FIX BELOW -->
+            <![CDATA[<!--]]>
+            <xsl:apply-templates name="contents"/>
             <!-- <rect width="100px" height="43px" style="fill:red" x="0" y="0" /> -->
 						<image x="0" y="1.75px" width="100%">
               <xsl:choose>

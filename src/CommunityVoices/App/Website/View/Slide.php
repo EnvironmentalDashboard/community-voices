@@ -204,9 +204,9 @@ class Slide extends Component\View
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 
         $this->finalize($response);
-
-        header('Content-type: image/svg+xml');
         
+        header('Content-type: image/svg+xml');
+
         return $response;
     }
 

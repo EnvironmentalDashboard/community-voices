@@ -256,7 +256,7 @@ class Slide extends Media
             $final_width = 35;
             $image_href = 'https://environmentaldashboard.org/cv/uploads/'.$image->getId();
         }
-        return '<image x="'.$final_x.'px" y="'.$final_y.'px" width="'.$final_width.'px" xlink:href="'.$image_href.'"></image>' . $this->formatText($quote->getText(), $quote->getAttribution(), $final_width + ($final_x*2));
+        return '--><image xmlns:xlink="http://www.w3.org/1999/xlink" x="'.$final_x.'px" y="'.$final_y.'px" width="'.$final_width.'px" height="'.$final_height.'px" xlink:href="'.$image_href.'"></image>' . $this->formatText($quote->getText(), $quote->getAttribution(), $final_width + ($final_x*2));
 
     }
 
