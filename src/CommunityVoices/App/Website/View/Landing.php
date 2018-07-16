@@ -53,7 +53,6 @@ class Landing extends Component\View
         unset($obj->slideCollection['limit']);
         unset($obj->slideCollection['page']);
         foreach ($obj->slideCollection as $key => $slide) {
-            $slide->slide->g = htmlspecialchars($slide->slide->g);
             $slide->slide->quote->quote->text = htmlspecialchars($slide->slide->quote->quote->text);
             $slide->slide->quote->quote->attribution = htmlspecialchars($slide->slide->quote->quote->attribution);
             $slide->slide->quote->quote->subAttribution = htmlspecialchars($slide->slide->quote->quote->subAttribution);
