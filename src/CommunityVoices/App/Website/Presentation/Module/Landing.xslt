@@ -16,12 +16,12 @@
                 <xsl:choose>
                   <xsl:when test="$i = 1">
                     <div class="carousel-item active">
-                      <img class="d-block w-100" src="https://environmentaldashboard.org/cv/slides/{id}" />
+                      <img class="d-block w-100" src="https://environmentaldashboard.org/cv/slides/{id}" id="slide{$i}" />
                     </div>
                   </xsl:when>
                   <xsl:otherwise>
                     <div class="carousel-item">
-                      <img class="d-block w-100" src="https://environmentaldashboard.org/cv/slides/{id}" />
+                      <img class="d-block w-100" src="https://environmentaldashboard.org/cv/slides/{id}" id="slide{$i}" />
                     </div>
                   </xsl:otherwise>
                 </xsl:choose>
@@ -38,8 +38,7 @@
           </div>
         </div>
       </div>
-
-      <div id="tmp">&#160;</div>
+      
       <div class="row mb-5" style="padding: 15px">
         <div class="col"><img data-cc="1" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/slider-images/serving-our-community.png" style="cursor:pointer" /></div>
         <div class="col"><img data-cc="2" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/slider-images/our-downtown.png" style="cursor:pointer" /></div>

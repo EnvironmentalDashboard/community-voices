@@ -282,41 +282,16 @@
             <xsl:if test="extraJS = 'landing'">
                 <script>
                     <![CDATA[
-                    var items = $('.carousel-item');
-                    var cc_map = {
-                        1: 'https://environmentaldashboard.org/cv_slides/categorybars/serving-our-community.png',
-                        2: 'https://environmentaldashboard.org/cv_slides/categorybars/our-downtown.png',
-                        3: 'https://environmentaldashboard.org/cv_slides/categorybars/next-generation.png',
-                        4: 'https://environmentaldashboard.org/cv_slides/categorybars/heritage.png',
-                        5: 'https://environmentaldashboard.org/cv_slides/categorybars/nature_photos.png',
-                        6: 'https://environmentaldashboard.org/cv_slides/categorybars/neighbors.png'
-                    };
-
                     $('.selector-img').on('click', function() {
                         var cc = $(this).data('cc');
                         if (cc === 'rand') {
                             cc = getRandomInt(1, 6);
                         }
                         
-                        $.getJSON('https://api.environmentaldashboard.org/cv/slides', { content_category: [cc], per_page: 5 }, function(data) {
+                        $.getJSON('https://api.environmentaldashboard.org/cv/slides', { content_category: [cc], per_page: 5, page: 2 }, function(data) {
                             $.each(data['slideCollection'], function(index, element) {
                                 if (typeof element === 'object') {
-                                    var main_img = $(items[index]).find('image')[0];
-                                    main_img.setAttribute('xlink:href', 'https://environmentaldashboard.org/cv/uploads/'+element['slide']['image']['image']['id']);
-                                    main_img.setAttribute('y', 10);
-                                    $(items[index]).find('image')[1].setAttribute('xlink:href', cc_map[cc]);
-                                    
-                                    var text_node = $(items[index]).find('text')[0];
-                                    text_node.parentNode.removeChild(text_node);
-
-                                    var text_parent = $(items[index]).find('#render');
-
-                                    var s = element['slide']['quote']['quote']['text'];
-                                    var tmp = $('#tmp'); // TODO: fix
-                                    s = tmp.html(s).text();
-                                    tmp.html('');
-                                    var text = formatText(s, element['slide']['quote']['quote']['attribution']);
-                                    text_parent.append(text);
+                                    $('#slide' + (+index + +1)).attr('src', 'https://environmentaldashboard.org/cv/slides/' + element['slide']['id']);
                                 }
                             });
                         });
