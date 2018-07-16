@@ -201,77 +201,12 @@ class Slide extends Media
         return $isValid;
     }
 
-    private function formatText(string $text, string $attribution, float $image_end) {
-        $space_left = 100 - $image_end;
-        $font_size = $this->convertRange($space_left, 0, 100, 2.7, 3.7);
-        $every = round($this->convertRange($space_left, 0, 100, 14, 25));
-        $counter = 0;
-        $len = strlen($text);
-        $ret = '<text font-family="Comfortaa, Helvetica, sans-serif" x="'.$image_end.'px" y="'.(10 + ( (10/$len) * 100 )).'%" fill="#fff" font-size="'.$font_size.'px"><tspan>';
-        foreach (str_split($text) as $char) {
-            if ($counter++ > $every && $char === ' ') {
-                $counter = 0;
-                $ret .= '</tspan><tspan x="'.$image_end.'px" dy="4">';
-            }
-            $ret .= $char;
-        }
-        $ret .= '</tspan><tspan font-size="2px" x="'.$image_end.'px" dy="5">&#8212; ';
-        $once = 0;
-        if (strlen($attribution) > 10) {
-            foreach (explode(',', $attribution) as $part) {
-                if ($once++ === 1) {
-                    $ret .= ',</tspan><tspan font-size="2px" x="'.($image_end+2).'px" dy="2">';
-                }
-                $ret .= $part;
-            }
-        }
-        return $ret . '</tspan></text>';
-    }
-
-    private function format(Image $image, Quote $quote) {
-        $fn = $image->getFilename();
-        if (file_exists($fn)) { // it wont exist on local
-            $max_height = 39; // viewBox height is 50px, but minus 7px for content category banner and 4px for margin around image
-            $max_width = 56; // viewBox width is 100px, but image should take at most 60% of space, minus 4px for margin
-            $size = getimagesize($fn);
-            $w = $size[0];
-            $h = $size[1];
-            $aspect_ratio = $w/$h;
-            $max_aspect_ratio = $max_width/$max_height;
-            $final_height = $max_height;
-            $final_width = ($final_height * $aspect_ratio);
-            if ($final_width > $max_width) {
-                $final_width = $max_width;
-            }
-            $final_y = 2; // 2px on each side = 4px of margin total
-            if ($final_width != $max_width) {
-                $final_x = ($max_width - $final_width) / 4;
-            } else {
-                $final_x = 2;
-            }
-            $image_href = 'data:' . mime_content_type($fn) . ';base64,' . base64_encode(file_get_contents($fn));
-        } else {
-            $final_y = 10;
-            $final_x = 10;
-            $final_width = 35;
-            $final_height = 35;
-            $image_href = 'https://environmentaldashboard.org/cv/uploads/'.$image->getId();
-        }
-        return '--><image x="'.$final_x.'px" y="'.$final_y.'px" width="'.$final_width.'px" height="'.$final_height.'px" xlink:href="'.$image_href.'"></image>' . $this->formatText($quote->getText(), $quote->getAttribution(), $final_width + ($final_x*2)) . $this->contentCategoryBar();
-
-    }
-
-    private function convertRange($val, $old_min, $old_max, $new_min, $new_max) {
-        return ((($new_max - $new_min) * ($val - $old_min)) / ($old_max - $old_min)) + $new_min;
-    }
-
     public function toArray()
     {
         return ['slide' => array_merge(parent::toArray()['media'], [
             'contentCategory' => $this->contentCategory ? $this->contentCategory->toArray() : null,
             'image' => $this->image ? $this->image->toArray() : null,//$this->image ? $this->image->toArray() : null,
             'quote' => $this->quote ? $this->quote->toArray() : null,//$this->quote ? $this->quote->toArray() : null,
-            'g' => $this->format($this->image, $this->quote),
             'probability' => $this->probability,
             'decayPercent' => $this->decayPercent,
             'decayStart' => $this->decayStart,
@@ -280,11 +215,6 @@ class Slide extends Media
                 ? $this->organizationCategoryCollection->toArray()
                 : null
         ])];
-    }
-
-    private function contentCategoryBar() {
-        $fn = '/var/www/html/src/CommunityVoices/App/Website/Presentation/Static/contentCategory/' . $this->contentCategory->getId() . '.png';
-        return '<image x="0" y="1.75px" width="100%" xlink:href="data:image/png;base64,' . base64_encode(file_get_contents($fn)).'"></image>';
     }
 
 }
