@@ -331,22 +331,21 @@ class Slide extends Component\View
         return $response;
     }
 
-
-
     private function formatText(string $text, string $attribution, float $image_end) {
         $space_left = 100 - $image_end;
         $font_size = $this->convertRange($space_left, 0, 100, 2.7, 3.7);
-        $every = round($this->convertRange($space_left, 0, 100, 14, 25));
+        // $every = round($this->convertRange($space_left, 0, 100, 14, 25));
         $counter = 0;
         $len = strlen($text);
         $ret = '<text font-family="Comfortaa, Helvetica, sans-serif" x="'.$image_end.'px" y="'.(10 + ( (10/$len) * 100 )).'%" fill="#fff" font-size="'.$font_size.'px"><tspan>';
-        foreach (str_split($text) as $char) {
+        /*foreach (str_split($text) as $char) {
             if ($counter++ > $every && $char === ' ') {
                 $counter = 0;
                 $ret .= '</tspan><tspan x="'.$image_end.'px" dy="4">';
             }
             $ret .= $char;
-        }
+        }*/
+        $ret .= $this->minimumRaggedness($text, 30, '</tspan><tspan x="'.$image_end.'px" dy="4">');
         $ret .= '</tspan><tspan font-size="2px" x="'.$image_end.'px" dy="5">&#8212; ';
         $once = 0;
         if (strlen($attribution) > 10) {
@@ -398,5 +397,88 @@ class Slide extends Component\View
 
     private function convertRange($val, $old_min, $old_max, $new_min, $new_max) {
         return ((($new_max - $new_min) * ($val - $old_min)) / ($old_max - $old_min)) + $new_min;
+    }
+
+    /**
+     * taken from https://stackoverflow.com/a/9225522/2624391
+     */
+    private function minimumRaggedness($input, $LineWidth, $lineBreak = "\n")
+    {
+        $words = explode(" ", $input);
+        $wsnum = count($words);
+        $wslen = array_map("strlen", $words);
+        $inf = PHP_INT_MAX;
+
+        // keep Costs
+        $C = array();
+
+        for ($i = 0; $i < $wsnum; ++$i)
+        {
+            $C[] = array();
+            for ($j = $i; $j < $wsnum; ++$j)
+            {
+                $l = 0;
+                for ($k = $i; $k <= $j; ++$k)
+                    $l += $wslen[$k];
+                $c = $LineWidth - ($j - $i) - $l;
+                if ($c < 0)
+                    $c = $inf;
+                else
+                    $c = $c * $c;
+                $C[$i][$j] = $c;
+            }
+        }
+
+        // apply recurrence
+        $F = array();
+        $W = array();
+        for ($j = 0; $j < $wsnum; ++$j)
+        {
+            $F[$j] = $C[0][$j];
+            $W[$j] = 0;
+            if ($F[$j] == $inf)
+            {
+                for ($k = 0; $k < $j; ++$k)
+                {
+                    $t = $F[$k] + $C[$k + 1][$j];
+                    if ($t < $F[$j])
+                    {
+                        $F[$j] = $t;
+                        $W[$j] = $k + 1;
+                    }
+                }
+            }
+        }
+
+        // rebuild wrapped paragraph
+        $output = "";
+        if ($F[$wsnum - 1] < $inf)
+        {
+            $S = array();
+            $j = $wsnum - 1;
+            for ( ; ; )
+            {
+                $S[] = $j;
+                $S[] = $W[$j];
+                if ($W[$j] == 0)
+                    break;
+                $j = $W[$j] - 1;
+            }
+
+            $pS = count($S) - 1;
+            do
+            {
+                $i = $S[$pS--];
+                $j = $S[$pS--];
+                for ($k = $i; $k < $j; $k++)
+                    $output .= $words[$k] . " ";
+                $output .= $words[$k] . $lineBreak;
+            }
+            while ($j < $wsnum - 1);
+        }
+        else
+            $output = $input;
+
+        return $output;
     }
 }
