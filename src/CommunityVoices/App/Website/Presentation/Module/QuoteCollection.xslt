@@ -8,6 +8,7 @@
   <xsl:variable name="search" select="package/domain/search"/>
   <xsl:variable name="tags" select="package/domain/tags"/>
   <xsl:variable name="attributions" select="package/domain/attributions"/>
+  <xsl:variable name="unused" select="package/domain/unused"/>
 
   <xsl:template match="/package">
 
@@ -65,6 +66,16 @@
                     </div>
                   </xsl:for-each>
                 </div>
+              </div>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="unused" name="unused">
+                  <xsl:if test="$unused = 'on'">
+                    <xsl:attribute name="checked">checked</xsl:attribute>
+                  </xsl:if>
+                </input>
+                <label class="form-check-label" for="unused">
+                  Show only unpaired quotes
+                </label>
               </div>
             </div>
             <div class="card-footer bg-transparent"><button type="button" id="reset" class="btn btn-secondary">Reset</button> <button type="submit" class="btn btn-primary">Search</button></div>

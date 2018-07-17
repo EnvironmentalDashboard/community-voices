@@ -1,12 +1,12 @@
 var current_quote = 1, current_image = 1;
-var quote_search = '', quote_tags = [], quote_attrs = [], quote_unused = 0;
+var quote_search = '', quote_tags = [], quote_attrs = [];
 var image_search = '', image_tags = [], photographers = [], orgs = [];
 var list_view = true;
 var $quote_container = $('#ajax-quotes');
 var $image_container = $('#ajax-images');
 var $content_categories = $('#content-categories');
 function getQuote(page) {
-    $.getJSON('https://api.environmentaldashboard.org/cv/quotes', { per_page: 10, page: page, search: quote_search, tags: quote_tags, attributions: quote_attrs, unused: quote_unused }, function(data) {
+    $.getJSON('https://api.environmentaldashboard.org/cv/quotes', { per_page: 10, page: page, search: quote_search, tags: quote_tags, attributions: quote_attrs, unused: 1 }, function(data) {
         if (list_view) {
             var html = '<div class="card"><div class="card-header">Quotes</div><ul class="list-group list-group-flush">';
         } else {
@@ -132,7 +132,6 @@ $('#filter-quotes').on('submit', function(e) {
     $('.attr-check:checkbox:checked').each(function() {
         quote_attrs.push($(this).val());
     });
-    quote_unused = ($('#quote-unused').is(':checked')) ? 1 : 0;
     $quote_container.find('.selectables').empty();
     getQuote(current_quote);
 });

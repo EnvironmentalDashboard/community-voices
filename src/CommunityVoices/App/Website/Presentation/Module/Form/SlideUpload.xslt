@@ -80,12 +80,6 @@
                   </div>
                 </div>
 
-                <div class="form-check mb-2">
-                  <input class="form-check-input" type="checkbox" id="quote-unused" />
-                  <label class="form-check-label" for="quote-unused">
-                    Show only unpaired quotes
-                  </label>
-                </div>
                 <button type="submit" class="btn btn-primary mb-2">Search</button>
               </form>
             </div>

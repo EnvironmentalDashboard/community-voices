@@ -11,6 +11,7 @@
 	<xsl:variable name="photographers" select="package/domain/photographers"/>
 	<xsl:variable name="orgs" select="package/domain/orgs"/>
   <xsl:variable name="order" select="package/domain/order"/>
+  <xsl:variable name="unused" select="package/domain/unused"/>
 
 	<xsl:template match="/package">
 
@@ -114,6 +115,17 @@
                     Photographer
                   </option>
                 </select>
+              </div>
+
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="unused" name="unused">
+                  <xsl:if test="$unused = 'on'">
+                    <xsl:attribute name="checked">checked</xsl:attribute>
+                  </xsl:if>
+                </input>
+                <label class="form-check-label" for="unused">
+                  Show only unpaired images
+                </label>
               </div>
 
 	          </div>

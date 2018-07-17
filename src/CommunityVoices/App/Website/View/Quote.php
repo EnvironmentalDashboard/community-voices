@@ -169,7 +169,7 @@ class Quote extends Component\View
         $packagedQuote->adopt($paginationXMLElement);
 
         foreach ($qs as $key => $value) {
-            if ($key === 'search') {
+            if ($key === 'search' || $key === 'order' || $key === 'unused') {
                 $packagedQuote->addChild($key, $value);
             } else {
                 $packagedQuote->addChild($key, (is_array($value)) ? ','.implode(',', $value).',' : ','.$value.',');
