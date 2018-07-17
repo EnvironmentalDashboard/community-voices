@@ -177,7 +177,7 @@ class Image extends Component\View
         $packagedImage->adopt($tagXMLElement);
         
         foreach ($qs as $key => $value) {
-            if ($key === 'search') {
+            if ($key === 'search' || $key === 'order') {
                 $packagedImage->addChild($key, $value);
             } else {
                 $packagedImage->addChild($key, (is_array($value)) ? ','.implode(',', $value).',' : ','.$value.',');

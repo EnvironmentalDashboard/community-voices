@@ -44,6 +44,7 @@ class Image
         $tags = $request->query->get('tags');
         $photographers = $request->query->get('photographers');
         $orgs = $request->query->get('orgs');
+        $order = (string) $request->query->get('order');
         
         $page = (int) $request->query->get('page');
         $page = ($page > 0) ? $page - 1 : 0; // current page, make page 0-based
@@ -53,7 +54,7 @@ class Image
         $only_unused = (int) $request->query->get('unused');
         $only_unused = ($only_unused === 0 || $only_unused === 1) ? $only_unused : 0;
 
-        $this->imageLookup->findAll($page, $limit, $offset, $only_unused, $search, $tags, $photographers, $orgs);
+        $this->imageLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $photographers, $orgs);
     }
 
     public function getImageUpload()

@@ -36,9 +36,27 @@ class ImageCollection extends DataMapper
         $container->allOrgs = $orgs;
     }
 
-    public function fetch(Entity\ImageCollection $imageCollection, int $only_unused, string $search = '', $tags = null, $photographers = null, $orgs = null, int $limit = 5, int $offset = 0, int $status = 3)
+    public function fetch(Entity\ImageCollection $imageCollection, int $only_unused, string $search = '', $tags = null, $photographers = null, $orgs = null, int $limit = 5, int $offset = 0, string $order_str, int $status = 3)
     {
-        return $this->fetchAll($imageCollection, $only_unused, $search, $tags, $photographers, $orgs, $limit, $offset, $status);
+        switch ($order_str) {
+            case 'date_taken_asc':
+                $sort = 'date_taken';
+                $order = 'ASC';
+                break;
+            case 'date_taken_desc':
+                $sort = 'date_taken';
+                $order = 'DESC';
+                break;
+            case 'photographer_desc':
+                $sort = 'photographer';
+                $order = 'DESC';
+                break;
+            default:
+                $sort = 'date_taken';
+                $order = 'DESC';
+                break;
+        }
+        return $this->fetchAll($imageCollection, $only_unused, $search, $tags, $photographers, $orgs, $limit, $offset, $status, $sort, $order);
     }
 
     private function fetchAll(Entity\ImageCollection $imageCollection, int $only_unused, string $search, $tags, $photographers, $orgs, int $limit, int $offset, int $status, $sort = 'date_taken', $order = 'DESC')

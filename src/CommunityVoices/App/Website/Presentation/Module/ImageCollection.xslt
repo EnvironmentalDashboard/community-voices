@@ -10,12 +10,12 @@
 	<xsl:variable name="tags" select="package/domain/tags"/>
 	<xsl:variable name="photographers" select="package/domain/photographers"/>
 	<xsl:variable name="orgs" select="package/domain/orgs"/>
+  <xsl:variable name="order" select="package/domain/order"/>
 
 	<xsl:template match="/package">
 
     <nav class="navbar navbar-light bg-light">
     	<a class="navbar-brand" href="#">Images</a>
-    	<a class="btn btn-outline-primary active mr-auto" href="#">Newest first</a>
       <a class="btn btn-outline-primary" href="./images/new">+ Add image</a>
     </nav>
 
@@ -90,6 +90,30 @@
                     </div>
                   </xsl:for-each>
                 </div>
+              </div>
+
+              <div class="form-group">
+                <label for="order">Order by</label>
+                <select class="form-control" id="order" name="order">
+                  <option value="date_taken_desc">
+                    <xsl:if test="$order = 'date_taken_desc'">
+                      <xsl:attribute name="selected">selected</xsl:attribute>
+                    </xsl:if>
+                    Newest first
+                  </option>
+                  <option value="date_taken_asc">
+                    <xsl:if test="$order = 'date_taken_asc'">
+                      <xsl:attribute name="selected">selected</xsl:attribute>
+                    </xsl:if>
+                    Oldest first
+                  </option>
+                  <option value="photographer_desc">
+                    <xsl:if test="$order = 'photographer_desc'">
+                      <xsl:attribute name="selected">selected</xsl:attribute>
+                    </xsl:if>
+                    Photographer
+                  </option>
+                </select>
               </div>
 
 	          </div>

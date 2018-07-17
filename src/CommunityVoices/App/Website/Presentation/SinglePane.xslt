@@ -11,7 +11,8 @@
         <head>
             <meta charset="utf-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-            <meta name="description" content="Environmental Dashboard. A technology &amp; approach for organizations and whole communities that combines feedback, through real-time public displays of resource use and environmental conditions, with thoughts and actions of community to engage, motivate, empower &amp; celebrate sustainable thought and action." />
+            <!-- TODO: meta description -->
+            <!-- <meta name="description" content="Environmental Dashboard. A technology &amp; approach for organizations and whole communities that combines feedback, through real-time public displays of resource use and environmental conditions, with thoughts and actions of community to engage, motivate, empower &amp; celebrate sustainable thought and action." /> -->
             <link rel="stylesheet" href="https://environmentaldashboard.org/css/bootstrap.css" />
             <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=9ByOqqx0o3" />
             <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=9ByOqqx0o3" />
