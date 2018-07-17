@@ -29,8 +29,7 @@ $injector = new Auryn\Injector;
 /**
  * Db handler configuration
  */
-$dbHandler = new PDO('mysql:host='.getenv('MYSQL_HOST').';dbname='.getenv('MYSQL_DB').';charset=utf8;port=3306', getenv('MYSQL_USER'), getenv('MYSQL_PASS'));
-$dbHandler->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+require 'db.php';
 
 $injector->share($dbHandler);
 
