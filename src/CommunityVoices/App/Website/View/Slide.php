@@ -195,7 +195,7 @@ class Slide extends Component\View
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
 
-        $presentation = new Component\Presenter('Blank');
+        $presentation = new Component\Presenter('SVG');
 
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 

@@ -167,9 +167,10 @@
                 <button type="submit" class="btn btn-primary mb-2">Search</button>
               </form>
             </div>
-            <p class="text-muted">Scroll down to see preview</p>
           </div>
           <div class="col-sm-9">
+            <h2 style="margin-bottom:-10px">Preview</h2>
+            <svg height="1080" width="1920" style="width:100%;height:auto" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect width="100%" height="100%" style="fill:rgb(0,0,0)" /><g id="render"></g></svg>
             <div>
               <div id="ajax-quotes" style="min-height:400px">
                 <div class="selectables"></div>
@@ -208,8 +209,6 @@
           </div>
         </div>
         
-        <h2 class="mt-2" style="margin-bottom:-10px">Preview</h2>
-        <svg height="1080" width="1920" style="width:100%;height:auto" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect width="100%" height="100%" style="fill:rgb(0,0,0)" /><g id="render"></g></svg>
         <form action='./slides/new/authenticate' method='post'>
           <input type="hidden" name="image_id"/>
           <input type="hidden" name="quote_id"/>
