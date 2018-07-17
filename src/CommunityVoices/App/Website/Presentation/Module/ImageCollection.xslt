@@ -119,7 +119,6 @@
 	          </div>
 	          <div class="card-footer bg-transparent"><button type="button" id="reset" class="btn btn-secondary">Reset</button> <button type="submit" class="btn btn-primary">Search</button></div>
           </form>
-          <!-- <xsl:value-of select="domain/qs"></xsl:value-of> -->
           <xsl:for-each select="domain/qs">
           	<xsl:value-of select="."></xsl:value-of>
           </xsl:for-each>
@@ -145,23 +144,26 @@
 								<blockquote class="blockquote mb-0">
 									<h5><xsl:value-of select='title' /></h5>
 									<p><xsl:value-of select='description' /></p>
-									<footer class='blockquote-footer'>
-		                <small class='text-muted'>
-		                  <cite>
-		                  	<xsl:attribute name="title"><xsl:value-of select='photographer' /></xsl:attribute>
-		                  	<xsl:value-of select='photographer' />
-		                  	<xsl:if test="organization != ''">, <xsl:value-of select='organization' /></xsl:if>
-		                  </cite>
-		                </small>
-		              </footer>
+                  <xsl:if test="organization != '' or photographer != ''">
+  									<footer class='blockquote-footer'>
+  		                <small class='text-muted'>
+  		                  <cite>
+  		                  	<xsl:attribute name="title"><xsl:value-of select='photographer' /></xsl:attribute>
+  		                  	<xsl:value-of select='photographer' />
+  		                  	<xsl:if test="organization != '' and photographer != ''">, </xsl:if>
+                          <xsl:value-of select='organization' />
+  		                  </cite>
+  		                </small>
+  		              </footer>
+                  </xsl:if>
 								</blockquote>
 							</div>
-							<div class="card-footer text-muted">
-								<p class='mt-0 mb-0'><xsl:value-of select='dateTaken' /></p>
-								<xsl:if test="$isManager">
-									<p class='mt-0 mb-0'>Status: <xsl:value-of select='status' /></p>
-								</xsl:if>
-							</div>
+              <xsl:if test="$isManager">
+  							<div class="card-footer text-muted">
+  								<p class='mt-0 mb-0'>Date taken: <xsl:value-of select='dateTaken' /></p>
+  								<p class='mt-0 mb-0'>Status: <xsl:value-of select='status' /></p>
+  							</div>
+              </xsl:if>
 
 						</div>
 
