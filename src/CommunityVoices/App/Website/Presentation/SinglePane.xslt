@@ -60,7 +60,7 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
             <script>
-            //<![CDATA[
+            <![CDATA[
             $(document).ready(function() {
                 // from https://github.com/bootstrapthemesco/bootstrap-4-multi-dropdown-navbar
               $('.dropdown-menu a.dropdown-toggle').on('click', function (e) {
@@ -81,8 +81,12 @@
                 return false;
               });
             });
-            //]]>
+            ]]>
             </script>
+            <xsl:if test="extraJS != ''">
+                <script src="https://environmentaldashboard.org/cv/public/js/{extraJS}.js"></script>
+            </xsl:if>
+            <!--
             <xsl:if test="extraJS = 'create-slide'">
                 <script>
                     <![CDATA[
@@ -332,6 +336,7 @@
                     ]]>
                 </script>
             </xsl:if>
+            -->
         </body>
     </html>
 
