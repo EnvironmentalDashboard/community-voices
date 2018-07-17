@@ -61,7 +61,7 @@ class Slide extends Component\View
         unset($obj->slideCollection['limit']);
         unset($obj->slideCollection['page']);
         foreach ($obj->slideCollection as $key => $slide) {
-            $slide->slide->g = htmlspecialchars($this->format($slide->slide->image->image->filename, $slide->slide->image->image->id, $slide->slide->quote->quote->text, $slide->slide->quote->quote->attribution, $slide->slide->contentCategory->contentCategory->id));
+            $slide->slide->g = htmlspecialchars($this->formatSlide($slide->slide->image->image->filename, $slide->slide->image->image->id, $slide->slide->quote->quote->text, $slide->slide->quote->quote->attribution, $slide->slide->contentCategory->contentCategory->id));
             $slide->slide->quote->quote->text = htmlspecialchars($slide->slide->quote->quote->text);
             $slide->slide->quote->quote->attribution = htmlspecialchars($slide->slide->quote->quote->attribution);
             $slide->slide->quote->quote->subAttribution = htmlspecialchars($slide->slide->quote->quote->subAttribution);
@@ -148,7 +148,7 @@ class Slide extends Component\View
         $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
         $json = json_decode($slideAPIView->getSlide()->getContent());
 
-        $json->slide->g = htmlspecialchars($this->format($json->slide->image->image->filename, $json->slide->image->image->id, $json->slide->quote->quote->text, $json->slide->quote->quote->attribution, $json->slide->contentCategory->contentCategory->id));
+        $json->slide->g = htmlspecialchars($this->formatSlide($json->slide->image->image->filename, $json->slide->image->image->id, $json->slide->quote->quote->text, $json->slide->quote->quote->attribution, $json->slide->contentCategory->contentCategory->id));
 
         $slideXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($json)
@@ -331,35 +331,7 @@ class Slide extends Component\View
         return $response;
     }
 
-    private function formatText(string $text, string $attribution, float $image_end) {
-        $space_left = 100 - $image_end;
-        $font_size = $this->convertRange($space_left, 0, 100, 2.7, 3.7);
-        // $every = round($this->convertRange($space_left, 0, 100, 14, 25));
-        $counter = 0;
-        $len = strlen($text);
-        $ret = '<text font-family="Comfortaa, Helvetica, sans-serif" x="'.$image_end.'px" y="'.(10 + ( (10/$len) * 100 )).'%" fill="#fff" font-size="'.$font_size.'px"><tspan>';
-        /*foreach (str_split($text) as $char) {
-            if ($counter++ > $every && $char === ' ') {
-                $counter = 0;
-                $ret .= '</tspan><tspan x="'.$image_end.'px" dy="4">';
-            }
-            $ret .= $char;
-        }*/
-        $ret .= $this->minimumRaggedness($text, 30, '</tspan><tspan x="'.$image_end.'px" dy="4">');
-        $ret .= '</tspan><tspan font-size="2px" x="'.$image_end.'px" dy="5">&#8212; ';
-        $once = 0;
-        if (strlen($attribution) > 10) {
-            foreach (explode(',', $attribution) as $part) {
-                if ($once++ === 1) {
-                    $ret .= ',</tspan><tspan font-size="2px" x="'.($image_end+2).'px" dy="2">';
-                }
-                $ret .= $part;
-            }
-        }
-        return $ret . '</tspan></text>';
-    }
-
-    private function format($fn, $imgId, $text, $attribution, $cc) {
+    private function formatSlide($fn, $imgId, $text, $attribution, $cc) {
         if (file_exists($fn)) { // it wont exist on local
             $max_height = 39; // viewBox height is 50px, but minus 7px for content category banner and 4px for margin around image
             $max_width = 56; // viewBox width is 100px, but image should take at most 60% of space, minus 4px for margin
@@ -388,6 +360,45 @@ class Slide extends Component\View
             $image_href = 'https://environmentaldashboard.org/cv/uploads/'.$imgId;
         }
         return '--><image x="'.$final_x.'px" y="'.$final_y.'px" width="'.$final_width.'px" height="'.$final_height.'px" xlink:href="'.$image_href.'"></image>' . $this->formatText($text, $attribution, $final_width + ($final_x*2)) . $this->contentCategoryBar($cc);
+    }
+
+    private function formatText(string $text, string $attribution, float $image_end) {
+        $line_width = ((100-$image_end)/100) * 55; // ~55-60 is about image width, $image_end is out of 100
+        $len = strlen($text);
+        $font_size = $this->convertRange(350 - $len, 0, 350, 2.7, 3.7);
+        $counter = 0;
+        $ret = '<text font-family="Comfortaa, Helvetica, sans-serif" x="'.$image_end.'px" y="'.(10 + ( (10/$len) * 100 )).'%" fill="#fff" font-size="'.$font_size.'px"><tspan>';
+        $space_left = $line_width;
+        foreach (explode(' ', $text) as $word) {
+            $width = strlen($word);
+            if ($width + 1 > $space_left) {
+                $ret .= '</tspan><tspan x="'.$image_end.'px" dy="4">' . $word;
+                $space_left = $line_width - $width;
+            } else {
+                $space_left = $space_left - $width - 1;
+                $ret .= " {$word}";
+            }
+
+        }
+        /*foreach (str_split($text) as $char) {
+            if ($counter++ > $every && $char === ' ') {
+                $counter = 0;
+                $ret .= '</tspan><tspan x="'.$image_end.'px" dy="4">';
+            }
+            $ret .= $char;
+        }*/
+        // $ret .= $this->minimumRaggedness($text, $every, '</tspan><tspan x="'.$image_end.'px" dy="4">');
+        $ret .= '</tspan><tspan font-size="2px" x="'.$image_end.'px" dy="5">&#8212; ';
+        $once = 0;
+        if (strlen($attribution) > 10) {
+            foreach (explode(',', $attribution) as $part) {
+                if ($once++ === 1) {
+                    $ret .= ',</tspan><tspan font-size="2px" x="'.($image_end+2).'px" dy="2">';
+                }
+                $ret .= $part;
+            }
+        }
+        return $ret . '</tspan></text>';
     }
 
     private function contentCategoryBar(int $cc) {
