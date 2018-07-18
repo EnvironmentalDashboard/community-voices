@@ -133,6 +133,7 @@ class Slide extends Component\View
 
     public function getSlide($routes, $context)
     {
+
         /**
          * Gather identity information
          */
@@ -158,6 +159,11 @@ class Slide extends Component\View
          * Slide XML Package
          */
         $slidePackageElement = new Helper\SimpleXMLElementExtension('<package/>');
+
+        $height = (isset($_GET['height']) && intval($_GET['height']) > 0) ? (int) $_GET['height'] : 1080;
+        $width = (isset($_GET['width']) && intval($_GET['width'])) > 0 ? (int) $_GET['width'] : 1920;
+        $slidePackageElement->addChild('height', $height);
+        $slidePackageElement->addChild('width', $width);
 
         $packagedSlide = $slidePackageElement->addChild('domain');
         $packagedSlide->adopt($slideXMLElement);
@@ -189,8 +195,6 @@ class Slide extends Component\View
             "Community Voices: Slide ".
             $slideXMLElement->id
         );
-        $domainXMLElement->addChild('navbarSection', "slide");
-        $domainXMLElement->addChild('comfortaa', "1");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);

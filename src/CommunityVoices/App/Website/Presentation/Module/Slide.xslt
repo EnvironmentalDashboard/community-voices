@@ -11,7 +11,9 @@
   </xsl:template>
 
 	<xsl:template match="/package"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">]]>
-    <svg height="1080" width="1920" style="width:100%;height:auto" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+    <svg height="1080" width="1920" viewBox="0 0 100 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+      <xsl:attribute name="height"><xsl:value-of select="height"></xsl:value-of></xsl:attribute>
+      <xsl:attribute name="width"><xsl:value-of select="width"></xsl:value-of></xsl:attribute>
       <style>
       @font-face {
         font-family: 'Comfortaa';
@@ -21,7 +23,8 @@
         unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
       }
       </style>
-			<rect width="100%" height="100%" style="fill:rgb(0,0,0)" />
+			<rect width="100%" height="100%" style="fill:rgb(0,0,0)" x="0" y="0" />
+      <rect width="100" height="50" style="fill:rgb(0,200,0)" x="0" y="0" />
 			<g id="render">
         <!-- TODO: FIX BELOW -->
         <![CDATA[<!--]]>
