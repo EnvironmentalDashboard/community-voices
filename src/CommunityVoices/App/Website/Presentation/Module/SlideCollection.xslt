@@ -131,12 +131,6 @@
                     </xsl:if>
                     Oldest first
                   </option>
-                  <option value="photographer_desc">
-                    <xsl:if test="$order = 'photographer_desc'">
-                      <xsl:attribute name="selected">selected</xsl:attribute>
-                    </xsl:if>
-                    Photographer
-                  </option>
                 </select>
               </div>
 

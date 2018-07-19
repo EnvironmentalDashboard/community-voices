@@ -27,11 +27,11 @@ class Slide
         $tag = $stateObserver->getEntry('tag')[0]->toArray();
 
         $stateObserver->setSubject('quoteLookup');
-        $quote_attributions['attributionCollection'] = $stateObserver->getEntry('attribution')[0]->allAttributions;
+        $quote_attributions['attributionCollection'] = $stateObserver->getEntry('attribution')[0]->attributionCollection;
 
         $stateObserver->setSubject('imageLookup');
-        $image_photographers['PhotographerCollection'] = $stateObserver->getEntry('photographer')[0]->allPhotographers;
-        $image_orgs['OrgCollection'] = $stateObserver->getEntry('org')[0]->allOrgs;        
+        $image_photographers['PhotographerCollection'] = $stateObserver->getEntry('photographer')[0]->photographerCollection;
+        $image_orgs['OrgCollection'] = $stateObserver->getEntry('org')[0]->orgCollection;        
 
         $response = new HttpFoundation\JsonResponse(array_merge($this->convert_from_latin1_to_utf8_recursively($slideCollection), $tag, $quote_attributions, $image_photographers, $image_orgs));
         return $response;
@@ -59,11 +59,11 @@ class Slide
         $tag = $stateObserver->getEntry('tag')[0]->toArray();
 
         $stateObserver->setSubject('quoteLookup');
-        $quote_attributions['attributionCollection'] = $stateObserver->getEntry('attribution')[0]->allAttributions;
+        $quote_attributions['attributionCollection'] = $stateObserver->getEntry('attribution')[0]->attributionCollection;
 
         $stateObserver->setSubject('imageLookup');
-        $image_photographers['PhotographerCollection'] = $stateObserver->getEntry('photographer')[0]->allPhotographers;
-        $image_orgs['OrgCollection'] = $stateObserver->getEntry('org')[0]->allOrgs;
+        $image_photographers['PhotographerCollection'] = $stateObserver->getEntry('photographer')[0]->photographerCollection;
+        $image_orgs['OrgCollection'] = $stateObserver->getEntry('org')[0]->orgCollection;
 
         $response = new HttpFoundation\JsonResponse(array_merge($tag, $quote_attributions, $image_photographers, $image_orgs));
 

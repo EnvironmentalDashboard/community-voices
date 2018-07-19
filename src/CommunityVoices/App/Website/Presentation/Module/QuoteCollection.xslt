@@ -50,7 +50,7 @@
               <div class="form-group">
                 <p class="mb-0">Attribution</p>
                 <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
-                  <xsl:for-each select="domain/allAttributions/attribution">
+                  <xsl:for-each select="domain/attributionCollection/attribution">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="attributions[]">
                         <xsl:attribute name="id">attribution<xsl:value-of select="position()"></xsl:value-of></xsl:attribute>

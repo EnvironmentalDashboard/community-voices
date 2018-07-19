@@ -23,7 +23,7 @@ class ImageCollection extends DataMapper
             $obj->photographer = $row['photographer'];
             $photographers[] = $obj;
         }
-        $container->allPhotographers = $photographers;
+        $container->photographerCollection = $photographers;
     }
 
     public function orgs(\stdClass $container) {
@@ -33,7 +33,7 @@ class ImageCollection extends DataMapper
             $obj->org = $row['organization'];
             $orgs[] = $obj;
         }
-        $container->allOrgs = $orgs;
+        $container->orgCollection = $orgs;
     }
 
     public function fetch(Entity\ImageCollection $imageCollection, int $only_unused, string $search = '', $tags = null, $photographers = null, $orgs = null, int $limit = 5, int $offset = 0, string $order_str, int $status = 3)

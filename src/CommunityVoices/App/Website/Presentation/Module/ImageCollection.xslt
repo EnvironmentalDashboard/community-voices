@@ -54,7 +54,7 @@
               <div class="form-group">
                 <p class="mb-0">Photographer</p>
                 <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
-                  <xsl:for-each select="domain/allPhotographers/photographer">
+                  <xsl:for-each select="domain/photographerCollection/photographer">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="photographers[]">
                         <xsl:attribute name="id">photographer<xsl:value-of select="position()"></xsl:value-of></xsl:attribute>
@@ -75,7 +75,7 @@
               <div class="form-group">
                 <p class="mb-0">Organization</p>
                 <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
-                  <xsl:for-each select="domain/allOrgs/org">
+                  <xsl:for-each select="domain/orgCollection/org">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="orgs[]">
                         <xsl:attribute name="id">org<xsl:value-of select="position()"></xsl:value-of></xsl:attribute>

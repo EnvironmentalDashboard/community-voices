@@ -17,7 +17,7 @@ class QuoteCollection extends DataMapper
             $obj->attribution = htmlspecialchars(htmlspecialchars($row['attribution']));
             $attributions[] = $obj;
         }
-        $container->allAttributions = $attributions;
+        $container->attributionCollection = $attributions;
     }
 
     public function fetch(Entity\QuoteCollection $quoteCollection, $only_unused, $search = '', $tags = null, $attributions = null, int $limit, int $offset)
