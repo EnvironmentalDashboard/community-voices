@@ -128,12 +128,15 @@ class QuoteLookup
         $clientState->save($this->stateObserver);
     }
 
-    public function attributions($stateObserver) {
+    public function attributions($stateObserver, $return = false) {
         $attributionCollection = new \stdClass;
         $attributionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
         $attributionMapper->attributions($attributionCollection);
         $stateObserver->setSubject('quoteLookup');
         $stateObserver->addEntry('attribution', $attributionCollection);
+        if ($return) {
+            return $stateObserver;
+        }
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
         $clientState->save($stateObserver);
     }

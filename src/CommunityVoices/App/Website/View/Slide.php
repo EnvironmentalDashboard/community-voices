@@ -81,6 +81,30 @@ class Slide extends Component\View
             $this->transcriber->toXml($pagination)
         );
 
+        $obj = new \stdClass;
+        $obj->groupCollection = $json->groupCollection;
+        $tagXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($obj)
+        );
+
+        $obj = new \stdClass;
+        $obj->attributionCollection = $json->attributionCollection;
+        $attrXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($obj)
+        );
+
+        $obj = new \stdClass;
+        $obj->PhotographerCollection = $json->PhotographerCollection;
+        $photoXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($obj)
+        );
+
+        $obj = new \stdClass;
+        $obj->OrgCollection = $json->OrgCollection;
+        $orgXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($obj)
+        );
+
         /**
          * Slide XML Package
          */
@@ -89,6 +113,10 @@ class Slide extends Component\View
         $packagedSlide = $slidePackageElement->addChild('domain');
         $packagedSlide->adopt($slideXMLElement);
         $packagedSlide->adopt($paginationXMLElement);
+        $packagedSlide->adopt($attrXMLElement);
+        $packagedSlide->adopt($photoXMLElement);
+        $packagedSlide->adopt($orgXMLElement);
+        $packagedSlide->adopt($tagXMLElement);
 
         $packagedIdentity = $slidePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
@@ -118,7 +146,14 @@ class Slide extends Component\View
             "Community Voices: All Slides".
             $slideXMLElement->id
         );
-        $domainXMLElement->addChild('navbarSection', "slide");
+
+        foreach ($qs as $key => $value) {
+            if ($key === 'search') {
+                $domainXMLElement->addChild($key, $value);
+            } else {
+                $domainXMLElement->addChild($key, (is_array($value)) ? ','.implode(',', $value).',' : ','.$value.',');
+            }
+        }
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);

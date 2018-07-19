@@ -22,13 +22,18 @@ class Slide
 
         $stateObserver->setSubject('slideFindAll');
         $slideCollection = $stateObserver->getEntry('slideCollection')[0]->toArray();
-        // for ($i = 0; $i < count($slideCollection['slideCollection']); $i++) { 
-        //     $slideCollection['slideCollection'][$i]['slide']['quote']['quote']['SVGtext'] = $this->SVGText($slideCollection['slideCollection'][$i]['slide']['quote']['quote']['text']);
-        // }
 
-        // var_dump(($slideCollection['slideCollection']));
-        // die;
-        $response = new HttpFoundation\JsonResponse($this->convert_from_latin1_to_utf8_recursively($slideCollection));
+        $stateObserver->setSubject('tagLookup');
+        $tag = $stateObserver->getEntry('tag')[0]->toArray();
+
+        $stateObserver->setSubject('quoteLookup');
+        $quote_attributions['attributionCollection'] = $stateObserver->getEntry('attribution')[0]->allAttributions;
+
+        $stateObserver->setSubject('imageLookup');
+        $image_photographers['PhotographerCollection'] = $stateObserver->getEntry('photographer')[0]->allPhotographers;
+        $image_orgs['OrgCollection'] = $stateObserver->getEntry('org')[0]->allOrgs;        
+
+        $response = new HttpFoundation\JsonResponse(array_merge($this->convert_from_latin1_to_utf8_recursively($slideCollection), $tag, $quote_attributions, $image_photographers, $image_orgs));
         return $response;
     }
 
