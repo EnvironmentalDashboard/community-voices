@@ -149,29 +149,15 @@
 								<img>
 									<xsl:attribute name="src">https://environmentaldashboard.org/cv/uploads/<xsl:value-of select='id' /></xsl:attribute>
 									<xsl:attribute name="alt"><xsl:value-of select='title' /></xsl:attribute>
-									<xsl:attribute name="class">card-img-top</xsl:attribute>
+									<xsl:attribute name="class">card-img</xsl:attribute>
 								</img>
 							</a>
-							<div class="card-body">
-								<blockquote class="blockquote mb-0">
-									<h5><xsl:value-of select='title' /></h5>
-									<p><xsl:value-of select='description' /></p>
-                  <xsl:if test="organization != '' or photographer != ''">
-  									<footer class='blockquote-footer'>
-  		                <small class='text-muted'>
-  		                  <cite>
-  		                  	<xsl:attribute name="title"><xsl:value-of select='photographer' /></xsl:attribute>
-  		                  	<xsl:value-of select='photographer' />
-  		                  	<xsl:if test="organization != '' and photographer != ''">, </xsl:if>
-                          <xsl:value-of select='organization' />
-  		                  </cite>
-  		                </small>
-  		              </footer>
-                  </xsl:if>
-								</blockquote>
-							</div>
               <xsl:if test="$isManager">
   							<div class="card-footer text-muted">
+                  <p class='mt-0 mb-0'>Title: <xsl:value-of select='title' /></p>
+                  <p class='mt-0 mb-0'>Description: <xsl:value-of select='description' /></p>
+                  <p class='mt-0 mb-0'>Photographer: <xsl:value-of select='photographer' /></p>
+                  <p class='mt-0 mb-0'>Organization: <xsl:value-of select='organization' /></p>
   								<p class='mt-0 mb-0'>Date taken: <xsl:value-of select='dateTaken' /></p>
   								<p class='mt-0 mb-0'>Status: <xsl:value-of select='status' /></p>
   							</div>
