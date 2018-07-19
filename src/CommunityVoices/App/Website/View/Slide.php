@@ -371,73 +371,76 @@ class Slide extends Component\View
     }
 
     private function formatSlide($fn, $imgId, $text, $attribution, $cc) {
-        if (file_exists($fn)) { // it wont exist on local
-            $max_height = 39; // viewBox height is 50px, but minus 7px for content category banner and 4px for margin around image
-            $max_width = 56; // viewBox width is 100px, but image should take at most 60% of space, minus 4px for margin
-            $size = getimagesize($fn);
-            $w = $size[0];
-            $h = $size[1];
-            $aspect_ratio = $w/$h;
-            $max_aspect_ratio = $max_width/$max_height;
-            $final_height = $max_height;
-            $final_width = ($final_height * $aspect_ratio);
-            if ($final_width > $max_width) {
-                $final_width = $max_width;
-            }
-            $final_y = 2; // 2px on each side = 4px of margin total
-            if ($final_width != $max_width) {
-                $final_x = ($max_width - $final_width) / 4;
-            } else {
-                $final_x = 2;
-            }
-            $image_href = 'data:' . mime_content_type($fn) . ';base64,' . base64_encode(file_get_contents($fn));
-        } else {
-            $final_y = 10;
-            $final_x = 10;
-            $final_width = 35;
-            $final_height = 35;
-            $image_href = 'https://environmentaldashboard.org/cv/uploads/'.$imgId;
+        if (!file_exists($fn)) { // it wont exist on local
+            exit('Slide image not found; are you on local?');
         }
-        return '--><image x="'.$final_x.'px" y="'.$final_y.'px" width="'.$final_width.'px" height="'.$final_height.'px" xlink:href="'.$image_href.'"></image>' . $this->formatText($text, $attribution, $final_width + ($final_x*2)) . $this->contentCategoryBar($cc);
+        $max_height = 39; // viewBox height is 50px, but minus 7px for content category banner and 4px for margin around image
+        $max_width = 56; // viewBox width is 100px, but image should take at most 60% of space, minus 4px for margin
+        $size = getimagesize($fn);
+        $w = $size[0];
+        $h = $size[1];
+        $aspect_ratio = $w/$h;
+        $max_aspect_ratio = $max_width/$max_height;
+        $final_height = $max_height;
+        $final_width = ($final_height * $aspect_ratio);
+        if ($final_width > $max_width) {
+            $final_width = $max_width;
+        }
+        $final_y = 2; // 2px on each side = 4px of margin total
+        if ($final_width != $max_width) {
+            $final_x = ($max_width - $final_width) / 4;
+        } else {
+            $final_x = 2;
+        }
+        $image_href = 'data:' . mime_content_type($fn) . ';base64,' . base64_encode(file_get_contents($fn));
+
+        $lines = $this->splitText($text, $this->lineWidth($final_width + ($final_x*2)));
+        while (count($lines) > 7) {
+            $final_width = $final_width / 1.2;
+            $final_height = $final_height / 1.2;
+            $final_x = $final_x / 1.2;
+            $lines = $this->splitText($text, $this->lineWidth($final_width + ($final_x*2)));
+        }
+        $len = strlen($text);
+        return '--><image x="'.$final_x.'px" y="'.$final_y.'px" width="'.$final_width.'px" height="'.$final_height.'px" xlink:href="'.$image_href.'"></image>' . $this->formatText($lines, $attribution, $final_width + ($final_x*2), (10 + ( (10/$len) * 100 )),  $this->convertRange(350 - $len, 0, 350, 2, 4)) . $this->contentCategoryBar($cc);
     }
 
-    private function formatText(string $text, string $attribution, float $image_end) {
-        $line_width = ((100-$image_end)/100) * 55; // ~55-60 is about image width, $image_end is out of 100
-        $len = strlen($text);
-        $font_size = $this->convertRange(350 - $len, 0, 350, 2.7, 3.7);
-        $counter = 0;
-        $ret = '<text font-family="Comfortaa, Helvetica, sans-serif" x="'.$image_end.'px" y="'.(10 + ( (10/$len) * 100 )).'%" fill="#fff" font-size="'.$font_size.'px"><tspan>';
-        $space_left = $line_width;
-        foreach (explode(' ', $text) as $word) {
-            $width = strlen($word);
-            if ($width + 1 > $space_left) {
-                $ret .= '</tspan><tspan x="'.$image_end.'px" dy="4">' . $word;
-                $space_left = $line_width - $width;
-            } else {
-                $space_left = $space_left - $width - 1;
-                $ret .= " {$word}";
-            }
-
-        }
-        /*foreach (str_split($text) as $char) {
-            if ($counter++ > $every && $char === ' ') {
-                $counter = 0;
-                $ret .= '</tspan><tspan x="'.$image_end.'px" dy="4">';
-            }
-            $ret .= $char;
-        }*/
-        // $ret .= $this->minimumRaggedness($text, $every, '</tspan><tspan x="'.$image_end.'px" dy="4">');
-        $ret .= '</tspan><tspan font-size="2px" x="'.$image_end.'px" dy="5">&#8212; ';
+    private function formatText(array $lines, string $attribution, float $x, float $y, float $font_size) { // max lines like 8
+        $ret = '<text font-family="Comfortaa, Helvetica, sans-serif" x="'.$x.'px" y="'.$y.'%" fill="#fff" font-size="'.$font_size.'px"><tspan>' . implode('</tspan><tspan x="'.$x.'px" dy="4">', $lines) . '</tspan><tspan font-size="2px" x="'.$x.'px" dy="5">&#8212; ';
         $once = 0;
         if (strlen($attribution) > 10) {
             foreach (explode(',', $attribution) as $part) {
                 if ($once++ === 1) {
-                    $ret .= ',</tspan><tspan font-size="2px" x="'.($image_end+2).'px" dy="2">';
+                    $ret .= ',</tspan><tspan font-size="2px" x="'.($x+2).'px" dy="2">';
                 }
                 $ret .= $part;
             }
+        } else {
+            $ret .= $attribution;
         }
         return $ret . '</tspan></text>';
+    }
+
+    private function splitText($text, $line_width) {
+        $i = 0;
+        $lines = [];
+        $lines[0] = '';
+        $space_left = $line_width;
+        foreach (explode(' ', $text) as $word) {
+            $width = strlen($word);
+            if ($width + 1 > $space_left) {
+                $lines[++$i] = $word;
+                $space_left = $line_width - $width;
+            } else {
+                $lines[$i] .= " {$word}";
+                $space_left = $space_left - $width - 1;
+            }
+        }
+        return $lines;
+    }
+
+    private function lineWidth($image_end) {
+        return ((100-$image_end)/100) * 60; // ~55-60 is about image width, $image_end is out of 100
     }
 
     private function contentCategoryBar(int $cc) {
