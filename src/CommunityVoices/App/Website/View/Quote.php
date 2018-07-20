@@ -90,7 +90,7 @@ class Quote extends Component\View
             "Community Voices: Quote ".
             $quoteXMLElement->id
         );
-        $domainXMLElement->addChild('navbarSection', "quote");
+        
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -277,7 +277,7 @@ class Quote extends Component\View
           'title',
           "Community Voices"
         );
-        $domainXMLElement->addChild('navbarSection', "quote");
+        
 
         /**
          * Prepare template
@@ -336,7 +336,7 @@ class Quote extends Component\View
             'title',
             "Community Voices: Quote Update"
         );
-        $domainXMLElement->addChild('navbarSection', "quote");
+        
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -373,7 +373,7 @@ class Quote extends Component\View
           'title',
           "Community Voices"
         );
-        $domainXMLElement->addChild('navbarSection', "quote");
+        
 
         /**
          * Prepare template

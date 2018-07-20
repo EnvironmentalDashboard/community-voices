@@ -60,9 +60,6 @@
         <body>
             <div class="container">
                 <xsl:call-template name="common-header" />
-                <xsl:if test="navbarSection != ''">
-                    <xsl:call-template name="sub-header" />
-                </xsl:if>
 
                 <xsl:value-of select="main-pane" disable-output-escaping="yes" />
 

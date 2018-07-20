@@ -7,6 +7,16 @@
     or package/identity/user/role = 'administrator'"/>
 
     <xsl:template match="/package">
+      <nav class="navbar navbar-light bg-light">
+        <div class="float-left">
+          <a class="navbar-brand" href="#">Images</a>
+          <a class="btn btn-outline-primary" href="new">+ Add image</a>
+        </div>
+        <div class="btn-group float-right">
+          <a class="btn btn-outline-primary btn-sm" href="#">&#171; Previous image</a>
+          <a class="btn btn-outline-primary btn-sm" href="#">Next image &#187;</a>
+        </div>
+      </nav>
       <xsl:choose><xsl:when test="$isManager or domain/image/status = 'approved'">
       <div class="row" style="padding:15px;">
         <div class="col-sm-8">

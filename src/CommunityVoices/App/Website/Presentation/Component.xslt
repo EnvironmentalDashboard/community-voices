@@ -120,35 +120,6 @@
       </nav>
     </xsl:template>
 
-    <xsl:template name="sub-header">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#" style="text-transform:capitalize"><xsl:value-of select="navbarSection" />s</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#subNavbar" aria-controls="subNavbar" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="subNavbar">
-          <!-- <ul class="navbar-nav mr-auto" style="justify-content: flex-start;">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Newest first <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Quotes: A-Z</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Attribution: A-Z</a>
-            </li>
-          </ul> -->
-          <a href="./{navbarSection}s/new" class="btn btn-primary btn-outline-primary">+ Add <xsl:value-of select="navbarSection" /></a>
-          <!-- <form class="form-inline pull-right" style="min-width: 28%"> -->
-          <form class="form-inline pull-right" style="position: absolute; right: 16px;">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search {navbarSection}s" aria-label="Search" />
-            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-          </form>
-        </div>
-      </nav>
-    </xsl:template>
-
     <xsl:template name="common-footer">
       <div class="row text-center justify-content-md-center">
         <div class="col-3 col-md-1">

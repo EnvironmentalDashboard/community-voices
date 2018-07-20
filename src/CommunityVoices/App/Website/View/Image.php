@@ -98,7 +98,7 @@ class Image extends Component\View
             "Community Voices: Image ".
             $imageXMLElement->id
         );
-        $domainXMLElement->addChild('navbarSection', "image");
+        
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -285,7 +285,7 @@ class Image extends Component\View
           'title',
           "Community Voices"
         );
-        $domainXMLElement->addChild('navbarSection', "image");
+        
 
         /**
          * Prepare template
@@ -344,7 +344,7 @@ class Image extends Component\View
             'title',
             "Community Voices: Image Update"
         );
-        $domainXMLElement->addChild('navbarSection', "image");
+        
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -381,7 +381,7 @@ class Image extends Component\View
           'title',
           "Community Voices"
         );
-        $domainXMLElement->addChild('navbarSection', "image");
+        
 
         /**
          * Prepare template

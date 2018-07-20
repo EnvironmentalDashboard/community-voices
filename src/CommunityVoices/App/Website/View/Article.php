@@ -90,7 +90,7 @@ class Article extends Component\View
             "Community Voices: Article ".
             $articleXMLElement->id
         );
-        $domainXMLElement->addChild('navbarSection', "article");
+        
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -179,7 +179,7 @@ class Article extends Component\View
         $domainXMLElement->addChild('main-pane', $articleModuleXML);
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: All Articles");
-        $domainXMLElement->addChild('navbarSection', "article");
+        
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -228,7 +228,7 @@ class Article extends Component\View
             'title',
             "Community Voices: Article Upload"
         );
-        $domainXMLElement->addChild('navbarSection', "article");
+        
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -263,7 +263,7 @@ class Article extends Component\View
           'title',
           "Community Voices"
         );
-        $domainXMLElement->addChild('navbarSection', "article");
+        
 
         /**
          * Prepare template
@@ -322,7 +322,7 @@ class Article extends Component\View
             'title',
             "Community Voices: Article Update"
         );
-        $domainXMLElement->addChild('navbarSection', "article");
+        
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -359,7 +359,7 @@ class Article extends Component\View
           'title',
           "Community Voices"
         );
-        $domainXMLElement->addChild('navbarSection', "article");
+        
 
         /**
          * Prepare template
