@@ -54,12 +54,12 @@
         <div class="col-sm-4">
           <xsl:choose>
             <xsl:when test="domain/slideId != ''">
-              <h3>View other content featuring this image</h3>
+              <h4>Content featuring this image</h4>
               <p><img src="http://environmentaldashboard.org/cv/slides/{domain/slideId}" class="img-fluid" alt=""/></p>
             </xsl:when>
             <xsl:otherwise>
-              <h3>This image is not used in any slides</h3>
-              <p><a href="#" class="btn btn-primary">Go create one</a></p>
+              <p>This image is not used in any slides</p>
+              <p><a href="/cv/slides/new?prefill_image={domain/image/id}" class="btn btn-primary btn-block">Go create one</a></p>
             </xsl:otherwise>
           </xsl:choose>
         </div>

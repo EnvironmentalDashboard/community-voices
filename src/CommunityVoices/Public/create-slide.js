@@ -31,7 +31,7 @@ function getImage(page) {
         var html = '<div class="card-columns">';
         $.each(data['imageCollection'], function(index, element) {
             if (typeof element === 'object') {
-                html += '<div class="card bg-dark text-white ajax-image" data-id="'+element['image']['id']+'"><img class="card-img" src="https://api.environmentaldashboard.org/cv/uploads/'+element['image']['id']+'" alt="Card image" /><div class="card-img-overlay"><h5 class="card-title">' + element['image']['title'] + '</h5><p class="card-text">' + element['image']['description'] + '</p><p class="card-text">' + element['image']['dateCreated'] + '</p></div></div>';
+                html += '<div class="card bg-dark text-white ajax-image" data-id="'+element['image']['id']+'"><img class="card-img" src="https://api.environmentaldashboard.org/cv/uploads/'+element['image']['id']+'" alt="'+element['image']['title']+'" /></div>';
             }
         });
         html += '</div>';
@@ -49,9 +49,7 @@ $(document).on('click', '.ajax-quote', function(e) {
 $(document).on('click', '.ajax-image', function(e) {
     $('#preview-image').remove();
     var w = this.clientWidth, h = this.clientHeight;
-    var image = makeSVG('image', {id: 'preview-image', x: 10, y: ((1/h)*2000), width: (25+((1/h)*2000)) + '%', 'xlink:href': 'https://api.environmentaldashboard.org/cv/uploads/'+$(this).data('id')});
-    $('#render').prepend(image);
-    $("input[name='image_id']").val($(this).data('id'));
+    renderImage(h, w, $(this).data('id'));
 });
 $('#content-categories img').on('click', function() {
     $('#preview-cc').remove();
@@ -186,4 +184,48 @@ function formatText (s, attribution) {
     tspan = $(tspan).text('— ' + attribution);
     text.append(tspan[0]);
     return text;
+}
+
+function renderImage(h, w, id) {
+    var image = makeSVG('image', {id: 'preview-image', x: 10, y: ((1/h)*2000), width: (25+((1/h)*2000)) + '%', 'xlink:href': 'https://api.environmentaldashboard.org/cv/uploads/'+id});
+    $('#render').prepend(image);
+    $("input[name='image_id']").val(id);
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+function prefillImage(id) {
+    var url = 'https://api.environmentaldashboard.org/cv/uploads/'+id
+    var img = new Image();
+    img.addEventListener("load", function(){
+        renderImage(this.naturalHeight, this.naturalWidth, id);
+    });
+    img.src = url;
+}
+
+var prefill_image = getParameterByName('prefill_image');
+var prefill_quote = getParameterByName('prefill_quote');
+if (prefill_image) {
+    prefillImage(prefill_image);
+}
+
+if (prefill_quote) {
+    $.getJSON('https://api.environmentaldashboard.org/cv/quotes/'+prefill_quote, { }, function(data) {
+        $('#render').append(formatText(htmlDecode(data['quote']['text']), data['quote']['attribution']));
+        $("input[name='quote_id']").val(data['quote']['id']);
+    });
+}
+
+function htmlDecode(input){
+  var e = document.createElement('div');
+  e.innerHTML = input;
+  return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
 }
