@@ -151,12 +151,6 @@
                   </div>
                 </div>
 
-                <div class="form-check mb-2">
-                  <input class="form-check-input" type="checkbox" id="image-unused" />
-                  <label class="form-check-label" for="image-unused">
-                    Show only unpaired images
-                  </label>
-                </div>
                 <button type="submit" class="btn btn-primary mb-2">Search</button>
               </form>
             </div>

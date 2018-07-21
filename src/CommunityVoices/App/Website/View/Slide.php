@@ -168,6 +168,7 @@ class Slide extends Component\View
 
     public function getSlide($routes, $context)
     {
+        $html_ver = (isset($_GET['ver']) && $_GET['ver'] === 'html');
 
         /**
          * Gather identity information
@@ -184,7 +185,9 @@ class Slide extends Component\View
         $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
         $json = json_decode($slideAPIView->getSlide()->getContent());
 
-        $json->slide->g = htmlspecialchars($this->formatSlide($json->slide->image->image->filename, $json->slide->image->image->id, $json->slide->quote->quote->text, $json->slide->quote->quote->attribution, $json->slide->contentCategory->contentCategory->id));
+        if (!$html_ver) {
+            $json->slide->g = htmlspecialchars($this->formatSlide($json->slide->image->image->filename, $json->slide->image->image->id, $json->slide->quote->quote->text, $json->slide->quote->quote->attribution, $json->slide->contentCategory->contentCategory->id));
+        }
 
         $slideXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($json)
@@ -209,7 +212,6 @@ class Slide extends Component\View
         /**
          * Generate slide module
          */
-        $html_ver = (isset($_GET['ver']) && $_GET['ver'] === 'html');
         $slideModule = new Component\Presenter(($html_ver) ? 'Module/HTMLSlide' : 'Module/Slide');
         $slideModuleXML = $slideModule->generate($slidePackageElement);
 

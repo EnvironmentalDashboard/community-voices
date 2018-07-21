@@ -17,6 +17,10 @@
             <link rel="shortcut icon" href="/favicon.ico?v=9ByOqqx0o3" />
             <meta name="theme-color" content="#000000" />
             <title> <xsl:value-of select="title" /> </title>
+            <style>
+                * { box-sizing:border-box }
+                html, body { height: 100% }
+            </style>
 
             <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet" />
         </head>

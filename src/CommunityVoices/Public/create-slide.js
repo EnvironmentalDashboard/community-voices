@@ -18,7 +18,7 @@ function getQuote(page) {
 }
 getQuote(1);
 function getImage(page) {
-    $.getJSON('https://api.environmentaldashboard.org/cv/images', { per_page: 8, page: page, search: image_search, tags: image_tags, photographers: photographers, orgs: orgs }, function(data) {
+    $.getJSON('https://api.environmentaldashboard.org/cv/images', { per_page: 8, page: page, search: image_search, tags: image_tags, photographers: photographers, orgs: orgs, unused: 1 }, function(data) {
         var html = '<div class="card-columns">';
         $.each(data['imageCollection'], function(index, element) {
             if (typeof element === 'object') {
@@ -121,7 +121,6 @@ $('#filter-images').on('submit', function(e) {
     $('.org-check:checkbox:checked').each(function() {
         orgs.push($(this).val());
     });
-    image_unused = ($('#image-unused').is(':checked')) ? 1 : 0;
     $image_container.find('.selectables').empty();
     getImage(current_image);
 });
