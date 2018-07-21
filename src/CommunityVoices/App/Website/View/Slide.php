@@ -209,7 +209,8 @@ class Slide extends Component\View
         /**
          * Generate slide module
          */
-        $slideModule = new Component\Presenter('Module/Slide');
+        $html_ver = (isset($_GET['ver']) && $_GET['ver'] === 'html');
+        $slideModule = new Component\Presenter(($html_ver) ? 'Module/HTMLSlide' : 'Module/Slide');
         $slideModuleXML = $slideModule->generate($slidePackageElement);
 
         /**
@@ -234,13 +235,15 @@ class Slide extends Component\View
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
 
-        $presentation = new Component\Presenter('SVG');
+        $presentation = new Component\Presenter(($html_ver) ? 'Blank' : 'SVG');
 
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 
         $this->finalize($response);
 
-        header('Content-type: image/svg+xml');
+        if (!$html_ver) {
+            header('Content-type: image/svg+xml');
+        }
 
         return $response;
     }
