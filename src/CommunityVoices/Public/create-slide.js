@@ -1,27 +1,18 @@
 var current_quote = 1, current_image = 1;
 var quote_search = '', quote_tags = [], quote_attrs = [];
 var image_search = '', image_tags = [], photographers = [], orgs = [];
-var list_view = true;
 var $quote_container = $('#ajax-quotes');
 var $image_container = $('#ajax-images');
 var $content_categories = $('#content-categories');
 function getQuote(page) {
     $.getJSON('https://api.environmentaldashboard.org/cv/quotes', { per_page: 10, page: page, search: quote_search, tags: quote_tags, attributions: quote_attrs, unused: 1 }, function(data) {
-        if (list_view) {
-            var html = '<div class="card"><div class="card-header">Quotes</div><ul class="list-group list-group-flush">';
-        } else {
-            var html = '<div class="card-columns">';
-        }
+        var html = '<div class="card"><div class="card-header">Quotes</div><ul class="list-group list-group-flush">';
         $.each(data['quoteCollection'], function(index, element) {
             if (typeof element === 'object') {
-                if (list_view) {
-                    html += '<li class="list-group-item ajax-quote" data-id="'+element['quote']['id']+'" data-text="'+element['quote']['text']+'" data-attribution="'+element['quote']['attribution']+'"><blockquote class="blockquote mb-0"><p>'+element['quote']['text']+'</p><footer class="blockquote-footer">'+element['quote']['attribution']+'</footer></blockquote></li>';
-                } else {
-                    html += '<div class="card p-3 ajax-quote" data-id="'+element['quote']['id']+'" data-text="'+element['quote']['text']+'" data-attribution="'+element['quote']['attribution']+'"><blockquote class="blockquote mb-0 card-body"><p>' + element['quote']['text'] + '</p><footer class="blockquote-footer"><small class="text-muted">' + element['quote']['attribution'] + '</small></footer></blockquote></div>';
-                }
+                html += '<li class="list-group-item ajax-quote" data-id="'+element['quote']['id']+'" data-text="'+element['quote']['text']+'" data-attribution="'+element['quote']['attribution']+'"><blockquote class="blockquote mb-0"><p>'+element['quote']['text']+'</p><footer class="blockquote-footer">'+element['quote']['attribution']+'</footer></blockquote></li>';
             }
         });
-        html += (list_view) ? '</ul></div>' : '</div>';
+        html += '</ul></div>';
         $quote_container.find('.selectables').append(html);
     });
 }
@@ -101,22 +92,6 @@ $('#next-image').on('click', function(e) {
     e.preventDefault();
     $image_container.find('.selectables').empty();
     getImage(++current_image);
-});
-$('#list-view').on('click', function(e) {
-    e.preventDefault();
-    list_view = true;
-    $quote_container.find('.selectables').empty();
-    getQuote(current_quote);
-    $(this).css('fill', '#21a7df');
-    $('#gallery-view').css('fill', '#333');
-});
-$('#gallery-view').on('click', function(e) {
-    e.preventDefault();
-    list_view = false;
-    $quote_container.find('.selectables').empty();
-    getQuote(current_quote);
-    $(this).css('fill', '#21a7df');
-    $('#list-view').css('fill', '#333');
 });
 $('#filter-quotes').on('submit', function(e) {
     e.preventDefault();
