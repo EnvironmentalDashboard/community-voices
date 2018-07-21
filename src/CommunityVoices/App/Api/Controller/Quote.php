@@ -45,6 +45,7 @@ class Quote
           $status = ["approved"];
         }
 
+        $order = (string) $request->query->get('order');
         $page = (int) $request->query->get('page');
         $page = ($page > 0) ? $page - 1 : 0; // current page, make page 0-based
         $limit = (int) $request->query->get('per_page');
@@ -53,7 +54,7 @@ class Quote
         $only_unused = (int) $request->query->get('unused');
         $only_unused = ($only_unused === 0 || $only_unused === 1) ? $only_unused : 0;
 
-        $this->quoteLookup->findAll($page, $limit, $offset, $only_unused, $search, $tags, $attributions, $creatorIDs, $status);
+        $this->quoteLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $attributions, $creatorIDs, $status);
     }
 
     public function getQuoteUpload()

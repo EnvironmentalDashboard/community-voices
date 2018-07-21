@@ -20,12 +20,31 @@ class QuoteCollection extends DataMapper
         $container->attributionCollection = $attributions;
     }
 
-    public function fetch(Entity\QuoteCollection $quoteCollection, $only_unused, $search = '', $tags = null, $attributions = null, int $limit, int $offset)
+    public function fetch(Entity\QuoteCollection $quoteCollection, string $order_str, $only_unused, $search = '', $tags = null, $attributions = null, int $limit, int $offset)
     {
-        $this->fetchAll($quoteCollection, $only_unused, $search, $tags, $attributions, $limit, $offset);
+        switch ($order_str) {
+            case 'date_recorded_asc':
+                $sort = 'date_recorded';
+                $order = 'ASC';
+                break;
+            case 'date_recorded_desc':
+                $sort = 'date_recorded';
+                $order = 'DESC';
+                break;
+            case 'attribution_desc':
+                $sort = 'attribution';
+                $order = 'DESC';
+                break;
+            default:
+                $sort = 'date_recorded';
+                $order = 'DESC';
+                break;
+        }
+
+        $this->fetchAll($quoteCollection, $only_unused, $search, $tags, $attributions, $limit, $offset, $sort, $order);
     }
 
-    private function fetchAll(Entity\QuoteCollection $quoteCollection, $only_unused, $search, $tags, $attributions, int $limit, int $offset)
+    private function fetchAll(Entity\QuoteCollection $quoteCollection, $only_unused, $search, $tags, $attributions, int $limit, int $offset, $sort = 'date_recorded', $order = 'DESC')
     {
 
         $params = [];
@@ -76,6 +95,7 @@ class QuoteCollection extends DataMapper
 		         "
 		         . $this->query_prep($quoteCollection->status, "media.status")
                  . $this->query_prep($quoteCollection->creators, "media.added_by")
+                 . " ORDER BY quote.{$sort} {$order}"
                  . " LIMIT {$offset}, {$limit}";
 
         $statement = $this->conn->prepare($query);

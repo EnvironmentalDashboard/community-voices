@@ -8,13 +8,13 @@
   <xsl:variable name="search" select="package/domain/search"/>
   <xsl:variable name="tags" select="package/domain/tags"/>
   <xsl:variable name="attributions" select="package/domain/attributions"/>
+  <xsl:variable name="order" select="package/domain/order"/>
   <xsl:variable name="unused" select="package/domain/unused"/>
 
   <xsl:template match="/package">
 
     <nav class="navbar navbar-light bg-light">
       <a class="navbar-brand" href="#">Quotes</a>
-      <a class="btn btn-outline-primary active mr-auto" href="#">Newest first</a>
       <a class="btn btn-outline-primary" href="./quotes/new">+ Add quote</a>
     </nav>
 
@@ -66,6 +66,29 @@
                     </div>
                   </xsl:for-each>
                 </div>
+              </div>
+              <div class="form-group">
+                <label for="order">Order by</label>
+                <select class="form-control" id="order" name="order">
+                  <option value="date_recorded_desc">
+                    <xsl:if test="$order = 'date_recorded_desc'">
+                      <xsl:attribute name="selected">selected</xsl:attribute>
+                    </xsl:if>
+                    Newest first
+                  </option>
+                  <option value="date_recorded_asc">
+                    <xsl:if test="$order = 'date_recorded_asc'">
+                      <xsl:attribute name="selected">selected</xsl:attribute>
+                    </xsl:if>
+                    Oldest first
+                  </option>
+                  <option value="photographer_desc">
+                    <xsl:if test="$order = 'attribution_desc'">
+                      <xsl:attribute name="selected">selected</xsl:attribute>
+                    </xsl:if>
+                    Attribution
+                  </option>
+                </select>
               </div>
               <div class="form-check mb-2">
                 <input class="form-check-input" type="checkbox" id="unused" name="unused">
