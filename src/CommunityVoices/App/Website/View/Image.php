@@ -214,6 +214,7 @@ class Image extends Component\View
         $domainXMLElement->addChild('main-pane', $imageModuleXML);
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: All Images");
+        $domainXMLElement->addChild('extraJS', "image-collection");
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
 

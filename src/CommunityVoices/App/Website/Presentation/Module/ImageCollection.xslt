@@ -144,7 +144,8 @@
 
 					<xsl:if test="$isManager or status = 'approved'">
 
-						<div class="card">
+						<div class="card" data-toggle="tooltip" data-html="true">
+              <xsl:attribute name="title"><p><xsl:value-of select="title"></xsl:value-of></p><p>Taken by <xsl:value-of select="photographer"></xsl:value-of> <xsl:value-of select="photographer"></xsl:value-of> on <xsl:value-of select="dateTaken"></xsl:value-of></p></xsl:attribute>
 							<a href="images/{id}">
 								<img>
 									<xsl:attribute name="src">https://environmentaldashboard.org/cv/uploads/<xsl:value-of select='id' /></xsl:attribute>
