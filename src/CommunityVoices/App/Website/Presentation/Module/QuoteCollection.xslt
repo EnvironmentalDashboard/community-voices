@@ -101,7 +101,7 @@
                 </label>
               </div>
             </div>
-            <div class="card-footer bg-transparent"><button type="button" id="reset" class="btn btn-secondary">Reset</button> <button type="submit" class="btn btn-primary">Search</button></div>
+            <div class="card-footer bg-transparent"><button type="button" onclick="this.parentNode.parentNode.reset()" class="btn btn-secondary">Reset</button> <button type="submit" class="btn btn-primary">Search</button></div>
           </form>
         </div>
       </div>
@@ -114,9 +114,6 @@
 
               <a href='quotes/{id}' style="color: inherit; text-decoration: inherit;">
                 <div class="card">
-                  <div class="card-header">
-                    Quote
-                  </div>
                   <div class="card-body">
                     <blockquote class="blockquote mb-0">
                       <p><xsl:value-of select='text' /></p>

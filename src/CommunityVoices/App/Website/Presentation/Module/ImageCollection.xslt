@@ -129,7 +129,7 @@
               </div>
 
 	          </div>
-	          <div class="card-footer bg-transparent"><button type="button" id="reset" class="btn btn-secondary">Reset</button> <button type="submit" class="btn btn-primary">Search</button></div>
+	          <div class="card-footer bg-transparent"><button type="button" onclick="this.parentNode.parentNode.reset()" class="btn btn-secondary">Reset</button> <button type="submit" class="btn btn-primary">Search</button></div>
           </form>
           <xsl:for-each select="domain/qs">
           	<xsl:value-of select="."></xsl:value-of>
@@ -145,7 +145,7 @@
 					<xsl:if test="$isManager or status = 'approved'">
 
 						<div class="card" data-toggle="tooltip" data-html="true">
-              <xsl:attribute name="title"><p><xsl:value-of select="title"></xsl:value-of></p><p>Taken by <xsl:value-of select="photographer"></xsl:value-of> <xsl:value-of select="photographer"></xsl:value-of> on <xsl:value-of select="dateTaken"></xsl:value-of></p></xsl:attribute>
+              <xsl:attribute name="title">&lt;p&gt;<xsl:value-of select="title"></xsl:value-of>&lt;/p&gt;&lt;p&gt;Taken by <xsl:value-of select="photographer"></xsl:value-of> <xsl:value-of select="photographer"></xsl:value-of> on <xsl:value-of select="dateTaken"></xsl:value-of>&lt;/p&gt;</xsl:attribute>
 							<a href="images/{id}">
 								<img>
 									<xsl:attribute name="src">https://environmentaldashboard.org/cv/uploads/<xsl:value-of select='id' /></xsl:attribute>
