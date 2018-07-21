@@ -13,8 +13,22 @@
           <a class="btn btn-outline-primary" href="new">+ Add image</a>
         </div>
         <div class="btn-group float-right">
-          <a class="btn btn-outline-primary btn-sm" href="#">&#171; Previous image</a>
-          <a class="btn btn-outline-primary btn-sm" href="#">Next image &#187;</a>
+          <xsl:choose>
+            <xsl:when test="number(domain/prevId) = domain/prevId">
+              <a class="btn btn-outline-primary btn-sm" href="/cv/images/{domain/prevId}">&#171; Previous image</a>
+            </xsl:when>
+            <xsl:otherwise>
+              <a href="#" class="btn btn-outline-primary disabled btn-sm" disabled="disabled">&#171; Previous image</a>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:choose>
+            <xsl:when test="number(domain/nextId) = domain/nextId">
+              <a class="btn btn-outline-primary btn-sm" href="/cv/images/{domain/nextId}">Next image &#187;</a>
+            </xsl:when>
+            <xsl:otherwise>
+              <a class="btn btn-outline-primary disabled btn-sm" href="#" disabled="disabled">Next image &#187;</a>
+            </xsl:otherwise>
+          </xsl:choose>
         </div>
       </nav>
       <xsl:choose><xsl:when test="$isManager or domain/image/status = 'approved'">

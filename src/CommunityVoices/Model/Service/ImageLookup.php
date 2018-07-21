@@ -230,4 +230,16 @@ class ImageLookup
         // $mapper->fetch($slide);
         // return $slide;
     }
+
+    public function prevImage(int $image_id) {
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
+        $id = $mapper->prevImage($image_id);
+        return $id;
+    }
+
+    public function nextImage(int $image_id) {
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
+        $id = $mapper->nextImage($image_id);
+        return $id;
+    }
 }

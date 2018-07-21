@@ -70,6 +70,12 @@ class Image extends Component\View
         $packagedimage->adopt(new SimpleXMLElement(
             $this->transcriber->toXml(['slideId' => $this->imageLookup->relatedSlide($json->image->id)])
         ));
+        $packagedimage->adopt(new SimpleXMLElement(
+            $this->transcriber->toXml(['prevId' => $this->imageLookup->prevImage($json->image->id)])
+        ));
+        $packagedimage->adopt(new SimpleXMLElement(
+            $this->transcriber->toXml(['nextId' => $this->imageLookup->nextImage($json->image->id)])
+        ));
 
         $packagedIdentity = $imagePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
