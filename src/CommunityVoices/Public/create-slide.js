@@ -31,16 +31,14 @@ function getImage(page) {
 }
 getImage(1);
 $(document).on('click', '.ajax-quote', function(e) {
-    $('#preview-text').remove();
-    var s = $(this).data('text');
-    var text = formatText(s, $(this).data('attribution'));
-    $('#render').append(text);
+    $('#slide-text').text($(this).data('text'));
+    $('#slide-attr').text($(this).data('attribution'));
     $("input[name='quote_id']").val($(this).data('id'));
 });
 $(document).on('click', '.ajax-image', function(e) {
-    $('#preview-image').remove();
-    var w = this.clientWidth, h = this.clientHeight;
-    renderImage(h, w, $(this).data('id'));
+    var id = $(this).data('id');
+    $("input[name='image_id']").val(id);
+    $('#slide-img').attr('src', 'https://api.environmentaldashboard.org/cv/uploads/'+id);
 });
 $('#content-categories img').on('click', function() {
     $('#preview-cc').remove();
@@ -176,24 +174,17 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
-function prefillImage(id) {
-    var url = 'https://api.environmentaldashboard.org/cv/uploads/'+id
-    var img = new Image();
-    img.addEventListener("load", function(){
-        renderImage(this.naturalHeight, this.naturalWidth, id);
-    });
-    img.src = url;
-}
-
 var prefill_image = getParameterByName('prefill_image');
 var prefill_quote = getParameterByName('prefill_quote');
 if (prefill_image) {
-    prefillImage(prefill_image);
+    $("input[name='image_id']").val(prefill_image);
+    $('#slide-img').attr('src', 'https://api.environmentaldashboard.org/cv/uploads/'+prefill_image);
 }
 
 if (prefill_quote) {
     $.getJSON('https://api.environmentaldashboard.org/cv/quotes/'+prefill_quote, { }, function(data) {
-        $('#render').append(formatText(htmlDecode(data['quote']['text']), data['quote']['attribution']));
+        $('#slide-text').text(htmlDecode(data['quote']['text']));
+        $('#slide-attr').text(data['quote']['attribution']);
         $("input[name='quote_id']").val(data['quote']['id']);
     });
 }
