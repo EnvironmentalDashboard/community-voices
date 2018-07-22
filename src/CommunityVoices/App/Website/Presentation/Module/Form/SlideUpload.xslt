@@ -156,12 +156,29 @@
             </div>
           </div>
           <div class="col-sm-9">
-            <div style="display: flex;align-items:center;justify-content: center;overflow: hidden;width:100%;background:#000" id="render" class="mb-3">
-              <img src="http://via.placeholder.com/600x400?text=Image" alt="Slide image" style="margin:10px;flex-shrink: 0;width: auto;min-height: 100%;" id="slide-img" />
-              <h1 style="color:#fff;font-family:Comfortaa, sans-serif">
-                <span id="slide-text">Quote text goes here</span>
-                <div style="font-size:1rem;margin-top:1rem">&#x2014; <span id="slide-attr">Quote attribution</span></div>
-              </h1>
+            <!-- <div style="width:100%;padding-bottom:56.25%;position:relative">
+              <div style="position: absolute;top:0;bottom:0;left:0;right:0;">
+                <div style="width:100%;background:#000;">
+                  <div style="display: flex;align-items:center;justify-content: center;">
+                    <img src="http://via.placeholder.com/600x400?text=Image" alt="Slide image" style="margin:10px;flex-shrink: 0;width: auto;min-height: 100%;" id="slide-img" />
+                    <h1 style="color:#fff;font-family:Comfortaa, sans-serif">
+                      <span id="slide-text">Quote text goes here</span>
+                      <div style="font-size:1rem;margin-top:1rem">&#x2014; <span id="slide-attr">Quote attribution</span></div>
+                    </h1>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+            <div style="width:100%;padding-bottom:56.25%;position:relative;margin-bottom:20px">
+              <div style="position: absolute;top:0;bottom:0;left:0;right:0;background:#000;">
+                <div style="display: flex;align-items:center;justify-content: center;">
+                  <img src="http://via.placeholder.com/600x400?text=Image" alt="Slide image" style="margin:10px;flex-shrink: 0;width: auto;min-height: 100%;max-width: 70%" id="slide-img" />
+                  <h1 style="color:#fff;font-family:Comfortaa, sans-serif">
+                    <span id="slide-text">Quote text goes here</span>
+                    <div style="font-size:1rem;margin-top:1rem">&#x2014; <span id="slide-attr">Quote attribution</span></div>
+                  </h1>
+                </div>
+              </div>
             </div>
             <div>
               <div id="ajax-quotes" style="min-height:400px">
