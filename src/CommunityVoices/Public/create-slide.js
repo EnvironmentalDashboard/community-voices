@@ -1,22 +1,24 @@
-var current_quote = 1, current_image = 1;
+var quote_page = 1, image_page = 1;
 var quote_search = '', quote_tags = [], quote_attrs = [];
 var image_search = '', image_tags = [], photographers = [], orgs = [];
-var current_text = '"Tappan Square, you sense the history of this place as you’re walking through there. I think the trees in this town are amazing"', current_attr = 'Steve Hammond, Pastor, Peace Community Church', current_image = 1, current_ccid = 1;
+var current_text = '"Tappan Square, you sense the history of this place as you’re walking through there. I think the trees in this town are amazing"',
+    current_attr = 'Steve Hammond, Pastor, Peace Community Church',
+    current_image = 1,
+    current_ccid = 1;
 var $quote_container = $('#ajax-quote');
 var $image_container = $('#ajax-image');
 var $content_categories = $('#content-categories');
 getQuote(1);
 getImage(1);
-$(document).on('click', '.ajax-quote', function(e) {
+$(document).on('click', '.ajax-quote', function(e) { // need attach event handler this way bc targeted elements are dynamically generated
     current_text = $(this).data('text');
     current_attr = $(this).data('attribution');
     renderSlide(current_text, current_attr, current_image, current_ccid);
     $("input[name='quote_id']").val($(this).data('id'));
 });
 $(document).on('click', '.ajax-image', function(e) {
-    var id = $(this).data('id');
-    $("input[name='image_id']").val(id);
-    current_image = 'https://api.environmentaldashboard.org/cv/uploads/'+id;
+    current_image = $(this).data('id');
+    $("input[name='image_id']").val(current_image);
     renderSlide(current_text, current_attr, current_image, current_ccid);
 });
 $('#content-categories img').on('click', function() {
@@ -61,12 +63,12 @@ $('#cc-btn').on('click', function(e) {
 $('#next-quote').on('click', function(e) {
     e.preventDefault();
     $quote_container.find('.selectables').empty();
-    getQuote(++current_quote);
+    getQuote(++quote_page);
 });
 $('#next-image').on('click', function(e) {
     e.preventDefault();
     $image_container.find('.selectables').empty();
-    getImage(++current_image);
+    getImage(++image_page);
 });
 $('#filter-quotes').on('submit', function(e) {
     e.preventDefault();
@@ -81,7 +83,8 @@ $('#filter-quotes').on('submit', function(e) {
         quote_attrs.push($(this).val());
     });
     $quote_container.find('.selectables').empty();
-    getQuote(current_quote);
+    quote_page = 1;
+    getQuote(quote_page);
 });
 $('#filter-images').on('submit', function(e) {
     e.preventDefault();
@@ -97,14 +100,15 @@ $('#filter-images').on('submit', function(e) {
         orgs.push($(this).val());
     });
     $image_container.find('.selectables').empty();
-    getImage(current_image);
+    image_page = 1;
+    getImage(image_page);
 });
 
 var prefill_image = getParameterByName('prefill_image');
 var prefill_quote = getParameterByName('prefill_quote');
 if (prefill_image) {
     $("input[name='image_id']").val(prefill_image);
-    current_image = 'https://api.environmentaldashboard.org/cv/uploads/'+prefill_image;
+    current_image = prefill_image;
     renderSlide(current_text, current_attr, current_image, current_ccid);
 }
 
@@ -121,7 +125,7 @@ function renderSlide(quote_text, attribution, image, ccid) {
     var iframe = document.getElementById('preview');
     var cc = contentCategory(ccid);
     var head = '<html><head><meta charset="utf-8" /><style>* { box-sizing:border-box }html, body { height: 100%; font-family:Comfortaa, sans-serif; }</style><link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet" /></head><body style="background:#000;margin:0;padding:0;">';
-    var body = '<div style="display: flex;align-items:center;"><img src="https://environmentaldashboard.org/cv/uploads/'+image+'" style="flex-shrink: 0;width: auto;height: 86vh;" /><h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">'+quote_text+'<div style="font-size:2vw;margin-top:2vw">&#x2014; '+attribution+'</div></h1></div><div style="width:100%;background:'+cc.bg+';position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw">'+cc.text+'<img src="'+cc.image+'" alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto" /></div></body></html>';
+    var body = '<div style="display: flex;align-items:center;max-height:100%"><img src="https://environmentaldashboard.org/cv/uploads/'+image+'" style="flex-shrink: 0;width: auto;height: 86vh;max-width:70vw;max-height:100%" /><h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">'+quote_text+'<div style="font-size:2vw;margin-top:2vw">&#x2014; '+attribution+'</div></h1></div><div style="width:100%;background:'+cc.bg+';position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw">'+cc.text+'<img src="'+cc.image+'" alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto" /></div></body></html>';
     iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(head + body);
 }
 
@@ -153,7 +157,7 @@ function getParameterByName(name, url) {
 }
 
 function getQuote(page) {
-    $.getJSON('https://api.environmentaldashboard.org/cv/quotes', { per_page: 10, page: page, search: quote_search, tags: quote_tags, attributions: quote_attrs, unused: 1 }, function(data) {
+    $.getJSON('https://api.environmentaldashboard.org/cv/quotes', { per_page: 15, page: page, search: quote_search, tags: quote_tags, attributions: quote_attrs, unused: 1 }, function(data) {
         var html = '<div class="card"><div class="card-header">Quotes</div><ul class="list-group list-group-flush">';
         $.each(data['quoteCollection'], function(index, element) {
             if (typeof element === 'object') {
@@ -166,7 +170,7 @@ function getQuote(page) {
 }
 
 function getImage(page) {
-    $.getJSON('https://api.environmentaldashboard.org/cv/images', { per_page: 8, page: page, search: image_search, tags: image_tags, photographers: photographers, orgs: orgs, unused: 1 }, function(data) {
+    $.getJSON('https://api.environmentaldashboard.org/cv/images', { per_page: 10, page: page, search: image_search, tags: image_tags, photographers: photographers, orgs: orgs, unused: 1 }, function(data) {
         var html = '<div class="card-columns">';
         $.each(data['imageCollection'], function(index, element) {
             if (typeof element === 'object') {
