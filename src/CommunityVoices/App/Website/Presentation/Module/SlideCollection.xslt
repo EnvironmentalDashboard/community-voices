@@ -146,10 +146,10 @@
       <div class="col-sm-9">
       	<xsl:for-each select="domain/slideCollection/slide">
       		<xsl:if test="$isManager or status = 'approved'">
-		      	<a href="slides/{id}?ver=html">
+		      	<a href="slides/{id}">
 
               <div class="embed-responsive embed-responsive-16by9 mb-4">
-                <iframe class="embed-responsive-item" id="preview" style="pointer-events: none;" src="https://environmentaldashboard.org/cv/slides/{id}?ver=html"></iframe>
+                <iframe class="embed-responsive-item" id="preview" style="pointer-events: none;" src="https://environmentaldashboard.org/cv/slides/{id}"></iframe>
               </div>
 
 							<!-- <p>

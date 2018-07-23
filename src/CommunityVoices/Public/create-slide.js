@@ -12,7 +12,6 @@ $(document).on('click', '.ajax-quote', function(e) {
     current_attr = $(this).data('attribution');
     renderSlide(current_text, current_attr, current_image, current_ccid);
     $("input[name='quote_id']").val($(this).data('id'));
-    console.table('df');
 });
 $(document).on('click', '.ajax-image', function(e) {
     var id = $(this).data('id');
@@ -123,7 +122,7 @@ function renderSlide(quote_text, attribution, image, ccid) {
     var cc = contentCategory(ccid);
     var head = '<html><head><meta charset="utf-8" /><style>* { box-sizing:border-box }html, body { height: 100%; font-family:Comfortaa, sans-serif; }</style><link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet" /></head><body style="background:#000;margin:0;padding:0;">';
     var body = '<div style="display: flex;align-items:center;"><img src="https://environmentaldashboard.org/cv/uploads/'+image+'" style="flex-shrink: 0;width: auto;height: 86vh;" /><h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">'+quote_text+'<div style="font-size:2vw;margin-top:2vw">&#x2014; '+attribution+'</div></h1></div><div style="width:100%;background:'+cc.bg+';position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw">'+cc.text+'<img src="'+cc.image+'" alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto" /></div></body></html>';
-    iframe.src = 'data:text/html;charset=utf-8,' + encodeURI(head + body);
+    iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(head + body);
 }
 
 function contentCategory(id) {

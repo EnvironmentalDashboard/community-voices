@@ -35,7 +35,7 @@ class Slide extends Component\View
     public function getAllSlide($routes, $context)
     {
         parse_str($_SERVER['QUERY_STRING'], $qs);
-        $html_ver = (isset($qs['ver']) && $qs['ver'] === 'html');
+        $svg_ver = (isset($qs['ver']) && $qs['ver'] === 'svg');
 
         /**
          * Gather identity information
@@ -62,7 +62,7 @@ class Slide extends Component\View
         unset($obj->slideCollection['limit']);
         unset($obj->slideCollection['page']);
         foreach ($obj->slideCollection as $key => $slide) {
-            if (!$html_ver) {
+            if ($svg_ver) {
                 $slide->slide->g = htmlspecialchars($this->formatSlide($slide->slide->image->image->filename, $slide->slide->image->image->id, $slide->slide->quote->quote->text, $slide->slide->quote->quote->attribution, $slide->slide->contentCategory->contentCategory->id));
             }
             $slide->slide->quote->quote->text = htmlspecialchars($slide->slide->quote->quote->text);
@@ -172,7 +172,7 @@ class Slide extends Component\View
 
     public function getSlide($routes, $context)
     {
-        $html_ver = (isset($_GET['ver']) && $_GET['ver'] === 'html');
+        $svg_ver = (isset($_GET['ver']) && $_GET['ver'] === 'svg');
 
         /**
          * Gather identity information
@@ -189,7 +189,7 @@ class Slide extends Component\View
         $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
         $json = json_decode($slideAPIView->getSlide()->getContent());
 
-        if (!$html_ver) {
+        if ($svg_ver) {
             $json->slide->g = htmlspecialchars($this->formatSlide($json->slide->image->image->filename, $json->slide->image->image->id, $json->slide->quote->quote->text, $json->slide->quote->quote->attribution, $json->slide->contentCategory->contentCategory->id));
         }
 
@@ -216,7 +216,7 @@ class Slide extends Component\View
         /**
          * Generate slide module
          */
-        $slideModule = new Component\Presenter(($html_ver) ? 'Module/HTMLSlide' : 'Module/Slide');
+        $slideModule = new Component\Presenter(($svg_ver) ? 'Module/Slide' : 'Module/HTMLSlide');
         $slideModuleXML = $slideModule->generate($slidePackageElement);
 
         /**
@@ -241,13 +241,13 @@ class Slide extends Component\View
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
 
-        $presentation = new Component\Presenter(($html_ver) ? 'Blank' : 'SVG');
+        $presentation = new Component\Presenter(($svg_ver) ? 'SVG' : 'Blank');
 
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 
         $this->finalize($response);
 
-        if (!$html_ver) {
+        if ($svg_ver) {
             header('Content-type: image/svg+xml');
         }
 

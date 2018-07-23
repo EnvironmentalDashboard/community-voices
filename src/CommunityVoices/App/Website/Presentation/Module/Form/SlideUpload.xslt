@@ -157,7 +157,7 @@
           </div>
           <div class="col-sm-9">
             <div class="mb-4"><div class="embed-responsive embed-responsive-16by9">
-              <iframe class="embed-responsive-item" id="preview" src="https://environmentaldashboard.org/cv/slides/3?ver=html"></iframe>
+              <iframe class="embed-responsive-item" id="preview" src="https://environmentaldashboard.org/cv/slides/3"></iframe>
             </div></div>
             <div>
               <div id="ajax-quote" style="min-height:400px">
@@ -194,27 +194,27 @@
               </div>
             </div></div>
 
+            <form action='./slides/new/authenticate' method='post'>
+              <input type="hidden" name="image_id"/>
+              <input type="hidden" name="quote_id"/>
+              <input type="hidden" name="content_category"/>
+              <div class="form-group">
+                <input type="text" name="probability" placeholder="Probability" class="form-control" />
+              </div>
+              <div class="form-group">
+                <input type="text" name="decay_percent" placeholder="Decay percent" class="form-control" />
+              </div>
+              <div class="form-group">
+                <input type="text" name="decay_start" placeholder="Decay start" class="form-control" />
+              </div>
+              <div class="form-group">
+                <input type="text" name="decay_end" placeholder="Decay end" class="form-control" />
+              </div>
+              <input type='submit' value="Create slide" class="btn btn-primary" />
+            </form>
+
           </div>
         </div>
-        
-        <form action='./slides/new/authenticate' method='post'>
-          <input type="hidden" name="image_id"/>
-          <input type="hidden" name="quote_id"/>
-          <input type="hidden" name="content_category"/>
-          <div class="form-group">
-            <input type="text" name="probability" placeholder="Probability" class="form-control" />
-          </div>
-          <div class="form-group">
-            <input type="text" name="decay_percent" placeholder="Decay percent" class="form-control" />
-          </div>
-          <div class="form-group">
-            <input type="text" name="decay_start" placeholder="Decay start" class="form-control" />
-          </div>
-          <div class="form-group">
-            <input type="text" name="decay_end" placeholder="Decay end" class="form-control" />
-          </div>
-          <input type='submit' value="Create slide" class="btn btn-primary" />
-        </form>
       </div>
     </div>
     </xsl:template>
