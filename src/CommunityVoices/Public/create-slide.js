@@ -1,24 +1,28 @@
 var current_quote = 1, current_image = 1;
 var quote_search = '', quote_tags = [], quote_attrs = [];
 var image_search = '', image_tags = [], photographers = [], orgs = [];
+var current_text = '"Tappan Square, you sense the history of this place as you’re walking through there. I think the trees in this town are amazing"', current_attr = 'Steve Hammond, Pastor, Peace Community Church', current_image = 1, current_ccid = 1;
 var $quote_container = $('#ajax-quotes');
 var $image_container = $('#ajax-images');
 var $content_categories = $('#content-categories');
 getQuote(1);
 getImage(1);
 $(document).on('click', '.ajax-quote', function(e) {
-    $('#slide-text').text($(this).data('text'));
-    $('#slide-attr').text($(this).data('attribution'));
+    current_text = $(this).data('text');
+    current_attr = $(this).data('attribution');
+    renderSlide(current_text, current_attr, current_image, current_ccid);
     $("input[name='quote_id']").val($(this).data('id'));
 });
 $(document).on('click', '.ajax-image', function(e) {
     var id = $(this).data('id');
     $("input[name='image_id']").val(id);
-    $('#slide-img').attr('src', 'https://api.environmentaldashboard.org/cv/uploads/'+id);
+    current_image = 'https://api.environmentaldashboard.org/cv/uploads/'+id;
+    renderSlide(current_text, current_attr, current_image, current_ccid);
 });
 $('#content-categories img').on('click', function() {
-    $('#preview-cc').remove();
-    $("input[name='content_category']").val($(this).data('id'));
+    current_ccid = $(this).data('id');
+    renderSlide(current_text, current_attr, current_image, current_ccid);
+    $("input[name='content_category']").val(current_ccid);
 });
 var $prev_btn = $('#quote-btn');
 $('#quote-btn').on('click', function(e) {
@@ -100,15 +104,42 @@ var prefill_image = getParameterByName('prefill_image');
 var prefill_quote = getParameterByName('prefill_quote');
 if (prefill_image) {
     $("input[name='image_id']").val(prefill_image);
-    $('#slide-img').attr('src', 'https://api.environmentaldashboard.org/cv/uploads/'+prefill_image);
+    current_image = 'https://api.environmentaldashboard.org/cv/uploads/'+prefill_image;
+    renderSlide(current_text, current_attr, current_image, current_ccid);
 }
 
 if (prefill_quote) {
     $.getJSON('https://api.environmentaldashboard.org/cv/quotes/'+prefill_quote, { }, function(data) {
-        $('#slide-text').text(htmlDecode(data['quote']['text']));
-        $('#slide-attr').text(data['quote']['attribution']);
+        current_text = htmlDecode(data['quote']['text']);
+        current_attr = data['quote']['attribution'];
+        renderSlide(current_text, current_attr, current_image, current_ccid);
         $("input[name='quote_id']").val(data['quote']['id']);
     });
+}
+
+function renderSlide(quote_text, attribution, image, ccid) {
+    var iframe = document.getElementById('preview');
+    var cc = contentCategory(ccid);
+    var head = '<html><head><meta charset="utf-8" /><style>* { box-sizing:border-box }html, body { height: 100%; font-family:Comfortaa, sans-serif; }</style><link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet" /></head><body style="background:#000;margin:0;padding:0;">';
+    var body = '<div style="display: flex;align-items:center;"><img src="https://environmentaldashboard.org/cv/uploads/'+image+'" style="flex-shrink: 0;width: auto;height: 86vh;" /><h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">'+quote_text+'<div style="font-size:2vw;margin-top:2vw">&#x2014; '+attribution+'</div></h1></div><div style="width:100%;background:'+cc.bg+';position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw">'+cc.text+'<img src="'+cc.image+'" alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto" /></div></body></html>';
+    iframe.src = 'data:text/html;charset=utf-8,' + encodeURI(head + body);
+}
+
+function contentCategory(id) {
+    switch (id) {
+        case 1:
+            return {text: 'Serving Our Community', image: 'https://environmentaldashboard.org/cv/public/1.png', bg: 'rgb(150,81,23)'}
+        case 2:
+            return {text: 'Our Downtown', image: 'https://environmentaldashboard.org/cv/public/2.png', bg: 'rgb(92,92,92)'}
+        case 3:
+            return {text: 'Next Generation', image: 'https://environmentaldashboard.org/cv/public/3.png', bg: 'rgb(4,54,75)'}
+        case 4:
+            return {text: 'Heritage', image: 'https://environmentaldashboard.org/cv/public/4.png', bg: 'rgb(86,114,34)'}
+        case 5:
+            return {text: 'Natural Oberlin', image: 'https://environmentaldashboard.org/cv/public/5.png', bg: 'rgb(67,118,45)'}
+        case 6:
+            return {text: 'Our Neighbours', image: 'https://environmentaldashboard.org/cv/public/6.png', bg: 'rgb(94,0,224)'}
+    }
 }
 
 function getParameterByName(name, url) {

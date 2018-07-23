@@ -19,10 +19,10 @@
             <title> <xsl:value-of select="title" /> </title>
             <style>
                 * { box-sizing:border-box }
-                html, body { height: 100% }
+                html, body { height: 100%; font-family:Comfortaa, sans-serif; }
             </style>
 
-            <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet" />
+            <link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet" />
         </head>
         <body style="background:#000;margin:0;padding:0;">
             <xsl:value-of select="main-pane" disable-output-escaping="yes" />

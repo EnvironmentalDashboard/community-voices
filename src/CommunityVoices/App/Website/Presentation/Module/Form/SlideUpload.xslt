@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="1.0">
-    <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+    <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
     <xsl:variable name="search" select="package/domain/search"/>
     <xsl:variable name="quotetags" select="package/domain/quotetags"/>
@@ -169,7 +169,10 @@
                 </div>
               </div>
             </div> -->
-            <div style="width:100%;padding-bottom:56.25%;position:relative;margin-bottom:20px">
+            <div><div class="embed-responsive embed-responsive-16by9">
+              <iframe class="embed-responsive-item" id="preview" src="https://environmentaldashboard.org/cv/slides/3?ver=html"></iframe>
+            </div></div>
+            <!-- <div style="width:100%;padding-bottom:56.25%;position:relative;margin-bottom:20px">
               <div style="position: absolute;top:0;bottom:0;left:0;right:0;background:#000;">
                 <div style="display: flex;align-items:center;justify-content: center;">
                   <img src="http://via.placeholder.com/600x400?text=Image" alt="Slide image" style="margin:10px;flex-shrink: 0;width: auto;min-height: 100%;max-width: 70%" id="slide-img" />
@@ -177,9 +180,10 @@
                     <span id="slide-text">Quote text goes here</span>
                     <div style="font-size:1rem;margin-top:1rem">&#x2014; <span id="slide-attr">Quote attribution</span></div>
                   </h1>
+                  <div style="width:100%;background:rgb(150,81,23);position:absolute;bottom:0;height:20%;text-transform:uppercase;color:#fff;font-size:1rem;line-height:20%;font-weight:700;padding-left:1vw;font-family:Comfortaa, sans-serif">Content category</div>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div>
               <div id="ajax-quotes" style="min-height:400px">
                 <div class="selectables"></div>
