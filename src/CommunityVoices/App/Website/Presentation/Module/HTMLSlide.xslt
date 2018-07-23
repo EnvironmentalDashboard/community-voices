@@ -8,7 +8,7 @@
 
   <xsl:template match="/package">
     <div style="display: flex;align-items:center;">
-      <img src="https://environmentaldashboard.org/cv/uploads/{domain/slide/image/image/id}" alt="{domain/slide/image/image/title}" style="flex-shrink: 0;width: auto;height: 86vh;" />
+      <img src="https://environmentaldashboard.org/cv/uploads/{domain/slide/image/image/id}" alt="{domain/slide/image/image/title}" style="flex-shrink: 0;width: auto;height: 86vh;max-width:70vw" />
       <h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">
         <xsl:value-of select="domain/slide/quote/quote/text"></xsl:value-of>
         <div style="font-size:2vw;margin-top:2vw">&#x2014; <xsl:value-of select="domain/slide/quote/quote/attribution"></xsl:value-of></div>

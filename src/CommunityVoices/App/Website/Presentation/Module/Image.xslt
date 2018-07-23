@@ -1,7 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   version="1.0">
 
-  <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+  <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
   <xsl:variable name="isManager" select="package/identity/user/role = 'manager'
     or package/identity/user/role = 'administrator'"/>
@@ -79,11 +79,11 @@
           <xsl:choose>
             <xsl:when test="domain/slideId != ''">
               <h4>Content featuring this image</h4>
-              <p><img src="http://environmentaldashboard.org/cv/slides/{domain/slideId}" class="img-fluid" alt=""/></p>
+              <p><iframe src="http://environmentaldashboard.org/cv/slides/{domain/slideId}?ver=html" class="img-fluid" alt=""></iframe></p>
             </xsl:when>
             <xsl:otherwise>
               <p>This image is not used in any slides</p>
-              <p><a href="/cv/slides/new?prefill_image={domain/image/id}" class="btn btn-primary btn-block">Go create one</a></p>
+              <p><a href="/cv/slides/new?prefill_image={domain/image/id}" class="btn btn-primary btn-block">Create one</a></p>
             </xsl:otherwise>
           </xsl:choose>
         </div>

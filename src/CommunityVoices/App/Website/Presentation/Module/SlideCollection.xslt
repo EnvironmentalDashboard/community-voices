@@ -1,7 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	version="1.0">
 
-	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+	<xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
 	<xsl:variable name="isManager" select="package/identity/user/role = 'manager'
 		or package/identity/user/role = 'administrator'"/>
@@ -146,9 +146,11 @@
       <div class="col-sm-9">
       	<xsl:for-each select="domain/slideCollection/slide">
       		<xsl:if test="$isManager or status = 'approved'">
-		      	<a href= "slides/{id}"/>
+		      	<a href="slides/{id}?ver=html">
 
-							<img src="https://environmentaldashboard.org/cv/slides/{id}" class="img-fluid mb-5" />
+              <div class="embed-responsive embed-responsive-16by9 mb-4">
+                <iframe class="embed-responsive-item" id="preview" style="pointer-events: none;" src="https://environmentaldashboard.org/cv/slides/{id}?ver=html"></iframe>
+              </div>
 
 							<!-- <p>
 								<xsl:value-of select='image/image/id' />,
@@ -156,7 +158,7 @@
 								<xsl:value-of select='contentCategory/contentCategory/id' />
 							</p> -->
 
-						<a/>
+						</a>
 					</xsl:if>
 				</xsl:for-each>
       </div>

@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
-  <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+  <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
   <xsl:variable name="isManager" select="package/identity/user/role = 'manager'
     or package/identity/user/role = 'administrator'" />
@@ -9,29 +9,33 @@
 
       <div class="row" style="padding:15px;">
         <div class="col-12">
-          <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
               <xsl:for-each select="domain/slideCollection/slide">
                 <xsl:variable name="i" select="position()" />
                 <xsl:choose>
                   <xsl:when test="$i = 1">
                     <div class="carousel-item active">
-                      <img class="d-block w-100" src="https://environmentaldashboard.org/cv/slides/{id}" id="slide{$i}" />
+                      <div class="embed-responsive embed-responsive-16by9 mb-4">
+                        <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;" src="https://environmentaldashboard.org/cv/slides/{id}?ver=html"></iframe>
+                      </div>
                     </div>
                   </xsl:when>
                   <xsl:otherwise>
                     <div class="carousel-item">
-                      <img class="d-block w-100" src="https://environmentaldashboard.org/cv/slides/{id}" id="slide{$i}" />
+                      <div class="embed-responsive embed-responsive-16by9 mb-4">
+                        <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;" src="https://environmentaldashboard.org/cv/slides/{id}?ver=html"></iframe>
+                      </div>
                     </div>
                   </xsl:otherwise>
                 </xsl:choose>
               </xsl:for-each>
             </div>
-            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
               </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
               </a>

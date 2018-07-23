@@ -156,45 +156,20 @@
             </div>
           </div>
           <div class="col-sm-9">
-            <!-- <div style="width:100%;padding-bottom:56.25%;position:relative">
-              <div style="position: absolute;top:0;bottom:0;left:0;right:0;">
-                <div style="width:100%;background:#000;">
-                  <div style="display: flex;align-items:center;justify-content: center;">
-                    <img src="http://via.placeholder.com/600x400?text=Image" alt="Slide image" style="margin:10px;flex-shrink: 0;width: auto;min-height: 100%;" id="slide-img" />
-                    <h1 style="color:#fff;font-family:Comfortaa, sans-serif">
-                      <span id="slide-text">Quote text goes here</span>
-                      <div style="font-size:1rem;margin-top:1rem">&#x2014; <span id="slide-attr">Quote attribution</span></div>
-                    </h1>
-                  </div>
-                </div>
-              </div>
-            </div> -->
-            <div><div class="embed-responsive embed-responsive-16by9">
+            <div class="mb-4"><div class="embed-responsive embed-responsive-16by9">
               <iframe class="embed-responsive-item" id="preview" src="https://environmentaldashboard.org/cv/slides/3?ver=html"></iframe>
             </div></div>
-            <!-- <div style="width:100%;padding-bottom:56.25%;position:relative;margin-bottom:20px">
-              <div style="position: absolute;top:0;bottom:0;left:0;right:0;background:#000;">
-                <div style="display: flex;align-items:center;justify-content: center;">
-                  <img src="http://via.placeholder.com/600x400?text=Image" alt="Slide image" style="margin:10px;flex-shrink: 0;width: auto;min-height: 100%;max-width: 70%" id="slide-img" />
-                  <h1 style="color:#fff;font-family:Comfortaa, sans-serif">
-                    <span id="slide-text">Quote text goes here</span>
-                    <div style="font-size:1rem;margin-top:1rem">&#x2014; <span id="slide-attr">Quote attribution</span></div>
-                  </h1>
-                  <div style="width:100%;background:rgb(150,81,23);position:absolute;bottom:0;height:20%;text-transform:uppercase;color:#fff;font-size:1rem;line-height:20%;font-weight:700;padding-left:1vw;font-family:Comfortaa, sans-serif">Content category</div>
-                </div>
-              </div>
-            </div> -->
             <div>
-              <div id="ajax-quotes" style="min-height:400px">
+              <div id="ajax-quote" style="min-height:400px">
                 <div class="selectables"></div>
+                <p class="mt-2"><a id="prev-quote" href="" class="btn btn-sm btn-outline-primary">&#8592; Previous page</a> <a id="next-quote" href="" class="btn btn-sm btn-outline-primary float-right">Next page &#8594;</a></p>
               </div>
-              <p class="mt-2"><a id="prev-quote" href="" class="btn btn-sm btn-outline-primary">&#8592; Previous page</a> <a id="next-quote" href="" class="btn btn-sm btn-outline-primary float-right">Next page &#8594;</a></p>
             </div>
             <div>
-              <div style="display:none;min-height:400px" id="ajax-images">
+              <div style="display:none;min-height:400px" id="ajax-image">
                 <div class="selectables"></div>
+                <p class="mt-2"><a id="prev-image" href="" class="btn btn-sm btn-outline-primary">&#8592; Previous page</a> <a id="next-image" href="" class="btn btn-sm btn-outline-primary float-right">Next page &#8594;</a></p>
               </div>
-              <p class="mt-2"><a id="prev-image" href="" class="btn btn-sm btn-outline-primary">&#8592; Previous page</a> <a id="next-image" href="" class="btn btn-sm btn-outline-primary float-right">Next page &#8594;</a></p>
             </div>
             <div><div style="display:none" id="content-categories">
               <div class="card-columns">

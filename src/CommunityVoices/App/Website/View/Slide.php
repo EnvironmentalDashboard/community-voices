@@ -35,6 +35,7 @@ class Slide extends Component\View
     public function getAllSlide($routes, $context)
     {
         parse_str($_SERVER['QUERY_STRING'], $qs);
+        $html_ver = (isset($qs['ver']) && $qs['ver'] === 'html');
 
         /**
          * Gather identity information
@@ -61,7 +62,9 @@ class Slide extends Component\View
         unset($obj->slideCollection['limit']);
         unset($obj->slideCollection['page']);
         foreach ($obj->slideCollection as $key => $slide) {
-            $slide->slide->g = htmlspecialchars($this->formatSlide($slide->slide->image->image->filename, $slide->slide->image->image->id, $slide->slide->quote->quote->text, $slide->slide->quote->quote->attribution, $slide->slide->contentCategory->contentCategory->id));
+            if (!$html_ver) {
+                $slide->slide->g = htmlspecialchars($this->formatSlide($slide->slide->image->image->filename, $slide->slide->image->image->id, $slide->slide->quote->quote->text, $slide->slide->quote->quote->attribution, $slide->slide->contentCategory->contentCategory->id));
+            }
             $slide->slide->quote->quote->text = htmlspecialchars($slide->slide->quote->quote->text);
             $slide->slide->quote->quote->attribution = htmlspecialchars($slide->slide->quote->quote->attribution);
             $slide->slide->quote->quote->subAttribution = htmlspecialchars($slide->slide->quote->quote->subAttribution);
@@ -146,6 +149,7 @@ class Slide extends Component\View
             "Community Voices: All Slides".
             $slideXMLElement->id
         );
+        $domainXMLElement->addChild('extraJS', "slide-collection");
 
         foreach ($qs as $key => $value) {
             if ($key === 'search') {
