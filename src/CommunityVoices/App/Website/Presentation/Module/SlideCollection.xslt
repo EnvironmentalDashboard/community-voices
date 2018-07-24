@@ -13,6 +13,7 @@
   <xsl:variable name="order" select="package/domain/order"/>
   <xsl:variable name="unused" select="package/domain/unused"/>
   <xsl:variable name="attributions" select="package/domain/attributions"/>
+  <xsl:variable name="content_category" select="package/domain/content_category"/>
 
 
 	<xsl:template match="/package">
@@ -32,6 +33,27 @@
 	        			<label for="search">Search</label>
 	        			<input type="text" class="form-control" name="search" id="search" placeholder="Enter search terms" value="{$search}" />
 	        		</div>
+
+              <div class="form-group">
+                <p class="mb-0">Content category</p>
+                <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
+                  <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="content_category[]">
+                        <xsl:attribute name="id">cc<xsl:value-of select='position()' /></xsl:attribute>
+                        <xsl:if test="contains($content_category, concat(',', position(), ','))">
+                          <xsl:attribute name="checked">checked</xsl:attribute>
+                        </xsl:if>
+                        <xsl:attribute name="value"><xsl:value-of select='position()' /></xsl:attribute>
+                      </input>
+                      <label class="form-check-label">
+                        <xsl:attribute name="for">cc<xsl:value-of select='position()' /></xsl:attribute>
+                        <xsl:value-of select="."></xsl:value-of>
+                      </label>
+                    </div>
+                  </xsl:for-each>
+                </div>
+              </div>
 
 	        		<div class="form-group">
                 <p class="mb-0">Tags</p>

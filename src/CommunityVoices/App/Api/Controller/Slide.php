@@ -47,7 +47,6 @@ class Slide
         $offset = $limit * $page;
         $cc = (is_array($request->query->get('content_category'))) ? $request->query->get('content_category') : [];
         $stateObserver = $this->tagLookup->findAll(true);
-        // $stateObserver = $this->slideLookup->findAll($page, $limit, $offset, $cc, $stateObserver);
         $stateObserver = $this->slideLookup->findAll($page, $limit, $offset, $order, $search, $tags, $photographers, $orgs, $attributions, $cc, $stateObserver);
         $stateObserver = $this->quoteLookup->attributions($stateObserver, true);
         $stateObserver = $this->imageLookup->photographers($stateObserver, true);

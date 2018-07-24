@@ -108,6 +108,12 @@ class Slide extends Component\View
             $this->transcriber->toXml($obj)
         );
 
+        $obj = new \stdClass;
+        $obj->contentCategoryCollection = array_map(function($a) { $o = new \stdClass; $o->contentCategory = $a; return $o; }, ['Serving Our Community', 'Our Downtown', 'Next Generation', 'Heritage', 'Natural Oberlin', 'Neighbors']);
+        $contentCategoryXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($obj)
+        );
+
         /**
          * Slide XML Package
          */
@@ -119,6 +125,7 @@ class Slide extends Component\View
         $packagedSlide->adopt($attrXMLElement);
         $packagedSlide->adopt($photoXMLElement);
         $packagedSlide->adopt($orgXMLElement);
+        $packagedSlide->adopt($contentCategoryXMLElement);
         $packagedSlide->adopt($tagXMLElement);
         foreach ($qs as $key => $value) {
             if ($key === 'search' || $key === 'order') {

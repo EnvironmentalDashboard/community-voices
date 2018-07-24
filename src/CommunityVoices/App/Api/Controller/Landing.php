@@ -25,7 +25,18 @@ class Landing
      */
     public function getLanding($request)
     {
-        $this->slideLookup->findAll(0, 5, 0, [1]);
+        $this->slideLookup->findAll(
+            0, // page
+            5, // limit
+            0, // offset
+            'asc', // order
+            '', // search
+            null, // tags
+            null, // photographers
+            null, // orgs
+            null, // attributions
+            [1] // content category
+        );
     }
 
 }
