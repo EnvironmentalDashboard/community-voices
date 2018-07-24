@@ -22,7 +22,7 @@
             <meta name="theme-color" content="#000000" />
             <title> <xsl:value-of select="title" /> </title>
 
-            <link rel="stylesheet" href="https://environmentaldashboard.org/css/bootstrap.css"/>
+            <link rel="stylesheet" href="https://environmentaldashboard.org/css/bootstrap.css?v=2"/>
             <xsl:if test="comfortaa != ''">
                 <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet" />
             </xsl:if>

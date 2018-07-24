@@ -43,7 +43,7 @@
         </div>
       </div>
       
-      <div class="row mb-5" style="padding: 15px">
+      <div class="row mb-3" style="padding: 15px">
         <div class="col"><img data-cc="1" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/slider-images/serving-our-community.png" style="cursor:pointer" /></div>
         <div class="col"><img data-cc="2" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/slider-images/our-downtown.png" style="cursor:pointer" /></div>
         <div class="col"><img data-cc="3" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/slider-images/next-generation.png" style="cursor:pointer" /></div>
@@ -51,6 +51,24 @@
         <div class="col"><img data-cc="5" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/slider-images/nature_photos.png" style="cursor:pointer" /></div>
         <div class="col"><img data-cc="4" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/slider-images/heritage.png" style="cursor:pointer" /></div>
         <div class="col"><img data-cc="rand" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/slider-images/random.png" style="cursor:pointer" /></div>
+      </div>
+
+      <div class="row mb-5" style="padding: 15px">
+        <form action="/cv/slides" method="GET" style="width:100%;padding:15px" id="search-form">
+          <h4 class="mb-2">Looking for more content?</h4>
+          <div class="input-group input-group-lg">
+            <input name="search" type="text" class="form-control" aria-label="Search Community Voices" placeholder="Search slides, images, or quotes" />
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown-btn">Slides</button>
+              <div class="dropdown-menu" id="searchables">
+                <a class="dropdown-item" data-action="/cv/slides" href="#">Slides</a>
+                <a class="dropdown-item" data-action="/cv/images" href="#">Images</a>
+                <a class="dropdown-item" data-action="/cv/quotes" href="#">Quotes</a>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-outline-primary form-control" style="max-width:15%">Search</button>
+          </div>
+        </form>
       </div>
 
 
