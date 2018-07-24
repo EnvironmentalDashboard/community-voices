@@ -79,7 +79,7 @@
           <xsl:choose>
             <xsl:when test="domain/slideId != ''">
               <h4>Content featuring this image</h4>
-              <p><iframe src="http://environmentaldashboard.org/cv/slides/{domain/slideId}" class="img-fluid" alt=""></iframe></p>
+              <p><iframe src="https://environmentaldashboard.org/cv/slides/{domain/slideId}" class="img-fluid" alt=""></iframe></p>
             </xsl:when>
             <xsl:otherwise>
               <p>This image is not used in any slides</p>

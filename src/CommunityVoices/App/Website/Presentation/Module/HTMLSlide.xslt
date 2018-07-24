@@ -9,7 +9,7 @@
   <xsl:template match="/package">
     <div style="display: flex;align-items:center;max-height:100%">
       <img src="https://environmentaldashboard.org/cv/uploads/{domain/slide/image/image/id}" alt="{domain/slide/image/image/title}" style="flex-shrink: 0;width: auto;height: 86vh;max-width:70vw;max-height:100%" />
-      <h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">
+      <h1 style="{concat('color:#fff;padding:3vw;font-size:', domain/slide/font_size, 'vw;font-weight:400')}">
         <xsl:value-of select="domain/slide/quote/quote/text"></xsl:value-of>
         <div style="font-size:2vw;margin-top:2vw">&#x2014; <xsl:value-of select="domain/slide/quote/quote/attribution"></xsl:value-of></div>
       </h1>
@@ -41,7 +41,7 @@
           Our Neighbours
         </xsl:when>
       </xsl:choose>
-      <img src="http://via.placeholder.com/200x200?text=Content Category" alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto">
+      <img src="" alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto">
         <xsl:choose>
           <xsl:when test="domain/slide/contentCategory/contentCategory/id = 1">
             <xsl:attribute name="src">https://environmentaldashboard.org/cv/public/1.png</xsl:attribute>

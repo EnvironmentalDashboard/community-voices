@@ -191,6 +191,8 @@ class Slide extends Component\View
 
         if ($svg_ver) {
             $json->slide->g = htmlspecialchars($this->formatSlide($json->slide->image->image->filename, $json->slide->image->image->id, $json->slide->quote->quote->text, $json->slide->quote->quote->attribution, $json->slide->contentCategory->contentCategory->id));
+        } else {
+            $json->slide->font_size = 3.2 - (strlen($json->slide->quote->quote->text)/500);
         }
 
         $slideXMLElement = new SimpleXMLElement(
