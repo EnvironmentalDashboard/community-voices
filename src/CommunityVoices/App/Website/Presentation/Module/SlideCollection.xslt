@@ -119,14 +119,14 @@
               <div class="form-group">
                 <label for="order">Order by</label>
                 <select class="form-control" id="order" name="order">
-                  <option value="date_taken_desc">
-                    <xsl:if test="$order = 'date_taken_desc'">
+                  <option value="desc">
+                    <xsl:if test="$order = 'desc'">
                       <xsl:attribute name="selected">selected</xsl:attribute>
                     </xsl:if>
                     Newest first
                   </option>
-                  <option value="date_taken_asc">
-                    <xsl:if test="$order = 'date_taken_asc'">
+                  <option value="asc">
+                    <xsl:if test="$order = 'asc'">
                       <xsl:attribute name="selected">selected</xsl:attribute>
                     </xsl:if>
                     Oldest first

@@ -10,12 +10,26 @@ use CommunityVoices\Model\Mapper;
 
 class SlideCollection extends DataMapper
 {
-    public function fetch(Entity\SlideCollection $slideCollection, int $limit, int $offset, $order, $search, $tags, $photographers, $orgs, $attributions, array $contentCategories = [])
+    public function fetch(Entity\SlideCollection $slideCollection, int $limit, int $offset, string $order_str, string $search, $tags, $photographers, $orgs, $attributions, array $contentCategories = [])
     {
-        $this->fetchAll($slideCollection, $limit, $offset, $order, $search, $tags, $photographers, $orgs, $attributions, $contentCategories);
+        switch ($order_str) {
+            case 'asc':
+                $sort = 'media.id';
+                $order = 'ASC';
+                break;
+            case 'desc':
+                $sort = 'media.id';
+                $order = 'DESC';
+                break;
+            default:
+                $sort = 'media.id';
+                $order = 'DESC';
+                break;
+        }
+        $this->fetchAll($slideCollection, $limit, $offset, $search, $tags, $photographers, $orgs, $attributions, $contentCategories, $sort, $order);
     }
 
-    private function fetchAll(Entity\SlideCollection $slideCollection, int $limit, int $offset, $order, $search, $tags, $photographers, $orgs, $attributions, array $contentCategories = [])
+    private function fetchAll(Entity\SlideCollection $slideCollection, int $limit, int $offset, $search, $tags, $photographers, $orgs, $attributions, array $contentCategories = [], $sort = 'media.id', $order = 'DESC')
     {
         $params = [];
         if ($search == '') {
@@ -94,7 +108,7 @@ class SlideCollection extends DataMapper
 		         "
 		         . $this->query_prep($slideCollection->status, "media.status")
                  . $this->query_prep($slideCollection->creators, "media.added_by")
-                 . " LIMIT {$offset}, {$limit}";
+                 . " ORDER BY {$sort} {$order} LIMIT {$offset}, {$limit}";
                  // echo $query;var_dump($params);die;
         $statement = $this->conn->prepare($query);
 
