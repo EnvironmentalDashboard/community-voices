@@ -10,13 +10,60 @@ use CommunityVoices\Model\Mapper;
 
 class SlideCollection extends DataMapper
 {
-    public function fetch(Entity\SlideCollection $slideCollection, int $limit, int $offset, array $contentCategories = [])
+    public function fetch(Entity\SlideCollection $slideCollection, int $limit, int $offset, $order, $search, $tags, $photographers, $orgs, $attributions, array $contentCategories = [])
     {
-        $this->fetchAll($slideCollection, $limit, $offset, $contentCategories);
+        $this->fetchAll($slideCollection, $limit, $offset, $order, $search, $tags, $photographers, $orgs, $attributions, $contentCategories);
     }
 
-    private function fetchAll(Entity\SlideCollection $slideCollection, int $limit, int $offset, array $contentCategories = [])
+    private function fetchAll(Entity\SlideCollection $slideCollection, int $limit, int $offset, $order, $search, $tags, $photographers, $orgs, $attributions, array $contentCategories = [])
     {
+        $params = [];
+        if ($search == '') {
+            $search_query = '';
+        } else {
+            $search_quote_query = 'AND slide.quote_id IN (SELECT `community-voices_quotes`.media_id FROM `community-voices_quotes` WHERE text LIKE ? OR attribution LIKE ? OR sub_attribution LIKE ?)';
+            $params[] = "%{$search}%";
+            $params[] = "%{$search}%";
+            $params[] = "%{$search}%";
+            $search_image_query = 'AND slide.image_id IN (SELECT `community-voices_images`.media_id FROM `community-voices_images` WHERE title LIKE ? OR description LIKE ? OR photographer LIKE ? OR organization LIKE ?)';
+            $params[] = "%{$search}%";
+            $params[] = "%{$search}%";
+            $params[] = "%{$search}%";
+            $params[] = "%{$search}%";
+            $search_query = $search_quote_query . ' ' . $search_image_query;
+        }
+        if ($tags == null) {
+            $tag_query = '';
+        } else {
+            $sanitized_tags = implode(',', array_map('intval', $tags));
+            $tag_query = 'AND (slide.quote_id IN (SELECT media_id FROM `community-voices_media-group-map` WHERE group_id IN ('.$sanitized_tags.')) OR slide.image_id IN (SELECT media_id FROM `community-voices_media-group-map` WHERE group_id IN ('.$sanitized_tags.')) )';
+        }
+        if ($attributions == null) {
+            $attribution_query = '';
+        } else {
+            $attribution_query = 'AND slide.quote_id IN (SELECT media_id FROM `community-voices_quotes` WHERE attribution IN ('.rtrim(str_repeat('?,', count($attributions)), ',').'))';
+            foreach ($attributions as $param) {
+                $params[] = $param;
+            }
+        }
+
+        if ($photographers == null) {
+            $photographer_query = '';
+        } else {
+            $photographer_query = 'AND slide.image_id IN (SELECT media_id FROM `community-voices_images` WHERE photographer IN ('.rtrim(str_repeat('?,', count($photographers)), ',').'))';
+            foreach ($photographers as $param) {
+                $params[] = $param;
+            }
+        }
+        if ($orgs == null) {
+            $org_query = '';
+        } else {
+            $org_query = 'AND slide.image_id IN (SELECT media_id FROM `community-voices_images` WHERE organization IN ('.rtrim(str_repeat('?,', count($orgs)), ',').'))';
+            foreach ($orgs as $param) {
+                $params[] = $param;
+            }
+        }
+
         $content_category_query = '1';
         $count = count($contentCategories);
         if ($count === 1) {
@@ -43,15 +90,15 @@ class SlideCollection extends DataMapper
 					INNER JOIN
 						`community-voices_slides` slide
 						ON media.id = slide.media_id
-		          	WHERE {$content_category_query}
+		          	WHERE {$content_category_query} {$search_query} {$tag_query} {$attribution_query} {$photographer_query} {$org_query}
 		         "
 		         . $this->query_prep($slideCollection->status, "media.status")
                  . $this->query_prep($slideCollection->creators, "media.added_by")
                  . " LIMIT {$offset}, {$limit}";
-
+                 // echo $query;var_dump($params);die;
         $statement = $this->conn->prepare($query);
 
-        $statement->execute();
+        $statement->execute($params);
 
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 

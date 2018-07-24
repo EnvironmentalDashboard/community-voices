@@ -34,7 +34,7 @@ class SlideLookup
      *
      * @return CommunityVoices\Model\Entity\SlideCollection
      */
-    public function findAll(int $page, int $limit, int $offset, array $contentCategories = [], $stateObserver = false)
+    public function findAll(int $page, int $limit, int $offset, string $order, string $search, $tags, $photographers, $orgs, $attributions, array $contentCategories = [], $stateObserver = false)
     {
         $chained = ($stateObserver instanceof Component\StateObserver);
         if (!$chained) {
@@ -46,7 +46,7 @@ class SlideLookup
         $slideCollection->setLimit($limit);
 
         $slideCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\SlideCollection::class);
-        $slideCollectionMapper->fetch($slideCollection, $limit, $offset, $contentCategories);
+        $slideCollectionMapper->fetch($slideCollection, $limit, $offset, $order, $search, $tags, $photographers, $orgs, $attributions, $contentCategories);
 
         $stateObserver->setSubject('slideFindAll');
         $stateObserver->addEntry('slideCollection', $slideCollection);

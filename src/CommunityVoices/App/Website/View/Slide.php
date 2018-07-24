@@ -120,6 +120,14 @@ class Slide extends Component\View
         $packagedSlide->adopt($photoXMLElement);
         $packagedSlide->adopt($orgXMLElement);
         $packagedSlide->adopt($tagXMLElement);
+        foreach ($qs as $key => $value) {
+            if ($key === 'search' || $key === 'order') {
+                $packagedSlide->addChild($key, $value);
+            } else {
+                $packagedSlide->addChild($key, (is_array($value)) ? ','.implode(',', $value).',' : ','.$value.',');
+            }
+        }
+        // var_dump($packagedSlide);die;
 
         $packagedIdentity = $slidePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
@@ -150,14 +158,6 @@ class Slide extends Component\View
             $slideXMLElement->id
         );
         $domainXMLElement->addChild('extraJS', "slide-collection");
-
-        foreach ($qs as $key => $value) {
-            if ($key === 'search') {
-                $domainXMLElement->addChild($key, $value);
-            } else {
-                $domainXMLElement->addChild($key, (is_array($value)) ? ','.implode(',', $value).',' : ','.$value.',');
-            }
-        }
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);

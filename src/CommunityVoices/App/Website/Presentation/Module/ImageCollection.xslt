@@ -129,7 +129,7 @@
               </div>
 
 	          </div>
-	          <div class="card-footer bg-transparent"><button type="button" onclick="this.parentNode.parentNode.reset()" class="btn btn-secondary">Reset</button> <button type="submit" class="btn btn-primary">Search</button></div>
+	          <div class="card-footer bg-transparent"><button type="button" onclick="this.parentNode.parentNode.reset()" class="btn btn-secondary mr-2">Reset</button> <button type="submit" class="btn btn-primary">Search</button></div>
           </form>
           <xsl:for-each select="domain/qs">
           	<xsl:value-of select="."></xsl:value-of>
