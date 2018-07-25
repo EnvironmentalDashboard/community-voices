@@ -106,37 +106,31 @@
         </div>
       </div>
       <div class="col-sm-9">
-        <div class="card-columns">
+        <div class="card">
+          <div class="card-header">Quotes</div>
+          <ul class="list-group list-group-flush">
 
-          <xsl:for-each select="domain/quoteCollection/quote">
+            <xsl:for-each select="domain/quoteCollection/quote">
+              <xsl:if test="$isManager or status = 'approved'">
 
-            <xsl:if test="$isManager or status = 'approved'">
-
-              <a href='quotes/{id}' style="color: inherit; text-decoration: inherit;">
-                <div class="card">
-                  <div class="card-body">
+                <li class="list-group-item">
+                  <a href='quotes/{id}' style="color: inherit; text-decoration: inherit;">
                     <blockquote class="blockquote mb-0">
-                      <p><xsl:value-of select='text' /></p>
-                      <footer class='blockquote-footer'>
-                        <cite>
-                          <xsl:attribute name="title"><xsl:value-of select='attribution' /></xsl:attribute>
-                          <xsl:value-of select='attribution' />
-                          <xsl:value-of select='subAttribution' />
-                        </cite>
+                      <p><xsl:value-of select="text"></xsl:value-of></p>
+                      <footer class="blockquote-footer">
+                        <xsl:value-of select="attribution"></xsl:value-of>
+                        <xsl:if test="subAttribution != '' and attribution != subAttribution">
+                          <xsl:if test="attribution != ''">, </xsl:if>
+                          <xsl:value-of select='subAttribution'></xsl:value-of>
+                        </xsl:if>
                       </footer>
                     </blockquote>
-                  </div>
-                  <xsl:if test="$isManager">
-                    <div class="card-footer text-muted">
-                      Status: <xsl:value-of select='status' />
-                    </div>
-                  </xsl:if>
-                </div>
-              </a>
-            </xsl:if>
+                  </a>
+                </li>
 
-          </xsl:for-each>
-
+              </xsl:if>
+            </xsl:for-each>
+          </ul>
         </div>
       </div>
     </div>
