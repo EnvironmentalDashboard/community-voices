@@ -18,7 +18,6 @@ class Slide extends Media
     const ERR_DECAY_RANGE_INVALID = 'Decay must begin before it ends';
 
     const ERR_IMAGE_RELATIONSHIP_MISSING = 'Image relationship missing';
-    const ERR_QUOTE_RELATIONSHIP_MISSING = 'Quote relationship missing';
     const ERR_CONTENT_CATEGORY_RELATIONSHIP_MISSING = 'Content category relationship missing';
 
     const ERR_SLIDE_COMBINATION_EXISTS = 'This image-quote pair already exists.';
@@ -69,24 +68,19 @@ class Slide extends Media
         return $this->quote;
     }
 
-    public function setQuote(Quote $quote)
+    public function setQuote($quote)
     {
-        $this->quote = $quote;
+        if ($quote instanceof Quote) {
+            $this->quote = $quote;
+        } elseif ($this->image instanceof Image) { // create quote from image meta data
+            $im = $this->image;
+            $q = new Quote;
+            $q->setText($im->getDescription());
+            $q->setAttribution($im->getPhotographer());
+            $q->setDateRecorded($im->getDateTaken());
+            $this->quote = $q;
+        }
     }
-
-    // public function getFormattedText()
-    // {
-    //     return $this->formattedText;
-    // }
-
-    // public function setFormattedText($textOrQuote, $attributionOrNull = null)
-    // {
-    //     if ($textOrQuote instanceof Quote) {
-    //         $this->formattedText = $this->formatText($textOrQuote->getText(), $textOrQuote->getAttribution());
-    //     } else {
-    //         $this->formattedText = $this->formatText($textOrQuote, $attributionOrNull);
-    //     }
-    // }
 
     public function getProbability()
     {
@@ -185,11 +179,6 @@ class Slide extends Media
         if (!$this->image || ($this->image instanceof Image && !$this->image->getId())) {
             $isValid = false;
             $stateObserver->addEntry('image', self::ERR_IMAGE_RELATIONSHIP_MISSING);
-        }
-
-        if (!$this->quote || ($this->quote instanceof Quote && !$this->quote->getId())) {
-            $isValid = false;
-            $stateObserver->addEntry('quote', self::ERR_QUOTE_RELATIONSHIP_MISSING);
         }
 
         if (!$this->contentCategory || ($this->contentCategory instanceof ContentCategory
