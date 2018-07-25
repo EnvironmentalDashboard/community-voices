@@ -25,7 +25,7 @@ function sortCheckboxes($e) {
 	var html = '';
 	for (var i = 0; i < sorted.length; i++) {
 		var checked = (sorted[i].checked) ? 'checked="checked"' : '';
-		html += '<div class="form-check"><input '+checked+' value='+sorted[i].name+' class="form-check-input" type="checkbox" name="tags[]" id="'+sorted[i].id+'"><label for="'+sorted[i].id+'" class="form-check-label">'+sorted[i].label+'</label></div>';
+		html += '<div class="form-check"><input '+checked+' value='+sorted[i].value+' class="form-check-input" type="checkbox" name="tags[]" id="'+sorted[i].id+'"><label for="'+sorted[i].id+'" class="form-check-label">'+sorted[i].label+'</label></div>';
 	}
 	return html;
 }
@@ -36,11 +36,10 @@ function cmp_str(a, b) {
 }
 
 var targets = [$('#sorted-cc'), $('#sorted-tags'), $('#sorted-photographers'), $('#sorted-image-attributions'), $('#sorted-quote-attributions')];
-for (var i = targets.length - 1; i >= 0; i--) {
-	targets[i].html(sortCheckboxes(targets[i])); // sort once initially
-	targets[i].children().children('input').change(function() { // resort every time checkbox checked
-		var target = $(this).parent().parent();
-		target.html(sortCheckboxes(target));
-	});
-}
+$(targets).each(function(i, target){
+	target.html(sortCheckboxes(target)); // sort once initially
+  target.on("change", function() { 
+  	$(this).html(sortCheckboxes($(this))); // resort every time checkbox checked
+  });
+});
 

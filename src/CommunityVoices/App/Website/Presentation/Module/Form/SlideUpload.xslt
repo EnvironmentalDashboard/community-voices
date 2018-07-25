@@ -40,7 +40,7 @@
 
                 <div class="form-group">
                   <p class="mb-0">Tags</p>
-                  <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
+                  <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
                     <xsl:for-each select="domain/groupCollection/group">
                       <div class="form-check">
                         <input class="form-check-input qtag-check" type="checkbox" name="quotetags[]" id="quotetag{id}">
@@ -60,7 +60,7 @@
 
                 <div class="form-group">
                   <p class="mb-0">Attribution</p>
-                  <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
+                  <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
                     <xsl:for-each select="domain/attributionCollection/attribution">
                       <div class="form-check">
                         <input class="form-check-input attr-check" type="checkbox" name="attributions[]">
@@ -91,7 +91,7 @@
 
                 <div class="form-group">
                   <p class="mb-0">Tags</p>
-                  <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
+                  <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
                     <xsl:for-each select="domain/groupCollection/group">
                       <div class="form-check">
                         <input class="form-check-input itag-check" type="checkbox" name="imagetags[]" id="imagetag{id}">
@@ -111,7 +111,7 @@
 
                 <div class="form-group">
                   <p class="mb-0">Photographer</p>
-                  <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
+                  <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
                     <xsl:for-each select="domain/PhotographerCollection/photographer">
                       <div class="form-check">
                         <input class="form-check-input photo-check" type="checkbox" name="photographers[]">
@@ -132,7 +132,7 @@
 
                 <div class="form-group">
                   <p class="mb-0">Organization</p>
-                  <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
+                  <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
                     <xsl:for-each select="domain/OrgCollection/org">
                       <div class="form-check">
                         <input class="form-check-input org-check" type="checkbox" name="orgs[]">
