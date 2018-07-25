@@ -8,6 +8,7 @@ use \XSLTProcessor;
 
 use CommunityVoices\App\Api;
 use CommunityVoices\App\Website\Component;
+use CommunityVoices\Model\Service;
 use Symfony\Component\HttpFoundation;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 
@@ -23,13 +24,15 @@ class Quote extends Component\View
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         Api\Component\SecureContainer $secureContainer,
-        Api\View\Quote $quoteAPIView
+        Api\View\Quote $quoteAPIView,
+        Service\QuoteLookup $quoteLookup
     ) {
         $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
         $this->transcriber = $transcriber;
         $this->secureContainer = $secureContainer;
         $this->quoteAPIView = $quoteAPIView;
+        $this->quoteLookup = $quoteLookup;
     }
 
     public function getQuote($routes, $context)
@@ -48,10 +51,9 @@ class Quote extends Component\View
          */
         $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
 
+        $json = json_decode($quoteAPIView->getQuote()->getContent());
         $quoteXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $quoteAPIView->getQuote()->getContent()
-            ))
+            $this->transcriber->toXml($json)
         );
 
         /**
@@ -61,6 +63,15 @@ class Quote extends Component\View
 
         $packagedQuote = $quotePackageElement->addChild('domain');
         $packagedQuote->adopt($quoteXMLElement);
+        $packagedQuote->adopt(new SimpleXMLElement(
+            $this->transcriber->toXml(['slideId' => $this->quoteLookup->relatedSlide($json->quote->id)])
+        ));
+        $packagedQuote->adopt(new SimpleXMLElement(
+            $this->transcriber->toXml(['prevId' => $this->quoteLookup->prevQuote($json->quote->id)])
+        ));
+        $packagedQuote->adopt(new SimpleXMLElement(
+            $this->transcriber->toXml(['nextId' => $this->quoteLookup->nextQuote($json->quote->id)])
+        ));
 
         $packagedIdentity = $quotePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);

@@ -79,7 +79,11 @@
           <xsl:choose>
             <xsl:when test="domain/slideId != ''">
               <h4>Content featuring this image</h4>
-              <p><iframe src="https://environmentaldashboard.org/cv/slides/{domain/slideId}" class="img-fluid" alt=""></iframe></p>
+              <a href='https://environmentaldashboard.org/cv/slides/{domain/slideId}'>
+                <div class="embed-responsive embed-responsive-16by9 mb-4">
+                  <iframe class="embed-responsive-item" style="pointer-events: none;" src="https://environmentaldashboard.org/cv/slides/{domain/slideId}"></iframe>
+                </div>
+              </a>
             </xsl:when>
             <xsl:otherwise>
               <p>This image is not used in any slides</p>

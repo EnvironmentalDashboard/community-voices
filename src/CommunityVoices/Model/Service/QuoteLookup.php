@@ -177,4 +177,23 @@ class QuoteLookup
 
         // clientState stuff
     }
+
+
+    public function relatedSlide(int $quote_id) {
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
+        $id = $mapper->relatedSlideId($quote_id);
+        return $id;
+    }
+
+    public function prevQuote(int $quote_id) {
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
+        $id = $mapper->prevQuote($quote_id);
+        return $id;
+    }
+
+    public function nextQuote(int $quote_id) {
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
+        $id = $mapper->nextQuote($quote_id);
+        return $id;
+    }
 }

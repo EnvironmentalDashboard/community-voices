@@ -8,13 +8,34 @@
 
 		<xsl:template match="/package">
 			
-			<div class="row" style="padding:15px;">
-        <div class="col-12">
-					<a class="btn btn-primary mb-3" href="./quotes">&#x2190; Go back</a>
-
-					<xsl:choose><xsl:when test="$isManager or domain/quote/status = 'approved'">
-
-						<div class="card">
+			<nav class="navbar navbar-light bg-light">
+        <div class="float-left">
+          <a class="navbar-brand" href="#">Quotes</a>
+          <a class="btn btn-outline-primary" href="new">+ Add quote</a>
+        </div>
+        <div class="btn-group float-right">
+          <xsl:choose>
+            <xsl:when test="number(domain/prevId) = domain/prevId">
+              <a class="btn btn-outline-primary btn-sm" href="/cv/quotes/{domain/prevId}">&#171; Previous quote</a>
+            </xsl:when>
+            <xsl:otherwise>
+              <a href="#" class="btn btn-outline-primary disabled btn-sm" disabled="disabled">&#171; Previous quote</a>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:choose>
+            <xsl:when test="number(domain/nextId) = domain/nextId">
+              <a class="btn btn-outline-primary btn-sm" href="/cv/quotes/{domain/nextId}">Next quote &#187;</a>
+            </xsl:when>
+            <xsl:otherwise>
+              <a class="btn btn-outline-primary disabled btn-sm" href="#" disabled="disabled">Next quote &#187;</a>
+            </xsl:otherwise>
+          </xsl:choose>
+        </div>
+      </nav>
+			<xsl:choose><xsl:when test="$isManager or domain/quote/status = 'approved'">
+				<div class="row" style="padding:15px;">
+					<div class="col-sm-8">
+						<div class="card mb-5">
 		          <div class="card-header">
 		            Quote
 		          </div>
@@ -54,17 +75,33 @@
 			          </xsl:if>
 		          </div>
 		        </div>
+		      </div>
+		      <div class="col-sm-4">
+		      	<xsl:choose>
+	            <xsl:when test="domain/slideId != ''">
+	              <h4>Content featuring this quote</h4>
+	              <a href='https://environmentaldashboard.org/cv/slides/{domain/slideId}'>
+	                <div class="embed-responsive embed-responsive-16by9 mb-4">
+	                  <iframe class="embed-responsive-item" style="pointer-events: none;" src="https://environmentaldashboard.org/cv/slides/{domain/slideId}"></iframe>
+	                </div>
+	              </a>
+	            </xsl:when>
+	            <xsl:otherwise>
+	              <p>This quote is not used in any slides</p>
+	              <p><a href="/cv/slides/new?prefill_quote={domain/quote/id}" class="btn btn-primary btn-block">Create one</a></p>
+	            </xsl:otherwise>
+	          </xsl:choose>
+		      </div>
+		    </div>
 
 
-					</xsl:when>
+			</xsl:when>
 
-					<xsl:otherwise>
-						Unauthorized Content
-					</xsl:otherwise>
+			<xsl:otherwise>
+				Unauthorized Content
+			</xsl:otherwise>
 
-				</xsl:choose>
-			</div>
-		</div>
+		</xsl:choose>
 
 	</xsl:template>
 
