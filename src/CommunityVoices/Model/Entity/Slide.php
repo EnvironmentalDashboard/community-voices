@@ -70,7 +70,7 @@ class Slide extends Media
 
     public function setQuote($quote)
     {
-        if ($quote instanceof Quote) {
+        if ($quote instanceof Quote && $quote->getId() > 0) {
             $this->quote = $quote;
         } elseif ($this->image instanceof Image) { // create quote from image meta data
             $im = $this->image;
