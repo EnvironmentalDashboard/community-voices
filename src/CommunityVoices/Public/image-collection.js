@@ -35,7 +35,7 @@ function cmp_str(a, b) {
 	return 0;
 }
 
-var targets = [$('#sorted-cc'), $('#sorted-tags'), $('#sorted-photographers'), $('#sorted-image-attributions'), $('#sorted-quote-attributions')];
+var targets = [$('#sorted-tags'), $('#sorted-photographers'), $('#sorted-orgs')];
 for (var i = targets.length - 1; i >= 0; i--) {
 	targets[i].html(sortCheckboxes(targets[i])); // sort once initially
 	targets[i].children().children('input').change(function() { // resort every time checkbox checked
