@@ -75,9 +75,9 @@ class Slide extends Media
         } elseif ($this->image instanceof Image) { // create quote from image meta data
             $im = $this->image;
             $q = new Quote;
-            $q->setText($im->getDescription());
-            $q->setAttribution($im->getPhotographer());
-            $q->setDateRecorded($im->getDateTaken());
+            $q->setText((string) $im->getDescription());
+            $q->setAttribution((string) $im->getOrganization());
+            $q->setDateRecorded((string) $im->getDateTaken());
             $this->quote = $q;
         }
     }

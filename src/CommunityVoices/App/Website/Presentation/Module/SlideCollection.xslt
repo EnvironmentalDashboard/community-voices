@@ -36,7 +36,7 @@
 
               <div class="form-group">
                 <p class="mb-0">Content category</p>
-                <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
+                <div style="overflow-y:scroll;width:100%;height: 130px;border:none" id="sorted-cc">
                   <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="content_category[]">
@@ -57,7 +57,7 @@
 
 	        		<div class="form-group">
                 <p class="mb-0">Tags</p>
-                <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
+                <div style="overflow-y:scroll;width:100%;height: 130px;border:none" id="sorted-tags">
                   <xsl:for-each select="domain/groupCollection/group">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="tags[]" id="tag{id}">
@@ -77,7 +77,7 @@
 
               <div class="form-group">
                 <p class="mb-0">Photographer</p>
-                <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
+                <div style="overflow-y:scroll;width:100%;height: 130px;border:none" id="sorted-photographers">
                   <xsl:for-each select="domain/PhotographerCollection/photographer">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="photographers[]">
@@ -98,7 +98,7 @@
 
               <div class="form-group">
                 <p class="mb-0">Image attribution</p>
-                <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
+                <div style="overflow-y:scroll;width:100%;height: 130px;border:none" id="sorted-image-attributions">
                   <xsl:for-each select="domain/OrgCollection/org">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="orgs[]">
@@ -119,7 +119,7 @@
 
               <div class="form-group">
                 <p class="mb-0">Quote attribution</p>
-                <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
+                <div style="overflow-y:scroll;width:100%;height: 130px;border:none" id="sorted-quote-attributions">
                   <xsl:for-each select="domain/attributionCollection/attribution">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="attributions[]">

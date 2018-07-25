@@ -67,7 +67,7 @@
 
 	        		<div class="form-group">
                 <p class="mb-0">Tags</p>
-                <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
+                <div style="overflow-y:scroll;width:100%;height: 130px;border:none" id='sorted-tags'>
                   <xsl:for-each select="domain/groupCollection/group">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="tags[]" id="tag{id}">
@@ -87,7 +87,7 @@
 
               <div class="form-group">
                 <p class="mb-0">Photographer</p>
-                <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
+                <div style="overflow-y:scroll;width:100%;height: 130px;border:none" id='sorted-photographers'>
                   <xsl:for-each select="domain/photographerCollection/photographer">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="photographers[]">
@@ -108,7 +108,7 @@
 
               <div class="form-group">
                 <p class="mb-0">Organization</p>
-                <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
+                <div style="overflow-y:scroll;width:100%;height: 130px;border:none" id="sorted-orgs">
                   <xsl:for-each select="domain/orgCollection/org">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="orgs[]">

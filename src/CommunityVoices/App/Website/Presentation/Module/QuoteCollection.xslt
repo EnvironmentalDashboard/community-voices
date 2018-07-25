@@ -30,7 +30,7 @@
               </div>
               <div class="form-group">
                 <p class="mb-0">Tags</p>
-                <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
+                <div style="overflow-y:scroll;width:100%;height: 130px;border:none" id='sorted-tags'>
                   <xsl:for-each select="domain/groupCollection/group">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="tags[]" id="tag{id}">
@@ -49,7 +49,7 @@
               </div>
               <div class="form-group">
                 <p class="mb-0">Attribution</p>
-                <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
+                <div style="overflow-y:scroll;width:100%;height: 130px;border:none" id='sorted-attribution'>
                   <xsl:for-each select="domain/attributionCollection/attribution">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="attributions[]">

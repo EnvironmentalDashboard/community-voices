@@ -210,6 +210,7 @@ class Quote extends Component\View
         $domainXMLElement->addChild('main-pane', $quoteModuleXML);
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: All Quotes");
+        $domainXMLElement->addChild('extraJS', "quote-collection");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
