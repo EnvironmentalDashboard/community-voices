@@ -39,17 +39,21 @@
                 <input class="form-control" id="dateRecorded" type='text' name='dateRecorded' />
               </div>
 
-
               <div class="form-group">
-                <label for="tags">Tags</label>
-                <select multiple="" class="form-control" id="tags" name="tags[]">
+                <p class="mb-0">Tags</p>
+                <div style="overflow-y:scroll;width:100%;height: 130px;border:none">
                   <xsl:for-each select="domain/groupCollection/group">
-                    <option>
-                      <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
-                      <xsl:value-of select="label"></xsl:value-of>
-                    </option>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="tags[]" id="tag{id}">
+                        <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
+                      </input>
+                      <label class="form-check-label">
+                        <xsl:attribute name="for">tag<xsl:value-of select='id' /></xsl:attribute>
+                        <xsl:value-of select="label"></xsl:value-of>
+                      </label>
+                    </div>
                   </xsl:for-each>
-                </select>
+                </div>
               </div>
 
               Approve:
