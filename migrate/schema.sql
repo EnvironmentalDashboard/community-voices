@@ -107,7 +107,7 @@ CREATE TABLE `community-voices_slides` (
     `media_id` int(21) NOT NULL,
     `content_category_id` int(21) DEFAULT NULL,
     `image_id` int(21) NOT NULL,
-    `quote_id` int(21) NOT NULL,
+    `quote_id` int(21) DEFAULT NULL,
     `formatted_text` text NOT NULL,
     `probability` int(21) NOT NULL,
     `decay_percent` int(21) DEFAULT NULL,
