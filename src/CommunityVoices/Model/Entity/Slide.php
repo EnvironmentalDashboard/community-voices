@@ -78,6 +78,7 @@ class Slide extends Media
             $q->setText((string) $im->getDescription());
             $q->setAttribution((string) $im->getOrganization());
             $q->setDateRecorded((string) $im->getDateTaken());
+            $q->setStatus(3);
             $this->quote = $q;
         }
     }
