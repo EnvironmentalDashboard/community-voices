@@ -188,30 +188,15 @@
                   <svg width="100" height="100" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1152 1376v-160q0-14-9-23t-23-9h-96v-512q0-14-9-23t-23-9h-320q-14 0-23 9t-9 23v160q0 14 9 23t23 9h96v320h-96q-14 0-23 9t-9 23v160q0 14 9 23t23 9h448q14 0 23-9t9-23zm-128-896v-160q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v160q0 14 9 23t23 9h192q14 0 23-9t9-23zm640 416q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z" fill="#fff"/></svg>
                 </div>
 							</a>
-              <xsl:choose>
-                <xsl:when test="$isManager">
-                  <div class="card-footer text-muted">
-                    <p class='mt-0 mb-0'>Title: <xsl:value-of select='title' /></p>
-                    <p class='mt-0 mb-0'>Description: <xsl:value-of select='description' /></p>
-                    <p class='mt-0 mb-0'>Photographer: <xsl:value-of select='photographer' /></p>
-                    <p class='mt-0 mb-0'>Organization: <xsl:value-of select='organization' /></p>
-                    <p class='mt-0 mb-0'>Date taken: <xsl:value-of select='dateTaken' /></p>
-                    <p class='mt-0 mb-0'>Status: <xsl:value-of select='status' /></p>
-                  </div>
-                </xsl:when>
-                <xsl:otherwise>
-                  <div class="card-footer text-muted">
-                    <p class='mt-0 mb-0'>Source: 
-                      <xsl:value-of select='photographer' />
-                      <xsl:if test="organization != '' and photographer != organization">
-                        <xsl:if test="photographer != ''">, </xsl:if>
-                        <xsl:value-of select='organization'></xsl:value-of>
-                      </xsl:if>
-                    </p>
-                    <!-- <p class='mt-0 mb-0'>Organization: <xsl:value-of select='organization' /></p> -->
-                  </div>
-                </xsl:otherwise>
-              </xsl:choose>
+              <div class="card-footer text-muted">
+                <p class='mt-0 mb-0'>Source: 
+                  <xsl:value-of select='photographer' />
+                  <xsl:if test="organization != '' and photographer != organization">
+                    <xsl:if test="photographer != ''">, </xsl:if>
+                    <xsl:value-of select='organization'></xsl:value-of>
+                  </xsl:if>
+                </p>
+              </div>
 
 						</div>
 
