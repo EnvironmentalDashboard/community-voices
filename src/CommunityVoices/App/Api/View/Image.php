@@ -27,6 +27,7 @@ class Image
 
         $stateObserver->setSubject('imageLookup');
         $image = $stateObserver->getEntry('image')[0];
+        // var_dump($image->toArray()['image']['tagCollection']['groupCollection']);die;
 
         $response = new HttpFoundation\JsonResponse($image->toArray());
 

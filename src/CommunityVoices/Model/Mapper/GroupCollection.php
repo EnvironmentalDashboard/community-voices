@@ -50,8 +50,9 @@ class GroupCollection extends DataMapper
 
     private function fetchChildrenOfMedia(Entity\GroupCollection $groupCollection)
     {
+        // also select junction.id? would it be needed anywhere?
         $query = "SELECT
-                        junction.id                                 AS id,
+                        groups.id                                   AS id,
                         CAST(groups.type AS UNSIGNED)               AS type,
                         groups.label                                AS label
                     FROM

@@ -25,7 +25,8 @@ class Image extends Component\View
         Component\Transcriber $transcriber,
         Api\Component\SecureContainer $secureContainer,
         Api\View\Image $imageAPIView,
-        Service\ImageLookup $imageLookup
+        Service\ImageLookup $imageLookup,
+        Service\TagLookup $tagLookup
     ) {
         $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
@@ -33,6 +34,7 @@ class Image extends Component\View
         $this->secureContainer = $secureContainer;
         $this->imageAPIView = $imageAPIView;
         $this->imageLookup = $imageLookup;
+        $this->tagLookup = $tagLookup;
     }
 
     public function sendImage($routes, $context)
@@ -317,14 +319,28 @@ class Image extends Component\View
          */
         $imageAPIView = $this->secureContainer->contain($this->imageAPIView);
 
+        $image = json_decode($imageAPIView->getImage()->getContent());
         $imageXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $imageAPIView->getImage()->getContent()
-            ))
+            $this->transcriber->toXml($image)
+        );
+
+        $tags = $this->tagLookup->findAll(true);
+        $tagXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($tags->getEntry('tag')[0]->toArray())
+        );
+
+        $selectedTagString = ',';
+        foreach ($image->image->tagCollection->groupCollection as $group) {
+            $selectedTagString .= "{$group->group->id},";
+        }
+        $selectedTagXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(['selectedTags' => [$selectedTagString]])
         );
 
         $packagedImage = $paramXML->addChild('domain');
         $packagedImage->adopt($imageXMLElement);
+        $packagedImage->adopt($tagXMLElement);
+        $packagedImage->adopt($selectedTagXMLElement);
 
         $formModule = new Component\Presenter('Module/Form/ImageUpdate');
         $formModuleXML = $formModule->generate($paramXML);

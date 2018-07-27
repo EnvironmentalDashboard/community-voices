@@ -2,6 +2,7 @@
     version="1.0">
 
     <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+    <xsl:variable name="selectedTags" select="/form/domain/selectedTags" />
 
     <xsl:template match="/form">
 
@@ -50,6 +51,29 @@
                   <xsl:attribute name="value"><xsl:value-of select="domain/image/organization"/></xsl:attribute>
                 </input>
               </div>
+
+              <div class="form-group">
+                <p class="mb-0">Tags</p>
+                <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
+                  <xsl:for-each select="domain/groupCollection/group">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="tags[]" id="tag{id}">
+                        <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
+                        <xsl:if test="contains($selectedTags, concat(',', id, ','))">
+                          <xsl:attribute name="checked">checked</xsl:attribute>
+                        </xsl:if>
+                      </input>
+                      <label class="form-check-label">
+                        <xsl:attribute name="for">tag<xsl:value-of select='id' /></xsl:attribute>
+                        <xsl:value-of select="label"></xsl:value-of>
+                      </label>
+                    </div>
+                  </xsl:for-each>
+                </div>
+              </div>
+
+              <!-- <xsl:value-of select='domain/groupCollection'></xsl:value-of> -->
+              <!-- <xsl:value-of select='domain/image/tagCollection/groupCollection'></xsl:value-of> -->
 
               <div class="form-group">
                 Approve:
