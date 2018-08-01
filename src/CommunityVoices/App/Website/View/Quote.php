@@ -52,6 +52,9 @@ class Quote extends Component\View
         $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
 
         $json = json_decode($quoteAPIView->getQuote()->getContent());
+        // var_dump($json);die;
+        $json->quote->text = htmlspecialchars($json->quote->text);
+        $json->quote->attribution = htmlspecialchars($json->quote->attribution);
         $quoteXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($json)
         );

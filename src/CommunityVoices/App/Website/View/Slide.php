@@ -195,6 +195,8 @@ class Slide extends Component\View
          */
         $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
         $json = json_decode($slideAPIView->getSlide()->getContent());
+        $json->slide->quote->quote->text = htmlspecialchars($json->slide->quote->quote->text);
+        $json->slide->quote->quote->attribution = htmlspecialchars($json->slide->quote->quote->attribution);
 
         if ($svg_ver) {
             $json->slide->g = htmlspecialchars($this->formatSlide($json->slide->image->image->filename, $json->slide->image->image->id, $json->slide->quote->quote->text, $json->slide->quote->quote->attribution, $json->slide->contentCategory->contentCategory->id));
