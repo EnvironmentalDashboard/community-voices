@@ -202,29 +202,52 @@
             </div></div>
 
             <!-- keep outside form because value not needed on server -->
-            <input type="hidden" id="slide_text" value="{domain/slide/quote/quote/text}"/>
-            <input type="hidden" id="slide_attr" value="{domain/slide/quote/quote/attribution}"/>
-            <input type="hidden" id="slide_image" value="{domain/slide/image/image/id}"/>
-            <input type="hidden" id="slide_cc" value="{domain/slide/contentCategory/contentCategory/id}"/>
+            <xsl:if test="domain/slide != ''">
+              <input type="hidden" id="slide_text" value="{domain/slide/quote/quote/text}"/>
+              <input type="hidden" id="slide_attr" value="{domain/slide/quote/quote/attribution}"/>
+              <input type="hidden" id="slide_image" value="{domain/slide/image/image/id}"/>
+              <input type="hidden" id="slide_cc" value="{domain/slide/contentCategory/contentCategory/id}"/>
+            </xsl:if>
 
-            <form action='./slides/new/authenticate' method='post'>
-              <input type="hidden" name="image_id"/>
-              <input type="hidden" name="quote_id"/>
-              <input type="hidden" name="content_category"/>
-              <input type="hidden" name="slide_id" value="{domain/slide/id}" />
-              <div class="form-group">
-                <input type="text" name="probability" placeholder="Probability" class="form-control" />
-              </div>
-              <div class="form-group">
-                <input type="text" name="decay_percent" placeholder="Decay percent" class="form-control" />
-              </div>
-              <div class="form-group">
-                <input type="text" name="decay_start" placeholder="Decay start" class="form-control" />
-              </div>
-              <div class="form-group">
-                <input type="text" name="decay_end" placeholder="Decay end" class="form-control" />
-              </div>
-              <input type='submit' value="Create slide" class="btn btn-primary" />
+            <form action='authenticate' method='post'>
+              <xsl:choose>
+              <xsl:when test="domain/slide != ''">
+                <input type="hidden" name="image_id"/>
+                <input type="hidden" name="quote_id"/>
+                <input type="hidden" name="content_category"/>
+                <div class="form-group">
+                  <input type="text" name="probability" placeholder="Probability" class="form-control" value="{domain/slide/probability}" />
+                </div>
+                <div class="form-group">
+                  <input type="text" name="decay_percent" placeholder="Decay percent" class="form-control" value="{domain/slide/decayPercent}" />
+                </div>
+                <div class="form-group">
+                  <input type="text" name="decay_start" placeholder="Decay start" class="form-control" value="{domain/slide/decayStart}" />
+                </div>
+                <div class="form-group">
+                  <input type="text" name="decay_end" placeholder="Decay end" class="form-control" value="{domain/slide/decayEnd}" />
+                </div>
+                <input type='submit' value="Update slide" class="btn btn-primary" />
+              </xsl:when>
+              <xsl:otherwise>
+                <input type="hidden" name="image_id"/>
+                <input type="hidden" name="quote_id"/>
+                <input type="hidden" name="content_category"/>
+                <div class="form-group">
+                  <input type="text" name="probability" placeholder="Probability" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <input type="text" name="decay_percent" placeholder="Decay percent" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <input type="text" name="decay_start" placeholder="Decay start" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <input type="text" name="decay_end" placeholder="Decay end" class="form-control" />
+                </div>
+                <input type='submit' value="Create slide" class="btn btn-primary" />
+              </xsl:otherwise>
+              </xsl:choose>
             </form>
 
           </div>

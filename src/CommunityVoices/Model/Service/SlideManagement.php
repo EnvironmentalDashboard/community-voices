@@ -102,46 +102,58 @@ class SlideManagement
 
     }
 
-    public function update($id, $text, $attribution, $subAttribution,
-                    $dateRecorded, $status)
-        {
+    public function update(int $id, int $imageId, int $quoteId, int $contentCategory, int $decay_percent, float $probability, string $decay_start, string $decay_end) {
 
-        $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Slide::class);
+        $quote = new Entity\Quote;
+        $quote->setId((int) $quoteId);
+
+        $image = new Entity\Image;
+        $image->setId((int) $imageId);
+
+        $category = new Entity\ContentCategory;
+        $category->setId((int) $contentCategory);
 
         /*
          * Create Slide entity and set attributes
          */
+        $slide = new Entity\Slide;
 
-        $quote = new Entity\Slide;
-        $quote->setId((int) $id);
-
-        $quoteMapper->fetch($quote);
-
-        $quote->setText($text);
-        $quote->setAttribution($attribution);
-        $quote->setSubAttribution($subAttribution);
-        $quote->setDateRecorded($dateRecorded);
-        $quote->setStatus($status);
+        $slide->setId($id);
+        $slide->setContentCategory($category);
+        $slide->setImage($image);
+        $slide->setQuote($quote);
+        $slide->setProbability($probability);
+        $slide->setDecayPercent($decay_percent);
+        $slide->setDecayEnd(strtotime($decay_end));
+        $slide->setDecayStart(strtotime($decay_start));
+        // $slide->setDateRecorded($dateRecorded);
+        $slide->setAddedBy($addedBy);
+        if ($approved) {
+            $slide->setStatus(3);
+        } else {
+            $slide->setStatus(1);
+        }
 
         /*
          * Create error observer w/ appropriate subject and pass to validator
          */
 
-        $this->stateObserver->setSubject('quoteUpdate');
-        $isValid = $quote->validateForUpload($this->stateObserver);
+        $this->stateObserver->setSubject('slideUpload');
+        $isValid = $slide->validateForUpload($this->stateObserver);
 
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
 
         /*
-         * Stop the upload process and save errors to the application state. If
-         * there is no attribution, there is no point in continuing the upload process.
+         * Stop the upload process and save errors to the application state.
          */
-
-       if (!$isValid && $this->stateObserver->hasEntry('attribution', $quote::ERR_ATTRIBUTION_REQUIRED))
+        // $this->stateObserver->getEntries() to see errors
+        if (!$isValid) // && $this->stateObserver->hasEntry('attribution', $quote::ERR_ATTRIBUTION_REQUIRED)
         {
              $clientState->save($this->stateObserver);
              return false;
          }
+
+        $slideMapper = $this->mapperFactory->createDataMapper(Mapper\Slide::class);
 
         /*
          * If there are any errors at this point, save the error state and stop
@@ -154,11 +166,12 @@ class SlideManagement
         }
 
         /*
-         * save $quote to database
+         * save $slide to database
          */
-
-        $quoteMapper->save($quote);
+        $slideMapper->save($slide);
 
         return true;
+
     }
+
 }

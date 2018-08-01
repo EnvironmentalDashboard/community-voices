@@ -1,7 +1,7 @@
 var quote_page = 1, image_page = 1;
 var quote_search = '', quote_tags = [], quote_attrs = [];
 var image_search = '', image_tags = [], photographers = [], orgs = [];
-if ($('input[name="slide"]').val() !== '') {
+if ($('#slide_text').length) {
     var current_text = $('#slide_text').val(),
         current_attr = $('#slide_attr').val(),
         current_image = $('#slide_image').val(),

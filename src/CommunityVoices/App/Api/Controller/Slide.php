@@ -100,15 +100,16 @@ class Slide
 
     public function postSlideUpdate($request)
     {
-      $text = $request->request->get('text');
-      $attribution = $request->request->get('attribution');
-      $subAttribution = $request->request->get('subAttribution');
-      $dateRecorded = $request->request->get('dateRecorded');
-      $status = $request->request->get('status');
-      $id = $request->request->get('id');
+        $imageId = (int) $request->request->get('image_id');
+        $quoteId = (int) $request->request->get('quote_id');
+        $contentCategory = (int) $request->request->get('content_category');
+        $decay_percent = (int) $request->request->get('decay_percent');
+        $probability = (float) $request->request->get('probability');
+        $decay_start = (string) $request->request->get('decay_start');
+        $decay_end = (string) $request->request->get('decay_end');
+        $id = (int) $request->request->get('id');
 
-      $this->slideManagement->update($id, $text, $attribution, $subAttribution,
-                                  $dateRecorded, $status);
+        $this->slideManagement->update($id, $imageId, $quoteId, $contentCategory, $decay_percent, $probability, $decay_start, $decay_end);
     }
 
 }
