@@ -68,8 +68,11 @@ class SlideLookup
      *
      * @return CommunityVoices\Model\Entity\Slide
      */
-    public function findById(int $slideId)
+    public function findById(int $slideId, $stateObserver = null)
     {
+        if ($stateObserver === null) {
+            $stateObserver = $this->stateObserver;
+        }
         $slide = new Entity\Slide;
         $slide->setId($slideId);
 
@@ -86,11 +89,11 @@ class SlideLookup
         $groupCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
         $groupCollectionMapper->fetch($slide->getTagCollection());
 
-        $this->stateObserver->setSubject('slideLookup');
-        $this->stateObserver->addEntry('slide', $slide);
+        $stateObserver->setSubject('slideLookup');
+        $stateObserver->addEntry('slide', $slide);
 
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
-        $clientState->save($this->stateObserver);
+        $clientState->save($stateObserver);
     }
 
     /**

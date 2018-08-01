@@ -388,6 +388,137 @@ class Slide extends Component\View
         return $response;
     }
 
+    public function getSlideUpdate($routes, $context)
+    {
+        parse_str($_SERVER['QUERY_STRING'], $qs);
+
+        $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
+        $json = json_decode($slideAPIView->getSlideUpdate()->getContent());
+
+        $identity = $this->recognitionAdapter->identify();
+
+        $identityXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($identity->toArray())
+        );
+
+        $obj = new \stdClass;
+        $obj->slide = $json->slide;
+        $slideXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($obj)
+        );
+
+        $obj = new \stdClass;
+        $obj->groupCollection = $json->groupCollection;
+        $tagXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($obj)
+        );
+
+        $obj = new \stdClass;
+        $obj->attributionCollection = $json->attributionCollection;
+        $attrXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($obj)
+        );
+
+        $obj = new \stdClass;
+        $obj->PhotographerCollection = $json->PhotographerCollection;
+        $photoXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($obj)
+        );
+
+        $obj = new \stdClass;
+        $obj->OrgCollection = $json->OrgCollection;
+        $orgXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($obj)
+        );
+
+        $paramXML = new SimpleXMLElement('<form/>');
+        $formModule = new Component\Presenter('Module/Form/SlideUpload');
+        $formModuleXML = $formModule->generate($paramXML);
+
+        $slidePackageElement = new Helper\SimpleXMLElementExtension('<form/>');
+        $packagedSlide = $slidePackageElement->addChild('domain');
+        $packagedSlide->adopt($slideXMLElement);
+        $packagedSlide->adopt($tagXMLElement);
+        $packagedSlide->adopt($attrXMLElement);
+        $packagedSlide->adopt($photoXMLElement);
+        $packagedSlide->adopt($orgXMLElement);
+        $packagedIdentity = $slidePackageElement->addChild('identity');
+        $packagedIdentity->adopt($identityXMLElement);
+        $slideModule = new Component\Presenter('Module/Form/SlideUpload');
+        $slideModuleXML = $slideModule->generate($slidePackageElement);
+        // var_dump($packagedSlide->slide);die;
+
+        /**
+         * Get base URL
+         */
+        //$urlGenerator = new UrlGenerator($routes, $context);
+        //$baseUrl = $urlGenerator->generate('root');
+
+        //
+        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
+        $domainXMLElement->addChild('main-pane', $slideModuleXML);
+        //$domainXMLElement->addChild('baseUrl', $baseUrl);
+        $domainXMLElement->addChild(
+            'title',
+            "Community Voices: Slide Upload"
+        );
+        $domainXMLElement->addChild('extraJS', "create-slide");
+        $domainXMLElement->addChild('comfortaa', "1");
+
+        foreach ($qs as $key => $value) {
+            if ($key === 'search') {
+                $domainXMLElement->addChild($key, $value);
+            } else {
+                $domainXMLElement->addChild($key, (is_array($value)) ? ','.implode(',', $value).',' : ','.$value.',');
+            }
+        }
+
+
+        $presentation = new Component\Presenter('SinglePane');
+
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
+
+        $this->finalize($response);
+        return $response;
+    }
+
+    public function postSlideUpdate($routes, $context)
+    {
+        $identity = $this->recognitionAdapter->identify();
+        $identityXMLElement = new SimpleXMLElement(
+          $this->transcriber->toXml($identity->toArray())
+        );
+
+        /**
+         * Get base URL
+         */
+        //$urlGenerator = new UrlGenerator($routes, $context);
+        //$baseUrl = $urlGenerator->generate('root');
+
+        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
+
+        $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
+        //$domainXMLElement->addChild('baseUrl', $baseUrl);
+
+        $domainXMLElement->addChild(
+          'title',
+          "Community Voices"
+        );
+
+        /**
+         * Prepare template
+         */
+        $domainIdentity = $domainXMLElement->addChild('identity');
+        $domainIdentity->adopt($identityXMLElement);
+
+        $presentation = new Component\Presenter('SinglePane');
+
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
+
+        $this->finalize($response);
+        return $response;
+    }
+
     private function formatSlide($fn, $imgId, $text, $attribution, $cc) {
         if (!file_exists($fn)) { // it wont exist on local
             exit('Slide image not found; are you on local?');

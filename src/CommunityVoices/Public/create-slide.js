@@ -1,10 +1,17 @@
 var quote_page = 1, image_page = 1;
 var quote_search = '', quote_tags = [], quote_attrs = [];
 var image_search = '', image_tags = [], photographers = [], orgs = [];
-var current_text = '"Tappan Square, you sense the history of this place as you’re walking through there. I think the trees in this town are amazing"',
-    current_attr = 'Steve Hammond, Pastor, Peace Community Church',
-    current_image = 10,
-    current_ccid = 1;
+if ($('input[name="slide"]').val() !== '') {
+    var current_text = $('#slide_text').val(),
+        current_attr = $('#slide_attr').val(),
+        current_image = $('#slide_image').val(),
+        current_ccid = $('#slide_cc').val();
+} else {
+    var current_text = '"Tappan Square, you sense the history of this place as you’re walking through there. I think the trees in this town are amazing"',
+        current_attr = 'Steve Hammond, Pastor, Peace Community Church',
+        current_image = 10,
+        current_ccid = 1;
+}
 var $quote_container = $('#ajax-quote');
 var $image_container = $('#ajax-image');
 var $content_categories = $('#content-categories');

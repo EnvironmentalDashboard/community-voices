@@ -157,7 +157,14 @@
           </div>
           <div class="col-sm-9">
             <div class="mb-4"><div class="embed-responsive embed-responsive-16by9">
-              <iframe class="embed-responsive-item" id="preview" src="https://environmentaldashboard.org/cv/slides/12"></iframe>
+              <xsl:choose>
+                <xsl:when test="domain/slide != ''">
+                  <iframe class="embed-responsive-item" id="preview" src="https://environmentaldashboard.org/cv/slides/{domain/slide/id}"></iframe>
+                </xsl:when>
+                <xsl:otherwise>
+                  <iframe class="embed-responsive-item" id="preview" src="https://environmentaldashboard.org/cv/slides/12"></iframe>
+                </xsl:otherwise>
+              </xsl:choose>
             </div></div>
             <div>
               <div id="ajax-quote" style="min-height:400px">
@@ -194,10 +201,17 @@
               </div>
             </div></div>
 
+            <!-- keep outside form because value not needed on server -->
+            <input type="hidden" id="slide_text" value="{domain/slide/quote/quote/text}"/>
+            <input type="hidden" id="slide_attr" value="{domain/slide/quote/quote/attribution}"/>
+            <input type="hidden" id="slide_image" value="{domain/slide/image/image/id}"/>
+            <input type="hidden" id="slide_cc" value="{domain/slide/contentCategory/contentCategory/id}"/>
+
             <form action='./slides/new/authenticate' method='post'>
               <input type="hidden" name="image_id"/>
               <input type="hidden" name="quote_id"/>
               <input type="hidden" name="content_category"/>
+              <input type="hidden" name="slide_id" value="{domain/slide/id}" />
               <div class="form-group">
                 <input type="text" name="probability" placeholder="Probability" class="form-control" />
               </div>

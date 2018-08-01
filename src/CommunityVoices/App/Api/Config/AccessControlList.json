@@ -22,6 +22,12 @@
         ["CommunityVoices\\App\\Api\\Controller\\Slide::postSlideUpload", {"allow" : "user"}],
         ["CommunityVoices\\App\\Api\\View\\Slide::postSlideUpload", {"allow" : "user"}],
 
+        ["CommunityVoices\\App\\Api\\Controller\\Slide::getSlideUpdate", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Slide::getSlideUpdate", {"allow" : "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Slide::postSlideUpdate", {"allow" : "user"}],
+        ["CommunityVoices\\App\\Api\\View\\Slide::postSlideUpdate", {"allow" : "user"}],
+
         ["CommunityVoices\\App\\Api\\Controller\\Quote::getQuote", {"allow" : "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Quote::getQuote", {"allow" : "guest"}],
 

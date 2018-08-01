@@ -87,4 +87,28 @@ class Slide
         $this->slideManagement->upload($quoteId, $imageId, $contentCategory, $dateRecorded, $approved, $identity);
     }
 
+    public function getSlideUpdate($request)
+    {
+        $slideId = $request->attributes->get('id');
+
+        $stateObserver = $this->tagLookup->findAll(true);
+        $stateObserver = $this->imageLookup->photographers($stateObserver, true);
+        $stateObserver = $this->imageLookup->orgs($stateObserver, true);
+        $stateObserver = $this->quoteLookup->attributions($stateObserver, true);
+        $this->slideLookup->findById($slideId, $stateObserver);
+    }
+
+    public function postSlideUpdate($request)
+    {
+      $text = $request->request->get('text');
+      $attribution = $request->request->get('attribution');
+      $subAttribution = $request->request->get('subAttribution');
+      $dateRecorded = $request->request->get('dateRecorded');
+      $status = $request->request->get('status');
+      $id = $request->request->get('id');
+
+      $this->slideManagement->update($id, $text, $attribution, $subAttribution,
+                                  $dateRecorded, $status);
+    }
+
 }

@@ -116,6 +116,24 @@
         }
     },
 
+    "getSlideUpdate": {
+        "notation": "/slides/{id}/edit",
+        "method": "get",
+        "defaults": {
+            "resource": "Slide",
+            "action": "getSlideUpdate"
+        }
+    },
+
+    "postSlideUpdate": {
+        "notation": "/slides/{id}/edit/authenticate",
+        "method": "post",
+        "defaults": {
+            "resource": "Slide",
+            "action": "postSlideUpdate"
+        }
+    },
+
     "getAllQuote": {
         "notation": "/quotes",
         "method": "get",
