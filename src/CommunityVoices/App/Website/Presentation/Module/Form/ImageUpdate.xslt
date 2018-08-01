@@ -5,12 +5,22 @@
     <xsl:variable name="selectedTags" select="/form/domain/selectedTags" />
 
     <xsl:template match="/form">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.1/cropper.min.css" />
 
       <div class="row" style="padding:15px;">
         <div class="col-12">
 
+          <div>
+            <img src="https://environmentaldashboard.org/cv/uploads/{domain/image/id}" alt="{domain/image/title}" id="cropper-img" style="width:80%;margin:0 auto;" class="mb-5 mt-2 d-block" />
+          </div>
+
           <form method='post' enctype='multipart/form-data' style="max-width:400px;margin: 0 auto">
             <xsl:attribute name="action">./images/<xsl:value-of select="domain/image/id"/>/edit/authenticate</xsl:attribute>
+
+              <input type="hidden" id="crop_x" name="crop_x" value="0"/>
+              <input type="hidden" id="crop_y" name="crop_y" value="0" />
+              <input type="hidden" id="crop_width" name="crop_width" value="0" />
+              <input type="hidden" id="crop_height" name="crop_height" value="0" />
 
               <!-- <div class="custom-file">
                 <label for="file" class="custom-file-label">File</label>
@@ -96,6 +106,20 @@
           </form>
         </div>
       </div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.1/cropper.min.js"></script>
+      <script>
+        const image = document.getElementById("cropper-img");
+        const crop_x = document.getElementById("crop_x");
+        const crop_y = document.getElementById("crop_y");
+        const crop_height = document.getElementById("crop_height");
+        const crop_width = document.getElementById("crop_width");
+        const cropper = new Cropper(image, {checkCrossOrigin: false, viewMode: 1, crop(event) {
+          crop_x.value = event.detail.x;
+          crop_y.value = event.detail.y;
+          crop_width.value = event.detail.width;
+          crop_height.value = event.detail.height;
+        }});
+      </script>
     </xsl:template>
 
 </xsl:stylesheet>

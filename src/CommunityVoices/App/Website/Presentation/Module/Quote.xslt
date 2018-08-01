@@ -63,7 +63,7 @@
 									</p>
 									<p>
 										<a>
-						            <xsl:attribute name="href">./quotes/<xsl:value-of select='domain/quote/id'/>/edit</xsl:attribute>
+						            <xsl:attribute name="href">./<xsl:value-of select='domain/quote/id'/>/edit</xsl:attribute>
 												Edit
 						        </a>
 									</p>

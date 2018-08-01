@@ -138,6 +138,7 @@ class ImageManagement
         $dateTaken,
         $photographer,
         $organization,
+        $rect,
         $status
       ) {
         $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
@@ -156,6 +157,7 @@ class ImageManagement
         $image->setDateTaken($dateTaken);
         $image->setPhotographer($photographer);
         $image->setOrganization($organization);
+        $image->setCropRect($rect);
         $image->setStatus($status);
 
         /*

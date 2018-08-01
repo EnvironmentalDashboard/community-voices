@@ -67,7 +67,7 @@
                 </p>
                 <p class='mt-0 mb-0'>
                   <a>
-                    <xsl:attribute name="href">./images/<xsl:value-of select='domain/image/id'/>/edit</xsl:attribute>
+                    <xsl:attribute name="href">./<xsl:value-of select='domain/image/id'/>/edit</xsl:attribute>
                     Edit
                   </a>
                 </p>

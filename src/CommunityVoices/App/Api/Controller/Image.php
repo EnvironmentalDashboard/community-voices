@@ -100,6 +100,10 @@ class Image
       $dateTaken = $request->request->get('dateTaken');
       $photographer = $request->request->get('photographer');
       $organization = $request->request->get('organization');
+      $crop_x = (int) $request->request->get('crop_x');
+      $crop_y = (int) $request->request->get('crop_y');
+      $crop_width = (int) $request->request->get('crop_width');
+      $crop_height = (int) $request->request->get('crop_height');
       $status = ($request->request->get('approved') !== null) ? 'approved' : 'pending';
 
       $this->imageManagement->update(
@@ -109,6 +113,7 @@ class Image
         $dateTaken,
         $photographer,
         $organization,
+        ['x' => $crop_x, 'y' => $crop_y, 'width' => $crop_width, 'height' => $crop_height],
         $status
       );
     }

@@ -115,7 +115,11 @@ class Image extends Media
                         description = :description,
                         date_taken = :date_taken,
                         photographer = :photographer,
-                        organization = :organization
+                        organization = :organization,
+                        crop_x = :crop_x,
+                        crop_y = :crop_y,
+                        crop_height = :crop_height,
+                        crop_width = :crop_width
                     WHERE
                         media_id = :media_id";
 
@@ -129,6 +133,11 @@ class Image extends Media
         $statement->bindValue(':date_taken', $image->getDateTaken());
         $statement->bindValue(':photographer', $image->getPhotographer());
         $statement->bindValue(':organization', $image->getOrganization());
+        $rect = $image->getCropRect();
+        $statement->bindValue(':crop_x', $rect['x']);
+        $statement->bindValue(':crop_y', $rect['y']);
+        $statement->bindValue(':crop_height', $rect['height']);
+        $statement->bindValue(':crop_width', $rect['width']);
 
         $statement->execute();
     }

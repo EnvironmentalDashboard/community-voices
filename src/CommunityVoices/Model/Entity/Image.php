@@ -95,6 +95,16 @@ class Image extends Media
         $this->organization = $organization;
     }
 
+    public function getCropRect()
+    {
+        return $this->cropRect;
+    }
+
+    public function setCropRect(array $rect)
+    {
+        $this->cropRect = $rect;
+    }
+
     public function toArray()
     {
         return ['image' => array_merge(parent::toArray()['media'], [
