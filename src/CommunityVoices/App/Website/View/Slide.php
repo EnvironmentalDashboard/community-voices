@@ -201,10 +201,10 @@ class Slide extends Component\View
         } else {
             $dimensions = (file_exists($json->slide->image->image->filename)) ? getimagesize($json->slide->image->image->filename) : [16, 12];
             $aspect_ratio = $dimensions[0] / $dimensions[1];
-            $scaled_ar = 2 - (($aspect_ratio ** 4) / 5);
+            $scaled_ar = 3 - (($aspect_ratio ** 4) / 5);
             $strlen = strlen($json->slide->quote->quote->text);
             $scaled_len = 1 - ((($strlen/500) ** 2));
-            $json->slide->font_size = $scaled_ar + $scaled_len;//($aspect_ratio * ($strlen/100))
+            $json->slide->font_size = 0.5 + $scaled_ar + $scaled_len;//($aspect_ratio * ($strlen/100))
         }
 
         $slideXMLElement = new SimpleXMLElement(
