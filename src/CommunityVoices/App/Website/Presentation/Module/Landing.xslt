@@ -57,7 +57,7 @@
         <form action="/cv/slides" method="GET" style="width:100%;padding:15px" id="search-form">
           <h4 class="mb-2">Looking for more content?</h4>
           <div class="input-group input-group-lg">
-            <input name="search" type="text" class="form-control" aria-label="Search Community Voices" placeholder="Search slides, images, or quotes" />
+            <input name="search" type="text" class="form-control" aria-label="Search Community Voices" placeholder="Search slides, images, or quotes" style="background: url(https://environmentaldashboard.org/cv/public/search.svg) no-repeat left 1rem center;background-size: 20px 20px;padding-left: 3rem" />
             <div class="input-group-append">
               <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown-btn">Slides</button>
               <div class="dropdown-menu" id="searchables">

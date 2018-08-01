@@ -1,7 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="1.0">
 
-    <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+    <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
     <xsl:variable name="selectedTags" select="/form/domain/selectedTags" />
 
     <xsl:template match="/form">
@@ -21,11 +21,6 @@
               <input type="hidden" id="crop_y" name="crop_y" value="0" />
               <input type="hidden" id="crop_width" name="crop_width" value="0" />
               <input type="hidden" id="crop_height" name="crop_height" value="0" />
-
-              <!-- <div class="custom-file">
-                <label for="file" class="custom-file-label">File</label>
-                <input class="custom-file-input" id="file" type='file' name='file' accept='.jpg, .jpeg, .png' />
-              </div> -->
 
               <div class="form-group">
                 <label for="title">Title</label>
