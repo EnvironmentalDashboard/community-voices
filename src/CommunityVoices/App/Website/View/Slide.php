@@ -199,7 +199,12 @@ class Slide extends Component\View
         if ($svg_ver) {
             $json->slide->g = htmlspecialchars($this->formatSlide($json->slide->image->image->filename, $json->slide->image->image->id, $json->slide->quote->quote->text, $json->slide->quote->quote->attribution, $json->slide->contentCategory->contentCategory->id));
         } else {
-            $json->slide->font_size = 3.2 - (strlen($json->slide->quote->quote->text)/500);
+            $dimensions = (file_exists($json->slide->image->image->filename)) ? getimagesize($json->slide->image->image->filename) : [16, 12];
+            $aspect_ratio = $dimensions[0] / $dimensions[1];
+            $scaled_ar = 2 - (($aspect_ratio ** 4) / 5);
+            $strlen = strlen($json->slide->quote->quote->text);
+            $scaled_len = 1 - ((($strlen/500) ** 2));
+            $json->slide->font_size = $scaled_ar + $scaled_len;//($aspect_ratio * ($strlen/100))
         }
 
         $slideXMLElement = new SimpleXMLElement(
