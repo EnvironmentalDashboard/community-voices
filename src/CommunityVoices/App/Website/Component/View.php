@@ -30,6 +30,7 @@ class View
             $ret .= htmlspecialchars(http_build_query(array_replace($qs, ['page' => $page])));
             $ret .= '" aria-label="Previous"><span aria-hidden="true">&#171;</span><span class="sr-only">Previous</span></a></li>';
         }
+        $ok = true;
         for ($i = 1; $i <= $final_page; $i++) {
             if ($page > 20 && $i > 3 && $ok) {
                 $i = $page - 2;

@@ -47,6 +47,11 @@
               </h6>
               <p class="card-text"><xsl:value-of select='domain/image/description' /></p>
               <p class="card-text"><small class="text-muted">Created <xsl:value-of select='domain/image/dateCreated' /></small></p>
+              <p class="card-text">
+                <xsl:for-each select="domain/image/tagCollection/groupCollection/group">
+                  <span class="badge badge-primary mr-1"><xsl:value-of select="label"></xsl:value-of></span>
+                </xsl:for-each>
+              </p>
             </div>
             <xsl:if test="$isManager">
               <div class="card-footer text-muted">
