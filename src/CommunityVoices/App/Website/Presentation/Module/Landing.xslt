@@ -64,6 +64,7 @@
                 <a class="dropdown-item" data-action="/cv/slides" href="#">Slides</a>
                 <a class="dropdown-item" data-action="/cv/images" href="#">Images</a>
                 <a class="dropdown-item" data-action="/cv/quotes" href="#">Quotes</a>
+                <a class="dropdown-item" data-action="/cv/articles" href="#">Articles</a>
               </div>
             </div>
             <button type="submit" class="btn btn-outline-primary form-control" style="max-width:15%">Search</button>

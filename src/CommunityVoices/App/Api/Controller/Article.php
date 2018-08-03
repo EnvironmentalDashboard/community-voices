@@ -33,6 +33,10 @@ class Article
 
     public function getAllArticle($request, $identity)
     {
+        $search = (string) $request->query->get('search');
+        $tags = $request->query->get('tags');
+        $authors = $request->query->get('authors');
+
         $creatorIDs = $request->attributes->get('creatorIDs');
         $status = $request->attributes->get('status');
 
@@ -41,11 +45,12 @@ class Article
           $status = ["approved"];
         }
 
+        $order = (string) $request->query->get('order');
         $page = (int) $request->query->get('page');
         $page = ($page > 0) ? $page - 1 : 0; // current page, make page 0-based
         $limit = 10; // number of items per page
         $offset = $limit * $page;
-        $this->articleLookup->findAll($page, $limit, $offset, $creatorIDs, $status);
+        $this->articleLookup->findAll($page, $limit, $offset, $order, $search, $tags, $authors, $creatorIDs, $status);
     }
 
     public function getArticleUpload()

@@ -137,6 +137,16 @@ class Article extends Component\View
         }
         $obj->articleCollection = array_values($obj->articleCollection);
 
+        $tags = $json->tags;
+        $tagXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($tags)
+        );
+
+        $authors = $json->authors;
+        $authorXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($authors)
+        );
+
         $articleXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($obj)
         );
@@ -154,7 +164,17 @@ class Article extends Component\View
 
         $packagedArticle = $articlePackageElement->addChild('domain');
         $packagedArticle->adopt($articleXMLElement);
+        $packagedArticle->adopt($tagXMLElement);
+        $packagedArticle->adopt($authorXMLElement);
         $packagedArticle->adopt($paginationXMLElement);
+
+        foreach ($qs as $key => $value) {
+            if ($key === 'search' || $key === 'order' || $key === 'unused') {
+                $packagedArticle->addChild($key, $value);
+            } else {
+                $packagedArticle->addChild($key, (is_array($value)) ? ','.implode(',', $value).',' : ','.$value.',');
+            }
+        }
 
         $packagedIdentity = $articlePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
@@ -179,6 +199,7 @@ class Article extends Component\View
         $domainXMLElement->addChild('main-pane', $articleModuleXML);
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: All Articles");
+        $domainXMLElement->addChild('extraJS', "article-collection");
         
 
         $domainIdentity = $domainXMLElement->addChild('identity');

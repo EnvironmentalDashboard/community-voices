@@ -34,9 +34,13 @@ class Article
         $stateObserver = $clientState->retrieve();
 
         $stateObserver->setSubject('articleFindAll');
-        $articleCollection = $stateObserver->getEntry('articleCollection')[0];
+        $articleCollection = $stateObserver->getEntry('articleCollection')[0]->toArray();
+        $articleCollection['authors'] = $stateObserver->getEntry('articleCollectionAuthors')[0];
 
-        $response = new HttpFoundation\JsonResponse($articleCollection->toArray());
+        $stateObserver->setSubject('tagLookup');
+        $articleCollection['tags'] = $stateObserver->getEntry('tag')[0]->toArray();
+
+        $response = new HttpFoundation\JsonResponse($articleCollection);
 
         return $response;
     }
