@@ -91,8 +91,8 @@
                 </select>
               </div>
               <div class="form-check mb-2">
-                <input class="form-check-input" type="checkbox" id="unused" name="unused">
-                  <xsl:if test="$unused = 'on'">
+                <input class="form-check-input" type="checkbox" id="unused" name="unused" value="1">
+                  <xsl:if test="$unused = '1'">
                     <xsl:attribute name="checked">checked</xsl:attribute>
                   </xsl:if>
                 </input>
