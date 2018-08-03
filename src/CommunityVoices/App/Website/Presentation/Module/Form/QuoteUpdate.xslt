@@ -10,8 +10,7 @@
                     <p>Attribution missing.</p>
                 </xsl:if>
 
-                <form method='post' style="max-width:400px;margin: 0 auto">
-                    <xsl:attribute name="action">./quotes/<xsl:value-of select="domain/quote/id"/>/edit/authenticate</xsl:attribute>
+                <form method='post' style="max-width:400px;margin: 0 auto" action="edit/authenticate">
 
                     <div class="form-group">
                         <label for="text">Quote</label>

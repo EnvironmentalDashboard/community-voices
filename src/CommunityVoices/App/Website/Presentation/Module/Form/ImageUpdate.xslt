@@ -14,8 +14,7 @@
             <img src="https://environmentaldashboard.org/cv/uploads/{domain/image/id}" alt="{domain/image/title}" id="cropper-img" style="width:80%;margin:0 auto;" class="mb-5 mt-2 d-block" />
           </div>
 
-          <form method='post' enctype='multipart/form-data' style="max-width:400px;margin: 0 auto">
-            <xsl:attribute name="action">./images/<xsl:value-of select="domain/image/id"/>/edit/authenticate</xsl:attribute>
+          <form method='post' enctype='multipart/form-data' style="max-width:400px;margin: 0 auto" action="edit/authenticate">
 
               <input type="hidden" id="crop_x" name="crop_x" value="0"/>
               <input type="hidden" id="crop_y" name="crop_y" value="0" />
