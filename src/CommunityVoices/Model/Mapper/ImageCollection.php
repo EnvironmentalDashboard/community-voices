@@ -95,7 +95,7 @@ class ImageCollection extends DataMapper
         }
         $only_unused_query = '';
         if ($only_unused) {
-            $only_unused_query = 'AND media_id NOT IN (SELECT image_id FROM `community-voices_slides`)';
+            $only_unused_query = 'AND media_id NOT IN (SELECT image_id FROM `community-voices_slides` WHERE image_id IS NOT NULL)';
         }
         $query = "SELECT SQL_CALC_FOUND_ROWS
                     media.id                        AS id,
