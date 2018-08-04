@@ -192,7 +192,7 @@ class ImageManagement
         /*
          * save $image to database
          */
-
+// var_dump($image);die;
         $imageMapper->save($image);
 
         return true;

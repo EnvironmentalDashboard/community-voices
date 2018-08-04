@@ -10,7 +10,7 @@ class MediaCollection extends Collection
     const MEDIA_TYPE_QUOTE = 1;
     const MEDIA_TYPE_IMAGE = 2;
     const MEDIA_TYPE_SLIDE = 3;
-    const MEDIA_TYPE_ARTICLE = 3;
+    const MEDIA_TYPE_ARTICLE = 4;
 
     protected $allowableMediaType = [
         self::MEDIA_TYPE_QUOTE,

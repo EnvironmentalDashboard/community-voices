@@ -102,10 +102,19 @@ class ImageLookup
         $imageCollectionPhotographers = new \stdClass();
         $imageCollectionOrgs = new \stdClass();
 
+        $groupCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
+
         $imageCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\ImageCollection::class);
         $imageCollectionMapper->fetch($imageCollection, $only_unused, $search, $tags, $photographers, $orgs, $limit, $offset, $order);
         $imageCollectionMapper->photographers($imageCollectionPhotographers);
         $imageCollectionMapper->orgs($imageCollectionOrgs);
+        foreach ($imageCollection as $item) { // is this the right place to fetch tags for each image?
+            $tags = new Entity\GroupCollection;
+            $tags->forGroupType(1);
+            $tags->forParent($item);
+            $item->setTagCollection($tags);
+            $groupCollectionMapper->fetch($item->getTagCollection());
+        }
 
         $tagLookup = new TagLookup($this->mapperFactory, $this->stateObserver);
         $tagLookup->findAll();

@@ -145,6 +145,15 @@ class Image extends Component\View
         unset($obj->imageCollection->limit);
         unset($obj->imageCollection->page);
         $obj->imageCollection = array_values((array) $obj->imageCollection);
+        // add csv of tags so checkboxes can be checked with xslt
+        foreach ($obj->imageCollection as $item) {
+            $selectedTags = [];
+            foreach ($item->image->tagCollection->groupCollection as $group) {
+                $selectedTags[] = $group->group->id;
+            }
+            $item->image->selectedTagString = ',' . implode(',', $selectedTags) . ',';
+        }
+
         $imageXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($obj)
         );
@@ -161,6 +170,11 @@ class Image extends Component\View
         );
 
         $tags = $json->tags;
+        usort($tags->groupCollection, function($a, $b) {
+            $a = $a->group->label;
+            $b = $b->group->label;
+            return strcmp($a, $b);
+        });
         $tagXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($tags)
         );
@@ -183,6 +197,7 @@ class Image extends Component\View
         $packagedImage->adopt($orgXMLElement);
         $packagedImage->adopt($paginationXMLElement);
         $packagedImage->adopt($tagXMLElement);
+        // var_dump($packagedImage->imageCollection->image[0]);die;
         
         foreach ($qs as $key => $value) {
             if ($key === 'search' || $key === 'order' || $key === 'unused') {

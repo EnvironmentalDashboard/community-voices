@@ -94,7 +94,10 @@ class Image
 
     public function postImageUpdate($request)
     {
-      $id = $request->request->get('id');
+      $id = (int) $request->attributes->get('id');
+      if ($id === 0) {
+        $id = (int) $request->request->get('id');
+      }
       $title = $request->request->get('title');
       $description = $request->request->get('description');
       $dateTaken = $request->request->get('dateTaken');

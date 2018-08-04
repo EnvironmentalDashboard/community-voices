@@ -68,7 +68,11 @@ class Image extends Media
 
     public function setDateTaken($dateTaken)
     {
-        $input = (int) $dateTaken;
+        if (is_numeric($dateTaken)) {
+            $input = (int) $dateTaken;
+        } else {
+            $input = strtotime($dateTaken);
+        }
 
         if ($input > 0) {
             $this->dateTaken = $input;
@@ -112,7 +116,7 @@ class Image extends Media
             'title' => $this->title,
             'description' => $this->description,
             'generatedTags' => $this->generatedTags,
-            'dateTaken' => $this->dateTaken,
+            'dateTaken' => date('Y-m-d H:i:s', $this->dateTaken),
             'photographer' => $this->photographer,
             'organization' => $this->organization
         ])];

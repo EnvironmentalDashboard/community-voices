@@ -12,6 +12,7 @@
 	<xsl:variable name="orgs" select="package/domain/orgs"/>
   <xsl:variable name="order" select="package/domain/order"/>
   <xsl:variable name="unused" select="package/domain/unused"/>
+  <xsl:variable name="allTags" select="package/domain/groupCollection/group" />
 
 	<xsl:template match="/package">
 <style>
@@ -65,19 +66,30 @@
 	        			<input type="text" class="form-control" name="search" id="search" placeholder="Enter search terms" value="{$search}" />
 	        		</div>
 
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="unused" name="unused" value="1">
+                  <xsl:if test="$unused = '1'">
+                    <xsl:attribute name="checked">checked</xsl:attribute>
+                  </xsl:if>
+                </input>
+                <label class="form-check-label" for="unused">
+                  Show only unpaired images
+                </label>
+              </div>
+
 	        		<div class="form-group">
                 <p class="mb-0">Tags</p>
                 <div style="overflow-y:scroll;width:100%;height: 145px;border:none" id='sorted-tags'>
-                  <xsl:for-each select="domain/groupCollection/group">
+                  <xsl:for-each select="$allTags">
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" name="tags[]" id="tag{id}">
+                      <input class="form-check-input" type="checkbox" name="tags[]" id="globalTag{id}">
                         <xsl:if test="contains($tags, concat(',', id, ','))">
                           <xsl:attribute name="checked">checked</xsl:attribute>
                         </xsl:if>
                         <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
                       </input>
                       <label class="form-check-label">
-                        <xsl:attribute name="for">tag<xsl:value-of select='id' /></xsl:attribute>
+                        <xsl:attribute name="for">globalTag<xsl:value-of select='id' /></xsl:attribute>
                         <xsl:value-of select="label"></xsl:value-of>
                       </label>
                     </div>
@@ -151,17 +163,6 @@
                 </select>
               </div>
 
-              <div class="form-check mb-2">
-                <input class="form-check-input" type="checkbox" id="unused" name="unused" value="1">
-                  <xsl:if test="$unused = '1'">
-                    <xsl:attribute name="checked">checked</xsl:attribute>
-                  </xsl:if>
-                </input>
-                <label class="form-check-label" for="unused">
-                  Show only unpaired images
-                </label>
-              </div>
-
 	          </div>
 	          <div class="card-footer bg-transparent"><button type="button" onclick="this.parentNode.parentNode.reset()" class="btn btn-secondary mr-2">Reset</button> <button type="submit" class="btn btn-primary">Search</button></div>
           </form>
@@ -189,13 +190,73 @@
                 </div>
 							</a>
               <div class="card-footer text-muted">
-                <p class='mt-0 mb-0'>Source: 
-                  <xsl:value-of select='photographer' />
-                  <xsl:if test="organization != '' and photographer != organization">
-                    <xsl:if test="photographer != ''">, </xsl:if>
-                    <xsl:value-of select='organization'></xsl:value-of>
-                  </xsl:if>
-                </p>
+                <xsl:choose>
+                  <xsl:when test="$isManager">
+                    <form action="images/{id}/edit/authenticate" method="POST">
+                      <div class="form-group mb-1">
+                        <a class="btn btn-outline-secondary btn-sm btn-block" data-toggle="collapse" href="#collapse{id}" role="button" aria-expanded="false" aria-controls="collapse{id}">Toggle tags</a>
+                        <div class="collapse" id="collapse{id}">
+                          <xsl:variable name="curTagString" select="selectedTagString" />
+                          <xsl:variable name="curId" select="id" />
+                          <xsl:for-each select="$allTags">
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" name="tags[]" id="{$curId}tag{id}">
+                                <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
+                                <xsl:if test="contains($curTagString, concat(',', id, ','))">
+                                  <xsl:attribute name="checked">checked</xsl:attribute>
+                                </xsl:if>
+                              </input>
+                              <label class="form-check-label">
+                                <xsl:attribute name="for"><xsl:value-of select='$curId' />tag<xsl:value-of select='id' /></xsl:attribute>
+                                <xsl:value-of select="label"></xsl:value-of>
+                              </label>
+                            </div>
+                          </xsl:for-each>
+                        </div>
+                      </div>
+                      <div class="form-group mb-1">
+                        <label class="mb-0" for="title{id}">Title</label>
+                        <input type="text" name="title" id="title{id}" class="form-control form-control-sm">
+                          <xsl:attribute name="value"><xsl:value-of select="title"></xsl:value-of></xsl:attribute>
+                        </input>
+                      </div>
+                      <div class="form-group mb-1">
+                        <label class="mb-0" for="description{id}">Description</label>
+                        <input type="text" name="description" id="description{id}" class="form-control form-control-sm">
+                          <xsl:attribute name="value"><xsl:value-of select="description"></xsl:value-of></xsl:attribute>
+                        </input>
+                      </div>
+                      <div class="form-group mb-1">
+                        <label class="mb-0" for="dateTaken{id}">Date taken</label>
+                        <input type="text" name="dateTaken" id="dateTaken{id}" class="form-control form-control-sm">
+                          <xsl:attribute name="value"><xsl:value-of select="dateTaken"></xsl:value-of></xsl:attribute>
+                        </input>
+                      </div>
+                      <div class="form-group mb-1">
+                        <label class="mb-0" for="photographer{id}">Photographer</label>
+                        <input type="text" name="photographer" id="photographer{id}" class="form-control form-control-sm">
+                          <xsl:attribute name="value"><xsl:value-of select="photographer"></xsl:value-of></xsl:attribute>
+                        </input>
+                      </div>
+                      <div class="form-group mb-1">
+                        <label class="mb-0" for="org{id}">Organization</label>
+                        <input type="text" name="organization" id="org{id}" class="form-control form-control-sm">
+                          <xsl:attribute name="value"><xsl:value-of select="organization"></xsl:value-of></xsl:attribute>
+                        </input>
+                      </div>
+                      <input type='submit' class="btn btn-primary mt-2 btn-sm btn-block" value="Update"></input>
+                    </form>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <p class='mt-0 mb-0'>Source: 
+                      <xsl:value-of select='photographer' />
+                      <xsl:if test="organization != '' and photographer != organization">
+                        <xsl:if test="photographer != ''">, </xsl:if>
+                        <xsl:value-of select='organization'></xsl:value-of>
+                      </xsl:if>
+                    </p>
+                  </xsl:otherwise>
+                </xsl:choose>
               </div>
 
 						</div>
@@ -209,7 +270,6 @@
 	</div>
 	<div class="row" style="padding:15px;">
 		<div class="col-12">
-			<!-- <xsl:value-of select="domain/count"></xsl:value-of> -->
 			<xsl:copy-of select="domain/div"></xsl:copy-of>
 		</div>
 	</div>
