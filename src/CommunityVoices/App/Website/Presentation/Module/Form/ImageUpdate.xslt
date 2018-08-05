@@ -90,11 +90,6 @@
                   </xsl:otherwise>
                 </xsl:choose>
               </div>
-              
-
-              <input type='hidden' name='id'>
-                  <xsl:attribute name="value"><xsl:value-of select="domain/image/id"/></xsl:attribute>
-              </input>
 
               <input type='submit' class="btn btn-primary" />
           </form>

@@ -25,7 +25,8 @@ class Quote extends Component\View
         Component\Transcriber $transcriber,
         Api\Component\SecureContainer $secureContainer,
         Api\View\Quote $quoteAPIView,
-        Service\QuoteLookup $quoteLookup
+        Service\QuoteLookup $quoteLookup,
+        Service\TagLookup $tagLookup
     ) {
         $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
@@ -33,6 +34,7 @@ class Quote extends Component\View
         $this->secureContainer = $secureContainer;
         $this->quoteAPIView = $quoteAPIView;
         $this->quoteLookup = $quoteLookup;
+        $this->tagLookup = $tagLookup;
     }
 
     public function getQuote($routes, $context)
@@ -317,14 +319,28 @@ class Quote extends Component\View
          */
         $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
 
+        $quote = json_decode($quoteAPIView->getQuote()->getContent());
         $quoteXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $quoteAPIView->getQuote()->getContent()
-            ))
+            $this->transcriber->toXml($quote)
+        );
+
+        $tags = $this->tagLookup->findAll(true);
+        $tagXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($tags->getEntry('tag')[0]->toArray())
+        );
+
+        $selectedTagString = ',';
+        foreach ($quote->quote->tagCollection->groupCollection as $group) {
+            $selectedTagString .= "{$group->group->id},";
+        }
+        $selectedTagXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(['selectedTags' => [$selectedTagString]])
         );
 
         $packagedQuote = $paramXML->addChild('domain');
         $packagedQuote->adopt($quoteXMLElement);
+        $packagedQuote->adopt($tagXMLElement);
+        $packagedQuote->adopt($selectedTagXMLElement);
 
         $formModule = new Component\Presenter('Module/Form/QuoteUpdate');
         $formModuleXML = $formModule->generate($paramXML);

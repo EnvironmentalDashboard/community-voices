@@ -94,7 +94,10 @@ class Quote
       $subAttribution = $request->request->get('subAttribution');
       $dateRecorded = $request->request->get('dateRecorded');
       $status = $request->request->get('status');
-      $id = $request->request->get('id');
+      $id = (int) $request->attributes->get('id');
+      if ($id === 0) {
+        $id = (int) $request->request->get('id');
+      }
 
       $this->quoteManagement->update($id, $text, $attribution, $subAttribution,
                                   $dateRecorded, $status);
