@@ -53,17 +53,17 @@ class ImageLookup
             switch ($type) {
                 case 'image/png':
                     imagepng(
-                        imagecrop(imagecreatefrompng($fn), $rect))
+                        imagecrop(imagecreatefrompng($fn), $rect)
                     );
                     break;
                 case 'image/gif':
                     imagegif(
-                        imagecrop(imagecreatefromgif($fn), $rect))
+                        imagecrop(imagecreatefromgif($fn), $rect)
                     );
                     break;
                 default:
                     imagejpeg(
-                        imagecrop(imagecreatefromjpeg($fn), $rect))
+                        imagecrop(imagecreatefromjpeg($fn), $rect)
                     );
                     break;
             }
