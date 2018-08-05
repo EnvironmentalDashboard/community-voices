@@ -29,7 +29,7 @@ class Landing
             0, // page
             5, // limit
             0, // offset
-            'asc', // order
+            'rand', // order
             '', // search
             null, // tags
             null, // photographers

@@ -21,6 +21,10 @@ class SlideCollection extends DataMapper
                 $sort = 'media.id';
                 $order = 'DESC';
                 break;
+            case 'rand':
+                $sort = 'rand';
+                $order = null;
+                break;
             default:
                 $sort = 'media.id';
                 $order = 'DESC';
@@ -107,9 +111,9 @@ class SlideCollection extends DataMapper
 		          	WHERE {$content_category_query} {$search_query} {$tag_query} {$attribution_query} {$photographer_query} {$org_query}
 		         "
 		         . $this->query_prep($slideCollection->status, "media.status")
-                 . $this->query_prep($slideCollection->creators, "media.added_by")
-                 . " ORDER BY {$sort} {$order} LIMIT {$offset}, {$limit}";
-                 // echo $query;var_dump($params);die;
+                 . $this->query_prep($slideCollection->creators, "media.added_by");
+        $query .= ($sort === 'rand') ? " ORDER BY RAND() LIMIT {$limit}" : " ORDER BY {$sort} {$order} LIMIT {$offset}, {$limit}";
+        
         $statement = $this->conn->prepare($query);
 
         $statement->execute($params);

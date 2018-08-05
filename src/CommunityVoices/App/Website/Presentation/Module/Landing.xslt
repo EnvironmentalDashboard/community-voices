@@ -7,9 +7,9 @@
 
   <xsl:template match="/package">
 
-      <div class="row" style="padding:15px;">
+      <div class="row pb-0" style="padding:15px;">
         <div class="col-12">
-          <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
+          <div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-interval="7000">
             <div class="carousel-inner">
               <xsl:for-each select="domain/slideCollection/slide">
                 <xsl:variable name="i" select="position()" />
@@ -43,7 +43,7 @@
         </div>
       </div>
       
-      <div class="row mb-3" style="padding: 15px">
+      <div class="row mb-3 pt-0" style="padding: 15px">
         <div class="col"><img data-cc="1" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/slider-images/serving-our-community.png" style="cursor:pointer" /></div>
         <div class="col"><img data-cc="2" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/slider-images/our-downtown.png" style="cursor:pointer" /></div>
         <div class="col"><img data-cc="3" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/slider-images/next-generation.png" style="cursor:pointer" /></div>
