@@ -7,12 +7,20 @@
     or package/identity/user/role = 'administrator'"/>
 
   <xsl:template match="/package">
-    <div style="display: flex;align-items:center;max-height:100%">
-      <img src="https://environmentaldashboard.org/cv/uploads/{domain/slide/image/image/id}" alt="{domain/slide/image/image/title}" style="flex-shrink: 0;width: auto;height: 86vh;max-width:70vw;max-height:100%" />
+    <div style="display: flex;align-items:center;height: 86vh">
+      <img src="https://environmentaldashboard.org/cv/uploads/{domain/slide/image/image/id}" alt="{domain/slide/image/image/title}" style="flex-shrink: 0;width: auto;max-height: 86vh;max-width:70vw;max-height:100%" />
       <h1 style="{concat('color:#fff;padding:3vw;font-size:', domain/slide/font_size, 'vw;font-weight:400')}">
         <xsl:value-of select="domain/slide/quote/quote/text"></xsl:value-of>
         <xsl:if test="domain/slide/quote/quote/attribution != ''">
-          <div style="{concat('font-size:', domain/slide/font_size, 'vw;margin-top:2vw')}">&#x2014; <xsl:value-of select="domain/slide/quote/quote/attribution"></xsl:value-of></div>
+          <div style="margin-top:1.5rem;font-size:70%">
+            <div style="max-width:6%;display:inline-block;height:100%;vertical-align:top">
+              &#x2014;
+            </div>
+            <div style="max-width:90%;display:inline-block;height:100%">
+              <xsl:value-of select="domain/slide/quote/quote/attribution" />
+            </div>
+          </div>
+          <!-- <div style="{concat('font-size:', domain/slide/font_size, 'vw;margin-top:2vw')}">&#x2014; <xsl:value-of select="domain/slide/quote/quote/attribution"></xsl:value-of></div> -->
         </xsl:if>
       </h1>
     </div>
