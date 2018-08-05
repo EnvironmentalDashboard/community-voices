@@ -14,7 +14,6 @@
     <div class="row" style="padding:15px;">
       <div class="col-sm-3">
         <div class="card bg-light mb-3">
-          <div class="card-header bg-transparent">Search Articles</div>
           <form action="" method="GET">
             <div class="card-body">
               <div class="form-group">

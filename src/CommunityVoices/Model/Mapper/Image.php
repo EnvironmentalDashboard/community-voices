@@ -60,7 +60,8 @@ class Image extends Media
                         child.description               AS description,
                         child.date_taken                AS dateTaken,
                         child.photographer              AS photographer,
-                        child.organization              AS organization
+                        child.organization              AS organization,
+                        CONCAT(child.crop_x, ',', child.crop_y, ',', child.crop_height, ',', child.crop_width) AS cropRect
                     FROM
                         `community-voices_media` parent
                     JOIN

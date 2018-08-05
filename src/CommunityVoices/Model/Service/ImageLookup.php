@@ -36,6 +36,7 @@ class ImageLookup
 
         $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
         $imageMapper->fetch($image);
+        $rect = $image->getCropRect();
 
         if (!$image->getId()) {
             throw new Exception\IdentityNotFound;
@@ -45,8 +46,30 @@ class ImageLookup
             throw new Exception\IdentityNotFound;
         }
 
-        header('Content-type: ' . mime_content_type($fn));
-        readfile($fn);
+        $type = mime_content_type($fn);
+        header('Content-type: ' . $type);
+
+        if ($rect['x'] > 0 || $rect['y'] > 0 || $rect['height'] > 0 || $rect['width'] > 0) {
+            switch ($type) {
+                case 'image/png':
+                    imagepng(
+                        imagecrop(imagecreatefrompng($fn), $rect))
+                    );
+                    break;
+                case 'image/gif':
+                    imagegif(
+                        imagecrop(imagecreatefromgif($fn), $rect))
+                    );
+                    break;
+                default:
+                    imagejpeg(
+                        imagecrop(imagecreatefromjpeg($fn), $rect))
+                    );
+                    break;
+            }
+        } else {
+            readfile($fn);
+        }
         exit;
     }
 

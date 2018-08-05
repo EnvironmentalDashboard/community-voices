@@ -43,3 +43,9 @@ $(targets).each(function(i, target){
   	$(this).html(sortCheckboxes($(this))); // resort every time checkbox checked
   });
 });
+
+$('#searchables > a').on('click', function(e) {
+    e.preventDefault();
+    $('#search-form').attr('action', $(this).data('action'));
+    $('#dropdown-btn').text($(this).text());
+});

@@ -104,9 +104,19 @@ class Image extends Media
         return $this->cropRect;
     }
 
-    public function setCropRect(array $rect)
+    public function setCropRect($rect)
     {
-        $this->cropRect = $rect;
+        if (is_array($rect)) {
+            $this->cropRect = $rect;
+        } elseif (is_string($rect)) {
+            $parts = explode(',', $rect);
+            $this->cropRect = [
+                'x' => (int) $parts[0],
+                'y' => (int) $parts[1],
+                'height' => (int) $parts[2],
+                'width' => (int) $parts[3]
+            ];
+        }
     }
 
     public function toArray()

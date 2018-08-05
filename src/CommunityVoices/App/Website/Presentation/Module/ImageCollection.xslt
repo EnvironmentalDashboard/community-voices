@@ -51,14 +51,27 @@
 }
 </style>
     <nav class="navbar navbar-light bg-light">
-    	<a class="navbar-brand" href="#">Images</a>
+    	<form action="/cv/slides" method="GET" id="search-form" class="d-inline" style="width:70%">
+        <div class="input-group input-group">
+          <input name="search" type="text" class="form-control" aria-label="Search Community Voices" placeholder="Search slides, images, or quotes" style="background: url(https://environmentaldashboard.org/cv/public/search.svg) no-repeat left 1rem center;background-size: 20px 20px;padding-left: 3rem;min-width:40%" value="{$search}" />
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown-btn">Slides</button>
+            <div class="dropdown-menu" id="searchables" style="left:initial">
+              <a class="dropdown-item" data-action="/cv/images" href="#">Images</a>
+              <a class="dropdown-item" data-action="/cv/slides" href="#">Slides</a>
+              <a class="dropdown-item" data-action="/cv/quotes" href="#">Quotes</a>
+              <a class="dropdown-item" data-action="/cv/articles" href="#">Articles</a>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-outline-primary form-control" style="max-width:15%">Search</button>
+        </div>
+      </form>
       <a class="btn btn-outline-primary" href="./images/new">+ Add image</a>
     </nav>
 
 		<div class="row" style="padding:15px;">
 			<div class="col-sm-3">
 				<div class="card bg-light mb-3">
-          <div class="card-header bg-transparent">Search Images</div>
           <form action="" method="GET">
 	          <div class="card-body">
 	        		<div class="form-group">
