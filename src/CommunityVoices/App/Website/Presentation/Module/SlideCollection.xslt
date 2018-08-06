@@ -167,19 +167,22 @@
       <div class="col-sm-9">
       	<xsl:for-each select="domain/slideCollection/slide">
       		<xsl:if test="$isManager or status = 'approved'">
-		      	<a href="slides/{id}">
-
-              <div class="embed-responsive embed-responsive-16by9 mb-4">
-                <iframe class="embed-responsive-item" id="preview" style="pointer-events: none;" src="https://environmentaldashboard.org/cv/slides/{id}"></iframe>
-              </div>
-
-							<!-- <p>
-								<xsl:value-of select='image/image/id' />,
-								<xsl:value-of select='quote/quote/text' />,
-								<xsl:value-of select='contentCategory/contentCategory/id' />
-							</p> -->
-
-						</a>
+            <xsl:choose>
+              <xsl:when test="$isManager">
+                <a href="slides/{id}/edit">
+                  <div class="embed-responsive embed-responsive-16by9 mb-4">
+                    <iframe class="embed-responsive-item" id="preview" style="pointer-events: none;" src="https://environmentaldashboard.org/cv/slides/{id}"></iframe>
+                  </div>
+                </a>
+              </xsl:when>
+              <xsl:otherwise>
+                <a href="slides/edit/{id}">
+                  <div class="embed-responsive embed-responsive-16by9 mb-4">
+                    <iframe class="embed-responsive-item" id="preview" style="pointer-events: none;" src="https://environmentaldashboard.org/cv/slides/{id}"></iframe>
+                  </div>
+                </a>
+              </xsl:otherwise>
+            </xsl:choose>
 					</xsl:if>
 				</xsl:for-each>
       </div>

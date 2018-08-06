@@ -1,4 +1,5 @@
 var quote_page = 1, image_page = 1;
+var crop_img = false;
 var quote_search = '', quote_tags = [], quote_attrs = [];
 var image_search = '', image_tags = [], photographers = [], orgs = [];
 if ($('#slide_text').length) {
@@ -20,17 +21,17 @@ getImage(1);
 $(document).on('click', '.ajax-quote', function(e) { // need attach event handler this way bc targeted elements are dynamically generated
     current_text = $(this).data('text');
     current_attr = $(this).data('attribution');
-    renderSlide(current_text, current_attr, current_image, current_ccid);
+    renderSlide(current_text, current_attr, current_image, current_ccid, crop_img);
     $("input[name='quote_id']").val($(this).data('id'));
 });
 $(document).on('click', '.ajax-image', function(e) {
     current_image = $(this).data('id');
     $("input[name='image_id']").val(current_image);
-    renderSlide(current_text, current_attr, current_image, current_ccid);
+    renderSlide(current_text, current_attr, current_image, current_ccid, crop_img);
 });
 $('#content-categories img').on('click', function() {
     current_ccid = $(this).data('id');
-    renderSlide(current_text, current_attr, current_image, current_ccid);
+    renderSlide(current_text, current_attr, current_image, current_ccid, crop_img);
     $("input[name='content_category']").val(current_ccid);
 });
 var $prev_btn = $('#quote-btn');
@@ -110,29 +111,39 @@ $('#filter-images').on('submit', function(e) {
     image_page = 1;
     getImage(image_page);
 });
+$('#crop').on('change', function(e) {
+    e.preventDefault();
+    if (e.checked) {
+        crop_img = true;
+    } else {
+        crop_img = false;
+    }
+    renderSlide(current_text, current_attr, current_image, current_ccid, crop_img);
+});
 
 var prefill_image = getParameterByName('prefill_image');
 var prefill_quote = getParameterByName('prefill_quote');
 if (prefill_image) {
     $("input[name='image_id']").val(prefill_image);
     current_image = prefill_image;
-    renderSlide(current_text, current_attr, current_image, current_ccid);
+    renderSlide(current_text, current_attr, current_image, current_ccid, crop_img);
 }
 
 if (prefill_quote) {
     $.getJSON('https://api.environmentaldashboard.org/cv/quotes/'+prefill_quote, { }, function(data) {
         current_text = htmlDecode(data['quote']['text']);
         current_attr = data['quote']['attribution'];
-        renderSlide(current_text, current_attr, current_image, current_ccid);
+        renderSlide(current_text, current_attr, current_image, current_ccid, crop_img);
         $("input[name='quote_id']").val(data['quote']['id']);
     });
 }
 
-function renderSlide(quote_text, attribution, image, ccid) {
+function renderSlide(quote_text, attribution, image, ccid, crop_img) {
     var iframe = document.getElementById('preview');
     var cc = contentCategory(ccid);
     var head = '<html><head><meta charset="utf-8" /><style>* { box-sizing:border-box }html, body { height: 100%; font-family:Comfortaa, sans-serif; }</style><link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.1/cropper.min.css" /></head><body style="background:#000;margin:0;padding:0;">';
-    var body = '<div style="display: flex;align-items:center;max-height:100%"><div><img src="https://environmentaldashboard.org/cv/uploads/'+image+'" style="flex-shrink: 0;width: auto;height: 86vh;max-width:70vw;max-height:100%" id="cropper-img" /></div><h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">'+quote_text+'<div style="font-size:2vw;margin-top:2vw">&#x2014; '+attribution+'</div></h1></div><div style="width:100%;background:'+cc.bg+';position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw">'+cc.text+'<img src="'+cc.image+'" alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto" /></div><script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.1/cropper.min.js"></script><script>const image = document.getElementById("cropper-img");const cropper = new Cropper(image, {checkCrossOrigin: false, viewMode: 1, crop(event) {console.log(event.detail.x, event.detail.y);console.log(event.detail.width, event.detail.height);}});</script></body></html>';
+    var cropperjs = (crop_img) ? '<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.1/cropper.min.js"></script><script>const crop_x = window.parent.document.getElementById("crop_x");const crop_y = window.parent.document.getElementById("crop_y");const crop_height = window.parent.document.getElementById("crop_height");const crop_width = window.parent.document.getElementById("crop_width");const image = document.getElementById("cropper-img");const cropper = new Cropper(image, {checkCrossOrigin: false, viewMode: 1, crop(event) {crop_x.value = event.detail.x;crop_y.value = event.detail.y;crop_width.value = event.detail.width;crop_height.value = event.detail.height;}});</script>' : '';
+    var body = '<div style="display: flex;align-items:center;max-height:100%"><div><img src="https://environmentaldashboard.org/cv/uploads/'+image+'" style="flex-shrink: 0;width: auto;height: 86vh;max-width:70vw;max-height:100%" id="cropper-img" /></div><h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">'+quote_text+'<div style="font-size:2vw;margin-top:2vw">&#x2014; '+attribution+'</div></h1></div><div style="width:100%;background:'+cc.bg+';position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw">'+cc.text+'<img src="'+cc.image+'" alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto" /></div>'+cropperjs+'</body></html>';
     iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(head + body);
 }
 

@@ -166,6 +166,12 @@
                 </xsl:otherwise>
               </xsl:choose>
             </div></div>
+            <div class="form-group">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="crop" />
+                <label class="custom-control-label" for="crop">Crop image</label>
+              </div>
+            </div>
             <div>
               <div id="ajax-quote" style="min-height:400px">
                 <div class="selectables"></div>
@@ -210,43 +216,54 @@
             </xsl:if>
 
             <form action='authenticate' method='post'>
+              <input type="hidden" id="crop_x" name="crop_x" value="0"/>
+              <input type="hidden" id="crop_y" name="crop_y" value="0" />
+              <input type="hidden" id="crop_width" name="crop_width" value="0" />
+              <input type="hidden" id="crop_height" name="crop_height" value="0" />
+              <input type="hidden" name="image_id"/>
+              <input type="hidden" name="quote_id"/>
+              <input type="hidden" name="content_category"/>
               <xsl:choose>
-              <xsl:when test="domain/slide != ''">
-                <input type="hidden" name="image_id"/>
-                <input type="hidden" name="quote_id"/>
-                <input type="hidden" name="content_category"/>
-                <div class="form-group">
-                  <input type="text" name="probability" placeholder="Probability" class="form-control" value="{domain/slide/probability}" />
-                </div>
-                <div class="form-group">
-                  <input type="text" name="decay_percent" placeholder="Decay percent" class="form-control" value="{domain/slide/decayPercent}" />
-                </div>
-                <div class="form-group">
-                  <input type="text" name="decay_start" placeholder="Decay start" class="form-control" value="{domain/slide/decayStart}" />
-                </div>
-                <div class="form-group">
-                  <input type="text" name="decay_end" placeholder="Decay end" class="form-control" value="{domain/slide/decayEnd}" />
-                </div>
-                <input type='submit' value="Update slide" class="btn btn-primary" />
-              </xsl:when>
-              <xsl:otherwise>
-                <input type="hidden" name="image_id"/>
-                <input type="hidden" name="quote_id"/>
-                <input type="hidden" name="content_category"/>
-                <div class="form-group">
-                  <input type="text" name="probability" placeholder="Probability" class="form-control" />
-                </div>
-                <div class="form-group">
-                  <input type="text" name="decay_percent" placeholder="Decay percent" class="form-control" />
-                </div>
-                <div class="form-group">
-                  <input type="text" name="decay_start" placeholder="Decay start" class="form-control" />
-                </div>
-                <div class="form-group">
-                  <input type="text" name="decay_end" placeholder="Decay end" class="form-control" />
-                </div>
-                <input type='submit' value="Create slide" class="btn btn-primary" />
-              </xsl:otherwise>
+                <xsl:when test="domain/slide != ''">
+                  <div class="form-group">
+                    <input type="text" name="probability" placeholder="Probability" class="form-control" value="{domain/slide/probability}" />
+                  </div>
+                  <div class="form-group">
+                    <input type="text" name="decay_percent" placeholder="Decay percent" class="form-control" value="{domain/slide/decayPercent}" />
+                  </div>
+                  <div class="form-group">
+                    <input type="text" name="decay_start" placeholder="Decay start" class="form-control" value="{domain/slide/decayStart}" />
+                  </div>
+                  <div class="form-group">
+                    <input type="text" name="decay_end" placeholder="Decay end" class="form-control" value="{domain/slide/decayEnd}" />
+                  </div>
+                  <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="approve" name="approve">
+                        <xsl:if test="domain/slide/status = 'approved'">
+                          <xsl:attribute name="checked">checked</xsl:attribute>
+                        </xsl:if>
+                      </input>
+                      <label class="custom-control-label" for="approve">Approve</label>
+                    </div>
+                  </div>
+                  <input type='submit' value="Update slide" class="btn btn-primary" />
+                </xsl:when>
+                <xsl:otherwise>
+                  <div class="form-group">
+                    <input type="text" name="probability" placeholder="Probability" class="form-control" />
+                  </div>
+                  <div class="form-group">
+                    <input type="text" name="decay_percent" placeholder="Decay percent" class="form-control" />
+                  </div>
+                  <div class="form-group">
+                    <input type="text" name="decay_start" placeholder="Decay start" class="form-control" />
+                  </div>
+                  <div class="form-group">
+                    <input type="text" name="decay_end" placeholder="Decay end" class="form-control" />
+                  </div>
+                  <input type='submit' value="Create slide" class="btn btn-primary" />
+                </xsl:otherwise>
               </xsl:choose>
             </form>
 

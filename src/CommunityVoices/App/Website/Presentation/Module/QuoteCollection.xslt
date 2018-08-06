@@ -27,6 +27,16 @@
                 <label for="search">Search</label>
                 <input type="text" class="form-control" name="search" id="search" placeholder="Enter search terms" value="{$search}" />
               </div>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="unused" name="unused" value="1">
+                  <xsl:if test="$unused = '1'">
+                    <xsl:attribute name="checked">checked</xsl:attribute>
+                  </xsl:if>
+                </input>
+                <label class="form-check-label" for="unused">
+                  Show only unpaired quotes
+                </label>
+              </div>
               <div class="form-group">
                 <p class="mb-0">Tags</p>
                 <div style="overflow-y:scroll;width:100%;height: 145px;border:none" id='sorted-tags'>
@@ -89,16 +99,6 @@
                   </option>
                 </select>
               </div>
-              <div class="form-check mb-2">
-                <input class="form-check-input" type="checkbox" id="unused" name="unused" value="1">
-                  <xsl:if test="$unused = '1'">
-                    <xsl:attribute name="checked">checked</xsl:attribute>
-                  </xsl:if>
-                </input>
-                <label class="form-check-label" for="unused">
-                  Show only unpaired quotes
-                </label>
-              </div>
             </div>
             <div class="card-footer bg-transparent"><button type="button" onclick="this.parentNode.parentNode.reset()" class="btn btn-secondary mr-2">Reset</button> <button type="submit" class="btn btn-primary">Search</button></div>
           </form>
@@ -125,6 +125,9 @@
                       </footer>
                     </blockquote>
                   </a>
+                  <xsl:if test="$isManager">
+                    <p><a class="btn btn-outline-secondary btn-sm float-right" href="quotes/{id}/edit">Edit quote</a></p>
+                  </xsl:if>
                 </li>
 
               </xsl:if>

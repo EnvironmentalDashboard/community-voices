@@ -36,9 +36,6 @@
 				<div class="row" style="padding:15px;">
 					<div class="col-sm-8">
 						<div class="card mb-5">
-		          <div class="card-header">
-		            Quote
-		          </div>
 		          <div class="card-body">
 		            <blockquote class="blockquote mb-0">
 		              <p><xsl:value-of select='domain/quote/text' /></p>
@@ -46,7 +43,10 @@
 		                <cite>
 		                  <xsl:attribute name="title"><xsl:value-of select='domain/quote/attribution' /></xsl:attribute>
 		                  <xsl:value-of select='domain/quote/attribution' />
-		                  <xsl:value-of select='domain/quote/subAttribution' />
+		                  <xsl:if test="domain/quote/subAttribution != '' and domain/quote/attribution != domain/quote/subAttribution">
+                        <xsl:if test="domain/quote/attribution != ''">, </xsl:if>
+                        <xsl:value-of select='domain/quote/subAttribution'></xsl:value-of>
+                      </xsl:if>
 		                </cite>
 		              </footer>
 		            </blockquote>
@@ -92,7 +92,7 @@
 	              </a>
 	            </xsl:when>
 	            <xsl:otherwise>
-	              <p>This quote is not used in any slides</p>
+	              <p>This quote is not used in any slides.</p>
 	              <p><a href="/cv/slides/new?prefill_quote={domain/quote/id}" class="btn btn-primary btn-block">Create one</a></p>
 	            </xsl:otherwise>
 	          </xsl:choose>
