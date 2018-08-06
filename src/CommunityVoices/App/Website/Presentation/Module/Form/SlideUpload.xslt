@@ -239,7 +239,7 @@
                   </div>
                   <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="approve" name="approve">
+                      <input type="checkbox" class="custom-control-input" id="approve" name="approve" value="1">
                         <xsl:if test="domain/slide/status = 'approved'">
                           <xsl:attribute name="checked">checked</xsl:attribute>
                         </xsl:if>

@@ -102,7 +102,7 @@ class SlideManagement
 
     }
 
-    public function update(int $id, int $imageId, int $quoteId, int $contentCategory, int $decay_percent, float $probability, string $decay_start, string $decay_end) {
+    public function update(int $id, int $imageId, int $quoteId, int $contentCategory, int $decay_percent, float $probability, string $decay_start, string $decay_end, int $approved) {
 
         $quote = new Entity\Quote;
         $quote->setId((int) $quoteId);

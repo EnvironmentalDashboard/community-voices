@@ -108,8 +108,9 @@ class Slide
         $decay_start = (string) $request->request->get('decay_start');
         $decay_end = (string) $request->request->get('decay_end');
         $id = (int) $request->request->get('id');
+        $approved = (int) $request->request->get('approve');
 
-        $this->slideManagement->update($id, $imageId, $quoteId, $contentCategory, $decay_percent, $probability, $decay_start, $decay_end);
+        $this->slideManagement->update($id, $imageId, $quoteId, $contentCategory, $decay_percent, $probability, $decay_start, $decay_end, $approved);
     }
 
 }

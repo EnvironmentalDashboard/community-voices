@@ -79,16 +79,15 @@
               <!-- <xsl:value-of select='domain/groupCollection'></xsl:value-of> -->
               <!-- <xsl:value-of select='domain/image/tagCollection/groupCollection'></xsl:value-of> -->
 
-              <div class="form-group">
-                Approve:
-                <xsl:choose>
-                  <xsl:when test="@approve-value &gt; 0">
-                      <input type='checkbox' name='approved' checked='{@approve-value}'/>
-                  </xsl:when>
-                  <xsl:otherwise>
-                      <input type='checkbox' name='approved' />
-                  </xsl:otherwise>
-                </xsl:choose>
+              <div class="form-group mb-1">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="approve" name="approve" value="1">
+                    <xsl:if test="domain/image/status = 'approved'">
+                      <xsl:attribute name="checked">checked</xsl:attribute>
+                    </xsl:if>
+                  </input>
+                  <label class="custom-control-label" for="approve">Approve</label>
+                </div>
               </div>
 
               <input type='submit' class="btn btn-primary" />

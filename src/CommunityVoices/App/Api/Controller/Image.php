@@ -107,7 +107,7 @@ class Image
       $crop_y = (int) $request->request->get('crop_y');
       $crop_width = (int) $request->request->get('crop_width');
       $crop_height = (int) $request->request->get('crop_height');
-      $status = ($request->request->get('approved') !== null) ? 'approved' : 'pending';
+      $status = ($request->request->get('approve') === '1') ? 'approved' : 'pending';
 
       $this->imageManagement->update(
         $id,
