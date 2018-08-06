@@ -10,8 +10,17 @@
       <div class="row" style="padding:15px;">
         <div class="col-12">
 
-          <div>
-            <img src="https://environmentaldashboard.org/cv/uploads/{domain/image/id}" alt="{domain/image/title}" id="cropper-img" style="width:80%;margin:0 auto;" class="mb-5 mt-2 d-block" />
+          <div class="mb-2">
+            <img src="https://environmentaldashboard.org/cv/uploads/{domain/image/id}" alt="{domain/image/title}" id="cropper-img" style="width:80%;margin:0 auto;" class="mt-2 d-block" />
+          </div>
+
+          <div style="max-width:400px;margin: 0 auto">
+            <div class="form-group mb-1">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="crop-checkbox" onchange="enable_cropper();" />
+                <label class="custom-control-label" for="crop-checkbox">Crop image</label>
+              </div>
+            </div>
           </div>
 
           <form method='post' enctype='multipart/form-data' style="max-width:400px;margin: 0 auto" action="edit/authenticate">
@@ -101,12 +110,22 @@
         const crop_y = document.getElementById("crop_y");
         const crop_height = document.getElementById("crop_height");
         const crop_width = document.getElementById("crop_width");
-        const cropper = new Cropper(image, {checkCrossOrigin: false, viewMode: 1, crop(event) {
-          crop_x.value = event.detail.x;
-          crop_y.value = event.detail.y;
-          crop_width.value = event.detail.width;
-          crop_height.value = event.detail.height;
-        }});
+        const checkbox = document.getElementById("crop-checkbox");
+        var cropper;
+        function enable_cropper() {
+          console.log(cropper);
+          if (checkbox.checked) {
+            cropper = new Cropper(image, {checkCrossOrigin: false, viewMode: 1, crop(event) {
+              crop_x.value = event.detail.x;
+              crop_y.value = event.detail.y;
+              crop_width.value = event.detail.width;
+              crop_height.value = event.detail.height;
+            }});
+          } else if (cropper !== undefined) {
+            cropper.destroy();
+          }
+        }
+        enable_cropper();
       </script>
     </xsl:template>
 
