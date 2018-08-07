@@ -7,4 +7,5 @@ log/
 migrate/migrate_old_content.php
 migrate/csv_quotes.php
 migrate/empty.sql
+migrate/format_articles.php
 

@@ -13,10 +13,14 @@
 					<a class="btn btn-primary mb-3" href="./articles">&#x2190; Go back</a>
 
 					<xsl:choose><xsl:when test="$isManager or domain/article/status = 'approved'">
-						<h1><xsl:value-of select='domain/article/title' /></h1>
-						<img class="mr-3 mx-auto d-block" src="https://environmentaldashboard.org/cv/uploads/{domain/article/image}" alt="{title}" style="width:50%" />
-						<xsl:value-of select='domain/article/attribution' />
-						<xsl:copy-of select='domain/article/text' />
+						<h1 class="text-center"><xsl:value-of select='domain/article/title' /></h1>
+						<h5 class="text-muted text-center">Interview by: <xsl:value-of select="domain/article/author" /></h5>
+						<h5 class="text-muted text-center"><xsl:value-of select="domain/article/dateRecorded" /></h5>
+						<div style="column-count:2; column-gap: 8vw;padding:4vw;">
+							<img class="mr-3 mx-auto d-block img-thumbnail" src="https://environmentaldashboard.org/cv/uploads/{domain/article/image}" alt="{title}" style="width:80%" />
+							<xsl:value-of select='domain/article/attribution' />
+							<xsl:copy-of select='domain/article/text' />
+						</div>
 						<!-- <p>Added <xsl:value-of select='domain/article/dateCreated' /></p>
 	          <xsl:if test="$isManager">
 	            <p>Status: <xsl:value-of select='domain/article/status' /></p>

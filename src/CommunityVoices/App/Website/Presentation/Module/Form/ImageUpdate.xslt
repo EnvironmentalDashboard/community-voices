@@ -123,6 +123,10 @@
             }});
           } else if (cropper !== undefined) {
             cropper.destroy();
+            crop_x.value = 0;
+            crop_y.value = 0;
+            crop_width.value = 0;
+            crop_height.value = 0;
           }
         }
         enable_cropper();

@@ -167,6 +167,7 @@ class Article extends Component\View
         $packagedArticle->adopt($tagXMLElement);
         $packagedArticle->adopt($authorXMLElement);
         $packagedArticle->adopt($paginationXMLElement);
+        // var_dump($packagedArticle);die;
 
         foreach ($qs as $key => $value) {
             if ($key === 'search' || $key === 'order' || $key === 'unused') {

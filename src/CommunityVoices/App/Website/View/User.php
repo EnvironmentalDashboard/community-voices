@@ -102,6 +102,7 @@ class User extends Component\View
         $domainXMLElement->addChild('title',
             "Community Voices: Register"
         );
+        $domainXMLElement->addChild('extraJS', "register");
 
         /**
          * Prepare template
@@ -130,6 +131,8 @@ class User extends Component\View
         if( !$identity->getId() ){
             // @TODO
         } else {
+            header('Location: /cv/'); // what happens after you register? just redirect?
+            exit();
             $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
         }
 
