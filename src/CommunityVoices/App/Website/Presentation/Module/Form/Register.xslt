@@ -3,7 +3,7 @@
 
   <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
-  <xsl:template match="/form">
+  <xsl:template match="/package">
 
     <form action='register/authenticate' method='post' class="mt-3 p-5 mx-auto needs-validation" style="max-width:800px;" novalidate="">
       <h1 class="h3 mb-3 font-weight-normal">Create an account</h1>
@@ -71,6 +71,7 @@
           </div>
         </div>
       </div>
+      <input type="hidden" name="token" value="{domain/token}"/>
       <div class="form-group row">
         <div class="col-sm-3"></div>
         <div class="col-sm-9">

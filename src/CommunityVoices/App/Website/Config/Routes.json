@@ -71,6 +71,15 @@
         }
     },
 
+    "postRegistrationInvite": {
+        "notation": "/register/invite",
+        "method": "post",
+        "defaults": {
+            "resource": "User",
+            "action": "postRegistrationInvite"
+        }
+    },
+
     "getProfile": {
         "notation": "/user/{id}",
         "method": "get",

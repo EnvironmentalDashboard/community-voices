@@ -179,4 +179,38 @@ class User extends DataMapper
 
         return !empty($statement->fetch(PDO::FETCH_ASSOC));
     }
+
+    public function insertToken($email, $role, $token)
+    {
+        $query = "INSERT INTO
+                        `community-voices_tokens`
+                        (email, token, role)
+                    VALUES
+                        (:email, :token, :role)";
+
+        $statement = $this->conn->prepare($query);
+
+        $statement->bindValue(':email', $email);
+        $statement->bindValue(':token', $token);
+        $statement->bindValue(':role', $role);
+
+        $statement->execute();
+    }
+
+    public function invitedRole(Entity\User $user, string $token)
+    {
+        $query = "SELECT role FROM
+                        `community-voices_tokens`
+                    WHERE
+                        email = :email AND token = :token AND updated >= DATE_SUB(NOW(), INTERVAL 1 DAY)";
+
+        $statement = $this->conn->prepare($query);
+
+        $statement->bindValue(':email', $user->getEmail());
+        $statement->bindValue(':token', $token);
+
+        $statement->execute();
+
+        return $statement->fetchColumn(PDO::FETCH_ASSOC);
+    }
 }

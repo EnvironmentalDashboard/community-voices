@@ -8,4 +8,5 @@ migrate/migrate_old_content.php
 migrate/csv_quotes.php
 migrate/empty.sql
 migrate/format_articles.php
-
+src/CommunityVoices/Public/outbox.php
+src/CommunityVoices/App/Website/main_db.php

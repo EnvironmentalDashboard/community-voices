@@ -49,4 +49,11 @@ class User
 
         $apiController->postUser($request);
     }
+
+    public function postRegistrationInvite($request)
+    {
+        $apiController = $this->secureContainer->contain($this->userAPIController);
+
+        $apiController->newToken($request);
+    }
 }

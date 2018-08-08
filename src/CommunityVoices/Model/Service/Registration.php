@@ -36,10 +36,14 @@ class Registration
      * @param  string $confirmPassword
      * @param  string $firstName
      * @param  string $lastName
+     * @param  string $token
      * @return boolean True indicates success
      */
-    public function createUser($email, $password, $confirmPassword, $firstName, $lastName)
+    public function createUser($email, $password, $confirmPassword, $firstName, $lastName, $token)
     {
+
+        $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
+
         /**
          * Create user entity and set attributes
          */
@@ -50,7 +54,12 @@ class Registration
         $user->setConfirmPassword($confirmPassword);
         $user->setFirstName($firstName);
         $user->setLastName($lastName);
-        $user->setRole($user::ROLE_UNVERIFIED);
+        if ($token != null) {
+            $role = $userMapper->invitedRole($user, $token);
+            $user->setRole((int) $role);
+        } else {
+            $user->setRole($user::ROLE_UNVERIFIED);
+        }
 
 
         /**
@@ -71,8 +80,6 @@ class Registration
             $clientState->save($this->stateObserver);
             return false;
         }
-
-        $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
 
         if ($userMapper->existingUserWithEmail($user)) {
             $this->stateObserver->addEntry('email', $user::ERR_EMAIL_EXISTS);
@@ -99,5 +106,18 @@ class Registration
         $this->pdRegistration->verifyEmailIdentity($pdIdentity);
 
         return true;
+    }
+
+    public function insertToken($email, $role, $token)
+    {
+        $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
+        $userMapper->insertToken($email, $role, $token);
+    }
+
+    public function sendInviteEmail($email, $role, $token) {
+        require '/var/www/html/src/CommunityVoices/App/Website/main_db.php';
+        $html = "<p>You have been invited to create a new {$role} account. <a href='https://environmentaldashboard.org/cv/register?token={$token}'>Click here</a> to complete the registration process.</p>";
+        $stmt = $db->prepare('INSERT INTO outbox (recipient, subject, txt_message, html_message) VALUES (?, ?, ?, ?)');
+        $stmt->execute([$email, "You have been invited to create a new {$role} account", '', $html]);
     }
 }

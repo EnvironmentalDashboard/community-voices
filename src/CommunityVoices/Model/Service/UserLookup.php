@@ -56,4 +56,5 @@ class UserLookup
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
         $clientState->save($this->stateObserver);
     }
+
 }
