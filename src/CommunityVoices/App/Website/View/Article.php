@@ -309,7 +309,6 @@ class Article extends Component\View
          * Gather article information
          */
         $articleAPIView = $this->secureContainer->contain($this->articleAPIView);
-
         $articleXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
                 $articleAPIView->getArticle()->getContent()

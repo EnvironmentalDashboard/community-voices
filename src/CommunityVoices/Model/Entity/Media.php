@@ -120,7 +120,7 @@ class Media implements HasId
         return ['media' => [
             'id' => $this->id,
             'addedBy' => $this->addedBy ? $this->addedBy->toArray() : null,
-            'dateCreated' => date("M j\, Y", $this->dateCreated),
+            'dateCreated' => date("Y-m-d H:i:s", $this->dateCreated),
             'type' => $this->type,
             'status' => $this->allowableStatus[$this->status],
             'tagCollection' => $this->tagCollection ? $this->tagCollection->toArray() : null

@@ -108,6 +108,7 @@ class Article extends Media
         $query = "UPDATE
                         `community-voices_articles`
                     SET
+                        title = :title,
                         text = :text,
                         author = :author,
                         date_recorded = :date_recorded
@@ -117,6 +118,7 @@ class Article extends Media
         $statement = $this->conn->prepare($query);
 
         $statement->bindValue(':media_id', $article->getId());
+        $statement->bindValue(':title', $article->getTitle());
         $statement->bindValue(':text', $article->getText());
         $statement->bindValue(':author', $article->getAuthor());
         $statement->bindValue(':date_recorded', date('Y-m-d H:i:s', $article->getDateRecorded()));
@@ -148,7 +150,6 @@ class Article extends Media
         $statement->bindValue(':text', $article->getText());
         $statement->bindValue(':author', $article->getAuthor());
         $statement->bindValue(':date_recorded', date('Y-m-d H:i:s', $article->getDateRecorded()));
-        $statement->bindValue(':image_id', $article->getImage()->getId());
         $statement->execute();
     }
 }

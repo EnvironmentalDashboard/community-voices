@@ -114,7 +114,7 @@ class Quote extends Media
             'text' => $this->text,
             'attribution' => $this->attribution,
             'subAttribution' => $this->subAttribution,
-            'dateRecorded' => date("M j\, Y", $this->dateRecorded),
+            'dateRecorded' => date("Y-m-d H:i:s", $this->dateRecorded),
             'publicDocumentLink' => $this->publicDocumentLink,
             'sourceDocumentLink' => $this->sourceDocumentLink
         ])];

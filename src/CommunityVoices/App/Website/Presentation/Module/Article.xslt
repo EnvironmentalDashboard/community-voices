@@ -19,7 +19,7 @@
 						<div style="column-count:2; column-gap: 8vw;padding:4vw;">
 							<img class="mr-3 mx-auto d-block img-thumbnail" src="https://environmentaldashboard.org/cv/uploads/{domain/article/image}" alt="{title}" style="width:80%" />
 							<xsl:value-of select='domain/article/attribution' />
-							<xsl:copy-of select='domain/article/text' />
+							<xsl:copy-of select='domain/article/html' />
 						</div>
 						<!-- <p>Added <xsl:value-of select='domain/article/dateCreated' /></p>
 	          <xsl:if test="$isManager">

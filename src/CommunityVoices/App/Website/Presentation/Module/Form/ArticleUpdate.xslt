@@ -13,24 +13,24 @@
                 <form method='post' style="max-width:400px;margin: 0 auto" action="edit/authenticate">
 
                     <div class="form-group">
-                        <label for="text">Quote</label>
-                        <input type='text' name='text' id='text' class='form-control'>
-                            <xsl:attribute name="value"><xsl:value-of select="domain/article/text"/></xsl:attribute>
+                        <label for="text">Enter article below</label>
+                        <textarea name="text" id="text" cols="25" rows="20" class="form-control">
+                            <xsl:value-of select="domain/article/text"/>
+                        </textarea>
+                      </div>
+
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type='text' name='title' id='title' class='form-control'>
+                            <xsl:attribute name="value"><xsl:value-of select="domain/article/title"/></xsl:attribute>
                         </input>
                     </div>
 
                     <div class="form-group">
                         <label for="author">Author</label>
-                        <xsl:choose>
-                            <xsl:when test='@text'>
-                                <input type='text' name='author' id='author' value='{@text}' class='form-control' />
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <input type='text' name='author' id='author' class='form-control'>
-                                    <xsl:attribute name="value"><xsl:value-of select="domain/article/author"/></xsl:attribute>
-                                </input>
-                            </xsl:otherwise>
-                        </xsl:choose>
+                        <input type='text' name='author' id='author' class='form-control'>
+                            <xsl:attribute name="value"><xsl:value-of select="domain/article/author"/></xsl:attribute>
+                        </input>
                     </div>
 
                     <div class="form-group">
@@ -39,11 +39,6 @@
                             <xsl:attribute name="value"><xsl:value-of select="domain/article/dateRecorded"/></xsl:attribute>
                         </input>
                     </div>
-
-                    <div class="form-group">
-                        <p>Status: @TODO</p>
-                    </div>
-                    <!-- <input type='' name='status' /><br /> -->
 
                     <input type='hidden' name='id'>
                         <xsl:attribute name="value"><xsl:value-of select="domain/article/id"/></xsl:attribute>

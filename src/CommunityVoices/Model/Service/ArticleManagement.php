@@ -92,7 +92,7 @@ class ArticleManagement
 
     }
 
-    public function update($id, $text, $author, $dateRecorded, $status)
+    public function update($id, $text, $title, $author, $dateRecorded, $status)
         {
 
         $articleMapper = $this->mapperFactory->createDataMapper(Mapper\Article::class);
@@ -107,6 +107,7 @@ class ArticleManagement
         $articleMapper->fetch($article);
 
         $article->setText($text);
+        $article->setTitle($title);
         $article->setAuthor($author);
         $article->setDateRecorded($dateRecorded);
         $article->setStatus($status);

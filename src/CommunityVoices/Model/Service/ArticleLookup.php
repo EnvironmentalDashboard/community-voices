@@ -57,7 +57,7 @@ class ArticleLookup
         $groupCollectionMapper->fetch($article->getTagCollection());
 
         $Parsedown = new \Parsedown();
-        $article->setText($Parsedown->text($article->getText()));
+        $article->setHtml($Parsedown->text($article->getText()));
 
         $this->stateObserver->setSubject('articleLookup');
         $this->stateObserver->addEntry('article', $article);
@@ -114,7 +114,7 @@ class ArticleLookup
 
         $Parsedown = new \Parsedown();
         foreach ($articleCollection->getCollection() as $article) {
-            $article->setText($Parsedown->text($article->getText()));
+            $article->setHtml($Parsedown->text($article->getText()));
         }
 
         // map data

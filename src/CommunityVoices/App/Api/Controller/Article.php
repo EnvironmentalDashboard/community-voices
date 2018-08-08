@@ -85,14 +85,15 @@ class Article
     }
 
     public function postArticleUpdate($request)
-    { // TODO
-      $file = $request->files->get('file');
+    {
+      // $file = $request->files->get('file');
       $text = $request->request->get('text');
+      $title = $request->request->get('title');
       $author = $request->request->get('author');
       $dateRecorded = $request->request->get('dateRecorded');
       $status = $request->request->get('status');
-      $id = $request->request->get('id');
+      $id = $request->attributes->get('id');//$request->request->get('id');
 
-      $this->articleManagement->update($id, $text, $author, $dateRecorded, $status);
+      $this->articleManagement->update($id, $text, $title, $author, $dateRecorded, $status);
     }
 }

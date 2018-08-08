@@ -91,7 +91,7 @@ class User extends Component\View
         $userPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
         $packagedUser = $userPackageElement->addChild('domain');
         $packagedUser->adopt(new SimpleXMLElement(
-            $this->transcriber->toXml(['token' => $_GET['token']])
+            $this->transcriber->toXml(['token' => (isset($_GET['token'])) ? $_GET['token'] : ''])
         ));
 
         $packagedIdentity = $userPackageElement->addChild('identity');

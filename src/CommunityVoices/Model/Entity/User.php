@@ -25,7 +25,7 @@ class User implements HasId, Palladium\Contract\HasId
     const ERR_PASSWORD_MISMATCH = 'Confirm password must match';
     const ERR_PASSWORD_TOO_SHORT = 'Password length must exceed 4 characters';
 
-    private $allowableRole = [
+    public $allowableRole = [
         self::ROLE_GUEST => 'guest',
         self::ROLE_UNVERIFIED => 'new user',
         self::ROLE_USER => 'user',
