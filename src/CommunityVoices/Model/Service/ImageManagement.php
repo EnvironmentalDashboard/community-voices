@@ -145,6 +145,7 @@ class ImageManagement
         $photographer,
         $organization,
         $rect,
+        $tags,
         $status
       ) {
         $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
@@ -198,8 +199,21 @@ class ImageManagement
         /*
          * save $image to database
          */
-// var_dump($image);die;
         $imageMapper->save($image);
+
+        if (is_array($tags)) {
+            $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
+            $tagMapper->deleteTags($image);
+            $iid = $image->getId();
+            $tagCollection = new Entity\GroupCollection;
+            foreach ($tags as $tid) {
+                $tag = new Entity\Tag;
+                $tag->setMediaId($iid);
+                $tag->setGroupId($tid);
+                $tagCollection->addEntity($tag);
+            }
+            $tagMapper->saveTags($tagCollection);
+        }
 
         return true;
     }

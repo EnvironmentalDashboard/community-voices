@@ -53,16 +53,15 @@
     <nav class="navbar navbar-light bg-light">
     	<form action="/cv/slides" method="GET" id="search-form" class="d-inline" style="width:70%">
         <div class="input-group input-group">
-          <input name="search" type="text" class="form-control" aria-label="Search Community Voices" placeholder="Search slides, images, or quotes" style="background: url(https://environmentaldashboard.org/cv/public/search.svg) no-repeat left 1rem center;background-size: 20px 20px;padding-left: 3rem;min-width:40%" value="{$search}" />
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown-btn">Slides</button>
+            <button class="btn btn-outline-secondary dropdown-toggle rounded-left" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown-btn">Images</button>
             <div class="dropdown-menu" id="searchables" style="left:initial">
-              <a class="dropdown-item" data-action="/cv/images" href="#">Images</a>
               <a class="dropdown-item" data-action="/cv/slides" href="#">Slides</a>
               <a class="dropdown-item" data-action="/cv/quotes" href="#">Quotes</a>
               <a class="dropdown-item" data-action="/cv/articles" href="#">Articles</a>
             </div>
           </div>
+          <input name="search" type="text" class="form-control" aria-label="Search Community Voices" placeholder="Search slides, images, or quotes" style="background: url(https://environmentaldashboard.org/cv/public/search.svg) no-repeat left 1rem center;background-size: 20px 20px;padding-left: 3rem;min-width:40%" value="{$search}" />
           <button type="submit" class="btn btn-outline-primary form-control" style="max-width:15%">Search</button>
         </div>
       </form>
@@ -186,109 +185,156 @@
         </div>
 			</div>
       <div class="col-sm-9">
-			<div class="card-columns">
-				<xsl:for-each select="domain/imageCollection/image">
+        <xsl:choose>
+          <xsl:when test="$isManager">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Thumbnail</th>
+                    <th scope="col">Tag</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Date Taken</th>
+                    <th scope="col">Photographer</th>
+                    <th scope="col">Organization</th>
+                    <th scope="col">Approved</th>
+                    <th scope="col">Submit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <xsl:for-each select="domain/imageCollection/image">
 
-					<xsl:if test="$isManager or status = 'approved'">
-
-						<div class="card">
-							<a href="images/{id}">
-  							<div class="image">
-                  <img>
-                    <xsl:attribute name="src">https://environmentaldashboard.org/cv/uploads/<xsl:value-of select='id' /></xsl:attribute>
-                    <xsl:attribute name="alt"><xsl:value-of select='title' /></xsl:attribute>
-                    <xsl:attribute name="class">card-img</xsl:attribute>
-                  </img>
-                  <svg width="100" height="100" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1152 1376v-160q0-14-9-23t-23-9h-96v-512q0-14-9-23t-23-9h-320q-14 0-23 9t-9 23v160q0 14 9 23t23 9h96v320h-96q-14 0-23 9t-9 23v160q0 14 9 23t23 9h448q14 0 23-9t9-23zm-128-896v-160q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v160q0 14 9 23t23 9h192q14 0 23-9t9-23zm640 416q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z" fill="#fff"/></svg>
-                </div>
-							</a>
-              <div class="card-footer text-muted">
-                <xsl:choose>
-                  <xsl:when test="$isManager">
-                    <form action="images/{id}/edit/authenticate" method="POST">
-                      <div class="form-group mb-1">
-                        <a class="btn btn-outline-secondary btn-sm btn-block" data-toggle="collapse" href="#collapse{id}" role="button" aria-expanded="false" aria-controls="collapse{id}">Toggle tags</a>
-                        <div class="collapse" id="collapse{id}">
-                          <xsl:variable name="curTagString" select="selectedTagString" />
-                          <xsl:variable name="curId" select="id" />
-                          <xsl:for-each select="$allTags">
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="tags[]" id="{$curId}tag{id}">
-                                <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
-                                <xsl:if test="contains($curTagString, concat(',', id, ','))">
-                                  <xsl:attribute name="checked">checked</xsl:attribute>
-                                </xsl:if>
-                              </input>
-                              <label class="form-check-label">
-                                <xsl:attribute name="for"><xsl:value-of select='$curId' />tag<xsl:value-of select='id' /></xsl:attribute>
-                                <xsl:value-of select="label"></xsl:value-of>
-                              </label>
+                    <xsl:if test="$isManager or status = 'approved'">
+                      <tr>
+                        <form action="images/{id}/edit/authenticate" method="POST">
+                          <th scope="row"><xsl:value-of select="id" /></th>
+                          <td>
+                            <img class="img-fluid" style="max-width:200px">
+                              <xsl:attribute name="src">https://environmentaldashboard.org/cv/uploads/<xsl:value-of select='id' /></xsl:attribute>
+                              <xsl:attribute name="alt"><xsl:value-of select='title' /></xsl:attribute>
+                            </img>
+                          </td>
+                          <td>
+                            <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
+                            <xsl:variable name="curTagString" select="selectedTagString" />
+                            <xsl:variable name="curId" select="id" />
+                            <xsl:for-each select="$allTags">
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="tags[]" id="{$curId}tag{id}">
+                                  <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
+                                  <xsl:if test="contains($curTagString, concat(',', id, ','))">
+                                    <xsl:attribute name="checked">checked</xsl:attribute>
+                                  </xsl:if>
+                                </input>
+                                <label class="form-check-label">
+                                  <xsl:attribute name="for"><xsl:value-of select='$curId' />tag<xsl:value-of select='id' /></xsl:attribute>
+                                  <xsl:value-of select="label"></xsl:value-of>
+                                </label>
+                              </div>
+                            </xsl:for-each>
                             </div>
-                          </xsl:for-each>
-                        </div>
-                      </div>
-                      <div class="form-group mb-1">
-                        <label class="mb-0" for="title{id}">Title</label>
-                        <input type="text" name="title" id="title{id}" class="form-control form-control-sm">
-                          <xsl:attribute name="value"><xsl:value-of select="title"></xsl:value-of></xsl:attribute>
-                        </input>
-                      </div>
-                      <div class="form-group mb-1">
-                        <label class="mb-0" for="description{id}">Description</label>
-                        <input type="text" name="description" id="description{id}" class="form-control form-control-sm">
-                          <xsl:attribute name="value"><xsl:value-of select="description"></xsl:value-of></xsl:attribute>
-                        </input>
-                      </div>
-                      <div class="form-group mb-1">
-                        <label class="mb-0" for="dateTaken{id}">Date taken</label>
-                        <input type="text" name="dateTaken" id="dateTaken{id}" class="form-control form-control-sm">
-                          <xsl:attribute name="value"><xsl:value-of select="dateTaken"></xsl:value-of></xsl:attribute>
-                        </input>
-                      </div>
-                      <div class="form-group mb-1">
-                        <label class="mb-0" for="photographer{id}">Photographer</label>
-                        <input type="text" name="photographer" id="photographer{id}" class="form-control form-control-sm">
-                          <xsl:attribute name="value"><xsl:value-of select="photographer"></xsl:value-of></xsl:attribute>
-                        </input>
-                      </div>
-                      <div class="form-group mb-1">
-                        <label class="mb-0" for="org{id}">Organization</label>
-                        <input type="text" name="organization" id="org{id}" class="form-control form-control-sm">
-                          <xsl:attribute name="value"><xsl:value-of select="organization"></xsl:value-of></xsl:attribute>
-                        </input>
-                      </div>
-                      <div class="form-group mb-1">
-                        <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" id="approve" name="approve" value="1">
-                            <xsl:if test="status = 'approved'">
-                              <xsl:attribute name="checked">checked</xsl:attribute>
-                            </xsl:if>
-                          </input>
-                          <label class="custom-control-label" for="approve">Approve</label>
-                        </div>
-                      </div>
-                      <input type='submit' class="btn btn-primary mt-2 btn-sm btn-block" value="Update"></input>
-                    </form>
-                  </xsl:when>
-                  <xsl:otherwise>
-                    <p class='mt-0 mb-0'>Source: 
-                      <xsl:value-of select='photographer' />
-                      <xsl:if test="organization != '' and photographer != organization">
-                        <xsl:if test="photographer != ''">, </xsl:if>
-                        <xsl:value-of select='organization'></xsl:value-of>
-                      </xsl:if>
-                    </p>
-                  </xsl:otherwise>
-                </xsl:choose>
-              </div>
+                          </td>
+                          <td style="min-width:200px">
+                            <div class="form-group mb-1">
+                              <label class="mb-0" for="title{id}">Title</label>
+                              <input type="text" name="title" id="title{id}" class="form-control form-control-sm">
+                                <xsl:attribute name="value"><xsl:value-of select="title"></xsl:value-of></xsl:attribute>
+                              </input>
+                            </div>
+                          </td>
+                          <td style="min-width:250px">
+                            <div class="form-group mb-1">
+                              <label class="mb-0" for="description{id}">Description</label>
+                              <input type="text" name="description" id="description{id}" class="form-control form-control-sm">
+                                <xsl:attribute name="value"><xsl:value-of select="description"></xsl:value-of></xsl:attribute>
+                              </input>
+                            </div>
+                          </td>
+                          <td style="min-width:200px">
+                            <div class="form-group mb-1">
+                              <label class="mb-0" for="dateTaken{id}">Date taken</label>
+                              <input type="text" name="dateTaken" id="dateTaken{id}" class="form-control form-control-sm">
+                                <xsl:attribute name="value"><xsl:value-of select="dateTaken"></xsl:value-of></xsl:attribute>
+                              </input>
+                            </div>
+                          </td>
+                          <td style="min-width:200px">
+                            <div class="form-group mb-1">
+                              <label class="mb-0" for="photographer{id}">Photographer</label>
+                              <input type="text" name="photographer" id="photographer{id}" class="form-control form-control-sm">
+                                <xsl:attribute name="value"><xsl:value-of select="photographer"></xsl:value-of></xsl:attribute>
+                              </input>
+                            </div>
+                          </td>
+                          <td style="min-width:200px">
+                            <div class="form-group mb-1">
+                              <label class="mb-0" for="org{id}">Organization</label>
+                              <input type="text" name="organization" id="org{id}" class="form-control form-control-sm">
+                                <xsl:attribute name="value"><xsl:value-of select="organization"></xsl:value-of></xsl:attribute>
+                              </input>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="form-group mb-1">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="approve" name="approve" value="1">
+                                  <xsl:if test="status = 'approved'">
+                                    <xsl:attribute name="checked">checked</xsl:attribute>
+                                  </xsl:if>
+                                </input>
+                                <label class="custom-control-label" for="approve">Approve</label>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <input type='submit' class="btn btn-primary mt-2 btn-sm btn-block" value="Update"></input>
+                          </td>
+                        </form>
+                      </tr>
+                    </xsl:if>
+                  </xsl:for-each>
+                </tbody>
+              </table>
+            </div>
+          </xsl:when>
+          <xsl:otherwise>
+            <div class="card-columns">
+              <xsl:for-each select="domain/imageCollection/image">
 
-						</div>
+                <xsl:if test="$isManager or status = 'approved'">
 
-					</xsl:if>
+                  <div class="card">
+                    <a href="images/{id}">
+                      <div class="image">
+                        <img>
+                          <xsl:attribute name="src">https://environmentaldashboard.org/cv/uploads/<xsl:value-of select='id' /></xsl:attribute>
+                          <xsl:attribute name="alt"><xsl:value-of select='title' /></xsl:attribute>
+                          <xsl:attribute name="class">card-img</xsl:attribute>
+                        </img>
+                        <svg width="100" height="100" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1152 1376v-160q0-14-9-23t-23-9h-96v-512q0-14-9-23t-23-9h-320q-14 0-23 9t-9 23v160q0 14 9 23t23 9h96v320h-96q-14 0-23 9t-9 23v160q0 14 9 23t23 9h448q14 0 23-9t9-23zm-128-896v-160q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v160q0 14 9 23t23 9h192q14 0 23-9t9-23zm640 416q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z" fill="#fff"/></svg>
+                      </div>
+                    </a>
+                    <div class="card-footer text-muted">
+                      <p class='mt-0 mb-0'>Source: 
+                        <xsl:value-of select='photographer' />
+                        <xsl:if test="organization != '' and photographer != organization">
+                          <xsl:if test="photographer != ''">, </xsl:if>
+                          <xsl:value-of select='organization'></xsl:value-of>
+                        </xsl:if>
+                      </p>
+                    </div>
 
-				</xsl:for-each>
+                  </div>
 
-			</div>
+                </xsl:if>
+
+              </xsl:for-each>
+
+            </div>
+          </xsl:otherwise>
+        </xsl:choose>
 		</div>
 	</div>
 	<div class="row" style="padding:15px;">

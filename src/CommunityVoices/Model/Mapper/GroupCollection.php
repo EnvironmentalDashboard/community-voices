@@ -41,6 +41,12 @@ class GroupCollection extends DataMapper
         }
     }
 
+    public function deleteTags(Entity\Media $media)
+    {
+        $stmt = $this->conn->prepare("DELETE FROM `community-voices_media-group-map` WHERE media_id = ?");
+        $stmt->execute([$media->getId()]);
+    }
+
     public function saveTags(Entity\GroupCollection $groupCollection) {
         foreach ($groupCollection->getCollection() as $tag) {
             $stmt = $this->conn->prepare("INSERT INTO `community-voices_media-group-map` (media_id, group_id) VALUES (?, ?)");

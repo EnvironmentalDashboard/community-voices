@@ -108,6 +108,7 @@ class Image
       $crop_width = (int) $request->request->get('crop_width');
       $crop_height = (int) $request->request->get('crop_height');
       $status = ($request->request->get('approve') === '1') ? 'approved' : 'pending';
+      $tags = $request->request->get('tags');
 
       $this->imageManagement->update(
         $id,
@@ -117,6 +118,7 @@ class Image
         $photographer,
         $organization,
         ['x' => $crop_x, 'y' => $crop_y, 'width' => $crop_width, 'height' => $crop_height],
+        $tags,
         $status
       );
     }
