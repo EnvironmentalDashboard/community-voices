@@ -64,7 +64,7 @@ class Image
 
     public function postImageUpload($request, $identity)
     {
-        $file = $request->files->get('file');
+        $files = $request->files->get('file');
         $title = $request->request->get('title');
         $description = $request->request->get('description');
         $dateTaken = $request->request->get('dateTaken');
@@ -74,7 +74,7 @@ class Image
         $tags = $request->request->get('tags');
 
         $this->imageManagement->upload(
-          $file,
+          $files,
           $title,
           $description,
           $dateTaken,

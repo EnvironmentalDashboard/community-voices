@@ -8,11 +8,11 @@
       <div class="row" style="padding:15px;">
         <div class="col-12">
 
-          <form action='./images/new/authenticate' method='post' enctype='multipart/form-data' style="max-width:400px;margin: 0 auto">
+          <form action='new/authenticate' method='post' enctype='multipart/form-data' style="max-width:400px;margin: 0 auto">
 
               <div class="custom-file">
                 <label for="file" class="custom-file-label">File</label>
-                <input class="custom-file-input" id="file" type='file' name='file' accept='.jpg, .jpeg, .png' />
+                <input class="custom-file-input" id="file" type='file' name='file[]' accept='.jpg, .jpeg, .png' multiple="" />
               </div>
 
               <div class="form-group">
