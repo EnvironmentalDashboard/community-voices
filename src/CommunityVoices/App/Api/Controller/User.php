@@ -30,7 +30,7 @@ class User
         $confirmPassword = $request->request->get('confirmPassword');
         $firstName = $request->request->get('firstName');
         $lastName = $request->request->get('lastName');
-        $token = $request->request->get('token');
+        $token = (string) $request->request->get('token');
 
         $this->registrationService->createUser($email, $password, $confirmPassword,
             $firstName, $lastName, $token);

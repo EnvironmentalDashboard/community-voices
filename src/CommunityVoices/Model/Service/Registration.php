@@ -54,7 +54,7 @@ class Registration
         $user->setConfirmPassword($confirmPassword);
         $user->setFirstName($firstName);
         $user->setLastName($lastName);
-        if ($token != null) {
+        if ($token !== '') {
             $role = $userMapper->invitedRole($user, $token);
             $user->setRole((int) $role);
         } else {

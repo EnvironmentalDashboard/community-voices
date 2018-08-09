@@ -192,7 +192,7 @@ class User extends Component\View
 
     public function postRegistrationInvite($routes, $context)
     {
-        header('Location: /');
+        header('Location: /cv/');
         exit();
     }
 }

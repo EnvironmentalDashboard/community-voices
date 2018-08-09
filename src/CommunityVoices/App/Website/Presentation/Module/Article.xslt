@@ -10,7 +10,7 @@
 			
 			<div class="row" style="padding:15px;">
         <div class="col-12">
-					<a class="btn btn-primary mb-3" href="./articles">&#x2190; Go back</a>
+					<a class="btn btn-primary mb-3" href="..">&#x2190; Go back</a>
 
 					<xsl:choose><xsl:when test="$isManager or domain/article/status = 'approved'">
 						<h1 class="text-center"><xsl:value-of select='domain/article/title' /></h1>
@@ -21,7 +21,7 @@
 							<xsl:value-of select='domain/article/attribution' />
 							<xsl:copy-of select='domain/article/html' />
 						</div>
-						<!-- <p>Added <xsl:value-of select='domain/article/dateCreated' /></p>
+
 	          <xsl:if test="$isManager">
 	            <p>Status: <xsl:value-of select='domain/article/status' /></p>
 	            <p>
@@ -32,14 +32,13 @@
 							</p>
 							<p>
 								<a>
-				            <xsl:attribute name="href">./article/<xsl:value-of select='domain/article/id'/>/edit</xsl:attribute>
+				            <xsl:attribute name="href">./<xsl:value-of select='domain/article/id'/>/edit</xsl:attribute>
 										Edit
 				        </a>
 							</p>
-	          </xsl:if> -->
-							<!-- <p>	Date Created: <xsl:value-of select='domain/article/dateRecorded' /> </p>
+	          </xsl:if>
 
-							<p> Tags: TODO </p> -->
+							<!-- <p> Tags: TODO </p> -->
 
 
 					</xsl:when>

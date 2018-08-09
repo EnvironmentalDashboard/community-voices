@@ -211,6 +211,6 @@ class User extends DataMapper
 
         $statement->execute();
 
-        return $statement->fetchColumn(PDO::FETCH_ASSOC);
+        return $statement->fetchColumn();
     }
 }
