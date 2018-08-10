@@ -242,6 +242,15 @@
         }
     },
 
+    "postImageDelete": {
+        "notation": "/images/{id}/delete/authenticate",
+        "method": "post",
+        "defaults": {
+            "resource": "Image",
+            "action": "postImageDelete"
+        }
+    },
+
     "postImageUpload":{
       "notation": "/images/new/authenticate",
       "method": "post",

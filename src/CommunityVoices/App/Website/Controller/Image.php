@@ -70,4 +70,11 @@ class Image
 
         $apiController->postImageUpdate($request);
     }
+
+    public function postImageDelete($request)
+    {
+        $apiController = $this->secureContainer->contain($this->imageAPIController);
+
+        $apiController->postImageDelete($request);
+    }
 }

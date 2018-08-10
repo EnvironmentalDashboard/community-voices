@@ -188,7 +188,7 @@
         <xsl:choose>
           <xsl:when test="$isManager">
             <div class="table-responsive">
-              <table class="table">
+              <table class="table" style="max-width:100%">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -200,7 +200,8 @@
                     <th scope="col">Photographer</th>
                     <th scope="col">Organization</th>
                     <th scope="col">Approved</th>
-                    <th scope="col">Submit</th>
+                    <th scope="col">&#160;</th>
+                    <th scope="col">&#160;</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -238,40 +239,40 @@
                           </td>
                           <td style="min-width:200px">
                             <div class="form-group mb-1">
-                              <label class="mb-0" for="title{id}">Title</label>
-                              <input type="text" name="title" id="title{id}" class="form-control form-control-sm">
+                              <label class="sr-only" for="title{id}">Title</label>
+                              <input type="text" name="title" id="title{id}" class="form-control">
                                 <xsl:attribute name="value"><xsl:value-of select="title"></xsl:value-of></xsl:attribute>
                               </input>
                             </div>
                           </td>
                           <td style="min-width:250px">
                             <div class="form-group mb-1">
-                              <label class="mb-0" for="description{id}">Description</label>
-                              <input type="text" name="description" id="description{id}" class="form-control form-control-sm">
+                              <label class="sr-only" for="description{id}">Description</label>
+                              <input type="text" name="description" id="description{id}" class="form-control">
                                 <xsl:attribute name="value"><xsl:value-of select="description"></xsl:value-of></xsl:attribute>
                               </input>
                             </div>
                           </td>
                           <td style="min-width:200px">
                             <div class="form-group mb-1">
-                              <label class="mb-0" for="dateTaken{id}">Date taken</label>
-                              <input type="text" name="dateTaken" id="dateTaken{id}" class="form-control form-control-sm">
+                              <label class="sr-only" for="dateTaken{id}">Date taken</label>
+                              <input type="text" name="dateTaken" id="dateTaken{id}" class="form-control">
                                 <xsl:attribute name="value"><xsl:value-of select="dateTaken"></xsl:value-of></xsl:attribute>
                               </input>
                             </div>
                           </td>
                           <td style="min-width:200px">
                             <div class="form-group mb-1">
-                              <label class="mb-0" for="photographer{id}">Photographer</label>
-                              <input type="text" name="photographer" id="photographer{id}" class="form-control form-control-sm">
+                              <label class="sr-only" for="photographer{id}">Photographer</label>
+                              <input type="text" name="photographer" id="photographer{id}" class="form-control">
                                 <xsl:attribute name="value"><xsl:value-of select="photographer"></xsl:value-of></xsl:attribute>
                               </input>
                             </div>
                           </td>
                           <td style="min-width:200px">
                             <div class="form-group mb-1">
-                              <label class="mb-0" for="org{id}">Organization</label>
-                              <input type="text" name="organization" id="org{id}" class="form-control form-control-sm">
+                              <label class="sr-only" for="org{id}">Organization</label>
+                              <input type="text" name="organization" id="org{id}" class="form-control">
                                 <xsl:attribute name="value"><xsl:value-of select="organization"></xsl:value-of></xsl:attribute>
                               </input>
                             </div>
@@ -289,9 +290,14 @@
                             </div>
                           </td>
                           <td>
-                            <input type='submit' class="btn btn-primary mt-2 btn-sm btn-block" value="Update"></input>
+                            <input type='submit' class="btn btn-primary mt-2 btn-block" value="Update"></input>
                           </td>
                         </form>
+                        <td>
+                          <form action="images/{id}/delete/authenticate" method="POST" class="delete-form">
+                            <input type="submit" value="Delete" class="btn btn-danger mt-2" />
+                          </form>
+                        </td>
                       </tr>
                     </xsl:if>
                   </xsl:for-each>

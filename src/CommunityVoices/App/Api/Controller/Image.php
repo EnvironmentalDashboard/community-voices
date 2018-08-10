@@ -122,5 +122,11 @@ class Image
         $status
       );
     }
-    // 
+
+    public function postImageDelete($request)
+    {
+      $id = (int) $request->attributes->get('id');
+
+      $this->imageManagement->delete($id);
+    }
 }

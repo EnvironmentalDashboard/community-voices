@@ -49,3 +49,11 @@ $('#searchables > a').on('click', function(e) {
     $('#search-form').attr('action', $(this).data('action'));
     $('#dropdown-btn').text($(this).text());
 });
+
+$('.delete-form').on('submit', function(e) {
+	e.preventDefault();
+	$(this).parent().parent().remove();
+	var action = $(this).attr('action');
+	$.post(action);
+})
+

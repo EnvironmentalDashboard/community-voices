@@ -217,4 +217,23 @@ class ImageManagement
 
         return true;
     }
+
+    public function delete($id) {
+        $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
+        $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
+
+        $image = new Entity\Image;
+        $image->setId((int) $id);
+
+        $imageMapper->fetch($image);
+        $fn = $image->getFilename();
+
+        $tagMapper->deleteTags($image);
+        if (file_exists($fn)) {
+            unlink($fn);
+        }
+        $imageMapper->delete($image);
+
+        return true;
+    }
 }
