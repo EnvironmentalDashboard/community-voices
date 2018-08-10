@@ -4,9 +4,6 @@ CV_Media/
 log/
 .ftpconfig
 .DS_Store
-migrate/migrate_old_content.php
-migrate/csv_quotes.php
-migrate/empty.sql
-migrate/format_articles.php
+migrate/importNextGen/
 src/CommunityVoices/Public/outbox.php
 src/CommunityVoices/App/Website/main_db.php
