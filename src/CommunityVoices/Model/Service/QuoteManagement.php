@@ -169,4 +169,17 @@ class QuoteManagement
 
         return true;
     }
+
+    public function delete($id) {
+        $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
+        $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
+
+        $quote = new Entity\Quote;
+        $quote->setId((int) $id);
+
+        $tagMapper->deleteTags($quote);
+        $quoteMapper->delete($quote);
+
+        return true;
+    }
 }

@@ -169,15 +169,5 @@ class Image extends Media
         
         $statement->execute();
     }
-
-    /**
-     * Invokes parent::delete() method as the Media table's deletion is set to
-     * cascade to child rows in the database
-     *
-     * @param  Media $image to delete
-     */
-    public function delete(Entity\Media $image)
-    {
-        parent::delete($image); //deletion cascades
-    }
+    
 }

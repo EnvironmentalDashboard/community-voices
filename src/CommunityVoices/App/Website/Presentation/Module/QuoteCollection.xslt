@@ -126,7 +126,10 @@
                     </blockquote>
                   </a>
                   <xsl:if test="$isManager">
-                    <p><a class="btn btn-outline-secondary btn-sm float-right" href="quotes/{id}/edit">Edit quote</a></p>
+                      <a class="btn btn-outline-secondary btn-sm d-inline" href="quotes/{id}/edit">Edit quote</a>
+                      <form action="quotes/{id}/delete/authenticate" class="ml-2 d-inline delete-form" method="POST">
+                        <input type="submit" class="btn btn-outline-danger btn-sm" href="quotes/{id}/edit" value="Delete quote" />
+                      </form>
                   </xsl:if>
                 </li>
 

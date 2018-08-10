@@ -197,6 +197,15 @@
         }
     },
 
+    "postQuoteDelete": {
+        "notation": "/quotes/{id}/delete/authenticate",
+        "method": "post",
+        "defaults": {
+            "resource": "Quote",
+            "action": "postQuoteDelete"
+        }
+    },
+
     "getAllImage": {
         "notation": "/images",
         "method": "get",

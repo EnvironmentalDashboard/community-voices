@@ -102,4 +102,11 @@ class Quote
       $this->quoteManagement->update($id, $text, $attribution, $subAttribution,
                                   $dateRecorded, $status);
     }
+
+    public function postQuoteDelete($request)
+    {
+      $id = (int) $request->attributes->get('id');
+
+      $this->quoteManagement->delete($id);
+    }
 }

@@ -55,5 +55,5 @@ $('.delete-form').on('submit', function(e) {
 	$(this).parent().parent().remove();
 	var action = $(this).attr('action');
 	$.post(action);
-})
+});
 

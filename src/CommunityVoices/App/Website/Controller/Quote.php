@@ -71,4 +71,11 @@ class Quote
 
         $apiController->postQuoteUpdate($request);
     }
+
+    public function postQuoteDelete($request)
+    {
+        $apiController = $this->secureContainer->contain($this->quoteAPIController);
+
+        $apiController->postQuoteDelete($request);
+    }
 }

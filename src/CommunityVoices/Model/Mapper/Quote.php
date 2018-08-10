@@ -184,4 +184,5 @@ class Quote extends Media
 
         $statement->execute();
     }
+
 }
