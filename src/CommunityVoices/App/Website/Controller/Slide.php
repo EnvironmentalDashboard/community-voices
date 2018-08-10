@@ -63,4 +63,11 @@ class Slide
 
         $apiController->postSlideUpdate($request);
     }
+
+    public function postSlideDelete($request)
+    {
+        $apiController = $this->secureContainer->contain($this->slideAPIController);
+
+        $apiController->postSlideDelete($request);
+    }
 }

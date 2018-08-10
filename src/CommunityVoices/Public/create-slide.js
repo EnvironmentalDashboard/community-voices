@@ -120,6 +120,16 @@ $('#crop').on('change', function(e) {
     }
     renderSlide(current_text, current_attr, current_image, current_ccid, crop_img);
 });
+var delete_form = $('#delete-form');
+if (delete_form.length > 0) {
+    delete_form.on('submit', function(e) {
+        e.preventDefault();
+        var action = $(this).attr('action');
+        $.post(action).done(function(d) {
+            window.location.replace("https://environmentaldashboard.org/cv/slides");
+        });
+    });
+}
 
 var prefill_image = getParameterByName('prefill_image');
 var prefill_quote = getParameterByName('prefill_quote');

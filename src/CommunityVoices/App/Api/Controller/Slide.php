@@ -113,4 +113,11 @@ class Slide
         $this->slideManagement->update($id, $imageId, $quoteId, $contentCategory, $decay_percent, $probability, $decay_start, $decay_end, $approved);
     }
 
+    public function postSlideDelete($request)
+    {
+      $id = (int) $request->attributes->get('id');
+
+      $this->slideManagement->delete($id);
+    }
+
 }

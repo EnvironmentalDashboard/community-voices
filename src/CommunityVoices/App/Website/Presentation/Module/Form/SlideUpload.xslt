@@ -215,7 +215,7 @@
               <input type="hidden" id="slide_cc" value="{domain/slide/contentCategory/contentCategory/id}"/>
             </xsl:if>
 
-            <form action='authenticate' method='post'>
+            <form action='authenticate' method='post' class="d-inline">
               <input type="hidden" id="crop_x" name="crop_x" value="0"/>
               <input type="hidden" id="crop_y" name="crop_y" value="0" />
               <input type="hidden" id="crop_width" name="crop_width" value="0" />
@@ -266,6 +266,11 @@
                 </xsl:otherwise>
               </xsl:choose>
             </form>
+            <xsl:if test="domain/slide != ''">
+              <form action="delete/authenticate" method="POST" class="d-inline" id="delete-form">
+                <input type="submit" value="Delete slide" class="btn btn-danger" />
+              </form>
+            </xsl:if>
 
           </div>
         </div>

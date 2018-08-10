@@ -174,4 +174,19 @@ class SlideManagement
 
     }
 
+    public function delete($id) {
+        $slideMapper = $this->mapperFactory->createDataMapper(Mapper\Slide::class);
+        // $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
+
+        $slide = new Entity\Slide;
+        $slide->setId((int) $id);
+
+        // $slideMapper->fetch($slide);
+
+        // $tagMapper->deleteTags($slide);
+        $slideMapper->delete($slide);
+
+        return true;
+    }
+
 }

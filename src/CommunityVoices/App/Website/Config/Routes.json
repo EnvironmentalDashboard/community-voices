@@ -143,6 +143,15 @@
         }
     },
 
+    "postSlideDelete": {
+        "notation": "/slides/{id}/delete/authenticate",
+        "method": "post",
+        "defaults": {
+            "resource": "Slide",
+            "action": "postSlideDelete"
+        }
+    },
+
     "getAllQuote": {
         "notation": "/quotes",
         "method": "get",

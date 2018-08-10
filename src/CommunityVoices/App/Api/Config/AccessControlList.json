@@ -28,6 +28,9 @@
         ["CommunityVoices\\App\\Api\\Controller\\Slide::postSlideUpdate", {"allow" : "user"}],
         ["CommunityVoices\\App\\Api\\View\\Slide::postSlideUpdate", {"allow" : "user"}],
 
+        ["CommunityVoices\\App\\Api\\Controller\\Slide::postSlideDelete", {"allow" : "admin"}],
+        ["CommunityVoices\\App\\Api\\View\\Slide::postSlideDelete", {"allow" : "admin"}],
+
         ["CommunityVoices\\App\\Api\\Controller\\Quote::getQuote", {"allow" : "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Quote::getQuote", {"allow" : "guest"}],
 
