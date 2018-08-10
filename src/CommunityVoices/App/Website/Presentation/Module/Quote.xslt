@@ -90,6 +90,11 @@
 	                  <iframe class="embed-responsive-item" style="pointer-events: none;" src="https://environmentaldashboard.org/cv/slides/{domain/slideId}"></iframe>
 	                </div>
 	              </a>
+	              <p>
+	              	<form action="{domain/quote/id}/unpair/{domain/slideId}" method="POST">
+	                  <input type="submit" value="Unpair quote from slide" class="btn btn-danger btn-sm btn-block" />
+	                </form>
+	              </p>
 	            </xsl:when>
 	            <xsl:otherwise>
 	              <p>This quote is not used in any slides.</p>

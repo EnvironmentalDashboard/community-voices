@@ -419,4 +419,8 @@ class Quote extends Component\View
         $this->finalize($response);
         return $response;
     }
+
+    public function postQuoteUnpair($routes, $context) {
+        exit; // nothing to show to user
+    }
 }

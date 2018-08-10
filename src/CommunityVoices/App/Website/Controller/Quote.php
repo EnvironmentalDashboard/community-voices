@@ -78,4 +78,11 @@ class Quote
 
         $apiController->postQuoteDelete($request);
     }
+
+    public function postQuoteUnpair($request)
+    {
+        $apiController = $this->secureContainer->contain($this->quoteAPIController);
+
+        $apiController->postQuoteUnpair($request);
+    }
 }

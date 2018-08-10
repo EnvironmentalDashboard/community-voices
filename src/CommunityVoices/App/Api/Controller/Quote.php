@@ -109,4 +109,13 @@ class Quote
 
       $this->quoteManagement->delete($id);
     }
+
+    public function postQuoteUnpair($request)
+    {
+
+      $quote_id = (int) $request->attributes->get('quote');
+      $slide_id = (int) $request->attributes->get('slide');
+
+      $this->quoteManagement->unpair($quote_id, $slide_id);
+    }
 }

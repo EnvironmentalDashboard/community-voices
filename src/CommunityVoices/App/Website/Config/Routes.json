@@ -215,6 +215,15 @@
         }
     },
 
+    "postQuoteUnpair": {
+        "notation": "/quotes/{quote}/unpair/{slide}",
+        "method": "post",
+        "defaults": {
+            "resource": "Quote",
+            "action": "postQuoteUnpair"
+        }
+    },
+
     "getAllImage": {
         "notation": "/images",
         "method": "get",

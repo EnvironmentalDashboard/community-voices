@@ -182,4 +182,13 @@ class QuoteManagement
 
         return true;
     }
+
+    public function unpair($quote_id, $slide_id) {
+        $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
+        $quote = new Entity\Quote;
+        $quote->setId((int) $quote_id);
+        $slide = new Entity\Slide;
+        $slide->setId((int) $slide_id);
+        $quoteMapper->unpair($quote, $slide);
+    }
 }
