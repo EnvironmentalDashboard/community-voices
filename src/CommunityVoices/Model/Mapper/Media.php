@@ -3,6 +3,7 @@
 namespace CommunityVoices\Model\Mapper;
 
 use PDO;
+use InvalidArgumentException;
 use CommunityVoices\Model\Component\DataMapper;
 use CommunityVoices\Model\Entity;
 
@@ -156,5 +157,39 @@ class Media extends DataMapper
         $statement->execute();
 
         $media->setId(null);
+    }
+
+    /**
+     * Unpairs an image/quote from a slide
+     *
+     * @param  Media $media Media entity to unpair
+     * @param  Slide $slide Slide entity to unpair
+     */
+    public function unpair(Entity\Media $media, Entity\Slide $slide)
+    {
+        $col = $this->slideColumnPicker($media);
+        $query = "UPDATE
+                        `community-voices_slides`
+                    SET
+                        `{$col}` = NULL
+                    WHERE
+                        media_id = :id";
+
+        $statement = $this->conn->prepare($query);
+
+        $statement->bindValue(':id', $slide->getId());
+
+        $statement->execute();
+    }
+
+    private function slideColumnPicker(Entity\Media $media) {
+        switch ($media->type) {
+            case 2:
+                return 'image_id';
+            case 3:
+                return 'quote_id';
+            default:
+                throw new InvalidArgumentException('Only images/quotes can be unpaired from slides');
+        }
     }
 }

@@ -38,6 +38,8 @@ class Slide extends Media
 
     private $organizationCategoryCollection;
 
+    public $type;
+
     public function __construct()
     {
         $this->type = self::TYPE_SLIDE;

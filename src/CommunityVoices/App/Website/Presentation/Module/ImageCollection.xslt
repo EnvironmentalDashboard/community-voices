@@ -212,10 +212,12 @@
                         <form action="images/{id}/edit/authenticate" method="POST">
                           <th scope="row"><xsl:value-of select="id" /></th>
                           <td>
-                            <img class="img-fluid" style="max-width:200px">
-                              <xsl:attribute name="src">https://environmentaldashboard.org/cv/uploads/<xsl:value-of select='id' /></xsl:attribute>
-                              <xsl:attribute name="alt"><xsl:value-of select='title' /></xsl:attribute>
-                            </img>
+                            <a href="images/{id}">
+                              <img class="img-fluid" style="max-width:200px">
+                                <xsl:attribute name="src">https://environmentaldashboard.org/cv/uploads/<xsl:value-of select='id' /></xsl:attribute>
+                                <xsl:attribute name="alt"><xsl:value-of select='title' /></xsl:attribute>
+                              </img>
+                            </a>
                           </td>
                           <td>
                             <div style="overflow-y:scroll;width:100%;height: 145px;border:none">

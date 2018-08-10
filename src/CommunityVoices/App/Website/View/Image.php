@@ -434,5 +434,9 @@ class Image extends Component\View
         $this->finalize($response);
         return $response;
     }
+
+    public function postImageUnpair($routes, $context) {
+        exit; // nothing to show to user
+    }
     
 }

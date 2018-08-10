@@ -129,4 +129,12 @@ class Image
 
       $this->imageManagement->delete($id);
     }
+
+    public function postImageUnpair($request)
+    {
+      $image_id = (int) $request->attributes->get('image');
+      $slide_id = (int) $request->attributes->get('slide');
+
+      $this->imageManagement->unpair($image_id, $slide_id);
+    }
 }

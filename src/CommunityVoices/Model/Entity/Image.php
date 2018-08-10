@@ -16,6 +16,8 @@ class Image extends Media
     private $photographer;
     private $organization;
 
+    public $type;
+
     public function __construct()
     {
         $this->type = self::TYPE_IMAGE;

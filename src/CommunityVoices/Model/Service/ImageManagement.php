@@ -236,4 +236,13 @@ class ImageManagement
 
         return true;
     }
+
+    public function unpair($image_id, $slide_id) {
+        $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
+        $image = new Entity\Image;
+        $image->setId((int) $image_id);
+        $slide = new Entity\Slide;
+        $slide->setId((int) $slide_id);
+        $imageMapper->unpair($image, $slide);
+    }
 }

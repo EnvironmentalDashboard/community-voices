@@ -77,4 +77,11 @@ class Image
 
         $apiController->postImageDelete($request);
     }
+
+    public function postImageUnpair($request)
+    {
+        $apiController = $this->secureContainer->contain($this->imageAPIController);
+
+        $apiController->postImageUnpair($request);
+    }
 }

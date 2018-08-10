@@ -15,6 +15,8 @@ class Article extends Media
     private $author;
     private $dateRecorded;
 
+    public $type;
+
     public function __construct()
     {
         $this->type = self::TYPE_ARTICLE;

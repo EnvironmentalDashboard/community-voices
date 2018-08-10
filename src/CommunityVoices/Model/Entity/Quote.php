@@ -19,6 +19,8 @@ class Quote extends Media
     private $publicDocumentLink;
     private $sourceDocumentLink;
 
+    public $type;
+
     public function __construct()
     {
         $this->type = self::TYPE_QUOTE;
