@@ -15,13 +15,15 @@ class Slide
         Service\SlideManagement $slideManagement,
         Service\TagLookup $tagLookup,
         Service\QuoteLookup $quoteLookup,
-        Service\ImageLookup $imageLookup
+        Service\ImageLookup $imageLookup,
+        Service\LocationLookup $locationLookup
     ) {
         $this->slideLookup = $slideLookup;
         $this->slideManagement = $slideManagement;
         $this->tagLookup = $tagLookup;
         $this->quoteLookup = $quoteLookup;
         $this->imageLookup = $imageLookup;
+        $this->locationLookup = $locationLookup;
     }
 
     /**
@@ -92,6 +94,7 @@ class Slide
         $slideId = $request->attributes->get('id');
 
         $stateObserver = $this->tagLookup->findAll(true);
+        $stateObserver = $this->locationLookup->findAll($stateObserver, true);
         $stateObserver = $this->imageLookup->photographers($stateObserver, true);
         $stateObserver = $this->imageLookup->orgs($stateObserver, true);
         $stateObserver = $this->quoteLookup->attributions($stateObserver, true);

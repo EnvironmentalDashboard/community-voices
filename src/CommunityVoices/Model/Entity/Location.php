@@ -78,9 +78,9 @@ class Location implements HasId
     {
         return ['location' => [
             'id' => $this->id,
-            'label' => $this->label,
-            'organizationCategoryCollection' => $this->organizationCategoryCollection->toArray(),
-            'contentCategoryCollection' => $this->contentCategoryCollection->toArray()
+            'label' => $this->label//,
+            // 'organizationCategoryCollection' => $this->organizationCategoryCollection->toArray(),
+            // 'contentCategoryCollection' => $this->contentCategoryCollection->toArray()
         ]];
     }
 }

@@ -38,6 +38,17 @@ class Location extends DataMapper
         ]
     ];
 
+    public function fetchAll(Entity\LocationCollection $container)
+    {
+        $query = "SELECT id, label FROM `community-voices_locations`";
+        foreach ($this->conn->query($query) as $row) {
+            $loc = new Entity\Location;
+            $loc->setId((int) $row['id']);
+            $loc->setLabel($row['label']);
+            $container->addEntity($loc);
+        }
+    }
+
     /**
      * @uses Location::fetchById
      */
