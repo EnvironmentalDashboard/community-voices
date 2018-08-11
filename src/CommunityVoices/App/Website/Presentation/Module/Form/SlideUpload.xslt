@@ -249,9 +249,14 @@
                   </div>
                   <p class='mb-0'>Select screens for display:</p>
                   <div class="form-group">
+                    <xsl:variable name="selectedLocs" select="domain/selectedLocs" />
                     <xsl:for-each select="domain/locCollection/location">
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="screen{id}" name="screens[]" value="{id}" checked="checked" />
+                        <input type="checkbox" class="custom-control-input" id="screen{id}" name="screens[]" value="{id}">
+                          <xsl:if test="contains($selectedLocs, concat(',', id, ','))">
+                            <xsl:attribute name="checked">checked</xsl:attribute>
+                          </xsl:if>
+                        </input>
                         <label class="custom-control-label" for="screen{id}">
                           <xsl:value-of select="label" />
                         </label>
@@ -277,11 +282,7 @@
                   <div class="form-group">
                     <xsl:for-each select="domain/locCollection/location">
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="screen{id}" name="screens[]" value="{id}">
-                          <xsl:if test="domain/slide/status = 'approved'">
-                            <xsl:attribute name="checked">checked</xsl:attribute>
-                          </xsl:if>
-                        </input>
+                        <input type="checkbox" class="custom-control-input" id="screen{id}" name="screens[]" value="{id}" checked="checked" />
                         <label class="custom-control-label" for="screen{id}">
                           <xsl:value-of select="label" />
                         </label>

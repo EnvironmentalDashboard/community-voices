@@ -45,4 +45,21 @@ class LocationLookup
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
         $clientState->save($stateObserver);
     }
+
+    public function locationsFor($slideId, $stateObserver, $return = false)
+    {
+        $locMapper = $this->mapperFactory->createDataMapper(Mapper\Location::class);
+        $locs = $locMapper->locationsFor($slideId);
+
+        $stateObserver->setSubject('locLookup');
+        $stateObserver->addEntry('selectedLoc', $locs);
+
+        if ($return) {
+            return $stateObserver;
+        }
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($stateObserver);
+    }
 }
+
+

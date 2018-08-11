@@ -49,6 +49,14 @@ class Location extends DataMapper
         }
     }
 
+    public function locationsFor($slideId) {
+        $query = "SELECT id FROM `community-voices_locations` WHERE id IN (SELECT loc_id FROM `community-voices_media-location-map` WHERE media_id = :slideId)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':slideId', $slideId);
+        $stmt->execute();
+        return array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'id');
+    }
+
     /**
      * @uses Location::fetchById
      */

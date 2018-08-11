@@ -314,6 +314,12 @@ class Slide extends Component\View
             $this->transcriber->toXml($obj)
         );
 
+        $obj = new \stdClass;
+        $obj->locCollection = $json->locCollection;
+        $locXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($obj)
+        );
+
         $paramXML = new SimpleXMLElement('<form/>');
         $formModule = new Component\Presenter('Module/Form/SlideUpload');
         $formModuleXML = $formModule->generate($paramXML);
@@ -325,6 +331,7 @@ class Slide extends Component\View
         $packagedSlide->adopt($attrXMLElement);
         $packagedSlide->adopt($photoXMLElement);
         $packagedSlide->adopt($orgXMLElement);
+        $packagedSlide->adopt($locXMLElement);
         $packagedIdentity = $slidePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
         $slideModule = new Component\Presenter('Module/Form/SlideUpload');
@@ -451,6 +458,12 @@ class Slide extends Component\View
             $this->transcriber->toXml($obj)
         );
 
+        $obj = new \stdClass;
+        $obj->selectedLocs = ','.implode(',', $json->selectedLocs).',';
+        $selectedLocXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($obj)
+        );
+
         $paramXML = new SimpleXMLElement('<form/>');
         $formModule = new Component\Presenter('Module/Form/SlideUpload');
         $formModuleXML = $formModule->generate($paramXML);
@@ -463,6 +476,10 @@ class Slide extends Component\View
         $packagedSlide->adopt($photoXMLElement);
         $packagedSlide->adopt($orgXMLElement);
         $packagedSlide->adopt($locXMLElement);
+        $packagedSlide->adopt($selectedLocXMLElement);
+
+        // var_dump($packagedSlide);die;
+
         $packagedIdentity = $slidePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
         $slideModule = new Component\Presenter('Module/Form/SlideUpload');

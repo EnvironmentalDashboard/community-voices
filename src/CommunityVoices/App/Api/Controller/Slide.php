@@ -68,6 +68,7 @@ class Slide
     public function getSlideUpload()
     {
         $stateObserver = $this->tagLookup->findAll(true);
+        $stateObserver = $this->locationLookup->findAll($stateObserver, true);
         $stateObserver = $this->imageLookup->photographers($stateObserver, true);
         $stateObserver = $this->imageLookup->orgs($stateObserver, true);
         $this->quoteLookup->attributions($stateObserver);
@@ -95,6 +96,7 @@ class Slide
 
         $stateObserver = $this->tagLookup->findAll(true);
         $stateObserver = $this->locationLookup->findAll($stateObserver, true);
+        $stateObserver = $this->locationLookup->locationsFor($slideId, $stateObserver, true);
         $stateObserver = $this->imageLookup->photographers($stateObserver, true);
         $stateObserver = $this->imageLookup->orgs($stateObserver, true);
         $stateObserver = $this->quoteLookup->attributions($stateObserver, true);
