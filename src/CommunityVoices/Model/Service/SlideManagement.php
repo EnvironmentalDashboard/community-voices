@@ -175,6 +175,7 @@ class SlideManagement
         $slideMapper->save($slide);
 
         $locMapper = $this->mapperFactory->createDataMapper(Mapper\Location::class);
+        $locMapper->unselectAllScreens($slide->getId());
         foreach ($screens as $screenId) {
             $locMapper->link($slide->getId(), $screenId);
         }

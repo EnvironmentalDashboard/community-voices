@@ -63,6 +63,12 @@ class Location extends DataMapper
         $stmt->execute([$slideId, $screenId]);
     }
 
+    public function unselectAllScreens($slideId) {
+        $query = "DELETE FROM `community-voices_media-location-map` WHERE media_id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$slideId]);
+    }
+
     /**
      * @uses Location::fetchById
      */
