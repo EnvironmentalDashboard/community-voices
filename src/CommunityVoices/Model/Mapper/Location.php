@@ -57,6 +57,12 @@ class Location extends DataMapper
         return array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'id');
     }
 
+    public function link($slideId, $screenId) {
+        $query = "INSERT INTO `community-voices_media-location-map` (media_id, loc_id) VALUES (?, ?)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$slideId, $screenId]);
+    }
+
     /**
      * @uses Location::fetchById
      */

@@ -30,8 +30,7 @@ class SlideManagement
      * @return Boolean                     [description]
      */
     public function upload($quoteId, $imageId, $contentCategory,
-                    $dateRecorded, $approved,
-                    $addedBy) {
+                    $screens, $dateRecorded, $approved, $addedBy) {
 
         $quote = new Entity\Quote;
         $quote->setId((int) $quoteId);
@@ -98,11 +97,16 @@ class SlideManagement
          */
         $slideMapper->save($slide);
 
+        $locMapper = $this->mapperFactory->createDataMapper(Mapper\Location::class);
+        foreach ($screens as $screenId) {
+            $locMapper->link($slide->getId(), $screenId);
+        }
+
         return true;
 
     }
 
-    public function update(int $id, int $imageId, int $quoteId, int $contentCategory, int $decay_percent, float $probability, string $decay_start, string $decay_end, int $approved) {
+    public function update(int $id, int $imageId, int $quoteId, int $contentCategory, array $screens, int $decay_percent, float $probability, string $decay_start, string $decay_end, int $approved) {
 
         $quote = new Entity\Quote;
         $quote->setId((int) $quoteId);
@@ -169,6 +173,11 @@ class SlideManagement
          * save $slide to database
          */
         $slideMapper->save($slide);
+
+        $locMapper = $this->mapperFactory->createDataMapper(Mapper\Location::class);
+        foreach ($screens as $screenId) {
+            $locMapper->link($slide->getId(), $screenId);
+        }
 
         return true;
 

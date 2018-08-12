@@ -220,6 +220,8 @@ class Slide extends Media
         $statement->bindValue(':decay_end', date('Y-m-d H:i:s', $slide->getDecayEnd()));
 
         $statement->execute();
+
+        $slide->setId($this->conn->lastInsertId());
     }
 
     public function delete(Entity\Media $slide)

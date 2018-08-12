@@ -80,6 +80,7 @@ class Slide
         $imageId = $request->request->get('image_id');
         $quoteId = $request->request->get('quote_id');
         $contentCategory = $request->request->get('content_category');
+        $screens = (array) $request->request->get('screens');
         $dateRecorded = 'now';
         $approved = null;//$request->request->get('approved');
 
@@ -87,7 +88,7 @@ class Slide
         //   $approved = null;
         // }
 
-        $this->slideManagement->upload($quoteId, $imageId, $contentCategory, $dateRecorded, $approved, $identity);
+        $this->slideManagement->upload($quoteId, $imageId, $contentCategory, $screens, $dateRecorded, $approved, $identity);
     }
 
     public function getSlideUpdate($request)
@@ -108,6 +109,7 @@ class Slide
         $imageId = (int) $request->request->get('image_id');
         $quoteId = (int) $request->request->get('quote_id');
         $contentCategory = (int) $request->request->get('content_category');
+        $screens = (array) $request->request->get('screens');
         $decay_percent = (int) $request->request->get('decay_percent');
         $probability = (float) $request->request->get('probability');
         $decay_start = (string) $request->request->get('decay_start');
@@ -115,7 +117,7 @@ class Slide
         $id = (int) $request->request->get('id');
         $approved = (int) $request->request->get('approve');
 
-        $this->slideManagement->update($id, $imageId, $quoteId, $contentCategory, $decay_percent, $probability, $decay_start, $decay_end, $approved);
+        $this->slideManagement->update($id, $imageId, $quoteId, $contentCategory, $screens, $decay_percent, $probability, $decay_start, $decay_end, $approved);
     }
 
     public function postSlideDelete($request)
