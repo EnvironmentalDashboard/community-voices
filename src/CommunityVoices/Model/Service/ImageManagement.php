@@ -148,8 +148,6 @@ class ImageManagement
         $tags,
         $status
       ) {
-        ini_set('post_max_size', '128M');
-        ini_set('upload_max_filesize', '32M');
 
         $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
 
