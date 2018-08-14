@@ -106,8 +106,9 @@ class Image extends Media
     protected function update(Entity\Media $image)
     {
         parent::update($image);
-
-        $query = "UPDATE
+        $rect = $image->getCropRect();
+        $update_cropping = ($rect['x'] !== null && $rect['y'] !== null && $rect['height'] !== null && $rect['width'] !== null);
+        $query = ($update_cropping) ? "UPDATE
                         `community-voices_images`
                     SET
                         filename = :filename,
@@ -122,6 +123,18 @@ class Image extends Media
                         crop_height = :crop_height,
                         crop_width = :crop_width
                     WHERE
+                        media_id = :media_id" :
+                    "UPDATE
+                        `community-voices_images`
+                    SET
+                        filename = :filename,
+                        generated_tags = :generated_tags,
+                        title = :title,
+                        description = :description,
+                        date_taken = :date_taken,
+                        photographer = :photographer,
+                        organization = :organization
+                    WHERE
                         media_id = :media_id";
 
         $statement = $this->conn->prepare($query);
@@ -134,11 +147,13 @@ class Image extends Media
         $statement->bindValue(':date_taken', date('Y-m-d H:i:s', $image->getDateTaken()));
         $statement->bindValue(':photographer', $image->getPhotographer());
         $statement->bindValue(':organization', $image->getOrganization());
-        $rect = $image->getCropRect();
-        $statement->bindValue(':crop_x', $rect['x']);
-        $statement->bindValue(':crop_y', $rect['y']);
-        $statement->bindValue(':crop_height', $rect['height']);
-        $statement->bindValue(':crop_width', $rect['width']);
+        if ($update_cropping) {
+            $rect = array_map('intval', $rect);
+            $statement->bindValue(':crop_x', $rect['x']);
+            $statement->bindValue(':crop_y', $rect['y']);
+            $statement->bindValue(':crop_height', $rect['height']);
+            $statement->bindValue(':crop_width', $rect['width']);
+        }
 
         $statement->execute();
     }

@@ -209,10 +209,7 @@ class Slide extends Component\View
             $scaled_ar = 2 - (($aspect_ratio ** 4) / 5);
             $strlen = strlen($json->slide->quote->quote->text);
             $scaled_len = 1 - ((($strlen/500) ** 2));
-            $font_size = $scaled_ar + $scaled_len;//($aspect_ratio * ($strlen/100))
-            if ($font_size < 2) {
-                $font_size = 2.3;
-            }
+            $font_size = 0.5 + $scaled_ar + $scaled_len;//($aspect_ratio * ($strlen/100))
             $json->slide->font_size = $font_size;
         }
 

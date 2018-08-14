@@ -10,11 +10,11 @@ use CommunityVoices\Model\Entity;
 class ImageCollection extends DataMapper
 {
 
-    private $status = [
-        1 => 'pending',
-        2 => 'rejected',
-        3 => 'approved'
-    ];
+    // private $status = [
+    //     1 => 'pending',
+    //     2 => 'rejected',
+    //     3 => 'approved'
+    // ];
 
     public function photographers(\stdClass $container) {
         $photographers = [];
@@ -36,7 +36,7 @@ class ImageCollection extends DataMapper
         $container->orgCollection = $orgs;
     }
 
-    public function fetch(Entity\ImageCollection $imageCollection, int $only_unused, string $search = '', $tags = null, $photographers = null, $orgs = null, int $limit = 5, int $offset = 0, string $order_str, int $status = 3)
+    public function fetch(Entity\ImageCollection $imageCollection, int $only_unused, string $search = '', $tags = null, $photographers = null, $orgs = null, int $limit = 5, int $offset = 0, string $order_str = 'date_taken_desc')
     {
         switch ($order_str) {
             case 'date_taken_asc':
@@ -56,10 +56,10 @@ class ImageCollection extends DataMapper
                 $order = 'DESC';
                 break;
         }
-        return $this->fetchAll($imageCollection, $only_unused, $search, $tags, $photographers, $orgs, $limit, $offset, $status, $sort, $order);
+        return $this->fetchAll($imageCollection, $only_unused, $search, $tags, $photographers, $orgs, $limit, $offset, $sort, $order);
     }
 
-    private function fetchAll(Entity\ImageCollection $imageCollection, int $only_unused, string $search, $tags, $photographers, $orgs, int $limit, int $offset, int $status, $sort = 'date_taken', $order = 'DESC')
+    private function fetchAll(Entity\ImageCollection $imageCollection, int $only_unused, string $search, $tags, $photographers, $orgs, int $limit, int $offset, $sort = 'date_taken', $order = 'DESC')
     {
         $params = [];
 
@@ -115,8 +115,7 @@ class ImageCollection extends DataMapper
                   INNER JOIN
                     `community-voices_images` image
                   ON media.id = image.media_id
-                  WHERE
-                    media.status = '{$this->status[$status]}'
+                  WHERE 1
                     {$search_query} {$tag_query} {$photographer_query} {$org_query} {$only_unused_query}
                   ORDER BY image.{$sort} {$order}
                   LIMIT {$offset}, {$limit}";
