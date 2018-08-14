@@ -214,15 +214,14 @@
               <input type="hidden" id="slide_image" value="{domain/slide/image/image/id}"/>
               <input type="hidden" id="slide_cc" value="{domain/slide/contentCategory/contentCategory/id}"/>
             </xsl:if>
-
             <form action='edit/authenticate' method='post' class="d-inline">
               <input type="hidden" id="crop_x" name="crop_x" value="0"/>
               <input type="hidden" id="crop_y" name="crop_y" value="0" />
               <input type="hidden" id="crop_width" name="crop_width" value="0" />
               <input type="hidden" id="crop_height" name="crop_height" value="0" />
-              <input type="hidden" name="image_id"/>
-              <input type="hidden" name="quote_id"/>
-              <input type="hidden" name="content_category"/>
+              <input type="hidden" name="image_id" value="{domain/slide/image/image/id}" />
+              <input type="hidden" name="quote_id" value="{domain/slide/quote/quote/id}"/>
+              <input type="hidden" name="content_category" value="{domain/slide/contentCategory/contentCategory/label}"/>
               <xsl:choose>
                 <xsl:when test="domain/slide != ''">
                   <div class="form-group">

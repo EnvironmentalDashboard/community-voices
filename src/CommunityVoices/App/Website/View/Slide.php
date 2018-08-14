@@ -408,6 +408,14 @@ class Slide extends Component\View
 
     public function getSlideUpdate($routes, $context)
     {
+        $quick_fix = array (
+          1 => 'Serving Our Community',
+          2 => 'Our Downtown',
+          3 => 'Next Generation',
+          4 => 'Heritage',
+          5 => 'Natural Oberlin',
+          6 => 'Neighbors',
+        );
         parse_str($_SERVER['QUERY_STRING'], $qs);
 
         $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
@@ -420,6 +428,7 @@ class Slide extends Component\View
         );
 
         $obj = new \stdClass;
+        $json->slide->contentCategory->contentCategory->label = $quick_fix[$json->slide->contentCategory->contentCategory->id];
         $obj->slide = $json->slide;
         $slideXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($obj)
