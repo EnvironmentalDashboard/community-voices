@@ -104,7 +104,7 @@ class Slide
         $this->slideLookup->findById($slideId, $stateObserver);
     }
 
-    public function postSlideUpdate($request)
+    public function postSlideUpdate($request, $identity)
     {
         $imageId = (int) $request->request->get('image_id');
         $quoteId = (int) $request->request->get('quote_id');
@@ -114,10 +114,10 @@ class Slide
         $probability = (float) $request->request->get('probability');
         $decay_start = (string) $request->request->get('decay_start');
         $decay_end = (string) $request->request->get('decay_end');
-        $id = (int) $request->request->get('id');
-        $approved = (int) $request->request->get('approve');
+        $id = (int) $request->attributes->get('id');
+        $status = ($request->request->get('approve') === '1') ? 3 : 1;
 
-        $this->slideManagement->update($id, $imageId, $quoteId, $contentCategory, $screens, $decay_percent, $probability, $decay_start, $decay_end, $approved);
+        $this->slideManagement->update($id, $imageId, $quoteId, $contentCategory, $screens, $decay_percent, $probability, $decay_start, $decay_end, $status, $identity);
     }
 
     public function postSlideDelete($request)

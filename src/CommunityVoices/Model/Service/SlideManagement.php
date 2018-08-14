@@ -106,7 +106,7 @@ class SlideManagement
 
     }
 
-    public function update(int $id, int $imageId, int $quoteId, int $contentCategory, array $screens, int $decay_percent, float $probability, string $decay_start, string $decay_end, int $approved) {
+    public function update(int $id, int $imageId, int $quoteId, int $contentCategory, array $screens, int $decay_percent, float $probability, string $decay_start, string $decay_end, int $status, $addedBy) {
 
         $quote = new Entity\Quote;
         $quote->setId((int) $quoteId);
@@ -132,11 +132,7 @@ class SlideManagement
         $slide->setDecayStart(strtotime($decay_start));
         // $slide->setDateRecorded($dateRecorded);
         $slide->setAddedBy($addedBy);
-        if ($approved) {
-            $slide->setStatus(3);
-        } else {
-            $slide->setStatus(1);
-        }
+        $slide->setStatus($status);
 
         /*
          * Create error observer w/ appropriate subject and pass to validator

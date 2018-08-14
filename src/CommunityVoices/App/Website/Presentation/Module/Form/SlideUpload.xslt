@@ -215,7 +215,7 @@
               <input type="hidden" id="slide_cc" value="{domain/slide/contentCategory/contentCategory/id}"/>
             </xsl:if>
 
-            <form action='authenticate' method='post' class="d-inline">
+            <form action='edit/authenticate' method='post' class="d-inline">
               <input type="hidden" id="crop_x" name="crop_x" value="0"/>
               <input type="hidden" id="crop_y" name="crop_y" value="0" />
               <input type="hidden" id="crop_width" name="crop_width" value="0" />

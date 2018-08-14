@@ -60,8 +60,9 @@ class Slide
     public function postSlideUpdate($request)
     {
         $apiController = $this->secureContainer->contain($this->slideAPIController);
+        $identity = $this->recognitionAdapter->identify();
 
-        $apiController->postSlideUpdate($request);
+        $apiController->postSlideUpdate($request, $identity);
     }
 
     public function postSlideDelete($request)
