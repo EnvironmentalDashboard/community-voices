@@ -225,7 +225,7 @@
                       <td>
                         <a href="images/{id}">
                           <img class="img-fluid" style="max-width:200px">
-                            <xsl:attribute name="src">https://environmentaldashboard.org/cv/uploads/<xsl:value-of select='id' /></xsl:attribute>
+                            <xsl:attribute name="src">https://environmentaldashboard.org/cv/uploads/<xsl:value-of select='id' />?max_width=200</xsl:attribute>
                             <xsl:attribute name="alt"><xsl:value-of select='title' /></xsl:attribute>
                           </img>
                         </a>

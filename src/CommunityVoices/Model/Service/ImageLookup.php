@@ -49,28 +49,58 @@ class ImageLookup
         $type = mime_content_type($fn);
         header('Content-type: ' . $type);
 
-        if ($rect['x'] > 0 || $rect['y'] > 0 || $rect['height'] > 0 || $rect['width'] > 0) {
-            switch ($type) {
-                case 'image/png':
-                    imagepng(
-                        imagecrop(imagecreatefrompng($fn), $rect)
-                    );
-                    break;
-                case 'image/gif':
-                    imagegif(
-                        imagecrop(imagecreatefromgif($fn), $rect)
-                    );
-                    break;
-                default:
-                    imagejpeg(
-                        imagecrop(imagecreatefromjpeg($fn), $rect)
-                    );
-                    break;
+        $dimensions = getimagesize($fn);
+        $max_width = (isset($_GET['max_width']) && is_numeric($_GET['max_width'])) ? (int) $_GET['max_width'] : false;
+
+        if ($rect['x'] > 0 || $rect['y'] > 0 || $rect['height'] > 0 || $rect['width'] > 0) { // crop
+            $img = $this->GDcreate($fn, $type);
+            $img = imagecrop($img, $rect);
+            if ($max_width && $rect['width'] > $max_width) { // resize
+                $img = $this->GDresize($img, $rect['width'], $rect['height'], $max_width);
             }
-        } else {
-            readfile($fn);
+            $this->GDdisplay($img, $type);
+        } else { // no crop
+            if ($max_width && $dimensions[0] > $max_width) { // resize
+                // $height = $max_width * ($dimensions[0] / $dimensions[1]);
+                $img = $this->GDcreate($fn, $type);
+                $img = $this->GDresize($img, $dimensions[0], $dimensions[1], $max_width);
+                $this->GDdisplay($img, $type);
+            } else { // no resize
+                readfile($fn);
+            }
         }
         exit;
+    }
+
+    private function GDresize($src, $cur_width, $cur_height, $max_width) {
+        $r = $cur_width / $cur_height;
+        $width = $max_width;
+        $height = $max_width / $r;
+        $dst = imagecreatetruecolor($width, $height);
+        imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, $cur_width, $cur_height);
+        return $dst;
+    }
+
+    private function GDcreate($fn, $type) {
+        switch ($type) {
+            case 'image/png':
+                return imagecreatefrompng($fn);
+            case 'image/gif':
+                return imagecreatefromgif($fn);
+            default:
+                return imagecreatefromjpeg($fn);
+        }
+    }
+
+    private function GDdisplay($img, $type) {
+        switch ($type) {
+            case 'image/png':
+                return imagepng($img);
+            case 'image/gif':
+                return imagegif($img);
+            default:
+                return imagejpeg($img);
+        }
     }
 
     /**
