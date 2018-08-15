@@ -154,17 +154,29 @@
               <div class="form-group">
                 <label for="order">Order by</label>
                 <select class="form-control" id="order" name="order">
+                  <option value="id_desc">
+                    <xsl:if test="$order = 'id_desc'">
+                      <xsl:attribute name="selected">selected</xsl:attribute>
+                    </xsl:if>
+                    Newest first (date uploaded)
+                  </option>
+                  <option value="id_asc">
+                    <xsl:if test="$order = 'id_asc'">
+                      <xsl:attribute name="selected">selected</xsl:attribute>
+                    </xsl:if>
+                    Oldest first (date uploaded)
+                  </option>
                   <option value="date_taken_desc">
                     <xsl:if test="$order = 'date_taken_desc'">
                       <xsl:attribute name="selected">selected</xsl:attribute>
                     </xsl:if>
-                    Newest first
+                    Newest first (date taken)
                   </option>
                   <option value="date_taken_asc">
                     <xsl:if test="$order = 'date_taken_asc'">
                       <xsl:attribute name="selected">selected</xsl:attribute>
                     </xsl:if>
-                    Oldest first
+                    Oldest first (date taken)
                   </option>
                   <option value="photographer_desc">
                     <xsl:if test="$order = 'photographer_desc'">
