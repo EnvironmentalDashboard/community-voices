@@ -57,3 +57,12 @@ $('.delete-form').on('submit', function(e) {
 	$.post(action);
 });
 
+$('.edit-form').on('submit', function(e) {
+	e.preventDefault();
+	$.ajax({
+    url : $(this).attr('action') || window.location.pathname,
+    type: $(this).attr('method') || "POST",
+    data: $(this).serialize()
+	});
+});
+
