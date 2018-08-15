@@ -11,12 +11,14 @@ ADD . /var/www/html
 WORKDIR /var/www/html
 # install apt packages, set timezone (see: https://serverfault.com/a/683651/456938), install composer
 RUN apt-get update && \
-  apt-get -qq -y install apt-utils tzdata apache2 php libapache2-mod-php php-cli php-mbstring php-xml php-mysql php-xdebug php7.0-gd curl git unzip && \
+  apt-get -qq -y install apt-utils tzdata apache2 php libapache2-mod-php php-cli php-mbstring php-xml php-mysql php-xdebug php-gd curl git unzip && \
   ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
   curl -sS https://getcomposer.org/installer -o composer-setup.php && \
   php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
   php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
   composer update && composer install && \
+  sed -ie 's/upload_max_filesize = 2M/upload_max_filesize = 64M/g' /etc/php/7.2/apache2/php.ini && \
+  sed -ie 's/post_max_size = 8M/post_max_size = 512M/g' /etc/php/7.2/apache2/php.ini && \
   a2enmod rewrite headers && mv /var/www/html/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
 EXPOSE 80
 CMD /usr/sbin/apache2ctl -D FOREGROUND
