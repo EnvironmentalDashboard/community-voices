@@ -289,16 +289,14 @@ class Image extends Component\View
 
     public function postImageUpload($routes, $context)
     {
+        header('Location: https://environmentaldashboard.org/cv/images');
+        exit();
+        /*
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
           $this->transcriber->toXml($identity->toArray())
         );
 
-        /**
-         * Get base URL
-         */
-        //$urlGenerator = new UrlGenerator($routes, $context);
-        //$baseUrl = $urlGenerator->generate('root');
 
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
@@ -310,10 +308,6 @@ class Image extends Component\View
           "Community Voices"
         );
         
-
-        /**
-         * Prepare template
-         */
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
 
@@ -323,6 +317,7 @@ class Image extends Component\View
 
         $this->finalize($response);
         return $response;
+        */
     }
 
     public function getImageUpdate($routes, $context)
