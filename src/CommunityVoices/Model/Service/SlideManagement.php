@@ -126,10 +126,10 @@ class SlideManagement
         $slide->setContentCategory($category);
         $slide->setImage($image);
         $slide->setQuote($quote);
-        $slide->setProbability($probability);
-        $slide->setDecayPercent($decay_percent);
-        $slide->setDecayEnd(strtotime($decay_end));
-        $slide->setDecayStart(strtotime($decay_start));
+        $slide->setProbability((int) $probability);
+        $slide->setDecayPercent((int) $decay_percent);
+        $slide->setDecayEnd((int) strtotime($decay_end));
+        $slide->setDecayStart((int) strtotime($decay_start));
         // $slide->setDateRecorded($dateRecorded);
         $slide->setAddedBy($addedBy);
         $slide->setStatus($status);

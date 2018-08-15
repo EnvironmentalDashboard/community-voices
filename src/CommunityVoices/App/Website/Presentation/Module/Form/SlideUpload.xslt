@@ -221,7 +221,7 @@
               <input type="hidden" id="crop_height" name="crop_height" value="0" />
               <input type="hidden" name="image_id" value="{domain/slide/image/image/id}" />
               <input type="hidden" name="quote_id" value="{domain/slide/quote/quote/id}"/>
-              <input type="hidden" name="content_category" value="{domain/slide/contentCategory/contentCategory/label}"/>
+              <input type="hidden" name="content_category" value="{domain/slide/contentCategory/contentCategory/id}"/>
               <xsl:choose>
                 <xsl:when test="domain/slide != ''">
                   <div class="form-group">

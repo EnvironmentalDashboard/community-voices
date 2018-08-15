@@ -162,10 +162,9 @@ class Slide extends Media
         $query = "UPDATE
                         `community-voices_slides`
                     SET
-                        content_category_id = :content_category_id
+                        content_category_id = :content_category_id,
                         image_id = :image_id,
                         quote_id = :quote_id,
-                        formatted_text = :formatted_text,
                         probability = :probability,
                         decay_percent = :decay_percent,
                         decay_start = :decay_start,
@@ -174,17 +173,16 @@ class Slide extends Media
                         media_id = :media_id";
 
         $statement = $this->conn->prepare($query);
-
         // $slide->setFormattedText($slide->getQuote());
         $statement->bindValue(':media_id', $slide->getId());
         $statement->bindValue(':content_category_id', $slide->getContentCategory()->getId());
         $statement->bindValue(':image_id', $slide->getImage()->getId());
         $statement->bindValue(':quote_id', $slide->getQuote()->getId());
-        $statement->bindValue(':formatted_text', $slide->getFormattedText());
+        // $statement->bindValue(':formatted_text', $slide->getFormattedText());
         $statement->bindValue(':probability', $slide->getProbability());
         $statement->bindValue(':decay_percent', $slide->getDecayPercent());
-        $statement->bindValue(':decay_start', $slide->getDecayStart());
-        $statement->bindValue(':decay_end', $slide->getDecayEnd());
+        $statement->bindValue(':decay_start', date('Y-m-d H:i:s', $slide->getDecayStart()));
+        $statement->bindValue(':decay_end', date('Y-m-d H:i:s', $slide->getDecayEnd()));
 
         $statement->execute();
     }
