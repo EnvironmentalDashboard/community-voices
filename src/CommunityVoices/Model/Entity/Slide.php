@@ -142,10 +142,10 @@ class Slide extends Media
         /**
          * Check probability
          */
-        if ($this->probability > 1 || $this->probability < 0) {
-            $isValid = false;
-            $stateObserver->addEntry('probability', self::ERR_PROBABILITY_OUT_OF_RANGE);
-        }
+        // if ($this->probability > 1 || $this->probability < 0) {
+        //     $isValid = false;
+        //     $stateObserver->addEntry('probability', self::ERR_PROBABILITY_OUT_OF_RANGE);
+        // }
 
         /**
          * Check decay settings
