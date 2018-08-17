@@ -61,7 +61,6 @@ class ImageLookup
             $this->GDdisplay($img, $type);
         } else { // no crop
             if ($max_width && $dimensions[0] > $max_width) { // resize
-                // $height = $max_width * ($dimensions[0] / $dimensions[1]);
                 $img = $this->GDcreate($fn, $type);
                 $img = $this->GDresize($img, $dimensions[0], $dimensions[1], $max_width);
                 $this->GDdisplay($img, $type);

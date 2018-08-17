@@ -60,7 +60,7 @@ class ImageCollection extends DataMapper
                 $order = 'DESC';
                 break;
             default:
-                $sort = 'date_taken';
+                $sort = 'media_id';
                 $order = 'DESC';
                 break;
         }
