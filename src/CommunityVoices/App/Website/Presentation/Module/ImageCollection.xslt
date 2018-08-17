@@ -50,6 +50,73 @@
   opacity: 1;
 }
 </style>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <form action='images/new/authenticate' method='post' enctype='multipart/form-data'>
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Upload images</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&#215;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+              <div class="custom-file mb-2">
+                <label for="file" class="custom-file-label">File</label>
+                <input class="custom-file-input" id="file" type='file' name='file[]' accept='.jpg, .jpeg, .png' multiple="" />
+              </div>
+
+              <div class="form-group">
+                <label for="title">Title</label>
+                <input class="form-control" id="title" type='text' name='title' />
+              </div>
+
+              <div class="form-group">
+                <label for="description">Description</label>
+                <input class="form-control" id="description" type='text' name='description' />
+              </div>
+
+              <div class="form-group">
+                <label for="dateTaken">Date Taken</label>
+                <input class="form-control" id="dateTaken" type='text' name='dateTaken' />
+              </div>
+
+              <div class="form-group">
+                <label for="photographer">Photographer</label>
+                <input class="form-control" id="photographer" type='text' name='photographer' />
+              </div>
+
+              <div class="form-group">
+                <label for="organization">Organization</label>
+                <input class="form-control" id="organization" type='text' name='organization' />
+              </div>
+
+              <div class="form-group">
+                <p class="mb-0">Tags</p>
+                <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
+                  <xsl:for-each select="domain/groupCollection/group">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="tags[]" id="tag{id}">
+                        <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
+                      </input>
+                      <label class="form-check-label">
+                        <xsl:attribute name="for">tag<xsl:value-of select='id' /></xsl:attribute>
+                        <xsl:value-of select="label"></xsl:value-of>
+                      </label>
+                    </div>
+                  </xsl:for-each>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Upload</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
     <nav class="navbar navbar-light bg-light">
     	<form action="/cv/slides" method="GET" id="search-form" class="d-inline" style="width:70%">
         <div class="input-group input-group">
@@ -65,7 +132,7 @@
           <button type="submit" class="btn btn-outline-primary form-control" style="max-width:15%">Search</button>
         </div>
       </form>
-      <a class="btn btn-outline-primary" href="./images/new">+ Add image</a>
+      <a class="btn btn-outline-primary" href="./images/new" data-toggle="modal" data-target="#exampleModal">+ Add image</a>
     </nav>
 
 		<div class="row" style="padding:15px;">
@@ -267,15 +334,15 @@
                       <td style="min-width:250px">
                         <div class="form-group mb-1">
                           <label class="sr-only" for="description{id}">Description</label>
-                          <input type="text" name="description" id="description{id}" class="form-control" form="edit-form{id}">
-                            <xsl:attribute name="value"><xsl:value-of select="description"></xsl:value-of></xsl:attribute>
-                          </input>
+                          <textarea name="description" id="description{id}" class="form-control" form="edit-form{id}">
+                            <xsl:value-of select="description"></xsl:value-of>
+                          </textarea>
                         </div>
                       </td>
                       <td style="min-width:200px">
                         <div class="form-group mb-1">
                           <label class="sr-only" for="dateTaken{id}">Date taken</label>
-                          <input type="text" name="dateTaken" id="dateTaken{id}" class="form-control" form="edit-form{id}">
+                          <input type="text" name="dateTaken" id="dateTaken{id}" class="form-control" form="edit-form{id}" style="min-width:190px">
                             <xsl:attribute name="value"><xsl:value-of select="dateTaken"></xsl:value-of></xsl:attribute>
                           </input>
                         </div>
