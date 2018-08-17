@@ -81,3 +81,8 @@ $('.edit-form').on('submit', function(e) {
   });
 });
 
+$('#file').on('change', function(e) {
+  var names = $.map($(this).prop('files'), function(val) { return val.name; });
+  $('#fileList').text('Selected ' + names.join(', '));
+});
+

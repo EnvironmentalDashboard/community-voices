@@ -65,6 +65,7 @@
               <div class="custom-file mb-2">
                 <label for="file" class="custom-file-label">File</label>
                 <input class="custom-file-input" id="file" type='file' name='file[]' accept='.jpg, .jpeg, .png' multiple="" />
+                <p class="form-text text-muted" id="fileList"></p>
               </div>
 
               <div class="form-group">
