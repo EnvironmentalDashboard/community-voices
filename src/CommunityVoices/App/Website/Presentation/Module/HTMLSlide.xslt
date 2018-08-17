@@ -10,7 +10,7 @@
     <div style="display: flex;align-items:center;height: 86vh">
       <img src="https://environmentaldashboard.org/cv/uploads/{domain/slide/image/image/id}" alt="{domain/slide/image/image/title}" style="flex-shrink: 0;width: auto;max-height: 86vh;max-width:70vw;max-height:100%" />
       <h1 style="{concat('color:#fff;padding:3vw;font-size:', domain/slide/font_size, 'vw;font-weight:400')}">
-        <xsl:value-of select="domain/slide/quote/quote/text"></xsl:value-of>
+        &#8220;<xsl:value-of select="domain/slide/quote/quote/text"></xsl:value-of>&#8221;
         <xsl:if test="domain/slide/quote/quote/attribution != ''">
           <div style="margin-top:1.5rem;font-size:70%">
             <div style="max-width:6%;display:inline-block;height:100%;vertical-align:top">
