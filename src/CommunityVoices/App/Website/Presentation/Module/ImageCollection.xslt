@@ -65,7 +65,7 @@
               <div class="custom-file mb-2">
                 <label for="file" class="custom-file-label">File</label>
                 <input class="custom-file-input" id="file" type='file' name='file[]' accept='.jpg, .jpeg, .png' multiple="" />
-                <p class="form-text text-muted" id="fileList"></p>
+                <small class="form-text text-muted" id="fileList"></small>
               </div>
 
               <div class="form-group">
@@ -75,7 +75,8 @@
 
               <div class="form-group">
                 <label for="description">Description</label>
-                <input class="form-control" id="description" type='text' name='description' />
+                <textarea name="description" id="description" class="form-control">
+                </textarea>
               </div>
 
               <div class="form-group">
@@ -84,13 +85,13 @@
               </div>
 
               <div class="form-group">
-                <label for="photographer">Photographer</label>
-                <input class="form-control" id="photographer" type='text' name='photographer' />
+                <label for="organization">Organization</label>
+                <input class="form-control" id="organization" type='text' name='organization' />
               </div>
 
               <div class="form-group">
-                <label for="organization">Organization</label>
-                <input class="form-control" id="organization" type='text' name='organization' />
+                <label for="photographer">Photographer</label>
+                <input class="form-control" id="photographer" type='text' name='photographer' />
               </div>
 
               <div class="form-group">

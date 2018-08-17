@@ -18,6 +18,7 @@
             </div>
             <div style="max-width:90%;display:inline-block;height:100%">
               <xsl:value-of select="domain/slide/quote/quote/attribution" />
+              <xsl:if test="domain/slide/quote/quote/subAttribution != ''">, <xsl:value-of select='domain/slide/quote/quote/subAttribution' /></xsl:if>
             </div>
           </div>
           <!-- <div style="{concat('font-size:', domain/slide/font_size, 'vw;margin-top:2vw')}">&#x2014; <xsl:value-of select="domain/slide/quote/quote/attribution"></xsl:value-of></div> -->
