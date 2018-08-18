@@ -11,8 +11,8 @@ class Location implements HasId
     const ERR_LABEL_REQUIRED = 'Locations are required to have a label (1 character minimum).';
 
     private $id;
-
     private $label;
+    private $end_use;
 
     /**
      * @todo how to validate these two -- domain or business ?
@@ -40,6 +40,16 @@ class Location implements HasId
     public function setLabel($label)
     {
         $this->label = $label;
+    }
+
+    public function getEndUse()
+    {
+        return $this->end_use;
+    }
+
+    public function setEndUse($end_use)
+    {
+        $this->end_use = $end_use;
     }
 
     public function getOrganizationCategoryCollection()
@@ -78,7 +88,8 @@ class Location implements HasId
     {
         return ['location' => [
             'id' => $this->id,
-            'label' => $this->label//,
+            'label' => $this->label,
+            'end_use' => $this->end_use//,
             // 'organizationCategoryCollection' => $this->organizationCategoryCollection->toArray(),
             // 'contentCategoryCollection' => $this->contentCategoryCollection->toArray()
         ]];

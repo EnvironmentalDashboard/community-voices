@@ -280,7 +280,7 @@
                   <p class='mb-0'>Select screens for display:</p>
                   <div class="form-group">
                     <xsl:for-each select="domain/locCollection/location">
-                      <div class="custom-control custom-checkbox">
+                      <div class="custom-control custom-checkbox" data-end_use="{end_use}">
                         <input type="checkbox" class="custom-control-input" id="screen{id}" name="screens[]" value="{id}" checked="checked" />
                         <label class="custom-control-label" for="screen{id}">
                           <xsl:value-of select="label" />

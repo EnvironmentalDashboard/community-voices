@@ -131,6 +131,16 @@ if (delete_form.length > 0) {
     });
 }
 
+var prev_end_use = null;
+$('[data-end_use]').each(function(i, v) {
+    var end_use = $(v).data('end_use');
+    if (end_use !== prev_end_use) {
+        var checkbox = '<div class="custom-control custom-checkbox d-inline"><input checked="checked" type="checkbox" class="custom-control-input" id="'+end_use+'-checkAll" onchange="var isChecked = this.checked; $(\'[data-end_use='+end_use+']\').each(function(i, e) {$(e).find(\'input\').prop(\'checked\', isChecked)});" /><label class="custom-control-label" for="'+end_use+'-checkAll">Check all</label></div>';
+        $(this).before('<div class="mt-2"><p class="mb-0 mr-2 text-capitalize d-inline" style="text-decoration:underline">' + end_use + ' screens</p>' + checkbox + '</div>');
+    }
+    prev_end_use = end_use;
+});
+
 var prefill_image = getParameterByName('prefill_image');
 var prefill_quote = getParameterByName('prefill_quote');
 if (prefill_image) {
