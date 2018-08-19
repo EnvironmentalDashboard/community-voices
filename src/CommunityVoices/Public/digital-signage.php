@@ -98,11 +98,20 @@ shuffle($files);
         -webkit-animation: fadeOut 2s linear 0s 1 normal forwards;
         animation: fadeOut 2s linear 0s 1 normal forwards;
       }
+      iframe {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        border: none;
+      }
     </style>
   </head>
   <body style="background: #000">
-    <iframe id='iframe1' src="<?php echo $files[0]; ?>" alt="" style="width: 100%;height: auto;position: absolute;top: 0;left: 0;right: 0"></iframe>
-    <iframe id="iframe2" src="<?php echo $files[1]; ?>" alt="" style="width: 100%;height: auto;position: absolute;top: 0;left: 0;right: 0"></iframe>
+    <iframe id='iframe1' src="<?php echo $files[0]; ?>"></iframe>
+    <iframe id="iframe2" src="<?php echo $files[1]; ?>"></iframe>
   </body>
   <script>
     var paths = <?php echo json_encode($files); ?>;
