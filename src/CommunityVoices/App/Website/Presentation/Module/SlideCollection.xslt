@@ -19,7 +19,7 @@
 	<xsl:template match="/package">
 
 		<nav class="navbar navbar-light bg-light" style="justify-content:initial">
-      <a class="navbar-brand" href="/cv/">Community Voices</a>
+      <a class="navbar-brand" href="/cv/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
       <ul class="navbar-nav" style="width:initial">
         <li class="nav-item mr-2">
           <a class="nav-link" href="./articles">Articles</a>
