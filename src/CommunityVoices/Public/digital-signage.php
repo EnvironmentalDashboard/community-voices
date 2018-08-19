@@ -92,39 +92,37 @@ shuffle($files);
       }
       .fade-in {
         -webkit-animation: fadeIn 2s linear 0s 1 normal forwards;
-        -o-animation: fadeIn 2s linear 0s 1 normal forwards;
         animation: fadeIn 2s linear 0s 1 normal forwards;
       }
       .fade-out {
         -webkit-animation: fadeOut 2s linear 0s 1 normal forwards;
-        -o-animation: fadeOut 2s linear 0s 1 normal forwards;
         animation: fadeOut 2s linear 0s 1 normal forwards;
       }
     </style>
   </head>
   <body style="background: #000">
-    <img id='img1' src="<?php echo $files[0]; ?>" alt="" style="width: 100%;height: auto;position: absolute;top: 0;left: 0;right: 0">
-    <img id="img2" src="<?php echo $files[1]; ?>" alt="" style="width: 100%;height: auto;position: absolute;top: 0;left: 0;right: 0">
+    <iframe id='iframe1' src="<?php echo $files[0]; ?>" alt="" style="width: 100%;height: auto;position: absolute;top: 0;left: 0;right: 0"></iframe>
+    <iframe id="iframe2" src="<?php echo $files[1]; ?>" alt="" style="width: 100%;height: auto;position: absolute;top: 0;left: 0;right: 0"></iframe>
   </body>
   <script>
     var paths = <?php echo json_encode($files); ?>;
-    var images = [document.getElementById('img1'), document.getElementById('img2')];
+    var images = [document.getElementById('iframe1'), document.getElementById('iframe2')];
     var current_path = 2,
-        current_img = 1;
+        current_iframe = 1;
     setInterval(function() {
-      if (current_img === 0) {
-        images[current_img].className = 'fade-out';
+      if (current_iframe === 0) {
+        images[current_iframe].className = 'fade-out';
         setTimeout(function() { images[0].setAttribute('src', paths[current_path++]); }, 2000);
-        current_img = 1;
-        images[current_img].className = 'fade-in';
+        current_iframe = 1;
+        images[current_iframe].className = 'fade-in';
         if (current_path === paths.length) {
           current_path = 0;
         }
       } else {
-        images[current_img].className = 'fade-out';
+        images[current_iframe].className = 'fade-out';
         setTimeout(function() { images[1].setAttribute('src', paths[current_path++]); }, 2000);
-        current_img = 0;
-        images[current_img].className = 'fade-in';
+        current_iframe = 0;
+        images[current_iframe].className = 'fade-in';
         if (current_path === paths.length) {
           current_path = 0;
         }
