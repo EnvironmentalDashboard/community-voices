@@ -18,9 +18,23 @@
 
 	<xsl:template match="/package">
 
-		<nav class="navbar navbar-light bg-light">
-      <a class="navbar-brand" href="#">Slides</a>
-      <a class="btn btn-outline-primary" href="./slides/new">+ Add slide</a>
+		<nav class="navbar navbar-light bg-light" style="justify-content:initial">
+      <a class="navbar-brand" href="/cv/">Community Voices</a>
+      <ul class="navbar-nav" style="width:initial">
+        <li class="nav-item mr-2">
+          <a class="nav-link" href="./articles">Articles</a>
+        </li>
+        <li class="nav-item mr-2 active">
+          <a class="nav-link" href="./slides">Slides <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item mr-2">
+          <a class="nav-link" href="./images">Images</a>
+        </li>
+        <li class="nav-item mr-2">
+          <a class="nav-link" href="./quotes">Quotes</a>
+        </li>
+      </ul>
+      <a class="btn btn-outline-primary" href="./slides/new" style="margin-left:auto">+ Add slide</a>
     </nav>
 
 		<div class="row" style="padding:15px;">

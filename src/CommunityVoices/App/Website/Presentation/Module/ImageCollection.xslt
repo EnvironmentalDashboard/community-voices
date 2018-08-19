@@ -50,12 +50,12 @@
   opacity: 1;
 }
 </style>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <form action='images/new/authenticate' method='post' enctype='multipart/form-data'>
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Upload images</h5>
+              <h5 class="modal-title" id="createModalLabel">Upload images</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&#215;</span>
               </button>
@@ -119,22 +119,23 @@
         </div>
       </div>
     </div>
-    <nav class="navbar navbar-light bg-light">
-    	<form action="/cv/slides" method="GET" id="search-form" class="d-inline" style="width:70%">
-        <div class="input-group input-group">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary dropdown-toggle rounded-left" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown-btn">Images</button>
-            <div class="dropdown-menu" id="searchables" style="left:initial">
-              <a class="dropdown-item" data-action="/cv/slides" href="#">Slides</a>
-              <a class="dropdown-item" data-action="/cv/quotes" href="#">Quotes</a>
-              <a class="dropdown-item" data-action="/cv/articles" href="#">Articles</a>
-            </div>
-          </div>
-          <input name="search" type="text" class="form-control" aria-label="Search Community Voices" placeholder="Search slides, images, or quotes" style="background: url(https://environmentaldashboard.org/cv/public/search.svg) no-repeat left 1rem center;background-size: 20px 20px;padding-left: 3rem;min-width:40%" value="{$search}" />
-          <button type="submit" class="btn btn-outline-primary form-control" style="max-width:15%">Search</button>
-        </div>
-      </form>
-      <a class="btn btn-outline-primary" href="./images/new" data-toggle="modal" data-target="#exampleModal">+ Add image</a>
+    <nav class="navbar navbar-light bg-light" style="justify-content:initial">
+      <a class="navbar-brand" href="/cv/">Community Voices</a>
+      <ul class="navbar-nav" style="width:initial">
+        <li class="nav-item mr-2">
+          <a class="nav-link" href="./articles">Articles</a>
+        </li>
+        <li class="nav-item mr-2">
+          <a class="nav-link" href="./slides">Slides</a>
+        </li>
+        <li class="nav-item mr-2 active">
+          <a class="nav-link" href="./images">Images <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item mr-2">
+          <a class="nav-link" href="./quotes">Quotes</a>
+        </li>
+      </ul>
+      <a class="btn btn-outline-primary" href="./images/new" data-toggle="modal" data-target="#createModal" style="margin-left:auto">+ Add image</a>
     </nav>
 
 		<div class="row" style="padding:15px;">

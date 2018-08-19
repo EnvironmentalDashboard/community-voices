@@ -44,12 +44,6 @@ $(targets).each(function(i, target){
   });
 });
 
-$('#searchables > a').on('click', function(e) {
-    e.preventDefault();
-    $('#search-form').attr('action', $(this).data('action'));
-    $('#dropdown-btn').text($(this).text());
-});
-
 $('.delete-form').on('submit', function(e) {
   e.preventDefault();
   var form = $(this);

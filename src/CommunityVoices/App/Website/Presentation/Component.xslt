@@ -58,7 +58,7 @@
                 <a href="https://palmer.buildingos.com/reports/dashboards/c59fde5ec0db11e7aff5525400391da3" class="dropdown-item" target="_blank">Toledo Public Schools</a>
               </div>
             </li>
-            <li class="nav-item dropdown">
+            <!-- <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Community Voices
             </a>
@@ -71,10 +71,10 @@
                 <xsl:choose>
                   <xsl:when test="identity/user/id &gt; 0">
                     <a class="dropdown-item" href="/cv/logout">Logout <xsl:value-of select="identity/user/firstName" /></a>
-                    <!-- <a class="dropdown-item">
+                    <a class="dropdown-item">
                       <xsl:attribute name="href">user/<xsl:value-of select="identity/user/id" /></xsl:attribute>
                       View Account
-                    </a> -->
+                    </a>
                   </xsl:when>
                   <xsl:otherwise>
                     <a class="dropdown-item" href="/cv/login">Login</a>
@@ -82,6 +82,9 @@
                   </xsl:otherwise>
                 </xsl:choose>
               </div>
+            </li> -->
+            <li class="nav-item">
+              <a class="nav-link" href="/cv/">Community Voices</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/calendar">Events Calendar</a>
