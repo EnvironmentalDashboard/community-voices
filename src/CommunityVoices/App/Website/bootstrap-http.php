@@ -70,7 +70,13 @@ $uri = isset($_SERVER['REQUEST_URI'])
 
 $uri = ($production_server) ? '/community-voices' . substr(explode('?', $uri)[0], 1) : explode('?', $uri)[0]; // TODO: fix!
 
-$parameters = new Symfony\Component\HttpFoundation\ParameterBag($matcher->match($uri));
+try {
+	$parameters = new Symfony\Component\HttpFoundation\ParameterBag($matcher->match($uri));
+} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
+	http_response_code(404);
+	echo json_encode(['error' => '404 error: requested resource not found']); // api only returns json responses
+	exit;
+}
 
 $request->attributes = $parameters;
 
