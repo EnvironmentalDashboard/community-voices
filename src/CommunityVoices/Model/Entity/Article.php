@@ -14,13 +14,14 @@ class Article extends Media
     private $image;
     private $author;
     private $dateRecorded;
-    private $dateFormat = "Y-m-d H:i:s";
+    private $dateFormat;
 
     public $type;
 
     public function __construct()
     {
         $this->type = self::TYPE_ARTICLE;
+        $this->dateFormat = "Y-m-d H:i:s";
     }
 
     public function getTitle()

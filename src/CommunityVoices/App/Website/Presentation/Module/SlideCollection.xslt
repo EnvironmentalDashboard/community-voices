@@ -34,9 +34,26 @@
           <a class="nav-link" href="./quotes">Quotes</a>
         </li>
       </ul>
-      <xsl:if test="$isManager">
-        <a class="btn btn-outline-primary" href="./slides/new" style="margin-left:auto">+ Add slide</a>
-      </xsl:if>
+      <div style="margin-left:auto">
+        <xsl:choose>
+          <xsl:when test="identity/user/id &gt; 0">
+            <a class="btn btn-outline-primary mr-2" href="/cv/logout">Logout <xsl:value-of select="identity/user/firstName" /></a>
+            <!-- <a>
+              <xsl:attribute name="href">user/<xsl:value-of select="identity/user/id" /></xsl:attribute>
+              View Account
+            </a> -->
+          </xsl:when>
+          <xsl:otherwise>
+            <div class="btn-group">
+              <a class="btn btn-outline-primary" href="/cv/login">Login</a>
+              <a class="btn btn-outline-primary" href="/cv/register">Register</a>
+            </div>
+          </xsl:otherwise>
+        </xsl:choose>
+        <xsl:if test="$isManager">
+          <a class="btn btn-outline-primary" href="./slides/new">+ Add slide</a>
+        </xsl:if>
+      </div>
     </nav>
 
 		<div class="row" style="padding:15px;">
