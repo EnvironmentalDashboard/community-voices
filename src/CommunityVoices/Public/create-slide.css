@@ -1,0 +1,2 @@
+.selectables, #list-view, #gallery-view {cursor:pointer}
+.card-columns .card:hover {border-color:#21a7df}

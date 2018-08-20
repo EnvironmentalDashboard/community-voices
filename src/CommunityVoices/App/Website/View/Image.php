@@ -232,6 +232,7 @@ class Image extends Component\View
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: All Images");
         $domainXMLElement->addChild('extraJS', "image-collection");
+        $domainXMLElement->addChild('extraCSS', "image-collection");
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
 

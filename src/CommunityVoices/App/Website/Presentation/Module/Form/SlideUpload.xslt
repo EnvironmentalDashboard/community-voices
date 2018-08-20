@@ -10,13 +10,8 @@
     <xsl:variable name="attributions" select="package/domain/attributions"/>
 
     <xsl:template match="/form">
-        <div class="row" style="padding:15px;">
-          <div class="col-12">
-        <style>
-          /* Temporary CSS block until better location found */
-          .selectables, #list-view, #gallery-view {cursor:pointer}
-          .card-columns .card:hover {border-color:#21a7df}
-        </style>
+      <div class="row" style="padding:15px;">
+        <div class="col-12">
         <h2 class="mb-4">Create a slide</h2>
         <div class="row">
           <div class="col-sm-3">

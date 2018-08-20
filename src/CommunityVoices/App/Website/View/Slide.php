@@ -352,6 +352,7 @@ class Slide extends Component\View
             "Community Voices: Slide Upload"
         );
         $domainXMLElement->addChild('extraJS', "create-slide");
+        $domainXMLElement->addChild('extraCSS', "create-slide");
         $domainXMLElement->addChild('comfortaa', "1");
 
         foreach ($qs as $key => $value) {
@@ -509,6 +510,7 @@ class Slide extends Component\View
             "Community Voices: Slide Upload"
         );
         $domainXMLElement->addChild('extraJS', "create-slide");
+        $domainXMLElement->addChild('extraCSS', "create-slide");
         $domainXMLElement->addChild('comfortaa', "1");
 
         foreach ($qs as $key => $value) {

@@ -26,35 +26,10 @@
             <xsl:if test="comfortaa != ''">
                 <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet" />
             </xsl:if>
-            <style>
-            .form-group ::-webkit-scrollbar {
-                height: 16px;
-                overflow: visible;
-                width: 16px;
-            }
-            .form-group ::-webkit-scrollbar-button {
-                height: 0;
-                width: 0;
-            }
-            .form-group ::-webkit-scrollbar-corner {
-                background: transparent;
-            }
-            .form-group ::-webkit-scrollbar-thumb {
-                background-color: rgba(0,0,0,.2);
-                background-clip: padding-box;
-                border: solid transparent;
-                border-width: 1px 1px 1px 6px;
-                min-height: 28px;
-                padding: 100px 0 0;
-                -webkit-box-shadow: inset 1px 1px 0 rgba(0,0,0,.1), inset 0 -1px 0 rgba(0,0,0,.07);
-                box-shadow: inset 1px 1px 0 rgba(0,0,0,.1), inset 0 -1px 0 rgba(0,0,0,.07);
-            }
-            .form-group ::-webkit-scrollbar-track {
-                background-clip: padding-box;
-                border: solid transparent;
-                border-width: 0 0 0 4px;
-            }
-            </style>
+            <xsl:if test="extraCSS != ''">
+                <script src="https://environmentaldashboard.org/cv/public/{extraCSS}.css"></script>
+            </xsl:if>
+            <link rel="stylesheet" href="https://environmentaldashboard.org/cv/public/SinglePane.css" />
         </head>
         <body>
             <div class="container">

@@ -15,41 +15,6 @@
   <xsl:variable name="allTags" select="package/domain/groupCollection/group" />
 
 	<xsl:template match="/package">
-<style>
-  /* TODO: MOVE */
-.image {
-  position: relative;
-  background: #6c757d;
-}
-
-.image img {
-  opacity: 1;
-  display: block;
-  width: 100%;
-  height: auto;
-  transition: .5s ease;
-  backface-visibility: hidden;
-}
-
-.image svg {
-  transition: .5s ease;
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  text-align: center;
-}
-
-.image:hover img {
-  opacity: 0.3;
-}
-
-.image:hover svg {
-  opacity: 1;
-}
-</style>
     <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
