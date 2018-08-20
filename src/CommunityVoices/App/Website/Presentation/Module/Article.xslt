@@ -72,20 +72,6 @@
 							<xsl:copy-of select='domain/article/html' />
 						</div>
 
-	          <xsl:if test="$isManager">
-	            <p>Status: <xsl:value-of select='domain/article/status' /></p>
-	            <p>
-								Uploader:
-								<xsl:value-of select='domain/article/addedBy/user/firstName' />
-								<xsl:text> </xsl:text>
-								<xsl:value-of select='domain/article/addedBy/user/lastName' />
-							</p>
-							<p>
-								<a>
-				        </a>
-							</p>
-	          </xsl:if>
-
 							<!-- <p> Tags: TODO </p> -->
 
 

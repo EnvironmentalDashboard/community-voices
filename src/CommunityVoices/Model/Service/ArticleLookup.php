@@ -59,6 +59,8 @@ class ArticleLookup
         $Parsedown = new \Parsedown();
         $article->setHtml($Parsedown->text($article->getText()));
 
+        $article->setDateFormat('F j, Y');
+
         $this->stateObserver->setSubject('articleLookup');
         $this->stateObserver->addEntry('article', $article);
 

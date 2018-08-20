@@ -14,6 +14,7 @@ class Article extends Media
     private $image;
     private $author;
     private $dateRecorded;
+    private $dateFormat = "Y-m-d H:i:s";
 
     public $type;
 
@@ -82,6 +83,10 @@ class Article extends Media
         $this->dateRecorded = strtotime($dateRecorded);
     }
 
+    public function setDateFormat($fmt) {
+        $this->dateFormat = $fmt;
+    }
+
     public function validateForUpload(FlexibleObserver $stateObserver)
     {
         $isValid = true;
@@ -101,7 +106,7 @@ class Article extends Media
             'text' => $this->text,
             'html' => $this->html,
             'author' => $this->author,
-            'dateRecorded' => date("Y-m-d H:i:s", $this->dateRecorded),
+            'dateRecorded' => date($this->dateFormat, $this->dateRecorded),
             'image' => $this->image->getId()
         ])];
     }
