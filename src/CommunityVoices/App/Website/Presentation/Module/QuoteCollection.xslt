@@ -29,7 +29,9 @@
           <a class="nav-link" href="./quotes">Quotes <span class="sr-only">(current)</span></a>
         </li>
       </ul>
-      <a class="btn btn-outline-primary" href="./quotes/new" style="margin-left:auto">+ Add quote</a>
+      <xsl:if test="$isManager">
+        <a class="btn btn-outline-primary" href="./quotes/new" style="margin-left:auto">+ Add quote</a>
+      </xsl:if>
     </nav>
 
     <div class="row" style="padding:15px;">

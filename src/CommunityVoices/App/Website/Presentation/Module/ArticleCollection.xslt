@@ -27,7 +27,9 @@
           <a class="nav-link" href="./quotes">Quotes</a>
         </li>
       </ul>
-      <a class="btn btn-outline-primary" href="./articles/new" style="margin-left:auto">+ Add article</a>
+      <xsl:if test="$isManager">
+        <a class="btn btn-outline-primary" href="./articles/new" style="margin-left:auto">+ Add article</a>
+      </xsl:if>
     </nav>
 
     <div class="row" style="padding:15px;">

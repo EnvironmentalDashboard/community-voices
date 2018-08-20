@@ -34,7 +34,9 @@
           <a class="nav-link" href="./quotes">Quotes</a>
         </li>
       </ul>
-      <a class="btn btn-outline-primary" href="./slides/new" style="margin-left:auto">+ Add slide</a>
+      <xsl:if test="$isManager">
+        <a class="btn btn-outline-primary" href="./slides/new" style="margin-left:auto">+ Add slide</a>
+      </xsl:if>
     </nav>
 
 		<div class="row" style="padding:15px;">

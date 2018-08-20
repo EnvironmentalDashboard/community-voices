@@ -135,7 +135,9 @@
           <a class="nav-link" href="./quotes">Quotes</a>
         </li>
       </ul>
-      <a class="btn btn-outline-primary" href="./images/new" data-toggle="modal" data-target="#createModal" style="margin-left:auto">+ Add image</a>
+      <xsl:if test="$isManager">
+        <a class="btn btn-outline-primary" href="./images/new" data-toggle="modal" data-target="#createModal" style="margin-left:auto">+ Add image</a>
+      </xsl:if>
     </nav>
 
 		<div class="row" style="padding:15px;">
