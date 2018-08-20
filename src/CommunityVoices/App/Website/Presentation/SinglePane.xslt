@@ -27,7 +27,7 @@
                 <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet" />
             </xsl:if>
             <xsl:if test="extraCSS != ''">
-                <script src="https://environmentaldashboard.org/cv/public/{extraCSS}.css"></script>
+                <link rel="stylesheet" href="https://environmentaldashboard.org/cv/public/{extraCSS}.css" />
             </xsl:if>
             <link rel="stylesheet" href="https://environmentaldashboard.org/cv/public/SinglePane.css" />
         </head>
