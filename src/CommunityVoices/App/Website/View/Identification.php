@@ -56,6 +56,7 @@ class Identification extends Component\View
         $domainXMLElement->addChild('title', 
             "Community Voices: Login"
         );
+        $domainXMLElement->addChild('extraCSS', "register");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);

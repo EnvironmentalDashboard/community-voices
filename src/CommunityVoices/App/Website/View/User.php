@@ -109,7 +109,6 @@ class User extends Component\View
             "Community Voices: Register"
         );
         $domainXMLElement->addChild('extraJS', "register");
-        $domainXMLElement->addChild('extraCSS', "register");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);

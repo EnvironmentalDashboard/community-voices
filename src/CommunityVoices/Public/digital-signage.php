@@ -25,10 +25,15 @@ foreach ($galleries as $gallery => $numerator) {
     $galleries[$gallery] = $_GET[$gallery];
   }
 }
+if (isset($_GET['loc']) && is_numeric($_GET['loc'])) {
+  $sql = 'SELECT probability, content_category_id, media_id FROM `community-voices_slides` WHERE probability > 0 AND media_id IN (SELECT media_id FROM `community-voices_media-location-map` WHERE loc_id = '.intval($_GET['loc']).') ORDER BY probability DESC';
+} else {
+  $sql = 'SELECT probability, content_category_id, media_id FROM `community-voices_slides` WHERE probability > 0 ORDER BY probability DESC';
+}
 $weight_sum = array_sum($galleries);
 $sorted_rows = array_fill_keys($gallery_names, []); // list of urls, each duplicated to match its prob/weight
 $num_urls = 0;
-foreach ($dbHandler->query('SELECT probability, content_category_id, media_id FROM `community-voices_slides` WHERE probability > 0 ORDER BY probability DESC') as $row) {
+foreach ($dbHandler->query($sql) as $row) {
   for ($i=0; $i < $row['probability']; $i++) { 
     $sorted_rows[$row['content_category_id']][] = "https://environmentaldashboard.org/cv/slides/{$row['media_id']}";
   }
