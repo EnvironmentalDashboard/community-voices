@@ -15,75 +15,77 @@
   <xsl:variable name="allTags" select="package/domain/groupCollection/group" />
 
 	<xsl:template match="/package">
-    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <form action='images/new/authenticate' method='post' enctype='multipart/form-data'>
-            <div class="modal-header">
-              <h5 class="modal-title" id="createModalLabel">Upload images</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&#215;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-
-              <div class="custom-file mb-2">
-                <label for="file" class="custom-file-label">File</label>
-                <input class="custom-file-input" id="file" type='file' name='file[]' accept='.jpg, .jpeg, .png' multiple="" />
-                <small class="form-text text-muted" id="fileList"></small>
+    <xsl:if test="$isManager">
+      <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <form action='images/new/authenticate' method='post' enctype='multipart/form-data'>
+              <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Upload images</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&#215;</span>
+                </button>
               </div>
+              <div class="modal-body">
 
-              <div class="form-group">
-                <label for="title">Title</label>
-                <input class="form-control" id="title" type='text' name='title' />
-              </div>
+                <div class="custom-file mb-2">
+                  <label for="file" class="custom-file-label">File</label>
+                  <input class="custom-file-input" id="file" type='file' name='file[]' accept='.jpg, .jpeg, .png' multiple="" />
+                  <small class="form-text text-muted" id="fileList"></small>
+                </div>
 
-              <div class="form-group">
-                <label for="description">Description</label>
-                <textarea name="description" id="description" class="form-control">
-                </textarea>
-              </div>
+                <div class="form-group">
+                  <label for="title">Title</label>
+                  <input class="form-control" id="title" type='text' name='title' />
+                </div>
 
-              <div class="form-group">
-                <label for="dateTaken">Date Taken</label>
-                <input class="form-control" id="dateTaken" type='text' name='dateTaken' />
-              </div>
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea name="description" id="description" class="form-control">
+                  </textarea>
+                </div>
 
-              <div class="form-group">
-                <label for="organization">Organization</label>
-                <input class="form-control" id="organization" type='text' name='organization' />
-              </div>
+                <div class="form-group">
+                  <label for="dateTaken">Date Taken</label>
+                  <input class="form-control" id="dateTaken" type='text' name='dateTaken' />
+                </div>
 
-              <div class="form-group">
-                <label for="photographer">Photographer</label>
-                <input class="form-control" id="photographer" type='text' name='photographer' />
-              </div>
+                <div class="form-group">
+                  <label for="organization">Organization</label>
+                  <input class="form-control" id="organization" type='text' name='organization' />
+                </div>
 
-              <div class="form-group">
-                <p class="mb-0">Tags</p>
-                <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
-                  <xsl:for-each select="domain/groupCollection/group">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" name="tags[]" id="tag{id}">
-                        <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
-                      </input>
-                      <label class="form-check-label">
-                        <xsl:attribute name="for">tag<xsl:value-of select='id' /></xsl:attribute>
-                        <xsl:value-of select="label"></xsl:value-of>
-                      </label>
-                    </div>
-                  </xsl:for-each>
+                <div class="form-group">
+                  <label for="photographer">Photographer</label>
+                  <input class="form-control" id="photographer" type='text' name='photographer' />
+                </div>
+
+                <div class="form-group">
+                  <p class="mb-0">Tags</p>
+                  <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
+                    <xsl:for-each select="domain/groupCollection/group">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="tags[]" id="tag{id}">
+                          <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
+                        </input>
+                        <label class="form-check-label">
+                          <xsl:attribute name="for">tag<xsl:value-of select='id' /></xsl:attribute>
+                          <xsl:value-of select="label"></xsl:value-of>
+                        </label>
+                      </div>
+                    </xsl:for-each>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Upload</button>
-            </div>
-          </form>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Upload</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </xsl:if>
     <nav class="navbar navbar-light bg-light" style="justify-content:initial">
       <a class="navbar-brand" href="/cv/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
       <ul class="navbar-nav" style="width:initial">

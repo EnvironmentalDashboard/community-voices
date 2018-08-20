@@ -7,17 +7,39 @@
 		or package/identity/user/role = 'administrator'"/>
 
 		<xsl:template match="/package">
+
+			<nav class="navbar navbar-light bg-light" style="justify-content:initial">
+	      <a class="navbar-brand" href="/cv/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
+	      <ul class="navbar-nav" style="width:initial">
+	        <li class="nav-item mr-2 active">
+	          <a class="nav-link" href="../articles">Articles <span class="sr-only">(current)</span></a>
+	        </li>
+	        <li class="nav-item mr-2">
+	          <a class="nav-link" href="../slides">Slides</a>
+	        </li>
+	        <li class="nav-item mr-2">
+	          <a class="nav-link" href="../images">Images</a>
+	        </li>
+	        <li class="nav-item mr-2">
+	          <a class="nav-link" href="../quotes">Quotes</a>
+	        </li>
+	      </ul>
+	      <xsl:if test="$isManager">
+	        <a style="margin-left:auto" class="btn btn-outline-primary">
+	        	<xsl:attribute name="href">./<xsl:value-of select='domain/article/id'/>/edit</xsl:attribute>
+						Edit
+	        </a>
+	      </xsl:if>
+	    </nav>
 			
 			<div class="row" style="padding:15px;">
         <div class="col-12">
-					<a class="btn btn-primary mb-3" href="/cv/articles">&#x2190; Go back</a>
-
 					<xsl:choose><xsl:when test="$isManager or domain/article/status = 'approved'">
 						<h1 class="text-center"><xsl:value-of select='domain/article/title' /></h1>
 						<h5 class="text-muted text-center">Interview by: <xsl:value-of select="domain/article/author" /></h5>
 						<h5 class="text-muted text-center"><xsl:value-of select="domain/article/dateRecorded" /></h5>
 						<div style="column-count:2; column-gap: 5vw;padding:4vw;">
-							<div class="embed-responsive embed-responsive-16by9">
+							<div class="embed-responsive embed-responsive-4by3">
 								<div id="introCarouselIndicators" class="carousel slide embed-responsive-item" data-ride="carousel" data-interval="10000">
 								  <!-- <ol class="carousel-indicators">
 								    <li data-target="#introCarouselIndicators" data-slide-to="0" class="active"></li>
@@ -60,8 +82,6 @@
 							</p>
 							<p>
 								<a>
-				            <xsl:attribute name="href">./<xsl:value-of select='domain/article/id'/>/edit</xsl:attribute>
-										Edit
 				        </a>
 							</p>
 	          </xsl:if>

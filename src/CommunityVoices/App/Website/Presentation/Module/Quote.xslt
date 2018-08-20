@@ -7,12 +7,28 @@
 		or package/identity/user/role = 'administrator'"/>
 
 		<xsl:template match="/package">
-			
-			<nav class="navbar navbar-light bg-light">
+
+      <nav class="navbar navbar-light bg-light" style="justify-content:initial">
+        <a class="navbar-brand" href="/cv/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
         <div class="float-left">
-          <a class="navbar-brand" href="#">Quotes</a>
-          <a class="btn btn-outline-primary" href="new">+ Add quote</a>
+          <ul class="navbar-nav" style="width:initial">
+            <li class="nav-item mr-2">
+              <a class="nav-link" href="./articles">Articles</a>
+            </li>
+            <li class="nav-item mr-2">
+              <a class="nav-link" href="./slides">Slides</a>
+            </li>
+            <li class="nav-item mr-2">
+              <a class="nav-link" href="./images">Images</a>
+            </li>
+            <li class="nav-item mr-2 active">
+              <a class="nav-link" href="./quotes">Quotes <span class="sr-only">(current)</span></a>
+            </li>
+          </ul>
         </div>
+        <xsl:if test="$isManager">
+          <a class="btn btn-outline-primary btn-sm mr-2" href="new" style="margin-left:auto">+ Add quote</a>
+        </xsl:if>
         <div class="btn-group float-right">
           <xsl:choose>
             <xsl:when test="number(domain/prevId) = domain/prevId">

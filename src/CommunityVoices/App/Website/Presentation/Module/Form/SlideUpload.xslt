@@ -10,6 +10,23 @@
     <xsl:variable name="attributions" select="package/domain/attributions"/>
 
     <xsl:template match="/form">
+      <nav class="navbar navbar-light bg-light" style="justify-content:initial">
+        <a class="navbar-brand" href="/cv/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
+        <ul class="navbar-nav" style="width:initial">
+          <li class="nav-item mr-2">
+            <a class="nav-link" href="/cv/articles">Articles</a>
+          </li>
+          <li class="nav-item mr-2 active">
+            <a class="nav-link" href="/cv/slides">Slides <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item mr-2">
+            <a class="nav-link" href="/cv/images">Images</a>
+          </li>
+          <li class="nav-item mr-2">
+            <a class="nav-link" href="/cv/quotes">Quotes</a>
+          </li>
+        </ul>
+      </nav>
       <div class="row" style="padding:15px;">
         <div class="col-12">
         <h2 class="mb-4">Create a slide</h2>
