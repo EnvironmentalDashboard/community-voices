@@ -144,6 +144,12 @@ class ArticleLookup
         $clientState->save($stateObserver);
     }
 
+    public function relatedSlides(string $interviewee) {
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Article::class);
+        $ids = $mapper->relatedSlideIds($interviewee);
+        return $ids;
+    }
+
     /**
      * Lookup articles by Group (e.g. tag, content category)
      *

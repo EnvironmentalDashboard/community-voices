@@ -8,6 +8,7 @@ use \XSLTProcessor;
 
 use CommunityVoices\App\Api;
 use CommunityVoices\App\Website\Component;
+use CommunityVoices\Model\Service;
 use Symfony\Component\HttpFoundation;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 
@@ -23,13 +24,15 @@ class Article extends Component\View
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         Api\Component\SecureContainer $secureContainer,
-        Api\View\Article $articleAPIView
+        Api\View\Article $articleAPIView,
+        Service\ArticleLookup $articleLookup
     ) {
         $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
         $this->transcriber = $transcriber;
         $this->secureContainer = $secureContainer;
         $this->articleAPIView = $articleAPIView;
+        $this->articleLookup = $articleLookup;
     }
 
     public function getArticle($routes, $context)
@@ -48,10 +51,9 @@ class Article extends Component\View
          */
         $articleAPIView = $this->secureContainer->contain($this->articleAPIView);
 
+        $json = json_decode($articleAPIView->getArticle()->getContent());
         $articleXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $articleAPIView->getArticle()->getContent()
-            ))
+            $this->transcriber->toXml($json)
         );
         // var_dump($articleXMLElement->title->asXML());die;
 
@@ -62,6 +64,10 @@ class Article extends Component\View
 
         $packagedArticle = $articlePackageElement->addChild('domain');
         $packagedArticle->adopt($articleXMLElement);
+        $packagedArticle->adopt(new SimpleXMLElement(
+            $this->transcriber->toXml(['relatedSlides' => $this->articleLookup->relatedSlides($json->article->title)])
+        ));
+        // var_dump($packagedArticle);die;
 
         $packagedIdentity = $articlePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
