@@ -374,7 +374,7 @@ class Slide extends Component\View
 
     public function postSlideUpload($routes, $context)
     {
-        $this->success();
+        $this->success(false);
         /*
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
@@ -518,7 +518,7 @@ class Slide extends Component\View
 
     public function postSlideUpdate($routes, $context)
     {
-        $this->success();
+        $this->success(false);
         /*
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(

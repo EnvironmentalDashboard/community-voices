@@ -226,7 +226,7 @@
               <input type="hidden" id="slide_image" value="{domain/slide/image/image/id}"/>
               <input type="hidden" id="slide_cc" value="{domain/slide/contentCategory/contentCategory/id}"/>
             </xsl:if>
-            <form action='edit/authenticate' method='post' class="d-inline">
+            <form action='edit/authenticate' method='post' class="d-inline" id="form">
               <input type="hidden" id="crop_x" name="crop_x" value="0"/>
               <input type="hidden" id="crop_y" name="crop_y" value="0" />
               <input type="hidden" id="crop_width" name="crop_width" value="0" />
@@ -274,6 +274,7 @@
                       </div>
                     </xsl:for-each>
                   </div>
+                  <div id="alert"></div>
                   <input type='submit' value="Update slide" class="btn btn-primary" />
                 </xsl:when>
                 <xsl:otherwise>

@@ -130,6 +130,18 @@ if (delete_form.length > 0) {
         });
     });
 }
+var form = $('#form');
+if (form.length > 0) {
+    form.on('submit', function(e) {
+        e.preventDefault();
+        $('#alert').html('<div class="alert alert-success alert-dismissible fade show d-none" role="alert"><strong>Success!</strong> Slide updated<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+        $.ajax({
+            url : $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: $(this).serialize()
+        });
+    });
+}
 
 var prev_end_use = null;
 $('[data-end_use]').each(function(i, v) {
