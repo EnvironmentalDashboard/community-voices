@@ -108,7 +108,7 @@ class Identification extends Component\View
             /**
              * Login success; success message (maybe redirect)
              */
-
+            $this->success();
             $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
         }
 

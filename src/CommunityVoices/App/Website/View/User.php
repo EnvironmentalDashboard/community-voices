@@ -160,8 +160,7 @@ class User extends Component\View
         if( !$identity->getId() ){
             // @TODO
         } else {
-            header('Location: /cv/'); // what happens after you register? just redirect?
-            exit();
+            $this->success('/cv/');
             $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
         }
 

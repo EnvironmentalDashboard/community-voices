@@ -290,32 +290,23 @@ class Image extends Component\View
 
     public function postImageUpload($routes, $context)
     {
-        header('Location: https://environmentaldashboard.org/cv/images');
-        exit();
+        $this->success('https://environmentaldashboard.org/cv/images');
+        
         /*
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
           $this->transcriber->toXml($identity->toArray())
         );
-
-
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
-
         $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
-        //$domainXMLElement->addChild('baseUrl', $baseUrl);
-
         $domainXMLElement->addChild(
           'title',
           "Community Voices"
         );
-        
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
-
         $presentation = new Component\Presenter('SinglePane');
-
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
-
         $this->finalize($response);
         return $response;
         */
@@ -395,40 +386,26 @@ class Image extends Component\View
 
     public function postImageUpdate($routes, $context)
     {
+        $this->success();
+
+        /*
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
           $this->transcriber->toXml($identity->toArray())
         );
-
-        /**
-         * Get base URL
-         */
-        //$urlGenerator = new UrlGenerator($routes, $context);
-        //$baseUrl = $urlGenerator->generate('root');
-
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
-
         $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
-        //$domainXMLElement->addChild('baseUrl', $baseUrl);
-
         $domainXMLElement->addChild(
           'title',
           "Community Voices"
         );
-        
-
-        /**
-         * Prepare template
-         */
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
-
         $presentation = new Component\Presenter('SinglePane');
-
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
-
         $this->finalize($response);
         return $response;
+        */
     }
 
     public function postImageUnpair($routes, $context) {

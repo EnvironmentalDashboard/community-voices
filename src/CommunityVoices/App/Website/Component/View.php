@@ -22,6 +22,11 @@ class View
         $cookieMapper->mapToResponse();
     }
 
+    protected function success($url = null) {
+        header('Location: ' . ($url === null) ? $_SERVER['HTTP_REFERER'] : $url); // i guess we're just redirecting to the page they were on
+        exit();
+    }
+
     protected function paginationHTML(array $qs, int $count, int $limit, int $page) {
         $final_page = ceil($count / $limit);
         $ret = '<nav aria-label="Page navigation example" class="text-center"><ul class="pagination" style="display: inline-flex;">';
