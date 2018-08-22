@@ -96,11 +96,13 @@ class QuoteManagement
 
         $qid = $quote->getId();
         $tagCollection = new Entity\GroupCollection;
-        foreach ($tags as $tid) {
-            $tag = new Entity\Tag;
-            $tag->setMediaId($qid);
-            $tag->setGroupId($tid);
-            $tagCollection->addEntity($tag);
+        if (is_array($tags)) {
+            foreach ($tags as $tid) {
+                $tag = new Entity\Tag;
+                $tag->setMediaId($qid);
+                $tag->setGroupId($tid);
+                $tagCollection->addEntity($tag);
+            }
         }
 
         $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);

@@ -46,8 +46,10 @@ $(targets).each(function(i, target){
 
 $('.delete-btn').on('click', function(e) {
 	e.preventDefault();
-	$(this).parent().parent().remove();
-	var action = $(this).data('action');
-	$.post(action);
+	if (confirm('You are about to delete a quote. This action can not be undone.')) {
+		$(this).parent().parent().remove();
+		var action = $(this).data('action');
+		$.post(action);
+	}
 });
 
