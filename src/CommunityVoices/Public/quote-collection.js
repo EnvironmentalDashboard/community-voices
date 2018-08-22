@@ -44,10 +44,10 @@ $(targets).each(function(i, target){
   });
 });
 
-$('.delete-form').on('submit', function(e) {
+$('.delete-btn').on('click', function(e) {
 	e.preventDefault();
-	$(this).parent().remove();
-	var action = $(this).attr('action');
+	$(this).parent().parent().remove();
+	var action = $(this).data('action');
 	$.post(action);
 });
 

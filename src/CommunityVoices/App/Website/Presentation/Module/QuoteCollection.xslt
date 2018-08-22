@@ -159,10 +159,10 @@
                     </blockquote>
                   </a>
                   <xsl:if test="$isManager">
-                      <a class="btn btn-outline-secondary btn-sm d-inline" href="quotes/{id}/edit">Edit quote</a>
-                      <form action="quotes/{id}/delete/authenticate" class="ml-2 d-inline delete-form" method="POST">
-                        <input type="submit" class="btn btn-outline-danger btn-sm" href="quotes/{id}/edit" value="Delete quote" />
-                      </form>
+                    <div class="mt-2">
+                      <a class="btn btn-outline-secondary btn-sm d-inline mr-2" href="quotes/{id}/edit">Edit quote</a>
+                      <a data-action="quotes/{id}/delete/authenticate" class="btn btn-outline-danger btn-sm d-inline delete-btn" href="#">Delete quote</a>
+                    </div>
                   </xsl:if>
                 </li>
 
