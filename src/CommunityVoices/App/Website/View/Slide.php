@@ -417,7 +417,9 @@ class Slide extends Component\View
         );
 
         $obj = new \stdClass;
-        $json->slide->contentCategory->contentCategory->label = $quick_fix[$json->slide->contentCategory->contentCategory->id];
+        $json->slide->contentCategory->contentCategory->label =
+            (isset($quick_fix[$json->slide->contentCategory->contentCategory->id])) ?
+            $quick_fix[$json->slide->contentCategory->contentCategory->id] : '';
         $obj->slide = $json->slide;
         $slideXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($obj)
