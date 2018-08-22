@@ -349,6 +349,7 @@ class Quote extends Component\View
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', $formModuleXML);
+        $domainXMLElement->addChild('extraJS', "edit-quote");
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild(
             'title',

@@ -11,7 +11,9 @@
                     <p>Attribution missing.</p>
                 </xsl:if>
 
-                <form method='post' style="max-width:400px;margin: 0 auto" action="edit/authenticate">
+                <div id="alert"></div>
+
+                <form method='POST' style="max-width:400px;margin: 0 auto" action="edit/authenticate" id="form">
 
                     <div class="form-group">
                         <label for="text">Quote</label>
