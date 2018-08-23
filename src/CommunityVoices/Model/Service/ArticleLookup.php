@@ -57,7 +57,9 @@ class ArticleLookup
         $groupCollectionMapper->fetch($article->getTagCollection());
 
         $Parsedown = new \Parsedown();
-        $article->setHtml($Parsedown->text($article->getText()));
+        $article->setHtml(htmlspecialchars(
+            $Parsedown->text($article->getText())
+        ));
 
         $article->setDateFormat('F j, Y');
 

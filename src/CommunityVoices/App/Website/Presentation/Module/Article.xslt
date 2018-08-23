@@ -69,7 +69,7 @@
 								</div>
 							</div>
 							<xsl:value-of select='domain/article/attribution' />
-							<xsl:copy-of select='domain/article/html' />
+							<xsl:value-of select='domain/article/html' />
 						</div>
 
 							<!-- <p> Tags: TODO </p> -->
