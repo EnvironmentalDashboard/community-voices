@@ -58,7 +58,7 @@ class Registration
             $role = $userMapper->invitedRole($user, $token);
             $user->setRole((int) $role);
         } else {
-            $user->setRole($user::ROLE_UNVERIFIED);
+            $user->setRole($user::ROLE_GUEST);
         }
 
 

@@ -365,10 +365,8 @@ class Image extends Component\View
 
         $domainXMLElement->addChild('main-pane', $formModuleXML);
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
-        $domainXMLElement->addChild(
-            'title',
-            "Community Voices: Image Update"
-        );
+        $domainXMLElement->addChild('title', "Community Voices: Image Update");
+        $domainXMLElement->addChild('extraJS', "image-update");
         
 
         $domainIdentity = $domainXMLElement->addChild('identity');
