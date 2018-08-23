@@ -178,12 +178,6 @@
                 </xsl:otherwise>
               </xsl:choose>
             </div></div>
-            <div class="form-group">
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="crop" />
-                <label class="custom-control-label" for="crop">Crop image</label>
-              </div>
-            </div>
             <div>
               <div id="ajax-quote" style="min-height:400px">
                 <div class="selectables"></div>
@@ -219,18 +213,17 @@
               </div>
             </div></div>
 
-            <!-- keep outside form because value not needed on server -->
+            <!-- this form holds prefill values if there are any in query string to prepopulate slide with -->
             <xsl:if test="domain/slide != ''">
-              <input type="hidden" id="slide_text" value="{domain/slide/quote/quote/text}"/>
-              <input type="hidden" id="slide_attr" value="{domain/slide/quote/quote/attribution}"/>
-              <input type="hidden" id="slide_image" value="{domain/slide/image/image/id}"/>
-              <input type="hidden" id="slide_cc" value="{domain/slide/contentCategory/contentCategory/id}"/>
+              <form>
+                <input type="hidden" id="slide_text" value="{domain/slide/quote/quote/text}"/>
+                <input type="hidden" id="slide_attr" value="{domain/slide/quote/quote/attribution}"/>
+                <input type="hidden" id="slide_image" value="{domain/slide/image/image/id}"/>
+                <input type="hidden" id="slide_cc" value="{domain/slide/contentCategory/contentCategory/id}"/>
+              </form>
             </xsl:if>
-            <form action='edit/authenticate' method='post' class="d-inline" id="form">
-              <input type="hidden" id="crop_x" name="crop_x" value="0"/>
-              <input type="hidden" id="crop_y" name="crop_y" value="0" />
-              <input type="hidden" id="crop_width" name="crop_width" value="0" />
-              <input type="hidden" id="crop_height" name="crop_height" value="0" />
+            <!-- main form for creating/editing slides -->
+            <form action='./authenticate' method='post' class="d-inline" id="form">
               <input type="hidden" name="image_id" value="{domain/slide/image/image/id}" />
               <input type="hidden" name="quote_id" value="{domain/slide/quote/quote/id}"/>
               <input type="hidden" name="content_category" value="{domain/slide/contentCategory/contentCategory/id}"/>
