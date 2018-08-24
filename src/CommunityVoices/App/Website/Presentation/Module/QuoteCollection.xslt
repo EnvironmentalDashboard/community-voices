@@ -14,7 +14,7 @@
   <xsl:template match="/package">
 
     <nav class="navbar navbar-light bg-light" style="justify-content:initial">
-      <a class="navbar-brand" href="/cv/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
+      <a class="navbar-brand" href="/community-voices/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
       <ul class="navbar-nav" style="width:initial">
         <li class="nav-item mr-2">
           <a class="nav-link" href="./articles">Articles</a>
@@ -32,7 +32,7 @@
       <div style="margin-left:auto">
         <xsl:choose>
           <xsl:when test="identity/user/id &gt; 0">
-            <a class="btn btn-outline-primary mr-2" href="/cv/logout">Logout <xsl:value-of select="identity/user/firstName" /></a>
+            <a class="btn btn-outline-primary mr-2" href="/community-voices/logout">Logout <xsl:value-of select="identity/user/firstName" /></a>
             <!-- <a>
               <xsl:attribute name="href">user/<xsl:value-of select="identity/user/id" /></xsl:attribute>
               View Account
@@ -40,8 +40,8 @@
           </xsl:when>
           <xsl:otherwise>
             <div class="btn-group">
-              <a class="btn btn-outline-primary" href="/cv/login">Login</a>
-              <a class="btn btn-outline-primary" href="/cv/register">Register</a>
+              <a class="btn btn-outline-primary" href="/community-voices/login">Login</a>
+              <a class="btn btn-outline-primary" href="/community-voices/register">Register</a>
             </div>
           </xsl:otherwise>
         </xsl:choose>

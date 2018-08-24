@@ -8,7 +8,7 @@
 
   <xsl:template match="/package">
     <div style="display: flex;align-items:center;height: 86vh">
-      <img src="https://environmentaldashboard.org/cv/uploads/{domain/slide/image/image/id}" alt="{domain/slide/image/image/title}" style="flex-shrink: 0;width: auto;max-height: 86vh;max-width:70vw;max-height:100%" />
+      <img src="https://environmentaldashboard.org/community-voices/uploads/{domain/slide/image/image/id}" alt="{domain/slide/image/image/title}" style="flex-shrink: 0;width: auto;max-height: 86vh;max-width:70vw;max-height:100%" />
       <h1 style="{concat('color:#fff;padding:3vw;font-size:', domain/slide/font_size, 'vw;font-weight:400')}">
         &#8220;<xsl:value-of select="domain/slide/quote/quote/text"></xsl:value-of>&#8221;
         <xsl:if test="domain/slide/quote/quote/attribution != ''">
@@ -55,22 +55,22 @@
       <img src="" alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto">
         <xsl:choose>
           <xsl:when test="domain/slide/contentCategory/contentCategory/id = 1">
-            <xsl:attribute name="src">https://environmentaldashboard.org/cv/public/1.png</xsl:attribute>
+            <xsl:attribute name="src">https://environmentaldashboard.org/community-voices/public/1.png</xsl:attribute>
           </xsl:when>
           <xsl:when test="domain/slide/contentCategory/contentCategory/id = 2">
-            <xsl:attribute name="src">https://environmentaldashboard.org/cv/public/2.png</xsl:attribute>
+            <xsl:attribute name="src">https://environmentaldashboard.org/community-voices/public/2.png</xsl:attribute>
           </xsl:when>
           <xsl:when test="domain/slide/contentCategory/contentCategory/id = 3">
-            <xsl:attribute name="src">https://environmentaldashboard.org/cv/public/3.png</xsl:attribute>
+            <xsl:attribute name="src">https://environmentaldashboard.org/community-voices/public/3.png</xsl:attribute>
           </xsl:when>
           <xsl:when test="domain/slide/contentCategory/contentCategory/id = 4">
-            <xsl:attribute name="src">https://environmentaldashboard.org/cv/public/4.png</xsl:attribute>
+            <xsl:attribute name="src">https://environmentaldashboard.org/community-voices/public/4.png</xsl:attribute>
           </xsl:when>
           <xsl:when test="domain/slide/contentCategory/contentCategory/id = 5">
-            <xsl:attribute name="src">https://environmentaldashboard.org/cv/public/5.png</xsl:attribute>
+            <xsl:attribute name="src">https://environmentaldashboard.org/community-voices/public/5.png</xsl:attribute>
           </xsl:when>
           <xsl:when test="domain/slide/contentCategory/contentCategory/id = 6">
-            <xsl:attribute name="src">https://environmentaldashboard.org/cv/public/6.png</xsl:attribute>
+            <xsl:attribute name="src">https://environmentaldashboard.org/community-voices/public/6.png</xsl:attribute>
           </xsl:when>
         </xsl:choose>
       </img>

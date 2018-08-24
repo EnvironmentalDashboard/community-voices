@@ -27,9 +27,9 @@
                 <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet" />
             </xsl:if>
             <xsl:if test="extraCSS != ''">
-                <link rel="stylesheet" href="https://environmentaldashboard.org/cv/public/{extraCSS}.css" />
+                <link rel="stylesheet" href="https://environmentaldashboard.org/community-voices/public/{extraCSS}.css" />
             </xsl:if>
-            <link rel="stylesheet" href="https://environmentaldashboard.org/cv/public/SinglePane.css" />
+            <link rel="stylesheet" href="https://environmentaldashboard.org/community-voices/public/SinglePane.css" />
         </head>
         <body>
             <div class="container">
@@ -67,7 +67,7 @@
             ]]>
             </script>
             <xsl:if test="extraJS != ''">
-                <script src="https://environmentaldashboard.org/cv/public/{extraJS}.js"></script>
+                <script src="https://environmentaldashboard.org/community-voices/public/{extraJS}.js"></script>
             </xsl:if>
         </body>
     </html>

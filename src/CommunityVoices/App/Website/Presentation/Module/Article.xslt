@@ -9,7 +9,7 @@
 		<xsl:template match="/package">
 
 			<nav class="navbar navbar-light bg-light" style="justify-content:initial">
-	      <a class="navbar-brand" href="/cv/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
+	      <a class="navbar-brand" href="/community-voices/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
 	      <ul class="navbar-nav" style="width:initial">
 	        <li class="nav-item mr-2 active">
 	          <a class="nav-link" href="../articles">Articles <span class="sr-only">(current)</span></a>
@@ -48,12 +48,12 @@
 								  </ol> -->
 								  <div class="carousel-inner">
 								    <div class="carousel-item active">
-									    <img class="d-block w-100" src="https://environmentaldashboard.org/cv/uploads/{domain/article/image}" alt="{title}" />
+									    <img class="d-block w-100" src="https://environmentaldashboard.org/community-voices/uploads/{domain/article/image}" alt="{title}" />
 								    </div>
 								    <xsl:for-each select="domain/relatedSlides/media_id">
 								    	<div class="carousel-item">
 								    		<div class="embed-responsive embed-responsive-16by9">
-												  <iframe class="embed-responsive-item" src="https://environmentaldashboard.org/cv/slides/{.}"></iframe>
+												  <iframe class="embed-responsive-item" src="https://environmentaldashboard.org/community-voices/slides/{.}"></iframe>
 												</div>
 									    </div>
 										</xsl:for-each>

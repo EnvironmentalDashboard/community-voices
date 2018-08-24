@@ -118,7 +118,7 @@ class Registration
         require '/var/www/html/src/CommunityVoices/App/Website/main_db.php';
         $user = new Entity\User;
         $role = $user->allowableRole[$role];
-        $html = "<p style='padding:30px 10px'>You have been invited to create a new {$role} account. <a href='https://environmentaldashboard.org/cv/register?token={$token}'>Click here</a> to complete the registration process.</p>";
+        $html = "<p style='padding:30px 10px'>You have been invited to create a new {$role} account. <a href='https://environmentaldashboard.org/community-voices/register?token={$token}'>Click here</a> to complete the registration process.</p>";
         $stmt = $db->prepare('INSERT INTO outbox (recipient, subject, txt_message, html_message) VALUES (?, ?, ?, ?)');
         $stmt->execute([$email, "You have been invited to create a new {$role} account", '', $html]);
     }

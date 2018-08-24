@@ -8,7 +8,7 @@
 
     <xsl:template match="/package">
       <nav class="navbar navbar-light bg-light" style="justify-content:initial">
-        <a class="navbar-brand" href="/cv/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
+        <a class="navbar-brand" href="/community-voices/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
         <div class="float-left">
           <ul class="navbar-nav" style="width:initial">
             <li class="nav-item mr-2">
@@ -31,7 +31,7 @@
         <div class="btn-group float-right">
           <xsl:choose>
             <xsl:when test="number(domain/prevId) = domain/prevId">
-              <a class="btn btn-outline-primary btn-sm" href="/cv/images/{domain/prevId}">&#171; Previous image</a>
+              <a class="btn btn-outline-primary btn-sm" href="/community-voices/images/{domain/prevId}">&#171; Previous image</a>
             </xsl:when>
             <xsl:otherwise>
               <a href="#" class="btn btn-outline-primary disabled btn-sm" disabled="disabled">&#171; Previous image</a>
@@ -39,7 +39,7 @@
           </xsl:choose>
           <xsl:choose>
             <xsl:when test="number(domain/nextId) = domain/nextId">
-              <a class="btn btn-outline-primary btn-sm" href="/cv/images/{domain/nextId}">Next image &#187;</a>
+              <a class="btn btn-outline-primary btn-sm" href="/community-voices/images/{domain/nextId}">Next image &#187;</a>
             </xsl:when>
             <xsl:otherwise>
               <a class="btn btn-outline-primary disabled btn-sm" href="#" disabled="disabled">Next image &#187;</a>
@@ -53,7 +53,7 @@
         <div class="col-sm-8">
           <div class="card mb-3">
             <img class="card-img-top">
-              <xsl:attribute name="src">https://environmentaldashboard.org/cv/uploads/<xsl:value-of select='domain/image/id' /></xsl:attribute>
+              <xsl:attribute name="src">https://environmentaldashboard.org/community-voices/uploads/<xsl:value-of select='domain/image/id' /></xsl:attribute>
               <xsl:attribute name="alt"><xsl:value-of select='domain/image/title' /></xsl:attribute>
             </img>
             <div class="card-body">
@@ -101,9 +101,9 @@
           <xsl:choose>
             <xsl:when test="domain/slideId != ''">
               <h4>Content featuring this image</h4>
-              <a href='https://environmentaldashboard.org/cv/slides/{domain/slideId}'>
+              <a href='https://environmentaldashboard.org/community-voices/slides/{domain/slideId}'>
                 <div class="embed-responsive embed-responsive-16by9 mb-4">
-                  <iframe class="embed-responsive-item" style="pointer-events: none;" src="https://environmentaldashboard.org/cv/slides/{domain/slideId}"></iframe>
+                  <iframe class="embed-responsive-item" style="pointer-events: none;" src="https://environmentaldashboard.org/community-voices/slides/{domain/slideId}"></iframe>
                 </div>
               </a>
               <p>
@@ -114,7 +114,7 @@
             </xsl:when>
             <xsl:otherwise>
               <p>This image is not used in any slides</p>
-              <p><a href="/cv/slides/new?prefill_image={domain/image/id}" class="btn btn-primary btn-block">Create one</a></p>
+              <p><a href="/community-voices/slides/new?prefill_image={domain/image/id}" class="btn btn-primary btn-block">Create one</a></p>
             </xsl:otherwise>
           </xsl:choose>
         </div>

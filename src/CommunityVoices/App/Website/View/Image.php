@@ -290,7 +290,7 @@ class Image extends Component\View
 
     public function postImageUpload($routes, $context)
     {
-        $this->success('https://environmentaldashboard.org/cv/images');
+        $this->success('https://environmentaldashboard.org/community-voices/images');
         
         /*
         $identity = $this->recognitionAdapter->identify();

@@ -116,7 +116,7 @@ if (delete_form.length > 0) {
         e.preventDefault();
         var action = $(this).attr('action');
         $.post(action).done(function(d) {
-            window.location.replace("https://environmentaldashboard.org/cv/slides");
+            window.location.replace("https://environmentaldashboard.org/community-voices/slides");
         });
     });
 }
@@ -152,7 +152,7 @@ if (prefill_image) {
 }
 
 if (prefill_quote) {
-    $.getJSON('https://api.environmentaldashboard.org/cv/quotes/'+prefill_quote, { }, function(data) {
+    $.getJSON('https://api.environmentaldashboard.org/community-voices/quotes/'+prefill_quote, { }, function(data) {
         current_text = htmlDecode(data['quote']['text']);
         current_attr = data['quote']['attribution'];
         renderSlide(current_text, current_attr, current_image, current_ccid);
@@ -164,24 +164,24 @@ function renderSlide(quote_text, attribution, image, ccid) {
     var iframe = document.getElementById('preview');
     var cc = contentCategory(ccid);
     var head = '<html><head><meta charset="utf-8" /><style>* { box-sizing:border-box }html, body { height: 100%; font-family:Comfortaa, sans-serif; }</style><link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet" /></head><body style="background:#000;margin:0;padding:0;">';
-    var body = '<div style="display: flex;align-items:center;max-height:100%"><div><img src="https://environmentaldashboard.org/cv/uploads/'+image+'" style="flex-shrink: 0;width: auto;height: 86vh;max-width:70vw;max-height:100%" /></div><h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">'+quote_text+'<div style="font-size:2vw;margin-top:2vw">&#x2014; '+attribution+'</div></h1></div><div style="width:100%;background:'+cc.bg+';position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw">'+cc.text+'<img src="'+cc.image+'" alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto" /></div></body></html>';
+    var body = '<div style="display: flex;align-items:center;max-height:100%"><div><img src="https://environmentaldashboard.org/community-voices/uploads/'+image+'" style="flex-shrink: 0;width: auto;height: 86vh;max-width:70vw;max-height:100%" /></div><h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">'+quote_text+'<div style="font-size:2vw;margin-top:2vw">&#x2014; '+attribution+'</div></h1></div><div style="width:100%;background:'+cc.bg+';position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw">'+cc.text+'<img src="'+cc.image+'" alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto" /></div></body></html>';
     iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(head + body);
 }
 
 function contentCategory(id) {
     switch (id) {
         case 1:
-            return {text: 'Serving Our Community', image: 'https://environmentaldashboard.org/cv/public/1.png', bg: 'rgb(150,81,23)'}
+            return {text: 'Serving Our Community', image: 'https://environmentaldashboard.org/community-voices/public/1.png', bg: 'rgb(150,81,23)'}
         case 2:
-            return {text: 'Our Downtown', image: 'https://environmentaldashboard.org/cv/public/2.png', bg: 'rgb(92,92,92)'}
+            return {text: 'Our Downtown', image: 'https://environmentaldashboard.org/community-voices/public/2.png', bg: 'rgb(92,92,92)'}
         case 3:
-            return {text: 'Next Generation', image: 'https://environmentaldashboard.org/cv/public/3.png', bg: 'rgb(4,54,75)'}
+            return {text: 'Next Generation', image: 'https://environmentaldashboard.org/community-voices/public/3.png', bg: 'rgb(4,54,75)'}
         case 4:
-            return {text: 'Heritage', image: 'https://environmentaldashboard.org/cv/public/4.png', bg: 'rgb(86,114,34)'}
+            return {text: 'Heritage', image: 'https://environmentaldashboard.org/community-voices/public/4.png', bg: 'rgb(86,114,34)'}
         case 5:
-            return {text: 'Natural Oberlin', image: 'https://environmentaldashboard.org/cv/public/5.png', bg: 'rgb(67,118,45)'}
+            return {text: 'Natural Oberlin', image: 'https://environmentaldashboard.org/community-voices/public/5.png', bg: 'rgb(67,118,45)'}
         case 6:
-            return {text: 'Our Neighbours', image: 'https://environmentaldashboard.org/cv/public/6.png', bg: 'rgb(94,0,224)'}
+            return {text: 'Our Neighbours', image: 'https://environmentaldashboard.org/community-voices/public/6.png', bg: 'rgb(94,0,224)'}
     }
 }
 
@@ -196,7 +196,7 @@ function getParameterByName(name, url) {
 }
 
 function getQuote(page) {
-    $.getJSON('https://api.environmentaldashboard.org/cv/quotes', { per_page: 15, page: page, search: quote_search, tags: quote_tags, attributions: quote_attrs, unused: 1 }, function(data) {
+    $.getJSON('https://api.environmentaldashboard.org/community-voices/quotes', { per_page: 15, page: page, search: quote_search, tags: quote_tags, attributions: quote_attrs, unused: 1 }, function(data) {
         var html = '<div class="card"><div class="card-header">Quotes</div><ul class="list-group list-group-flush">';
         $.each(data['quoteCollection'], function(index, element) {
             if (typeof element === 'object') {
@@ -209,11 +209,11 @@ function getQuote(page) {
 }
 
 function getImage(page) {
-    $.getJSON('https://api.environmentaldashboard.org/cv/images', { per_page: 10, page: page, search: image_search, tags: image_tags, photographers: photographers, orgs: orgs, unused: 1 }, function(data) {
+    $.getJSON('https://api.environmentaldashboard.org/community-voices/images', { per_page: 10, page: page, search: image_search, tags: image_tags, photographers: photographers, orgs: orgs, unused: 1 }, function(data) {
         var html = '<div class="card-columns">';
         $.each(data['imageCollection'], function(index, element) {
             if (typeof element === 'object') {
-                html += '<div class="card bg-dark text-white ajax-image" data-id="'+element['image']['id']+'"><img class="card-img" src="https://api.environmentaldashboard.org/cv/uploads/'+element['image']['id']+'" alt="'+element['image']['title']+'" /></div>';
+                html += '<div class="card bg-dark text-white ajax-image" data-id="'+element['image']['id']+'"><img class="card-img" src="https://api.environmentaldashboard.org/community-voices/uploads/'+element['image']['id']+'" alt="'+element['image']['title']+'" /></div>';
             }
         });
         html += '</div>';

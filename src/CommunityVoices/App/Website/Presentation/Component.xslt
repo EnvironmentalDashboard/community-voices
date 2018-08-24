@@ -63,28 +63,28 @@
               Community Voices
             </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink5">
-                <a class="dropdown-item" href="/cv/landing">Home</a>
-                <a class="dropdown-item" href="/cv/images">Images</a>
-                <a class="dropdown-item" href="/cv/quotes">Quotes</a>
-                <a class="dropdown-item" href="/cv/slides">Slides</a>
-                <a class="dropdown-item" href="/cv/articles">Articles</a>
+                <a class="dropdown-item" href="/community-voices/landing">Home</a>
+                <a class="dropdown-item" href="/community-voices/images">Images</a>
+                <a class="dropdown-item" href="/community-voices/quotes">Quotes</a>
+                <a class="dropdown-item" href="/community-voices/slides">Slides</a>
+                <a class="dropdown-item" href="/community-voices/articles">Articles</a>
                 <xsl:choose>
                   <xsl:when test="identity/user/id &gt; 0">
-                    <a class="dropdown-item" href="/cv/logout">Logout <xsl:value-of select="identity/user/firstName" /></a>
+                    <a class="dropdown-item" href="/community-voices/logout">Logout <xsl:value-of select="identity/user/firstName" /></a>
                     <a class="dropdown-item">
                       <xsl:attribute name="href">user/<xsl:value-of select="identity/user/id" /></xsl:attribute>
                       View Account
                     </a>
                   </xsl:when>
                   <xsl:otherwise>
-                    <a class="dropdown-item" href="/cv/login">Login</a>
-                    <a class="dropdown-item" href="/cv/register">Register</a>
+                    <a class="dropdown-item" href="/community-voices/login">Login</a>
+                    <a class="dropdown-item" href="/community-voices/register">Register</a>
                   </xsl:otherwise>
                 </xsl:choose>
               </div>
             </li> -->
             <li class="nav-item">
-              <a class="nav-link" href="/cv/">Community Voices</a>
+              <a class="nav-link" href="/community-voices/">Community Voices</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/calendar">Events Calendar</a>

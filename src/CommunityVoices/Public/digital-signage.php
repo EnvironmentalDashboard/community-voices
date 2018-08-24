@@ -35,7 +35,7 @@ $sorted_rows = array_fill_keys($gallery_names, []); // list of urls, each duplic
 $num_urls = 0;
 foreach ($dbHandler->query($sql) as $row) {
   for ($i=0; $i < $row['probability']; $i++) { 
-    $sorted_rows[$row['content_category_id']][] = "https://environmentaldashboard.org/cv/slides/{$row['media_id']}";
+    $sorted_rows[$row['content_category_id']][] = "https://environmentaldashboard.org/community-voices/slides/{$row['media_id']}";
   }
   $num_urls += $row['probability'];
 }

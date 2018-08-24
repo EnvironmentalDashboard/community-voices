@@ -11,19 +11,19 @@
 
     <xsl:template match="/form">
       <nav class="navbar navbar-light bg-light" style="justify-content:initial">
-        <a class="navbar-brand" href="/cv/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
+        <a class="navbar-brand" href="/community-voices/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
         <ul class="navbar-nav" style="width:initial">
           <li class="nav-item mr-2">
-            <a class="nav-link" href="/cv/articles">Articles</a>
+            <a class="nav-link" href="/community-voices/articles">Articles</a>
           </li>
           <li class="nav-item mr-2 active">
-            <a class="nav-link" href="/cv/slides">Slides <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/community-voices/slides">Slides <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item mr-2">
-            <a class="nav-link" href="/cv/images">Images</a>
+            <a class="nav-link" href="/community-voices/images">Images</a>
           </li>
           <li class="nav-item mr-2">
-            <a class="nav-link" href="/cv/quotes">Quotes</a>
+            <a class="nav-link" href="/community-voices/quotes">Quotes</a>
           </li>
         </ul>
       </nav>
@@ -171,10 +171,10 @@
             <div class="mb-4"><div class="embed-responsive embed-responsive-16by9">
               <xsl:choose>
                 <xsl:when test="domain/slide != ''">
-                  <iframe class="embed-responsive-item" id="preview" src="https://environmentaldashboard.org/cv/slides/{domain/slide/id}"></iframe>
+                  <iframe class="embed-responsive-item" id="preview" src="https://environmentaldashboard.org/community-voices/slides/{domain/slide/id}"></iframe>
                 </xsl:when>
                 <xsl:otherwise>
-                  <iframe class="embed-responsive-item" id="preview" src="https://environmentaldashboard.org/cv/slides/12"></iframe>
+                  <iframe class="embed-responsive-item" id="preview" src="https://environmentaldashboard.org/community-voices/slides/12"></iframe>
                 </xsl:otherwise>
               </xsl:choose>
             </div></div>

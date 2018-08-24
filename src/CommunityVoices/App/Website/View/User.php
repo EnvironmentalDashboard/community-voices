@@ -160,7 +160,7 @@ class User extends Component\View
         if( !$identity->getId() ){
             // @TODO
         } else {
-            $this->success('/cv/');
+            $this->success('/community-voices/');
             $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
         }
 
@@ -191,7 +191,7 @@ class User extends Component\View
 
     public function postRegistrationInvite($routes, $context)
     {
-        header('Location: /cv/');
+        header('Location: /community-voices/');
         exit();
     }
 }

@@ -8,7 +8,7 @@
   <xsl:template match="/package">
 
     <nav class="navbar navbar-light bg-light" style="justify-content:initial">
-      <a class="navbar-brand" href="/cv/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
+      <a class="navbar-brand" href="/community-voices/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
       <ul class="navbar-nav" style="width:initial">
         <li class="nav-item mr-2">
           <a class="nav-link" href="./articles">Articles</a>
@@ -26,7 +26,7 @@
       <div style="margin-left:auto">
         <xsl:choose>
           <xsl:when test="identity/user/id &gt; 0">
-            <a class="btn btn-outline-primary mr-2" href="/cv/logout">Logout <xsl:value-of select="identity/user/firstName" /></a>
+            <a class="btn btn-outline-primary mr-2" href="/community-voices/logout">Logout <xsl:value-of select="identity/user/firstName" /></a>
             <!-- <a>
               <xsl:attribute name="href">user/<xsl:value-of select="identity/user/id" /></xsl:attribute>
               View Account
@@ -34,8 +34,8 @@
           </xsl:when>
           <xsl:otherwise>
             <div class="btn-group">
-              <a class="btn btn-outline-primary" href="/cv/login">Login</a>
-              <a class="btn btn-outline-primary" href="/cv/register">Register</a>
+              <a class="btn btn-outline-primary" href="/community-voices/login">Login</a>
+              <a class="btn btn-outline-primary" href="/community-voices/register">Register</a>
             </div>
           </xsl:otherwise>
         </xsl:choose>
@@ -52,14 +52,14 @@
                 <xsl:when test="$i = 1">
                   <div class="carousel-item active">
                     <div class="embed-responsive embed-responsive-16by9 mb-4">
-                      <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;" src="https://environmentaldashboard.org/cv/slides/{id}"></iframe>
+                      <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;" src="https://environmentaldashboard.org/community-voices/slides/{id}"></iframe>
                     </div>
                   </div>
                 </xsl:when>
                 <xsl:otherwise>
                   <div class="carousel-item">
                     <div class="embed-responsive embed-responsive-16by9 mb-4">
-                      <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;" src="https://environmentaldashboard.org/cv/slides/{id}"></iframe>
+                      <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;" src="https://environmentaldashboard.org/community-voices/slides/{id}"></iframe>
                     </div>
                   </div>
                 </xsl:otherwise>
@@ -89,17 +89,17 @@
     </div>
 
     <div class="row mb-5" style="padding: 15px">
-      <form action="/cv/slides" method="GET" style="width:100%;padding:15px" id="search-form">
+      <form action="/community-voices/slides" method="GET" style="width:100%;padding:15px" id="search-form">
         <h4 class="mb-2">Looking for more content?</h4>
         <div class="input-group input-group-lg">
-          <input name="search" type="text" class="form-control" aria-label="Search Community Voices" placeholder="Search slides, images, or quotes" style="background: url(https://environmentaldashboard.org/cv/public/search.svg) no-repeat left 1rem center;background-size: 20px 20px;padding-left: 3rem" />
+          <input name="search" type="text" class="form-control" aria-label="Search Community Voices" placeholder="Search slides, images, or quotes" style="background: url(https://environmentaldashboard.org/community-voices/public/search.svg) no-repeat left 1rem center;background-size: 20px 20px;padding-left: 3rem" />
           <div class="input-group-append">
             <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown-btn">Slides</button>
             <div class="dropdown-menu" id="searchables">
-              <a class="dropdown-item" data-action="/cv/slides" href="#">Slides</a>
-              <a class="dropdown-item" data-action="/cv/images" href="#">Images</a>
-              <a class="dropdown-item" data-action="/cv/quotes" href="#">Quotes</a>
-              <a class="dropdown-item" data-action="/cv/articles" href="#">Articles</a>
+              <a class="dropdown-item" data-action="/community-voices/slides" href="#">Slides</a>
+              <a class="dropdown-item" data-action="/community-voices/images" href="#">Images</a>
+              <a class="dropdown-item" data-action="/community-voices/quotes" href="#">Quotes</a>
+              <a class="dropdown-item" data-action="/community-voices/articles" href="#">Articles</a>
             </div>
           </div>
           <button type="submit" class="btn btn-outline-primary form-control" style="max-width:15%">Search</button>
