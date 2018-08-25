@@ -26,9 +26,14 @@
             </li>
           </ul>
         </div>
-        <xsl:if test="$isManager">
-          <a class="btn btn-outline-primary btn-sm mr-2" href="new" style="margin-left:auto">+ Add quote</a>
-        </xsl:if>
+        <xsl:choose>
+          <xsl:when test="$isManager">
+            <a class="btn btn-outline-primary btn-sm mr-2" href="new" style="margin-left:auto">+ Add quote</a>
+          </xsl:when>
+          <xsl:otherwise>
+            <div style="margin-left:auto"></div>
+          </xsl:otherwise>
+        </xsl:choose>
         <div class="btn-group float-right">
           <xsl:choose>
             <xsl:when test="number(domain/prevId) = domain/prevId">
