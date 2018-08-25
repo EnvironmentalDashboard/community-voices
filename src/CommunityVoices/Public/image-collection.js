@@ -36,11 +36,13 @@ function cmp_str(a, b) {
   return 0;
 }
 
-var targets = [$('#sorted-tags'), $('#sorted-photographers'), $('#sorted-orgs')];
-$(targets).each(function(i, target){
-  target.html(sortCheckboxes(target)); // sort once initially
-  target.on("change", function() { 
-    $(this).html(sortCheckboxes($(this))); // resort every time checkbox checked
+$('.sorted-checkboxes').each(function(i, container){
+  $(container).each(function(j, checkboxes) {
+    var $checkboxes = $(checkboxes);
+    $checkboxes.html(sortCheckboxes($checkboxes)); // sort once initially
+    $checkboxes.on("change", function() { 
+      $(this).html(sortCheckboxes($(this))); // resort every time checkbox checked
+    });
   });
 });
 

@@ -147,7 +147,7 @@
 
 	        		<div class="form-group">
                 <p class="mb-0">Tags</p>
-                <div style="overflow-y:scroll;width:100%;height: 145px;border:none" id='sorted-tags'>
+                <div style="overflow-y:scroll;width:100%;height: 145px;border:none" class='sorted-checkboxes'>
                   <xsl:for-each select="$allTags">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="tags[]" id="globalTag{id}">
@@ -167,7 +167,7 @@
 
               <div class="form-group">
                 <p class="mb-0">Photographer</p>
-                <div style="overflow-y:scroll;width:100%;height: 145px;border:none" id='sorted-photographers'>
+                <div style="overflow-y:scroll;width:100%;height: 145px;border:none" class='sorted-checkboxes'>
                   <xsl:for-each select="domain/photographerCollection/photographer">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="photographers[]">
@@ -188,7 +188,7 @@
 
               <div class="form-group">
                 <p class="mb-0">Organization</p>
-                <div style="overflow-y:scroll;width:100%;height: 145px;border:none" id="sorted-orgs">
+                <div style="overflow-y:scroll;width:100%;height: 145px;border:none" class="sorted-checkboxes">
                   <xsl:for-each select="domain/orgCollection/org">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="orgs[]">
@@ -293,7 +293,7 @@
                         </a>
                       </td>
                       <td>
-                        <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
+                        <div style="overflow-y:scroll;width:100%;height: 145px;border:none" class="sorted-checkboxes">
                         <xsl:variable name="curTagString" select="selectedTagString" />
                         <xsl:variable name="curId" select="id" />
                         <xsl:for-each select="$allTags">
