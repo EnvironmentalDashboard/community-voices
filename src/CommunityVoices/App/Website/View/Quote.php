@@ -150,6 +150,7 @@ class Quote extends Component\View
             $quote->quote->text = htmlspecialchars($quote->quote->text);
             $quote->quote->attribution = htmlspecialchars($quote->quote->attribution);
             $quote->quote->subAttribution = htmlspecialchars($quote->quote->subAttribution);
+            $quote->quote->relatedSlide = $this->quoteLookup->relatedSlide($quote->quote->id);
         }
         $obj->quoteCollection = array_values($obj->quoteCollection);
 

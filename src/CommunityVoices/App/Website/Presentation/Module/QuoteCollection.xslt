@@ -161,7 +161,14 @@
                   <xsl:if test="$isManager">
                     <div class="mt-2">
                       <a class="btn btn-outline-secondary btn-sm d-inline mr-2" href="quotes/{id}/edit">Edit quote</a>
-                      <a data-action="quotes/{id}/delete/authenticate" class="btn btn-outline-danger btn-sm d-inline delete-btn" href="#">Delete quote</a>
+                      <xsl:choose>
+                        <xsl:when test="relatedSlide = ''">
+                          <a data-action="quotes/{id}/delete/authenticate" class="btn btn-outline-danger btn-sm d-inline delete-btn" href="#">Delete quote</a>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <a data-action="quotes/{id}/unpair/{relatedSlide}" class="btn btn-outline-warning btn-sm d-inline unpair-btn" href="#">Unpair slide</a>
+                        </xsl:otherwise>
+                      </xsl:choose>
                     </div>
                   </xsl:if>
                 </li>

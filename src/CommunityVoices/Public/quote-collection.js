@@ -52,4 +52,13 @@ $('.delete-btn').on('click', function(e) {
 		$.post(action);
 	}
 });
+$('.unpair-btn').on('click', function(e) {
+	e.preventDefault();
+	if (confirm('You are about to unpair a quote. This action can not be undone.')) {
+		var action = $(this).data('action');
+		$.post(action).done(function(d) {
+			location.reload();
+    });
+	}
+});
 
