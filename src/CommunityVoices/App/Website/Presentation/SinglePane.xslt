@@ -30,6 +30,13 @@
                 <link rel="stylesheet" href="https://environmentaldashboard.org/community-voices/public/{extraCSS}.css" />
             </xsl:if>
             <link rel="stylesheet" href="https://environmentaldashboard.org/community-voices/public/SinglePane.css" />
+            <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-65902947-1"></script>
+            <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-65902947-1');
+            </script>
         </head>
         <body>
             <div class="container">
