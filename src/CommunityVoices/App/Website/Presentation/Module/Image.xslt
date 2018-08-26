@@ -55,7 +55,15 @@
 
       <xsl:choose><xsl:when test="$isManager or domain/image/status = 'approved'">
       <div class="row" style="padding:15px;">
-        <div class="col-sm-8">
+        <div>
+          <xsl:choose>
+            <xsl:when test="domain/slideId = ''">
+              <xsl:attribute name="class">col-sm-10</xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:attribute name="class">col-sm-8</xsl:attribute>
+            </xsl:otherwise>
+          </xsl:choose>
           <div class="card mb-3">
             <img class="card-img-top">
               <xsl:attribute name="src">https://environmentaldashboard.org/community-voices/uploads/<xsl:value-of select='domain/image/id' /></xsl:attribute>
@@ -102,9 +110,10 @@
             </xsl:if>
           </div>
         </div>
-        <div class="col-sm-4">
+        <div>
           <xsl:choose>
             <xsl:when test="domain/slideId != ''">
+              <xsl:attribute name="class">col-sm-4</xsl:attribute>
               <h4>Content featuring this image</h4>
               <a href='https://environmentaldashboard.org/community-voices/slides/{domain/slideId}'>
                 <div class="embed-responsive embed-responsive-16by9 mb-4">
@@ -118,6 +127,7 @@
               </p>
             </xsl:when>
             <xsl:otherwise>
+              <xsl:attribute name="class">col-sm-2</xsl:attribute>
               <p>This image is not used in any slides</p>
               <p><a href="/community-voices/slides/new?prefill_image={domain/image/id}" class="btn btn-primary btn-block">Create one</a></p>
             </xsl:otherwise>

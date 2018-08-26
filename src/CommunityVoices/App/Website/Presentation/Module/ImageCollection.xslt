@@ -261,7 +261,7 @@
                 <span aria-hidden="true">&#215;</span>
               </button>
             </div>
-            <div class="table-responsive">
+            <div class="table-responsive" style="max-width:100%">
               <table class="table" style="max-width:100%">
                 <thead>
                   <tr>
@@ -293,7 +293,7 @@
                         </a>
                       </td>
                       <td>
-                        <div style="overflow-y:scroll;width:100%;height: 145px;border:none" class="sorted-checkboxes">
+                        <div style="overflow-y:scroll;width:100%;height: 145px;border:none" class="sorted-checkboxes form-group">
                         <xsl:variable name="curTagString" select="selectedTagString" />
                         <xsl:variable name="curId" select="id" />
                         <xsl:for-each select="$allTags">
@@ -336,16 +336,16 @@
                           </input>
                         </div>
                       </td>
-                      <td style="min-width:200px">
-                        <div class="form-group mb-1">
+                      <td>
+                        <div class="form-group mb-1" style="min-width:200px">
                           <label class="sr-only" for="photographer{id}">Photographer</label>
                           <input type="text" name="photographer" id="photographer{id}" class="form-control" form="edit-form{id}">
                             <xsl:attribute name="value"><xsl:value-of select="photographer"></xsl:value-of></xsl:attribute>
                           </input>
                         </div>
                       </td>
-                      <td style="min-width:200px">
-                        <div class="form-group mb-1">
+                      <td>
+                        <div class="form-group mb-1" style="min-width:200px">
                           <label class="sr-only" for="org{id}">Organization</label>
                           <input type="text" name="organization" id="org{id}" class="form-control" form="edit-form{id}">
                             <xsl:attribute name="value"><xsl:value-of select="organization"></xsl:value-of></xsl:attribute>

@@ -55,7 +55,15 @@
       </nav>
 			<xsl:choose><xsl:when test="$isManager or domain/quote/status = 'approved'">
 				<div class="row" style="padding:15px;">
-					<div class="col-sm-8">
+					<div>
+						<xsl:choose>
+	            <xsl:when test="domain/slideId = ''">
+	              <xsl:attribute name="class">col-sm-10</xsl:attribute>
+	            </xsl:when>
+	            <xsl:otherwise>
+	              <xsl:attribute name="class">col-sm-8</xsl:attribute>
+	            </xsl:otherwise>
+	          </xsl:choose>
 						<div class="card mb-5">
 		          <div class="card-body">
 		            <blockquote class="blockquote mb-0">
@@ -102,9 +110,10 @@
 		          </div>
 		        </div>
 		      </div>
-		      <div class="col-sm-4">
+		      <div>
 		      	<xsl:choose>
 	            <xsl:when test="domain/slideId != ''">
+	            	<xsl:attribute name="class">col-sm-4</xsl:attribute>
 	              <h4>Content featuring this quote</h4>
 	              <a href='https://environmentaldashboard.org/community-voices/slides/{domain/slideId}'>
 	                <div class="embed-responsive embed-responsive-16by9 mb-4">
@@ -118,6 +127,7 @@
 	              </p>
 	            </xsl:when>
 	            <xsl:otherwise>
+	            	<xsl:attribute name="class">col-sm-2</xsl:attribute>
 	              <p>This quote is not used in any slides.</p>
 	              <p><a href="/community-voices/slides/new?prefill_quote={domain/quote/id}" class="btn btn-primary btn-block">Create one</a></p>
 	            </xsl:otherwise>
