@@ -1,5 +1,14 @@
 {
     "root": {
+        "notation": "",
+        "method": "get",
+        "defaults": {
+            "resource": "Landing",
+            "action": "getLanding"
+        }
+    },
+
+    "rootAlias": {
         "notation": "/",
         "method": "get",
         "defaults": {
