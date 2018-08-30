@@ -223,7 +223,15 @@
               </form>
             </xsl:if>
             <!-- main form for creating/editing slides -->
-            <form action='./authenticate' method='post' class="d-inline" id="form">
+            <form method='post' class="d-inline" id="form">
+              <xsl:choose>
+                <xsl:when test="domain/slide != ''">
+                  <xsl:attribute name="action">/community-voices/slides/<xsl:value-of select="domain/slide/id" />/edit/authenticate</xsl:attribute>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:attribute name="action">/community-voices/slides/new/authenticate</xsl:attribute>
+                </xsl:otherwise>
+              </xsl:choose>
               <input type="hidden" name="image_id" value="{domain/slide/image/image/id}" />
               <input type="hidden" name="quote_id" value="{domain/slide/quote/quote/id}"/>
               <input type="hidden" name="content_category" value="{domain/slide/contentCategory/contentCategory/id}"/>
@@ -299,7 +307,7 @@
               </xsl:choose>
             </form>
             <xsl:if test="domain/slide != ''">
-              <form action="delete/authenticate" method="POST" class="d-inline" id="delete-form">
+              <form action="/community-voices/slides/{domain/slide/id}/delete/authenticate" method="POST" class="d-inline" id="delete-form">
                 <input type="submit" value="Delete slide" class="btn btn-danger" />
               </form>
             </xsl:if>
