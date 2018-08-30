@@ -115,9 +115,11 @@ if (delete_form.length > 0) {
     delete_form.on('submit', function(e) {
         e.preventDefault();
         var action = $(this).attr('action');
-        $.post(action).done(function(d) {
-            window.location.replace("https://environmentaldashboard.org/community-voices/slides");
-        });
+        if (confirm('This action can not be undone.')) {
+            $.post(action).done(function(d) {
+                window.history.go(-1);
+            });
+        }
     });
 }
 var form = $('#form');
