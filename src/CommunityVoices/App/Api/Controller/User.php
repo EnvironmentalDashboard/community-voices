@@ -3,8 +3,10 @@
 namespace CommunityVoices\App\Api\Controller;
 
 use CommunityVoices\Model\Service;
+use CommunityVoices\Model\Exception;
+use CommunityVoices\App\Api\Component;
 
-class User
+class User extends Component\Controller
 {
     protected $registrationService;
     protected $userLookup;
@@ -38,9 +40,13 @@ class User
 
     public function getUser($request)
     {
-      $userId = $request->attributes->get('id');
+      $userId = (int) $request->attributes->get('id');
 
-      $this->userLookup->findById($userId);
+      try {
+        $this->userLookup->findById($userId);
+      } catch (Exception\IdentityNotFound $e) {
+        $this->send404();
+      }
     }
 
     public function newToken($request) {

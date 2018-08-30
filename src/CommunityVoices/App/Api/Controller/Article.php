@@ -4,8 +4,10 @@ namespace CommunityVoices\App\Api\Controller;
 
 use CommunityVoices\Model\Component\MapperFactory;
 use CommunityVoices\Model\Service;
+use CommunityVoices\Model\Exception;
+use CommunityVoices\App\Api\Component;
 
-class Article
+class Article extends Component\Controller
 {
     protected $articleLookup;
     protected $articleManagement;
@@ -28,7 +30,11 @@ class Article
     {
         $articleId = $request->attributes->get('id');
 
-        $this->articleLookup->findById($articleId);
+        try {
+            $this->articleLookup->findById((int) $articleId);
+        } catch (Exception\IdentityNotFound $e) {
+            $this->send404();
+        }
     }
 
     public function getAllArticle($request, $identity)
@@ -81,7 +87,11 @@ class Article
     {
       $articleId = $request->attributes->get('id');
 
-      $this->articleLookup->findById($articleId);
+      try {
+        $this->articleLookup->findById((int) $articleId);
+      } catch (Exception\IdentityNotFound $e) {
+        $this->send404();
+      }
     }
 
     public function postArticleUpdate($request)

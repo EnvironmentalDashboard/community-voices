@@ -4,8 +4,10 @@ namespace CommunityVoices\App\Api\Controller;
 
 use CommunityVoices\Model\Component\MapperFactory;
 use CommunityVoices\Model\Service;
+use CommunityVoices\Model\Exception;
+use CommunityVoices\App\Api\Component;
 
-class Quote
+class Quote extends Component\Controller
 {
     protected $quoteLookup;
     protected $quoteManagement;
@@ -25,9 +27,13 @@ class Quote
      */
     public function getQuote($request)
     {
-        $quoteId = $request->attributes->get('id');
+        $quoteId = (int) $request->attributes->get('id');
 
-        $this->quoteLookup->findById($quoteId);
+        try {
+          $this->quoteLookup->findById($quoteId);
+        } catch (Exception\IdentityNotFound $e) {
+          $this->send404();
+        }
     }
 
     public function getAllQuote($request, $identity)
@@ -82,9 +88,13 @@ class Quote
 
     public function getQuoteUpdate($request)
     {
-      $quoteId = $request->attributes->get('id');
+      $quoteId = (int) $request->attributes->get('id');
 
-      $this->quoteLookup->findById($quoteId);
+      try {
+        $this->quoteLookup->findById($quoteId);
+      } catch (Exception\IdentityNotFound $e) {
+        $this->send404();
+      }
     }
 
     public function postQuoteUpdate($request)

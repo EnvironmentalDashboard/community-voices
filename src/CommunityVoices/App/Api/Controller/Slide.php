@@ -4,8 +4,10 @@ namespace CommunityVoices\App\Api\Controller;
 
 use CommunityVoices\Model\Component\MapperFactory;
 use CommunityVoices\Model\Service;
+use CommunityVoices\Model\Exception;
+use CommunityVoices\App\Api\Component;
 
-class Slide
+class Slide extends Component\Controller
 {
     protected $slideLookup;
     protected $slideManagement;
@@ -60,9 +62,13 @@ class Slide
      */
     public function getSlide($request)
     {
-        $slideId = $request->attributes->get('id');
+        $slideId = (int) $request->attributes->get('id');
 
-        $this->slideLookup->findById($slideId);
+        try {
+            $this->slideLookup->findById($slideId);
+        } catch (Exception\IdentityNotFound $e) {
+            $this->send404();
+        }
     }
 
     public function getSlideUpload()
@@ -93,7 +99,7 @@ class Slide
 
     public function getSlideUpdate($request)
     {
-        $slideId = $request->attributes->get('id');
+        $slideId = (int) $request->attributes->get('id');
 
         $stateObserver = $this->tagLookup->findAll(true);
         $stateObserver = $this->locationLookup->findAll($stateObserver, true);
@@ -101,7 +107,11 @@ class Slide
         $stateObserver = $this->imageLookup->photographers($stateObserver, true);
         $stateObserver = $this->imageLookup->orgs($stateObserver, true);
         $stateObserver = $this->quoteLookup->attributions($stateObserver, true);
-        $this->slideLookup->findById($slideId, $stateObserver);
+        try {
+            $this->slideLookup->findById($slideId, $stateObserver);
+        } catch (Exception\IdentityNotFound $e) {
+            $this->send404();
+        }
     }
 
     public function postSlideUpdate($request, $identity)

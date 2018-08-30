@@ -4,8 +4,10 @@ namespace CommunityVoices\App\Api\Controller;
 
 use CommunityVoices\Model\Component\MapperFactory;
 use CommunityVoices\Model\Service;
+use CommunityVoices\Model\Exception;
+use CommunityVoices\App\Api\Component;
 
-class Image
+class Image extends Component\Controller
 {
     protected $imageLookup;
     protected $imageManagement;
@@ -34,7 +36,11 @@ class Image
     {
         $imageId = $request->attributes->get('id');
 
-        $this->imageLookup->findById((int) $imageId);
+        try {
+          $this->imageLookup->findById((int) $imageId);
+        } catch (Exception\IdentityNotFound $e) {
+          $this->send404();
+        }
     }
 
     public function getAllImage($request)
@@ -87,9 +93,13 @@ class Image
     }
 
     public function getImageUpdate($request)
-    { // what does this do??
+    {
       $imageId = $request->attributes->get('id');
-      $this->imageLookup->findById($imageId);
+      try {
+        $this->imageLookup->findById((int) $imageId);
+      } catch (Exception\IdentityNotFound $e) {
+        $this->send404();
+      }
     }
 
     public function postImageUpdate($request)
