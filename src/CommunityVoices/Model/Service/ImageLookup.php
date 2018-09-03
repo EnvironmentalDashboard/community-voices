@@ -52,7 +52,7 @@ class ImageLookup
         $dimensions = getimagesize($fn);
         $max_width = (isset($_GET['max_width']) && is_numeric($_GET['max_width'])) ? (int) $_GET['max_width'] : false;
 
-        if ($rect['x'] > 0 || $rect['y'] > 0 || $rect['height'] > 0 || $rect['width'] > 0) { // crop
+        if (!isset($_GET['nocrop']) && ($rect['x'] > 0 || $rect['y'] > 0 || $rect['height'] > 0 || $rect['width'] > 0)) { // crop
             $img = $this->GDcreate($fn, $type);
             $img = imagecrop($img, $rect);
             if ($max_width && $rect['width'] > $max_width) { // resize
