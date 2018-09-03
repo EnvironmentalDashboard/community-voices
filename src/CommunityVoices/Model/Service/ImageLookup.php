@@ -54,7 +54,10 @@ class ImageLookup
 
         if (!isset($_GET['nocrop']) && ($rect['x'] > 0 || $rect['y'] > 0 || $rect['height'] > 0 || $rect['width'] > 0)) { // crop
             $img = $this->GDcreate($fn, $type);
-            $img = imagecrop($img, $rect);
+            $img = @imagecrop($img, $rect); // suppress xdebug errors so image can still be outputted if there are any
+            if ($img === false) { // Warning: imagecrop(): one parameter to a memory allocation multiplication is negative or zero, failing operation gracefully
+                readfile($fn);
+            }
             if ($max_width && $rect['width'] > $max_width) { // resize
                 $img = $this->GDresize($img, $rect['width'], $rect['height'], $max_width);
             }
