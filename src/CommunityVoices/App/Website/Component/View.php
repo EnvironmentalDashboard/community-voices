@@ -24,7 +24,11 @@ class View
 
     protected function success($url = null) {
         if ($url !== false) {
-            header('Location: ' . ($url === null) ? $_SERVER['HTTP_REFERER'] : $url); // i guess we're just redirecting to the page they were on
+            if ($url !== null) {
+                header('Location: ' . $url); // i guess we're just redirecting to the page they were on
+            } elseif (isset($_SERVER['HTTP_REFERER'])) {
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
+            }
         }
         exit();
     }
