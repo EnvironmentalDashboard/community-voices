@@ -146,31 +146,46 @@
               <xsl:if test="$isManager or status = 'approved'">
 
                 <li class="list-group-item">
-                  <a href='quotes/{id}' style="color: inherit; text-decoration: inherit;">
-                    <blockquote class="blockquote mb-0">
-                      <p><xsl:value-of select="text"></xsl:value-of></p>
-                      <footer class="blockquote-footer">
-                        <xsl:value-of select="attribution"></xsl:value-of>
-                        <xsl:if test="subAttribution != '' and attribution != subAttribution">
-                          <xsl:if test="attribution != ''">, </xsl:if>
-                          <xsl:value-of select='subAttribution'></xsl:value-of>
-                        </xsl:if>
-                      </footer>
-                    </blockquote>
-                  </a>
-                  <xsl:if test="$isManager">
-                    <div class="mt-2">
-                      <a class="btn btn-outline-secondary btn-sm d-inline mr-2" href="quotes/{id}/edit">Edit quote</a>
-                      <xsl:choose>
-                        <xsl:when test="relatedSlide = ''">
-                          <a data-action="quotes/{id}/delete/authenticate" class="btn btn-outline-danger btn-sm d-inline delete-btn" href="#">Delete quote</a>
-                        </xsl:when>
-                        <xsl:otherwise>
-                          <a data-action="quotes/{id}/unpair/{relatedSlide}" class="btn btn-outline-warning btn-sm d-inline unpair-btn" href="#">Unpair slide</a>
-                        </xsl:otherwise>
-                      </xsl:choose>
-                    </div>
-                  </xsl:if>
+                  <xsl:choose>
+                    <xsl:when test="$isManager">
+                        <blockquote class="blockquote mb-0">
+                          <p contenteditable="true" style="text-decoration:underline" id="text{id}"><xsl:value-of select="text"></xsl:value-of></p>
+                          <footer class="blockquote-footer">
+                            <xsl:value-of select="attribution"></xsl:value-of>
+                            <xsl:if test="subAttribution != '' and attribution != subAttribution">
+                              <xsl:if test="attribution != ''">, </xsl:if>
+                              <xsl:value-of select='subAttribution'></xsl:value-of>
+                            </xsl:if>
+                          </footer>
+                        </blockquote>
+                      <div class="mt-2">
+                        <a class="btn btn-outline-primary btn-sm d-inline mr-2 save-quote-changes" href="#" data-id="{id}">Save changes</a>
+                        <a class="btn btn-outline-secondary btn-sm d-inline mr-2" href="quotes/{id}/edit">Edit meta data</a>
+                        <xsl:choose>
+                          <xsl:when test="relatedSlide = ''">
+                            <a data-action="quotes/{id}/delete/authenticate" class="btn btn-outline-danger btn-sm d-inline delete-btn" href="#">Delete quote</a>
+                          </xsl:when>
+                          <xsl:otherwise>
+                            <a data-action="quotes/{id}/unpair/{relatedSlide}" class="btn btn-outline-warning btn-sm d-inline unpair-btn" href="#">Unpair slide</a>
+                          </xsl:otherwise>
+                        </xsl:choose>
+                      </div>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <a href='quotes/{id}' style="color: inherit; text-decoration: inherit;">
+                        <blockquote class="blockquote mb-0">
+                          <p><xsl:value-of select="text"></xsl:value-of></p>
+                          <footer class="blockquote-footer">
+                            <xsl:value-of select="attribution"></xsl:value-of>
+                            <xsl:if test="subAttribution != '' and attribution != subAttribution">
+                              <xsl:if test="attribution != ''">, </xsl:if>
+                              <xsl:value-of select='subAttribution'></xsl:value-of>
+                            </xsl:if>
+                          </footer>
+                        </blockquote>
+                      </a>
+                    </xsl:otherwise>
+                  </xsl:choose>
                 </li>
 
               </xsl:if>
