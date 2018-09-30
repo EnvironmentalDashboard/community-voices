@@ -85,6 +85,13 @@
           </div>
         </div>
       </div>
+      <!-- /modal -->
+      <div class="alert alert-dismissible fade show d-none" role="alert" id="alert" style="width:100%;position:fixed;top:0">
+        <span id="alert-content"></span>
+        <button type="button" class="close" aria-label="Close" onclick="$(this).closest('.alert').addClass('d-none')">
+          <span aria-hidden="true">&#215;</span>
+        </button>
+      </div>
     </xsl:if>
     <nav class="navbar navbar-light bg-light" style="justify-content:initial">
       <a class="navbar-brand" href="/community-voices/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
@@ -255,12 +262,6 @@
       <div class="col-sm-9">
         <xsl:choose>
           <xsl:when test="$isManager">
-            <div class="alert alert-dismissible fade show d-none" role="alert" id="alert">
-              <span id="alert-content"></span>
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&#215;</span>
-              </button>
-            </div>
             <div class="table-responsive" style="max-width:100%">
               <table class="table" style="max-width:100%">
                 <thead>
