@@ -217,6 +217,7 @@ class Quote extends Component\View
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: All Quotes");
         $domainXMLElement->addChild('extraJS', "quote-collection");
+        $domainXMLElement->addChild('metaDescription', "Searchable database of quotes used for Community Voices communication technology to promote environmental, social and economic sustainability in diverse communities.");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);

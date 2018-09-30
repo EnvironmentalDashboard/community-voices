@@ -165,6 +165,7 @@ class Slide extends Component\View
             $slideXMLElement->id
         );
         $domainXMLElement->addChild('extraJS', "slide-collection");
+        $domainXMLElement->addChild('metaDescription', "Searchable database of content for Community Voices communication technology combining images and words to advance sustainability in diverse communities.");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
