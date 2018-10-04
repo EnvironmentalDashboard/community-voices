@@ -14,20 +14,21 @@
           </div>
 
           <div style="max-width:400px;margin: 0 auto">
-            <div class="form-group mb-1">
-              <div class="custom-control custom-checkbox">
+            <div class="form-group d-inline mb-1">
+              <div class="custom-control d-inline custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="crop-checkbox" onchange="enable_cropper();" />
                 <label class="custom-control-label" for="crop-checkbox">Crop image</label>
               </div>
             </div>
+            <button type="button" id="uncrop-btn" class="btn btn-outline-secondary btn-sm float-right" onclick="load_uncropped(this);" data-id="{domain/image/id}">Load uncropped</button>
           </div>
 
           <form method='post' enctype='multipart/form-data' style="max-width:400px;margin: 0 auto" action="edit/authenticate">
 
-              <input type="hidden" id="crop_x" name="crop_x" value="0"/>
-              <input type="hidden" id="crop_y" name="crop_y" value="0" />
-              <input type="hidden" id="crop_width" name="crop_width" value="0" />
-              <input type="hidden" id="crop_height" name="crop_height" value="0" />
+              <input type="hidden" id="crop_x" name="crop_x" value="{domain/image/crop_x}"/>
+              <input type="hidden" id="crop_y" name="crop_y" value="{domain/image/crop_y}" />
+              <input type="hidden" id="crop_width" name="crop_width" value="{domain/image/crop_width}" />
+              <input type="hidden" id="crop_height" name="crop_height" value="{domain/image/crop_height}" />
 
               <div class="form-group">
                 <label for="title">Title</label>

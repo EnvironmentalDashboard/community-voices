@@ -13,7 +13,6 @@ const crop_width = document.getElementById("crop_width");
 const checkbox = document.getElementById("crop-checkbox");
 var cropper;
 function enable_cropper() {
-  console.log(cropper);
   if (checkbox.checked) {
     cropper = new Cropper(image, {checkCrossOrigin: false, viewMode: 1, crop(event) {
       crop_x.value = event.detail.x;
@@ -30,3 +29,32 @@ function enable_cropper() {
   }
 }
 enable_cropper();
+
+const base = 'https://environmentaldashboard.org/community-voices/uploads/';
+var rect = {crop_x: 0, crop_y: 0, crop_height: 0, crop_width:0};
+function load_uncropped(e) {
+  var text = e.firstChild.nodeValue,
+      id = e.getAttribute('data-id');
+  if (text === 'Load uncropped') {
+    e.firstChild.nodeValue = 'Load current crop';
+    rect.crop_x = crop_x.value;
+    rect.crop_y = crop_y.value;
+    rect.crop_height = crop_height.value;
+    rect.crop_width = crop_width.value;
+    crop_x.value = 0;
+    crop_y.value = 0;
+    crop_height.value = 0;
+    crop_width.value = 0;
+    image.setAttribute('src', '');
+    // it seems that the only way to break the cache is to put a delay
+    setTimeout(function() {image.setAttribute('src', base + id + '?nocrop=1');}, 100);
+  } else {
+    e.firstChild.nodeValue = 'Load uncropped';
+    crop_x.value = rect.crop_x;
+    crop_y.value = rect.crop_y;
+    crop_height.value = rect.crop_height;
+    crop_width.value = rect.crop_width;
+    image.setAttribute('src', '');
+    setTimeout(function() {image.setAttribute('src', base + id);}, 100);
+  }
+}

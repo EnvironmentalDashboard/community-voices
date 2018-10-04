@@ -11,10 +11,11 @@ class Image extends Media
     private $title;
     private $description;
     private $generatedTags;
-
     private $dateTaken;
     private $photographer;
     private $organization;
+
+    private $cropRect = ['x' => 0, 'y' => 0, 'height' => 0, 'width' => 0];
 
     public $type;
 
@@ -130,7 +131,11 @@ class Image extends Media
             'generatedTags' => $this->generatedTags,
             'dateTaken' => date('Y-m-d H:i:s', $this->dateTaken),
             'photographer' => $this->photographer,
-            'organization' => $this->organization
+            'organization' => $this->organization,
+            'crop_x' => $this->cropRect['x'],
+            'crop_y' => $this->cropRect['y'],
+            'crop_height' => $this->cropRect['height'],
+            'crop_width' => $this->cropRect['width']
         ])];
     }
 
