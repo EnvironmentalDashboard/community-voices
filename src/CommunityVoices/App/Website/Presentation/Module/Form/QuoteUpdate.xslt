@@ -17,9 +17,9 @@
 
                     <div class="form-group">
                         <label for="text">Quote</label>
-                        <input type='text' name='text' id='text' class='form-control'>
-                            <xsl:attribute name="value"><xsl:value-of select="domain/quote/text"/></xsl:attribute>
-                        </input>
+                        <textarea name='text' id='text' class='form-control'>
+                            <xsl:value-of select="domain/quote/text"/>
+                        </textarea>
                     </div>
 
                     <div class="form-group">
