@@ -71,11 +71,11 @@ $uri = isset($_SERVER['REQUEST_URI'])
 $uri = ($production_server) ? '/community-voices' . substr(explode('?', $uri)[0], 1) : explode('?', $uri)[0]; // TODO: fix!
 
 try {
-	$parameters = new Symfony\Component\HttpFoundation\ParameterBag($matcher->match($uri));
+    $parameters = new Symfony\Component\HttpFoundation\ParameterBag($matcher->match($uri));
 } catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
-	http_response_code(404);
-	echo file_get_contents('https://environmentaldashboard.org/404'); // should prob include 404 page in this app
-	exit;
+    http_response_code(404);
+    echo file_get_contents('https://environmentaldashboard.org/404'); // should prob include 404 page in this app
+    exit;
 }
 
 $request->attributes = $parameters;

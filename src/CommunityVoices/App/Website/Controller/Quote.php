@@ -26,7 +26,12 @@ class Quote
     {
         $apiController = $this->secureContainer->contain($this->quoteAPIController);
 
+        /**
+         * Direct requests for various components page requires
+         */
+
         $apiController->getQuote($request);
+        $apiController->getBoundaryQuotes($request);
     }
 
     public function getAllQuote($request)

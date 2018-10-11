@@ -22,7 +22,8 @@ class View
         $cookieMapper->mapToResponse();
     }
 
-    protected function success($url = null) {
+    protected function success($url = null)
+    {
         if ($url !== false) {
             if ($url !== null) {
                 header('Location: ' . $url); // i guess we're just redirecting to the page they were on
@@ -33,7 +34,11 @@ class View
         exit();
     }
 
-    protected function paginationHTML(array $qs, int $count, int $limit, int $page) {
+    /**
+     * @todo Mark-up should not be in view
+     */
+    protected function paginationHTML(array $qs, int $count, int $limit, int $page)
+    {
         $final_page = ceil($count / $limit);
         $ret = '<nav aria-label="Page navigation example" class="text-center"><ul class="pagination" style="display: inline-flex;">';
         if ($page > 0) {
@@ -54,8 +59,7 @@ class View
             }
             if ($page + 1 === $i) {
                 $ret .= '<li class="page-item active"><a class="page-link" href="?'. htmlspecialchars(http_build_query(array_replace($qs, ['page' => $i]))).'">' . $i . '</a></li>';
-            }
-            else {
+            } else {
                 $ret .= '<li class="page-item"><a class="page-link" href="?'. htmlspecialchars(http_build_query(array_replace($qs, ['page' => $i]))).'">' . $i . '</a></li>';
             }
         }

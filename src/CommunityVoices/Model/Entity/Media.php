@@ -116,13 +116,12 @@ class Media implements HasId
 
     public function toArray()
     {
-
         return ['media' => [
             'id' => $this->id,
             'addedBy' => $this->addedBy ? $this->addedBy->toArray() : null,
             'dateCreated' => date("Y-m-d H:i:s", $this->dateCreated),
             'type' => $this->type,
-            'status' => $this->allowableStatus[$this->status],
+            'status' => $this->allowableStatus[$this->status ?: self::STATUS_REJECTED],
             'tagCollection' => $this->tagCollection ? $this->tagCollection->toArray() : null
         ]];
     }

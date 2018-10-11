@@ -36,16 +36,16 @@
         </xsl:choose>
         <div class="btn-group float-right">
           <xsl:choose>
-            <xsl:when test="number(domain/prevId) = domain/prevId">
-              <a class="btn btn-outline-primary btn-sm" href="/community-voices/quotes/{domain/prevId}">&#171; Previous quote</a>
+            <xsl:when test="number(domain/previous/quote/id) = domain/previous/quote/id">
+              <a class="btn btn-outline-primary btn-sm" href="/community-voices/quotes/{domain/previous/quote/id}">&#171; Previous quote</a>
             </xsl:when>
             <xsl:otherwise>
               <a href="#" class="btn btn-outline-primary disabled btn-sm" disabled="disabled">&#171; Previous quote</a>
             </xsl:otherwise>
           </xsl:choose>
           <xsl:choose>
-            <xsl:when test="number(domain/nextId) = domain/nextId">
-              <a class="btn btn-outline-primary btn-sm" href="/community-voices/quotes/{domain/nextId}">Next quote &#187;</a>
+            <xsl:when test="number(domain/next/quote/id) = domain/next/quote/id">
+              <a class="btn btn-outline-primary btn-sm" href="/community-voices/quotes/{domain/next/quote/id}">Next quote &#187;</a>
             </xsl:when>
             <xsl:otherwise>
               <a class="btn btn-outline-primary disabled btn-sm" href="#" disabled="disabled">Next quote &#187;</a>
@@ -103,7 +103,7 @@
 									</p>
 									<p>
 										<xsl:for-each select="domain/quote/tagCollection/groupCollection/group">
-											<xsl:value-of select="label"></xsl:value-of>, 
+											<xsl:value-of select="label"></xsl:value-of>,
 										</xsl:for-each>
 									</p>
 			          </xsl:if>

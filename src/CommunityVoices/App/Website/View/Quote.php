@@ -40,7 +40,7 @@ class Quote extends Component\View
     public function getQuote($routes, $context)
     {
         /**
-         * Gather identity information
+         * Gather identity information (API component call)
          */
         $identity = $this->recognitionAdapter->identify();
 
@@ -49,34 +49,45 @@ class Quote extends Component\View
         );
 
         /**
-         * Gather quote information
+         * Gather quote information (API calls)
          */
         $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
 
-        $json = json_decode($quoteAPIView->getQuote()->getContent());
-        // var_dump($json);die;
-        $json->quote->text = htmlspecialchars($json->quote->text);
-        $json->quote->attribution = htmlspecialchars($json->quote->attribution);
+        $quote = json_decode($quoteAPIView->getQuote()->getContent());
+        $boundaryQuotes = json_decode($quoteAPIView->getBoundaryQuotes()->getContent(), true);
+
+        /**
+         * Process API information
+         */
         $quoteXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($json)
+            $this->transcriber->toXml($quote)
+        );
+
+        $prevQuoteXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($boundaryQuotes['quoteCollection'][0])
+        );
+
+        $nextQuoteXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($boundaryQuotes['quoteCollection'][1])
         );
 
         /**
-         * Quote XML Package
+         * Quote XML "package"
          */
         $quotePackageElement = new Helper\SimpleXMLElementExtension('<package/>');
 
         $packagedQuote = $quotePackageElement->addChild('domain');
         $packagedQuote->adopt($quoteXMLElement);
+
         $packagedQuote->adopt(new SimpleXMLElement(
-            $this->transcriber->toXml(['slideId' => $this->quoteLookup->relatedSlide($json->quote->id)])
+            $this->transcriber->toXml(['slideId' => $this->quoteLookup->relatedSlide($quote->quote->id)])
         ));
-        $packagedQuote->adopt(new SimpleXMLElement(
-            $this->transcriber->toXml(['prevId' => $this->quoteLookup->prevQuote($json->quote->id)])
-        ));
-        $packagedQuote->adopt(new SimpleXMLElement(
-            $this->transcriber->toXml(['nextId' => $this->quoteLookup->nextQuote($json->quote->id)])
-        ));
+
+        $previousQuote = $packagedQuote->addChild('previous');
+        $previousQuote->adopt($prevQuoteXMLElement);
+
+        $nextQuote = $packagedQuote->addChild('next');
+        $nextQuote->adopt($nextQuoteXMLElement);
 
         $packagedIdentity = $quotePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
@@ -84,7 +95,6 @@ class Quote extends Component\View
         /**
          * Generate Quote module
          */
-        // var_dump($quotePackageElement->domain->quote->tagCollection->groupCollection ->group->label);die;
         $quoteModule = new Component\Presenter('Module/Quote');
         $quoteModuleXML = $quoteModule->generate($quotePackageElement);
 
@@ -106,7 +116,7 @@ class Quote extends Component\View
             "Community Voices: Quote ".
             $quoteXMLElement->id
         );
-        
+
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -232,7 +242,6 @@ class Quote extends Component\View
 
     public function getQuoteUpload($routes, $context)
     {
-
         $identity = $this->recognitionAdapter->identify();
 
         $identityXMLElement = new SimpleXMLElement(
@@ -357,7 +366,7 @@ class Quote extends Component\View
             'title',
             "Community Voices: Quote Update"
         );
-        
+
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -375,7 +384,7 @@ class Quote extends Component\View
     public function postQuoteUpdate($routes, $context)
     {
         $this->success();
-        
+
         /*
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
@@ -396,7 +405,8 @@ class Quote extends Component\View
         */
     }
 
-    public function postQuoteUnpair($routes, $context) {
+    public function postQuoteUnpair($routes, $context)
+    {
         exit; // nothing to show to user
     }
 }
