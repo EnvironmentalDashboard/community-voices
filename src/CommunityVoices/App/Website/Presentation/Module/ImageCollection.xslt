@@ -86,7 +86,7 @@
         </div>
       </div>
       <!-- /modal -->
-      <div class="alert alert-dismissible fade show d-none" role="alert" id="alert" style="width:100%;position:fixed;top:0">
+      <div class="alert alert-dismissible fade show d-none" role="alert" id="alert" style="top: 20px;right: 15%;left: 15%;width: 70%;position:fixed;z-index:9999">
         <span id="alert-content"></span>
         <button type="button" class="close" aria-label="Close" onclick="$(this).closest('.alert').addClass('d-none')">
           <span aria-hidden="true">&#215;</span>
@@ -159,7 +159,7 @@
 
 	        		<div class="form-group">
                 <p class="mb-0">Tags</p>
-                <div style="overflow-y:scroll;width:100%;height: 145px;border:none" class='sorted-checkboxes'>
+                <div style="overflow-y:scroll;width:100%;height: 210px;border:none" class='sorted-checkboxes'>
                   <xsl:for-each select="$allTags">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="tags[]" id="globalTag{id}">
@@ -269,31 +269,16 @@
           <xsl:when test="$isManager">
             <div class="table-responsive" style="max-width:100%">
               <table class="table" style="max-width:100%">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Thumbnail</th>
-                    <th scope="col">Tag</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Date Taken</th>
-                    <th scope="col">Photographer</th>
-                    <th scope="col">Organization</th>
-                    <th scope="col">Approved</th>
-                    <th scope="col">&#160;</th>
-                    <th scope="col">&#160;</th>
-                  </tr>
-                </thead>
                 <tbody>
                   <xsl:for-each select="domain/imageCollection/image">
                     <tr>
-                      <th scope="row"><xsl:value-of select="id" /></th>
                       <form action="images/{id}/edit/authenticate" method="POST" class="edit-form" id="edit-form{id}">
+                        <!-- empty form; values associated with form attribute on input tags to allow for table structure -->
                       </form>
-                      <td>
+                      <td style="width:40%">
                         <a href="images/{id}">
-                          <img class="img-fluid" style="max-width:200px">
-                            <xsl:attribute name="src">https://environmentaldashboard.org/community-voices/uploads/<xsl:value-of select='id' />?max_width=200</xsl:attribute>
+                          <img class="img-fluid">
+                            <xsl:attribute name="src">https://environmentaldashboard.org/community-voices/uploads/<xsl:value-of select='id' />?max_width=325</xsl:attribute>
                             <xsl:attribute name="alt"><xsl:value-of select='title' /></xsl:attribute>
                           </img>
                         </a>
@@ -325,32 +310,24 @@
                             <xsl:attribute name="value"><xsl:value-of select="title"></xsl:value-of></xsl:attribute>
                           </input>
                         </div>
-                      </td>
-                      <td style="min-width:250px">
                         <div class="form-group mb-1">
                           <label class="sr-only" for="description{id}">Description</label>
                           <textarea name="description" id="description{id}" class="form-control" form="edit-form{id}">
                             <xsl:value-of select="description"></xsl:value-of>
                           </textarea>
                         </div>
-                      </td>
-                      <td style="min-width:200px">
                         <div class="form-group mb-1">
                           <label class="sr-only" for="dateTaken{id}">Date taken</label>
                           <input type="text" name="dateTaken" id="dateTaken{id}" class="form-control" form="edit-form{id}" style="min-width:190px">
                             <xsl:attribute name="value"><xsl:value-of select="dateTaken"></xsl:value-of></xsl:attribute>
                           </input>
                         </div>
-                      </td>
-                      <td>
                         <div class="form-group mb-1" style="min-width:200px">
                           <label class="sr-only" for="photographer{id}">Photographer</label>
                           <input type="text" name="photographer" id="photographer{id}" class="form-control" form="edit-form{id}">
                             <xsl:attribute name="value"><xsl:value-of select="photographer"></xsl:value-of></xsl:attribute>
                           </input>
                         </div>
-                      </td>
-                      <td>
                         <div class="form-group mb-1" style="min-width:200px">
                           <label class="sr-only" for="org{id}">Organization</label>
                           <input type="text" name="organization" id="org{id}" class="form-control" form="edit-form{id}">
@@ -369,13 +346,9 @@
                             <label class="custom-control-label" for="approve">Approve</label>
                           </div>
                         </div>
-                      </td>
-                      <td>
                         <input type='submit' class="btn btn-primary mt-2 btn-block" value="Update" form="edit-form{id}"></input>
-                      </td>
-                      <td>
                         <form action="images/{id}/delete/authenticate" method="POST" class="delete-form">
-                          <input type="submit" value="Delete" class="btn btn-danger mt-2" />
+                          <input type="submit" value="Delete" class="btn btn-danger mt-2 btn-block" />
                         </form>
                       </td>
                     </tr>
