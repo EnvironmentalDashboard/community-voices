@@ -200,6 +200,7 @@ class Slide extends Component\View
         $json->slide->quote->quote->attribution = htmlspecialchars($json->slide->quote->quote->attribution);
         $json->slide->quote->quote->subAttribution = htmlspecialchars($json->slide->quote->quote->subAttribution);
         $json->slide->image->image->title = htmlspecialchars(htmlspecialchars($json->slide->image->image->title));
+        $json->slide->image->image->description = htmlspecialchars(htmlspecialchars($json->slide->image->image->description));
 
         if ($svg_ver) {
             $json->slide->g = htmlspecialchars($this->formatSlide($json->slide->image->image->filename, $json->slide->image->image->id, $json->slide->quote->quote->text, $json->slide->quote->quote->attribution, $json->slide->contentCategory->contentCategory->id));
