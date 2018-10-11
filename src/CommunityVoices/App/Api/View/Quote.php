@@ -28,6 +28,19 @@ class Quote
         return $response;
     }
 
+    public function getBoundaryQuotes()
+    {
+        $clientState = $this->mapperFactory->createClientStateMapper();
+        $stateObserver = $clientState->retrieve();
+
+        $stateObserver->setSubject('quoteLookup');
+        $quotes = $stateObserver->getEntry('boundaryQuotes')[0];
+
+        $response = new HttpFoundation\JsonResponse($quotes->toArray());
+
+        return $response;
+    }
+
     public function getAllQuote()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();

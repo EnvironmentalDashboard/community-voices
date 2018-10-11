@@ -63,7 +63,12 @@
 	          <div class="card-body">
 	        		<div class="form-group">
 	        			<label for="search">Search</label>
-	        			<input type="text" class="form-control" name="search" id="search" placeholder="Enter search terms" value="{$search}" />
+	        			<div class="input-group">
+                  <input type="text" class="form-control" name="search" id="search" placeholder="Enter search terms" value="{$search}" />
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit"><img style="max-width:20px;position:relative;bottom:3px" src="https://environmentaldashboard.org/community-voices/public/search.svg" alt="Search icon"/></button>
+                  </div>
+                </div>
 	        		</div>
 
               <div class="form-group">

@@ -52,7 +52,6 @@ $('.delete-form').on('submit', function(e) {
   var action = form.attr('action');
   $('#alert').addClass('alert-danger').removeClass('d-none alert-success');
   $('#alert-content').html('<strong>Stop!</strong> Are you sure you want to delete this item?');
-  // <button type="button" class="btn btn-outline-danger btn-sm float-right" style="position:relative;bottom:3px">Delete</button>
   var btn = document.createElement("button");
   btn.appendChild(document.createTextNode("Delete"));
   btn.className = "btn btn-outline-danger btn-sm float-right";
@@ -81,4 +80,5 @@ $('#file').on('change', function(e) {
   var names = $.map($(this).prop('files'), function(val) { return val.name; });
   $('#fileList').text('Selected ' + names.join(', '));
 });
+
 

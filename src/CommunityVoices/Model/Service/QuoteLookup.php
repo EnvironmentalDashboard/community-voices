@@ -81,7 +81,7 @@ class QuoteLookup
         $quoteCollection->setPage($page);
         $quoteCollection->setLimit($limit);
         $quoteCollectionAttributions = new \stdClass();
- 
+
         $valid_creatorIDs = [];
 
         // Validate creator IDs
@@ -95,7 +95,7 @@ class QuoteLookup
                 $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
                 $userMapper->fetch($user);
 
-                // only add valid User 
+                // only add valid User
                 if ($user->getId()) {
                     $valid_creatorIDs[] = $userID;
                 }
@@ -128,7 +128,8 @@ class QuoteLookup
         $clientState->save($this->stateObserver);
     }
 
-    public function attributions($stateObserver, $return = false) {
+    public function attributions($stateObserver, $return = false)
+    {
         $attributionCollection = new \stdClass;
         $attributionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
         $attributionMapper->attributions($attributionCollection);
@@ -178,20 +179,41 @@ class QuoteLookup
         // clientState stuff
     }
 
+    public function findBoundaryQuotesById(int $anchorQuoteId)
+    {
+        $anchor = new Entity\Quote;
+        $anchor->setId($anchorQuoteId);
 
-    public function relatedSlide(int $quote_id) {
+        $boundaries = new Entity\QuoteCollection;
+        $boundaries->setFilterType(Entity\QuoteCollection::FILTER_TYPE_BOUNDARY);
+        $boundaries->setAnchorQuote($anchor);
+
+        $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
+        $quoteCollectionMapper->fetch($boundaries);
+
+        $this->stateObserver->setSubject('quoteLookup');
+        $this->stateObserver->addEntry('boundaryQuotes', $boundaries);
+
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($this->stateObserver);
+    }
+
+    public function relatedSlide(int $quote_id)
+    {
         $mapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
         $id = $mapper->relatedSlideId($quote_id);
         return $id;
     }
 
-    public function prevQuote(int $quote_id) {
+    public function prevQuote(int $quote_id)
+    {
         $mapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
         $id = $mapper->prevQuote($quote_id);
         return $id;
     }
 
-    public function nextQuote(int $quote_id) {
+    public function nextQuote(int $quote_id)
+    {
         $mapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
         $id = $mapper->nextQuote($quote_id);
         return $id;

@@ -103,7 +103,7 @@ class ImageLookup
     }
 
     /**
-     * GD implementation of PHP imagecrop method (which uses too much memory)
+     * GD implementation of PHP's imagecrop method (which uses too much memory)
      */
     private function imagecrop($img, $rect) {
         if ($rect['width'] > 0 && $rect['height'] > 0) {

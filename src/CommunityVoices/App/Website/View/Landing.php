@@ -99,6 +99,7 @@ class Landing extends Component\View
             "Community Voices: Landing Page"
         );
         $domainXMLElement->addChild('extraJS', 'landing');
+        $domainXMLElement->addChild('metaDescription', "Community Voices communication technology combines images and words to advance environmental, social and economic sustainability in diverse communities.");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);

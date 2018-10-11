@@ -8,14 +8,26 @@ class QuoteCollection extends MediaCollection
     private $limit = 0;
     private $page = 0;
 
-    public function __construct(){
+    const FILTER_TYPE_BOUNDARY = 1;
+
+    private $filterType;
+
+    /**
+     * For boundary (next/prev) conditioning
+     * @var Entity\Quote The anchor quote
+     */
+    private $anchorQuote;
+
+    public function __construct()
+    {
         $this->mediaType = self::MEDIA_TYPE_QUOTE;
     }
 
     /**
      * @codeCoverageIgnore
      */
-    protected function makeEntity(){
+    protected function makeEntity()
+    {
         return new Quote;
     }
 
@@ -24,28 +36,53 @@ class QuoteCollection extends MediaCollection
         return ['quoteCollection' => array_merge(parent::toArray()['mediaCollection'], ['count' => $this->count, 'limit' => $this->limit, 'page' => $this->page])];
     }
 
-    public function setCount(int $count) {
+    public function setCount(int $count)
+    {
         $this->count = $count;
     }
 
-    public function getCount() {
+    public function getCount()
+    {
         return $this->count;
     }
 
-    public function setLimit(int $limit) {
+    public function setLimit(int $limit)
+    {
         $this->limit = $limit;
     }
 
-    public function getLimit() {
+    public function getLimit()
+    {
         return $this->limit;
     }
 
-    public function setPage(int $page) {
+    public function setPage(int $page)
+    {
         $this->page = $page;
     }
 
-    public function getPage() {
+    public function getPage()
+    {
         return $this->page;
     }
 
+    public function setFilterType($filterType)
+    {
+        $this->filterType = $filterType;
+    }
+
+    public function getFilterType()
+    {
+        return $this->filterType;
+    }
+
+    public function setAnchorQuote(Quote $quote)
+    {
+        $this->anchorQuote = $quote;
+    }
+
+    public function getAnchorQuote()
+    {
+        return $this->anchorQuote;
+    }
 }

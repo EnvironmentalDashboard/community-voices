@@ -62,3 +62,15 @@ $('.unpair-btn').on('click', function(e) {
 	}
 });
 
+$('.save-quote-changes').on('click', function(e) {
+	e.preventDefault();
+	var btn = $(this);
+	var id = btn.data('id');
+	var text = $('#text' + id).text();
+	$.post('/community-voices/quotes/' + id + '/edit/authenticate', {text: text}).done(function(d) {
+		btn.text('Saved!');
+		setTimeout(function() { btn.text('Save changes'); }, 2500);
+  });
+});
+
+

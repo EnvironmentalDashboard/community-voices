@@ -233,6 +233,7 @@ class Image extends Component\View
         $domainXMLElement->addChild('title', "Community Voices: All Images");
         $domainXMLElement->addChild('extraJS', "image-collection");
         $domainXMLElement->addChild('extraCSS', "image-collection");
+        $domainXMLElement->addChild('metaDescription', "Searchable database of photos used for Community Voices communication technology to promote environmental, social and economic sustainability in diverse communities.");
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
 

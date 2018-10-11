@@ -207,6 +207,7 @@ class Article extends Component\View
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: All Articles");
         $domainXMLElement->addChild('extraJS', "article-collection");
+        $domainXMLElement->addChild('metaDescription', "Searchable database of articles from interviews used to develop content for Community Voices communication technology to advance sustainability in diverse communities.");
         
 
         $domainIdentity = $domainXMLElement->addChild('identity');
