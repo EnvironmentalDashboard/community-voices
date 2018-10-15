@@ -56,17 +56,6 @@
                 </div>
               </div>
 
-              Approve:
-              <xsl:choose>
-                <xsl:when test="@approve-value &gt; 0">
-                    <input type='checkbox' name='approved' checked='{@approve-value}'/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <input type='checkbox' name='approved' />
-                </xsl:otherwise>
-              </xsl:choose>
-              <br/>
-
               <input type='submit' class='btn btn-primary' />
           </form>
         </div>

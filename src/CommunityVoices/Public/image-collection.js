@@ -79,6 +79,17 @@ $('.edit-form').on('submit', function(e) {
 $('#file').on('change', function(e) {
   var names = $.map($(this).prop('files'), function(val) { return val.name; });
   $('#fileList').text('Selected ' + names.join(', '));
+  
+  var file = this.files[0];
+  var reader = new FileReader();
+  reader.onloadend = function() {
+    $.post( "https://environmentaldashboard.org/community-voices/public/exif.php", { image: reader.result }, function( exif ) {
+      console.log(exif);
+      $('#dateTaken').val(exif.DateTime);
+      $('#title').val(exif.FileName);
+    }, "json");
+  }
+  reader.readAsDataURL(file); // https://stackoverflow.com/a/20285053/2624391
 });
 
 
