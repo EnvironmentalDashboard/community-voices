@@ -67,6 +67,7 @@ $('.save-quote-changes').on('click', function(e) {
 	var btn = $(this);
 	var id = btn.data('id');
 	var text = $('#text' + id).text();
+	btn.text('Loading...');
 	$.post('/community-voices/quotes/' + id + '/edit/authenticate', {text: text}).done(function(d) {
 		btn.text('Saved!');
 		setTimeout(function() { btn.text('Save changes'); }, 2500);
