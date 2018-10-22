@@ -34,7 +34,7 @@ class SlideLookup
      *
      * @return CommunityVoices\Model\Entity\SlideCollection
      */
-    public function findAll(int $page, int $limit, int $offset, string $order, string $search, $tags, $photographers, $orgs, $attributions, array $contentCategories = [], $stateObserver = false)
+    public function findAll(int $page, int $limit, int $offset, string $order, string $search, $tags, $photographers, $orgs, $attributions, array $contentCategories = [], $status = ["approved","pending","rejected"], $stateObserver = false)
     {
         $chained = ($stateObserver instanceof Component\StateObserver);
         if (!$chained) {

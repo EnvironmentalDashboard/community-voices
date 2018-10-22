@@ -124,8 +124,9 @@ class ImageCollection extends DataMapper
                     `community-voices_images` image
                   ON media.id = image.media_id
                   WHERE 1
-                    {$search_query} {$tag_query} {$photographer_query} {$org_query} {$only_unused_query}
-                  ORDER BY image.{$sort} {$order}
+                    {$search_query} {$tag_query} {$photographer_query} {$org_query} {$only_unused_query} "
+                    .$this->query_prep($imageCollection->status, "media.status").
+                  " ORDER BY image.{$sort} {$order}
                   LIMIT {$offset}, {$limit}";
 
         $statement = $this->conn->prepare($query);

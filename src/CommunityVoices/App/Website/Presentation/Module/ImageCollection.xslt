@@ -6,7 +6,8 @@
 	<xsl:variable name="isManager" select="package/identity/user/role = 'manager'
 		or package/identity/user/role = 'administrator'"/>
 
-	<xsl:variable name="search" select="package/domain/search"/>
+	<xsl:variable name="status" select="package/domain/status"/>
+  <xsl:variable name="search" select="package/domain/search"/>
 	<xsl:variable name="tags" select="package/domain/tags"/>
 	<xsl:variable name="photographers" select="package/domain/photographers"/>
 	<xsl:variable name="orgs" select="package/domain/orgs"/>
@@ -253,6 +254,38 @@
                   </option>
                 </select>
               </div>
+
+              <xsl:if test="$isManager">
+                <div class="form-group">
+                  <label for="status">Status</label>
+                  <select class="form-control" id="status" name="status">
+                    <option value=",approved,pending,rejected,">
+                      <xsl:if test="$status = 'approved,pending,rejected'">
+                        <xsl:attribute name="selected">selected</xsl:attribute>
+                      </xsl:if>
+                      All
+                    </option>
+                    <option value="approved">
+                      <xsl:if test="$status = ',approved,'">
+                        <xsl:attribute name="selected">selected</xsl:attribute>
+                      </xsl:if>
+                      Approved
+                    </option>
+                    <option value="pending">
+                      <xsl:if test="$status = ',pending,'">
+                        <xsl:attribute name="selected">selected</xsl:attribute>
+                      </xsl:if>
+                      Pending
+                    </option>
+                    <option value="rejected">
+                      <xsl:if test="$status = ',rejected,'">
+                        <xsl:attribute name="selected">selected</xsl:attribute>
+                      </xsl:if>
+                      Rejected
+                    </option>
+                  </select>
+                </div>
+              </xsl:if>
 
 	          </div>
 	          <div class="card-footer bg-transparent"><button type="button" onclick="this.parentNode.parentNode.reset()" class="btn btn-secondary mr-2">Reset</button> <button type="submit" class="btn btn-primary">Search</button></div>

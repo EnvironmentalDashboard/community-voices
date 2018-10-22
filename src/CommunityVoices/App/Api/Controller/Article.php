@@ -44,9 +44,9 @@ class Article extends Component\Controller
         $authors = $request->query->get('authors');
 
         $creatorIDs = $request->attributes->get('creatorIDs');
-        $status = $request->attributes->get('status');
+        $status = $request->query->get('status');
 
-        $status = ($status == Null) ? ["approved","pending","rejected"] : $status;
+        $status = ($status == null) ? ["approved","pending","rejected"] : explode(',', $status);
         if($identity->getRole() <= 2){
           $status = ["approved"];
         }

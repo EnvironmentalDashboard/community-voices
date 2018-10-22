@@ -25,4 +25,20 @@ class DataMapper extends Mapper
     {
         $this->conn = $conn;
     }
+
+    // query prepare (turn array into query)
+    // $seq is the array
+    // $type is the name of the field in database
+    protected function query_prep($seq, $type)
+    {
+        if ($seq == null) {
+            return "";
+        } else {
+            $toRet = array_map(
+                function($x) use ($type) {return $type . "='" . $x ."'";},
+                $seq);
+            $toRet = implode(" OR ",$toRet);
+            return " AND " . $toRet;
+        }
+    }
 }

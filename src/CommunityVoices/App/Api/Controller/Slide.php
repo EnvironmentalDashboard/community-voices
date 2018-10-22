@@ -41,6 +41,8 @@ class Slide extends Component\Controller
         $orgs = $request->query->get('orgs');
         $order = (string) $request->query->get('order');
         $attributions = $request->query->get('attributions');
+        $status = $request->query->get('status');
+        $status = ($status == null) ? ["approved","pending","rejected"] : explode(',', $status);
 
         $page = (int) $request->query->get('page');
         $page = ($page > 0) ? $page - 1 : 0; // current page, make page 0-based
@@ -51,7 +53,7 @@ class Slide extends Component\Controller
         $offset = $limit * $page;
         $cc = (is_array($request->query->get('content_category'))) ? $request->query->get('content_category') : [];
         $stateObserver = $this->tagLookup->findAll(true);
-        $stateObserver = $this->slideLookup->findAll($page, $limit, $offset, $order, $search, $tags, $photographers, $orgs, $attributions, $cc, $stateObserver);
+        $stateObserver = $this->slideLookup->findAll($page, $limit, $offset, $order, $search, $tags, $photographers, $orgs, $attributions, $cc, $status, $stateObserver);
         $stateObserver = $this->quoteLookup->attributions($stateObserver, true);
         $stateObserver = $this->imageLookup->photographers($stateObserver, true);
         $this->imageLookup->orgs($stateObserver);

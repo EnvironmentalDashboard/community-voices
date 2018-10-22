@@ -51,6 +51,8 @@ class Image extends Component\Controller
         $photographers = $request->query->get('photographers');
         $orgs = $request->query->get('orgs');
         $order = (string) $request->query->get('order');
+        $status = $request->query->get('status');
+        $status = ($status == null) ? ["approved","pending","rejected"] : explode(',', $status);
         
         $page = (int) $request->query->get('page');
         $page = ($page > 0) ? $page - 1 : 0; // current page, make page 0-based
@@ -60,7 +62,7 @@ class Image extends Component\Controller
         $only_unused = (int) $request->query->get('unused');
         $only_unused = ($only_unused === 0 || $only_unused === 1) ? $only_unused : 0;
 
-        $this->imageLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $photographers, $orgs);
+        $this->imageLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $photographers, $orgs, $status);
     }
 
     public function getImageUpload()

@@ -159,11 +159,12 @@ class ImageLookup
      *
      * @return CommunityVoices\Model\Entity\ImageCollection
      */
-    public function findAll(int $page, int $limit, int $offset, string $order, int $only_unused, string $search, $tags, $photographers, $orgs)
+    public function findAll(int $page, int $limit, int $offset, string $order, int $only_unused, string $search, $tags, $photographers, $orgs, $status)
     {
         $imageCollection = new Entity\ImageCollection;
         $imageCollection->setPage($page);
         $imageCollection->setLimit($limit);
+        $imageCollection->status = $status;
         $imageCollectionPhotographers = new \stdClass();
         $imageCollectionOrgs = new \stdClass();
 
