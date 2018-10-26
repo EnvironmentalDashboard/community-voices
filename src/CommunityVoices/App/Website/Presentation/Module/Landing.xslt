@@ -79,20 +79,20 @@
     </div>
     
     <div class="row mb-3 pt-0" style="padding: 15px">
-      <div class="col"><img data-cc="1" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/serving-our-community.png" style="cursor:pointer" /></div>
-      <div class="col"><img data-cc="2" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/our-downtown.png" style="cursor:pointer" /></div>
-      <div class="col"><img data-cc="3" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/next-generation.png" style="cursor:pointer" /></div>
-      <div class="col"><img data-cc="6" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/neighbors.png" style="cursor:pointer" /></div>
-      <div class="col"><img data-cc="5" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/nature_photos.png" style="cursor:pointer" /></div>
-      <div class="col"><img data-cc="4" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/heritage.png" style="cursor:pointer" /></div>
-      <div class="col"><img data-cc="rand" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/random.png" style="cursor:pointer" /></div>
+      <div class="col"><img data-cc="1" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/images/serving-our-community.png" style="cursor:pointer" /></div>
+      <div class="col"><img data-cc="2" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/images/our-downtown.png" style="cursor:pointer" /></div>
+      <div class="col"><img data-cc="3" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/images/next-generation.png" style="cursor:pointer" /></div>
+      <div class="col"><img data-cc="6" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/images/neighbors.png" style="cursor:pointer" /></div>
+      <div class="col"><img data-cc="5" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/images/nature_photos.png" style="cursor:pointer" /></div>
+      <div class="col"><img data-cc="4" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/images/heritage.png" style="cursor:pointer" /></div>
+      <div class="col"><img data-cc="rand" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/images/random.png" style="cursor:pointer" /></div>
     </div>
 
     <div class="row mb-5" style="padding: 15px">
       <form action="/community-voices/slides" method="GET" style="width:100%;padding:15px" id="search-form">
         <h4 class="mb-2">Looking for more content?</h4>
         <div class="input-group input-group-lg">
-          <input name="search" type="text" class="form-control" aria-label="Search Community Voices" placeholder="Search slides, images, or quotes" style="background: url(https://environmentaldashboard.org/community-voices/public/search.svg) no-repeat left 1rem center;background-size: 20px 20px;padding-left: 3rem" />
+          <input name="search" type="text" class="form-control" aria-label="Search Community Voices" placeholder="Search slides, images, or quotes" style="background: url(https://environmentaldashboard.org/community-voices/public/images/search.svg) no-repeat left 1rem center;background-size: 20px 20px;padding-left: 3rem" />
           <div class="input-group-append">
             <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown-btn">Slides</button>
             <div class="dropdown-menu" id="searchables">
