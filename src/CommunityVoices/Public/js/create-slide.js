@@ -173,17 +173,17 @@ function renderSlide(quote_text, attribution, image, ccid) {
 function contentCategory(id) {
     switch (id) {
         case 1:
-            return {text: 'Serving Our Community', image: 'https://environmentaldashboard.org/community-voices/public/1.png', bg: 'rgb(150,81,23)'}
+            return {text: 'Serving Our Community', image: 'https://environmentaldashboard.org/community-voices/public/images/1.png', bg: 'rgb(150,81,23)'}
         case 2:
-            return {text: 'Our Downtown', image: 'https://environmentaldashboard.org/community-voices/public/2.png', bg: 'rgb(92,92,92)'}
+            return {text: 'Our Downtown', image: 'https://environmentaldashboard.org/community-voices/public/images/2.png', bg: 'rgb(92,92,92)'}
         case 3:
-            return {text: 'Next Generation', image: 'https://environmentaldashboard.org/community-voices/public/3.png', bg: 'rgb(4,54,75)'}
+            return {text: 'Next Generation', image: 'https://environmentaldashboard.org/community-voices/public/images/3.png', bg: 'rgb(4,54,75)'}
         case 4:
-            return {text: 'Heritage', image: 'https://environmentaldashboard.org/community-voices/public/4.png', bg: 'rgb(86,114,34)'}
+            return {text: 'Heritage', image: 'https://environmentaldashboard.org/community-voices/public/images/4.png', bg: 'rgb(86,114,34)'}
         case 5:
-            return {text: 'Natural Oberlin', image: 'https://environmentaldashboard.org/community-voices/public/5.png', bg: 'rgb(67,118,45)'}
+            return {text: 'Natural Oberlin', image: 'https://environmentaldashboard.org/community-voices/public/images/5.png', bg: 'rgb(67,118,45)'}
         case 6:
-            return {text: 'Our Neighbours', image: 'https://environmentaldashboard.org/community-voices/public/6.png', bg: 'rgb(94,0,224)'}
+            return {text: 'Our Neighbours', image: 'https://environmentaldashboard.org/community-voices/public/images/6.png', bg: 'rgb(94,0,224)'}
     }
 }
 
