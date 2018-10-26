@@ -35,7 +35,6 @@ class Slide extends Component\View
     public function getAllSlide($routes, $context)
     {
         parse_str($_SERVER['QUERY_STRING'], $qs);
-        $svg_ver = (isset($qs['ver']) && $qs['ver'] === 'svg');
 
         /**
          * Gather identity information
@@ -62,9 +61,6 @@ class Slide extends Component\View
         unset($obj->slideCollection['limit']);
         unset($obj->slideCollection['page']);
         foreach ($obj->slideCollection as $key => $slide) {
-            if ($svg_ver) {
-                $slide->slide->g = htmlspecialchars($this->formatSlide($slide->slide->image->image->filename, $slide->slide->image->image->id, $slide->slide->quote->quote->text, $slide->slide->quote->quote->attribution, $slide->slide->contentCategory->contentCategory->id));
-            }
             $slide->slide->quote->quote->text = htmlspecialchars($slide->slide->quote->quote->text);
             $slide->slide->quote->quote->attribution = htmlspecialchars($slide->slide->quote->quote->attribution);
             $slide->slide->quote->quote->subAttribution = htmlspecialchars($slide->slide->quote->quote->subAttribution);
@@ -180,7 +176,6 @@ class Slide extends Component\View
 
     public function getSlide($routes, $context)
     {
-        $svg_ver = (isset($_GET['ver']) && $_GET['ver'] === 'svg');
 
         /**
          * Gather identity information
@@ -202,20 +197,17 @@ class Slide extends Component\View
         $json->slide->image->image->title = htmlspecialchars(htmlspecialchars($json->slide->image->image->title));
         $json->slide->image->image->description = htmlspecialchars(htmlspecialchars($json->slide->image->image->description));
 
-        if ($svg_ver) {
-            $json->slide->g = htmlspecialchars($this->formatSlide($json->slide->image->image->filename, $json->slide->image->image->id, $json->slide->quote->quote->text, $json->slide->quote->quote->attribution, $json->slide->contentCategory->contentCategory->id));
-        } else {
-            $dimensions = (file_exists($json->slide->image->image->filename)) ? getimagesize($json->slide->image->image->filename) : [16, 12];
-            $aspect_ratio = $dimensions[0] / $dimensions[1];
-            if ($aspect_ratio > 1.5) {
-                $aspect_ratio = 1.5;
-            }
-            $scaled_ar = 2 - (($aspect_ratio ** 4) / 5);
-            $strlen = strlen($json->slide->quote->quote->text);
-            $scaled_len = 1 - ((($strlen/500) ** 2));
-            $font_size = 0.5 + $scaled_ar + $scaled_len;//($aspect_ratio * ($strlen/100))
-            $json->slide->font_size = $font_size;
+    
+        $dimensions = (file_exists($json->slide->image->image->filename)) ? getimagesize($json->slide->image->image->filename) : [16, 12];
+        $aspect_ratio = $dimensions[0] / $dimensions[1];
+        if ($aspect_ratio > 1.5) {
+            $aspect_ratio = 1.5;
         }
+        $scaled_ar = 2 - (($aspect_ratio ** 4) / 5);
+        $strlen = strlen($json->slide->quote->quote->text);
+        $scaled_len = 1 - ((($strlen/500) ** 2));
+        $font_size = 0.5 + $scaled_ar + $scaled_len;//($aspect_ratio * ($strlen/100))
+        $json->slide->font_size = $font_size;
 
         $slideXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($json)
@@ -240,7 +232,7 @@ class Slide extends Component\View
         /**
          * Generate slide module
          */
-        $slideModule = new Component\Presenter(($svg_ver) ? 'Module/Slide' : 'Module/HTMLSlide');
+        $slideModule = new Component\Presenter('Module/Slide');
         $slideModuleXML = $slideModule->generate($slidePackageElement);
 
         /**
@@ -265,15 +257,11 @@ class Slide extends Component\View
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
 
-        $presentation = new Component\Presenter(($svg_ver) ? 'SVG' : 'Blank');
+        $presentation = new Component\Presenter('Blank');
 
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 
         $this->finalize($response);
-
-        if ($svg_ver) {
-            header('Content-type: image/svg+xml');
-        }
 
         return $response;
     }
@@ -543,168 +531,5 @@ class Slide extends Component\View
         */
     }
 
-    private function formatSlide($fn, $imgId, $text, $attribution, $cc) {
-        if (!file_exists($fn)) { // it wont exist on local
-            exit('Slide image not found; are you on local?');
-        }
-        $max_height = 39; // viewBox height is 50px, but minus 7px for content category banner and 4px for margin around image
-        $max_width = 56; // viewBox width is 100px, but image should take at most 60% of space, minus 4px for margin
-        $size = getimagesize($fn);
-        $w = $size[0];
-        $h = $size[1];
-        $aspect_ratio = $w/$h;
-        $max_aspect_ratio = $max_width/$max_height;
-        $final_height = $max_height;
-        $final_width = ($final_height * $aspect_ratio);
-        if ($final_width > $max_width) {
-            $final_width = $max_width;
-        }
-        $final_y = 2; // 2px on each side = 4px of margin total
-        if ($final_width != $max_width) {
-            $final_x = ($max_width - $final_width) / 4;
-        } else {
-            $final_x = 2;
-        }
-        $image_href = 'data:' . mime_content_type($fn) . ';base64,' . base64_encode(file_get_contents($fn));
 
-        $lines = $this->splitText($text, $this->lineWidth($final_width + ($final_x*2)));
-        while (count($lines) > 7) {
-            $final_width = $final_width / 1.2;
-            $final_height = $final_height / 1.2;
-            $final_x = $final_x / 1.2;
-            $lines = $this->splitText($text, $this->lineWidth($final_width + ($final_x*2)));
-        }
-        $len = strlen($text);
-        return '--><image x="'.$final_x.'px" y="'.$final_y.'px" width="'.$final_width.'px" height="'.$final_height.'px" xlink:href="'.$image_href.'"></image>' . $this->formatText($lines, $attribution, $final_width + ($final_x*2), (10 + ( (10/$len) * 100 )),  $this->convertRange(350 - $len, 0, 350, 2, 4)) . $this->contentCategoryBar($cc);
-    }
-
-    private function formatText(array $lines, string $attribution, float $x, float $y, float $font_size) { // max lines like 8
-        $ret = '<text font-family="Comfortaa, Helvetica, sans-serif" x="'.$x.'px" y="'.$y.'%" fill="#fff" font-size="'.$font_size.'px"><tspan>' . implode('</tspan><tspan x="'.$x.'px" dy="4">', $lines) . '</tspan><tspan font-size="2px" x="'.$x.'px" dy="5">&#8212; ';
-        $once = 0;
-        if (strlen($attribution) > 10) {
-            foreach (explode(',', $attribution) as $part) {
-                if ($once++ === 1) {
-                    $ret .= ',</tspan><tspan font-size="2px" x="'.($x+2).'px" dy="2">';
-                }
-                $ret .= $part;
-            }
-        } else {
-            $ret .= $attribution;
-        }
-        return $ret . '</tspan></text>';
-    }
-
-    private function splitText($text, $line_width) {
-        $i = 0;
-        $lines = [];
-        $lines[0] = '';
-        $space_left = $line_width;
-        foreach (explode(' ', $text) as $word) {
-            $width = strlen($word);
-            if ($width + 1 > $space_left) {
-                $lines[++$i] = $word;
-                $space_left = $line_width - $width;
-            } else {
-                $lines[$i] .= " {$word}";
-                $space_left = $space_left - $width - 1;
-            }
-        }
-        return $lines;
-    }
-
-    private function lineWidth($image_end) {
-        return ((100-$image_end)/100) * 60; // ~55-60 is about image width, $image_end is out of 100
-    }
-
-    private function contentCategoryBar(int $cc) {
-        $fn = '/var/www/html/src/CommunityVoices/App/Website/Presentation/Static/contentCategory/' . $cc . '.png';
-        return '<image x="0" y="1.75px" width="100%" xlink:href="data:image/png;base64,' . base64_encode(file_get_contents($fn)).'"></image>';
-    }
-
-    private function convertRange($val, $old_min, $old_max, $new_min, $new_max) {
-        return ((($new_max - $new_min) * ($val - $old_min)) / ($old_max - $old_min)) + $new_min;
-    }
-
-    /**
-     * taken from https://stackoverflow.com/a/9225522/2624391
-     */
-    private function minimumRaggedness($input, $LineWidth, $lineBreak = "\n")
-    {
-        $words = explode(" ", $input);
-        $wsnum = count($words);
-        $wslen = array_map("strlen", $words);
-        $inf = PHP_INT_MAX;
-
-        // keep Costs
-        $C = array();
-
-        for ($i = 0; $i < $wsnum; ++$i)
-        {
-            $C[] = array();
-            for ($j = $i; $j < $wsnum; ++$j)
-            {
-                $l = 0;
-                for ($k = $i; $k <= $j; ++$k)
-                    $l += $wslen[$k];
-                $c = $LineWidth - ($j - $i) - $l;
-                if ($c < 0)
-                    $c = $inf;
-                else
-                    $c = $c * $c;
-                $C[$i][$j] = $c;
-            }
-        }
-
-        // apply recurrence
-        $F = array();
-        $W = array();
-        for ($j = 0; $j < $wsnum; ++$j)
-        {
-            $F[$j] = $C[0][$j];
-            $W[$j] = 0;
-            if ($F[$j] == $inf)
-            {
-                for ($k = 0; $k < $j; ++$k)
-                {
-                    $t = $F[$k] + $C[$k + 1][$j];
-                    if ($t < $F[$j])
-                    {
-                        $F[$j] = $t;
-                        $W[$j] = $k + 1;
-                    }
-                }
-            }
-        }
-
-        // rebuild wrapped paragraph
-        $output = "";
-        if ($F[$wsnum - 1] < $inf)
-        {
-            $S = array();
-            $j = $wsnum - 1;
-            for ( ; ; )
-            {
-                $S[] = $j;
-                $S[] = $W[$j];
-                if ($W[$j] == 0)
-                    break;
-                $j = $W[$j] - 1;
-            }
-
-            $pS = count($S) - 1;
-            do
-            {
-                $i = $S[$pS--];
-                $j = $S[$pS--];
-                for ($k = $i; $k < $j; $k++)
-                    $output .= $words[$k] . " ";
-                $output .= $words[$k] . $lineBreak;
-            }
-            while ($j < $wsnum - 1);
-        }
-        else
-            $output = $input;
-
-        return $output;
-    }
 }
