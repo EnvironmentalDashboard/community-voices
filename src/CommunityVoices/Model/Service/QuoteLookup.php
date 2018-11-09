@@ -102,8 +102,6 @@ class QuoteLookup
             }
         }
 
-        //var_dump($valid_creatorIDs);
-
         $quoteCollection->creators = $creatorIDs;
         $quoteCollection->status = $status;
 

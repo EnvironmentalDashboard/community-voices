@@ -51,26 +51,49 @@ class Quote extends Component\Controller
 
     public function getAllQuote($request, $identity)
     {
-        $search = (string) $request->query->get('search');
+        /**
+         * Grab parameters from bag
+         */
+
+        $search = $request->query->get('search');
         $tags = $request->query->get('tags');
         $attributions = $request->query->get('attributions');
-
         $creatorIDs = $request->attributes->get('creatorIDs');
         $status = $request->query->get('status');
+        $order = (string) $request->query->get('order');
+        $page = (int) $request->query->get('page');
+        $limit = (int) $request->query->get('per_page');
+        $only_unused = (int) $request->query->get('unused');
 
-        $status = ($status == null) ? ["approved","pending","rejected"] : explode(',', $status);
+        /**
+         * Pre-process parameters
+         */
+        $status = ($status == null) ? ["approved", "pending", "rejected"] : explode(',', $status);
+
+        /**
+         * @todo
+         *
+         * RBAC usually be in the ACL, not here (i.e., two different View-
+         * Controller pairs, arbitrated by a secure container)
+         */
         if ($identity->getRole() <= 2) {
             $status = ["approved"];
         }
 
-        $order = (string) $request->query->get('order');
-        $page = (int) $request->query->get('page');
-        $page = ($page > 0) ? $page - 1 : 0; // current page, make page 0-based
-        $limit = (int) $request->query->get('per_page');
+        /**
+         * Current page, indexed at zero
+         * @var int
+         */
+        $page = ($page > 0) ? $page - 1 : 0;
+
+        /**
+         * Items per page
+         * @var int
+         */
         $limit = ($limit > 0) ? $limit : 25; // number of items per page
         $offset = $limit * $page;
-        $only_unused = (int) $request->query->get('unused');
-        $only_unused = ($only_unused === 0 || $only_unused === 1) ? $only_unused : 0;
+
+        $only_unused = !!$only_unused;
 
         $this->quoteLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $attributions, $creatorIDs, $status);
     }
