@@ -379,9 +379,21 @@
                           </div>
                         </div>
                         <input type='submit' class="btn btn-primary mt-2 btn-block" value="Update" form="edit-form{id}"></input>
-                        <form action="images/{id}/delete/authenticate" method="POST" class="delete-form">
-                          <input type="submit" value="Delete" class="btn btn-danger mt-2 btn-block" />
-                        </form>
+
+                        <xsl:choose>
+                          <xsl:when test="relatedSlide = ''">
+                              <form action="images/{id}/delete/authenticate" method="POST" class="delete-form">
+                                <input type="submit" value="Delete" class="btn btn-danger mt-2 btn-block" />
+                              </form>
+                          </xsl:when>
+                          <xsl:otherwise>
+                              <form action="images/{id}/unpair/{relatedSlide}" method="POST" class="delete-form">
+                                <input type="submit" value="Unpair" class="btn btn-secondary mt-2 btn-block" />
+                              </form>
+                          </xsl:otherwise>
+                        </xsl:choose>
+
+
                       </td>
                     </tr>
                   </xsl:for-each>
@@ -407,7 +419,7 @@
                       </div>
                     </a>
                     <div class="card-footer text-muted">
-                      <p class='mt-0 mb-0'>Source: 
+                      <p class='mt-0 mb-0'>Source:
                         <xsl:value-of select='photographer' />
                         <xsl:if test="organization != '' and photographer != organization">
                           <xsl:if test="photographer != ''">, </xsl:if>

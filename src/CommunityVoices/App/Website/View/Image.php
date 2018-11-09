@@ -106,7 +106,7 @@ class Image extends Component\View
             "Community Voices: Image ".
             $imageXMLElement->id
         );
-        
+
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -152,6 +152,7 @@ class Image extends Component\View
                 $selectedTags[] = $group->group->id;
             }
             $item->image->selectedTagString = ',' . implode(',', $selectedTags) . ',';
+            $item->image->relatedSlide = $this->imageLookup->relatedSlide($item->image->id);
         }
 
         $imageXMLElement = new SimpleXMLElement(
@@ -170,7 +171,7 @@ class Image extends Component\View
         );
 
         $tags = $json->tags;
-        usort($tags->groupCollection, function($a, $b) {
+        usort($tags->groupCollection, function ($a, $b) {
             $a = $a->group->label;
             $b = $b->group->label;
             return strcmp($a, $b);
@@ -198,7 +199,7 @@ class Image extends Component\View
         $packagedImage->adopt($paginationXMLElement);
         $packagedImage->adopt($tagXMLElement);
         // var_dump($packagedImage->imageCollection->image[0]);die;
-        
+
         foreach ($qs as $key => $value) {
             if ($key === 'search' || $key === 'order' || $key === 'unused') {
                 $packagedImage->addChild($key, $value);
@@ -286,13 +287,12 @@ class Image extends Component\View
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
         $this->finalize($response);
         return $response;
-        
     }
 
     public function postImageUpload($routes, $context)
     {
         $this->success('https://environmentaldashboard.org/community-voices/images');
-        
+
         /*
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
@@ -368,7 +368,7 @@ class Image extends Component\View
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: Image Update");
         $domainXMLElement->addChild('extraJS', "image-update");
-        
+
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -407,8 +407,8 @@ class Image extends Component\View
         */
     }
 
-    public function postImageUnpair($routes, $context) {
+    public function postImageUnpair($routes, $context)
+    {
         exit; // nothing to show to user
     }
-    
 }
