@@ -153,6 +153,10 @@ class Image extends Component\View
             }
             $item->image->selectedTagString = ',' . implode(',', $selectedTags) . ',';
             $item->image->relatedSlide = $this->imageLookup->relatedSlide($item->image->id);
+            $item->image->title = htmlspecialchars($item->image->title);
+            $item->image->description = htmlspecialchars($item->image->description);
+            $item->image->organization = htmlspecialchars($item->image->organization);
+            $item->image->photographer = htmlspecialchars($item->image->photographer);
         }
 
         $imageXMLElement = new SimpleXMLElement(
@@ -198,7 +202,6 @@ class Image extends Component\View
         $packagedImage->adopt($orgXMLElement);
         $packagedImage->adopt($paginationXMLElement);
         $packagedImage->adopt($tagXMLElement);
-        // var_dump($packagedImage->imageCollection->image[0]);die;
 
         foreach ($qs as $key => $value) {
             if ($key === 'search' || $key === 'order' || $key === 'unused') {
@@ -207,7 +210,6 @@ class Image extends Component\View
                 $packagedImage->addChild($key, (is_array($value)) ? ','.implode(',', $value).',' : ','.$value.',');
             }
         }
-        // var_dump($packagedImage);die;
 
         $packagedIdentity = $imagePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
