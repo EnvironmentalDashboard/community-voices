@@ -153,10 +153,6 @@ class Image extends Component\View
             }
             $item->image->selectedTagString = ',' . implode(',', $selectedTags) . ',';
             $item->image->relatedSlide = $this->imageLookup->relatedSlide($item->image->id);
-            $item->image->title = htmlspecialchars($item->image->title);
-            $item->image->description = htmlspecialchars($item->image->description);
-            $item->image->organization = htmlspecialchars($item->image->organization);
-            $item->image->photographer = htmlspecialchars($item->image->photographer);
         }
 
         $imageXMLElement = new SimpleXMLElement(
