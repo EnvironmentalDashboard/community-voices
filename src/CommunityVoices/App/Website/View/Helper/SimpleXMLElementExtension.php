@@ -12,7 +12,7 @@ class SimpleXMLElementExtension extends SimpleXMLElement
             $root = $this;
         }
 
-        $node = $root->addChild($new->getName(), (string) $new);
+        $node = $root->addChild($new->getName(), htmlspecialchars((string) $new));
 
         foreach ($new->attributes() as $attr => $value) {
             $node->addAttribute($attr, $value);
