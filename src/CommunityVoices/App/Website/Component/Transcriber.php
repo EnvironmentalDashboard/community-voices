@@ -40,6 +40,6 @@ class Transcriber
 
     private function encode($input)
     {
-        return htmlspecialchars($output);
+        return htmlspecialchars($input);
     }
 }
