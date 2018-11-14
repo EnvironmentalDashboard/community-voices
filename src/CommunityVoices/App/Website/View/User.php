@@ -25,7 +25,7 @@ class User extends Component\View
         $this->transcriber = $transcriber;
     }
 
-    public function getProfile($routes, $context)
+    public function getProfile($request)
     {
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
@@ -77,7 +77,7 @@ class User extends Component\View
         return $response;
     }
 
-    public function getRegistration($routes, $context)
+    public function getRegistration($request)
     {
 
         /* Gather identity information */
@@ -147,7 +147,7 @@ class User extends Component\View
         // return $response;
     }
 
-    public function postRegistration($routes, $context)
+    public function postRegistration($request)
     {
         /* Gather identity information */
         $identity = $this->recognitionAdapter->identify();
@@ -189,7 +189,7 @@ class User extends Component\View
         return $response;
     }
 
-    public function postRegistrationInvite($routes, $context)
+    public function postRegistrationInvite($request)
     {
         header('Location: /community-voices/');
         exit();

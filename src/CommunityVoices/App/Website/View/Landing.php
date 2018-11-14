@@ -32,7 +32,7 @@ class Landing extends Component\View
         $this->landingAPIView = $landingAPIView;
     }
 
-    public function getLanding($routes, $context){
+    public function getLanding($request){
         /**
          * Gather identity information
          */

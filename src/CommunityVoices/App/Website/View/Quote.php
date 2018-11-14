@@ -37,7 +37,7 @@ class Quote extends Component\View
         $this->tagLookup = $tagLookup;
     }
 
-    public function getQuote($routes, $context)
+    public function getQuote($request)
     {
         /**
          * Gather identity information (API component call)
@@ -129,7 +129,7 @@ class Quote extends Component\View
         return $response;
     }
 
-    public function getAllQuote($routes, $context)
+    public function getAllQuote($request)
     {
         parse_str($_SERVER['QUERY_STRING'], $qs);
 
@@ -240,7 +240,7 @@ class Quote extends Component\View
         return $response;
     }
 
-    public function getQuoteUpload($routes, $context)
+    public function getQuoteUpload($request)
     {
         $identity = $this->recognitionAdapter->identify();
 
@@ -283,7 +283,7 @@ class Quote extends Component\View
         return $response;
     }
 
-    public function postQuoteUpload($routes, $context)
+    public function postQuoteUpload($request)
     {
         $this->success();
 
@@ -307,7 +307,7 @@ class Quote extends Component\View
         */
     }
 
-    public function getQuoteUpdate($routes, $context)
+    public function getQuoteUpdate($request)
     {
         $paramXML = new Helper\SimpleXMLElementExtension('<form/>');
 
@@ -381,7 +381,7 @@ class Quote extends Component\View
         return $response;
     }
 
-    public function postQuoteUpdate($routes, $context)
+    public function postQuoteUpdate($request)
     {
         $this->success();
 
@@ -405,7 +405,7 @@ class Quote extends Component\View
         */
     }
 
-    public function postQuoteUnpair($routes, $context)
+    public function postQuoteUnpair($request)
     {
         exit; // nothing to show to user
     }

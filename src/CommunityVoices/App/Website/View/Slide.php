@@ -32,7 +32,7 @@ class Slide extends Component\View
         $this->slideAPIView = $slideAPIView;
     }
 
-    public function getAllSlide($routes, $context)
+    public function getAllSlide($request)
     {
         parse_str($_SERVER['QUERY_STRING'], $qs);
 
@@ -174,7 +174,7 @@ class Slide extends Component\View
         return $response;
     }
 
-    public function getSlide($routes, $context)
+    public function getSlide($request)
     {
 
         /**
@@ -266,7 +266,7 @@ class Slide extends Component\View
         return $response;
     }
 
-    public function getSlideUpload($routes, $context)
+    public function getSlideUpload($request)
     {
         parse_str($_SERVER['QUERY_STRING'], $qs);
 
@@ -362,7 +362,7 @@ class Slide extends Component\View
         return $response;
     }
 
-    public function postSlideUpload($routes, $context)
+    public function postSlideUpload($request)
     {
         $this->success(false);
         /*
@@ -385,7 +385,7 @@ class Slide extends Component\View
         */
     }
 
-    public function getSlideUpdate($routes, $context)
+    public function getSlideUpdate($request)
     {
         $quick_fix = array (
           1 => 'Serving Our Community',
@@ -508,7 +508,7 @@ class Slide extends Component\View
         return $response;
     }
 
-    public function postSlideUpdate($routes, $context)
+    public function postSlideUpdate($request)
     {
         $this->success(false);
         /*

@@ -35,7 +35,7 @@ class Article extends Component\View
         $this->articleLookup = $articleLookup;
     }
 
-    public function getArticle($routes, $context)
+    public function getArticle($request)
     {
         /**
          * Gather identity information
@@ -96,7 +96,7 @@ class Article extends Component\View
             "Community Voices: Article ".
             $articleXMLElement->id
         );
-        
+
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -109,9 +109,8 @@ class Article extends Component\View
         return $response;
     }
 
-    public function getAllArticle($routes, $context)
+    public function getAllArticle($request)
     {
-
         parse_str($_SERVER['QUERY_STRING'], $qs);
         /**
          * Gather identity information
@@ -208,7 +207,7 @@ class Article extends Component\View
         $domainXMLElement->addChild('title', "Community Voices: All Articles");
         $domainXMLElement->addChild('extraJS', "article-collection");
         $domainXMLElement->addChild('metaDescription', "Searchable database of articles from interviews used to develop content for Community Voices communication technology to advance sustainability in diverse communities.");
-        
+
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -221,7 +220,7 @@ class Article extends Component\View
         return $response;
     }
 
-    public function getArticleUpload($routes, $context)
+    public function getArticleUpload($request)
     {
         try {
             $articleAPIView = $this->secureContainer->contain($this->articleAPIView);
@@ -257,7 +256,7 @@ class Article extends Component\View
             'title',
             "Community Voices: Article Upload"
         );
-        
+
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -270,7 +269,7 @@ class Article extends Component\View
         return $response;
     }
 
-    public function postArticleUpload($routes, $context)
+    public function postArticleUpload($request)
     {
         $this->success();
         /*
@@ -293,7 +292,7 @@ class Article extends Component\View
         */
     }
 
-    public function getArticleUpdate($routes, $context)
+    public function getArticleUpdate($request)
     {
         $paramXML = new Helper\SimpleXMLElementExtension('<form/>');
 
@@ -335,7 +334,7 @@ class Article extends Component\View
             'title',
             "Community Voices: Article Update"
         );
-        
+
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
@@ -350,7 +349,7 @@ class Article extends Component\View
         return $response;
     }
 
-    public function postArticleUpdate($routes, $context)
+    public function postArticleUpdate($request)
     {
         $this->success();
         /*
