@@ -81,6 +81,13 @@ try {
 $request->attributes = $parameters;
 
 /**
+ * Create and share URL generator
+ */
+
+$urlGenerator = new  Symfony\Component\Routing\Generator\UrlGenerator($routes, $context);
+$injector->share($urlGenerator);
+
+/**
  * Create and share mapper factories
  */
 
@@ -122,6 +129,6 @@ $controller = $injector->make("CommunityVoices\\App\\Website\\Controller\\" . $r
 $controller->{$action}($request);
 
 $view = $injector->make("CommunityVoices\\App\\Website\\View\\" . $resource); // will call the website view which will set xslt template, variables, etc. and format a response, getting data from the api view which will fetch data from the $stateObserver array (api view usually called very early in website view)
-$response = $view->{$action}($routes, $context);
+$response = $view->{$action}($request);
 
 $response->send();
