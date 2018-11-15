@@ -37,12 +37,12 @@ class Image extends Component\View
         $this->tagLookup = $tagLookup;
     }
 
-    public function sendImage($routes, $context)
+    public function sendImage($request)
     {
         // wut
     }
 
-    public function getImage($routes, $context)
+    public function getImage($request)
     {
         /**
          * Gather identity information
@@ -119,7 +119,7 @@ class Image extends Component\View
         return $response;
     }
 
-    public function getAllImage($routes, $context)
+    public function getAllImage($request)
     {
         parse_str($_SERVER['QUERY_STRING'], $qs);
         /**
@@ -244,7 +244,7 @@ class Image extends Component\View
         return $response;
     }
 
-    public function getImageUpload($routes, $context)
+    public function getImageUpload($request)
     {
         $identity = $this->recognitionAdapter->identify();
 
@@ -287,7 +287,7 @@ class Image extends Component\View
         return $response;
     }
 
-    public function postImageUpload($routes, $context)
+    public function postImageUpload($request)
     {
         $this->success('https://environmentaldashboard.org/community-voices/images');
 
@@ -311,7 +311,7 @@ class Image extends Component\View
         */
     }
 
-    public function getImageUpdate($routes, $context)
+    public function getImageUpdate($request)
     {
         $paramXML = new Helper\SimpleXMLElementExtension('<form/>');
 
@@ -381,7 +381,7 @@ class Image extends Component\View
         return $response;
     }
 
-    public function postImageUpdate($routes, $context)
+    public function postImageUpdate($request)
     {
         $this->success();
 
@@ -405,7 +405,7 @@ class Image extends Component\View
         */
     }
 
-    public function postImageUnpair($routes, $context)
+    public function postImageUnpair($request)
     {
         exit; // nothing to show to user
     }
