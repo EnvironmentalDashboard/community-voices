@@ -149,44 +149,13 @@ class User extends Component\View
 
     public function postRegistration($request)
     {
-        /* Gather identity information */
-        $identity = $this->recognitionAdapter->identify();
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
-        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
-
-        if( !$identity->getId() ){
-            // @TODO
-        } else {
-            $this->success('/community-voices/');
-            $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
-        }
-
         /**
-         * Get base URL
+         * @TODO This method isn't checking whether the registration is successful
          */
-        //$urlGenerator = new UrlGenerator($routes, $context);
-        //$baseUrl = $urlGenerator->generate('root');
-
-        //$domainXMLElement->addChild('baseUrl', $baseUrl);
-        $domainXMLElement->addChild('title',
-            "Community Voices: Welcome"
+        
+        return HttpFoundation\RedirectResponse(
+            $this->urlGenerator->generate('root')
         );
-
-        /**
-         * Prepare template
-         */
-        $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
-
-        $presentation = new Component\Presenter('SinglePane');
-
-        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
-
-        $this->finalize($response);
-        return $response;
     }
 
     public function postRegistrationInvite($request)

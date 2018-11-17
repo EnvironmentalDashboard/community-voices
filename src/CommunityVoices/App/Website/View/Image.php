@@ -14,27 +14,32 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class Image extends Component\View
 {
-    protected $recognitionAdapter;
     protected $imageAPIView;
+    protected $imageLookup;
+    protected $mapperFactory;
+    protected $recognitionAdapter;
     protected $secureContainer;
     protected $transcriber;
+    protected $urlGenerator;
 
     public function __construct(
-        Component\RecognitionAdapter $recognitionAdapter,
-        Component\MapperFactory $mapperFactory,
-        Component\Transcriber $transcriber,
-        Api\Component\SecureContainer $secureContainer,
         Api\View\Image $imageAPIView,
         Service\ImageLookup $imageLookup,
-        Service\TagLookup $tagLookup
+        Component\MapperFactory $mapperFactory,
+        Component\RecognitionAdapter $recognitionAdapter,
+        Api\Component\SecureContainer $secureContainer,
+        Service\TagLookup $tagLookup,
+        Component\Transcriber $transcriber,
+        UrlGenerator $urlGenerator
     ) {
-        $this->recognitionAdapter = $recognitionAdapter;
-        $this->mapperFactory = $mapperFactory;
-        $this->transcriber = $transcriber;
-        $this->secureContainer = $secureContainer;
         $this->imageAPIView = $imageAPIView;
         $this->imageLookup = $imageLookup;
+        $this->mapperFactory = $mapperFactory;
+        $this->recognitionAdapter = $recognitionAdapter;
+        $this->secureContainer = $secureContainer;
         $this->tagLookup = $tagLookup;
+        $this->transcriber = $transcriber;
+        $this->urlGenerator = $urlGenerator;
     }
 
     public function sendImage($request)
@@ -289,7 +294,9 @@ class Image extends Component\View
 
     public function postImageUpload($request)
     {
-        $this->success('https://environmentaldashboard.org/community-voices/images');
+        return HttpFoundation\RedirectResponse(
+            $request->headers->get('referer')
+        );
 
         /*
         $identity = $this->recognitionAdapter->identify();
@@ -383,7 +390,9 @@ class Image extends Component\View
 
     public function postImageUpdate($request)
     {
-        $this->success();
+        return HttpFoundation\RedirectResponse(
+            $request->headers->get('referer')
+        );
 
         /*
         $identity = $this->recognitionAdapter->identify();

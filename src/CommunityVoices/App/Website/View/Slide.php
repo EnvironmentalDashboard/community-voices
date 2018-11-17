@@ -105,7 +105,11 @@ class Slide extends Component\View
         );
 
         $obj = new \stdClass;
-        $obj->contentCategoryCollection = array_map(function($a) { $o = new \stdClass; $o->contentCategory = $a; return $o; }, ['Serving Our Community', 'Our Downtown', 'Next Generation', 'Heritage', 'Natural Oberlin', 'Neighbors']);
+        $obj->contentCategoryCollection = array_map(function ($a) {
+            $o = new \stdClass;
+            $o->contentCategory = $a;
+            return $o;
+        }, ['Serving Our Community', 'Our Downtown', 'Next Generation', 'Heritage', 'Natural Oberlin', 'Neighbors']);
         $contentCategoryXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($obj)
         );
@@ -197,7 +201,7 @@ class Slide extends Component\View
         $json->slide->image->image->title = htmlspecialchars(htmlspecialchars($json->slide->image->image->title));
         $json->slide->image->image->description = htmlspecialchars(htmlspecialchars($json->slide->image->image->description));
 
-    
+
         $dimensions = (file_exists($json->slide->image->image->filename)) ? getimagesize($json->slide->image->image->filename) : [16, 12];
         $aspect_ratio = $dimensions[0] / $dimensions[1];
         if ($aspect_ratio > 1.5) {
@@ -364,7 +368,10 @@ class Slide extends Component\View
 
     public function postSlideUpload($request)
     {
-        $this->success(false);
+        return HttpFoundation\RedirectResponse(
+            $request->headers->get('referer')
+        );
+        
         /*
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
@@ -387,7 +394,7 @@ class Slide extends Component\View
 
     public function getSlideUpdate($request)
     {
-        $quick_fix = array (
+        $quick_fix = array(
           1 => 'Serving Our Community',
           2 => 'Our Downtown',
           3 => 'Next Generation',
@@ -510,7 +517,10 @@ class Slide extends Component\View
 
     public function postSlideUpdate($request)
     {
-        $this->success(false);
+        return HttpFoundation\RedirectResponse(
+            $request->headers->get('referer')
+        );
+
         /*
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
@@ -530,6 +540,4 @@ class Slide extends Component\View
         return $response;
         */
     }
-
-
 }

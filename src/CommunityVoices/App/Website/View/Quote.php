@@ -285,7 +285,9 @@ class Quote extends Component\View
 
     public function postQuoteUpload($request)
     {
-        $this->success();
+        return HttpFoundation\RedirectResponse(
+            $request->headers->get('referer')
+        );
 
         /*
         $identity = $this->recognitionAdapter->identify();
@@ -383,7 +385,9 @@ class Quote extends Component\View
 
     public function postQuoteUpdate($request)
     {
-        $this->success();
+        return HttpFoundation\RedirectResponse(
+            $request->headers->get('referer')
+        );
 
         /*
         $identity = $this->recognitionAdapter->identify();

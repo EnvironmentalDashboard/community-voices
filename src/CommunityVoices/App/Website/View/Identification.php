@@ -17,14 +17,17 @@ class Identification extends Component\View
     protected $recognitionAdapter;
     protected $mapperFactory;
     protected $transcriber;
+    protected $urlGenerator;
 
     public function __construct(Component\RecognitionAdapter $recognitionAdapter,
         Component\MapperFactory $mapperFactory,
-        Component\Transcriber $transcriber)
+        Component\Transcriber $transcriber,
+        UrlGenerator $urlGenerator)
     {
         $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
         $this->transcriber = $transcriber;
+        $this->urlGenerator = $urlGenerator;
     }
 
     public function getLogin($request)
@@ -81,46 +84,47 @@ class Identification extends Component\View
 
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
-        if (!$identity->getId()) {
+        if ($identity->getId()) {
             /**
-             * Login failed; display login form
+             * Login success
              */
 
-            // Grab cached form
-            $formCache = new Component\CachedItem('form');
+            $response = new HttpFoundation\RedirectResponse(
+                $this->urlGenerator->generate('root')
+            );
 
-            $cacheMapper = $this->mapperFactory->createCacheMapper();
-            $cacheMapper->fetch($formCache);
-
-            $form = $formCache->getValue();
-
-            // Construct form
-            $formParamXML = new SimpleXMLElement('<form/>');
-            $formParamXML->addAttribute('failure', true);
-            $formParamXML->addAttribute('email-value', $form['email']);
-            $formParamXML->addAttribute('remember-value', $form['remember']);
-
-            $formModule = new Presenter('Module/Form/Login');
-            $formModuleXML = $formModule->generate($formParamXML);
-
-            $domainXMLElement->addChild('main-pane', $formModuleXML);
-        } else {
-            /**
-             * Login success; success message (maybe redirect)
-             */
-            $this->success();
-            $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
+            return $response;
         }
 
         /**
-         * Get base URL
+         * Login failed; display login form
          */
-        //$urlGenerator = new UrlGenerator($routes, $context);
-        //$baseUrl = $urlGenerator->generate('root');
 
-        //$domainXMLElement->addChild('baseUrl', $baseUrl);
+        /**
+         * Grab cached form
+         */
+        $formCache = new Component\CachedItem('form');
+
+        $cacheMapper = $this->mapperFactory->createCacheMapper();
+        $cacheMapper->fetch($formCache);
+
+        $form = $formCache->getValue();
+
+        /**
+         * Construct form
+         */
+        $formParamXML = new SimpleXMLElement('<form/>');
+        $formParamXML->addAttribute('failure', true);
+        $formParamXML->addAttribute('email-value', $form['email']);
+        $formParamXML->addAttribute('remember-value', $form['remember']);
+
+        $formModule = new Presenter('Module/Form/Login');
+        $formModuleXML = $formModule->generate($formParamXML);
+
+        $domainXMLElement->addChild('main-pane', $formModuleXML);
+
         $domainXMLElement->addChild('title',
-            "Community Voices: Welcome"
+            "Community Voices: Sign in"
         );
 
         /**

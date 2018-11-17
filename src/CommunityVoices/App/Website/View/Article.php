@@ -271,7 +271,10 @@ class Article extends Component\View
 
     public function postArticleUpload($request)
     {
-        $this->success();
+        return HttpFoundation\RedirectResponse(
+            $request->headers->get('referer')
+        );
+
         /*
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
@@ -351,7 +354,10 @@ class Article extends Component\View
 
     public function postArticleUpdate($request)
     {
-        $this->success();
+        return HttpFoundation\RedirectResponse(
+            $request->headers->get('referer')
+        );
+        
         /*
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
