@@ -27,7 +27,7 @@ class Identification extends Component\View
         $this->transcriber = $transcriber;
     }
 
-    public function getLogin($routes, $context)
+    public function getLogin($request)
     {
         $paramXML = new SimpleXMLElement('<form/>');
 
@@ -53,7 +53,7 @@ class Identification extends Component\View
 
         $domainXMLElement->addChild('main-pane', $formModuleXML);
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
-        $domainXMLElement->addChild('title', 
+        $domainXMLElement->addChild('title',
             "Community Voices: Login"
         );
         $domainXMLElement->addChild('extraCSS', "register");
@@ -72,7 +72,7 @@ class Identification extends Component\View
     /**
      * User authenticaton
      */
-    public function postCredentials($routes, $context)
+    public function postCredentials($request)
     {
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
@@ -119,7 +119,7 @@ class Identification extends Component\View
         //$baseUrl = $urlGenerator->generate('root');
 
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
-        $domainXMLElement->addChild('title', 
+        $domainXMLElement->addChild('title',
             "Community Voices: Welcome"
         );
 
@@ -137,7 +137,7 @@ class Identification extends Component\View
         return $response;
     }
 
-    public function getLogout($routes, $context)
+    public function getLogout($request)
     {
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
@@ -154,7 +154,7 @@ class Identification extends Component\View
 
         $domainXMLElement->addChild('main-pane', '<p>Logged out.</p>');
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
-        $domainXMLElement->addChild('title', 
+        $domainXMLElement->addChild('title',
             "Community Voices: Logout"
         );
 
