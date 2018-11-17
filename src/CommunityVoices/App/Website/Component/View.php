@@ -22,18 +22,6 @@ class View
         $cookieMapper->mapToResponse();
     }
 
-    protected function success($url = null)
-    {
-        if ($url !== false) {
-            if ($url !== null) {
-                header('Location: ' . $url); // i guess we're just redirecting to the page they were on
-            } elseif (isset($_SERVER['HTTP_REFERER'])) {
-                header('Location: ' . $_SERVER['HTTP_REFERER']);
-            }
-        }
-        exit();
-    }
-
     /**
      * @todo Mark-up should not be in view
      */
