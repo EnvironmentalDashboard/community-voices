@@ -156,6 +156,10 @@ class Media extends DataMapper
 
         $statement->execute();
 
+        if (!$statement->rowCount()) {
+            throw new Exception\DataIntegrityViolation;
+        }
+
         $media->setId(null);
     }
 

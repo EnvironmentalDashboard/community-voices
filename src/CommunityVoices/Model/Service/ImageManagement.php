@@ -229,11 +229,15 @@ class ImageManagement
         $imageMapper->fetch($image);
         $fn = $image->getFilename();
 
-        $tagMapper->deleteTags($image);
-        if (file_exists($fn)) {
-            unlink($fn);
+        try {
+            $tagMapper->deleteTags($image);
+            $imageMapper->delete($image);
+            if (file_exists($fn)) {
+                unlink($fn);
+            }
+        } catch (Exception\DataIntegrityViolation $e) {
+            return false;
         }
-        $imageMapper->delete($image);
 
         return true;
     }
