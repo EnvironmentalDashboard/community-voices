@@ -294,7 +294,7 @@ class Image extends Component\View
 
     public function postImageUpload($request)
     {
-        return HttpFoundation\RedirectResponse(
+        return new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')
         );
 
@@ -390,7 +390,7 @@ class Image extends Component\View
 
     public function postImageUpdate($request)
     {
-        return HttpFoundation\RedirectResponse(
+        return new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')
         );
 
