@@ -35,9 +35,11 @@ class DataMapper extends Mapper
             return "";
         } else {
             $toRet = array_map(
-                function($x) use ($type) {return $type . "='" . $x ."'";},
+                function ($x) use ($type) {
+                    return $type . "='" . $x ."'";
+                },
                 $seq);
-            $toRet = implode(" OR ",$toRet);
+            $toRet = '(' . implode(" OR ", $toRet) . ')';
             return " AND " . $toRet;
         }
     }
