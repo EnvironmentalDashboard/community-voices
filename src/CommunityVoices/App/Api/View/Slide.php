@@ -31,7 +31,7 @@ class Slide
 
         $stateObserver->setSubject('imageLookup');
         $image_photographers['PhotographerCollection'] = $stateObserver->getEntry('photographer')[0]->photographerCollection;
-        $image_orgs['OrgCollection'] = $stateObserver->getEntry('org')[0]->orgCollection;        
+        $image_orgs['OrgCollection'] = $stateObserver->getEntry('org')[0]->orgCollection;
 
         $response = new HttpFoundation\JsonResponse(array_merge($this->convert_from_latin1_to_utf8_recursively($slideCollection), $tag, $quote_attributions, $image_photographers, $image_orgs));
         return $response;
@@ -115,18 +115,22 @@ class Slide
     private function convert_from_latin1_to_utf8_recursively($dat)
     { // TODO: fix!
       if (is_string($dat)) {
-         return htmlspecialchars(utf8_encode($dat));
+          return $dat;
       } elseif (is_array($dat)) {
-         $ret = [];
-         foreach ($dat as $i => $d) $ret[ $i ] = self::convert_from_latin1_to_utf8_recursively($d);
+          $ret = [];
+          foreach ($dat as $i => $d) {
+              $ret[ $i ] = self::convert_from_latin1_to_utf8_recursively($d);
+          }
 
-         return $ret;
+          return $ret;
       } elseif (is_object($dat)) {
-         foreach ($dat as $i => $d) $dat->$i = self::convert_from_latin1_to_utf8_recursively($d);
+          foreach ($dat as $i => $d) {
+              $dat->$i = self::convert_from_latin1_to_utf8_recursively($d);
+          }
 
-         return $dat;
+          return $dat;
       } else {
-         return $dat;
+          return $dat;
       }
-   }
+    }
 }
