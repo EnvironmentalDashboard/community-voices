@@ -86,7 +86,8 @@ $('#file').on('change', function(e) {
 	var reader = new FileReader();
 
 	reader.onloadend = function() {
-		$.post("/exif", { image: reader.result }, function( exif ) {
+		$.post("/community-voices/exif", { image: reader.result }, function( exif ) {
+			alert(exif);
 			// exif.DateTime will be the date of photo taken, set by a camera
 			// if it does not exist, this may be a screenshot
 			// we will default to the file time if it is set, otherwise
@@ -96,6 +97,7 @@ $('#file').on('change', function(e) {
 			$('#dateTaken').val(date);
 			$('#title').val(names[0]);
 		}, "json").fail(function (r) {
+			alert(r);
 			// If we have no data, we will empty out our auto-filled data.
 				$('#dateTaken').val("");
 			$('#title').val("");
