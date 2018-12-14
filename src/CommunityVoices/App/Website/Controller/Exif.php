@@ -4,9 +4,11 @@ namespace CommunityVoices\App\Website\Controller;
 
 class Exif
 {
+	// can be get to actually see it
+	// try to set up console
 	public function postData ($request)
 	{
-		return json_encode(exif_read_data($request));
+		var_dump('hi');
 	}
 }
 >
