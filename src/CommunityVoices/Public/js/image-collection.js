@@ -1,6 +1,6 @@
 function sortCheckboxes($e) {
   var sorted = [];
-  $e.children().each(function(i) { 
+  $e.children().each(function(i) {
     var $input = $(this).children('input');
     var $label = $(this).children('label');
     sorted.push({
@@ -40,7 +40,7 @@ $('.sorted-checkboxes').each(function(i, container){
   $(container).each(function(j, checkboxes) {
     var $checkboxes = $(checkboxes);
     $checkboxes.html(sortCheckboxes($checkboxes)); // sort once initially
-    $checkboxes.on("change", function() { 
+    $checkboxes.on("change", function() {
       $(this).html(sortCheckboxes($(this))); // resort every time checkbox checked
     });
   });
@@ -82,7 +82,7 @@ $('#file').on('change', function(e) {
 
   var file = this.files[0];
   var reader = new FileReader();
-  reader.onloadend = function() {
+	reader.onloadend = function() {
     $.post( "https://environmentaldashboard.org/community-voices/public/exif.php", { image: reader.result }, function( exif ) {
       $('#dateTaken').val(exif.DateTime);
       $('#title').val(exif.FileName);
@@ -90,5 +90,3 @@ $('#file').on('change', function(e) {
   }
   reader.readAsDataURL(file); // https://stackoverflow.com/a/20285053/2624391
 });
-
-
