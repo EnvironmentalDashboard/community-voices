@@ -48,7 +48,7 @@ class Article extends Component\Controller
 
         $status = ($status == null) ? ["approved","pending","rejected"] : explode(',', $status);
         if($identity->getRole() <= 2){
-          $status = ["approved"];
+			$status = ["approved"];
         }
 
         $order = (string) $request->query->get('order');
@@ -73,7 +73,7 @@ class Article extends Component\Controller
         $dateRecorded = $request->request->get('dateRecorded');
         $strtotime = strtotime($dateRecorded);
         $dateRecorded = ($strtotime) ? $strtotime : time();
-        
+
         if($identity->getRole() <= 2){
           $approved = null;
         }

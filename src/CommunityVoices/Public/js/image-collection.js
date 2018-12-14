@@ -86,7 +86,7 @@ $('#file').on('change', function(e) {
 	var reader = new FileReader();
 
 	reader.onloadend = function() {
-		$.post("/public/exif.php", { image: reader.result }, function( exif ) {
+		$.post("/exif", { image: reader.result }, function( exif ) {
 			// exif.DateTime will be the date of photo taken, set by a camera
 			// if it does not exist, this may be a screenshot
 			// we will default to the file time if it is set, otherwise
