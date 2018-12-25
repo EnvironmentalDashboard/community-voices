@@ -14,15 +14,19 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 class User extends Component\View
 {
     protected $recognitionAdapter;
+	protected $mapperFactory;
     protected $transcriber;
+	protected $urlGenerator;
 
     public function __construct(Component\RecognitionAdapter $recognitionAdapter,
-        Component\MapperFactory $mapperFactory,
-        Component\Transcriber $transcriber)
+								Component\MapperFactory $mapperFactory,
+								Component\Transcriber $transcriber,
+								UrlGenerator $urlGenerator)
     {
         $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
         $this->transcriber = $transcriber;
+		$this->urlGenerator = $urlGenerator;
     }
 
     public function getProfile($request)
@@ -52,9 +56,9 @@ class User extends Component\View
         $domainXMLElement->addChild('main-pane', $userModuleXML);
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title',
-            "Community Voices: ".
-            $identityXMLElement->firstName.
-            "'s Profile"
+									"Community Voices: ".
+									$identityXMLElement->firstName.
+									"'s Profile"
         );
         $domainXMLElement->addChild('extraJS', "user");
 
@@ -152,8 +156,9 @@ class User extends Component\View
         /**
          * @TODO This method isn't checking whether the registration is successful
          */
-        
-        return HttpFoundation\RedirectResponse(
+
+		// Relevant documentation: https://symfony.com/doc/current/components/http_foundation.html#redirecting-the-user
+        return new HttpFoundation\RedirectResponse(
             $this->urlGenerator->generate('root')
         );
     }

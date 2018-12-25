@@ -14,7 +14,7 @@ class QuoteCollection extends DataMapper
         $attributions = [];
         foreach ($this->conn->query('SELECT DISTINCT attribution FROM `community-voices_quotes` WHERE attribution != "" ORDER BY attribution ASC') as $row) {
             $obj = new \stdClass();
-            $obj->attribution = htmlspecialchars(htmlspecialchars($row['attribution']));
+            $obj->attribution = $row['attribution'];
             $attributions[] = $obj;
         }
         $container->attributionCollection = $attributions;
@@ -146,5 +146,4 @@ class QuoteCollection extends DataMapper
             $quoteCollection->addEntityFromParams($entry);
         }
     }
-
 }

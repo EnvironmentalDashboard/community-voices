@@ -16,7 +16,8 @@ class ImageCollection extends DataMapper
     //     3 => 'approved'
     // ];
 
-    public function photographers(\stdClass $container) {
+    public function photographers(\stdClass $container)
+    {
         $photographers = [];
         foreach ($this->conn->query('SELECT DISTINCT photographer FROM `community-voices_images` WHERE photographer != "" ORDER BY photographer ASC') as $row) {
             $obj = new \stdClass();
@@ -26,7 +27,8 @@ class ImageCollection extends DataMapper
         $container->photographerCollection = $photographers;
     }
 
-    public function orgs(\stdClass $container) {
+    public function orgs(\stdClass $container)
+    {
         $orgs = [];
         foreach ($this->conn->query('SELECT DISTINCT organization FROM `community-voices_images` WHERE organization != "" ORDER BY organization ASC') as $row) {
             $obj = new \stdClass();
@@ -139,5 +141,4 @@ class ImageCollection extends DataMapper
             $imageCollection->addEntityFromParams($entry);
         }
     }
-
 }

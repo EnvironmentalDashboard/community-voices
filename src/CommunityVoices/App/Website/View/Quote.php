@@ -285,7 +285,7 @@ class Quote extends Component\View
 
     public function postQuoteUpload($request)
     {
-        return HttpFoundation\RedirectResponse(
+        return new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')
         );
 

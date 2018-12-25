@@ -368,10 +368,10 @@ class Slide extends Component\View
 
     public function postSlideUpload($request)
     {
-        return HttpFoundation\RedirectResponse(
+        return new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')
         );
-        
+
         /*
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
@@ -517,7 +517,7 @@ class Slide extends Component\View
 
     public function postSlideUpdate($request)
     {
-        return HttpFoundation\RedirectResponse(
+        return new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')
         );
 
