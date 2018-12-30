@@ -1,4 +1,7 @@
 language: php
+php:
+  - '7.0'
+  - '7.3'
 env:
   - MYSQL_HOST=159.89.232.129
   - MYSQL_DB=community_voices
