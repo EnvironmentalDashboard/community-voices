@@ -55,6 +55,7 @@ class User extends Component\Controller
         $token = $this->random_str(16);
 
         $this->registrationService->insertToken($email, $role, $token);
+        // we should maybe just return the token and do this somewhere else:
         $this->registrationService->sendInviteEmail($email, $role, $token);
     }
 
