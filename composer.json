@@ -7,8 +7,7 @@
         "symfony/routing": "^3.3",
         "symfony/config": "^3.3",
         "symfony/http-foundation": "^3.3",
-        "erusev/parsedown": "^1.7",
-        "php-console/php-console": "^3.1"
+        "erusev/parsedown": "^1.7"
     },
     "autoload": {
         "psr-4": {
