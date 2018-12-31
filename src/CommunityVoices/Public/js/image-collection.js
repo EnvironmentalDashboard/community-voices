@@ -91,7 +91,15 @@ $('#file').on('change', function(e) {
 			// if it does not exist, this may be a screenshot
 			// we will default to the file time if it is set, otherwise
 			// the current time
-			var date = exif.DateTime || (exif.FileDateTime > 0 ? exif.FileDateTime : new Date(Date.now()).toLocaleString());
+			var date = null;
+			if (exif.DateTime) {
+				date = exif.DateTime;
+			} else {
+				if (exif.FileDateTime > 0)
+					date = exif.FileDateTime;
+				else
+					date = new Date(Date.now()).toLocaleString();
+			}
 
 			$('#dateTaken').val(date);
 			$('#title').val(names[0]);
