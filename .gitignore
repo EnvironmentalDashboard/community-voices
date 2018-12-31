@@ -8,3 +8,4 @@ migrate/importNextGen/
 migrate/importNextGen.zip
 src/CommunityVoices/Public/outbox.php
 src/CommunityVoices/App/Website/main_db.php
+composer.phar
