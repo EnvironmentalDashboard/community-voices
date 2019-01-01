@@ -110,7 +110,7 @@ class User implements HasId, Palladium\Contract\HasId
 
     public function getRoleTitle()
     {
-        return $this->role ? $this->allowableRole[$this->role] : null
+        return $this->role ? $this->allowableRole[$this->role] : null;
     }
 
     private function passwordsMatch()
