@@ -14,21 +14,23 @@ use CommunityVoices\Model\Mapper;
 class Registration
 {
     private $pdRegistration;
-
     private $mapperFactory;
-
     private $stateObserver;
+    private $mailer;
+    private $dkim;
 
     public function __construct(
         Emailer $emailService,
         Palladium\Service\Registration $pdRegistration,
         Component\MapperFactory $mapperFactory,
-        Component\StateObserver $stateObserver
+        Component\StateObserver $stateObserver,
+        Emailer $mailer
     ) {
         $this->emailService = $emailService;
         $this->pdRegistration = $pdRegistration;
         $this->mapperFactory = $mapperFactory;
         $this->stateObserver = $stateObserver;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -43,7 +45,6 @@ class Registration
      */
     public function createUser($email, $password, $confirmPassword, $firstName, $lastName, $token)
     {
-
         $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
 
         /**
@@ -116,11 +117,29 @@ class Registration
         $userMapper->insertToken($email, $role, $token);
     }
 
-    public function sendInviteEmail($email, $role, $token) {
+    public function sendInviteEmail($email, $role, $token)
+    {
+        /**
+         * Gather position title information
+         */
         $user = new Entity\User;
-        $role = $user->allowableRole[$role];
-        $this->emailService->to($email);
-        $this->emailService->subject("You're invited to be a {$role} at Community Voices");
-        $this->emailService->sendMessage("<p>You have been invited to create a new {$role} account. <a href='https://environmentaldashboard.org/community-voices/register?token={$token}'>Click here</a> to complete the registration process.</p>");
+        $user->setRole($role);
+
+        $position = $user->getRoleTitle();
+
+        /**
+         * Compose message
+         */
+        $message = new Swift_Message();
+
+        $message->setTo($email);
+        $message->setSubject("You're invited to be a {$position} on Community Voices");
+        $message->setBody("<p>You have been invited to create a new {$role} account.<a href='https://environmentaldashboard.org/community-voices/register?token={$token}'>Click here</a> to complete the registration process.</p>");
+
+        /**
+         * Create DKIM signature
+         */
+
+        $this->mailer->send($message);
     }
 }
