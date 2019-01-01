@@ -117,6 +117,24 @@ $injector->share($arbiter);
 
 $injector->alias('CommunityVoices\App\Api\Component\Contract\CanIdentify', 'CommunityVoices\App\Website\Component\RecognitionAdapter');
 
+
+/**
+ * Configure mail server
+ */
+
+$transportFactory = function () {
+    return new Swift_SendmailTransport('/usr/sbin/sendmail -bs');
+};
+
+$injector->delegate('Swift_Transport', $transportFactory);
+
+$injector->define('Swift_Signers_DKIMSigner', [
+    'privateKey' => '/opendkim/mail.private',
+    'domainName' => 'environmentaldashboard.org',
+    'selector' => 'mail',
+    'passphrase' => ''
+]);
+
 /**
  * Processing request
  */
