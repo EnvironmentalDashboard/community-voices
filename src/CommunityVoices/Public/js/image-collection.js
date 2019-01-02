@@ -89,19 +89,15 @@ $('#file').on('change', function(e) {
 		$.post("/public/exif.php", { image: reader.result }, function( exif ) {
 			// exif.DateTime will be the date of photo taken, set by a camera
 			// if it does not exist, this may be a screenshot
-			// we will default to the file time if it is set, otherwise
-			// the current time
-			var date = null;
-			if (exif.DateTime) {
-				date = exif.DateTime;
-			} else {
-				if (exif.FileDateTime > 0)
-					date = exif.FileDateTime;
-				else
-					date = new Date(Date.now()).toLocaleString();
-			}
+			// we will default to the file time if it is set
+			// to anything other than 0
+			var date = exif.DateTime || exif.FileDateTime;
 
-			$('#dateTaken').val(date);
+			// date may equal 0, but we don't want to fill in
+			// with a value of 0
+			if (date != 0)
+				$('#dateTaken').val(date);
+
 			$('#title').val(names[0]);
 		}, "json").fail(function (r) {
 			// If we have no data, we will empty out our auto-filled data.
