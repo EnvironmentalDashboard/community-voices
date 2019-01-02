@@ -1,6 +1,6 @@
 function sortCheckboxes($e) {
   var sorted = [];
-  $e.children().each(function(i) { 
+  $e.children().each(function(i) {
     var $input = $(this).children('input');
     var $label = $(this).children('label');
     sorted.push({
@@ -40,7 +40,7 @@ $('.sorted-checkboxes').each(function(i, container){
   $(container).each(function(j, checkboxes) {
     var $checkboxes = $(checkboxes);
     $checkboxes.html(sortCheckboxes($checkboxes)); // sort once initially
-    $checkboxes.on("change", function() { 
+    $checkboxes.on("change", function() {
       $(this).html(sortCheckboxes($(this))); // resort every time checkbox checked
     });
   });
@@ -77,18 +77,34 @@ $('.edit-form').on('submit', function(e) {
 });
 
 $('#file').on('change', function(e) {
-  var names = $.map($(this).prop('files'), function(val) { return val.name; });
-  $('#fileList').text('Selected ' + names.join(', '));
+	var names = $.map($(this).prop('files'), function(val) { return val.name; });
+	var namesList = 'Selected ' + names.join(', ');
 
-  var file = this.files[0];
-  var reader = new FileReader();
-  reader.onloadend = function() {
-    $.post( "https://environmentaldashboard.org/community-voices/public/exif.php", { image: reader.result }, function( exif ) {
-      $('#dateTaken').val(exif.DateTime);
-      $('#title').val(exif.FileName);
-    }, "json");
-  }
-  reader.readAsDataURL(file); // https://stackoverflow.com/a/20285053/2624391
+	$('#fileList').text(namesList);
+
+	var file = this.files[0];
+	var reader = new FileReader();
+
+	reader.onloadend = function() {
+		$.post("/public/exif.php", { image: reader.result }, function( exif ) {
+			// exif.DateTime will be the date of photo taken, set by a camera
+			// if it does not exist, this may be a screenshot
+			// we will default to the file time if it is set
+			// to anything other than 0
+			var date = exif.DateTime || exif.FileDateTime;
+
+			// date may equal 0, but we don't want to fill in
+			// with a value of 0
+			if (date != 0)
+				$('#dateTaken').val(date);
+
+			$('#title').val(names[0]);
+		}, "json").fail(function (r) {
+			// If we have no data, we will empty out our auto-filled data.
+				$('#dateTaken').val("");
+			$('#title').val("");
+		});
+	};
+
+	reader.readAsDataURL(file); // https://stackoverflow.com/a/20285053/2624391
 });
-
-
