@@ -1,9 +1,20 @@
 #!/bin/bash
 
 # Read our password from our secret file.
-if [ -f "db.config" ]
+if [ -f "db.config" ] || [ -f "/var/secret/db.config" ]
 then
-	. db.config
+	# By placing the loading of the global file first,
+	# we are making the local file take precedence over
+	# the global file.
+	if [ -f "/var/secret/db.config" ]
+	then
+		. /var/secret/db.config
+	fi
+
+	if [ -f "db.config" ]
+	then
+		. db.config
+	fi
 else
 	echo "You must have a database configuration!"
 	echo "Exiting without running."
