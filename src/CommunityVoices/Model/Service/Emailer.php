@@ -9,6 +9,7 @@ namespace CommunityVoices\Model\Service;
 use PHPMailer\PHPMailer\Exception;
 
 use Swift_Mailer;
+use Swift_Message;
 use Swift_Signers_DKIMSigner;
 
 class Emailer
