@@ -7,6 +7,7 @@ namespace CommunityVoices\Model\Service;
  */
 
 use Palladium;
+use Swift_Message;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Component;
 use CommunityVoices\Model\Mapper;
