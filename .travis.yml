@@ -14,6 +14,16 @@ before_script:
 script:
   - php tests/bootstrap.php
 notifications:
+  email: false
+  webhooks:
+    urls:
+      - http://environmentaldashboard.org/travis-ci/notifications?repo=community-voices
+    on_success: always # default: always
+    on_failure: never # default: always
+    on_cancel: never # default: always
+    on_error: never # default: always
   slack:
     rooms:
       - envdash:2Ml8eUe6ZTTOGDCcIHtjDaRb#devops
+    on_success: change # default: always
+    on_failure: always # default: always

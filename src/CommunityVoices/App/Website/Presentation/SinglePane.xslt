@@ -76,7 +76,7 @@
             ]]>
             </script>
             <xsl:if test="extraJS != ''">
-                <script src="https://environmentaldashboard.org/community-voices/public/js/{extraJS}.js"></script>
+                <script src="/public/js/{extraJS}.js"></script>
             </xsl:if>
         </body>
     </html>
