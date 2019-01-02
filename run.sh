@@ -21,7 +21,7 @@ else
 	exit
 fi
 
-if [ "$#" -gt 0 ]
+if [ "$HOSTNAME" = "environmentaldashboard" ]
 then
 	IFS="" # so newlines don't get lost with DKIM=`cat /etc/opendkim/keys/environmentaldashboard.org/mail.private`
 	# live server:
