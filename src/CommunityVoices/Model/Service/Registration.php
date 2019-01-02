@@ -7,7 +7,6 @@ namespace CommunityVoices\Model\Service;
  */
 
 use Palladium;
-use Swift_Message;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Component;
 use CommunityVoices\Model\Mapper;
@@ -21,13 +20,11 @@ class Registration
     private $dkim;
 
     public function __construct(
-        Emailer $emailService,
         Palladium\Service\Registration $pdRegistration,
         Component\MapperFactory $mapperFactory,
         Component\StateObserver $stateObserver,
-        Emailer $mailer
+        EmailDispatcher $mailer
     ) {
-        $this->emailService = $emailService;
         $this->pdRegistration = $pdRegistration;
         $this->mapperFactory = $mapperFactory;
         $this->stateObserver = $stateObserver;
@@ -131,7 +128,7 @@ class Registration
         /**
          * Compose message
          */
-        $message = new Swift_Message();
+        $message = new Entity\Email();
 
         $message->setTo($email);
         $message->setSubject("You're invited to be a {$position} on Community Voices");
