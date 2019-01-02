@@ -17,7 +17,6 @@ class Registration
     private $mapperFactory;
     private $stateObserver;
     private $mailer;
-    private $dkim;
 
     public function __construct(
         Palladium\Service\Registration $pdRegistration,
