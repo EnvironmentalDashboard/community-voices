@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 # install apt packages, set timezone (see: https://serverfault.com/a/683651/456938), install composer
 apt-get update && \
@@ -8,6 +8,7 @@ INI_LOC=`php -i | grep 'Loaded Configuration File => ' | sed 's/Loaded Configura
 	sed -ie 's/post_max_size = 8M/post_max_size = 512M/g' "$INI_LOC"
 ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 ./build/composer-install.sh && \
-	php composer.phar install &&\
+	php composer.phar install && \
 	php composer.phar update
 a2enmod rewrite headers && mv /var/www/html/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
+mkdir /opendkim && echo $DKIM > /opendkim/mail.private
