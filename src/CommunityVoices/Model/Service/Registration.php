@@ -134,10 +134,6 @@ class Registration
         $message->setSubject("You're invited to be a {$position} on Community Voices");
         $message->setBody("<p>You have been invited to create a new {$position} account.<a href='https://environmentaldashboard.org/community-voices/register?token={$token}'>Click here</a> to complete the registration process.</p>");
 
-        /**
-         * Create DKIM signature
-         */
-
         $this->mailer->send($message);
     }
 }

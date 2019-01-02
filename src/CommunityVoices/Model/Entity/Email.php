@@ -20,6 +20,16 @@ class Email implements Contract\Message
         $this->to = $to;
     }
 
+    public function getFrom()
+    {
+        return $this->from;
+    }
+
+    public function setFrom($from)
+    {
+        $this->from = $from;
+    }
+
     public function getSubject()
     {
         return $this->subject;
