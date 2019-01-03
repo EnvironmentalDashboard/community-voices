@@ -129,7 +129,7 @@ $transportFactory = function () {
 $injector->delegate('Swift_Transport', $transportFactory);
 
 $injector->define('Swift_Signers_DKIMSigner', [
-    ':privateKey' => '/opendkim/mail.private',
+    ':privateKey' => file_get_contents('/opendkim/mail.private'),
     ':domainName' => 'environmentaldashboard.org',
     ':selector' => 'mail',
     ':passphrase' => ''
