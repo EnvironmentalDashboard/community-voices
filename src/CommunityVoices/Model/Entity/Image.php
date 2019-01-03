@@ -147,5 +147,4 @@ class Image extends Media
 
         return $isValid;
     }
-
 }

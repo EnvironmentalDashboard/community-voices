@@ -35,9 +35,15 @@ class QuoteManagement
      * @param  String $sourceDocumentLink [description]
      * @return Boolean                     [description]
      */
-    public function upload($text, $attribution, $subAttribution,
-                    $dateRecorded, $approved,
-                    $addedBy, $tags){
+    public function upload(
+        $text,
+        $attribution,
+        $subAttribution,
+                    $dateRecorded,
+        $approved,
+                    $addedBy,
+        $tags
+    ) {
 
         /*
          * Create Quote entity and set attributes
@@ -50,7 +56,7 @@ class QuoteManagement
         $quote->setSubAttribution($subAttribution);
         $quote->setDateRecorded($dateRecorded);
         $quote->setAddedBy($addedBy);
-        if($approved){
+        if ($approved) {
             $quote->setStatus(3);
         } else {
             $quote->setStatus(1);
@@ -70,11 +76,10 @@ class QuoteManagement
          * there is no attribution, there is no point in continuing the upload process.
          */
 
-       if (!$isValid && $this->stateObserver->hasEntry('attribution', $quote::ERR_ATTRIBUTION_REQUIRED))
-        {
-             $clientState->save($this->stateObserver);
-             return false;
-         }
+        if (!$isValid && $this->stateObserver->hasEntry('attribution', $quote::ERR_ATTRIBUTION_REQUIRED)) {
+            $clientState->save($this->stateObserver);
+            return false;
+        }
 
         $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
 
@@ -109,13 +114,16 @@ class QuoteManagement
         $tagMapper->saveTags($tagCollection);
 
         return true;
-
     }
 
-    public function update($id, $text, $attribution, $subAttribution,
-                    $dateRecorded, $status)
-        {
-
+    public function update(
+        $id,
+        $text,
+        $attribution,
+        $subAttribution,
+                    $dateRecorded,
+        $status
+    ) {
         $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
 
         /*
@@ -157,11 +165,10 @@ class QuoteManagement
          * there is no attribution, there is no point in continuing the upload process.
          */
 
-       if (!$isValid && $this->stateObserver->hasEntry('attribution', $quote::ERR_ATTRIBUTION_REQUIRED))
-        {
-             $clientState->save($this->stateObserver);
-             return false;
-         }
+        if (!$isValid && $this->stateObserver->hasEntry('attribution', $quote::ERR_ATTRIBUTION_REQUIRED)) {
+            $clientState->save($this->stateObserver);
+            return false;
+        }
 
         /*
          * If there are any errors at this point, save the error state and stop
@@ -182,7 +189,8 @@ class QuoteManagement
         return true;
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
         $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
 
@@ -195,7 +203,8 @@ class QuoteManagement
         return true;
     }
 
-    public function unpair($quote_id, $slide_id) {
+    public function unpair($quote_id, $slide_id)
+    {
         $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
         $quote = new Entity\Quote;
         $quote->setId((int) $quote_id);

@@ -51,10 +51,10 @@ class Image
 
     public function postImageUpload($request)
     {
-      $apiController = $this->secureContainer->contain($this->imageAPIController);
-      $identity = $this->recognitionAdapter->identify();
+        $apiController = $this->secureContainer->contain($this->imageAPIController);
+        $identity = $this->recognitionAdapter->identify();
 
-      $apiController->postImageUpload($request, $identity);
+        $apiController->postImageUpload($request, $identity);
     }
 
     public function getImageUpdate($request)

@@ -12,20 +12,24 @@ class Tag extends Group
     private $mediaId;
     private $groupId;
 
-    public function setMediaId(int $id) {
-    	$this->mediaId = $id;
+    public function setMediaId(int $id)
+    {
+        $this->mediaId = $id;
     }
 
-    public function getMediaId() {
-    	return $this->mediaId;
+    public function getMediaId()
+    {
+        return $this->mediaId;
     }
 
-    public function setGroupId(int $id) {
-    	$this->groupId = $id;
+    public function setGroupId(int $id)
+    {
+        $this->groupId = $id;
     }
 
-    public function getGroupId() {
-    	return $this->groupId;
+    public function getGroupId()
+    {
+        return $this->groupId;
     }
 
     public function toArray()

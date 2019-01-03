@@ -140,7 +140,7 @@ class QuoteTest extends TestCase
                  $this->equalTo($quote->getText())],
                 [$this->equalTo(':attribution'), $this->equalTo($quote->getAttribution())],
                 [$this->equalTo(':sub_attribution'), $this->equalTo($quote->getSubAttribution())],
-                [$this->equalTo(':date_recorded'), $this->equalTo(date("Y-m-d",$quote->getDateRecorded()))],
+                [$this->equalTo(':date_recorded'), $this->equalTo(date("Y-m-d", $quote->getDateRecorded()))],
                 [$this->equalTo(':public_document_link'), $this->equalTo($quote->getPublicDocumentLink())],
                 [$this->equalTo(':source_document_link'), $this->equalTo($quote->getSourceDocumentLink())]
             );

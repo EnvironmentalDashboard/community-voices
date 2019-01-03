@@ -7,7 +7,7 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 /**
- * set time zone 
+ * set time zone
  */
 date_default_timezone_set('America/New_York');
 

@@ -80,7 +80,6 @@ class Slide extends Component\Controller
         $stateObserver = $this->imageLookup->photographers($stateObserver, true);
         $stateObserver = $this->imageLookup->orgs($stateObserver, true);
         $this->quoteLookup->attributions($stateObserver);
-
     }
 
     public function postSlideUpload($request, $identity)
@@ -134,9 +133,8 @@ class Slide extends Component\Controller
 
     public function postSlideDelete($request)
     {
-      $id = (int) $request->attributes->get('id');
+        $id = (int) $request->attributes->get('id');
 
-      $this->slideManagement->delete($id);
+        $this->slideManagement->delete($id);
     }
-
 }

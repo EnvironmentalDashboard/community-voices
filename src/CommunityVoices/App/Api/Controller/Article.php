@@ -17,7 +17,7 @@ class Article extends Component\Controller
         Service\ArticleLookup $articleLookup,
         Service\ArticleManagement $articleManagement,
         Service\ImageManagement $imageManagement
-    ){
+    ) {
         $this->articleLookup = $articleLookup;
         $this->articleManagement = $articleManagement;
         $this->imageManagement = $imageManagement;
@@ -47,8 +47,8 @@ class Article extends Component\Controller
         $status = $request->query->get('status');
 
         $status = ($status == null) ? ["approved","pending","rejected"] : explode(',', $status);
-        if($identity->getRole() <= 2){
-			$status = ["approved"];
+        if ($identity->getRole() <= 2) {
+            $status = ["approved"];
         }
 
         $order = (string) $request->query->get('order');
@@ -74,8 +74,8 @@ class Article extends Component\Controller
         $strtotime = strtotime($dateRecorded);
         $dateRecorded = ($strtotime) ? $strtotime : time();
 
-        if($identity->getRole() <= 2){
-          $approved = null;
+        if ($identity->getRole() <= 2) {
+            $approved = null;
         }
 
         $uploaded_image = $this->imageManagement->upload($file, null, null, $dateRecorded, null, null, $identity, $approved, null);
@@ -85,25 +85,25 @@ class Article extends Component\Controller
 
     public function getArticleUpdate($request)
     {
-      $articleId = $request->attributes->get('id');
+        $articleId = $request->attributes->get('id');
 
-      try {
-        $this->articleLookup->findById((int) $articleId);
-      } catch (Exception\IdentityNotFound $e) {
-        $this->send404();
-      }
+        try {
+            $this->articleLookup->findById((int) $articleId);
+        } catch (Exception\IdentityNotFound $e) {
+            $this->send404();
+        }
     }
 
     public function postArticleUpdate($request)
     {
-      // $file = $request->files->get('file');
-      $text = $request->request->get('text');
-      $title = $request->request->get('title');
-      $author = $request->request->get('author');
-      $dateRecorded = $request->request->get('dateRecorded');
-      $status = $request->request->get('status');
-      $id = $request->attributes->get('id');//$request->request->get('id');
+        // $file = $request->files->get('file');
+        $text = $request->request->get('text');
+        $title = $request->request->get('title');
+        $author = $request->request->get('author');
+        $dateRecorded = $request->request->get('dateRecorded');
+        $status = $request->request->get('status');
+        $id = $request->attributes->get('id');//$request->request->get('id');
 
-      $this->articleManagement->update($id, $text, $title, $author, $dateRecorded, $status);
+        $this->articleManagement->update($id, $text, $title, $author, $dateRecorded, $status);
     }
 }

@@ -29,9 +29,15 @@ class SlideManagement
      * Maps a new slide to the database
      * @return Boolean                     [description]
      */
-    public function upload($quoteId, $imageId, $contentCategory,
-                    $screens, $dateRecorded, $approved, $addedBy) {
-
+    public function upload(
+        $quoteId,
+        $imageId,
+        $contentCategory,
+                    $screens,
+        $dateRecorded,
+        $approved,
+        $addedBy
+    ) {
         $quote = new Entity\Quote;
         $quote->setId((int) $quoteId);
 
@@ -74,11 +80,10 @@ class SlideManagement
          * Stop the upload process and save errors to the application state.
          */
         // $this->stateObserver->getEntries() to see errors
-        if (!$isValid) // && $this->stateObserver->hasEntry('attribution', $quote::ERR_ATTRIBUTION_REQUIRED)
-        {
+        if (!$isValid) { // && $this->stateObserver->hasEntry('attribution', $quote::ERR_ATTRIBUTION_REQUIRED)
              $clientState->save($this->stateObserver);
-             return false;
-         }
+            return false;
+        }
 
         $slideMapper = $this->mapperFactory->createDataMapper(Mapper\Slide::class);
 
@@ -103,11 +108,10 @@ class SlideManagement
         }
 
         return true;
-
     }
 
-    public function update(int $id, int $imageId, int $quoteId, int $contentCategory, array $screens, int $decay_percent, float $probability, string $decay_start, string $decay_end, int $status, $addedBy) {
-
+    public function update(int $id, int $imageId, int $quoteId, int $contentCategory, array $screens, int $decay_percent, float $probability, string $decay_start, string $decay_end, int $status, $addedBy)
+    {
         $quote = new Entity\Quote;
         $quote->setId((int) $quoteId);
 
@@ -147,11 +151,10 @@ class SlideManagement
          * Stop the upload process and save errors to the application state.
          */
         // $this->stateObserver->getEntries() to see errors
-        if (!$isValid) // && $this->stateObserver->hasEntry('attribution', $quote::ERR_ATTRIBUTION_REQUIRED)
-        {
+        if (!$isValid) { // && $this->stateObserver->hasEntry('attribution', $quote::ERR_ATTRIBUTION_REQUIRED)
              $clientState->save($this->stateObserver);
-             return false;
-         }
+            return false;
+        }
 
         $slideMapper = $this->mapperFactory->createDataMapper(Mapper\Slide::class);
 
@@ -177,10 +180,10 @@ class SlideManagement
         }
 
         return true;
-
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $slideMapper = $this->mapperFactory->createDataMapper(Mapper\Slide::class);
         // $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
 
@@ -194,5 +197,4 @@ class SlideManagement
 
         return true;
     }
-
 }

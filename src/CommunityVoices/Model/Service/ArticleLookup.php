@@ -97,7 +97,7 @@ class ArticleLookup
                 $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
                 $userMapper->fetch($user);
 
-                // only add valid User 
+                // only add valid User
                 if ($user->getId()) {
                     $valid_creatorIDs[] = $userID;
                 }
@@ -135,7 +135,8 @@ class ArticleLookup
         $clientState->save($this->stateObserver);
     }
 
-    public function authors($stateObserver, $return = false) {
+    public function authors($stateObserver, $return = false)
+    {
         $authorCollection = new \stdClass;
         $authorMapper = $this->mapperFactory->createDataMapper(Mapper\ArticleCollection::class);
         $authorMapper->authors($authorCollection);
@@ -148,7 +149,8 @@ class ArticleLookup
         $clientState->save($stateObserver);
     }
 
-    public function relatedSlides(string $interviewee) {
+    public function relatedSlides(string $interviewee)
+    {
         $mapper = $this->mapperFactory->createDataMapper(Mapper\Article::class);
         $ids = $mapper->relatedSlideIds($interviewee);
         return $ids;

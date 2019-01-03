@@ -14,8 +14,8 @@ require dirname(__DIR__) . '/App/Website/db.php';
 <body>
 	<ul>
 		<?php foreach ($dbHandler->query('SELECT id, label FROM `community-voices_locations` ORDER BY label ASC') as $loc) {
-			echo "\t\t\t<li>{$loc['label']}: https://environmentaldashboard.org/community-voices/public/digital-signage.php?loc={$loc['id']}</li>\n";
-		} ?>
+    echo "\t\t\t<li>{$loc['label']}: https://environmentaldashboard.org/community-voices/public/digital-signage.php?loc={$loc['id']}</li>\n";
+} ?>
 	</ul>
 </body>
 </html>

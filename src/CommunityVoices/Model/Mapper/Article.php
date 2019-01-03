@@ -18,8 +18,8 @@ use CommunityVoices\Model\Entity;
 
 class Article extends Media
 {
-
-    public function relatedSlideIds(string $interviewee) {
+    public function relatedSlideIds(string $interviewee)
+    {
         $query = "SELECT media_id FROM `community-voices_slides`
                     WHERE quote_id IN (SELECT media_id FROM `community-voices_quotes` WHERE `attribution` = :interviewee)
                     AND media_id IN (SELECT id FROM `community-voices_media` WHERE type = 'slide' AND status = 'approved')";

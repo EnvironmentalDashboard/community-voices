@@ -28,14 +28,14 @@ class User
 
     public function getUser()
     {
-      $clientState = $this->mapperFactory->createClientStateMapper();
-      $stateObserver = $clientState->retrieve();
+        $clientState = $this->mapperFactory->createClientStateMapper();
+        $stateObserver = $clientState->retrieve();
 
-      $stateObserver->setSubject('userLookup');
-      $user = $stateObserver->getEntry('user')[0];
+        $stateObserver->setSubject('userLookup');
+        $user = $stateObserver->getEntry('user')[0];
 
-      $response = new HttpFoundation\JsonResponse($user->toArray());
+        $response = new HttpFoundation\JsonResponse($user->toArray());
 
-      return $response;
+        return $response;
     }
 }

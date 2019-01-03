@@ -31,7 +31,6 @@ class LocationLookup
 
     public function findAll($stateObserver, $return = false)
     {
-
         $locCollection = new Entity\LocationCollection;
         $locMapper = $this->mapperFactory->createDataMapper(Mapper\Location::class);
         $locMapper->fetchAll($locCollection);
@@ -61,5 +60,3 @@ class LocationLookup
         $clientState->save($stateObserver);
     }
 }
-
-
