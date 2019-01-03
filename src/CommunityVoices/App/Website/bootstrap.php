@@ -122,22 +122,19 @@ $injector->alias('CommunityVoices\App\Api\Component\Contract\CanIdentify', 'Comm
  * Configure mail server
  */
 
-$transportFactory = function () {
-    return new Swift_SendmailTransport('/usr/sbin/sendmail -bs');
-};
-
 $mailerFactory = function () {
+    $transport = new Swift_SendmailTransport('/usr/sbin/sendmail -bs');
+
     $defaultsPlugin = new Finesse\SwiftMailerDefaultsPlugin\SwiftMailerDefaultsPlugin([
         'from' => ['no-reply@environmentaldashboard.org' => 'Environmental Dashboard'],
     ]);
 
-    $mailer = new Swift_Mail();
+    $mailer = new Swift_Mailer($transport);
     $mailer->registerPlugin($defaultsPlugin);
 
     return $mailer;
 };
 
-$injector->delegate('Swift_Transport', $transportFactory);
 $injector->delegate('Swift_Mailer', $mailerFactory);
 
 $injector->define('Swift_Signers_DKIMSigner', [
