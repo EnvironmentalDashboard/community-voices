@@ -126,7 +126,19 @@ $transportFactory = function () {
     return new Swift_SendmailTransport('/usr/sbin/sendmail -bs');
 };
 
+$mailerFactory = function () {
+    $defaultsPlugin = new Finesse\SwiftMailerDefaultsPlugin\SwiftMailerDefaultsPlugin([
+        'from' => ['no-reply@environmentaldashboard.org' => 'Environmental Dashboard'],
+    ]);
+
+    $mailer = new Swift_Mail();
+    $mailer->registerPlugin($defaultsPlugin);
+
+    return $mailer;
+};
+
 $injector->delegate('Swift_Transport', $transportFactory);
+$injector->delegate('Swift_Mail', $mailerFactory);
 
 $injector->define('Swift_Signers_DKIMSigner', [
     ':privateKey' => file_get_contents('/opendkim/mail.private'),

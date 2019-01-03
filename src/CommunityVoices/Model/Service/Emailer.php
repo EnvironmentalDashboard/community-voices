@@ -29,8 +29,6 @@ class EmailDispatcher
 
     public function send(Entity\Email $email)
     {
-        $email->setFrom(['no-reply@environmentaldashboard.org' => 'Environemntal Dashboard']);
-
         try {
             $swiftMessage = $this->convertToSwift($email);
 
