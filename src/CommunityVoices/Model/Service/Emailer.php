@@ -33,7 +33,6 @@ class EmailDispatcher
 
         try {
             $swiftMessage = $this->convertToSwift($email);
-            $swiftMessage->attachSigner($this->swiftDkimSigner);
 
             $this->swiftMailer->send($swiftMessage);
         } catch (Exception $e) {
@@ -44,6 +43,7 @@ class EmailDispatcher
     private function convertToSwift(Entity\Email $email)
     {
         $message = Swift_SignedMessage::newInstance();
+        $message->attachSigner($this->swiftDkimSigner);
 
         $message->setFrom($email->getFrom());
         $message->setTo($email->getTo());
