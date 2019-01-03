@@ -43,7 +43,6 @@ class EmailDispatcher
         $message = new Swift_Message;
         $message->attachSigner($this->swiftDkimSigner);
 
-        $message->setFrom($email->getFrom());
         $message->setTo($email->getTo());
         $message->setSubject($email->getSubject());
         $message->setBody($email->getBody(), 'text/html');
