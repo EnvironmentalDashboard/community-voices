@@ -11,7 +11,7 @@ use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Contract;
 
 use Swift_Mailer;
-use Swift_Message;
+use Swift_SignedMessage;
 use Swift_Signers_DKIMSigner;
 
 class EmailDispatcher
@@ -29,12 +29,9 @@ class EmailDispatcher
 
     public function send(Entity\Email $email)
     {
-        $email->setFrom(['no-reply@environmentaldashboard.org' => 'Environemntal Dashboard']);
-
         try {
             $swiftMessage = $this->convertToSwift($email);
 
-            $swiftMessage->attachSigner($this->swiftDkimSigner);
             $this->swiftMailer->send($swiftMessage);
         } catch (Exception $e) {
             throw $e;
@@ -43,12 +40,13 @@ class EmailDispatcher
 
     private function convertToSwift(Entity\Email $email)
     {
-        $message = new Swift_Message();
+        $message = Swift_SignedMessage::newInstance();
+        $message->attachSigner($this->swiftDkimSigner);
 
         $message->setFrom($email->getFrom());
         $message->setTo($email->getTo());
         $message->setSubject($email->getSubject());
-        $message->setBody($email->getBody());
+        $message->setBody($email->getBody(), 'text/html');
 
         return $message;
     }
