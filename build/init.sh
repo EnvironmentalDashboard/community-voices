@@ -11,4 +11,3 @@ ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 	php composer.phar install && \
 	php composer.phar update
 a2enmod rewrite headers && mv /var/www/html/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
-mkdir /opendkim && echo $DKIM > /opendkim/mail.private

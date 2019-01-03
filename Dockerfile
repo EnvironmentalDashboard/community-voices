@@ -9,6 +9,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
     APACHE_PID_FILE=/var/run/apache2.pid
 ADD . /var/www/html
 WORKDIR /var/www/html
-RUN "./build/init.sh"
+RUN ./build/init.sh
 EXPOSE 80
 CMD /usr/sbin/apache2ctl -D FOREGROUND
