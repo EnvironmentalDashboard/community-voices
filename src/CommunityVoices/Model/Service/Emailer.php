@@ -35,6 +35,8 @@ class EmailDispatcher
             $swiftMessage = $this->convertToSwift($email);
 
             $swiftMessage->attachSigner($this->swiftDkimSigner);
+            $swiftMessage->setBodyCanon('relaxed');
+            
             $this->swiftMailer->send($swiftMessage);
         } catch (Exception $e) {
             throw $e;
