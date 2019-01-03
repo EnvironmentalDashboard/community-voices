@@ -23,13 +23,12 @@ fi
 
 if [ "$HOSTNAME" = "environmentaldashboard" ]
 then
-	IFS="" # so newlines don't get lost with DKIM=`cat /etc/opendkim/keys/environmentaldashboard.org/mail.private`
 	# live server:
 	docker run -dit -p 3002:80 --restart always \
 	-v /var/www/uploads/CV_Media/images/:/var/www/uploads/CV_Media/images/ \
 	-v $(pwd):/var/www/html/ \
 	-e "MYSQL_HOST=159.89.232.129" -e "MYSQL_DB=community_voices" -e "MYSQL_USER=$user" -e "MYSQL_PASS=$pass" \
-	-e SERVER=`hostname` -e DKIM=`cat /etc/opendkim/keys/environmentaldashboard.org/mail.private` \
+	-e SERVER=`hostname` \
 	--name PROD_CV community-voices
 else
 	# local machine:
