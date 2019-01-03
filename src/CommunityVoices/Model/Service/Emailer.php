@@ -7,7 +7,7 @@ namespace CommunityVoices\Model\Service;
  */
 
 use PHPMailer\PHPMailer\PHPMailer;
-use CommunityVoies\Model\Exception;
+use CommunityVoices\Model\Exception;
 
 class Emailer
 {
