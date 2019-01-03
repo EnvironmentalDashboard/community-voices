@@ -138,7 +138,7 @@ $mailerFactory = function () {
 };
 
 $injector->delegate('Swift_Transport', $transportFactory);
-$injector->delegate('Swift_Mail', $mailerFactory);
+$injector->delegate('Swift_Mailer', $mailerFactory);
 
 $injector->define('Swift_Signers_DKIMSigner', [
     ':privateKey' => file_get_contents('/opendkim/mail.private'),
