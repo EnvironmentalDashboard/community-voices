@@ -130,8 +130,8 @@ class Registration
         $message = new Entity\Email();
 
         $message->setTo($email);
-        $message->setSubject("You're invited to be a {$position} on Community Voices");
-        $message->setBody("<p>You have been invited to create a new {$position} account.<a href='https://environmentaldashboard.org/community-voices/register?token={$token}'>Click here</a> to complete the registration process.</p>");
+        $message->setSubject("You're invited to be a Community Voices {$position}");
+        $message->setBody("<p>You have been invited to create a new {$position} account. <a href='https://environmentaldashboard.org/community-voices/register?token={$token}'>Click here</a> to complete the registration process.</p>");
 
         $this->mailer->send($message);
     }
