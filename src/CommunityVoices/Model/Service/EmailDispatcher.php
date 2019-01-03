@@ -11,7 +11,7 @@ use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Contract;
 
 use Swift_Mailer;
-use Swift_SignedMessage;
+use Swift_Message;
 use Swift_Signers_DKIMSigner;
 
 class EmailDispatcher
@@ -40,7 +40,7 @@ class EmailDispatcher
 
     private function convertToSwift(Entity\Email $email)
     {
-        $message = Swift_SignedMessage::newInstance();
+        $message = new Swift_Message;
         $message->attachSigner($this->swiftDkimSigner);
 
         $message->setFrom($email->getFrom());
