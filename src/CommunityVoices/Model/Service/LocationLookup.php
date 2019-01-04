@@ -29,6 +29,14 @@ class LocationLookup
         // $this->stateObserver = $stateObserver;
     }
 
+    /**
+     * TODO:
+     *
+     * Need new collection mapper (LocationCollection)
+     * Necessary API, Website controller/views
+     * Fix/investigate the rest of the service
+     * Doc bloc
+     */
     public function findAll($stateObserver, $return = false)
     {
         $locCollection = new Entity\LocationCollection;
