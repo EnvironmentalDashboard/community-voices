@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:18.04
 ENV DEBIAN_FRONTEND=noninteractive \
     TZ=America/New_York \
     COMPOSER_ALLOW_SUPERUSER=1 \
