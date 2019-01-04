@@ -31,7 +31,6 @@ class LocationLookup
 
     public function findAll($stateObserver, $return = false)
     {
-
         $locCollection = new Entity\LocationCollection;
         $locMapper = $this->mapperFactory->createDataMapper(Mapper\Location::class);
         $locMapper->fetchAll($locCollection);
@@ -42,6 +41,20 @@ class LocationLookup
         if ($return) {
             return $stateObserver;
         }
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($stateObserver);
+    }
+
+    public function findAll2()
+    {
+        $locationCollection = new Entity\LocationCollection;
+        $locationCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\LocationCollection::class);
+
+        $locationCollectionMapper->fetch($locationCollection);
+
+        $this->stateObserver->setSubject($this);
+        $this->stateObserver->addEntry('locationCollection', $locationCollection);
+
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
         $clientState->save($stateObserver);
     }
@@ -61,5 +74,3 @@ class LocationLookup
         $clientState->save($stateObserver);
     }
 }
-
-
