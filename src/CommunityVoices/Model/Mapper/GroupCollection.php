@@ -35,7 +35,8 @@ class GroupCollection extends DataMapper
         }
     }
 
-    public function fetchAllTags(Entity\GroupCollection $groupCollection) {
+    public function fetchAllTags(Entity\GroupCollection $groupCollection)
+    {
         foreach ($this->conn->query("SELECT id, label FROM `community-voices_groups` WHERE type = 'tag'") as $row) {
             $groupCollection->addEntityFromParams($row);
         }
@@ -47,7 +48,8 @@ class GroupCollection extends DataMapper
         $stmt->execute([$media->getId()]);
     }
 
-    public function saveTags(Entity\GroupCollection $groupCollection) {
+    public function saveTags(Entity\GroupCollection $groupCollection)
+    {
         foreach ($groupCollection->getCollection() as $tag) {
             $stmt = $this->conn->prepare("INSERT INTO `community-voices_media-group-map` (media_id, group_id) VALUES (?, ?)");
             $stmt->execute([$tag->getMediaId(), $tag->getGroupId()]);

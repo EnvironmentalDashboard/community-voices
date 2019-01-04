@@ -32,7 +32,8 @@ class Landing extends Component\View
         $this->landingAPIView = $landingAPIView;
     }
 
-    public function getLanding($request){
+    public function getLanding($request)
+    {
         /**
          * Gather identity information
          */
@@ -111,5 +112,4 @@ class Landing extends Component\View
         $this->finalize($response);
         return $response;
     }
-
 }

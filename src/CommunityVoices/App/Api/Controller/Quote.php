@@ -35,7 +35,7 @@ class Quote extends Component\Controller
             /**
            * @todo This is not necessarily the way to handle 404s
            */
-          $this->send404();
+            $this->send404();
         }
     }
 
@@ -116,9 +116,15 @@ class Quote extends Component\Controller
             $approved = null;
         }
 
-        $this->quoteManagement->upload($text, $attribution, $subAttribution,
-                        $dateRecorded, $approved,
-                        $identity, $tags);
+        $this->quoteManagement->upload(
+            $text,
+            $attribution,
+            $subAttribution,
+                        $dateRecorded,
+            $approved,
+                        $identity,
+            $tags
+        );
     }
 
     public function getQuoteUpdate($request)
@@ -144,8 +150,14 @@ class Quote extends Component\Controller
             $id = (int) $request->request->get('id');
         }
 
-        $this->quoteManagement->update($id, $text, $attribution, $subAttribution,
-                                  $dateRecorded, $status);
+        $this->quoteManagement->update(
+            $id,
+            $text,
+            $attribution,
+            $subAttribution,
+                                  $dateRecorded,
+            $status
+        );
     }
 
     public function postQuoteDelete($request)

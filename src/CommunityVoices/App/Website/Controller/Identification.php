@@ -10,9 +10,10 @@ class Identification
     protected $recognitionAdapter;
     protected $mapperFactory;
 
-    public function __construct(Component\RecognitionAdapter $recognitionAdapter,
-        Component\MapperFactory $mapperFactory)
-    {
+    public function __construct(
+        Component\RecognitionAdapter $recognitionAdapter,
+        Component\MapperFactory $mapperFactory
+    ) {
         $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
     }

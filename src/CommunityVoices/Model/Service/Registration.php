@@ -43,7 +43,6 @@ class Registration
      */
     public function createUser($email, $password, $confirmPassword, $firstName, $lastName, $token)
     {
-
         $userMapper = $this->mapperFactory->createDataMapper(Mapper\User::class);
 
         /**
@@ -116,7 +115,8 @@ class Registration
         $userMapper->insertToken($email, $role, $token);
     }
 
-    public function sendInviteEmail($email, $role, $token) {
+    public function sendInviteEmail($email, $role, $token)
+    {
         $user = new Entity\User;
         $role = $user->allowableRole[$role];
         $this->emailService->to($email);

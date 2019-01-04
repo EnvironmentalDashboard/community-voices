@@ -37,15 +37,14 @@ class Image extends Component\Controller
         $imageId = $request->attributes->get('id');
 
         try {
-          $this->imageLookup->findById((int) $imageId);
+            $this->imageLookup->findById((int) $imageId);
         } catch (Exception\IdentityNotFound $e) {
-          $this->send404();
+            $this->send404();
         }
     }
 
     public function getAllImage($request)
     {
-
         $search = (string) $request->query->get('search');
         $tags = $request->query->get('tags');
         $photographers = $request->query->get('photographers');
@@ -96,33 +95,33 @@ class Image extends Component\Controller
 
     public function getImageUpdate($request)
     {
-      $imageId = $request->attributes->get('id');
-      try {
-        $this->imageLookup->findById((int) $imageId);
-      } catch (Exception\IdentityNotFound $e) {
-        $this->send404();
-      }
+        $imageId = $request->attributes->get('id');
+        try {
+            $this->imageLookup->findById((int) $imageId);
+        } catch (Exception\IdentityNotFound $e) {
+            $this->send404();
+        }
     }
 
     public function postImageUpdate($request)
     {
-      $id = (int) $request->attributes->get('id');
-      if ($id === 0) {
-        $id = (int) $request->request->get('id');
-      }
-      $title = $request->request->get('title');
-      $description = $request->request->get('description');
-      $dateTaken = $request->request->get('dateTaken');
-      $photographer = $request->request->get('photographer');
-      $organization = $request->request->get('organization');
-      $crop_x = $request->request->get('crop_x');
-      $crop_y = $request->request->get('crop_y');
-      $crop_width = $request->request->get('crop_width');
-      $crop_height = $request->request->get('crop_height');
-      $status = ($request->request->get('approve') === '1') ? 3 : 1; // 3 = approved, 1 = pending
-      $tags = $request->request->get('tags');
+        $id = (int) $request->attributes->get('id');
+        if ($id === 0) {
+            $id = (int) $request->request->get('id');
+        }
+        $title = $request->request->get('title');
+        $description = $request->request->get('description');
+        $dateTaken = $request->request->get('dateTaken');
+        $photographer = $request->request->get('photographer');
+        $organization = $request->request->get('organization');
+        $crop_x = $request->request->get('crop_x');
+        $crop_y = $request->request->get('crop_y');
+        $crop_width = $request->request->get('crop_width');
+        $crop_height = $request->request->get('crop_height');
+        $status = ($request->request->get('approve') === '1') ? 3 : 1; // 3 = approved, 1 = pending
+        $tags = $request->request->get('tags');
 
-      $this->imageManagement->update(
+        $this->imageManagement->update(
         $id,
         $title,
         $description,
@@ -137,16 +136,16 @@ class Image extends Component\Controller
 
     public function postImageDelete($request)
     {
-      $id = (int) $request->attributes->get('id');
+        $id = (int) $request->attributes->get('id');
 
-      $this->imageManagement->delete($id);
+        $this->imageManagement->delete($id);
     }
 
     public function postImageUnpair($request)
     {
-      $image_id = (int) $request->attributes->get('image');
-      $slide_id = (int) $request->attributes->get('slide');
+        $image_id = (int) $request->attributes->get('image');
+        $slide_id = (int) $request->attributes->get('slide');
 
-      $this->imageManagement->unpair($image_id, $slide_id);
+        $this->imageManagement->unpair($image_id, $slide_id);
     }
 }

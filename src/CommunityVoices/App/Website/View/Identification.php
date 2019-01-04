@@ -19,11 +19,12 @@ class Identification extends Component\View
     protected $transcriber;
     protected $urlGenerator;
 
-    public function __construct(Component\RecognitionAdapter $recognitionAdapter,
+    public function __construct(
+        Component\RecognitionAdapter $recognitionAdapter,
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
-        UrlGenerator $urlGenerator)
-    {
+        UrlGenerator $urlGenerator
+    ) {
         $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
         $this->transcriber = $transcriber;
@@ -56,7 +57,8 @@ class Identification extends Component\View
 
         $domainXMLElement->addChild('main-pane', $formModuleXML);
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
-        $domainXMLElement->addChild('title',
+        $domainXMLElement->addChild(
+            'title',
             "Community Voices: Login"
         );
         $domainXMLElement->addChild('extraCSS', "register");
@@ -123,7 +125,8 @@ class Identification extends Component\View
 
         $domainXMLElement->addChild('main-pane', $formModuleXML);
 
-        $domainXMLElement->addChild('title',
+        $domainXMLElement->addChild(
+            'title',
             "Community Voices: Sign in"
         );
 
@@ -158,7 +161,8 @@ class Identification extends Component\View
 
         $domainXMLElement->addChild('main-pane', '<p>Logged out.</p>');
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
-        $domainXMLElement->addChild('title',
+        $domainXMLElement->addChild(
+            'title',
             "Community Voices: Logout"
         );
 

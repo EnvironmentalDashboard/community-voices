@@ -186,7 +186,8 @@ class Media extends DataMapper
         $statement->execute();
     }
 
-    private function slideColumnPicker(Entity\Media $media) {
+    private function slideColumnPicker(Entity\Media $media)
+    {
         switch ($media->type) {
             case 2:
                 return 'image_id';

@@ -1,6 +1,6 @@
 function sortCheckboxes($e) {
 	var sorted = [];
-	$e.children().each(function(i) { 
+	$e.children().each(function(i) {
 		var $input = $(this).children('input');
 		var $label = $(this).children('label');
 		sorted.push({
@@ -39,8 +39,7 @@ function cmp_str(a, b) {
 var targets = [$('#sorted-tags'), $('#sorted-authors')];
 $(targets).each(function(i, target){
 	target.html(sortCheckboxes(target)); // sort once initially
-  target.on("change", function() { 
+  target.on("change", function() {
   	$(this).html(sortCheckboxes($(this))); // resort every time checkbox checked
   });
 });
-

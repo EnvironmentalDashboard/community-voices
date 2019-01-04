@@ -16,7 +16,7 @@ class User extends Component\Controller
         Service\Registration $registrationService,
         Service\UserLookup $userLookup //,
         // Service\UserManagement $userManagement
-    ){
+    ) {
         $this->registrationService = $registrationService;
         $this->userLookup = $userLookup;
         //$this->userLookup = $userManagement;
@@ -34,22 +34,29 @@ class User extends Component\Controller
         $lastName = $request->request->get('lastName');
         $token = (string) $request->request->get('token');
 
-        $this->registrationService->createUser($email, $password, $confirmPassword,
-            $firstName, $lastName, $token);
+        $this->registrationService->createUser(
+            $email,
+            $password,
+            $confirmPassword,
+            $firstName,
+            $lastName,
+            $token
+        );
     }
 
     public function getUser($request)
     {
-      $userId = (int) $request->attributes->get('id');
+        $userId = (int) $request->attributes->get('id');
 
-      try {
-        $this->userLookup->findById($userId);
-      } catch (Exception\IdentityNotFound $e) {
-        $this->send404();
-      }
+        try {
+            $this->userLookup->findById($userId);
+        } catch (Exception\IdentityNotFound $e) {
+            $this->send404();
+        }
     }
 
-    public function newToken($request) {
+    public function newToken($request)
+    {
         $email = $request->request->get('email');
         $role = (int) $request->request->get('role');
         $token = $this->random_str(16);
@@ -60,12 +67,12 @@ class User extends Component\Controller
     }
 
     /**
-     * Generate a random string, using a cryptographically secure 
+     * Generate a random string, using a cryptographically secure
      * pseudorandom number generator (random_int)
-     * 
+     *
      * For PHP 7, random_int is a PHP core function
      * For PHP 5.x, depends on https://github.com/paragonie/random_compat
-     * 
+     *
      * @param int $length      How many characters do we want?
      * @param string $keyspace A string of all possible characters
      *                         to select from

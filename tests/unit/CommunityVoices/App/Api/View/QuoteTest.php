@@ -9,22 +9,22 @@ use CommunityVoices\Model\Component;
 
 class QuoteTest extends TestCase
 {
-    public function testPostQuote(){
+    public function testPostQuote()
+    {
+        $stateMapper = $this->createMock(Mapper\ClientState::class);
 
-      $stateMapper = $this->createMock(Mapper\ClientState::class);
-
-      $stateMapper
+        $stateMapper
           ->method('retrieve')
           ->will($this->returnValue(false));
 
-      $mapperFactory = $this->createMock(Component\MapperFactory::class);
+        $mapperFactory = $this->createMock(Component\MapperFactory::class);
 
-      $mapperFactory
+        $mapperFactory
           ->method('createClientStateMapper')
           ->will($this->returnValue($stateMapper));
 
-      $quoteView = new Quote($mapperFactory);
+        $quoteView = new Quote($mapperFactory);
 
-      $this->assertTrue($quoteView->postQuote());
+        $this->assertTrue($quoteView->postQuote());
     }
 }

@@ -84,7 +84,8 @@ class Article extends Media
         $this->dateRecorded = strtotime($dateRecorded);
     }
 
-    public function setDateFormat($fmt) {
+    public function setDateFormat($fmt)
+    {
         $this->dateFormat = $fmt;
     }
 

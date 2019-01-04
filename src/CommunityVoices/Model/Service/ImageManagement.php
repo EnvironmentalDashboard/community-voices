@@ -148,7 +148,6 @@ class ImageManagement
         $tags,
         $status
       ) {
-
         $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
 
         /*
@@ -219,7 +218,8 @@ class ImageManagement
         return true;
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
         $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
 
@@ -242,7 +242,8 @@ class ImageManagement
         return true;
     }
 
-    public function unpair($image_id, $slide_id) {
+    public function unpair($image_id, $slide_id)
+    {
         $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
         $image = new Entity\Image;
         $image->setId((int) $image_id);

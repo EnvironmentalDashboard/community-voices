@@ -22,7 +22,8 @@ class ArbiterTest extends TestCase
             [
                 "0" => "guest",
                 "1" => "user"
-            ], [
+            ],
+            [
                 ["FuzzyMatch\\AllowAll::*", ["allow" => "guest"]],
                 ["FuzzyMatch\\AllowUser::*", ["allow" => "user"]],
                 ["ExactMatch\\AllowAll::Method", ["allow" => "guest"]],

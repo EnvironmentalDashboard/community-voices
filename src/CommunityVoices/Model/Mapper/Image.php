@@ -7,8 +7,8 @@ use CommunityVoices\Model\Entity;
 
 class Image extends Media
 {
-
-    public function relatedSlideId(int $image_id) {
+    public function relatedSlideId(int $image_id)
+    {
         $query = "SELECT media_id FROM `community-voices_slides` WHERE image_id = :id";
         $statement = $this->conn->prepare($query);
         $statement->bindValue(':id', $image_id);
@@ -16,7 +16,8 @@ class Image extends Media
         return $statement->fetchColumn();
     }
 
-    public function prevImage(int $image_id) {
+    public function prevImage(int $image_id)
+    {
         $query = "SELECT media_id FROM `community-voices_images` WHERE media_id < :id ORDER BY media_id DESC LIMIT 1";
         $statement = $this->conn->prepare($query);
         $statement->bindValue(':id', $image_id);
@@ -24,7 +25,8 @@ class Image extends Media
         return $statement->fetchColumn();
     }
 
-    public function nextImage(int $image_id) {
+    public function nextImage(int $image_id)
+    {
         $query = "SELECT media_id FROM `community-voices_images` WHERE media_id > :id ORDER BY media_id ASC LIMIT 1";
         $statement = $this->conn->prepare($query);
         $statement->bindValue(':id', $image_id);
@@ -184,5 +186,4 @@ class Image extends Media
         
         $statement->execute();
     }
-    
 }
