@@ -8,6 +8,5 @@ INI_LOC=`php -i | grep 'Loaded Configuration File => ' | sed 's/Loaded Configura
 	sed -ie 's/post_max_size = 8M/post_max_size = 512M/g' "$INI_LOC"
 ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 ./build/composer-install.sh && \
-	php composer.phar install && \
-	php composer.phar update
+	php composer.phar install
 a2enmod rewrite headers && mv /var/www/html/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
