@@ -8,9 +8,8 @@
         "symfony/config": "^3.3",
         "symfony/swiftmailer-bundle": "^3.2",
         "symfony/http-foundation": "^3.3",
-        "erusev/parsedown": "^1.7",
-        "phpmailer/phpmailer": "^6.0",
-        "finesse/swiftmailer-defaults-plugin": "^2.0"
+        "finesse/swiftmailer-defaults-plugin": "^2.0",
+        "erusev/parsedown": "^1.7"
     },
     "autoload": {
         "psr-4": {
