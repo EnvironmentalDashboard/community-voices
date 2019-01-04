@@ -25,7 +25,16 @@ class StateObserver implements FlexibleObserver
      */
     public function setSubject($subject)
     {
-        $this->subject = (string) $subject;
+        if (is_object($subject)) {
+            $this->subject = $this->getSubjectNameFromClass($subject);
+        } else {
+            $this->subject = (string) $subject;
+        }
+    }
+
+    private function getSubjectNameFromClass($class)
+    {
+        return lcfirst(get_class($class));
     }
 
     /**
