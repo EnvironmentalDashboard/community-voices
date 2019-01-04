@@ -33,6 +33,7 @@ class LocationLookup
      * TODO:
      *
      * Need new collection mapper (LocationCollection)
+     * State observer new implementation
      * Necessary API, Website controller/views
      * Fix/investigate the rest of the service
      * Doc bloc
