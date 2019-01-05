@@ -58,12 +58,8 @@ class ImageManagement
          */
         $image = new Entity\Image;
 
-        $target_dir = "/var/www/uploads/CV_Media/images/";
-        $fileName = $this->generateUniqueFileName() . "." . $file->guessExtension();
-
-        $file->move($target_dir, $fileName);
-
-
+        $fileMapper = $this->mapperFactory->createFileMapper();
+        $fileMapper->save($file);
 
         $image->setFileName($target_dir . $fileName);
         $image->setTitle($title);

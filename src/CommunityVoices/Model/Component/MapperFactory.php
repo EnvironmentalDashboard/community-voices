@@ -7,15 +7,21 @@ use PDO;
 use ReflectionClass;
 use CommunityVoices\Model;
 
+/**
+ * @todo This factory may violate SRP by creating multiple mapper types
+ */
+
 class MapperFactory
 {
     private $dbHandler;
+    private $uploadsDirectory;
 
     private $cache = [];
 
-    public function __construct(PDO $dbHandler)
+    public function __construct(PDO $dbHandler, $uploadsDirectory)
     {
         $this->dbHandler = $dbHandler;
+        $this->uploadsDirectory = $uploadsDirectory;
     }
 
     public function createDataMapper($class)
@@ -31,6 +37,11 @@ class MapperFactory
     public function createClientStateMapper()
     {
         return $this->create(Model\Mapper\ClientState::class, null);
+    }
+
+    public function createFileMapper()
+    {
+        return $this->create(Model\Mapper\File::class, $this->uploadsDirectory);
     }
 
     private function create($class, $handler)

@@ -91,8 +91,10 @@ $injector->share($urlGenerator);
  * Create and share mapper factories
  */
 
+$uploadsDirectory = "/var/www/uploads/CV_Media/images/";
+
 $websiteMapperFactory = new Website\Component\MapperFactory($request);
-$modelMapperFactory = new Model\Component\MapperFactory($dbHandler);
+$modelMapperFactory = new Model\Component\MapperFactory($dbHandler, $uploadsDirectory);
 $pdMapperFactory = new Palladium\Component\MapperFactory($dbHandler, '`community-voices_identities`');
 
 $injector->share($websiteMapperFactory);
