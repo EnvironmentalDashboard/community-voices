@@ -63,6 +63,8 @@ class ImageManagement
 
         $file->move($target_dir, $fileName);
 
+
+
         $image->setFileName($target_dir . $fileName);
         $image->setTitle($title);
         $image->setDescription($description);
@@ -71,10 +73,11 @@ class ImageManagement
         $image->setOrganization($organization);
         $image->setAddedBy($addedBy);
 
+        // By default, images are pending when uploaded
         if ($approved) {
-            $image->setStatus(3);
+            $image->setStatus(Entity\Image::STATUS_APPROVED);
         } else {
-            $image->setStatus(1);
+            $image->setStatus(Entity\Image::STATUS_PENDING);
         }
 
         /*
