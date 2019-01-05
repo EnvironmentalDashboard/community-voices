@@ -56,83 +56,80 @@ class ImageManagement
         /*
          * Create image entity and set attributes
          */
-        $counter = (count($files) > 1) ? 1 : null;
-        foreach ($files as $file) {
-            $image = new Entity\Image;
+        $image = new Entity\Image;
 
-            $target_dir = "/var/www/uploads/CV_Media/images/";
-            $fileName = $this->generateUniqueFileName() . "." . $file->guessExtension();
+        $target_dir = "/var/www/uploads/CV_Media/images/";
+        $fileName = $this->generateUniqueFileName() . "." . $file->guessExtension();
 
-            $file->move($target_dir, $fileName);
+        $file->move($target_dir, $fileName);
 
-            $image->setFileName($target_dir . $fileName);
-            $image->setTitle($title);
-            if ($counter !== null) {
-                $image->setDescription($description . ' - ' . ($counter++));
-            } else {
-                $image->setDescription($description);
-            }
-            $image->setDateTaken($dateTaken);
-            $image->setPhotographer($photographer);
-            $image->setOrganization($organization);
-            $image->setAddedBy($addedBy);
+        $image->setFileName($target_dir . $fileName);
+        $image->setTitle($title);
+        $image->setDescription($description);
+        $image->setDateTaken($dateTaken);
+        $image->setPhotographer($photographer);
+        $image->setOrganization($organization);
+        $image->setAddedBy($addedBy);
 
-            if ($approved) {
-                $image->setStatus(3);
-            } else {
-                $image->setStatus(1);
-            }
-
-            /*
-             * Create error observer w/ appropriate subject and pass to validator
-             */
-
-            $this->stateObserver->setSubject('imageUpload');
-            $isValid = $image->validateForUpload($this->stateObserver);
-
-            $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
-
-            /*
-             * Stop the upload process and save errors to the application state. If
-             * there is no attribution, there is no point in continuing the upload process.
-             */
-
-            if (!$isValid && $this->stateObserver->hasEntry('attribution', $image::ERR_ATTRIBUTION_REQUIRED)) {
-                $clientState->save($this->stateObserver);
-                return false;
-            }
-
-            $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
-
-            /*
-             * If there are any errors at this point, save the error state and stop
-             * the registration process
-             */
-
-            if ($this->stateObserver->hasEntries()) {
-                $clientState->save($this->stateObserver);
-                return false;
-            }
-
-            /*
-             * save $image to database
-             */
-
-            $imageMapper->save($image);
-
-            if (is_array($tags)) {
-                $iid = $image->getId();
-                $tagCollection = new Entity\GroupCollection;
-                foreach ($tags as $tid) {
-                    $tag = new Entity\Tag;
-                    $tag->setMediaId($iid);
-                    $tag->setGroupId($tid);
-                    $tagCollection->addEntity($tag);
-                }
-                $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
-                $tagMapper->saveTags($tagCollection);
-            }
+        if ($approved) {
+            $image->setStatus(3);
+        } else {
+            $image->setStatus(1);
         }
+
+        /*
+         * Create error observer w/ appropriate subject and pass to validator
+         */
+
+        $this->stateObserver->setSubject('imageUpload');
+        $isValid = $image->validateForUpload($this->stateObserver);
+
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+
+        /*
+         * Stop the upload process and save errors to the application state. If
+         * there is no attribution, there is no point in continuing the upload process.
+         */
+
+        if (!$isValid && $this->stateObserver->hasEntry('attribution', $image::ERR_ATTRIBUTION_REQUIRED)) {
+            $clientState->save($this->stateObserver);
+            return false;
+        }
+
+        $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
+
+        /*
+         * If there are any errors at this point, save the error state and stop
+         * the registration process
+         */
+
+        if ($this->stateObserver->hasEntries()) {
+            $clientState->save($this->stateObserver);
+            return false;
+        }
+
+        /**
+         * Create tags and add to collection
+         */
+        if (is_array($tags)) {
+            $imageId = $image->getId();
+
+            $tagCollection = new Entity\TagCollection;
+
+            foreach ($tags as $tagId) {
+                $tag = new Entity\Tag;
+                $tag->setId($tagId);
+
+                $tagCollection->addEntity($tag);
+            }
+
+            $image->setTagCollection($tagCollection);
+        }
+
+        /*
+         * Save image to database
+         */
+        $imageMapper->save($image);
 
         return true;
     }
