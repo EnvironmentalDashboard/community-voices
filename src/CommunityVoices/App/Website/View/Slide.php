@@ -61,12 +61,12 @@ class Slide extends Component\View
         unset($obj->slideCollection['limit']);
         unset($obj->slideCollection['page']);
         foreach ($obj->slideCollection as $key => $slide) {
-            $slide->slide->quote->quote->text = htmlspecialchars($slide->slide->quote->quote->text);
-            $slide->slide->quote->quote->attribution = htmlspecialchars($slide->slide->quote->quote->attribution);
-            $slide->slide->quote->quote->subAttribution = htmlspecialchars($slide->slide->quote->quote->subAttribution);
-            $slide->slide->quote->quote->attribution = htmlspecialchars($slide->slide->quote->quote->attribution);
-            $slide->slide->quote->quote->text = htmlspecialchars($slide->slide->quote->quote->text);
-            $slide->slide->image->image->title = htmlspecialchars($slide->slide->image->image->title);
+            $slide->slide->quote->quote->text = $slide->slide->quote->quote->text;
+            $slide->slide->quote->quote->attribution = $slide->slide->quote->quote->attribution;
+            $slide->slide->quote->quote->subAttribution = $slide->slide->quote->quote->subAttribution;
+            $slide->slide->quote->quote->attribution = $slide->slide->quote->quote->attribution;
+            $slide->slide->quote->quote->text = $slide->slide->quote->quote->text;
+            $slide->slide->image->image->title = $slide->slide->image->image->title;
         }
         $obj->slideCollection = array_values($obj->slideCollection);
 
@@ -195,11 +195,11 @@ class Slide extends Component\View
          */
         $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
         $json = json_decode($slideAPIView->getSlide()->getContent());
-        $json->slide->quote->quote->text = htmlspecialchars($json->slide->quote->quote->text);
-        $json->slide->quote->quote->attribution = htmlspecialchars($json->slide->quote->quote->attribution);
-        $json->slide->quote->quote->subAttribution = htmlspecialchars($json->slide->quote->quote->subAttribution);
-        $json->slide->image->image->title = htmlspecialchars(htmlspecialchars($json->slide->image->image->title));
-        $json->slide->image->image->description = htmlspecialchars(htmlspecialchars($json->slide->image->image->description));
+        $json->slide->quote->quote->text = $json->slide->quote->quote->text;
+        $json->slide->quote->quote->attribution = $json->slide->quote->quote->attribution;
+        $json->slide->quote->quote->subAttribution = $json->slide->quote->quote->subAttribution;
+        $json->slide->image->image->title = $json->slide->image->image->title;
+        $json->slide->image->image->description = $json->slide->image->image->description;
 
 
         $dimensions = (file_exists($json->slide->image->image->filename)) ? getimagesize($json->slide->image->image->filename) : [16, 12];
