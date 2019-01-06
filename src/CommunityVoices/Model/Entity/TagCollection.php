@@ -6,7 +6,7 @@ class TagCollection extends GroupCollection
 {
     public function __construct()
     {
-        $this->type = self::TYPE_TAG;
+        $this->groupType = self::GROUP_TYPE_TAG;
     }
 
     /**
