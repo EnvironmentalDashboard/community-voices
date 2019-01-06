@@ -163,6 +163,30 @@ class Media extends DataMapper
         $media->setId(null);
     }
 
+    protected function saveTags(Entity\TagCollection $tagCollection)
+    {
+        if (count($tagCollection) < 1) {
+            return ;
+        }
+
+        $tagCollectionData = [];
+        $placeholderArr = [];
+
+        foreach ($tagCollection as $tag) {
+            $placeholderArr[] = '(?, ?)';
+            array_push($tagCollectionData, $this->id, $tag->getId());
+        }
+
+        $query = "INSERT INTO
+                        `community-voices_media-group-map`
+                        (media_id, group_id)
+                    VALUES " . implode($placeholderArr, ',');
+
+        $statement = $this->conn->prepare($query);
+
+        $statement->execute($tagCollectionData);
+    }
+
     /**
      * Unpairs an image/quote from a slide
      *

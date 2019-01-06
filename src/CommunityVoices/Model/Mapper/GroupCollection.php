@@ -42,6 +42,9 @@ class GroupCollection extends DataMapper
         }
     }
 
+    /**
+     * @todo Move/delete these methods eventually
+     */
     public function deleteTags(Entity\Media $media)
     {
         $stmt = $this->conn->prepare("DELETE FROM `community-voices_media-group-map` WHERE media_id = ?");
