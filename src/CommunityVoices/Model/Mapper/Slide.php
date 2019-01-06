@@ -123,8 +123,7 @@ class Slide extends Media
             $contentCategory->setId($results['contentCategoryId']);
             $results['ContentCategory'] = $contentCategory;
             $tagCollection = new Entity\GroupCollection;
-            $tagCollection->forParentId($results['id']);
-            $tagCollection->forParentType(0);
+            $tagCollection->forParent($slide);
             $results['TagCollection'] = $tagCollection;
             if ($results['formattedText'] == '') {
                 $results['formattedText'] = clone $results['quote'];

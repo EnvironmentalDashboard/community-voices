@@ -29,7 +29,7 @@ class GroupCollection extends Collection
 
     protected $groupType;
     protected $parentType;
-    protected $parentId;
+    protected $parent;
 
     /**
      * @codeCoverageIgnore
@@ -63,26 +63,21 @@ class GroupCollection extends Collection
         return $this->parentType;
     }
 
-    public function forParentId($id)
-    {
-        $input = (int) $id;
-
-        if ($input > 0) {
-            $this->parentId = $input;
-        }
-    }
-
     public function getParentId()
     {
-        return $this->parentId;
+        if (!$this->parent || !$this->parent->getId()) {
+            return ;
+        }
+
+        return $this->parent->getId();
     }
 
-    public function forParent(HasId $entity)
+    public function forParent(HasId $parent)
     {
         $allowType = false;
 
         foreach ($this->allowableParentType as $className => $type) {
-            if ($entity instanceof $className) {
+            if ($parent instanceof $className) {
                 $this->parentType = $type;
                 $allowType = true;
             }
@@ -92,11 +87,7 @@ class GroupCollection extends Collection
             throw new \InvalidArgumentException(self::ERR_PARENT_TYPE_MISMATCH);
         }
 
-        $id = (int) $entity->getId();
-
-        if ($id) {
-            $this->parentId = $id;
-        }
+        $this->parent = $parent;
     }
 
     public function toArray()
