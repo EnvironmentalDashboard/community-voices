@@ -183,7 +183,11 @@ class Image extends Media
         $statement->bindValue(':date_taken', date('Y-m-d H:i:s', $image->getDateTaken()));
         $statement->bindValue(':photographer', $image->getPhotographer());
         $statement->bindValue(':organization', $image->getOrganization());
-        
+
         $statement->execute();
+
+        $media->setId($this->conn->lastInsertId());
+
+        $this->saveTagCollection($image->getTagCollection());
     }
 }
