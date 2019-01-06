@@ -26,5 +26,6 @@
 
     <logging>
         <log type="coverage-html" target="./tests/coverage"/>
+        <log type="testdox-html" target="./tests/report.html"/>
     </logging>
 </phpunit>

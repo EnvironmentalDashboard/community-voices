@@ -1,5 +1,6 @@
 vendor/
 tests/coverage
+tests/report.html
 CV_Media/
 log/
 .ftpconfig
