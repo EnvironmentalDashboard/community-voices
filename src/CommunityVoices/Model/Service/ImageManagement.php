@@ -111,9 +111,8 @@ class ImageManagement
          * Create tags and add to collection
          */
         if (is_array($tags)) {
-            $imageId = $image->getId();
-
             $tagCollection = new Entity\TagCollection;
+            $tagCollection->forParent($image);
 
             foreach ($tags as $tagId) {
                 $tag = new Entity\Tag;
