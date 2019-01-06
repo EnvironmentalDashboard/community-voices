@@ -50,40 +50,29 @@ class GroupCollectionTest extends TestCase
         $this->assertSame($instance->getParentType(), $expected);
     }
 
-    public function provid_Numeric_Assignment()
-    {
-        return [
-            ['5', 5],
-            [null, null],
-            [5, 5],
-            ['ipsum', null]
-        ];
-    }
-
-    /**
-     * @dataProvider provid_Numeric_Assignment
-     */
-    public function test_Parent_Id_Assignment($input, $expected)
-    {
-        $instance = new GroupCollection;
-        $instance->forParentId($input);
-
-        $this->assertSame($instance->getParentId(), $expected);
-    }
-
     public function test_Parent_Assignment()
     {
         $parent = $this->createMock(Media::class);
 
+        $instance = new GroupCollection;
+        $instance->forParent($parent);
+
+        $this->assertSame($instance->getParentType(), GroupCollection::PARENT_TYPE_MEDIA);
+    }
+
+    public function test_Ensure_Get_Parent_Id_Calls_Parent_Id_Getter()
+    {
+        $parent = $this->createMock(Media::class);
+
         $parent
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('getId')
             ->will($this->returnValue(2));
 
         $instance = new GroupCollection;
         $instance->forParent($parent);
 
-        $this->assertSame($instance->getParentType(), GroupCollection::PARENT_TYPE_MEDIA);
+        $instance->getParentId();
     }
 
     public function test_Parent_Assignment_Invalid_Type()
