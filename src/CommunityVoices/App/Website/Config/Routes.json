@@ -374,6 +374,15 @@
 		"defaults": {
 			"resource": "Exif",
 			"action": "postData"
-		}
+		},
+
+    "getAllLocation": {
+      "notation": "/locations",
+      "method": "get",
+      "defaults": {
+        "resource": "Location",
+        "action": "getAllLocation"
+      }
+    }
 	}
 }
