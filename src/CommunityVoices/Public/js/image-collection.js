@@ -86,12 +86,14 @@ $('#file').on('change', function(e) {
 	var reader = new FileReader();
 
 	reader.onloadend = function() {
-		$.post("/community-voices/exif", { image: reader.result }, function(exif) {
+    console.log(document.getElementById("file"));
+		console.log(EXIF.getData(document.getElementById("file"), function() {
+      console.log(this);
 			// exif.DateTime will be the date of photo taken, set by a camera
 			// if it does not exist, this may be a screenshot
 			// we will default to the file time if it is set
 			// to anything other than 0
-			var date = exif.DateTime || exif.FileDateTime;
+			var date = EXIF.getTag(this, "DateTime") || EXIF.getTag(this, "FileDateTime");
 
 			// date may equal 0, but we don't want to fill in
 			// with a value of 0
@@ -99,11 +101,7 @@ $('#file').on('change', function(e) {
 				$('#dateTaken').val(date);
 
 			$('#title').val(names[0]);
-		}, "json").fail(function (r) {
-			// If we have no data, we will empty out our auto-filled data.
-				$('#dateTaken').val("");
-			$('#title').val("");
-		});
+		}));
 	};
 
 	reader.readAsDataURL(file); // https://stackoverflow.com/a/20285053/2624391
