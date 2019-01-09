@@ -208,5 +208,4 @@ class Slide extends Media
                 : null
         ])];
     }
-
 }

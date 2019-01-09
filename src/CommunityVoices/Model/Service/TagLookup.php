@@ -31,7 +31,6 @@ class TagLookup
 
     public function findAll($return = false)
     {
-
         $tagCollection = new Entity\GroupCollection;
         $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
         $tagMapper->fetchAllTags($tagCollection);

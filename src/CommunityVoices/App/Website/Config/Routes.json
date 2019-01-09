@@ -366,6 +366,14 @@
             "resource": "Article",
             "action": "postArticleUpdate"
         }
-    }
-    
+    },
+
+	"postExifData": {
+		"notation": "/exif",
+		"method": "post",
+		"defaults": {
+			"resource": "Exif",
+			"action": "postData"
+		}
+	}
 }

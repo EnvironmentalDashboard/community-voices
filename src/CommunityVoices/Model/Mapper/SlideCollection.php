@@ -110,7 +110,7 @@ class SlideCollection extends DataMapper
 						ON media.id = slide.media_id
 		          	WHERE {$content_category_query} {$search_query} {$tag_query} {$attribution_query} {$photographer_query} {$org_query}
 		         "
-		         . $this->query_prep($slideCollection->status, "media.status")
+                 . $this->query_prep($slideCollection->status, "media.status")
                  . $this->query_prep($slideCollection->creators, "media.added_by");
         $query .= ($sort === 'rand') ? " ORDER BY RAND() LIMIT {$limit}" : " ORDER BY {$sort} {$order} LIMIT {$offset}, {$limit}";
         
@@ -140,5 +140,4 @@ class SlideCollection extends DataMapper
             $slideCollection->addEntityFromParams($entry);
         }
     }
-
 }

@@ -25,5 +25,4 @@ class Landing
         $response = new HttpFoundation\JsonResponse($slideCollection->toArray());
         return $response;
     }
-
 }

@@ -7,7 +7,6 @@ use CommunityVoices\Model\Contract\HasId;
 
 class LocationCollection extends Collection
 {
-
     private $parentId;
 
     /**

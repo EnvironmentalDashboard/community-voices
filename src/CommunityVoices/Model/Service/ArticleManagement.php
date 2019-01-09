@@ -45,7 +45,7 @@ class ArticleManagement
         $article->setDateRecorded($dateRecorded);
         $article->setAddedBy($addedBy);
         $article->setImage($image);
-        if($approved){
+        if ($approved) {
             $article->setStatus(3);
         } else {
             $article->setStatus(1);
@@ -65,11 +65,10 @@ class ArticleManagement
          * there is no author, there is no point in continuing the upload process.
          */
 
-       if (!$isValid && $this->stateObserver->hasEntry('author', $article::ERR_AUTHOR_REQUIRED))
-        {
-             $clientState->save($this->stateObserver);
-             return false;
-         }
+        if (!$isValid && $this->stateObserver->hasEntry('author', $article::ERR_AUTHOR_REQUIRED)) {
+            $clientState->save($this->stateObserver);
+            return false;
+        }
 
         $articleMapper = $this->mapperFactory->createDataMapper(Mapper\Article::class);
 
@@ -89,12 +88,10 @@ class ArticleManagement
         $articleMapper->save($article);
 
         return true;
-
     }
 
     public function update($id, $text, $title, $author, $dateRecorded, $status)
-        {
-
+    {
         $articleMapper = $this->mapperFactory->createDataMapper(Mapper\Article::class);
 
         /*
@@ -126,11 +123,10 @@ class ArticleManagement
          * there is no author, there is no point in continuing the upload process.
          */
 
-       if (!$isValid && $this->stateObserver->hasEntry('author', $article::ERR_AUTHOR_REQUIRED))
-        {
-             $clientState->save($this->stateObserver);
-             return false;
-         }
+        if (!$isValid && $this->stateObserver->hasEntry('author', $article::ERR_AUTHOR_REQUIRED)) {
+            $clientState->save($this->stateObserver);
+            return false;
+        }
 
         /*
          * If there are any errors at this point, save the error state and stop

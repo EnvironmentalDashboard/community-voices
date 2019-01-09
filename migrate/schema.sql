@@ -132,7 +132,7 @@ CREATE TABLE `community-voices_users` (
  */
 
 ALTER TABLE `community-voices_articles`
-    ADD PRIMARY KEY (`media_id`);
+    ADD PRIMARY KEY (`media_id`),
     ADD UNIQUE KEY `image_id` (`image_id`);
 
 ALTER TABLE `community-voices_content-categories`

@@ -18,8 +18,8 @@ use CommunityVoices\Model\Entity;
 
 class Quote extends Media
 {
-
-    public function relatedSlideId(int $quote_id) {
+    public function relatedSlideId(int $quote_id)
+    {
         $query = "SELECT media_id FROM `community-voices_slides` WHERE quote_id = :id";
         $statement = $this->conn->prepare($query);
         $statement->bindValue(':id', $quote_id);
@@ -27,7 +27,8 @@ class Quote extends Media
         return $statement->fetchColumn();
     }
 
-    public function prevQuote(int $quote_id) {
+    public function prevQuote(int $quote_id)
+    {
         $query = "SELECT media_id FROM `community-voices_quotes` WHERE media_id < :id ORDER BY media_id DESC LIMIT 1";
         $statement = $this->conn->prepare($query);
         $statement->bindValue(':id', $quote_id);
@@ -35,7 +36,8 @@ class Quote extends Media
         return $statement->fetchColumn();
     }
 
-    public function nextQuote(int $quote_id) {
+    public function nextQuote(int $quote_id)
+    {
         $query = "SELECT media_id FROM `community-voices_quotes` WHERE media_id > :id ORDER BY media_id ASC LIMIT 1";
         $statement = $this->conn->prepare($query);
         $statement->bindValue(':id', $quote_id);
@@ -184,5 +186,4 @@ class Quote extends Media
 
         $statement->execute();
     }
-
 }

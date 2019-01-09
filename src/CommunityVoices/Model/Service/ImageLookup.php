@@ -71,7 +71,8 @@ class ImageLookup
         exit;
     }
 
-    private function GDresize($src, $cur_width, $cur_height, $max_width) {
+    private function GDresize($src, $cur_width, $cur_height, $max_width)
+    {
         $r = $cur_width / $cur_height;
         $width = $max_width;
         $height = $max_width / $r;
@@ -80,7 +81,8 @@ class ImageLookup
         return $dst;
     }
 
-    private function GDcreate($fn, $type) {
+    private function GDcreate($fn, $type)
+    {
         switch ($type) {
             case 'image/png':
                 return imagecreatefrompng($fn);
@@ -91,7 +93,8 @@ class ImageLookup
         }
     }
 
-    private function GDdisplay($img, $type) {
+    private function GDdisplay($img, $type)
+    {
         switch ($type) {
             case 'image/png':
                 return imagepng($img);
@@ -105,7 +108,8 @@ class ImageLookup
     /**
      * GD implementation of PHP's imagecrop method (which uses too much memory)
      */
-    private function imagecrop($img, $rect) {
+    private function imagecrop($img, $rect)
+    {
         if ($rect['width'] > 0 && $rect['height'] > 0) {
             $dst = imagecreatetruecolor($rect['width'], $rect['height']);
             imagecopyresampled($dst, $img, 0, 0, $rect['x'], $rect['y'], $rect['width'], $rect['height'], $rect['width'], $rect['height']);
@@ -269,7 +273,8 @@ class ImageLookup
         // clientState stuff
     }
 
-    public function photographers($stateObserver, $return = false) {
+    public function photographers($stateObserver, $return = false)
+    {
         $attributionCollection = new \stdClass;
         $attributionMapper = $this->mapperFactory->createDataMapper(Mapper\ImageCollection::class);
         $attributionMapper->photographers($attributionCollection);
@@ -282,7 +287,8 @@ class ImageLookup
         $clientState->save($stateObserver);
     }
 
-    public function orgs($stateObserver, $return = false) {
+    public function orgs($stateObserver, $return = false)
+    {
         $attributionCollection = new \stdClass;
         $attributionMapper = $this->mapperFactory->createDataMapper(Mapper\ImageCollection::class);
         $attributionMapper->orgs($attributionCollection);
@@ -295,7 +301,8 @@ class ImageLookup
         $clientState->save($stateObserver);
     }
 
-    public function relatedSlide(int $image_id) {
+    public function relatedSlide(int $image_id)
+    {
         $mapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
         $id = $mapper->relatedSlideId($image_id);
         return $id;
@@ -306,13 +313,15 @@ class ImageLookup
         // return $slide;
     }
 
-    public function prevImage(int $image_id) {
+    public function prevImage(int $image_id)
+    {
         $mapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
         $id = $mapper->prevImage($image_id);
         return $id;
     }
 
-    public function nextImage(int $image_id) {
+    public function nextImage(int $image_id)
+    {
         $mapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
         $id = $mapper->nextImage($image_id);
         return $id;

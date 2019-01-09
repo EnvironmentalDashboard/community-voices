@@ -38,7 +38,8 @@ class DataMapper extends Mapper
                 function ($x) use ($type) {
                     return $type . "='" . $x ."'";
                 },
-                $seq);
+                $seq
+            );
             $toRet = '(' . implode(" OR ", $toRet) . ')';
             return " AND " . $toRet;
         }

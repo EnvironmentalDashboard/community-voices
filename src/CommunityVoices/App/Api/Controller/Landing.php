@@ -38,5 +38,4 @@ class Landing
             [1] // content category
         );
     }
-
 }
