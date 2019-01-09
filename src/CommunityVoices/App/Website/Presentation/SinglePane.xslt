@@ -76,7 +76,14 @@
             ]]>
             </script>
             <xsl:if test="extraJS != ''">
-                <script src="/public/js/{extraJS}.js"></script>
+                <xsl:choose>
+                    <xsl:when test="starts-with(extraJS, 'http')">
+                        <script src="{extraJS}"></script>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <script src="/public/js/{extraJS}.js"></script>
+                    </xsl:otherwise>
+                </xsl:choose>
             </xsl:if>
         </body>
     </html>
