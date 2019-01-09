@@ -75,6 +75,9 @@
             });
             ]]>
             </script>
+            <xsl:comment>
+                https://www.abbeyworkshop.com/howto/xslt/xslt-split-values/
+            </xsl:comment>
             <xsl:call-template name="output-extraJS">
                 <xsl:with-param name="list">
                     <xsl:value-of select="extraJS" />
