@@ -75,12 +75,40 @@
             });
             ]]>
             </script>
-            <xsl:if test="extraJS != ''">
-                <script src="/public/js/{extraJS}.js"></script>
-            </xsl:if>
+            <xsl:comment>
+                https://www.abbeyworkshop.com/howto/xslt/xslt-split-values/
+            </xsl:comment>
+            <xsl:call-template name="output-extraJS">
+                <xsl:with-param name="list">
+                    <xsl:value-of select="extraJS" />
+                </xsl:with-param>
+            </xsl:call-template>
         </body>
     </html>
 
+    </xsl:template>
+
+    <xsl:template name="output-extraJS">
+        <xsl:param name="list" />
+
+        <xsl:variable name="newlist" select="concat(normalize-space($list), ' ')" />
+        <xsl:variable name="first" select="substring-before($newlist, ' ')" />
+        <xsl:variable name="remaining" select="substring-after($newlist, ' ')" />
+
+        <xsl:choose>
+            <xsl:when test="starts-with($first, 'http')">
+                <script src="{$first}"></script>
+            </xsl:when>
+            <xsl:otherwise>
+                <script src="/public/js/{$first}.js"></script>
+            </xsl:otherwise>
+        </xsl:choose>
+
+        <xsl:if test="$remaining">
+            <xsl:call-template name="output-extraJS">
+                <xsl:with-param name="list" select="$remaining" />
+            </xsl:call-template>
+        </xsl:if>
     </xsl:template>
 
 </xsl:stylesheet>
