@@ -78,7 +78,7 @@
               <p class="card-text"><xsl:value-of select='domain/image/description' /></p>
               <p class="card-text"><small class="text-muted">Created <xsl:value-of select='domain/image/dateCreated' /></small></p>
               <p class="card-text">
-                <xsl:for-each select="domain/image/tagCollection/groupCollection/group">
+                <xsl:for-each select="domain/image/tagCollection/groupCollection/tag">
                   <span class="badge badge-primary mr-1"><xsl:value-of select="label"></xsl:value-of></span>
                 </xsl:for-each>
               </p>
@@ -96,8 +96,8 @@
                   <xsl:value-of select='domain/image/status' />
                 </p>
                 <p class='mt-0 mb-0'>
-                  <xsl:for-each select="domain/image/tagCollection/groupCollection/group">
-                    <xsl:value-of select="label"></xsl:value-of>, 
+                  <xsl:for-each select="domain/image/tagCollection/groupCollection/tag">
+                    <xsl:value-of select="label"></xsl:value-of>,
                   </xsl:for-each>
                 </p>
                 <p class='mt-0 mb-0'>

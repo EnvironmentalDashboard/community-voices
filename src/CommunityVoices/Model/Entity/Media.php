@@ -106,6 +106,13 @@ class Media implements HasId
 
     public function getTagCollection()
     {
+        if (!$this->tagCollection || !$this->tagCollection->getParentId()) {
+            $tagCollection = new TagCollection;
+            $tagCollection->forParent($this);
+
+            $this->setTagCollection($tagCollection);
+        }
+
         return $this->tagCollection;
     }
 
