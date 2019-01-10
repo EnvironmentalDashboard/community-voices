@@ -17,10 +17,10 @@ class Location
         $this->secureContainer = $secureContainer;
     }
 
-    public function getAllImage($request)
+    public function getAllLocation($request)
     {
         $apiController = $this->secureContainer->contain($this->locationAPIController);
 
-        $apiController->getAllImage($request);
+        $apiController->getAllLocation($request);
     }
 }

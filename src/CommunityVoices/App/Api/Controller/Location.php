@@ -15,7 +15,7 @@ class Location extends Component\Controller
         $this->locationLookup = $locationLookup;
     }
 
-    public function getAllImage($request)
+    public function getAllLocation($request)
     {
         $this->locationLookup->findAll2();
     }
