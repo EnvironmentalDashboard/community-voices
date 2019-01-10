@@ -368,15 +368,6 @@
         }
     },
 
-  	"postExifData": {
-  		"notation": "/exif",
-  		"method": "post",
-  		"defaults": {
-  			"resource": "Exif",
-  			"action": "postData"
-  		}
-    },
-
     "getAllLocation": {
         "notation": "/locations",
         "method": "get",
