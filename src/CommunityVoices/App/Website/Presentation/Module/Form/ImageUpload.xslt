@@ -12,7 +12,7 @@
 
               <div class="custom-file mb-2">
                 <label for="file" class="custom-file-label">File</label>
-                <input class="custom-file-input" id="file" type='file' name='file[]' accept='.jpg, .jpeg, .png' multiple="" />
+                <input class="custom-file-input" id="file" type='file' name='file' accept='.jpg, .jpeg, .png' multiple="false" />
               </div>
 
               <div class="form-group">
@@ -51,7 +51,7 @@
                       <input class="form-check-input" type="checkbox" name="tags[]" id="tag{id}">
                         <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
                       </input>
-                      
+
                       <label class="form-check-label">
                         <xsl:attribute name="for">tag<xsl:value-of select='id' /></xsl:attribute>
                         <xsl:value-of select="label"></xsl:value-of>

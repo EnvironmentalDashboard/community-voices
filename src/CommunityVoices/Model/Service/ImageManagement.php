@@ -42,7 +42,7 @@ class ImageManagement
      * @return [type]               [description]
      */
     public function upload(
-        $files,
+        $file,
         $title,
         $description,
         $dateTaken,
