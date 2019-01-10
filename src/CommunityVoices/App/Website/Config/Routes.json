@@ -368,21 +368,21 @@
         }
     },
 
-	"postExifData": {
-		"notation": "/exif",
-		"method": "post",
-		"defaults": {
-			"resource": "Exif",
-			"action": "postData"
-		},
+  	"postExifData": {
+  		"notation": "/exif",
+  		"method": "post",
+  		"defaults": {
+  			"resource": "Exif",
+  			"action": "postData"
+  		}
+    },
 
     "getAllLocation": {
-      "notation": "/locations",
-      "method": "get",
-      "defaults": {
-        "resource": "Location",
-        "action": "getAllLocation"
-      }
+        "notation": "/locations",
+        "method": "get",
+        "defaults": {
+            "resource": "Location",
+            "action": "getAllLocation"
+        }
     }
-	}
 }
