@@ -17,13 +17,13 @@ use CommunityVoices\Model\Entity;
 
 class GroupCollection extends DataMapper
 {
-    const ERR_PARENT_TYPE_MISSING = 'Parent type must be specified.';
-    const ERR_ID_MISSING = 'Id must be specified.';
+    const ERR_PARENT_TYPE_MISSING = 'Parent type must be specified';
+    const ERR_ID_MISSING = 'Instance of %s must have an ID specified for data fetching';
 
     public function fetch(Entity\GroupCollection $groupCollection)
     {
         if (!$groupCollection->getParentId()) {
-            throw new InvalidArgumentException(self::ERR_ID_MISSING);
+            throw new InvalidArgumentException(sprintf(self::ERR_ID_MISSING, get_class($groupCollection)));
         }
 
         if ($groupCollection->getParentType() === Entity\GroupCollection::PARENT_TYPE_LOCATION) {
