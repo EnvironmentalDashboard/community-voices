@@ -7,7 +7,6 @@
 namespace CommunityVoices\Model\Mapper;
 
 use CommunityVoices\Model\Entity;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class File
@@ -21,7 +20,12 @@ class File
 
     public function save(UploadedFile $file)
     {
-        $file->move($this->uploadsDirectory, $this->generateUniqueFileName($file));
+        $filename = $this->generateUniqueFileName($file);
+        $filepath = $this->uploadsDirectory . '' . $filename;
+
+        $file->move($this->uploadsDirectory, $filename);
+
+        $file->__construct($filepath, $file->getClientOriginalName());
     }
 
     public function delete(File $file)

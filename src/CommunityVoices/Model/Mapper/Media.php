@@ -174,7 +174,8 @@ class Media extends DataMapper
 
         foreach ($tagCollection as $tag) {
             $placeholderArr[] = '(?, ?)';
-            array_push($tagCollectionData, $this->id, $tag->getId());
+            var_dump([$tagCollection->getParentId(), $tag->getId()]);
+            array_push($tagCollectionData, $tagCollection->getParentId(), $tag->getId());
         }
 
         $query = "INSERT INTO

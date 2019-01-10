@@ -186,8 +186,8 @@ class Image extends Media
 
         $statement->execute();
 
-        $media->setId($this->conn->lastInsertId());
+        $image->setId($this->conn->lastInsertId());
 
-        $this->saveTagCollection($image->getTagCollection());
+        $this->saveTags($image->getTagCollection());
     }
 }

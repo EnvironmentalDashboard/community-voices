@@ -133,11 +133,6 @@ class ImageLookup
         $image = new Entity\Image;
         $image->setId($imageId);
 
-        $tags = new Entity\GroupCollection;
-        $tags->forGroupType(1);
-        $tags->forParent($image);
-        $image->setTagCollection($tags);
-
         $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
         $imageMapper->fetch($image);
 

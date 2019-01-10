@@ -61,7 +61,7 @@ class ImageManagement
         $fileMapper = $this->mapperFactory->createFileMapper();
         $fileMapper->save($file);
 
-        $image->setFileName($target_dir . $fileName);
+        $image->setFileName($file->getPathname());
         $image->setTitle($title);
         $image->setDescription($description);
         $image->setDateTaken($dateTaken);
@@ -69,10 +69,10 @@ class ImageManagement
         $image->setOrganization($organization);
         $image->setAddedBy($addedBy);
 
-        // By default, images are pending when uploaded
         if ($approved) {
             $image->setStatus(Entity\Image::STATUS_APPROVED);
         } else {
+            // By default, images are pending when uploaded
             $image->setStatus(Entity\Image::STATUS_PENDING);
         }
 
@@ -110,19 +110,20 @@ class ImageManagement
         /**
          * Create tags and add to collection
          */
-        if (is_array($tags)) {
-            $tagCollection = new Entity\TagCollection;
-            $tagCollection->forParent($image);
+        $tagCollection = new Entity\TagCollection;
+        $tagCollection->forParent($image);
 
+        if (is_array($tags)) {
             foreach ($tags as $tagId) {
                 $tag = new Entity\Tag;
-                $tag->setId($tagId);
+
+                $tag->setId((int) $tagId);
 
                 $tagCollection->addEntity($tag);
             }
-
-            $image->setTagCollection($tagCollection);
         }
+
+        $image->setTagCollection($tagCollection);
 
         /*
          * Save image to database
