@@ -22,11 +22,11 @@ class LocationLookup
      * @param ComponentMapperFactory $mapperFactory Factory for creating mappers
      */
     public function __construct(
-        Component\MapperFactory $mapperFactory//,
-        // Component\StateObserver $stateObserver
+        Component\MapperFactory $mapperFactory,
+        Component\StateObserver $stateObserver
     ) {
         $this->mapperFactory = $mapperFactory;
-        // $this->stateObserver = $stateObserver;
+        $this->stateObserver = $stateObserver;
     }
 
     /**
@@ -65,7 +65,7 @@ class LocationLookup
         $this->stateObserver->addEntry('locationCollection', $locationCollection);
 
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
-        $clientState->save($stateObserver);
+        $clientState->save($this->stateObserver);
     }
 
     public function locationsFor($slideId, $stateObserver, $return = false)
