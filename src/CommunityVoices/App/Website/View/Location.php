@@ -16,8 +16,8 @@ class Location extends Component\View
     protected $secureContainer;
 
     public function __construct(
-      Api\View\Location $locationAPIView,
-      Api\Component\SecureContainer $secureContainer
+        Api\View\Location $locationAPIView,
+        Api\Component\SecureContainer $secureContainer
     ) {
         $this->locationAPIView = $locationAPIView;
         $this->secureContainer = $secureContainer;
@@ -25,13 +25,13 @@ class Location extends Component\View
 
     public function getAllLocation($request)
     {
-      $locationAPIView = $this->secureContainer->contain($this->locationAPIView);
-      $json = json_decode($locationAPIView->getAllImage()->getContent());
+        $locationAPIView = $this->secureContainer->contain($this->locationAPIView);
+        $json = json_decode($locationAPIView->getAllLocation()->getContent());
 
-      $response = new HttpFoundation\Response();
+        $response = new HttpFoundation\Response();
 
-      $response->setContent(json_encode($json));
+        $response->setContent(json_encode($json));
 
-      return $response;
+        return $response;
     }
 }
