@@ -34,7 +34,9 @@ class StateObserver implements FlexibleObserver
 
     private function getSubjectNameFromClass($class)
     {
-        return lcfirst(get_class($class));
+        $reflection = new \ReflectionClass($class);
+
+        return lcfirst($reflection->getShortName());
     }
 
     /**
