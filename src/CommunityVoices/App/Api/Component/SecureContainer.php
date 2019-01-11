@@ -24,14 +24,16 @@ class SecureContainer
             $user = $this->identifier->identify();
 
             if (!is_object($contained)) {
+                // This should be more verbose, but we cannot print out a class name
+                // of a non-object. So, what to do here?
                 throw new \Exception('No decorated instance!');
             }
 
-            if (!method_exists($contained, $method)) {
-                throw new \Exception('Method not found');
-            }
-
             $signature = get_class($contained) . "::" . $method;
+
+            if (!method_exists($contained, $method)) {
+                throw new \Exception('Method not found ' . $signature);
+            }
 
             if (!$this->arbiter->isAllowedForIdentity($signature, $user)) {
                 throw new \Exception('Access denied');
