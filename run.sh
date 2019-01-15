@@ -21,7 +21,7 @@ else
 	exit
 fi
 
-if [ "$HOSTNAME" = "environmentaldashboard" ]
+if [ "$HOSTNAME" = "environmentaldashboard.org" ]
 then
 	# live server:
 	docker run -dit -p 3002:80 --restart always \

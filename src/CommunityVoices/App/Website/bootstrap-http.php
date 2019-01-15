@@ -19,7 +19,7 @@ date_default_timezone_set('America/New_York');
 
 require __DIR__ . '/../../../../vendor/autoload.php';
 
-$production_server = (getenv('SERVER') === 'environmentaldashboard');
+$production_server = (getenv('SERVER') === 'environmentaldashboard.org');
 
 /**
  * Injector
