@@ -100,4 +100,20 @@ class GroupCollection extends Collection
 
         return $toReturn;
     }
+
+    /**
+     * Propagates the collection from an array of group Ids
+     *
+     * @param  array $id Array of Ids from which entities will be generated
+     */
+    public function propagateWithEntitiesFromIds($ids)
+    {
+        foreach ($ids as $id) {
+            $group = $this->makeEntity();
+
+            $group->setId($id);
+
+            $this->addEntity($group);
+        }
+    }
 }

@@ -102,13 +102,7 @@ class ImageManagement
         $tagCollection->forParent($image);
 
         if (is_array($tags)) {
-            foreach ($tags as $tagId) {
-                $tag = new Entity\Tag;
-
-                $tag->setId((int) $tagId);
-
-                $tagCollection->addEntity($tag);
-            }
+            $tagCollection->propagateWithEntitiesFromIds($tags);
         }
 
         $image->setTagCollection($tagCollection);
