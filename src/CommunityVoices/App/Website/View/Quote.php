@@ -331,7 +331,7 @@ class Quote extends Component\View
 
         $selectedTagString = ',';
         foreach ($quote->quote->tagCollection->groupCollection as $group) {
-            $selectedTagString .= "{$group->group->id},";
+            $selectedTagString .= "{$group->tag->id},";
         }
         $selectedTagXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(['selectedTags' => [$selectedTagString]])
