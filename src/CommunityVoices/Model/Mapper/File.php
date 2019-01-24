@@ -2,6 +2,9 @@
 
 /**
  * File mapper
+ *
+ * @todo Not liking how this depends on the Symfony UploadedFile object, which seems
+ * to be poorly designed anyways.
  */
 
 namespace CommunityVoices\Model\Mapper;
