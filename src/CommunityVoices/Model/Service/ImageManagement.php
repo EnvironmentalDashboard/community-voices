@@ -83,26 +83,14 @@ class ImageManagement
         $this->stateObserver->setSubject('imageUpload');
         $isValid = $image->validateForUpload($this->stateObserver);
 
-        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
-
-        /*
-         * Stop the upload process and save errors to the application state. If
-         * there is no attribution, there is no point in continuing the upload process.
-         */
-
-        if (!$isValid && $this->stateObserver->hasEntry('attribution', $image::ERR_ATTRIBUTION_REQUIRED)) {
-            $clientState->save($this->stateObserver);
-            return false;
-        }
-
-        $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
-
         /*
          * If there are any errors at this point, save the error state and stop
          * the registration process
          */
 
-        if ($this->stateObserver->hasEntries()) {
+        if (!$isValid && $this->stateObserver->hasEntries()) {
+            $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+
             $clientState->save($this->stateObserver);
             return false;
         }
