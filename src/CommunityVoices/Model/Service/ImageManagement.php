@@ -58,22 +58,16 @@ class ImageManagement
          */
         $image = new Entity\Image;
 
-        $fileMapper = $this->mapperFactory->createFileMapper();
-        $fileMapper->save($file);
-
-        $image->setFileName($file->getPathname());
         $image->setTitle($title);
         $image->setDescription($description);
         $image->setDateTaken($dateTaken);
         $image->setPhotographer($photographer);
         $image->setOrganization($organization);
         $image->setAddedBy($addedBy);
+        $image->setStatus(Entity\Image::STATUS_PENDING);
 
         if ($approved) {
             $image->setStatus(Entity\Image::STATUS_APPROVED);
-        } else {
-            // By default, images are pending when uploaded
-            $image->setStatus(Entity\Image::STATUS_PENDING);
         }
 
         /*
@@ -107,9 +101,18 @@ class ImageManagement
 
         $image->setTagCollection($tagCollection);
 
+        /**
+         * Save file to server
+         */
+        $fileMapper = $this->mapperFactory->createFileMapper();
+        $fileMapper->save($file);
+
+        $image->setFileName($file->getPathname());
+
         /*
          * Save image to database
          */
+        $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
         $imageMapper->save($image);
 
         return true;
