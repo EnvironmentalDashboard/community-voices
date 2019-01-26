@@ -37,9 +37,9 @@ then
 	# Set the port to run on according to this name.
 	if [ "$computer" = "nuc" ]
 	then
-		$port=5297
+		port=5297
 	else
-		$port=3002
+		port=3002
 	fi
 
 	docker run -dit -p $port:80 --restart always \
