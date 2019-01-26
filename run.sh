@@ -21,7 +21,14 @@ else
 	exit
 fi
 
-if [ "$HOSTNAME" = "environmentaldashboard.org" ]
+# Prepare a FQDN into a domain name.
+# On Linux, dnsdomainname can be used,
+# but using cut allows for backwards-compatibility
+# with Mac OS.
+production_domain=environmentaldashboard.org
+domain=`cut -f 2- -d . <<< $HOSTNAME`
+
+if [ "$domain" = "$production_domain" ] || [ "$HOSTNAME" = "$production_domain" ]
 then
 	# live server:
 	docker run -dit -p 3002:80 --restart always \
