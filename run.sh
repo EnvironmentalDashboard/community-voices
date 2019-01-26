@@ -31,7 +31,18 @@ domain=`cut -f 2- -d . <<< $HOSTNAME`
 if [ "$domain" = "$production_domain" ] || [ "$HOSTNAME" = "$production_domain" ]
 then
 	# live server:
-	docker run -dit -p 5297:80 --restart always \
+	# Get the computer name.
+	computer=`cut -f 1 -d . <<< $HOSTNAME`
+
+	# Set the port to run on according to this name.
+	if [ "$computer" = "nuc" ]
+	then
+		$port=5297
+	else
+		$port=3002
+	fi
+
+	docker run -dit -p $port:80 --restart always \
 	-v /var/www/uploads/CV_Media/images/:/var/www/uploads/CV_Media/images/ \
 	-v $(pwd):/var/www/html/ \
 	-v /etc/opendkim/keys/environmentaldashboard.org/mail.private:/opendkim/mail.private \
