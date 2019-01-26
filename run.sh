@@ -31,7 +31,7 @@ domain=`cut -f 2- -d . <<< $HOSTNAME`
 if [ "$domain" = "$production_domain" ] || [ "$HOSTNAME" = "$production_domain" ]
 then
 	# live server:
-	docker run -dit -p 3002:80 --restart always \
+	docker run -dit -p 5297:80 --restart always \
 	-v /var/www/uploads/CV_Media/images/:/var/www/uploads/CV_Media/images/ \
 	-v $(pwd):/var/www/html/ \
 	-v /etc/opendkim/keys/environmentaldashboard.org/mail.private:/opendkim/mail.private \
