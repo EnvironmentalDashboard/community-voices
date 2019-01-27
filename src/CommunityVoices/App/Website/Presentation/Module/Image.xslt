@@ -12,16 +12,16 @@
         <div class="float-left">
           <ul class="navbar-nav" style="width:initial">
             <li class="nav-item mr-2">
-              <a class="nav-link" href="../articles">Articles</a>
+              <a class="nav-link" href="/community-voices/articles">Articles</a>
             </li>
             <li class="nav-item mr-2">
-              <a class="nav-link" href="../slides">Slides</a>
+              <a class="nav-link" href="/community-voices/slides">Slides</a>
             </li>
             <li class="nav-item mr-2 active">
-              <a class="nav-link" href="../images">Images <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="/community-voices/images">Images <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item mr-2">
-              <a class="nav-link" href="../quotes">Quotes</a>
+              <a class="nav-link" href="/community-voices/quotes">Quotes</a>
             </li>
           </ul>
         </div>
@@ -97,7 +97,7 @@
                 </p>
                 <p class='mt-0 mb-0'>
                   <xsl:for-each select="domain/image/tagCollection/groupCollection/group">
-                    <xsl:value-of select="label"></xsl:value-of>, 
+                    <xsl:value-of select="label"></xsl:value-of>,
                   </xsl:for-each>
                 </p>
                 <p class='mt-0 mb-0'>

@@ -13,16 +13,16 @@
         <div class="float-left">
           <ul class="navbar-nav" style="width:initial">
             <li class="nav-item mr-2">
-              <a class="nav-link" href="../articles">Articles</a>
+              <a class="nav-link" href="/community-voices/articles">Articles</a>
             </li>
             <li class="nav-item mr-2">
-              <a class="nav-link" href="../slides">Slides</a>
+              <a class="nav-link" href="/community-voices/slides">Slides</a>
             </li>
             <li class="nav-item mr-2">
-              <a class="nav-link" href="../images">Images</a>
+              <a class="nav-link" href="/community-voices/images">Images</a>
             </li>
             <li class="nav-item mr-2 active">
-              <a class="nav-link" href="../quotes">Quotes <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="/community-voices/quotes">Quotes <span class="sr-only">(current)</span></a>
             </li>
           </ul>
         </div>
