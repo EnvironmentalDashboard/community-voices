@@ -29,9 +29,9 @@
                 <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet" />
             </xsl:if>
             <xsl:if test="extraCSS != ''">
-                <link rel="stylesheet" href="https://environmentaldashboard.org/community-voices/public/css/{extraCSS}.css" />
+                <link rel="stylesheet" href="/community-voices/public/css/{extraCSS}.css" />
             </xsl:if>
-            <link rel="stylesheet" href="https://environmentaldashboard.org/community-voices/public/css/SinglePane.css" />
+            <link rel="stylesheet" href="/community-voices/public/css/SinglePane.css" />
             <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-65902947-1"></script>
             <script>
             window.dataLayer = window.dataLayer || [];
