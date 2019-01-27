@@ -11,16 +11,16 @@
       <a class="navbar-brand" href="/community-voices/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
       <ul class="navbar-nav" style="width:initial">
         <li class="nav-item mr-2">
-          <a class="nav-link" href="./articles">Articles</a>
+          <a class="nav-link" href="/community-voices/articles">Articles</a>
         </li>
         <li class="nav-item mr-2">
-          <a class="nav-link" href="./slides">Slides</a>
+          <a class="nav-link" href="/community-voices/slides">Slides</a>
         </li>
         <li class="nav-item mr-2">
-          <a class="nav-link" href="./images">Images</a>
+          <a class="nav-link" href="/community-voices/images">Images</a>
         </li>
         <li class="nav-item mr-2">
-          <a class="nav-link" href="./quotes">Quotes</a>
+          <a class="nav-link" href="/community-voices/quotes">Quotes</a>
         </li>
       </ul>
       <div style="margin-left:auto">
@@ -77,7 +77,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="row mb-3 pt-0" style="padding: 15px">
       <div class="col"><img data-cc="1" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/images/serving-our-community.png" style="cursor:pointer" /></div>
       <div class="col"><img data-cc="2" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/images/our-downtown.png" style="cursor:pointer" /></div>

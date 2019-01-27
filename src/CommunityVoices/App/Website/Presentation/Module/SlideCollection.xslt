@@ -23,16 +23,16 @@
       <a class="navbar-brand" href="/community-voices/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
       <ul class="navbar-nav" style="width:initial">
         <li class="nav-item mr-2">
-          <a class="nav-link" href="./articles">Articles</a>
+          <a class="nav-link" href="/community-voices/articles">Articles</a>
         </li>
         <li class="nav-item mr-2 active">
-          <a class="nav-link" href="./slides">Slides <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="/community-voices/slides">Slides <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item mr-2">
-          <a class="nav-link" href="./images">Images</a>
+          <a class="nav-link" href="/community-voices/images">Images</a>
         </li>
         <li class="nav-item mr-2">
-          <a class="nav-link" href="./quotes">Quotes</a>
+          <a class="nav-link" href="/community-voices/quotes">Quotes</a>
         </li>
       </ul>
       <div style="margin-left:auto">
@@ -52,7 +52,7 @@
           </xsl:otherwise>
         </xsl:choose>
         <xsl:if test="$isManager">
-          <a class="btn btn-outline-primary" href="./slides/new">+ Add slide</a>
+          <a class="btn btn-outline-primary" href="/community-voices/slides/new">+ Add slide</a>
         </xsl:if>
       </div>
     </nav>

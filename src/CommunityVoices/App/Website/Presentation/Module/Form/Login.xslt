@@ -10,7 +10,7 @@
           <p>Incorrect user/pass combination.</p>
         </xsl:if>
 
-        <form class="form-signin mb-5 pb-5" action='./login/authenticate' method='post'>
+        <form class="form-signin mb-5 pb-5" action='/community-voices/login/authenticate' method='post'>
           <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 
           <label for="email" class="sr-only">Email address</label>
