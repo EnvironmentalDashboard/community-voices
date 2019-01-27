@@ -64,7 +64,7 @@ class Location extends Component\View
         /**
          * Generate Location module
          */
-        $locationModule = new Component\Presenter('Module/Location');
+        $locationModule = new Component\Presenter('Module/LocationCollection');
         $locationModuleXML = $locationModule->generate($locationPackageElement);
 
         /**
