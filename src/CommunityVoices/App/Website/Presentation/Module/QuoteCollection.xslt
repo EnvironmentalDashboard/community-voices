@@ -47,7 +47,7 @@
           </xsl:otherwise>
         </xsl:choose>
         <xsl:if test="$isManager">
-          <a class="btn btn-outline-primary" href="./quotes/new">+ Add quote</a>
+          <a class="btn btn-outline-primary" href="/community-voices/quotes/new">+ Add quote</a>
         </xsl:if>
       </div>
     </nav>

@@ -10,7 +10,7 @@
               <p>Attribution missing.</p>
           </xsl:if>
 
-          <form action='./quotes/new/authenticate' method='post' style="max-width:400px;margin: 0 auto">
+          <form action='/community-voices/quotes/new/authenticate' method='post' style="max-width:400px;margin: 0 auto">
 
               <div class="form-group">
                 <label for="text">Quote</label>

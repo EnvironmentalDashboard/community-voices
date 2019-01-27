@@ -127,7 +127,7 @@
           </xsl:otherwise>
         </xsl:choose>
         <xsl:if test="$isManager">
-          <a class="btn btn-outline-primary" href="./images/new" data-toggle="modal" data-target="#createModal">+ Add image</a>
+          <a class="btn btn-outline-primary" href="/community-voices/images/new" data-toggle="modal" data-target="#createModal">+ Add image</a>
         </xsl:if>
       </div>
     </nav>

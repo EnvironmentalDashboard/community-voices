@@ -26,7 +26,7 @@
 	      </ul>
 	      <xsl:if test="$isManager">
 	        <a style="margin-left:auto" class="btn btn-outline-primary">
-	        	<xsl:attribute name="href">./<xsl:value-of select='domain/article/id'/>/edit</xsl:attribute>
+	        	<xsl:attribute name="href">/community-voices/articles/<xsl:value-of select='domain/article/id'/>/edit</xsl:attribute>
 						Edit
 	        </a>
 	      </xsl:if>
