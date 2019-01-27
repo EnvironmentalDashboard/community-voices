@@ -24,6 +24,7 @@
             <meta name="theme-color" content="#000000" />
             <title> <xsl:value-of select="title" /> </title>
 
+            <!-- TODO: create a route that returns this link or a local one depending on site URL -->
             <link rel="stylesheet" href="https://environmentaldashboard.org/css/bootstrap.css?v=2"/>
             <xsl:if test="comfortaa != ''">
                 <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet" />
