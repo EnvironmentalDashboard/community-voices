@@ -375,5 +375,14 @@
             "resource": "Location",
             "action": "getAllLocation"
         }
+    },
+
+    "oldGetAllLocation": {
+        "notation": "/public/screen-urls.php",
+        "method": "get",
+        "defaults": {
+            "resource": "Location",
+            "action": "getAllLocation"
+        }
     }
 }
