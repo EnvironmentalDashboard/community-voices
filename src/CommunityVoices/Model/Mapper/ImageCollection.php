@@ -135,7 +135,6 @@ class ImageCollection extends DataMapper
         $statement->execute($params);
 
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
-        $imageCollection->setCount($this->conn->query('SELECT FOUND_ROWS()')->fetchColumn());
 
         foreach ($results as $key => $entry) {
             $imageCollection->addEntityFromParams($entry);

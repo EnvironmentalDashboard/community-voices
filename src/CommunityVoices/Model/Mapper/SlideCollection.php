@@ -113,14 +113,12 @@ class SlideCollection extends DataMapper
                  . $this->query_prep($slideCollection->status, "media.status")
                  . $this->query_prep($slideCollection->creators, "media.added_by");
         $query .= ($sort === 'rand') ? " ORDER BY RAND() LIMIT {$limit}" : " ORDER BY {$sort} {$order} LIMIT {$offset}, {$limit}";
-        
+
         $statement = $this->conn->prepare($query);
 
         $statement->execute($params);
 
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-        $slideCollection->setCount($this->conn->query('SELECT FOUND_ROWS()')->fetchColumn());
 
         foreach ($results as $key => $entry) {
             $imgMapper = new Mapper\Image($this->conn);
