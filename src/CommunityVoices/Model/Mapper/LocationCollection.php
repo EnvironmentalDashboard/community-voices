@@ -8,20 +8,17 @@ use CommunityVoices\Model\Entity;
 
 class LocationCollection extends DataMapper
 {
-    public function fetch(Entity\LocationCollection $container)
+    public function fetch(Entity\LocationCollection $locationCollection)
     {
-        $this->fetchAll($container);
+        $this->fetchAll($locationCollection);
     }
 
-    public function fetchAll(Entity\LocationCollection $container)
+    public function fetchAll(Entity\LocationCollection $locationCollection)
     {
         $query = "SELECT id, label, end_use FROM `community-voices_locations` ORDER BY end_use DESC, label ASC";
+
         foreach ($this->conn->query($query) as $row) {
-            $loc = new Entity\Location;
-            $loc->setId((int) $row['id']);
-            $loc->setLabel($row['label']);
-            $loc->setEndUse($row['end_use']);
-            $container->addEntity($loc);
+            $locationCollection->addEntityFromParams($row);
         }
     }
 }
