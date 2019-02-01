@@ -140,6 +140,8 @@ class QuoteCollection extends DataMapper
 
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
+        $quoteCollection->setCount($this->conn->query('SELECT FOUND_ROWS()')->fetchColumn());
+
         foreach ($results as $key => $entry) {
             $quoteCollection->addEntityFromParams($entry);
         }
