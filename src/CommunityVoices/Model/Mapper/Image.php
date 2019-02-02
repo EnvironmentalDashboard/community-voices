@@ -63,7 +63,7 @@ class Image extends Media
                         child.date_taken                AS dateTaken,
                         child.photographer              AS photographer,
                         child.organization              AS organization,
-                        child.perceptual_hash           AS perceptualHash
+                        child.perceptual_hash           AS perceptualHash,
                         CONCAT(child.crop_x, ',', child.crop_y, ',', child.crop_height, ',', child.crop_width) AS cropRect
                     FROM
                         `community-voices_media` parent

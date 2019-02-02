@@ -50,8 +50,10 @@ foreach ($imageCollection as $image) {
     if ($i > 1) {
         exit;
     }
-    
+
     $image->setPerceptualHash($hasher->hash($image->getFilename()));
 
     $imageMapper->save($image);
+
+    echo "\n" . $image->getId() . "\n";
 }
