@@ -34,15 +34,7 @@ then
 	# Get the computer name.
 	computer=`cut -f 1 -d . <<< $HOSTNAME`
 
-	# Set the port to run on according to this name.
-	if [ "$computer" = "nuc" ]
-	then
-		port=5297
-	else
-		port=3001
-	fi
-
-	docker run -dit -p $port:80 --restart always \
+	docker run -dit -p 3001:80 --restart always \
 	-v /var/www/uploads/CV_Media/images/:/var/www/uploads/CV_Media/images/ \
 	-v $(pwd):/var/www/html/ \
 	-v /etc/opendkim/keys/environmentaldashboard.org/mail.private:/opendkim/mail.private \
