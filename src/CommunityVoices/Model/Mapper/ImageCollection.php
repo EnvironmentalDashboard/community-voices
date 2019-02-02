@@ -38,7 +38,54 @@ class ImageCollection extends DataMapper
         $container->orgCollection = $orgs;
     }
 
-    public function fetch(Entity\ImageCollection $imageCollection, int $only_unused, string $search = '', $tags = null, $photographers = null, $orgs = null, int $limit = 5, int $offset = 0, string $order_str = 'id_desc')
+    public function fetch(Entity\ImageCollection $imageCollection)
+    {
+        /**
+         * @todo Remove this
+         */
+
+        if (func_num_args() !== 1) {
+            $args = func_get_args();
+
+            return call_user_func_array([$this, 'deprecate_fetch'], $args);
+        }
+
+        /**
+         * @todo Implement fetch() operation
+         */
+
+         $query = "SELECT
+                     media.id                        AS id,
+                     media.added_by                  AS addedBy,
+                     media.date_created              AS dateCreated,
+                     CAST(media.type AS UNSIGNED)    AS type,
+                     CAST(media.status AS UNSIGNED)  AS status,
+                     image.filename                  AS filename,
+                     image.generated_tags            AS generatedTags,
+                     image.title                     AS title,
+                     image.description               AS description,
+                     image.date_taken                AS dateTaken,
+                     image.photographer              AS photographer,
+                     image.organization              AS organization,
+                     image.perceptual_hash           AS perceptualHash
+                   FROM
+                     `community-voices_media` media
+                   INNER JOIN
+                     `community-voices_images` image
+                   ON media.id = image.media_id";
+
+        $statement = $this->conn->prepare($query);
+
+        $statement->execute();
+
+        $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($results as $key => $entry) {
+            $imageCollection->addEntityFromParams($entry);
+        }
+    }
+
+    private function deprecate_fetch(Entity\ImageCollection $imageCollection, int $only_unused, string $search = '', $tags = null, $photographers = null, $orgs = null, int $limit = 5, int $offset = 0, string $order_str = 'id_desc')
     {
         switch ($order_str) {
             case 'id_desc':

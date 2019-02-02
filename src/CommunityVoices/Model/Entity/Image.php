@@ -14,6 +14,7 @@ class Image extends Media
     private $dateTaken;
     private $photographer;
     private $organization;
+    private $perceptualHash;
 
     private $cropRect = ['x' => 0, 'y' => 0, 'height' => 0, 'width' => 0];
 
@@ -105,6 +106,16 @@ class Image extends Media
     public function getCropRect()
     {
         return $this->cropRect;
+    }
+
+    public function getPerceptualHash()
+    {
+        return $this->perceptualHash;
+    }
+
+    public function setPerceptualHash($perceptualHash)
+    {
+        $this->perceptualHash = $perceptualHash;
     }
 
     public function setCropRect($rect)

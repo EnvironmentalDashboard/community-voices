@@ -63,6 +63,7 @@ class Image extends Media
                         child.date_taken                AS dateTaken,
                         child.photographer              AS photographer,
                         child.organization              AS organization,
+                        child.perceptual_hash           AS perceptualHash
                         CONCAT(child.crop_x, ',', child.crop_y, ',', child.crop_height, ',', child.crop_width) AS cropRect
                     FROM
                         `community-voices_media` parent
@@ -123,7 +124,8 @@ class Image extends Media
                         crop_x = :crop_x,
                         crop_y = :crop_y,
                         crop_height = :crop_height,
-                        crop_width = :crop_width
+                        crop_width = :crop_width,
+                        perceptual_hash = :perceptual_hash
                     WHERE
                         media_id = :media_id" :
                     "UPDATE
@@ -135,7 +137,8 @@ class Image extends Media
                         description = :description,
                         date_taken = :date_taken,
                         photographer = :photographer,
-                        organization = :organization
+                        organization = :organization,
+                        perceptual_hash = :perceptual_hash
                     WHERE
                         media_id = :media_id";
 
@@ -149,6 +152,8 @@ class Image extends Media
         $statement->bindValue(':date_taken', date('Y-m-d H:i:s', $image->getDateTaken()));
         $statement->bindValue(':photographer', $image->getPhotographer());
         $statement->bindValue(':organization', $image->getOrganization());
+        $statement->bindValue(':perceptual_hash', $image->getPerceptualHash());
+
         if ($update_cropping) {
             $rect = array_map('intval', $rect);
             $statement->bindValue(':crop_x', $rect['x']);
