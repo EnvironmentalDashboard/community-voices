@@ -47,13 +47,13 @@ $i = 0;
 foreach ($imageCollection as $image) {
     $i++;
 
-    if ($i > 1) {
+    if ($i > 3) {
         exit;
     }
+    
+    $imageMapper->fetch($image);
 
-    $image->setPerceptualHash($hasher->hash($image->getFilename()));
+    $image->setPerceptualHash($hasher->hash($image->getFilename())->toHex());
 
     $imageMapper->save($image);
-
-    echo "\n" . $image->getId() . "\n";
 }
