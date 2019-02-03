@@ -42,15 +42,7 @@ $hasher = new ImageHash\ImageHash(new ImageHash\Implementations\PerceptualHash()
 
 $imageMapper = $mapperFactory->createDataMapper(Model\Mapper\Image::class);
 
-$i = 0;
-
 foreach ($imageCollection as $image) {
-    $i++;
-
-    if ($i > 3) {
-        exit;
-    }
-    
     $imageMapper->fetch($image);
 
     $image->setPerceptualHash($hasher->hash($image->getFilename())->toHex());
