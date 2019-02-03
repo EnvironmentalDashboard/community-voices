@@ -125,7 +125,7 @@ class Image extends Media
                         crop_y = :crop_y,
                         crop_height = :crop_height,
                         crop_width = :crop_width,
-                        perceptual_hash = :perceptual_hash
+                        perceptual_hash = CONV(:perceptual_hash, 16, 10)
                     WHERE
                         media_id = :media_id" :
                     "UPDATE
@@ -138,7 +138,7 @@ class Image extends Media
                         date_taken = :date_taken,
                         photographer = :photographer,
                         organization = :organization,
-                        perceptual_hash = :perceptual_hash
+                        perceptual_hash = CONV(:perceptual_hash, 16, 10)
                     WHERE
                         media_id = :media_id";
 
