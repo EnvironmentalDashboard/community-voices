@@ -43,6 +43,10 @@ $hasher = new ImageHash\ImageHash(new ImageHash\Implementations\PerceptualHash()
 $imageMapper = $mapperFactory->createDataMapper(Model\Mapper\Image::class);
 
 foreach ($imageCollection as $image) {
+    if ($image->getPerceptualHash()) {
+        continue;
+    }
+
     $imageMapper->fetch($image);
 
     $image->setPerceptualHash($hasher->hash($image->getFilename())->toHex());
