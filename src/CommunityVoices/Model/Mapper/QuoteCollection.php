@@ -20,6 +20,17 @@ class QuoteCollection extends DataMapper
         $container->attributionCollection = $attributions;
     }
 
+    public function subattributions(\stdClass $container)
+    {
+        $subattributions = [];
+        foreach ($this->conn->query('SELECT DISTINCT sub_attribution FROM `community-voices_quotes` WHERE sub_attribution != "" ORDER BY sub_attribution ASC') as $row) {
+            $obj = new \stdClass();
+            $obj->subattribution = $row['sub_attribution'];
+            $subattributions[] = $obj;
+        }
+        $container->subattributionCollection = $subattributions;
+    }
+
     public function fetch(Entity\QuoteCollection $quoteCollection, string $order_str = '', $only_unused = '', $search = '', $tags = null, $attributions = null, int $limit = 1, int $offset = 0)
     {
         /**

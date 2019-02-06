@@ -58,6 +58,7 @@ class Quote extends Component\Controller
         $search = $request->query->get('search');
         $tags = $request->query->get('tags');
         $attributions = $request->query->get('attributions');
+        $subattributions = $request->query->get('subattributions');
         $creatorIDs = $request->attributes->get('creatorIDs');
         $status = $request->query->get('status');
         $order = (string) $request->query->get('order');
