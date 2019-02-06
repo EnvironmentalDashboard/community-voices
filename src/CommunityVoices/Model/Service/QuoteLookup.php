@@ -75,7 +75,7 @@ class QuoteLookup
      *
      * @return CommunityVoices\Model\Entity\QuoteCollection
      */
-    public function findAll(int $page, int $limit, int $offset, string $order, int $only_unused = 0, $search = '', $tags = null, $attributions = null, $creatorIDs=[], $status=[])
+    public function findAll(int $page, int $limit, int $offset, string $order, int $only_unused = 0, $search = '', $tags = null, $attributions = null, $subattributions = null, $creatorIDs=[], $status=[])
     {
         $quoteCollection = new Entity\QuoteCollection;
         $quoteCollection->setPage($page);
@@ -107,7 +107,7 @@ class QuoteLookup
         $quoteCollection->status = $status;
 
         $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
-        $quoteCollectionMapper->fetch($quoteCollection, $order, $only_unused, $search, $tags, $attributions, $limit, $offset);
+        $quoteCollectionMapper->fetch($quoteCollection, $order, $only_unused, $search, $tags, $attributions, $subattributions, $limit, $offset);
         $quoteCollectionMapper->attributions($quoteCollectionAttributions);
         $quoteCollectionMapper->subattributions($quoteCollectionSubAttributions);
 

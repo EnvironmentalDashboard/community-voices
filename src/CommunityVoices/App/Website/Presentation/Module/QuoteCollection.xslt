@@ -120,7 +120,7 @@
                 <div style="overflow-y:scroll;width:100%;height: 145px;border:none" id='sorted-subattribution'>
                   <xsl:for-each select="domain/subattributionCollection/subattribution">
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" name="attributions[]">
+                      <input class="form-check-input" type="checkbox" name="subattributions[]">
                         <xsl:attribute name="id">subattribution<xsl:value-of select="position()"></xsl:value-of></xsl:attribute>
                         <xsl:if test="contains($subattributions, concat(',', ., ','))">
                           <xsl:attribute name="checked">checked</xsl:attribute>

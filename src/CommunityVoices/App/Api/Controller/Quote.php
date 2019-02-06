@@ -96,7 +96,7 @@ class Quote extends Component\Controller
 
         $only_unused = !!$only_unused;
 
-        $this->quoteLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $attributions, $creatorIDs, $status);
+        $this->quoteLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $attributions, $subattributions, $creatorIDs, $status);
     }
 
     public function getQuoteUpload()
