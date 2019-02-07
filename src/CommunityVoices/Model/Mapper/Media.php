@@ -174,7 +174,6 @@ class Media extends DataMapper
 
         foreach ($tagCollection as $tag) {
             $placeholderArr[] = '(?, ?)';
-            var_dump([$tagCollection->getParentId(), $tag->getId()]);
             array_push($tagCollectionData, $tagCollection->getParentId(), $tag->getId());
         }
 
