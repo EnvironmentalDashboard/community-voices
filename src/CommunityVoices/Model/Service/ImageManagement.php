@@ -52,7 +52,7 @@ class ImageManagement
         $approved,
         $tags
     ) {
-
+        
         /*
          * Create image entity and set attributes
          */
@@ -107,7 +107,10 @@ class ImageManagement
         $fileMapper = $this->mapperFactory->createFileMapper();
         $fileMapper->save($file);
 
-        $image->setFileName($file->getPathname());
+        $imageFile = new Entity\UploadedImageFile;
+        $imageFile->load($file);
+
+        $image->setFileName($imageFile->getFilepath());
 
         /*
          * Save image to database

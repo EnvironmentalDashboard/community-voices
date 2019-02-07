@@ -10,9 +10,8 @@
 namespace CommunityVoices\Model\Mapper;
 
 use CommunityVoices\Model\Entity;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class File
+class ImageFile
 {
     private $uploadsDirectory;
 
@@ -21,30 +20,20 @@ class File
         $this->uploadsDirectory = $uploadsDirectory;
     }
 
-    public function save(UploadedFile $file)
+    public function save(UploadedImageFile $file)
     {
-        $filename = $this->generateUniqueFileName($file);
-        $filepath = $this->uploadsDirectory . '' . $filename;
+        $file->setDirectory($this->uploadsDirectory);
 
-        $file->move($this->uploadsDirectory, $filename);
+        do {
+            $file->generateUniqueFilename();
+        } while(file_exists($file->getFilepath()));
 
-        $file->__construct($filepath, $file->getClientOriginalName());
+        $file->move();
     }
 
     public function delete(File $file)
     {
         // @TODO
-    }
-
-    private function generateUniqueFileName(UploadedFile $file)
-    {
-        $fileName = $this->generateUniqueHash() . "." . $file->guessExtension();
-
-        if (file_exists($fileName)) {
-            return generateUniqueFileName($file);
-        }
-
-        return $fileName;
     }
 
     private function generateUniqueHash()
