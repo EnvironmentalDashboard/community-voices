@@ -95,6 +95,8 @@ class ArticleCollection extends DataMapper
 
         $statement->execute($params);
 
+        $articleCollection->setCount($this->conn->query('SELECT FOUND_ROWS()')->fetchColumn());
+
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($results as $key => $entry) {

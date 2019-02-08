@@ -9,6 +9,7 @@
   <xsl:variable name="status" select="package/domain/status"/>
   <xsl:variable name="tags" select="package/domain/tags"/>
   <xsl:variable name="attributions" select="package/domain/attributions"/>
+  <xsl:variable name="subattributions" select="package/domain/subattributions"/>
   <xsl:variable name="order" select="package/domain/order"/>
   <xsl:variable name="unused" select="package/domain/unused"/>
 
@@ -108,6 +109,26 @@
                       </input>
                       <label class="form-check-label">
                         <xsl:attribute name="for">attribution<xsl:value-of select='position()' /></xsl:attribute>
+                        <xsl:value-of select="."></xsl:value-of>
+                      </label>
+                    </div>
+                  </xsl:for-each>
+                </div>
+              </div>
+              <div class="form-group">
+                <p class="mb-0">Sub-attribution</p>
+                <div style="overflow-y:scroll;width:100%;height: 145px;border:none" id='sorted-subattribution'>
+                  <xsl:for-each select="domain/subattributionCollection/subattribution">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="subattributions[]">
+                        <xsl:attribute name="id">subattribution<xsl:value-of select="position()"></xsl:value-of></xsl:attribute>
+                        <xsl:if test="contains($subattributions, concat(',', ., ','))">
+                          <xsl:attribute name="checked">checked</xsl:attribute>
+                        </xsl:if>
+                        <xsl:attribute name="value"><xsl:value-of select='.' /></xsl:attribute>
+                      </input>
+                      <label class="form-check-label">
+                        <xsl:attribute name="for">subattribution<xsl:value-of select='position()' /></xsl:attribute>
                         <xsl:value-of select="."></xsl:value-of>
                       </label>
                     </div>

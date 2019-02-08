@@ -184,6 +184,11 @@ class Quote extends Component\View
             $this->transcriber->toXml($attributions)
         );
 
+        $subattributions = $json->quoteCollectionSubAttributions;
+        $subattributionXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($subattributions)
+        );
+
         /**
          * Quote XML Package
          */
@@ -193,6 +198,7 @@ class Quote extends Component\View
         $packagedQuote->adopt($quoteXMLElement);
         $packagedQuote->adopt($tagXMLElement);
         $packagedQuote->adopt($attributionXMLElement);
+        $packagedQuote->adopt($subattributionXMLElement);
         $packagedQuote->adopt($paginationXMLElement);
 
         foreach ($qs as $key => $value) {

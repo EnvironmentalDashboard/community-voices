@@ -49,6 +49,7 @@ class Quote
         $stateObserver->setSubject('quoteFindAll');
         $quoteCollection = $stateObserver->getEntry('quoteCollection')[0]->toArray();
         $quoteCollection['quoteCollectionAttributions'] = $stateObserver->getEntry('quoteCollectionAttributions')[0];
+        $quoteCollection['quoteCollectionSubAttributions'] = $stateObserver->getEntry('quoteCollectionSubAttributions')[0];
 
         $stateObserver->setSubject('tagLookup');
         $quoteCollection['tags'] = $stateObserver->getEntry('tag')[0]->toArray();

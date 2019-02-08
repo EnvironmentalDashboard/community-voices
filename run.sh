@@ -34,15 +34,7 @@ then
 	# Get the computer name.
 	computer=`cut -f 1 -d . <<< $HOSTNAME`
 
-	# Set the port to run on according to this name.
-	if [ "$computer" = "nuc" ]
-	then
-		port=5297
-	else
-		port=3002
-	fi
-
-	docker run -dit -p $port:80 --restart always \
+	docker run -dit -p 3001:80 --restart always \
 	-v /var/www/uploads/CV_Media/images/:/var/www/uploads/CV_Media/images/ \
 	-v $(pwd):/var/www/html/ \
 	-v /etc/opendkim/keys/environmentaldashboard.org/mail.private:/opendkim/mail.private \
@@ -51,7 +43,7 @@ then
 	--name PROD_CV community-voices
 else
 	# local machine:
-	docker run -dit -p 3002:80 --restart always \
+	docker run -dit -p 3001:80 --restart always \
 	-v $(pwd)/CV_Media/images/:/var/www/uploads/CV_Media/images/ \
 	-v $(pwd):/var/www/html/ \
 	-e "MYSQL_HOST=159.89.232.129" -e "MYSQL_DB=community_voices" -e "MYSQL_USER=$user" -e "MYSQL_PASS=$pass" \

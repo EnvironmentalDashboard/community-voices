@@ -101,7 +101,7 @@
                 <script src="{$first}"></script>
             </xsl:when>
             <xsl:otherwise>
-                <script src="/public/js/{$first}.js"></script>
+                <script src="/community-voices/public/js/{$first}.js"></script>
             </xsl:otherwise>
         </xsl:choose>
 
