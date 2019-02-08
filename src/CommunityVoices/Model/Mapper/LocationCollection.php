@@ -18,6 +18,9 @@ class LocationCollection extends DataMapper
         $query = "SELECT id, label, end_use FROM `community-voices_locations` ORDER BY end_use DESC, label ASC";
 
         foreach ($this->conn->query($query) as $row) {
+            // Make sure that id is cast to an integer.
+            $row['id'] = (int) $row['id'];
+
             $locationCollection->addEntityFromParams($row);
         }
     }
