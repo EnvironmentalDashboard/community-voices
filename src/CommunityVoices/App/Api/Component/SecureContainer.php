@@ -24,17 +24,17 @@ class SecureContainer
             $user = $this->identifier->identify();
 
             if (!is_object($contained)) {
-                throw new \Exception('SecureContainer: Expected to contain an object, but received type ' . gettype($contained));
+                throw new SecureContainerException('Expected to contain an object, but received type ' . gettype($contained));
             }
 
             $signature = get_class($contained) . "::" . $method;
 
             if (!method_exists($contained, $method)) {
-                throw new \Exception('SecureContainer: Method not found ' . $signature);
+                throw new SecureContainerException('Method not found ' . $signature);
             }
 
             if (!$this->arbiter->isAllowedForIdentity($signature, $user)) {
-                throw new \Exception('Access denied');
+                throw new SecureContainerException('Access denied');
             }
 
             return call_user_func_array([$contained, $method], $args);
