@@ -7,6 +7,34 @@ use CommunityVoices\Model\Entity;
 
 class Image extends Media
 {
+    protected $relations = [
+        'Entity' => [
+            'addedBy' => [
+                'class' => Entity\User::class,
+                'attributes' => [
+                    'id' => 'addedBy'
+                ]
+            ],
+            'filename' => [
+                'class' => Entity\UploadedImageFile::class,
+                'attributes' => [
+                    'filepath' => 'filename'
+                ]
+            ]
+        ],
+        'Collection' => [
+            'tagCollection' => [
+                'class' => Entity\TagCollection::class,
+                'attributes' => [
+                    'parentId' => 'id'
+                ],
+                'static' => [
+                    'parentType' => Entity\TagCollection::PARENT_TYPE_MEDIA,
+                ]
+            ]
+        ]
+    ];
+
     public function relatedSlideId(int $image_id)
     {
         $query = "SELECT media_id FROM `community-voices_slides` WHERE image_id = :id";
@@ -120,19 +148,19 @@ class Image extends Media
 
         if($updateCrop) {
             $query = "UPDATE
-                        `community-voices_images`
-                    SET
-                        generated_tags = :generated_tags,
-                        title = :title,
-                        description = :description,
-                        date_taken = :date_taken,
-                        photographer = :photographer,
-                        organization = :organization,
-                        crop_x = :crop_x,
-                        crop_y = :crop_y,
-                        crop_height = :crop_height,
+                            `community-voices_images`
+                        SET
+                            generated_tags = :generated_tags,
+                            title = :title,
+                            description = :description,
+                            date_taken = :date_taken,
+                            photographer = :photographer,
+                            organization = :organization,
+                            crop_x = :crop_x,
+                            crop_y = :crop_y,
+                            crop_height = :crop_height,
                             crop_width = :crop_width
-                    WHERE
+                        WHERE
                             media_id = :media_id";
 
             $statement = $this->conn->prepare($query);
@@ -143,18 +171,18 @@ class Image extends Media
             $statement->bindValue(':crop_width', (int) $crop['width']);
         } else {
             $query = "UPDATE
-                        `community-voices_images`
-                    SET
-                        generated_tags = :generated_tags,
-                        title = :title,
-                        description = :description,
-                        date_taken = :date_taken,
-                        photographer = :photographer,
+                            `community-voices_images`
+                        SET
+                            generated_tags = :generated_tags,
+                            title = :title,
+                            description = :description,
+                            date_taken = :date_taken,
+                            photographer = :photographer,
                             organization = :organization
-                    WHERE
-                        media_id = :media_id";
+                        WHERE
+                            media_id = :media_id";
 
-        $statement = $this->conn->prepare($query);
+            $statement = $this->conn->prepare($query);
         }
 
         $statement->bindValue(':media_id', $image->getId());

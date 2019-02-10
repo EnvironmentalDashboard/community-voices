@@ -39,13 +39,12 @@ class Slide extends Media
         ],
         'Collection' => [
             'tagCollection' => [
-                'class' => Entity\GroupCollection::class,
+                'class' => Entity\TagCollection::class,
                 'attributes' => [
                     'parentId' => 'id'
                 ],
                 'static' => [
-                    'groupType' => Entity\GroupCollection::GROUP_TYPE_TAG,
-                    'parentType' => Entity\GroupCollection::PARENT_TYPE_MEDIA
+                    'parentType' => Entity\TagCollection::PARENT_TYPE_MEDIA
                 ]
             ],
             'organizationCategoryCollection' => [
