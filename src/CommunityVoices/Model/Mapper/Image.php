@@ -109,9 +109,17 @@ class Image extends Media
     protected function update(Entity\Media $image)
     {
         parent::update($image);
-        $rect = $image->getCropRect();
-        $update_cropping = ($rect['x'] !== null && $rect['y'] !== null && $rect['height'] !== null && $rect['width'] !== null);
-        $query = ($update_cropping) ? "UPDATE
+
+        /**
+         * @todo this is (code) smelly!
+         */
+        $crop = $image->getCropRect();
+        $updateCrop = $crop['x'] && $crop['y'] && $crop['height'] && $crop['width'];
+
+        $statement;
+
+        if($updateCrop) {
+            $query = "UPDATE
                         `community-voices_images`
                     SET
                         generated_tags = :generated_tags,
@@ -125,8 +133,16 @@ class Image extends Media
                         crop_height = :crop_height,
                             crop_width = :crop_width
                     WHERE
-                        media_id = :media_id" :
-                    "UPDATE
+                            media_id = :media_id";
+
+            $statement = $this->conn->prepare($query);
+
+            $statement->bindValue(':crop_x', (int) $crop['x']);
+            $statement->bindValue(':crop_y', (int) $crop['y']);
+            $statement->bindValue(':crop_height', (int) $crop['height']);
+            $statement->bindValue(':crop_width', (int) $crop['width']);
+        } else {
+            $query = "UPDATE
                         `community-voices_images`
                     SET
                         generated_tags = :generated_tags,
@@ -139,6 +155,7 @@ class Image extends Media
                         media_id = :media_id";
 
         $statement = $this->conn->prepare($query);
+        }
 
         $statement->bindValue(':media_id', $image->getId());
         $statement->bindValue(':generated_tags', $image->getGeneratedTags());
@@ -148,13 +165,8 @@ class Image extends Media
         $statement->bindValue(':photographer', $image->getPhotographer());
         $statement->bindValue(':organization', $image->getOrganization());
 
+        if ($updateCrop) {
 
-        if ($update_cropping) {
-            $rect = array_map('intval', $rect);
-            $statement->bindValue(':crop_x', $rect['x']);
-            $statement->bindValue(':crop_y', $rect['y']);
-            $statement->bindValue(':crop_height', $rect['height']);
-            $statement->bindValue(':crop_width', $rect['width']);
         }
 
         $statement->execute();
