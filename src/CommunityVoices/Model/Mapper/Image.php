@@ -114,7 +114,6 @@ class Image extends Media
         $query = ($update_cropping) ? "UPDATE
                         `community-voices_images`
                     SET
-                        filename = :filename,
                         generated_tags = :generated_tags,
                         title = :title,
                         description = :description,
@@ -124,35 +123,31 @@ class Image extends Media
                         crop_x = :crop_x,
                         crop_y = :crop_y,
                         crop_height = :crop_height,
-                        crop_width = :crop_width,
-                        perceptual_hash = CONV(:perceptual_hash, 16, 10)
+                            crop_width = :crop_width
                     WHERE
                         media_id = :media_id" :
                     "UPDATE
                         `community-voices_images`
                     SET
-                        filename = :filename,
                         generated_tags = :generated_tags,
                         title = :title,
                         description = :description,
                         date_taken = :date_taken,
                         photographer = :photographer,
-                        organization = :organization,
-                        perceptual_hash = CONV(:perceptual_hash, 16, 10)
+                            organization = :organization
                     WHERE
                         media_id = :media_id";
 
         $statement = $this->conn->prepare($query);
 
         $statement->bindValue(':media_id', $image->getId());
-        $statement->bindValue(':filename', $image->getFilename());
         $statement->bindValue(':generated_tags', $image->getGeneratedTags());
         $statement->bindValue(':title', $image->getTitle());
         $statement->bindValue(':description', $image->getDescription());
         $statement->bindValue(':date_taken', date('Y-m-d H:i:s', $image->getDateTaken()));
         $statement->bindValue(':photographer', $image->getPhotographer());
         $statement->bindValue(':organization', $image->getOrganization());
-        $statement->bindValue(':perceptual_hash', $image->getPerceptualHash());
+
 
         if ($update_cropping) {
             $rect = array_map('intval', $rect);
