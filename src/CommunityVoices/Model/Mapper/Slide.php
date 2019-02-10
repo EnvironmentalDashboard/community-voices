@@ -6,8 +6,6 @@ use PDO;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Mapper;
 
-// Entity\User, Entity\ContentCategory, Entity\Image, Entity\Quote, Entity\GroupCollection, Entity\Media
-
 class Slide extends Media
 {
     protected $relations = [
