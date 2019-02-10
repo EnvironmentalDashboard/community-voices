@@ -132,7 +132,6 @@ class ImageManagement
         $tags,
         $status
       ) {
-        $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
 
         /*
          * Create image entity and set attributes
@@ -140,8 +139,6 @@ class ImageManagement
 
         $image = new Entity\Image;
         $image->setId((int) $id);
-
-        $imageMapper->fetch($image);
 
         $image->setTitle($title);
         $image->setDescription($description);
@@ -158,7 +155,7 @@ class ImageManagement
         $this->stateObserver->setSubject('imageUpdate');
         $isValid = $image->validateForUpload($this->stateObserver);
 
-        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+
 
         /*
          * Stop the upload process and save errors to the application state. If
@@ -166,38 +163,31 @@ class ImageManagement
          */
 
         if (!$isValid && $this->stateObserver->hasEntry('attribution', $image::ERR_ATTRIBUTION_REQUIRED)) {
+            $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+
             $clientState->save($this->stateObserver);
             return false;
         }
 
-        /*
-         * If there are any errors at this point, save the error state and stop
-         * the registration process
-         */
 
-        if ($this->stateObserver->hasEntries()) {
-            $clientState->save($this->stateObserver);
-            return false;
-        }
-
-        /*
-         * save $image to database
+        /**
+         * Create tags and add to collection
          */
-        $imageMapper->save($image);
+        $tagCollection = new Entity\TagCollection;
+        $tagCollection->forParent($image);
 
         if (is_array($tags)) {
-            $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
-            $tagMapper->deleteTags($image);
-            $iid = $image->getId();
-            $tagCollection = new Entity\GroupCollection;
-            foreach ($tags as $tid) {
-                $tag = new Entity\Tag;
-                $tag->setMediaId($iid);
-                $tag->setGroupId($tid);
-                $tagCollection->addEntity($tag);
-            }
-            $tagMapper->saveTags($tagCollection);
+            $tagCollection->propagateWithEntitiesFromIds($tags);
         }
+
+        $image->setTagCollection($tagCollection);
+
+        /*
+         * Save $image to database
+         */
+
+        $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
+        $imageMapper->save($image);
 
         return true;
     }
