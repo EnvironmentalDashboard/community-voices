@@ -86,25 +86,23 @@ $('#file').on('change', function(e) {
 	var reader = new FileReader();
 
 	reader.onloadend = function() {
-		$.post("/public/exif.php", { image: reader.result }, function( exif ) {
-			// exif.DateTime will be the date of photo taken, set by a camera
-			// if it does not exist, this may be a screenshot
-			// we will default to the file time if it is set
-			// to anything other than 0
-			var date = exif.DateTime || exif.FileDateTime;
+    // https://stackoverflow.com/a/7585267/2397924
+    // https://stackoverflow.com/a/33901415/2397924
+		var exif = EXIF.readFromBinaryFile(this.result);
 
-			// date may equal 0, but we don't want to fill in
-			// with a value of 0
-			if (date != 0)
-				$('#dateTaken').val(date);
+		// exif.DateTime will be the date of photo taken, set by a camera
+		// if it does not exist, this may be a screenshot
+		// we will default to the file time if it is set
+		// to anything other than 0
+		var date = exif.DateTime || exif.FileDateTime;
 
-			$('#title').val(names[0]);
-		}, "json").fail(function (r) {
-			// If we have no data, we will empty out our auto-filled data.
-				$('#dateTaken').val("");
-			$('#title').val("");
-		});
+		// date may equal 0, but we don't want to fill in
+		// with a value of 0
+		if (date != 0)
+			$('#dateTaken').val(date);
+
+		$('#title').val(names[0]);
 	};
 
-	reader.readAsDataURL(file); // https://stackoverflow.com/a/20285053/2624391
+	reader.readAsArrayBuffer(file);
 });

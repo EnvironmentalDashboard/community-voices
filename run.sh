@@ -21,10 +21,20 @@ else
 	exit
 fi
 
-if [ "$HOSTNAME" = "environmentaldashboard" ]
+# Prepare a FQDN into a domain name.
+# On Linux, dnsdomainname can be used,
+# but using cut allows for backwards-compatibility
+# with Mac OS.
+production_domain=environmentaldashboard.org
+domain=`cut -f 2- -d . <<< $HOSTNAME`
+
+if [ "$domain" = "$production_domain" ] || [ "$HOSTNAME" = "$production_domain" ]
 then
 	# live server:
-	docker run -dit -p 3002:80 --restart always \
+	# Get the computer name.
+	computer=`cut -f 1 -d . <<< $HOSTNAME`
+
+	docker run -dit -p 3001:80 --restart always \
 	-v /var/www/uploads/CV_Media/images/:/var/www/uploads/CV_Media/images/ \
 	-v $(pwd):/var/www/html/ \
 	-v /etc/opendkim/keys/environmentaldashboard.org/mail.private:/opendkim/mail.private \
@@ -33,7 +43,7 @@ then
 	--name PROD_CV community-voices
 else
 	# local machine:
-	docker run -dit -p 3002:80 --restart always \
+	docker run -dit -p 3001:80 --restart always \
 	-v $(pwd)/CV_Media/images/:/var/www/uploads/CV_Media/images/ \
 	-v $(pwd):/var/www/html/ \
 	-e "MYSQL_HOST=159.89.232.129" -e "MYSQL_DB=community_voices" -e "MYSQL_USER=$user" -e "MYSQL_PASS=$pass" \

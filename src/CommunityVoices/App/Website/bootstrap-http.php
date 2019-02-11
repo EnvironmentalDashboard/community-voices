@@ -19,7 +19,7 @@ date_default_timezone_set('America/New_York');
 
 require __DIR__ . '/../../../../vendor/autoload.php';
 
-$production_server = (getenv('SERVER') === 'environmentaldashboard');
+$production_server = (getenv('SERVER') === 'environmentaldashboard.org');
 
 /**
  * Injector
@@ -71,11 +71,11 @@ $uri = isset($_SERVER['REQUEST_URI'])
 $uri = ($production_server) ? '/community-voices' . substr(explode('?', $uri)[0], 1) : explode('?', $uri)[0]; // TODO: fix!
 
 try {
-	$parameters = new Symfony\Component\HttpFoundation\ParameterBag($matcher->match($uri));
+    $parameters = new Symfony\Component\HttpFoundation\ParameterBag($matcher->match($uri));
 } catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
-	http_response_code(404);
-	echo json_encode(['error' => '404 error: requested resource not found']); // api only returns json responses
-	exit;
+    http_response_code(404);
+    echo json_encode(['error' => '404 error: requested resource not found']); // api only returns json responses
+    exit;
 }
 
 $request->attributes = $parameters;

@@ -22,10 +22,10 @@ class Landing
         $this->secureContainer = $secureContainer;
     }
 
-    public function getLanding($request){
+    public function getLanding($request)
+    {
         $apiController = $this->secureContainer->contain($this->landingAPIController);
 
         $apiController->getLanding($request);
     }
-
 }

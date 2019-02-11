@@ -75,12 +75,13 @@ class QuoteLookup
      *
      * @return CommunityVoices\Model\Entity\QuoteCollection
      */
-    public function findAll(int $page, int $limit, int $offset, string $order, int $only_unused = 0, $search = '', $tags = null, $attributions = null, $creatorIDs=[], $status=[])
+    public function findAll(int $page, int $limit, int $offset, string $order, int $only_unused = 0, $search = '', $tags = null, $attributions = null, $subattributions = null, $creatorIDs=[], $status=[])
     {
         $quoteCollection = new Entity\QuoteCollection;
         $quoteCollection->setPage($page);
         $quoteCollection->setLimit($limit);
         $quoteCollectionAttributions = new \stdClass();
+        $quoteCollectionSubAttributions = new \stdClass();
 
         $valid_creatorIDs = [];
 
@@ -106,8 +107,9 @@ class QuoteLookup
         $quoteCollection->status = $status;
 
         $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
-        $quoteCollectionMapper->fetch($quoteCollection, $order, $only_unused, $search, $tags, $attributions, $limit, $offset);
+        $quoteCollectionMapper->fetch($quoteCollection, $order, $only_unused, $search, $tags, $attributions, $subattributions, $limit, $offset);
         $quoteCollectionMapper->attributions($quoteCollectionAttributions);
+        $quoteCollectionMapper->subattributions($quoteCollectionSubAttributions);
 
         $tagLookup = new TagLookup($this->mapperFactory, $this->stateObserver);
         $tagLookup->findAll();
@@ -121,6 +123,7 @@ class QuoteLookup
         $this->stateObserver->setSubject('quoteFindAll');
         $this->stateObserver->addEntry('quoteCollection', $quoteCollection);
         $this->stateObserver->addEntry('quoteCollectionAttributions', $quoteCollectionAttributions);
+        $this->stateObserver->addEntry('quoteCollectionSubAttributions', $quoteCollectionSubAttributions);
 
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
         $clientState->save($this->stateObserver);
@@ -133,6 +136,20 @@ class QuoteLookup
         $attributionMapper->attributions($attributionCollection);
         $stateObserver->setSubject('quoteLookup');
         $stateObserver->addEntry('attribution', $attributionCollection);
+        if ($return) {
+            return $stateObserver;
+        }
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($stateObserver);
+    }
+
+    public function subattributions($stateObserver, $return = false)
+    {
+        $subattributionCollection = new \stdClass;
+        $subattributionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
+        $subattributionMapper->subattributions($subattributionCollection);
+        $stateObserver->setSubject('quoteLookup');
+        $stateObserver->addEntry('subattribution', $attributionCollection);
         if ($return) {
             return $stateObserver;
         }

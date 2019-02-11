@@ -35,7 +35,7 @@ class Quote extends Component\Controller
             /**
            * @todo This is not necessarily the way to handle 404s
            */
-          $this->send404();
+            $this->send404();
         }
     }
 
@@ -58,6 +58,7 @@ class Quote extends Component\Controller
         $search = $request->query->get('search');
         $tags = $request->query->get('tags');
         $attributions = $request->query->get('attributions');
+        $subattributions = $request->query->get('subattributions');
         $creatorIDs = $request->attributes->get('creatorIDs');
         $status = $request->query->get('status');
         $order = (string) $request->query->get('order');
@@ -95,7 +96,7 @@ class Quote extends Component\Controller
 
         $only_unused = !!$only_unused;
 
-        $this->quoteLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $attributions, $creatorIDs, $status);
+        $this->quoteLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $attributions, $subattributions, $creatorIDs, $status);
     }
 
     public function getQuoteUpload()
@@ -116,9 +117,15 @@ class Quote extends Component\Controller
             $approved = null;
         }
 
-        $this->quoteManagement->upload($text, $attribution, $subAttribution,
-                        $dateRecorded, $approved,
-                        $identity, $tags);
+        $this->quoteManagement->upload(
+            $text,
+            $attribution,
+            $subAttribution,
+                        $dateRecorded,
+            $approved,
+                        $identity,
+            $tags
+        );
     }
 
     public function getQuoteUpdate($request)
@@ -144,8 +151,14 @@ class Quote extends Component\Controller
             $id = (int) $request->request->get('id');
         }
 
-        $this->quoteManagement->update($id, $text, $attribution, $subAttribution,
-                                  $dateRecorded, $status);
+        $this->quoteManagement->update(
+            $id,
+            $text,
+            $attribution,
+            $subAttribution,
+                                  $dateRecorded,
+            $status
+        );
     }
 
     public function postQuoteDelete($request)

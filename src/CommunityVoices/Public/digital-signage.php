@@ -14,42 +14,42 @@ error_reporting(E_ALL);
 require dirname(__DIR__) . '/App/Website/db.php';
 
 $galleries = [1 => 5, // serving-our-community (id of content category) => probability
-							2 => 5, // our-downtown
-							3 => 5, // next-generation
-							6 => 5, // neighbors
-							5 => 5, // nature_photos
-							4 => 5]; // heritage
+                            2 => 5, // our-downtown
+                            3 => 5, // next-generation
+                            6 => 5, // neighbors
+                            5 => 5, // nature_photos
+                            4 => 5]; // heritage
 $gallery_names = array_keys($galleries);
 foreach ($galleries as $gallery => $numerator) {
-  if (isset($_GET[$gallery])) {
-    $galleries[$gallery] = $_GET[$gallery];
-  }
+    if (isset($_GET[$gallery])) {
+        $galleries[$gallery] = $_GET[$gallery];
+    }
 }
 if (isset($_GET['loc']) && is_numeric($_GET['loc'])) {
-  $sql = 'SELECT probability, content_category_id, media_id FROM `community-voices_slides` WHERE probability > 0 AND media_id IN (SELECT media_id FROM `community-voices_media-location-map` WHERE loc_id = '.intval($_GET['loc']).') ORDER BY probability DESC';
+    $sql = 'SELECT probability, content_category_id, media_id FROM `community-voices_slides` WHERE probability > 0 AND media_id IN (SELECT media_id FROM `community-voices_media-location-map` WHERE loc_id = '.intval($_GET['loc']).') ORDER BY probability DESC';
 } else {
-  $sql = 'SELECT probability, content_category_id, media_id FROM `community-voices_slides` WHERE probability > 0 ORDER BY probability DESC';
+    $sql = 'SELECT probability, content_category_id, media_id FROM `community-voices_slides` WHERE probability > 0 ORDER BY probability DESC';
 }
 $weight_sum = array_sum($galleries);
 $sorted_rows = array_fill_keys($gallery_names, []); // list of urls, each duplicated to match its prob/weight
 $num_urls = 0;
 foreach ($dbHandler->query($sql) as $row) {
-  for ($i=0; $i < $row['probability']; $i++) { 
-    $sorted_rows[$row['content_category_id']][] = "https://environmentaldashboard.org/community-voices/slides/{$row['media_id']}";
-  }
-  $num_urls += $row['probability'];
+    for ($i=0; $i < $row['probability']; $i++) {
+        $sorted_rows[$row['content_category_id']][] = "https://environmentaldashboard.org/community-voices/slides/{$row['media_id']}";
+    }
+    $num_urls += $row['probability'];
 }
 $files = [];
 foreach ($galleries as $gallery => $weight) {
-  shuffle($sorted_rows[$gallery]);
-  $allowed_space = ($galleries[$gallery]/$weight_sum);
-  $space_so_far = 0;
-  foreach ($sorted_rows[$gallery] as $url) {
-    $files[] = $url;
-    if ($allowed_space <= (($space_so_far++)/$num_urls)) {
-      break;
+    shuffle($sorted_rows[$gallery]);
+    $allowed_space = ($galleries[$gallery]/$weight_sum);
+    $space_so_far = 0;
+    foreach ($sorted_rows[$gallery] as $url) {
+        $files[] = $url;
+        if ($allowed_space <= (($space_so_far++)/$num_urls)) {
+            break;
+        }
     }
-  }
 }
 shuffle($files);
 ?>

@@ -10,7 +10,7 @@
               <p>Author missing.</p>
           </xsl:if>
 
-          <form action='./articles/new/authenticate' method='post' enctype='multipart/form-data'>
+          <form action='/community-voices/articles/new/authenticate' method='post' enctype='multipart/form-data'>
 
               <div class="custom-file">
                 <label for="file" class="custom-file-label">File</label>

@@ -55,17 +55,17 @@ class Recognition
 
             $pdCookie = $this->pdIdentification->loginWithCookie($pdIdentity, $identity->getKey());
 
-        /**
-         * Block & delete compromised cookies
-         */
+            /**
+             * Block & delete compromised cookies
+             */
         } catch (Palladium\Exception\CompromisedCookie $e) {
             $this->pdIdentification->blockIdentity($pdIdentity);
 
             return false;
 
-        /**
-         * Any other exception, just forget the cookie and identify as a guest
-         */
+            /**
+             * Any other exception, just forget the cookie and identify as a guest
+             */
         } catch (Palladium\Component\Exception $e) {
             return false;
         }

@@ -20,7 +20,18 @@ class QuoteCollection extends DataMapper
         $container->attributionCollection = $attributions;
     }
 
-    public function fetch(Entity\QuoteCollection $quoteCollection, string $order_str = '', $only_unused = '', $search = '', $tags = null, $attributions = null, int $limit = 1, int $offset = 0)
+    public function subattributions(\stdClass $container)
+    {
+        $subattributions = [];
+        foreach ($this->conn->query('SELECT DISTINCT sub_attribution FROM `community-voices_quotes` WHERE sub_attribution != "" ORDER BY sub_attribution ASC') as $row) {
+            $obj = new \stdClass();
+            $obj->subattribution = $row['sub_attribution'];
+            $subattributions[] = $obj;
+        }
+        $container->subattributionCollection = $subattributions;
+    }
+
+    public function fetch(Entity\QuoteCollection $quoteCollection, string $order_str = '', $only_unused = '', $search = '', $tags = null, $attributions = null, $subattributions = null, int $limit = 1, int $offset = 0)
     {
         /**
          * @todo Fetch mecnahism should determine the general filter type to use,
@@ -49,7 +60,7 @@ class QuoteCollection extends DataMapper
                     break;
             }
 
-            $this->fetchAll($quoteCollection, $only_unused, $search, $tags, $attributions, $limit, $offset, $sort, $order);
+            $this->fetchAll($quoteCollection, $only_unused, $search, $tags, $attributions, $subattributions, $limit, $offset, $sort, $order);
         }
     }
 
@@ -81,7 +92,7 @@ class QuoteCollection extends DataMapper
         }
     }
 
-    private function fetchAll(Entity\QuoteCollection $quoteCollection, $only_unused, $search, $tags, $attributions, int $limit, int $offset, $sort = 'date_recorded', $order = 'DESC')
+    private function fetchAll(Entity\QuoteCollection $quoteCollection, $only_unused, $search, $tags, $attributions, $subattributions, int $limit, int $offset, $sort = 'date_recorded', $order = 'DESC')
     {
         $params = [];
         if ($search == '') {
@@ -97,6 +108,7 @@ class QuoteCollection extends DataMapper
         } else {
             $tag_query = 'AND id IN (SELECT media_id FROM `community-voices_media-group-map` WHERE group_id IN ('.implode(',', array_map('intval', $tags)).'))';
         }
+
         if ($attributions == null) {
             $attribution_query = '';
         } else {
@@ -105,6 +117,16 @@ class QuoteCollection extends DataMapper
                 $params[] = $param;
             }
         }
+
+        if ($subattributions == null) {
+            $subattribution_query = '';
+        } else {
+            $subattribution_query = 'AND sub_attribution IN ('.rtrim(str_repeat('?,', count($subattributions)), ',').')';
+            foreach ($subattributions as $param) {
+                $params[] = $param;
+            }
+        }
+
         $only_unused_query = '';
         if ($only_unused) {
             $only_unused_query = 'AND media_id NOT IN (SELECT quote_id FROM `community-voices_slides` WHERE quote_id IS NOT NULL)';
@@ -127,7 +149,7 @@ class QuoteCollection extends DataMapper
 						`community-voices_quotes` quote
 						ON media.id = quote.media_id
 		          	WHERE 1
-                    {$search_query} {$tag_query} {$attribution_query} {$only_unused_query}
+                    {$search_query} {$tag_query} {$attribution_query} {$subattribution_query} {$only_unused_query}
 		         "
                  . $this->query_prep($quoteCollection->status, "media.status")
                  . $this->query_prep($quoteCollection->creators, "media.added_by")

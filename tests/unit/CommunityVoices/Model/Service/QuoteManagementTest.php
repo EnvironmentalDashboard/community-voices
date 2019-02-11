@@ -11,39 +11,39 @@ use CommunityVoices\Model\Component\StateObserver;
 
 class QuoteManagementTest extends TestCase
 {
-      public function test_Clean_Upload(){
+    public function test_Clean_Upload()
+    {
+        $sessionMapper = $this->createMock(Mapper\ClientState::class);
 
-          $sessionMapper = $this->createMock(Mapper\ClientState::class);
+        $quoteMapper = $this->createMock(Mapper\Quote::class);
 
-          $quoteMapper = $this->createMock(Mapper\Quote::class);
-
-          $quoteMapper
+        $quoteMapper
               ->method('save')
               ->will($this->returnCallback(function (HasId $quote) {
                   $quote->setId(7);
               }));
 
-          $mapperFactory = $this->createMock(Component\MapperFactory::class);
+        $mapperFactory = $this->createMock(Component\MapperFactory::class);
 
-          $mapperFactory
+        $mapperFactory
               ->method('createClientStateMapper')
               ->with($this->equalTo(Mapper\ClientState::class))
               ->will($this->returnValue($sessionMapper));
 
-          $mapperFactory
+        $mapperFactory
               ->method('createDataMapper')
               ->with($this->equalTo(Mapper\Quote::class))
               ->will($this->returnValue($quoteMapper));
 
-          $stateObserver = $this
+        $stateObserver = $this
               ->getMockBuilder(Component\StateObserver::class)
               ->setMethods(['addEntry'])
               ->getMock();
 
-          $user = new Entity\User;
-          $quoteManagement = new QuoteManagement($mapperFactory, $stateObserver);
+        $user = new Entity\User;
+        $quoteManagement = new QuoteManagement($mapperFactory, $stateObserver);
 
-          $this->assertTrue($quoteManagement->upload(
+        $this->assertTrue($quoteManagement->upload(
               'I always close my eyes when I pee!',
               'Lars Dreith',
               'Oberlin College, 2020',
@@ -52,10 +52,10 @@ class QuoteManagementTest extends TestCase
               '',
               $user
           ));
-      }
+    }
 
-      public function test_Upload_Missing_Attribution(){
-
+    public function test_Upload_Missing_Attribution()
+    {
         $sessionMapper = $this->createMock(Mapper\ClientState::class);
 
         $quoteMapper = $this->createMock(Mapper\Quote::class);
@@ -86,19 +86,20 @@ class QuoteManagementTest extends TestCase
 
         $this->assertFalse($quoteManagement->upload(
             'I always close my eyes when I pee!',
-            NULL,
+            null,
             'Oberlin College, 2020',
             'January 24th, 2018',
             '',
             '',
             $user
         ));
-      }
+    }
 
-      /*
-       * this test is sketch af
-       */
-      public function test_Upload_Source_Link_Invalid(){
+    /*
+     * this test is sketch af
+     */
+    public function test_Upload_Source_Link_Invalid()
+    {
         $sessionMapper = $this->createMock(Mapper\ClientState::class);
 
         $quoteMapper = $this->createMock(Mapper\Quote::class);
@@ -137,12 +138,13 @@ class QuoteManagementTest extends TestCase
             '',
             $user
         ));
-      }
+    }
 
-      /*
-       * same here
-       */
-      public function test_Upload_Public_Link_Invalid(){
+    /*
+     * same here
+     */
+    public function test_Upload_Public_Link_Invalid()
+    {
         $sessionMapper = $this->createMock(Mapper\ClientState::class);
 
         $quoteMapper = $this->createMock(Mapper\Quote::class);
@@ -181,5 +183,5 @@ class QuoteManagementTest extends TestCase
             'asldkfj',
             $user
         ));
-      }
+    }
 }

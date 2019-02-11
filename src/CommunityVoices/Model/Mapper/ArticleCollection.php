@@ -9,8 +9,8 @@ use CommunityVoices\Model\Entity;
 
 class ArticleCollection extends DataMapper
 {
-
-    public function authors(\stdClass $container) {
+    public function authors(\stdClass $container)
+    {
         $authors = [];
         foreach ($this->conn->query('SELECT DISTINCT author FROM `community-voices_articles` WHERE author != "" ORDER BY author ASC') as $row) {
             $obj = new \stdClass();
@@ -86,7 +86,7 @@ class ArticleCollection extends DataMapper
 						ON media.id = article.media_id
 		          	WHERE 1 {$search_query} {$tag_query} {$author_query}
 		         "
-		         . $this->query_prep($articleCollection->status, "media.status")
+                 . $this->query_prep($articleCollection->status, "media.status")
                  . $this->query_prep($articleCollection->creators, "media.added_by")
                  . " ORDER BY article.{$sort} {$order}"
                  . " LIMIT {$offset}, {$limit}";
@@ -106,5 +106,4 @@ class ArticleCollection extends DataMapper
             $articleCollection->addEntityFromParams($entry);
         }
     }
-
 }

@@ -157,9 +157,9 @@ class Quote extends Component\View
         unset($obj->quoteCollection['limit']);
         unset($obj->quoteCollection['page']);
         foreach ($obj->quoteCollection as $key => $quote) {
-            $quote->quote->text = htmlspecialchars($quote->quote->text);
-            $quote->quote->attribution = htmlspecialchars($quote->quote->attribution);
-            $quote->quote->subAttribution = htmlspecialchars($quote->quote->subAttribution);
+            $quote->quote->text = $quote->quote->text;
+            $quote->quote->attribution = $quote->quote->attribution;
+            $quote->quote->subAttribution = $quote->quote->subAttribution;
             $quote->quote->relatedSlide = $this->quoteLookup->relatedSlide($quote->quote->id);
         }
         $obj->quoteCollection = array_values($obj->quoteCollection);
@@ -184,6 +184,11 @@ class Quote extends Component\View
             $this->transcriber->toXml($attributions)
         );
 
+        $subattributions = $json->quoteCollectionSubAttributions;
+        $subattributionXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($subattributions)
+        );
+
         /**
          * Quote XML Package
          */
@@ -193,6 +198,7 @@ class Quote extends Component\View
         $packagedQuote->adopt($quoteXMLElement);
         $packagedQuote->adopt($tagXMLElement);
         $packagedQuote->adopt($attributionXMLElement);
+        $packagedQuote->adopt($subattributionXMLElement);
         $packagedQuote->adopt($paginationXMLElement);
 
         foreach ($qs as $key => $value) {

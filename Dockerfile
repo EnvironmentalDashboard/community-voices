@@ -10,5 +10,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
 ADD . /var/www/html
 WORKDIR /var/www/html
 RUN ./build/init.sh
+HEALTHCHECK --interval=10m --timeout=20s --retries=1 CMD ./healthcheck.sh
 EXPOSE 80
 CMD /usr/sbin/apache2ctl -D FOREGROUND

@@ -55,7 +55,8 @@ abstract class Collection implements ArrayAccess, Countable, Iterator
     }
 
     
-    public function getCollection() {
+    public function getCollection()
+    {
         return $this->collection;
     }
 

@@ -12,26 +12,26 @@
 	      <a class="navbar-brand" href="/community-voices/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
 	      <ul class="navbar-nav" style="width:initial">
 	        <li class="nav-item mr-2 active">
-	          <a class="nav-link" href="../articles">Articles <span class="sr-only">(current)</span></a>
+	          <a class="nav-link" href="/community-voices/articles">Articles <span class="sr-only">(current)</span></a>
 	        </li>
 	        <li class="nav-item mr-2">
-	          <a class="nav-link" href="../slides">Slides</a>
+	          <a class="nav-link" href="/community-voices/slides">Slides</a>
 	        </li>
 	        <li class="nav-item mr-2">
-	          <a class="nav-link" href="../images">Images</a>
+	          <a class="nav-link" href="/community-voices/images">Images</a>
 	        </li>
 	        <li class="nav-item mr-2">
-	          <a class="nav-link" href="../quotes">Quotes</a>
+	          <a class="nav-link" href="/community-voices/quotes">Quotes</a>
 	        </li>
 	      </ul>
 	      <xsl:if test="$isManager">
 	        <a style="margin-left:auto" class="btn btn-outline-primary">
-	        	<xsl:attribute name="href">./<xsl:value-of select='domain/article/id'/>/edit</xsl:attribute>
+	        	<xsl:attribute name="href">/community-voices/articles/<xsl:value-of select='domain/article/id'/>/edit</xsl:attribute>
 						Edit
 	        </a>
 	      </xsl:if>
 	    </nav>
-			
+
 			<div class="row" style="padding:15px;">
         <div class="col-12">
 					<xsl:choose><xsl:when test="$isManager or domain/article/status = 'approved'">

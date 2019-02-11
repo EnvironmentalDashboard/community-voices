@@ -29,17 +29,17 @@ class QuoteCollectionTest extends TestCase
             ->getMock();
 
         $arrToReturn = [
-            [	
-            	'id' => 6,
-            	'type' => Entity\QuoteCollection::MEDIA_TYPE_QUOTE,
-            	'attribution' => 'Left Person',
-            	'text' => 'Snow'
+            [
+                'id' => 6,
+                'type' => Entity\QuoteCollection::MEDIA_TYPE_QUOTE,
+                'attribution' => 'Left Person',
+                'text' => 'Snow'
             ],
             [
-            	'id' => 4, 
-            	'type' => Entity\QuoteCollection::MEDIA_TYPE_QUOTE, 
-            	'attribution' => 'Right Bird', 
-            	'text' => 'now'
+                'id' => 4,
+                'type' => Entity\QuoteCollection::MEDIA_TYPE_QUOTE,
+                'attribution' => 'Right Bird',
+                'text' => 'now'
             ]
         ];
 

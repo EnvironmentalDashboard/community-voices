@@ -9,6 +9,7 @@
   <xsl:variable name="status" select="package/domain/status"/>
   <xsl:variable name="tags" select="package/domain/tags"/>
   <xsl:variable name="attributions" select="package/domain/attributions"/>
+  <xsl:variable name="subattributions" select="package/domain/subattributions"/>
   <xsl:variable name="order" select="package/domain/order"/>
   <xsl:variable name="unused" select="package/domain/unused"/>
 
@@ -18,16 +19,16 @@
       <a class="navbar-brand" href="/community-voices/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
       <ul class="navbar-nav" style="width:initial">
         <li class="nav-item mr-2">
-          <a class="nav-link" href="./articles">Articles</a>
+          <a class="nav-link" href="/community-voices/articles">Articles</a>
         </li>
         <li class="nav-item mr-2">
-          <a class="nav-link" href="./slides">Slides</a>
+          <a class="nav-link" href="/community-voices/slides">Slides</a>
         </li>
         <li class="nav-item mr-2">
-          <a class="nav-link" href="./images">Images</a>
+          <a class="nav-link" href="/community-voices/images">Images</a>
         </li>
         <li class="nav-item mr-2 active">
-          <a class="nav-link" href="./quotes">Quotes <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="/community-voices/quotes">Quotes <span class="sr-only">(current)</span></a>
         </li>
       </ul>
       <div style="margin-left:auto">
@@ -47,7 +48,7 @@
           </xsl:otherwise>
         </xsl:choose>
         <xsl:if test="$isManager">
-          <a class="btn btn-outline-primary" href="./quotes/new">+ Add quote</a>
+          <a class="btn btn-outline-primary" href="/community-voices/quotes/new">+ Add quote</a>
         </xsl:if>
       </div>
     </nav>
@@ -108,6 +109,26 @@
                       </input>
                       <label class="form-check-label">
                         <xsl:attribute name="for">attribution<xsl:value-of select='position()' /></xsl:attribute>
+                        <xsl:value-of select="."></xsl:value-of>
+                      </label>
+                    </div>
+                  </xsl:for-each>
+                </div>
+              </div>
+              <div class="form-group">
+                <p class="mb-0">Sub-attribution</p>
+                <div style="overflow-y:scroll;width:100%;height: 145px;border:none" id='sorted-subattribution'>
+                  <xsl:for-each select="domain/subattributionCollection/subattribution">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="subattributions[]">
+                        <xsl:attribute name="id">subattribution<xsl:value-of select="position()"></xsl:value-of></xsl:attribute>
+                        <xsl:if test="contains($subattributions, concat(',', ., ','))">
+                          <xsl:attribute name="checked">checked</xsl:attribute>
+                        </xsl:if>
+                        <xsl:attribute name="value"><xsl:value-of select='.' /></xsl:attribute>
+                      </input>
+                      <label class="form-check-label">
+                        <xsl:attribute name="for">subattribution<xsl:value-of select='position()' /></xsl:attribute>
                         <xsl:value-of select="."></xsl:value-of>
                       </label>
                     </div>

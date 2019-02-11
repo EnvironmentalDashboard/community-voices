@@ -32,7 +32,8 @@ class Landing extends Component\View
         $this->landingAPIView = $landingAPIView;
     }
 
-    public function getLanding($request){
+    public function getLanding($request)
+    {
         /**
          * Gather identity information
          */
@@ -53,13 +54,13 @@ class Landing extends Component\View
         unset($obj->slideCollection['limit']);
         unset($obj->slideCollection['page']);
         foreach ($obj->slideCollection as $key => $slide) {
-            $slide->slide->quote->quote->text = htmlspecialchars($slide->slide->quote->quote->text);
-            $slide->slide->quote->quote->attribution = htmlspecialchars($slide->slide->quote->quote->attribution);
-            $slide->slide->quote->quote->subAttribution = htmlspecialchars($slide->slide->quote->quote->subAttribution);
-            $slide->slide->image->image->title = htmlspecialchars($slide->slide->image->image->title);
-            $slide->slide->image->image->description = htmlspecialchars($slide->slide->image->image->description);
-            $slide->slide->image->image->photographer = htmlspecialchars($slide->slide->image->image->photographer);
-            $slide->slide->image->image->organization = htmlspecialchars($slide->slide->image->image->organization);
+            $slide->slide->quote->quote->text = $slide->slide->quote->quote->text;
+            $slide->slide->quote->quote->attribution = $slide->slide->quote->quote->attribution;
+            $slide->slide->quote->quote->subAttribution = $slide->slide->quote->quote->subAttribution;
+            $slide->slide->image->image->title = $slide->slide->image->image->title;
+            $slide->slide->image->image->description = $slide->slide->image->image->description;
+            $slide->slide->image->image->photographer = $slide->slide->image->image->photographer;
+            $slide->slide->image->image->organization = $slide->slide->image->image->organization;
         }
         $obj->slideCollection = array_values($obj->slideCollection);
 
@@ -111,5 +112,4 @@ class Landing extends Component\View
         $this->finalize($response);
         return $response;
     }
-
 }
