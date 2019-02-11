@@ -2,22 +2,24 @@
 
 namespace CommunityVoices\Model\Entity;
 
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use CommunityVoices\Model\Exception\ImageFileException;
 
-class UploadedImageFile
+use Symfony\Component\HttpFoundation\File\UploadedFile as SymfonyUploadedFile;
+
+class ImageFile
 {
-    private $uploadedFile;
+    private $symfonyUploadedFile;
 
     private $extension;
     private $filename;
     private $directory;
 
-    public function load(UploadedFile $file)
+    public function load(SymfonyUploadedFile $file)
     {
-        $this->uploadedFile = $file;
+        $this->symfonyUploadedFile = $file;
 
         $this->extension = $file->guessExtension();
-        $filename = $this->generateUniqueFileName();
+        $this->filename = $this->generateUniqueFileName();
     }
 
     public function setDirectory($dirPath)
@@ -28,6 +30,11 @@ class UploadedImageFile
     public function getFilepath()
     {
         return $this->directory . '/' . $this->filename;
+    }
+
+    public function setFilepath($filepath)
+    {
+        $this->filepath = $filepath;
     }
 
     private function generateUniqueFilename()
@@ -44,6 +51,11 @@ class UploadedImageFile
 
     public function move()
     {
+        if(!($this->symfonyUploadedFile instanceof SymfonyUploadedFile)) {
+            // Since this entity is coupled to Symfony and leaks a bit of logic
+            throw new ImageFileException('Could not move or upload file without proxy Symyfony instance.');
+        }
+
         return $this->uploadedFile->move($this->directory, $this->filename);
     }
 }

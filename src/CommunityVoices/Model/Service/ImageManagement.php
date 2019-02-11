@@ -25,11 +25,6 @@ class ImageManagement
         $this->stateObserver = $stateObserver;
     }
 
-    private function generateUniqueFileName()
-    {
-        return md5(uniqid());
-    }
-
     /**
      * Uploads a new Image to the database
      * @param  [type] $file         [description]
@@ -155,7 +150,7 @@ class ImageManagement
         $this->stateObserver->setSubject('imageUpdate');
         $isValid = $image->validateForUpload($this->stateObserver);
 
-
+        
 
         /*
          * Stop the upload process and save errors to the application state. If
@@ -168,7 +163,7 @@ class ImageManagement
             $clientState->save($this->stateObserver);
             return false;
         }
-
+        
 
         /**
          * Create tags and add to collection
@@ -195,20 +190,16 @@ class ImageManagement
     public function delete($id)
     {
         $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
-        $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
 
         $image = new Entity\Image;
         $image->setId((int) $id);
 
         $imageMapper->fetch($image);
-        $fn = $image->getFilename();
+        $fileMapper = $this->mapperFactory->createFileMapper();
 
         try {
-            $tagMapper->deleteTags($image);
             $imageMapper->delete($image);
-            if (file_exists($fn)) {
-                unlink($fn);
-            }
+            $fileMapper->delete($image->getFile());
         } catch (Exception\DataIntegrityViolation $e) {
             return false;
         }

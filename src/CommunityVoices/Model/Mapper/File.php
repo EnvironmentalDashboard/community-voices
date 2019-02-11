@@ -11,7 +11,7 @@ namespace CommunityVoices\Model\Mapper;
 
 use CommunityVoices\Model\Entity;
 
-class ImageFile
+class File
 {
     private $uploadsDirectory;
 
@@ -31,9 +31,9 @@ class ImageFile
         $file->move();
     }
 
-    public function delete(File $file)
+    public function delete(UploadedImageFile $file)
     {
-        // @TODO
+        unlink($file->getFilename());
     }
 
     private function generateUniqueHash()
