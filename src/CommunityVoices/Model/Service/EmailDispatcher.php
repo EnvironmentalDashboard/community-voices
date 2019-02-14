@@ -33,7 +33,9 @@ class EmailDispatcher
             $swiftMessage = $this->convertToSwift($email);
 
             $this->swiftMailer->send($swiftMessage);
-        } catch (Exception $e) {
+        } catch (\Swift_SwiftException $e) {
+            // This is where we will redirect to an error page
+            // so that we successfully handle email failing locally.
             throw $e;
         }
     }
