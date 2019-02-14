@@ -104,6 +104,9 @@
         ["CommunityVoices\\App\\Api\\View\\Article::getArticleUpdate", {"allow" : "manager"}],
 
         ["CommunityVoices\\App\\Api\\Controller\\Article::postArticleUpdate", {"allow" : "manager"}],
-        ["CommunityVoices\\App\\Api\\View\\Article::postArticleUpdate", {"allow" : "manager"}]
+        ["CommunityVoices\\App\\Api\\View\\Article::postArticleUpdate", {"allow" : "manager"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Location::getAllLocation", {"allow": "manager"}],
+        ["CommunityVoices\\App\\Api\\View\\Location::getAllLocation", {"allow": "manager"}]
     ]
 }
