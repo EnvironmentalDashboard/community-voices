@@ -11,7 +11,7 @@
         ["CommunityVoices\\App\\Api\\View\\User::*", {"allow" : "guest"}],
 
         ["CommunityVoices\\App\\Api\\Controller\\User::getProfile", {"allow" : "admin"}],
-        ["CommunityVoices\\App\\Api\\View\\User::getUser", {"allow" : "admin"}],
+        ["CommunityVoices\\App\\Api\\View\\User::getProfile", {"allow" : "admin"}],
 
         ["CommunityVoices\\App\\Api\\Controller\\Slide::getSlide", {"allow" : "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Slide::getSlide", {"allow" : "guest"}],
