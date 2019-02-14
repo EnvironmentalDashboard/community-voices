@@ -14,21 +14,20 @@ use CommunityVoices\Model\Mapper;
 class Registration
 {
     private $pdRegistration;
-
     private $mapperFactory;
-
     private $stateObserver;
+    private $mailer;
 
     public function __construct(
-        Emailer $emailService,
         Palladium\Service\Registration $pdRegistration,
         Component\MapperFactory $mapperFactory,
-        Component\StateObserver $stateObserver
+        Component\StateObserver $stateObserver,
+        EmailDispatcher $mailer
     ) {
-        $this->emailService = $emailService;
         $this->pdRegistration = $pdRegistration;
         $this->mapperFactory = $mapperFactory;
         $this->stateObserver = $stateObserver;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -117,10 +116,23 @@ class Registration
 
     public function sendInviteEmail($email, $role, $token)
     {
+        /**
+         * Gather position title information
+         */
         $user = new Entity\User;
-        $role = $user->allowableRole[$role];
-        $this->emailService->to($email);
-        $this->emailService->subject("You're invited to be a {$role} at Community Voices");
-        $this->emailService->sendMessage("<p>You have been invited to create a new {$role} account. <a href='https://environmentaldashboard.org/community-voices/register?token={$token}'>Click here</a> to complete the registration process.</p>");
+        $user->setRole($role);
+
+        $position = $user->getRoleTitle();
+
+        /**
+         * Compose message
+         */
+        $message = new Entity\Email();
+
+        $message->setTo($email);
+        $message->setSubject("You're invited to be a Community Voices {$position}");
+        $message->setBody("<p>You have been invited to create a new {$position} account. <a href='https://environmentaldashboard.org/community-voices/register?token={$token}'>Click here</a> to complete the registration process.</p>");
+
+        $this->mailer->send($message);
     }
 }
