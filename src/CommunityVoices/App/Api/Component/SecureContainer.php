@@ -30,11 +30,11 @@ class SecureContainer
             $signature = get_class($contained) . "::" . $method;
 
             if (!method_exists($contained, $method)) {
-                throw new SecureContainerException('Method not found ' . $signature);
+                throw new Exception\MethodNotFound('Method not found ' . $signature);
             }
 
             if (!$this->arbiter->isAllowedForIdentity($signature, $user)) {
-                throw new SecureContainerException('Access denied');
+                throw new Exception\AccessDenied('Access denied');
             }
 
             return call_user_func_array([$contained, $method], $args);
