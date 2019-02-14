@@ -6,6 +6,9 @@ namespace CommunityVoices\App\Api\Component;
  * @overview Assumes role of access controller by interpreting the rules and
  * arbitrating.
  *
+ * The specific rules that the Arbiter reads and enacts are stored in
+ * App/Api/Component/Config/AccessControlList.json
+ *
  * @todo This needs more thought -- there needs to be higher security
  */
 
