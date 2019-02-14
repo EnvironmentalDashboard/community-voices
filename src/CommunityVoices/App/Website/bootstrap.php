@@ -120,8 +120,8 @@ $injector->alias('CommunityVoices\App\Api\Component\Contract\CanIdentify', 'Comm
 
 /**
  * Configure mail server
+ * If no file /opendkim/mail.private exists, we will not use the mailer.
  */
-
 $mailerFactory = function () {
     $transport = new Swift_SendmailTransport('/usr/sbin/sendmail -bs');
 
@@ -137,8 +137,9 @@ $mailerFactory = function () {
 
 $injector->delegate('Swift_Mailer', $mailerFactory);
 
+$dkimLocation = '/opendkim/mail.private';
 $injector->define('Swift_Signers_DKIMSigner', [
-    ':privateKey' => file_get_contents('/opendkim/mail.private'),
+    ':privateKey' => file_exists($dkimLocation) ? file_get_contents($dkimLocation) : NULL,
     ':domainName' => 'environmentaldashboard.org',
     ':selector' => 'mail',
     ':passphrase' => ''

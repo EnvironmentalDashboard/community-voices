@@ -3,11 +3,11 @@
 
     <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
-    <xsl:template match="/user">
+    <xsl:template match="/package">
 
     	<div class="row" style="padding:15px;">
         <div class="col-12">
-        	<h1>Hello, <xsl:value-of select='firstName' /><xsl:text> </xsl:text><xsl:value-of select='lastName' /></h1>
+        	<h1>Hello, <xsl:value-of select='domain/user/firstName' /><xsl:text> </xsl:text><xsl:value-of select='lastName' /></h1>
         	<!-- <xsl:value-of select='email' /> -->
         	<form action="/community-voices/register/invite" class="mt-5 form-inline needs-validation" method="POST" novalidate="" id="form">
         		<p class="mr-sm-3">Invite other users by email:</p>

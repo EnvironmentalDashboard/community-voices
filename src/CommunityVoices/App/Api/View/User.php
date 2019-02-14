@@ -3,7 +3,7 @@
 namespace CommunityVoices\App\Api\View;
 
 use CommunityVoices\Model\Component\MapperFactory;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation;
 
 class User
 {
