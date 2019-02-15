@@ -12,7 +12,6 @@ use \Palladium;
  */
 
 class Mappers extends Provider {
-
     protected $dbHandler;
     protected $request;
 

@@ -8,7 +8,6 @@ namespace CommunityVoices\App\Website\Bootstrap;
  */
 
 class Dispatcher {
-
     const CONTROLLER_SIGNATURE = "CommunityVoices\\App\\Website\\Controller\\";
     const VIEW_SIGNATURE = "CommunityVoices\\App\\Website\\View\\";
 

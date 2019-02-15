@@ -12,7 +12,6 @@ use CommunityVoices\Api\Component\Exception\MethodNotFound;
  */
 
 class FrontController {
-
     protected $router;
     protected $dispatcher;
     protected $injector;
