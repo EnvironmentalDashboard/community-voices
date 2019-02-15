@@ -92,7 +92,8 @@ class FrontController {
      */
     public function fail()
     {
-
+        echo "Failure";
+        exit;
     }
 
     /**
@@ -103,7 +104,9 @@ class FrontController {
      */
     public function notFound()
     {
-
+        http_response_code(404);
+        echo file_get_contents('https://environmentaldashboard.org/404');
+        exit;
     }
 
     /**
@@ -113,6 +116,7 @@ class FrontController {
      */
     public function denied()
     {
-
+        echo "Access denied";
+        exit;
     }
 }
