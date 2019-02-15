@@ -19,7 +19,9 @@ class FrontController {
 
     /**
      * Providers to initialize prior to request route & dispatching
-     * NOTE: the routes provider is excludes
+     * 
+     * Note that the routes provider is excluded because it sould be initialized
+     * already.
      *
      * @var array
      */
