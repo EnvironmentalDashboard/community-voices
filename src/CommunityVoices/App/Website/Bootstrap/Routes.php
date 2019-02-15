@@ -1,8 +1,6 @@
 <?php
 
-namespace CommunityVoices\App\Website\Bootstrap\Provider;
-
-use CommunityVoices\App\Website\Component\Provider;
+namespace CommunityVoices\App\Website\Bootstrap;
 
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
@@ -11,8 +9,8 @@ use Symfony\Component\Routing\Route;
  * Routes provider
  */
 
-class Routes extends Provider {
-    const ROUTES_PATH = __DIR__ . '/../../Config/Routes.json';
+class Routes {
+    const ROUTES_PATH = __DIR__ . '/../Config/Routes.json';
 
     public function init()
     {
@@ -40,6 +38,6 @@ class Routes extends Provider {
             );
         }
 
-        $this->injector->define('CommunityVoices\App\Website\Bootstrap\Router', [':routes' => $routes]);
+        return $routes;
     }
 }

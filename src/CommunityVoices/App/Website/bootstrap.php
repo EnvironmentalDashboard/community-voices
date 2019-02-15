@@ -24,12 +24,11 @@ $injector = new Auryn\Injector;
 $request = Symfony\Component\HttpFoundation\Request::createFromGlobals();
 
 // Initialize the routes provider
-$routesProvider = new Provider\Routes($injector);
-$routesProvider->init();
+$routes = new Bootstrap\Routes;
 
 // Instantiate the front controller
 $controller = new Bootstrap\FrontController(
-    $injector->make('CommunityVoices\App\Website\Bootstrap\Router'),
+    new Bootstrap\Router($routes->init()),
     new Bootstrap\Dispatcher($injector),
     $injector
 );
