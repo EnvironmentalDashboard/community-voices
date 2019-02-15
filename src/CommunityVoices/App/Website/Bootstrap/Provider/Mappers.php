@@ -26,6 +26,10 @@ class Mappers extends Provider {
     {
         $websiteMapperFactory = new Website\Component\MapperFactory($this->request);
         $modelMapperFactory = new Model\Component\MapperFactory($this->dbHandler);
+        
+        /**
+         * @config?
+         */
         $pdMapperFactory = new Palladium\Component\MapperFactory($this->dbHandler, '`community-voices_identities`');
 
         $this->injector->share($websiteMapperFactory);

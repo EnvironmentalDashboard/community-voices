@@ -14,7 +14,7 @@ class Swift extends Provider {
         /**
          * If no file /opendkim/mail.private exists, we will not use the mailer.
          * 
-         * @configure
+         * @config
          */
         $mailerFactory = function () {
             $transport = new Swift_SendmailTransport('/usr/sbin/sendmail -bs');
