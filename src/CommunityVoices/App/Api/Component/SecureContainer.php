@@ -24,7 +24,7 @@ class SecureContainer
             $user = $this->identifier->identify();
 
             if (!is_object($contained)) {
-                throw new SecureContainerException('Expected to contain an object, but received type ' . gettype($contained));
+                throw new \InvalidArgumentException('Expected to contain an object, but received type ' . gettype($contained));
             }
 
             $signature = get_class($contained) . "::" . $method;
