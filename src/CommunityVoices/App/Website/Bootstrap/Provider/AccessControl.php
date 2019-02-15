@@ -1,6 +1,6 @@
 <?php
 
-namespace CommunityVoices\App\Website\Provider;
+namespace CommunityVoices\App\Website\Bootstrap\Provider;
 
 use CommunityVoices\App\Website\Component\Provider;
 use CommunityVoices\App\Api\Component\Arbiter;
@@ -10,9 +10,11 @@ use CommunityVoices\App\Api\Component\Arbiter;
  */
 
 class AccessControl extends Provider {
+    const ACL_PATH = __DIR__ . '/../../../Api/Config/AccessControlList.json';
+
     public function init()
     {
-        $aclRaw = json_decode(file_get_contents(__DIR__  . '/../../Api/Config/AccessControlList.json'), true);
+        $aclRaw = json_decode(file_get_contents(self::ACL_PATH), true);
 
         $arbiter = new Arbiter($aclRaw['roles'], $aclRaw['rules']);
 

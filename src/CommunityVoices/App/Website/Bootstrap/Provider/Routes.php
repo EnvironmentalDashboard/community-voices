@@ -1,6 +1,6 @@
 <?php
 
-namespace CommunityVoices\App\Website\Provider;
+namespace CommunityVoices\App\Website\Bootstrap\Provider;
 
 use CommunityVoices\App\Website\Component\Provider;
 
@@ -12,6 +12,8 @@ use Symfony\Component\Routing\Route;
  */
 
 class Routes extends Provider {
+    const ROUTES_PATH = __DIR__ . '/../../Config/Routes.json';
+
     public function init()
     {
         /**
@@ -21,7 +23,7 @@ class Routes extends Provider {
 
         $routes = new RouteCollection();
         
-        $config = json_decode(file_get_contents(__DIR__ . '/../Config/Routes.json'), true);
+        $config = json_decode(file_get_contents(self::ROUTES_PATH), true);
     
         foreach ($config as $name => $options) {
             $routes->add(

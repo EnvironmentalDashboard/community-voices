@@ -1,6 +1,6 @@
 <?php
 
-namespace CommunityVoices\App\Website\Provider;
+namespace CommunityVoices\App\Website\Bootstrap\Provider;
 
 use CommunityVoices\App\Website\Component\Provider;
 use \Monolog;

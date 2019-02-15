@@ -2,7 +2,7 @@
 
 // Set-up
 use CommunityVoices\App\Website;
-use CommunityVoices\App\Website\Provider;
+use CommunityVoices\App\Website\Bootstrap\Provider;
 use CommunityVoices\App\Website\Bootstrap;
 use CommunityVoices\Model;
 

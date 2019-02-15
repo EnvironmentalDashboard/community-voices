@@ -24,12 +24,12 @@ class FrontController {
      * @var array
      */
     protected $providers = [
-        'CommunityVoices\App\Website\Provider\Database',
-        'CommunityVoices\App\Website\Provider\Logger',
-        'CommunityVoices\App\Website\Provider\Mappers',
-        'CommunityVoices\App\Website\Provider\Recognition',
-        'CommunityVoices\App\Website\Provider\Swift',
-        'CommunityVoices\App\Website\Provider\AccessControl'
+        'CommunityVoices\App\Website\Bootstrap\Provider\Database',
+        'CommunityVoices\App\Website\Bootstrap\Provider\Logger',
+        'CommunityVoices\App\Website\Bootstrap\Provider\Mappers',
+        'CommunityVoices\App\Website\Bootstrap\Provider\Recognition',
+        'CommunityVoices\App\Website\Bootstrap\Provider\Swift',
+        'CommunityVoices\App\Website\Bootstrap\Provider\AccessControl'
     ];
 
     public function __construct($router, $dispatcher, $injector)
