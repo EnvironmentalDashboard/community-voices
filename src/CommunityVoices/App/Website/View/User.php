@@ -182,9 +182,12 @@ class User extends Component\View
          */
 
         // Relevant documentation: https://symfony.com/doc/current/components/http_foundation.html#redirecting-the-user
-        return new HttpFoundation\RedirectResponse(
-            $this->urlGenerator->generate('root')
+        $response = new HttpFoundation\RedirectResponse(
+            $request->headers->get('referer')
         );
+
+        $this->finalize($response);
+        return $reponse;
     }
 
     public function postRegistrationInvite($request)

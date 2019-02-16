@@ -271,9 +271,12 @@ class Article extends Component\View
 
     public function postArticleUpload($request)
     {
-        return new HttpFoundation\RedirectResponse(
+        $response = new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')
         );
+
+        $this->finalize($response);
+        return $reponse;
 
         /*
         $identity = $this->recognitionAdapter->identify();
@@ -354,9 +357,12 @@ class Article extends Component\View
 
     public function postArticleUpdate($request)
     {
-        return HttpFoundation\RedirectResponse(
+        $response = new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')
         );
+
+        $this->finalize($response);
+        return $reponse;
 
         /*
         $identity = $this->recognitionAdapter->identify();

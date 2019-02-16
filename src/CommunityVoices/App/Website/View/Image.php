@@ -294,9 +294,12 @@ class Image extends Component\View
 
     public function postImageUpload($request)
     {
-        return new HttpFoundation\RedirectResponse(
+        $response = new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')
         );
+
+        $this->finalize($response);
+        return $reponse;
 
         /*
         $identity = $this->recognitionAdapter->identify();
@@ -390,9 +393,12 @@ class Image extends Component\View
 
     public function postImageUpdate($request)
     {
-        return new HttpFoundation\RedirectResponse(
+        $response = new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')
         );
+
+        $this->finalize($response);
+        return $reponse;
 
         /*
         $identity = $this->recognitionAdapter->identify();

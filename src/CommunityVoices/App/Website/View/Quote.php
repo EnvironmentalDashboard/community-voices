@@ -291,9 +291,12 @@ class Quote extends Component\View
 
     public function postQuoteUpload($request)
     {
-        return new HttpFoundation\RedirectResponse(
+        $response = new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')
         );
+
+        $this->finalize($response);
+        return $reponse;
 
         /*
         $identity = $this->recognitionAdapter->identify();
@@ -391,9 +394,12 @@ class Quote extends Component\View
 
     public function postQuoteUpdate($request)
     {
-        return HttpFoundation\RedirectResponse(
+        $response = new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')
         );
+
+        $this->finalize($response);
+        return $reponse;
 
         /*
         $identity = $this->recognitionAdapter->identify();
