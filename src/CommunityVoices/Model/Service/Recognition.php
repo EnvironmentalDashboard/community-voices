@@ -44,6 +44,7 @@ class Recognition
             $pdIdentity = $this->pdSearch->findEmailIdentityByEmailAddress($email);
             $pdCookie = $this->pdIdentification->loginWithPassword($pdIdentity, $password);
         } catch (Palladium\Component\Exception $e) {
+            $this->logger->error('**Palladium exception (email/pass auth failure)', ['exception' => $e, 'message' => $e->getMessage(), 'stacktrace' => $e->getTraceAsString()]);
             return false; //no need to handle this
         }
 
@@ -72,7 +73,7 @@ class Recognition
              * Any other exception, just forget the cookie and identify as a guest
              */
         } catch (Palladium\Component\Exception $e) {
-            $this->logger->error('Palladium exception', ['exception' => $e, 'message' => $e->getMessage(), 'stacktrace' => $e->getTraceAsString()]);
+            $this->logger->error('**Palladium exception (authenticateByCookie)', ['exception' => $e, 'message' => $e->getMessage(), 'stacktrace' => $e->getTraceAsString()]);
             return false;
         }
 
@@ -84,6 +85,7 @@ class Recognition
      */
     public function logout(Entity\RememberedIdentity $identity)
     {
+        $this->logger->error('**Recognition attempting logout');
         try {
             $pdIdentity = $this->pdSearch->findCookieIdentity(
                 $identity->getAccountId(),
@@ -92,6 +94,7 @@ class Recognition
 
             $this->pdIdentification->logout($pdIdentity, $identity->getKey());
         } catch (Palladium\Component\Exception $e) {
+            $this->logger->error('**Palladium exception (logout)', ['exception' => $e, 'message' => $e->getMessage(), 'stacktrace' => $e->getTraceAsString()]);
             //Don't need to do anything if there's an exception
         }
     }

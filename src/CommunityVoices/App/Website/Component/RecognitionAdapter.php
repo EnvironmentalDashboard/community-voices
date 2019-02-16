@@ -17,12 +17,17 @@ class RecognitionAdapter implements CanIdentify
 
     private $recognition;
 
+    private $logger;
+
     public function __construct(
         Component\MapperFactory $mapperFactory,
-        Recognition $recognition
+        Recognition $recognition,
+        \Psr\Log\LoggerInterface $logger
     ) {
         $this->mapperFactory = $mapperFactory;
         $this->recognition = $recognition;
+
+        $this->logger = $logger;
     }
 
     /**
@@ -100,6 +105,7 @@ class RecognitionAdapter implements CanIdentify
         $sessionMapper = $this->mapperFactory->createSessionMapper(Mapper\Session::class);
 
         if ($sessionMapper->fetch($rememberedIdentity) !== false) {
+            $this->logger->error('**Recognition adapter cease session', ['accountId' => $rememberedIdentity->getAccountId()]);
             $sessionMapper->delete($rememberedIdentity);
         }
     }
