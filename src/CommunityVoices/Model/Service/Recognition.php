@@ -22,7 +22,7 @@ class Recognition
         Palladium\Service\Search $pdSearch,
         Palladium\Service\Identification $pdIdentification,
         Component\MapperFactory $mapperFactory,
-        \Monolog\Logger $logger
+        \Psr\Log\LoggerInterface $logger
     ) {
         $this->pdSearch = $pdSearch;
         $this->pdIdentification = $pdIdentification;
@@ -72,7 +72,7 @@ class Recognition
              * Any other exception, just forget the cookie and identify as a guest
              */
         } catch (Palladium\Component\Exception $e) {
-            $this->logger->error($e->getMessage(), ['exception' => $e]);
+            $this->logger->error('Palladium exception', ['exception' => $e, 'message' => $e.getMessage(), 'stacktrace' => $e.getTraceAsString()]);
             return false;
         }
 
