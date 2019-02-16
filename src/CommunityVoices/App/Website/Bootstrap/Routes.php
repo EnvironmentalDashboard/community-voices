@@ -6,13 +6,13 @@ use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
 
 /**
- * Routes provider
+ * Routes
  */
 
 class Routes {
     const ROUTES_PATH = __DIR__ . '/../Config/Routes.json';
 
-    public function init()
+    public function get()
     {
         /**
          * @config

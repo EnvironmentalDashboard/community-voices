@@ -28,7 +28,7 @@ $routes = new Bootstrap\Routes;
 
 // Instantiate the front controller
 $controller = new Bootstrap\FrontController(
-    new Bootstrap\Router($routes->init()),
+    new Bootstrap\Router($routes->get()),
     new Bootstrap\Dispatcher($injector),
     $injector
 );
