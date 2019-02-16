@@ -72,7 +72,7 @@ class Recognition
              * Any other exception, just forget the cookie and identify as a guest
              */
         } catch (Palladium\Component\Exception $e) {
-            $this->logger->error('Palladium exception', ['exception' => $e, 'message' => $e.getMessage(), 'stacktrace' => $e.getTraceAsString()]);
+            $this->logger->error('Palladium exception', ['exception' => $e, 'message' => $e->getMessage(), 'stacktrace' => $e->getTraceAsString()]);
             return false;
         }
 
