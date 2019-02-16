@@ -17,7 +17,8 @@ class Mappers extends Provider {
 
     public function __construct($injector, \PDO $dbHandler, $request)
     {
-        $this->injector = $injector;
+        parent::__construct($injector);
+
         $this->dbHandler = $dbHandler;
         $this->request = $request;
     }
