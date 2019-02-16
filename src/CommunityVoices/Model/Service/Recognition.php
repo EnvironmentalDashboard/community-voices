@@ -16,15 +16,20 @@ class Recognition
 
     private $mapperFactory;
 
+    private $logger;
+
     public function __construct(
         Palladium\Service\Search $pdSearch,
         Palladium\Service\Identification $pdIdentification,
-        Component\MapperFactory $mapperFactory
+        Component\MapperFactory $mapperFactory,
+        \Monolog\Logger $logger
     ) {
         $this->pdSearch = $pdSearch;
         $this->pdIdentification = $pdIdentification;
 
         $this->mapperFactory = $mapperFactory;
+
+        $this->logger = $logger;
     }
 
     /**
@@ -67,6 +72,7 @@ class Recognition
              * Any other exception, just forget the cookie and identify as a guest
              */
         } catch (Palladium\Component\Exception $e) {
+            $this->logger->error($e->getMessage(), ['exception' => $e]);
             return false;
         }
 
