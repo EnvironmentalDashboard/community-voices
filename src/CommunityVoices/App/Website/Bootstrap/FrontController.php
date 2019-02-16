@@ -30,7 +30,8 @@ class FrontController {
         'CommunityVoices\App\Website\Bootstrap\Provider\Mappers',
         'CommunityVoices\App\Website\Bootstrap\Provider\Recognition',
         'CommunityVoices\App\Website\Bootstrap\Provider\Swift',
-        'CommunityVoices\App\Website\Bootstrap\Provider\AccessControl'
+        'CommunityVoices\App\Website\Bootstrap\Provider\AccessControl',
+        'CommunityVoices\App\Website\Bootstrap\Provider\UrlGenerator'
     ];
 
     public function __construct($router, $dispatcher, $injector)
@@ -63,7 +64,8 @@ class FrontController {
 
                 $provider = $this->injector->make($providerClass, [
                     ':injector' => $this->injector,
-                    ':request' => $request
+                    ':request' => $request,
+                    ':routes' => $this->router->getRoutes()
                 ]);
 
                 $provider->init();
