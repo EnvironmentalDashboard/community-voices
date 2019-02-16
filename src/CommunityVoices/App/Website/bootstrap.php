@@ -29,6 +29,6 @@ $controller = new Bootstrap\FrontController(
 );
 
 // Start the request
-$request = Symfony\Component\HttpFoundation\Request::createFromGlobals();
-
-$controller->doRequest($request);
+$controller->doRequest(
+    Symfony\Component\HttpFoundation\Request::createFromGlobals()
+);
