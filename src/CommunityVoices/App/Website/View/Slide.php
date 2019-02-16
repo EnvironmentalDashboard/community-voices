@@ -368,9 +368,12 @@ class Slide extends Component\View
 
     public function postSlideUpload($request)
     {
-        return new HttpFoundation\RedirectResponse(
+        $response = new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')
         );
+
+        $this->finalize($response);
+        return $response;
 
         /*
         $identity = $this->recognitionAdapter->identify();
@@ -517,9 +520,12 @@ class Slide extends Component\View
 
     public function postSlideUpdate($request)
     {
-        return new HttpFoundation\RedirectResponse(
+        $response = new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')
         );
+
+        $this->finalize($response);
+        return $response;
 
         /*
         $identity = $this->recognitionAdapter->identify();
