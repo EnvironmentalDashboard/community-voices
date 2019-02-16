@@ -177,21 +177,31 @@ class RecognitionAdapter implements CanIdentify
     /**
      * Logs out user
      */
-    public function logout()
-    {
+    public function logout(){
         $rememberedIdentity = new Entity\RememberedIdentity;
 
         /**
-         * Attept to identify by session
+         * Logout by cookie
+         */
+        $cookieMapper = $this->mapperFactory->createCookieMapper(Mapper\Cookie::class);
+        $cookieMapper->fetch($rememberedIdentity);
+
+        if ($rememberedIdentity->getAccountId()) {
+            // Logout the cookie on server
+            $this->recognition->logout($rememberedIdentity);
+
+            // Delete the cookie
+            $this->discardCookie();
+        }
+
+        /**
+         * Logout by session
          */
         $sessionMapper = $this->mapperFactory->createSessionMapper(Mapper\Session::class);
         $sessionMapper->fetch($rememberedIdentity);
 
         if ($rememberedIdentity->getAccountId()) {
-            $this->recognition->logout($rememberedIdentity);
-
-            // Log user out by deleting cookie & session states
-            $this->discardCookie();
+            // Delete session
             $this->ceaseSession();
         }
     }
