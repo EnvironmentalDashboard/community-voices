@@ -41,4 +41,9 @@ class Router {
         $parameters = new \Symfony\Component\HttpFoundation\ParameterBag($matcher->match($uri));
         $request->attributes = $parameters;
     }
+
+    public function getRoutes()
+    {
+        return $this->routes;
+    }
 }
