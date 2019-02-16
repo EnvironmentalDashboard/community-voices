@@ -23,11 +23,11 @@ class User extends Component\View
 
     public function __construct(
         Component\RecognitionAdapter $recognitionAdapter,
-                                Component\MapperFactory $mapperFactory,
-                                Component\Transcriber $transcriber,
-                                UrlGenerator $urlGenerator,
-                                Api\View\User $userAPIView,
-                                Api\Component\SecureContainer $secureContainer
+        Component\MapperFactory $mapperFactory,
+        Component\Transcriber $transcriber,
+        UrlGenerator $urlGenerator,
+        Api\View\User $userAPIView,
+        Api\Component\SecureContainer $secureContainer
     ) {
         $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
