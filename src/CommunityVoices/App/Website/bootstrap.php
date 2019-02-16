@@ -1,12 +1,10 @@
 <?php
 
 // Set-up
-use CommunityVoices\App\Website;
-use CommunityVoices\App\Website\Bootstrap\Provider;
 use CommunityVoices\App\Website\Bootstrap;
-use CommunityVoices\Model;
 
 // Timezone
+// @config
 date_default_timezone_set('America/New_York');
 
 // Error settings
@@ -20,10 +18,7 @@ require __DIR__ . '/../../../../vendor/autoload.php';
 // Injector
 $injector = new Auryn\Injector;
 
-// Initialize the request
-$request = Symfony\Component\HttpFoundation\Request::createFromGlobals();
-
-// Initialize the routes provider
+// Routes
 $routes = new Bootstrap\Routes;
 
 // Instantiate the front controller
@@ -34,4 +29,6 @@ $controller = new Bootstrap\FrontController(
 );
 
 // Start the request
+$request = Symfony\Component\HttpFoundation\Request::createFromGlobals();
+
 $controller->doRequest($request);
