@@ -12,13 +12,11 @@ class Image extends Component\Controller
     protected $imageLookup;
     protected $imageManagement;
     protected $tagLookup;
-    protected $logger;
 
     public function __construct(
         Service\ImageLookup $imageLookup,
         Service\ImageManagement $imageManagement,
-        Service\TagLookup $tagLookup,
-        \Psr\Log\LoggerInterface $logger
+        Service\TagLookup $tagLookup
     ) {
         $this->imageLookup = $imageLookup;
         $this->imageManagement = $imageManagement;
@@ -126,7 +124,6 @@ class Image extends Component\Controller
         $status = ($request->request->get('approve') === '1') ? 3 : 1; // 3 = approved, 1 = pending
         $tags = $request->request->get('tags');
 
-        $this->logger->error('trying to save', ['tags' => $tags]);
         $this->imageManagement->update(
             $id,
             $title,
