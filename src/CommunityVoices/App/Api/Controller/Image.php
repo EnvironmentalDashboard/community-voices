@@ -21,7 +21,6 @@ class Image extends Component\Controller
         $this->imageLookup = $imageLookup;
         $this->imageManagement = $imageManagement;
         $this->tagLookup = $tagLookup;
-        $this->logger = $logger;
     }
 
     public function sendImage($request)
