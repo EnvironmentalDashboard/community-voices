@@ -133,6 +133,11 @@ class Image extends Media
         }
     }
 
+    public function isCropped()
+    {
+        return $this->cropRect['x'] > 0 && $this->cropRect['y'] > 0 && $this->cropRect['height'] > 0 && $this->cropRect['width'] > 0;
+    }
+
     public function toArray()
     {
         return ['image' => array_merge(parent::toArray()['media'], [
