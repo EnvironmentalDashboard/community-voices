@@ -300,8 +300,11 @@
         <xsl:choose>
           <xsl:when test="$isManager">
             <div class="table-responsive" style="max-width:100%">
-              <table class="table" style="max-width:100%">
+              <table class="table" id="form-table" style="max-width:100%">
                 <tbody>
+						<button class="btn btn-secondary float-right" onclick="submitAll()" style="margin: 15px;">
+							Update All Images on Page
+						</button>
                   <xsl:for-each select="domain/imageCollection/image">
                     <tr>
                       <form action="images/{id}/edit/authenticate" method="POST" class="edit-form" id="edit-form{id}">

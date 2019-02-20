@@ -66,15 +66,19 @@ $('.delete-form').on('submit', function(e) {
   $('#alert-content').append(btn);
 });
 
+function submitEdit (form) {
+    $.ajax({
+      url : $(form).attr('action') || window.location.pathname,
+      type: $(form).attr('method') || "POST",
+      data: $(form).serialize()
+    });
+}
+
 $('.edit-form').on('submit', function(e) {
   e.preventDefault();
   $('#alert').addClass('alert-success').removeClass('d-none alert-danger');
   $('#alert-content').text('Updated ' + this.elements[0].value);
-  $.ajax({
-    url : $(this).attr('action') || window.location.pathname,
-    type: $(this).attr('method') || "POST",
-    data: $(this).serialize()
-  });
+  submitEdit(this);
 });
 
 $('#file').on('change', function(e) {
@@ -107,3 +111,12 @@ $('#file').on('change', function(e) {
 
 	reader.readAsArrayBuffer(file);
 });
+
+function submitAll() {
+    $("#form-table form").filter(".edit-form").each (function () {
+        submitEdit(this);
+    });
+
+    $('#alert').addClass('alert-success').removeClass('d-none alert-danger');
+    $('#alert-content').text('Updated all');
+}
