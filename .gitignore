@@ -9,3 +9,4 @@ migrate/importNextGen.zip
 src/CommunityVoices/Public/outbox.php
 composer.phar
 db.config
+pull-everywhere.sh
