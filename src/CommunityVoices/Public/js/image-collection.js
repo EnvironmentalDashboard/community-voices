@@ -91,8 +91,10 @@ function submitEdit (form) {
 
 $('.edit-form').on('submit', function(e) {
   e.preventDefault();
+
   $('#alert').addClass('alert-success').removeClass('d-none alert-danger');
-  $('#alert-content').text('Updated ' + this.elements[0].value);
+  $('#alert-content').text('Updated ' + this.elements.title.value);
+  
   submitEdit(this);
 });
 
