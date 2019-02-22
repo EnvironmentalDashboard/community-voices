@@ -67,10 +67,25 @@ $('.delete-form').on('submit', function(e) {
 });
 
 function submitEdit (form) {
+    var data = $(form).serializeArray();
+
+    // Force our forms to include a tags attribute, even if empty.
+    // https://stackoverflow.com/a/17809177/2397924
+    var names = data.map(function (d) {
+        return d.name;
+    });
+
+    if (!names.includes("tags[]")) {
+        data.push({
+            name: "tags[]",
+            value: ""
+        });
+    }
+
     $.ajax({
       url : $(form).attr('action') || window.location.pathname,
       type: $(form).attr('method') || "POST",
-      data: $(form).serialize()
+      data: $.param(data)
     });
 }
 
