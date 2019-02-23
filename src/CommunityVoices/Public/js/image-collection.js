@@ -27,7 +27,14 @@ function sortCheckboxes($e) {
   var html = '';
   for (var i = 0; i < sorted.length; i++) {
     var checked = (sorted[i].checked) ? 'checked="checked"' : '';
-    html += '<div class="form-check"><input '+checked+' value="'+sorted[i].value+'" class="form-check-input" type="checkbox" name="'+sorted[i].name+'" form="'+sorted[i].form+'" id="'+sorted[i].id+'"><label for="'+sorted[i].id+'" class="form-check-label">'+sorted[i].label+'</label></div>';
+    html += '<div class="form-check"><input ' + checked +
+        ' value="' + sorted[i].value +
+        '" class="form-check-input" type="checkbox" name="' + sorted[i].name +
+        (sorted[i].form ? '" form="' + sorted[i].form : '') +
+        '" id="' + sorted[i].id +
+        '"><label for="' + sorted[i].id +
+        '" class="form-check-label">' + sorted[i].label +
+        '</label></div>';
   }
   return html;
 }
@@ -94,7 +101,7 @@ $('.edit-form').on('submit', function(e) {
 
   $('#alert').addClass('alert-success').removeClass('d-none alert-danger');
   $('#alert-content').text('Updated ' + this.elements.title.value);
-  
+
   submitEdit(this);
 });
 
