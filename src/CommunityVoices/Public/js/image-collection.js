@@ -73,7 +73,9 @@ $('.delete-form').on('submit', function(e) {
   $('#alert-content').append(btn);
 });
 
-function submitEdit (form) {
+// form is the form that we are submitting (an edit form)
+// whatUpdated is a string of what we will say we updated
+function submitEdit (form, whatUpdated) {
     var data = $(form).serializeArray();
 
     // Force our forms to include a tags attribute, even if empty.
@@ -89,20 +91,27 @@ function submitEdit (form) {
         });
     }
 
+    $('#alert').addClass('alert-success').removeClass('d-none alert-danger');
+    $('#alert-content').text('Updating...');
+
     $.ajax({
       url : $(form).attr('action') || window.location.pathname,
       type: $(form).attr('method') || "POST",
-      data: $.param(data)
+      data: $.param(data),
+      success: function (data) {
+          $('#alert-content').text('Updated ' + whatUpdated);
+      },
+      error: function (data) {
+          $('#alert').addClass('alert-danger').removeClass('d-none alert-success');
+          $('#alert-content').text('Failed to update ' + whatUpdated);
+      }
     });
 }
 
 $('.edit-form').on('submit', function(e) {
   e.preventDefault();
 
-  $('#alert').addClass('alert-success').removeClass('d-none alert-danger');
-  $('#alert-content').text('Updated ' + this.elements.title.value);
-
-  submitEdit(this);
+  submitEdit(this, this.elements.title.value);
 });
 
 $('#file').on('change', function(e) {
@@ -138,9 +147,6 @@ $('#file').on('change', function(e) {
 
 function submitAll() {
     $("#form-table form").filter(".edit-form").each (function () {
-        submitEdit(this);
+        submitEdit(this, 'all');
     });
-
-    $('#alert').addClass('alert-success').removeClass('d-none alert-danger');
-    $('#alert-content').text('Updated all');
 }
