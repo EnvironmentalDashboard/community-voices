@@ -158,4 +158,4 @@ function whichPage () {
     return urlParams.has("page") ? parseInt(urlParams.get("page")) : 1;
 }
 
-var page = whichPage();
+var pages = [whichPage()];
