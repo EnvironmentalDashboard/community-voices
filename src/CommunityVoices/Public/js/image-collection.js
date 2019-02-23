@@ -150,3 +150,12 @@ function submitAll() {
         submitEdit(this, 'all');
     });
 }
+
+// Decide which page we are currently on.
+function whichPage () {
+    var urlParams = new URLSearchParams(location.search);
+
+    return urlParams.has("page") ? parseInt(urlParams.get("page")) : 1;
+}
+
+var page = whichPage();
