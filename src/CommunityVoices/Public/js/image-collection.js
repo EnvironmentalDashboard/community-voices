@@ -159,3 +159,9 @@ function whichPage () {
 }
 
 var pages = [whichPage()];
+
+function addPage (pageNum) {
+    // goal is to get API image data and then add the forms etc.
+    // here, probably adding a template form or using the first form
+    // as a template
+}
