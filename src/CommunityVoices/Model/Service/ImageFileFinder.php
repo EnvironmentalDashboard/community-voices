@@ -49,8 +49,8 @@ class ImageFileFinder
         $maxDimensionLength = max($dimensions);
         $maxDimension = array_keys($dimensions, max($dimensions));
 
-        if($maxDimensionLength > $this->maximums($maxDimension)) {
-            $this->resize($imagick, $maxDimension, $this->maxmimums($maxDimension));
+        if($maxDimensionLength > $this->maximums[$maxDimension]) {
+            $this->resize($imagick, $maxDimension, $this->maxmimums[$maxDimension]);
         }
     }
 
