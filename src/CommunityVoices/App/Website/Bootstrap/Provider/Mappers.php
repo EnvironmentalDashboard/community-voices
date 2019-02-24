@@ -11,7 +11,8 @@ use \Palladium;
  * @overview Mappers provider
  */
 
-class Mappers extends Provider {
+class Mappers extends Provider
+{
     protected $dbHandler;
     protected $request;
 

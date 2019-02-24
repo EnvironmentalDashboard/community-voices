@@ -9,7 +9,8 @@ use Symfony\Component\Routing\RouteCollection;
  * @overview Url generator providerc
  */
 
-class UrlGenerator extends Provider {
+class UrlGenerator extends Provider
+{
     protected $routes;
     protected $request;
 

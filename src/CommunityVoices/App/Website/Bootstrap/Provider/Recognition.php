@@ -8,7 +8,8 @@ use CommunityVoices\App\Website\Component\Provider;
  * @overview Recognition provider
  */
 
-class Recognition extends Provider {
+class Recognition extends Provider
+{
     public function init()
     {
         /**

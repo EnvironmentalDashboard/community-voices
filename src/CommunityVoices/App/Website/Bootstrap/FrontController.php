@@ -7,18 +7,19 @@ use CommunityVoices\Api\Component\Exception\MethodNotFound;
 
 /**
  * @overview Front controller to bootstrap the CommunityVoices application together
- * 
+ *
  * Adapted from Fowler's POEAA: Front Controller
  */
 
-class FrontController {
+class FrontController
+{
     protected $router;
     protected $dispatcher;
     protected $injector;
 
     /**
      * Providers to initialize prior to request route & dispatching
-     * 
+     *
      * Note that the routes provider is excluded because it sould be initialized
      * already.
      *
@@ -59,9 +60,8 @@ class FrontController {
 
     protected function loadProviders($request)
     {
-        foreach($this->providers as $providerClass) {
+        foreach ($this->providers as $providerClass) {
             try {
-
                 $provider = $this->injector->make($providerClass, [
                     ':injector' => $this->injector,
                     ':request' => $request,
@@ -69,9 +69,7 @@ class FrontController {
                 ]);
 
                 $provider->init();
-
             } catch (Exception $e) {
-
                 $this->logger->alert('Failure loading application provider', [
                     'provider' => $providerClass,
                     'exception' => [
@@ -88,7 +86,7 @@ class FrontController {
 
     /**
      * A crucial application component failed to load
-     * 
+     *
      * Creates a failure response
      * @todo
      */
@@ -100,7 +98,7 @@ class FrontController {
 
     /**
      * A route was not found
-     * 
+     *
      * Creates a 404 response
      * @todo
      */
@@ -113,7 +111,7 @@ class FrontController {
 
     /**
      * Access denied
-     * 
+     *
      * @todo
      */
     public function denied()

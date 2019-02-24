@@ -9,7 +9,8 @@ use CommunityVoices\App\Api\Component\Arbiter;
  * @overview Access control provider
  */
 
-class AccessControl extends Provider {
+class AccessControl extends Provider
+{
     const ACL_PATH = __DIR__ . '/../../../Api/Config/AccessControlList.json';
 
     public function init()

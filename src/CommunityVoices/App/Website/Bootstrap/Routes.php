@@ -9,7 +9,8 @@ use Symfony\Component\Routing\Route;
  * Routes
  */
 
-class Routes {
+class Routes
+{
     const ROUTES_PATH = __DIR__ . '/../Config/Routes.json';
 
     public function get()

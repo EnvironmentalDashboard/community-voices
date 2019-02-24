@@ -8,7 +8,8 @@ use Symfony\Component\Routing\RouteCollection;
  * @overview Bridge for Symfony's router
  */
 
-class Router {
+class Router
+{
     private $routes;
 
     public function __construct(RouteCollection $routes)

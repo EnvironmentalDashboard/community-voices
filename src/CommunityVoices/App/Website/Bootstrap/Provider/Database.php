@@ -9,7 +9,8 @@ use \PDO;
  * Database connection provider
  */
 
-class Database extends Provider {
+class Database extends Provider
+{
     public function init()
     {
         $host   = getenv('MYSQL_HOST');

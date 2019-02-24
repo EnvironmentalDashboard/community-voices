@@ -8,12 +8,13 @@ use CommunityVoices\App\Website\Component\Provider;
  * @overview Swift provider
  */
 
-class Swift extends Provider {
+class Swift extends Provider
+{
     public function init()
     {
         /**
          * If no file /opendkim/mail.private exists, we will not use the mailer.
-         * 
+         *
          * @config
          */
         $mailerFactory = function () {
@@ -34,7 +35,7 @@ class Swift extends Provider {
         $dkimLocation = '/opendkim/mail.private';
 
         $this->injector->define('Swift_Signers_DKIMSigner', [
-            ':privateKey' => file_exists($dkimLocation) ? file_get_contents($dkimLocation) : NULL,
+            ':privateKey' => file_exists($dkimLocation) ? file_get_contents($dkimLocation) : null,
             ':domainName' => 'environmentaldashboard.org',
             ':selector' => 'mail',
             ':passphrase' => ''
