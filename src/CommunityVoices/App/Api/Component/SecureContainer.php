@@ -14,10 +14,11 @@ class SecureContainer
 
     private $logger;
 
-    public function __construct(Arbiter $arbiter,
-                Contract\CanIdentify $identifier,
-                \Psr\Log\LoggerInterface $logger)
-    {
+    public function __construct(
+        Arbiter $arbiter,
+        Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger
+    ) {
         $this->arbiter = $arbiter;
         $this->identifier = $identifier;
         $this->logger = $logger;

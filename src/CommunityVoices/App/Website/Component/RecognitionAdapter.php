@@ -183,7 +183,8 @@ class RecognitionAdapter implements CanIdentify
     /**
      * Logs out user
      */
-    public function logout(){
+    public function logout()
+    {
         $rememberedIdentity = new Entity\RememberedIdentity;
 
         /**

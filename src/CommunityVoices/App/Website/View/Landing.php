@@ -65,7 +65,7 @@ class Landing extends Component\View
         $obj->slideCollection = array_values($obj->slideCollection);
 
         $landingXMLElement = new SimpleXMLElement(
-          $this->transcriber->toXml($obj)
+            $this->transcriber->toXml($obj)
         );
 
         $landingPackageElement = new Helper\SimpleXMLElementExtension('<package/>');

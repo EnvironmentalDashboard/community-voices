@@ -42,7 +42,7 @@ class Slide extends Component\View
         $identity = $this->recognitionAdapter->identify();
 
         $identityXMLElement = new SimpleXMLElement(
-          $this->transcriber->toXml($identity->toArray())
+            $this->transcriber->toXml($identity->toArray())
         );
 
         /**
@@ -71,7 +71,7 @@ class Slide extends Component\View
         $obj->slideCollection = array_values($obj->slideCollection);
 
         $slideXMLElement = new SimpleXMLElement(
-          $this->transcriber->toXml($obj)
+            $this->transcriber->toXml($obj)
         );
 
         $pagination = new \stdClass();

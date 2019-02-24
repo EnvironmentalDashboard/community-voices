@@ -82,15 +82,15 @@ class Image extends Component\Controller
         $tags = $request->request->get('tags');
 
         $this->imageManagement->upload(
-          $files,
-          $title,
-          $description,
-          $dateTaken,
-          $photographer,
-          $organization,
-          $identity,
-          $approved,
-          $tags
+            $files,
+            $title,
+            $description,
+            $dateTaken,
+            $photographer,
+            $organization,
+            $identity,
+            $approved,
+            $tags
       );
     }
 

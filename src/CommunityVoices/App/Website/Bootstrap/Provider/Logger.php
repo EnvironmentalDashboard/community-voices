@@ -7,11 +7,12 @@ use \Monolog;
 
 /**
  * @overview Logger provider
- * 
+ *
  * Used by Palladium
  */
 
-class Logger extends Provider {
+class Logger extends Provider
+{
     public function init()
     {
         $logger = new Monolog\Logger('name');
