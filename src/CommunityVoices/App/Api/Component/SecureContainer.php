@@ -12,10 +12,15 @@ class SecureContainer
 
     private $arbiter;
 
-    public function __construct(Arbiter $arbiter, Contract\CanIdentify $identifier)
+    private $logger;
+
+    public function __construct(Arbiter $arbiter,
+                Contract\CanIdentify $identifier,
+                \Psr\Log\LoggerInterface $logger)
     {
         $this->arbiter = $arbiter;
         $this->identifier = $identifier;
+        $this->logger = $logger;
     }
 
     public function contain($decoratedInstance)
@@ -24,16 +29,19 @@ class SecureContainer
             $user = $this->identifier->identify();
 
             if (!is_object($contained)) {
+                $this->logger->error('SecureContainer InvalidArg Exception', ['message' => 'Expected to contain an object, but received type ' . gettype($contained)]);
                 throw new \InvalidArgumentException('Expected to contain an object, but received type ' . gettype($contained));
             }
 
             $signature = get_class($contained) . "::" . $method;
 
             if (!method_exists($contained, $method)) {
+                $this->logger->error('SecureContainer MethodNotFound Exception', ['message' => 'Method not found ' . $signature]);
                 throw new Exception\MethodNotFound('Method not found ' . $signature);
             }
 
             if (!$this->arbiter->isAllowedForIdentity($signature, $user)) {
+                $this->logger->error('SecureContainer AccessDenied Exception', ['message' => 'Access denied']);
                 throw new Exception\AccessDenied('Access denied');
             }
 

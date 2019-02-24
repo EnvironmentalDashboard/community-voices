@@ -1,5 +1,5 @@
 {
-    "name": "EnvironmentalDashboard/community-voices",
+    "name": "environmental-dashboard/community-voices",
     "require": {
         "rdlowrey/auryn": "^1.4",
         "teresko/palladium": "^1.3",

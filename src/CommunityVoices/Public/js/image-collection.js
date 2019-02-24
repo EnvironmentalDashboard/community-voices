@@ -8,6 +8,7 @@ function sortCheckboxes($e) {
       value: $input.val(),
       label: $label.text(),
       name: $input.attr('name'),
+      form: $input.attr('form'),
       checked: $input.prop('checked')
     });
   });
@@ -26,7 +27,14 @@ function sortCheckboxes($e) {
   var html = '';
   for (var i = 0; i < sorted.length; i++) {
     var checked = (sorted[i].checked) ? 'checked="checked"' : '';
-    html += '<div class="form-check"><input '+checked+' value="'+sorted[i].value+'" class="form-check-input" type="checkbox" name="'+sorted[i].name+'" id="'+sorted[i].id+'"><label for="'+sorted[i].id+'" class="form-check-label">'+sorted[i].label+'</label></div>';
+    html += '<div class="form-check"><input ' + checked +
+        ' value="' + sorted[i].value +
+        '" class="form-check-input" type="checkbox" name="' + sorted[i].name +
+        (sorted[i].form ? '" form="' + sorted[i].form : '') +
+        '" id="' + sorted[i].id +
+        '"><label for="' + sorted[i].id +
+        '" class="form-check-label">' + sorted[i].label +
+        '</label></div>';
   }
   return html;
 }
@@ -65,15 +73,45 @@ $('.delete-form').on('submit', function(e) {
   $('#alert-content').append(btn);
 });
 
+// form is the form that we are submitting (an edit form)
+// whatUpdated is a string of what we will say we updated
+function submitEdit (form, whatUpdated) {
+    var data = $(form).serializeArray();
+
+    // Force our forms to include a tags attribute, even if empty.
+    // https://stackoverflow.com/a/17809177/2397924
+    var names = data.map(function (d) {
+        return d.name;
+    });
+
+    if (!names.includes("tags[]")) {
+        data.push({
+            name: "tags[]",
+            value: ""
+        });
+    }
+
+    $('#alert').addClass('alert-success').removeClass('d-none alert-danger');
+    $('#alert-content').text('Updating...');
+
+    $.ajax({
+      url : $(form).attr('action') || window.location.pathname,
+      type: $(form).attr('method') || "POST",
+      data: $.param(data),
+      success: function (data) {
+          $('#alert-content').text('Updated ' + whatUpdated);
+      },
+      error: function (data) {
+          $('#alert').addClass('alert-danger').removeClass('d-none alert-success');
+          $('#alert-content').text('Failed to update ' + whatUpdated);
+      }
+    });
+}
+
 $('.edit-form').on('submit', function(e) {
   e.preventDefault();
-  $('#alert').addClass('alert-success').removeClass('d-none alert-danger');
-  $('#alert-content').text('Updated ' + this.elements[0].value);
-  $.ajax({
-    url : $(this).attr('action') || window.location.pathname,
-    type: $(this).attr('method') || "POST",
-    data: $(this).serialize()
-  });
+
+  submitEdit(this, this.elements.title.value);
 });
 
 $('#file').on('change', function(e) {
@@ -106,3 +144,9 @@ $('#file').on('change', function(e) {
 
 	reader.readAsArrayBuffer(file);
 });
+
+function submitAll() {
+    $("#form-table form").filter(".edit-form").each (function () {
+        submitEdit(this, 'all');
+    });
+}
