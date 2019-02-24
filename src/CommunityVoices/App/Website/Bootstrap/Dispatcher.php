@@ -10,6 +10,7 @@ namespace CommunityVoices\App\Website\Bootstrap;
 class Dispatcher
 {
     const CONTROLLER_SIGNATURE = "CommunityVoices\\App\\Website\\Controller\\";
+    const API_VIEW_SIGNATURE = "CommunityVoices\\App\\Api\\View\\";
     const VIEW_SIGNATURE = "CommunityVoices\\App\\Website\\View\\";
 
     protected $injector;
@@ -24,10 +25,24 @@ class Dispatcher
         $resource = $request->attributes->get('resource');
         $action = $request->attributes->get('action');
 
+        /**
+         * Instantiate controller & call requested action
+         */
         $controller = $this->injector->make(self::CONTROLLER_SIGNATURE . $resource);
         $controller->{$action}($request);
 
-        $view = $this->injector->make(self::VIEW_SIGNATURE . $resource);
+        /**
+         * Instantiate view & return the response
+         */
+        $viewSignature = self::VIEW_SIGNATURE;
+
+        // Check if API view was requested
+        if ($request->attributes->has('use-api')) {
+            $viewSignature = self::API_VIEW_SIGNATURE;
+        }
+
+        
+        $view = $this->injector->make($viewSignature . $resource);
         $response = $view->{$action}($request);
 
         return $response;
