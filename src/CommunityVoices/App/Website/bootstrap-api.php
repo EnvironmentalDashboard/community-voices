@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * @todo
+ * - Remove this file (bootstrap-api.php)
+ * - Handle API routing at the router level
+ * - Establish clarity on API presentation vs. website presentation
+ */
+
 // Set-up
 use CommunityVoices\App\Website\Bootstrap;
 
@@ -28,7 +35,8 @@ $controller = new Bootstrap\FrontController(
     $injector
 );
 
+$request = Symfony\Component\HttpFoundation\Request::createFromGlobals();
+$request->set('use-api', true);
+
 // Start the request
-$controller->doRequest(
-    Symfony\Component\HttpFoundation\Request::createFromGlobals()
-);
+$controller->doRequest($request);
