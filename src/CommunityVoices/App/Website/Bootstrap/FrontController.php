@@ -2,7 +2,8 @@
 
 namespace CommunityVoices\App\Website\Bootstrap;
 
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use CommunityVoices\Api\Component\Exception\AccessDenied;
 use CommunityVoices\Api\Component\Exception\MethodNotFound;
@@ -50,13 +51,13 @@ class FrontController
 
         try {
             $this->router->route($request);
-            $this->dispatcher->dispatch($request)->send();
+            return $this->dispatcher->dispatch($request)->send();
         } catch (\Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
-            $this->notFound();
+            return $this->notFound();
         } catch (AccessDenied $e) {
-            $this->denied();
+            return $this->denied();
         } catch (Exception $e) {
-            $this->fail();
+            return $this->fail();
         }
     }
 
@@ -105,9 +106,20 @@ class FrontController
      */
     public function notFound()
     {
-        http_response_code(404);
-        echo file_get_contents('https://environmentaldashboard.org/404');
-        exit;
+        // We are going to render our 404 page and put it into
+        // this response.
+        $response = new Response();
+        $response->setStatusCode(404);
+
+        // Render our 404 page.
+        $request = Request::create(
+            '/community-voices' . '/404',
+            'GET'
+        );
+
+        $response->setContent($this->doRequest($request)->getContent());
+
+        return $response;
     }
 
     /**
