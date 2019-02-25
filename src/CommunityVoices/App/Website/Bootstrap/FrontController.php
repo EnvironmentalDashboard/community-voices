@@ -2,6 +2,8 @@
 
 namespace CommunityVoices\App\Website\Bootstrap;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
 use CommunityVoices\Api\Component\Exception\AccessDenied;
 use CommunityVoices\Api\Component\Exception\MethodNotFound;
 
@@ -49,7 +51,7 @@ class FrontController
         try {
             $this->router->route($request);
             $this->dispatcher->dispatch($request)->send();
-        } catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
+        } catch (\Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
             $this->notFound();
         } catch (AccessDenied $e) {
             $this->denied();
@@ -82,7 +84,6 @@ class FrontController
             }
         }
     }
-    
 
     /**
      * A crucial application component failed to load

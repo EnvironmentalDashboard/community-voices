@@ -32,7 +32,7 @@ class Router
          * @todo
          */
         $production_server = (getenv('SERVER') === 'environmentaldashboard.org');
-        
+
         $uri = isset($_SERVER['REQUEST_URI'])
                     ? $_SERVER['REQUEST_URI']
                     : '/';
