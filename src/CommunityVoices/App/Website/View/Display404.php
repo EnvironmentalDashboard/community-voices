@@ -34,20 +34,10 @@ class Display404 extends Component\View
 
     public function get404()
     {
-        // Identity gathering
-        $identity = $this->recognitionAdapter->identify();
-
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
         /**
          * Display404 XML Package
          */
         $display404PackageElement = new Helper\SimpleXMLElementExtension('<package/>');
-
-        $packagedIdentity = $display404PackageElement->addChild('identity');
-        $packagedIdentity->adopt($identityXMLElement);
 
         /**
          * Generate Display404 module
@@ -68,9 +58,6 @@ class Display404 extends Component\View
 
         $domainXMLElement->addChild('main-pane', $display404ModuleXML);
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
-
-        $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
 
         $presentation = new Component\Presenter('SinglePane');
 

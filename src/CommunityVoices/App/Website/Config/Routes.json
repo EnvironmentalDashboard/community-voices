@@ -375,14 +375,5 @@
             "resource": "Location",
             "action": "getAllLocation"
         }
-    },
-
-    "404": {
-        "notation": "/404",
-        "method": "get",
-        "defaults": {
-            "resource": "Display404",
-            "action": "get404"
-        }
     }
 }

@@ -3,9 +3,6 @@
 
 	<xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
-	<xsl:variable name="isManager" select="package/identity/user/role = 'manager'
-		or package/identity/user/role = 'administrator'"/>
-
 	<xsl:template match="/package">
       <div class="row">
           <div class="col-12">

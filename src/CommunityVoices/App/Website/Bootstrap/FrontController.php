@@ -51,13 +51,13 @@ class FrontController
 
         try {
             $this->router->route($request);
-            return $this->dispatcher->dispatch($request)->send();
+            $this->dispatcher->dispatch($request)->send();
         } catch (\Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
-            return $this->notFound();
+            $this->notFound($request)->send();
         } catch (AccessDenied $e) {
-            return $this->denied();
+            $this->denied();
         } catch (Exception $e) {
-            return $this->fail();
+            $this->fail();
         }
     }
 
@@ -104,7 +104,7 @@ class FrontController
      * Creates a 404 response
      * @todo
      */
-    public function notFound()
+    public function notFound($request)
     {
         // We are going to render our 404 page and put it into
         // this response.
@@ -112,12 +112,11 @@ class FrontController
         $response->setStatusCode(404);
 
         // Render our 404 page.
-        $request = Request::create(
-            '/community-voices' . '/404',
-            'GET'
-        );
+        $attributes404 = ['resource' => 'Display404', 'action' => 'get404'];
+        $request->attributes->set('resource', 'Display404');
+        $request->attributes->set('action', 'get404');
 
-        $response->setContent($this->doRequest($request)->getContent());
+        $response->setContent($this->dispatcher->dispatch($request)->getContent());
 
         return $response;
     }
