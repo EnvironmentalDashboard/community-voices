@@ -37,11 +37,11 @@ class Dispatcher
         $viewSignature = self::VIEW_SIGNATURE;
 
         // Check if API view was requested
-        if ($request->attributes->has('use-api')) {
+        if (strpos($request->getUri(), '/api') !== false) {
             $viewSignature = self::API_VIEW_SIGNATURE;
         }
 
-        
+
         $view = $this->injector->make($viewSignature . $resource);
         $response = $view->{$action}($request);
 
