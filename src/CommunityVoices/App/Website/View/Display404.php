@@ -12,26 +12,6 @@ use Symfony\Component\HttpFoundation;
 
 class Display404 extends Component\View
 {
-    protected $recognitionAdapter;
-    protected $mapperFactory;
-    protected $locationAPIView;
-    protected $secureContainer;
-    protected $transcriber;
-
-    public function __construct(
-        Component\RecognitionAdapter $recognitionAdapter,
-        Component\MapperFactory $mapperFactory,
-        Api\View\Location $locationAPIView,
-        Component\Transcriber $transcriber,
-        Api\Component\SecureContainer $secureContainer
-    ) {
-        $this->recognitionAdapter = $recognitionAdapter;
-        $this->mapperFactory = $mapperFactory;
-        $this->locationAPIView = $locationAPIView;
-        $this->transcriber = $transcriber;
-        $this->secureContainer = $secureContainer;
-    }
-
     public function get404()
     {
         /**
