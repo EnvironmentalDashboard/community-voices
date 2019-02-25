@@ -106,18 +106,12 @@ class FrontController
      */
     public function notFound($request)
     {
-        // We are going to render our 404 page and put it into
-        // this response.
-        $response = new Response();
-        $response->setStatusCode(404);
-
-        // Render our 404 page.
+        // Switch our resource and action to what we would rather have.
         $request->attributes->set('resource', 'Display404');
         $request->attributes->set('action', 'get404');
 
-        $response->setContent($this->dispatcher->dispatch($request)->getContent());
-
-        return $response;
+        // Then, have the dispatcher dispatch this alternate request.
+        return $this->dispatcher->dispatch($request);
     }
 
     /**
