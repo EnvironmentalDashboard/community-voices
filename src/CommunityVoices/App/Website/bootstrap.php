@@ -19,16 +19,6 @@ date_default_timezone_set('America/New_York');
 
 require __DIR__ . '/../../../../vendor/autoload.php';
 
-function processRequest ($resource, $action, $method, $injector, $request) {
-    $controller = $injector->make("CommunityVoices\\App\\Website\\Controller\\" . $resource); // will call the website controller which will call the api controller to gather requested data using services (which use mappers to make queries to database) and store in an object referenced in the api view as $stateObserver
-    $controller->{$action}($request);
-
-    $view = $injector->make("CommunityVoices\\App\\Website\\View\\" . $resource); // will call the website view which will set xslt template, variables, etc. and format a response, getting data from the api view which will fetch data from the $stateObserver array (api view usually called very early in website view)
-    $response = $view->{$action}($request);
-
-    $response->send();
-}
-
 $production_server = (getenv('SERVER') === 'environmentaldashboard.org');
 
 /**
@@ -83,8 +73,9 @@ $uri = ($production_server) ? '/community-voices' . substr(explode('?', $uri)[0]
 try {
     $parameters = new Symfony\Component\HttpFoundation\ParameterBag($matcher->match($uri));
 } catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
-    process_request("Display404", "get404", "get", $injector, $request);
-    exit();
+    http_response_code(404);
+    echo file_get_contents('https://environmentaldashboard.org/404'); // should prob include 404 page in this app
+    exit;
 }
 
 $request->attributes = $parameters;
@@ -93,7 +84,7 @@ $request->attributes = $parameters;
  * Create and share URL generator
  */
 
-$urlGenerator = new Symfony\Component\Routing\Generator\UrlGenerator($routes, $context);
+$urlGenerator = new  Symfony\Component\Routing\Generator\UrlGenerator($routes, $context);
 $injector->share($urlGenerator);
 
 /**
@@ -162,4 +153,10 @@ $resource = $request->attributes->get('resource');
 $action = $request->attributes->get('action');
 $method = $request->attributes->get('method');
 
-processRequest($resource, $action, $method, $injector, $request);
+$controller = $injector->make("CommunityVoices\\App\\Website\\Controller\\" . $resource); // will call the website controller which will call the api controller to gather requested data using services (which use mappers to make queries to database) and store in an object referenced in the api view as $stateObserver
+$controller->{$action}($request);
+
+$view = $injector->make("CommunityVoices\\App\\Website\\View\\" . $resource); // will call the website view which will set xslt template, variables, etc. and format a response, getting data from the api view which will fetch data from the $stateObserver array (api view usually called very early in website view)
+$response = $view->{$action}($request);
+
+$response->send();
