@@ -36,7 +36,7 @@ class AccessDenied extends Component\View
          */
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
-        $domainXMLElement->addChild('main-pane', $accessDeniedAccessModuleXML);
+        $domainXMLElement->addChild('main-pane', $accessDeniedModuleXML);
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
 
         $presentation = new Component\Presenter('SinglePane');

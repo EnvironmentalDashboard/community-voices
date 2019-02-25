@@ -5,8 +5,8 @@ namespace CommunityVoices\App\Website\Bootstrap;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use CommunityVoices\Api\Component\Exception\AccessDenied;
-use CommunityVoices\Api\Component\Exception\MethodNotFound;
+use CommunityVoices\App\Api\Component\Exception\AccessDenied;
+use CommunityVoices\App\Api\Component\Exception\MethodNotFound;
 
 /**
  * @overview Front controller to bootstrap the CommunityVoices application together
