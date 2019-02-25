@@ -40,11 +40,15 @@ class Routes
             );
 
             // Add the API route
+            $apiDefaults = [
+                'use-api' => true
+            ];
+
             $routes->add(
                 "api." . $name,
                 new Route(
                     $appPrefix . '/api' . $options['notation'],
-                    $options['defaults'],
+                    array_merge($options['defaults'], $apiDefaults),
                     isset($options['requirements']) ? $options['requirements'] : [],
                     [],
                     '',
