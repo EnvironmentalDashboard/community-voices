@@ -44,13 +44,13 @@ class QuoteManagementTest extends TestCase
         $quoteManagement = new QuoteManagement($mapperFactory, $stateObserver);
 
         $this->assertTrue($quoteManagement->upload(
-              'I always close my eyes when I pee!',
-              'Lars Dreith',
-              'Oberlin College, 2020',
-              'January 24th, 2018',
-              '',
-              '',
-              $user
+            'I always close my eyes when I pee!',
+            'Lars Dreith',
+            'Oberlin College, 2020',
+            'January 24th, 2018',
+            '',
+            '',
+            $user
           ));
     }
 

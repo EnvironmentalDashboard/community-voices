@@ -8,7 +8,7 @@ namespace CommunityVoices\App\Api\Component;
  *
  * The specific rules that the Arbiter reads and enacts are stored in
  * App/Api/Component/Config/AccessControlList.json
- * 
+ *
  * For rules:
  * - Any specific rule takes priority over a pattern matches
  * - Pattern matches use UNIX filename patterns (see man for `fnmatch`)
@@ -50,7 +50,7 @@ class Arbiter
      *
      * @param string $signature Class signature as provided by `get_class`
      * @param User $user Valid pre-mapped user entity
-     * @return boolean True if the user is not denied access to the provided signature 
+     * @return boolean True if the user is not denied access to the provided signature
      */
     public function isAllowedForIdentity($signature, Entity\User $user)
     {

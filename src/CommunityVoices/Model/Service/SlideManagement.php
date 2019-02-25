@@ -33,7 +33,7 @@ class SlideManagement
         $quoteId,
         $imageId,
         $contentCategory,
-                    $screens,
+        $screens,
         $dateRecorded,
         $approved,
         $addedBy

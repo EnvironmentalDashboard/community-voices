@@ -14,10 +14,11 @@ class SecureContainer
 
     private $logger;
 
-    public function __construct(Arbiter $arbiter,
-                Contract\CanIdentify $identifier,
-                \Psr\Log\LoggerInterface $logger)
-    {
+    public function __construct(
+        Arbiter $arbiter,
+        Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger
+    ) {
         $this->arbiter = $arbiter;
         $this->identifier = $identifier;
         $this->logger = $logger;
@@ -29,8 +30,8 @@ class SecureContainer
             $user = $this->identifier->identify();
 
             if (!is_object($contained)) {
-                $this->logger->error('SecureContainerException', ['message' => 'Expected to contain an object, but received type ' . gettype($contained)]);
-                throw new SecureContainerException('Expected to contain an object, but received type ' . gettype($contained));
+                $this->logger->error('SecureContainer InvalidArg Exception', ['message' => 'Expected to contain an object, but received type ' . gettype($contained)]);
+                throw new \InvalidArgumentException('Expected to contain an object, but received type ' . gettype($contained));
             }
 
             $signature = get_class($contained) . "::" . $method;

@@ -10,7 +10,7 @@ class Location extends Component\Controller
     protected $locationLookup;
 
     public function __construct(
-      Service\LocationLookup $locationLookup
+        Service\LocationLookup $locationLookup
     ) {
         $this->locationLookup = $locationLookup;
     }

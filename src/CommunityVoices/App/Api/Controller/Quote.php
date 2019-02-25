@@ -121,9 +121,9 @@ class Quote extends Component\Controller
             $text,
             $attribution,
             $subAttribution,
-                        $dateRecorded,
+            $dateRecorded,
             $approved,
-                        $identity,
+            $identity,
             $tags
         );
     }
@@ -156,7 +156,7 @@ class Quote extends Component\Controller
             $text,
             $attribution,
             $subAttribution,
-                                  $dateRecorded,
+            $dateRecorded,
             $status
         );
     }
