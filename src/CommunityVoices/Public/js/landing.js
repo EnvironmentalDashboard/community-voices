@@ -3,11 +3,11 @@ $('.selector-img').on('click', function() {
     if (cc === 'rand') {
         cc = getRandomInt(1, 6);
     }
-    
-    $.getJSON('https://api.environmentaldashboard.org/community-voices/slides', { content_category: [cc], per_page: 5, page: 1 }, function(data) {
+
+    $.getJSON('/community-voices/api/slides', { content_category: [cc], per_page: 5, page: 1 }, function(data) {
         $.each(data['slideCollection'], function(index, element) {
             if (typeof element === 'object') {
-                $('#slide' + (+index + +1)).attr('src', 'https://environmentaldashboard.org/community-voices/slides/' + element['slide']['id']);
+                $('#slide' + (+index + +1)).attr('src', '/community-voices/slides/' + element['slide']['id']);
             }
         });
     });
