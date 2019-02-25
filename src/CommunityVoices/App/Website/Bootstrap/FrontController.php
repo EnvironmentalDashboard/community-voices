@@ -55,7 +55,7 @@ class FrontController
         } catch (\Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
             $this->notFound($request)->send();
         } catch (AccessDenied $e) {
-            $this->denied();
+            $this->denied($request)->send();
         } catch (Exception $e) {
             $this->fail();
         }
@@ -102,7 +102,6 @@ class FrontController
      * A route was not found
      *
      * Creates a 404 response
-     * @todo
      */
     public function notFound($request)
     {
@@ -121,7 +120,11 @@ class FrontController
      */
     public function denied()
     {
-        echo "Access denied";
-        exit;
+        // Switch our resource and action to what we would rather have.
+        $request->attributes->set('resource', 'AccessDenied');
+        $request->attributes->set('action', 'getAccessDenied');
+
+        // Then, have the dispatcher dispatch this alternate request.
+        return $this->dispatcher->dispatch($request);
     }
 }
