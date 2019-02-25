@@ -37,6 +37,7 @@ class Router
                     ? $_SERVER['REQUEST_URI']
                     : '/';
 
+        $uri = (strpos($uri, '/api') === 0) ? substr($uri, 4, strlen($uri)) : $uri;
         $uri = ($production_server) ? '/community-voices' . substr(explode('?', $uri)[0], 1) : explode('?', $uri)[0];
 
         $parameters = new \Symfony\Component\HttpFoundation\ParameterBag($matcher->match($uri));

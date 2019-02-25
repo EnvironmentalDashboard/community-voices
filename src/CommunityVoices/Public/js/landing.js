@@ -4,7 +4,7 @@ $('.selector-img').on('click', function() {
         cc = getRandomInt(1, 6);
     }
     
-    $.getJSON('https://api.environmentaldashboard.org/community-voices/slides', { content_category: [cc], per_page: 5, page: 1 }, function(data) {
+    $.getJSON('https://environmentaldashboard.org/api/community-voices/slides', { content_category: [cc], per_page: 5, page: 1 }, function(data) {
         $.each(data['slideCollection'], function(index, element) {
             if (typeof element === 'object') {
                 $('#slide' + (+index + +1)).attr('src', 'https://environmentaldashboard.org/community-voices/slides/' + element['slide']['id']);
