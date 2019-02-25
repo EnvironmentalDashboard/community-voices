@@ -118,7 +118,7 @@ class FrontController
      *
      * @todo
      */
-    public function denied()
+    public function denied($request)
     {
         // Switch our resource and action to what we would rather have.
         $request->attributes->set('resource', 'AccessDenied');
