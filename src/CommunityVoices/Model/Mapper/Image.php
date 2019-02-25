@@ -99,7 +99,7 @@ class Image extends Media
     {
         if ($image->getId()) {
             $this->update($image);
-            return ;
+            return;
         }
 
         $this->create($image);
@@ -183,7 +183,7 @@ class Image extends Media
         $statement->bindValue(':date_taken', date('Y-m-d H:i:s', $image->getDateTaken()));
         $statement->bindValue(':photographer', $image->getPhotographer());
         $statement->bindValue(':organization', $image->getOrganization());
-        
+
         $statement->execute();
     }
 }

@@ -39,9 +39,9 @@ class QuoteManagement
         $text,
         $attribution,
         $subAttribution,
-                    $dateRecorded,
+        $dateRecorded,
         $approved,
-                    $addedBy,
+        $addedBy,
         $tags
     ) {
 
@@ -121,7 +121,7 @@ class QuoteManagement
         $text,
         $attribution,
         $subAttribution,
-                    $dateRecorded,
+        $dateRecorded,
         $status
     ) {
         $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);

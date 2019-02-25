@@ -36,7 +36,7 @@
               <ul>
                   <xsl:for-each select="domain/locCollection/location">
                       <li>
-                          <a href="/public/digital-signage.php?loc={id}">
+                          <a href="/community-voices/public/digital-signage.php?loc={id}">
                               <xsl:value-of select="label" />
                           </a>
                       </li>

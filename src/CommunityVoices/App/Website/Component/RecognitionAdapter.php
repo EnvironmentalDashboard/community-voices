@@ -17,12 +17,17 @@ class RecognitionAdapter implements CanIdentify
 
     private $recognition;
 
+    private $logger;
+
     public function __construct(
         Component\MapperFactory $mapperFactory,
-        Recognition $recognition
+        Recognition $recognition,
+        \Psr\Log\LoggerInterface $logger
     ) {
         $this->mapperFactory = $mapperFactory;
         $this->recognition = $recognition;
+
+        $this->logger = $logger;
     }
 
     /**
@@ -100,6 +105,7 @@ class RecognitionAdapter implements CanIdentify
         $sessionMapper = $this->mapperFactory->createSessionMapper(Mapper\Session::class);
 
         if ($sessionMapper->fetch($rememberedIdentity) !== false) {
+            $this->logger->error('**Recognition adapter cease session', ['accountId' => $rememberedIdentity->getAccountId()]);
             $sessionMapper->delete($rememberedIdentity);
         }
     }
@@ -182,16 +188,27 @@ class RecognitionAdapter implements CanIdentify
         $rememberedIdentity = new Entity\RememberedIdentity;
 
         /**
-         * Attept to identify by session
+         * Logout by cookie
+         */
+        $cookieMapper = $this->mapperFactory->createCookieMapper(Mapper\Cookie::class);
+        $cookieMapper->fetch($rememberedIdentity);
+
+        if ($rememberedIdentity->getAccountId()) {
+            // Logout the cookie on server
+            $this->recognition->logout($rememberedIdentity);
+
+            // Delete the cookie
+            $this->discardCookie();
+        }
+
+        /**
+         * Logout by session
          */
         $sessionMapper = $this->mapperFactory->createSessionMapper(Mapper\Session::class);
         $sessionMapper->fetch($rememberedIdentity);
 
         if ($rememberedIdentity->getAccountId()) {
-            $this->recognition->logout($rememberedIdentity);
-
-            // Log user out by deleting cookie & session states
-            $this->discardCookie();
+            // Delete session
             $this->ceaseSession();
         }
     }

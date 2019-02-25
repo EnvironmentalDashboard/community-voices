@@ -377,15 +377,6 @@
         }
     },
 
-    "oldGetAllLocation": {
-        "notation": "/public/screen-urls.php",
-        "method": "get",
-        "defaults": {
-            "resource": "Location",
-            "action": "getAllLocation"
-        }
-    },
-
     "404": {
         "notation": "/404",
         "method": "get",

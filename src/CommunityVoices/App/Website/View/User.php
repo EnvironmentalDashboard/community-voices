@@ -23,11 +23,11 @@ class User extends Component\View
 
     public function __construct(
         Component\RecognitionAdapter $recognitionAdapter,
-                                Component\MapperFactory $mapperFactory,
-                                Component\Transcriber $transcriber,
-                                UrlGenerator $urlGenerator,
-                                Api\View\User $userAPIView,
-                                Api\Component\SecureContainer $secureContainer
+        Component\MapperFactory $mapperFactory,
+        Component\Transcriber $transcriber,
+        UrlGenerator $urlGenerator,
+        Api\View\User $userAPIView,
+        Api\Component\SecureContainer $secureContainer
     ) {
         $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
@@ -182,9 +182,12 @@ class User extends Component\View
          */
 
         // Relevant documentation: https://symfony.com/doc/current/components/http_foundation.html#redirecting-the-user
-        return new HttpFoundation\RedirectResponse(
-            $this->urlGenerator->generate('root')
+        $response = new HttpFoundation\RedirectResponse(
+            $request->headers->get('referer')
         );
+
+        $this->finalize($response);
+        return $response;
     }
 
     public function postRegistrationInvite($request)

@@ -11,6 +11,7 @@ class Image extends Component\Controller
 {
     protected $imageLookup;
     protected $imageManagement;
+    protected $tagLookup;
 
     public function __construct(
         Service\ImageLookup $imageLookup,
@@ -52,7 +53,7 @@ class Image extends Component\Controller
         $order = (string) $request->query->get('order');
         $status = $request->query->get('status');
         $status = ($status == null) ? ["approved","pending","rejected"] : explode(',', $status);
-        
+
         $page = (int) $request->query->get('page');
         $page = ($page > 0) ? $page - 1 : 0; // current page, make page 0-based
         $limit = (int) $request->query->get('per_page');
@@ -81,15 +82,15 @@ class Image extends Component\Controller
         $tags = $request->request->get('tags');
 
         $this->imageManagement->upload(
-          $files,
-          $title,
-          $description,
-          $dateTaken,
-          $photographer,
-          $organization,
-          $identity,
-          $approved,
-          $tags
+            $files,
+            $title,
+            $description,
+            $dateTaken,
+            $photographer,
+            $organization,
+            $identity,
+            $approved,
+            $tags
       );
     }
 
@@ -109,6 +110,7 @@ class Image extends Component\Controller
         if ($id === 0) {
             $id = (int) $request->request->get('id');
         }
+
         $title = $request->request->get('title');
         $description = $request->request->get('description');
         $dateTaken = $request->request->get('dateTaken');
@@ -122,16 +124,16 @@ class Image extends Component\Controller
         $tags = $request->request->get('tags');
 
         $this->imageManagement->update(
-        $id,
-        $title,
-        $description,
-        $dateTaken,
-        $photographer,
-        $organization,
-        ['x' => $crop_x, 'y' => $crop_y, 'width' => $crop_width, 'height' => $crop_height],
-        $tags,
-        $status
-      );
+            $id,
+            $title,
+            $description,
+            $dateTaken,
+            $photographer,
+            $organization,
+            ['x' => $crop_x, 'y' => $crop_y, 'width' => $crop_width, 'height' => $crop_height],
+            $tags,
+            $status
+        );
     }
 
     public function postImageDelete($request)

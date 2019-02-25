@@ -10,8 +10,8 @@ class Location
     protected $secureContainer;
 
     public function __construct(
-      Api\Controller\Location $locationAPIController,
-      Api\Component\SecureContainer $secureContainer
+        Api\Controller\Location $locationAPIController,
+        Api\Component\SecureContainer $secureContainer
     ) {
         $this->locationAPIController = $locationAPIController;
         $this->secureContainer = $secureContainer;

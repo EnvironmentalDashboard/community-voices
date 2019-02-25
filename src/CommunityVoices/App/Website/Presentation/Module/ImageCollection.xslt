@@ -300,8 +300,11 @@
         <xsl:choose>
           <xsl:when test="$isManager">
             <div class="table-responsive" style="max-width:100%">
-              <table class="table" style="max-width:100%">
+              <table class="table" id="form-table" style="max-width:100%">
                 <tbody>
+						<button class="btn btn-secondary float-right" onclick="submitAll()" style="margin: 15px;">
+							Update All Images on Page
+						</button>
                   <xsl:for-each select="domain/imageCollection/image">
                     <tr>
                       <form action="images/{id}/edit/authenticate" method="POST" class="edit-form" id="edit-form{id}">
@@ -321,8 +324,9 @@
                         <xsl:variable name="curId" select="id" />
                         <xsl:for-each select="$allTags">
                           <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="tags[]" id="{$curId}tag{id}" form="edit-form{id}">
+                            <input class="form-check-input" type="checkbox" name="tags[]" id="{$curId}tag{id}">
                               <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
+							  <xsl:attribute name="form">edit-form<xsl:value-of select='$curId' /></xsl:attribute>
                               <xsl:if test="contains($curTagString, concat(',', id, ','))">
                                 <xsl:attribute name="checked">checked</xsl:attribute>
                               </xsl:if>

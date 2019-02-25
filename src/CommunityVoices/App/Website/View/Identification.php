@@ -95,6 +95,7 @@ class Identification extends Component\View
                 $this->urlGenerator->generate('root')
             );
 
+            $this->finalize($response);
             return $response;
         }
 
