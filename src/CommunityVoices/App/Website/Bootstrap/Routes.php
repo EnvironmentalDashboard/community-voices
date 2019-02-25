@@ -25,7 +25,7 @@ class Routes
         $config = json_decode(file_get_contents(self::ROUTES_PATH), true);
 
         foreach ($config as $name => $options) {
-            // Add the normal route.
+            // Add the website route
             $routes->add(
                 $name,
                 new Route(
@@ -39,9 +39,9 @@ class Routes
                 )
             );
 
-            // Add the API route.
+            // Add the API route
             $routes->add(
-                "api" . $name,
+                "api." . $name,
                 new Route(
                     $appPrefix . '/api' . $options['notation'],
                     $options['defaults'],
