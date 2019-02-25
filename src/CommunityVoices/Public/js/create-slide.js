@@ -154,7 +154,7 @@ if (prefill_image) {
 }
 
 if (prefill_quote) {
-    $.getJSON('https://api.environmentaldashboard.org/community-voices/quotes/'+prefill_quote, { }, function(data) {
+    $.getJSON('https://environmentaldashboard.org/community-voices/api/quotes/'+prefill_quote, { }, function(data) {
         current_text = htmlDecode(data['quote']['text']);
         current_attr = data['quote']['attribution'];
         renderSlide(current_text, current_attr, current_image, current_ccid);
@@ -198,7 +198,7 @@ function getParameterByName(name, url) {
 }
 
 function getQuote(page) {
-    $.getJSON('https://api.environmentaldashboard.org/community-voices/quotes', { per_page: 15, page: page, search: quote_search, tags: quote_tags, attributions: quote_attrs, unused: 1 }, function(data) {
+    $.getJSON('https://environmentaldashboard.org/community-voices/api/quotes', { per_page: 15, page: page, search: quote_search, tags: quote_tags, attributions: quote_attrs, unused: 1 }, function(data) {
         var html = '<div class="card"><div class="card-header">Quotes</div><ul class="list-group list-group-flush">';
         $.each(data['quoteCollection'], function(index, element) {
             if (typeof element === 'object') {
@@ -211,11 +211,11 @@ function getQuote(page) {
 }
 
 function getImage(page) {
-    $.getJSON('https://api.environmentaldashboard.org/community-voices/images', { per_page: 10, page: page, search: image_search, tags: image_tags, photographers: photographers, orgs: orgs, unused: 1 }, function(data) {
+    $.getJSON('https://environmentaldashboard.org/community-voices/api/images', { per_page: 10, page: page, search: image_search, tags: image_tags, photographers: photographers, orgs: orgs, unused: 1 }, function(data) {
         var html = '<div class="card-columns">';
         $.each(data['imageCollection'], function(index, element) {
             if (typeof element === 'object') {
-                html += '<div class="card bg-dark text-white ajax-image" data-id="'+element['image']['id']+'"><img class="card-img" src="https://api.environmentaldashboard.org/community-voices/uploads/'+element['image']['id']+'" alt="'+element['image']['title']+'" /></div>';
+                html += '<div class="card bg-dark text-white ajax-image" data-id="'+element['image']['id']+'"><img class="card-img" src="https://environmentaldashboard.org/community-voices/api/uploads/'+element['image']['id']+'" alt="'+element['image']['title']+'" /></div>';
             }
         });
         html += '</div>';
