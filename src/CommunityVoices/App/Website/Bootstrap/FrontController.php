@@ -112,7 +112,6 @@ class FrontController
         $response->setStatusCode(404);
 
         // Render our 404 page.
-        $attributes404 = ['resource' => 'Display404', 'action' => 'get404'];
         $request->attributes->set('resource', 'Display404');
         $request->attributes->set('action', 'get404');
 
