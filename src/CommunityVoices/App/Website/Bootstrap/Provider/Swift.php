@@ -2,6 +2,10 @@
 
 namespace CommunityVoices\App\Website\Bootstrap\Provider;
 
+use Swift_SendmailTransport;
+use Finesse\SwiftMailerDefaultsPlugin\SwiftMailerDefaultsPlugin;
+use Swift_Mailer;
+
 use CommunityVoices\App\Website\Component\Provider;
 
 /**
@@ -20,7 +24,7 @@ class Swift extends Provider
         $mailerFactory = function () {
             $transport = new Swift_SendmailTransport('/usr/sbin/sendmail -bs');
 
-            $defaultsPlugin = new Finesse\SwiftMailerDefaultsPlugin\SwiftMailerDefaultsPlugin([
+            $defaultsPlugin = new SwiftMailerDefaultsPlugin([
                 'from' => ['no-reply@environmentaldashboard.org' => 'Environmental Dashboard'],
             ]);
 
