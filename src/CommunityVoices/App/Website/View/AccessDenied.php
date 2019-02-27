@@ -12,12 +12,36 @@ use Symfony\Component\HttpFoundation;
 
 class AccessDenied extends Component\View
 {
+    protected $recognitionAdapter;
+    protected $mapperFactory;
+    protected $transcriber;
+
+    public function __construct(
+        Component\RecognitionAdapter $recognitionAdapter,
+        Component\MapperFactory $mapperFactory,
+        Component\Transcriber $transcriber
+    ) {
+        $this->recognitionAdapter = $recognitionAdapter;
+        $this->mapperFactory = $mapperFactory;
+        $this->transcriber = $transcriber;
+    }
+
     public function getAccessDenied()
     {
+        // Gather identity.
+        $identity = $this->recognitionAdapter->identify();
+
+        $identityXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($identity->toArray())
+        );
+
         /**
          * AccessDenied XML Package
          */
         $accessDeniedPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
+
+        $packagedIdentity = $accessDeniedPackageElement->addChild('identity');
+        $packagedIdentity->adopt($identityXMLElement);
 
         /**
          * Generate AccessDenied module
@@ -38,6 +62,9 @@ class AccessDenied extends Component\View
 
         $domainXMLElement->addChild('main-pane', $accessDeniedModuleXML);
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
+
+        $domainIdentity = $domainXMLElement->addChild('identity');
+        $domainIdentity->adopt($identityXMLElement);
 
         $presentation = new Component\Presenter('SinglePane');
 
