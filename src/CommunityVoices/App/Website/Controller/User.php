@@ -47,7 +47,13 @@ class User
     {
         $apiController = $this->secureContainer->contain($this->userAPIController);
 
-        $apiController->postUser($request);
+        // Grab our username and password from the form.
+        $email = $request->request->get('email');
+        $password = $request->request->get('password');
+
+        if ($apiController->postUser($request)) {
+            $this->recognitionAdapter->authenticate($email, $password, false);
+        }
     }
 
     public function postRegistrationInvite($request)

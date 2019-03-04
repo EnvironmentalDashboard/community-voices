@@ -34,7 +34,7 @@ class User extends Component\Controller
         $lastName = $request->request->get('lastName');
         $token = (string) $request->request->get('token');
 
-        $this->registrationService->createUser(
+        return $this->registrationService->createUser(
             $email,
             $password,
             $confirmPassword,
