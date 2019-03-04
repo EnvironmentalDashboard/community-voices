@@ -114,6 +114,21 @@ class User extends Component\View
             $this->transcriber->toXml($identity->toArray())
         );
 
+        // If we are already logged in, there are two cases:
+        // 1. We logged in, then clicked on register.
+        // 2. We just successfully registered.
+        // In both cases, we want to leave this registration page.
+        // @TODO we do not log in when we register, so this
+        // code is useless.
+        if ($identity->getId()) {
+            $response = new HttpFoundation\RedirectResponse(
+                $this->urlGenerator->generate('root')
+            );
+
+            $this->finalize($response);
+            return $response;
+        }
+
         // $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $userPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
