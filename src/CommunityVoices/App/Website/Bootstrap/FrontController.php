@@ -104,7 +104,7 @@ class FrontController
      * Creates a 404 response
      */
     public function notFound($request)
-    {
+    {    
         // Switch our resource and action to what we would rather have.
         $request->attributes->set('resource', 'Display404');
         $request->attributes->set('action', 'get404');

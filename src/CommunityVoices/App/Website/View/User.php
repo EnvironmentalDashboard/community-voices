@@ -137,6 +137,7 @@ class User extends Component\View
                 $userAPIView->postUser()->getContent()
             ))
         );
+        var_dump($userAPIView->postUser()->getContent());
 
         // $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
@@ -202,7 +203,13 @@ class User extends Component\View
 
     public function postRegistration($request)
     {
-        // Relevant documentation: https://symfony.com/doc/current/components/http_foundation.html#redirecting-the-user
+        $userAPIView = $this->secureContainer->contain($this->userAPIView);
+        $errors = $userAPIView->postUser()->getContent();
+
+        if (!empty($errors)) {
+            return $this->getRegistration($request);
+        }
+
         $response = new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')
         );

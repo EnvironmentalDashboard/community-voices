@@ -24,6 +24,7 @@ class User extends Component\Controller
 
     /**
      * User registration
+     * TODO: docblock
      */
     public function postUser($request)
     {
