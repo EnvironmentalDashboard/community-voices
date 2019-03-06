@@ -50,7 +50,7 @@ class User extends Component\View
         //$urlGenerator = new UrlGenerator($routes, $context);
         //$baseUrl = $urlGenerator->generate('root');
 
-        // Location data gathering
+        // User data gathering
         $userAPIView = $this->secureContainer->contain($this->userAPIView);
 
         $userXMLElement = new SimpleXMLElement(
@@ -107,7 +107,6 @@ class User extends Component\View
 
     public function getRegistration($request)
     {
-
         /* Gather identity information */
         $identity = $this->recognitionAdapter->identify();
         $identityXMLElement = new SimpleXMLElement(
@@ -118,8 +117,6 @@ class User extends Component\View
         // 1. We logged in, then clicked on register.
         // 2. We just successfully registered.
         // In both cases, we want to leave this registration page.
-        // @TODO we do not log in when we register, so this
-        // code is useless.
         if ($identity->getId()) {
             $response = new HttpFoundation\RedirectResponse(
                 $this->urlGenerator->generate('root')
@@ -129,6 +126,18 @@ class User extends Component\View
             return $response;
         }
 
+        // User data gathering
+        // TODO: this cannot be done here;
+        // must be done in postRegistration method
+        // then passed to here somehow
+        $userAPIView = $this->secureContainer->contain($this->userAPIView);
+
+        $userXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(json_decode(
+                $userAPIView->postUser()->getContent()
+            ))
+        );
+
         // $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $userPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
@@ -136,6 +145,7 @@ class User extends Component\View
         $packagedUser->adopt(new SimpleXMLElement(
             $this->transcriber->toXml(['token' => (isset($_GET['token'])) ? $_GET['token'] : ''])
         ));
+        $packagedUser->adopt($userXMLElement);
 
         $packagedIdentity = $userPackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
@@ -192,10 +202,6 @@ class User extends Component\View
 
     public function postRegistration($request)
     {
-        /**
-         * @TODO This method isn't checking whether the registration is successful
-         */
-
         // Relevant documentation: https://symfony.com/doc/current/components/http_foundation.html#redirecting-the-user
         $response = new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')

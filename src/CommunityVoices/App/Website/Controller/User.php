@@ -48,9 +48,15 @@ class User
         $apiController = $this->secureContainer->contain($this->userAPIController);
 
         // Grab our username and password from the form.
+        // This will be used to log in as the new user if the
+        // account is successfully created.
         $email = $request->request->get('email');
         $password = $request->request->get('password');
 
+        // If we successfully create a new user,
+        // we can log in as them.
+        // If this failed, the error information will be stored
+        // in StateObserver->'registration' via the Registration service.
         if ($apiController->postUser($request)) {
             $this->recognitionAdapter->authenticate($email, $password, false);
         }
