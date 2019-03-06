@@ -127,9 +127,6 @@ class User extends Component\View
         }
 
         // User data gathering
-        // TODO: this cannot be done here;
-        // must be done in postRegistration method
-        // then passed to here somehow
         $userAPIView = $this->secureContainer->contain($this->userAPIView);
 
         $userXMLElement = new SimpleXMLElement(
