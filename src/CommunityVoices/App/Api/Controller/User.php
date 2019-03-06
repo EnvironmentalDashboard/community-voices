@@ -24,7 +24,7 @@ class User extends Component\Controller
 
     /**
      * User registration
-     * TODO: docblock
+     * @return bool A boolean of if the User was created successfully or not.
      */
     public function postUser($request)
     {
