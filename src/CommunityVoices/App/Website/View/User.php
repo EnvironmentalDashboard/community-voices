@@ -134,7 +134,6 @@ class User extends Component\View
                 $userAPIView->postUser()->getContent()
             ))
         );
-        var_dump($userAPIView->postUser()->getContent());
 
         // $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 

@@ -3,10 +3,22 @@
 
   <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
-  <xsl:template match="/package">
+  <xsl:template match="domain/errors/*">
+      <p style="margin-bottom: 0px;">Error: <xsl:value-of select="." /></p>
+  </xsl:template>
 
-    <form action='register/authenticate' method='post' class="mt-3 p-5 mx-auto needs-validation" style="max-width:800px;" novalidate="">
+  <xsl:template match="/package">
+    <form action='/community-voices/register/authenticate' method='post' class="mt-3 p-5 mx-auto needs-validation" style="max-width:800px;" novalidate="">
       <h1 class="h3 mb-3 font-weight-normal">Create an account</h1>
+
+      <xsl:if test="domain/errors != ''">
+          <div class="card" style="margin-bottom: 16px;">
+              <div class="card-body">
+                  <xsl:apply-templates select="domain/errors/*" />
+              </div>
+          </div>
+      </xsl:if>
+
       <div class="form-group row">
         <label for="email" class="col-sm-3 col-form-label">Email</label>
         <div class="col-sm-9">
