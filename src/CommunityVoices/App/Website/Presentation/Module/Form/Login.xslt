@@ -6,12 +6,16 @@
   <xsl:template match="/form">
     <div class="row" style="padding:15px;">
       <div class="col-12">
-        <xsl:if test="@failure != ''">
-          <p>Incorrect user/pass combination.</p>
-        </xsl:if>
-
         <form class="form-signin mb-5 pb-5" action='/community-voices/login' method='post'>
           <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+
+          <xsl:if test="@failure != ''">
+              <div class="card" style="margin-bottom: 16px;">
+                  <div class="card-body">
+                      <p style="margin-bottom: 0px;">Incorrect user/pass combination.</p>
+                  </div>
+              </div>
+          </xsl:if>
 
           <label for="email" class="sr-only">Email address</label>
 
