@@ -116,12 +116,12 @@ class Identification extends Component\View
 
             $this->finalize($response);
             return $response;
+        } else {
+            /**
+             * Login failed; display login form
+             */
+            return $this->getLogin($request);
         }
-
-        /**
-         * Login failed; display login form
-         */
-        return $this->getLogin($request);
     }
 
     public function getLogout($request)
