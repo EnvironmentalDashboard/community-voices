@@ -33,6 +33,9 @@ class User extends Component\Controller
         $confirmPassword = $request->request->get('confirmPassword');
         $firstName = $request->request->get('firstName');
         $lastName = $request->request->get('lastName');
+
+        // This may very well be '', but the service checks for the token
+        // being empty.
         $token = (string) $request->request->get('token');
 
         return $this->registrationService->createUser(

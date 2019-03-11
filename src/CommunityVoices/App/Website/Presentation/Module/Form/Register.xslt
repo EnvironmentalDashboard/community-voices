@@ -26,7 +26,7 @@
         <label for="email" class="col-sm-3 col-form-label">Email</label>
         <div class="col-sm-9">
             <xsl:choose>
-                <xsl:when test="@email-value">
+                <xsl:when test="@email-value != ''">
                     <input type="email" class="form-control" id="email" value="{@email-value}" name="email" required="" />
                 </xsl:when>
                 <xsl:otherwise>
@@ -73,7 +73,7 @@
         <label for="firstName" class="col-sm-3 col-form-label">First Name</label>
         <div class="col-sm-9">
             <xsl:choose>
-                <xsl:when test="@firstName-value">
+                <xsl:when test="@firstName-value != ''">
                     <input type="text" class="form-control" id="firstName" value="{@firstName-value}" name="firstName" required="" />
                 </xsl:when>
                 <xsl:otherwise>
@@ -92,7 +92,7 @@
         <label for="lastName" class="col-sm-3 col-form-label">Last Name</label>
         <div class="col-sm-9">
             <xsl:choose>
-                <xsl:when test="@lastName-value">
+                <xsl:when test="@lastName-value != ''">
                     <input type="text" class="form-control" id="lastName" value="{@lastName-value}" name="lastName" required="" />
                 </xsl:when>
                 <xsl:otherwise>
