@@ -6,17 +6,17 @@
   <xsl:template match="/form">
     <div class="row" style="padding:15px;">
       <div class="col-12">
-        <xsl:if test="@failure">
+        <xsl:if test="@failure != ''">
           <p>Incorrect user/pass combination.</p>
         </xsl:if>
 
-        <form class="form-signin mb-5 pb-5" action='/community-voices/login/authenticate' method='post'>
+        <form class="form-signin mb-5 pb-5" action='/community-voices/login' method='post'>
           <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 
           <label for="email" class="sr-only">Email address</label>
 
           <xsl:choose>
-            <xsl:when test="@email-value">
+            <xsl:when test="@email-value != ''">
               <input type='email' name='email' id="email" value='{@email-value}' class="form-control" placeholder="Email address" required="" autofocus="" />
             </xsl:when>
 

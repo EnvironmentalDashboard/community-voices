@@ -45,7 +45,7 @@
     },
 
     "postLogin": {
-        "notation": "/login/authenticate",
+        "notation": "/login",
         "method": "post",
         "defaults": {
             "resource": "Identification",

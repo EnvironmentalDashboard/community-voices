@@ -8,7 +8,6 @@ use \XSLTProcessor;
 
 use CommunityVoices\Model\Service;
 use CommunityVoices\App\Website\Component;
-use CommunityVoices\App\Website\Component\Presenter;
 use Symfony\Component\HttpFoundation;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 
@@ -33,11 +32,6 @@ class Identification extends Component\View
 
     public function getLogin($request)
     {
-        $paramXML = new SimpleXMLElement('<form/>');
-
-        $formModule = new Presenter('Module/Form/Login');
-        $formModuleXML = $formModule->generate($paramXML);
-
         $identity = $this->recognitionAdapter->identify();
 
         $identityXMLElement = new SimpleXMLElement(
@@ -65,6 +59,24 @@ class Identification extends Component\View
          */
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
+        /**
+         * Grab cached form
+         */
+        $formCache = new Component\CachedItem('form');
+
+        $cacheMapper = $this->mapperFactory->createCacheMapper();
+        $cacheMapper->fetch($formCache);
+
+        $form = $formCache->getValue();
+
+        $formParamXML = new Helper\SimpleXMLElementExtension('<form/>');
+        $formParamXML->addAttribute('failure', !is_null($form));
+        $formParamXML->addAttribute('email-value', $form['email']);
+        $formParamXML->addAttribute('remember-value', $form['remember']);
+
+        $formModule = new Component\Presenter('Module/Form/Login');
+        $formModuleXML = $formModule->generate($formParamXML);
+
         $domainXMLElement->addChild('main-pane', $formModuleXML);
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild(
@@ -73,10 +85,7 @@ class Identification extends Component\View
         );
         $domainXMLElement->addChild('extraCSS', "register");
 
-        $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
-
-        $presentation = new Presenter('SinglePane');
+        $presentation = new Component\Presenter('SinglePane');
 
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 
@@ -112,47 +121,7 @@ class Identification extends Component\View
         /**
          * Login failed; display login form
          */
-
-        /**
-         * Grab cached form
-         */
-        $formCache = new Component\CachedItem('form');
-
-        $cacheMapper = $this->mapperFactory->createCacheMapper();
-        $cacheMapper->fetch($formCache);
-
-        $form = $formCache->getValue();
-
-        /**
-         * Construct form
-         */
-        $formParamXML = new SimpleXMLElement('<form/>');
-        $formParamXML->addAttribute('failure', true);
-        $formParamXML->addAttribute('email-value', $form['email']);
-        $formParamXML->addAttribute('remember-value', $form['remember']);
-
-        $formModule = new Presenter('Module/Form/Login');
-        $formModuleXML = $formModule->generate($formParamXML);
-
-        $domainXMLElement->addChild('main-pane', $formModuleXML);
-
-        $domainXMLElement->addChild(
-            'title',
-            "Community Voices: Sign in"
-        );
-
-        /**
-         * Prepare template
-         */
-        $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
-
-        $presentation = new Presenter('SinglePane');
-
-        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
-
-        $this->finalize($response);
-        return $response;
+        return $this->getLogin($request);
     }
 
     public function getLogout($request)
@@ -180,7 +149,7 @@ class Identification extends Component\View
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($identityXMLElement);
 
-        $presentation = new Presenter('SinglePane');
+        $presentation = new Component\Presenter('SinglePane');
 
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 
