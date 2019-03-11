@@ -76,14 +76,6 @@ class FrontController
 
                 $provider->init();
             } catch (Exception $e) {
-                $this->logger->alert('Failure loading application provider', [
-                    'provider' => $providerClass,
-                    'exception' => [
-                        'type' => get_class($e),
-                        'message' => $e->getMessage()
-                    ]
-                ]);
-
                 $this->fail($request, $e);
             }
         }
