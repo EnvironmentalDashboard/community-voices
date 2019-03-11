@@ -26,7 +26,7 @@ class AccessDenied extends Component\View
         $this->transcriber = $transcriber;
     }
 
-    public function getAccessDenied()
+    public function getAccessDenied($request)
     {
         // Gather identity.
         $identity = $this->recognitionAdapter->identify();
