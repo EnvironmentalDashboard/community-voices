@@ -50,8 +50,6 @@ class FrontController
         $this->loadProviders($request);
 
         try {
-            throw new \Exception();
-
             $this->router->route($request);
             $this->dispatcher->dispatch($request)->send();
         } catch (\Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
