@@ -7,7 +7,7 @@
       <p style="margin-bottom: 0px;">Error: <xsl:value-of select="." /></p>
   </xsl:template>
 
-  <xsl:template match="/package">
+  <xsl:template match="/form">
     <form action='/community-voices/register/authenticate' method='post' class="mt-3 p-5 mx-auto needs-validation" style="max-width:800px;" novalidate="">
       <h1 class="h3 mb-3 font-weight-normal">Create an account</h1>
 
@@ -22,7 +22,14 @@
       <div class="form-group row">
         <label for="email" class="col-sm-3 col-form-label">Email</label>
         <div class="col-sm-9">
-          <input type="email" class="form-control" id="email" name="email" required="" />
+            <xsl:choose>
+                <xsl:when test="@email-value">
+                    <input type="email" class="form-control" id="email" value="{@email-value}" name="email" required="" />
+                </xsl:when>
+                <xsl:otherwise>
+                    <input type="email" class="form-control" id="email" name="email" required="" />
+                </xsl:otherwise>
+            </xsl:choose>
           <div class="invalid-feedback">
             Please provide a valid email
           </div>
@@ -62,7 +69,14 @@
       <div class="form-group row">
         <label for="firstName" class="col-sm-3 col-form-label">First Name</label>
         <div class="col-sm-9">
-          <input type="text" class="form-control" id="firstName" name="firstName" required="" />
+            <xsl:choose>
+                <xsl:when test="@firstName-value">
+                    <input type="text" class="form-control" id="firstName" value="{@firstName-value}" name="firstName" required="" />
+                </xsl:when>
+                <xsl:otherwise>
+                    <input type="text" class="form-control" id="firstName" name="firstName" required="" />
+                </xsl:otherwise>
+            </xsl:choose>
           <div class="invalid-feedback">
             Please provide a first name
           </div>
@@ -74,7 +88,14 @@
       <div class="form-group row">
         <label for="lastName" class="col-sm-3 col-form-label">Last Name</label>
         <div class="col-sm-9">
-          <input type="text" class="form-control" id="lastName" name="lastName" required="" />
+            <xsl:choose>
+                <xsl:when test="@lastName-value">
+                    <input type="text" class="form-control" id="lastName" value="{@lastName-value}" name="lastName" required="" />
+                </xsl:when>
+                <xsl:otherwise>
+                    <input type="text" class="form-control" id="lastName" name="lastName" required="" />
+                </xsl:otherwise>
+            </xsl:choose>
           <div class="invalid-feedback">
             Please provide a last name
           </div>
@@ -83,7 +104,7 @@
           </div>
         </div>
       </div>
-      <input type="hidden" name="token" value="{domain/token}"/>
+      <input type="hidden" name="token" value="{@token-value}"/>
       <div class="form-group row">
         <div class="col-sm-3"></div>
         <div class="col-sm-9">

@@ -9,18 +9,20 @@ use CommunityVoices\App\Api;
 class User
 {
     protected $recognitionAdapter;
+    protected $mapperFactory;
 
     protected $userAPIController;
-    protected $userAPIView;
 
     protected $secureContainer;
 
     public function __construct(
         Component\RecognitionAdapter $recognitionAdapter,
+        Component\MapperFactory $mapperFactory,
         Api\Controller\User $userAPIController,
         Api\Component\SecureContainer $secureContainer
     ) {
         $this->recognitionAdapter = $recognitionAdapter;
+        $this->mapperFactory = $mapperFactory;
         $this->userAPIController = $userAPIController;
         $this->secureContainer = $secureContainer;
     }
@@ -47,11 +49,31 @@ class User
     {
         $apiController = $this->secureContainer->contain($this->userAPIController);
 
-        // Grab our username and password from the form.
-        // This will be used to log in as the new user if the
+        // Grab all of our form elements.
+        // Our username and password from the form
+        // will be used to log in as the new user if the
         // account is successfully created.
+        // All of the elements (besides password) as a whole will be used
+        // in order to cache this form for if registration fails.
         $email = $request->request->get('email');
         $password = $request->request->get('password');
+        $firstName = $request->request->get('firstName');
+        $lastName = $request->request->get('lastName');
+        $token = $request->request->get('token');
+
+        // Cache the form in case registration fails.
+        $form = [
+            'email' => $email,
+            'firstName' => $firstName,
+            'lastName' => $lastName,
+            'token' => $token
+        ];
+
+        $formCache = new Component\CachedItem('registrationForm');
+        $formCache->setValue($form);
+
+        $cacheMapper = $this->mapperFactory->createCacheMapper();
+        $cacheMapper->save($formCache);
 
         // If we successfully create a new user,
         // we can log in as them.

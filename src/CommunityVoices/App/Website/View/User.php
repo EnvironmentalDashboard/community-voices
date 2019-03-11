@@ -126,6 +126,25 @@ class User extends Component\View
             return $response;
         }
 
+        /**
+         * Grab cached form
+         */
+        $formCache = new Component\CachedItem('registrationForm');
+
+        $cacheMapper = $this->mapperFactory->createCacheMapper();
+        $cacheMapper->fetch($formCache);
+
+        $form = $formCache->getValue();
+
+        /**
+         * Construct form
+         */
+        $formParamXML = new Helper\SimpleXMLElementExtension('<form/>');
+        $formParamXML->addAttribute('email-value', $form['email']);
+        $formParamXML->addAttribute('firstName-value', $form['firstName']);
+        $formParamXML->addAttribute('lastName-value', $form['lastName']);
+        $formParamXML->addAttribute('token-value', $form['token']);
+
         // User data gathering
         $userAPIView = $this->secureContainer->contain($this->userAPIView);
 
@@ -135,24 +154,15 @@ class User extends Component\View
             ))
         );
 
-        // $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
-
-        $userPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
-        $packagedUser = $userPackageElement->addChild('domain');
-        $packagedUser->adopt(new SimpleXMLElement(
-            $this->transcriber->toXml(['token' => (isset($_GET['token'])) ? $_GET['token'] : ''])
-        ));
+        $packagedUser = $formParamXML->addChild('domain');
         $packagedUser->adopt($userXMLElement);
 
-        $packagedIdentity = $userPackageElement->addChild('identity');
-        $packagedIdentity->adopt($identityXMLElement);
-
-        $userModule = new Component\Presenter('Module/Form/Register');
-        $userModuleXML = $userModule->generate($userPackageElement);
+        $formModule = new Component\Presenter('Module/Form/Register');
+        $formModuleXML = $formModule->generate($formParamXML);
 
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
-        $domainXMLElement->addChild('main-pane', $userModuleXML);
+        $domainXMLElement->addChild('main-pane', $formModuleXML);
 
         $domainXMLElement->addChild(
             'title',
@@ -160,41 +170,12 @@ class User extends Component\View
         );
         $domainXMLElement->addChild('extraJS', "register");
 
-        $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
-
         $presentation = new Component\Presenter('SinglePane');
 
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 
         $this->finalize($response);
         return $response;
-
-        /**
-         * Get base URL
-         */
-        //$urlGenerator = new UrlGenerator($routes, $context);
-        //$baseUrl = $urlGenerator->generate('root');
-
-        // $domainXMLElement->addChild('main-pane', $formModuleXML);
-        // //$domainXMLElement->addChild('baseUrl', $baseUrl);
-        // $domainXMLElement->addChild('title',
-        //     "Community Voices: Register"
-        // );
-        // $domainXMLElement->addChild('extraJS', "register");
-
-        // /**
-        //  * Prepare template
-        //  */
-        // $domainIdentity = $domainXMLElement->addChild('identity');
-        // $domainIdentity->adopt($identityXMLElement);
-
-        // $presentation = new Component\Presenter('SinglePane');
-
-        // $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
-
-        // $this->finalize($response);
-        // return $response;
     }
 
     public function postRegistration($request)
