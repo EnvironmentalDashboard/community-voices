@@ -4,7 +4,7 @@
   <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
   <xsl:template match="domain/errors/*">
-      <p style="margin-bottom: 0px;">Error: <xsl:value-of select="." /></p>
+      <li style="margin-bottom: 0px;"><xsl:value-of select="." /></li>
   </xsl:template>
 
   <xsl:template match="/form">
@@ -14,7 +14,10 @@
       <xsl:if test="domain/errors != ''">
           <div class="card" style="margin-bottom: 16px;">
               <div class="card-body">
-                  <xsl:apply-templates select="domain/errors/*" />
+                  <h1 class="h4 mb-4 font-weight-normal" style="margin-bottom: 0.5rem !important;">Some errors prevented registration</h1>
+                  <ul style="margin-bottom: 0.5rem;">
+                      <xsl:apply-templates select="domain/errors/*" />
+                  </ul>
               </div>
           </div>
       </xsl:if>
