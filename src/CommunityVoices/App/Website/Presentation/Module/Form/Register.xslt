@@ -8,7 +8,7 @@
   </xsl:template>
 
   <xsl:template match="/form">
-    <form action='/community-voices/register/authenticate' method='post' class="mt-3 p-5 mx-auto needs-validation" style="max-width:800px;" novalidate="">
+    <form action='/community-voices/register' method='post' class="mt-3 p-5 mx-auto needs-validation" style="max-width:800px;" novalidate="">
       <h1 class="h3 mb-3 font-weight-normal">Create an account</h1>
 
       <xsl:if test="domain/errors != ''">

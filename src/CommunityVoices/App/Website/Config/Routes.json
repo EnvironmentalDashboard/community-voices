@@ -72,7 +72,7 @@
     },
 
     "postRegistration": {
-        "notation": "/register/authenticate",
+        "notation": "/register",
         "method": "post",
         "defaults": {
             "resource": "User",
