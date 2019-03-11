@@ -44,6 +44,16 @@ class Identification extends Component\View
             $this->transcriber->toXml($identity->toArray())
         );
 
+        // If we are logged in, we should not be letting us log in again!
+        if ($identity->getId()) {
+            $response = new HttpFoundation\RedirectResponse(
+                $this->urlGenerator->generate('root')
+            );
+
+            $this->finalize($response);
+            return $response;
+        }
+
         /**
          * Get base URL
          */
