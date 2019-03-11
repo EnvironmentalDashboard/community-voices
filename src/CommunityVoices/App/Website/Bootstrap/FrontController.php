@@ -19,6 +19,7 @@ class FrontController
     protected $router;
     protected $dispatcher;
     protected $injector;
+    protected $logger;
 
     /**
      * Providers to initialize prior to request route & dispatching
@@ -38,11 +39,12 @@ class FrontController
         'CommunityVoices\App\Website\Bootstrap\Provider\UrlGenerator'
     ];
 
-    public function __construct($router, $dispatcher, $injector)
+    public function __construct($router, $dispatcher, $injector, $logger)
     {
         $this->router = $router;
         $this->dispatcher = $dispatcher;
         $this->injector = $injector;
+        $this->logger = $logger;
     }
 
     public function doRequest($request)
@@ -68,7 +70,8 @@ class FrontController
                 $provider = $this->injector->make($providerClass, [
                     ':injector' => $this->injector,
                     ':request' => $request,
-                    ':routes' => $this->router->getRoutes()
+                    ':routes' => $this->router->getRoutes(),
+                    ':logger' => $this->logger
                 ]);
 
                 $provider->init();
@@ -97,7 +100,7 @@ class FrontController
         $this->logger->alert('Critical system error', [
             'exception' => [
                 'type' => get_class($error),
-                'message' => $e->getMessage()
+                'message' => $error->getMessage()
             ]
         ]);
 
