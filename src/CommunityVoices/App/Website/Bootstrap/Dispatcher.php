@@ -41,7 +41,7 @@ class Dispatcher
             $viewSignature = self::API_VIEW_SIGNATURE;
         }
 
-        
+
         $view = $this->injector->make($viewSignature . $resource);
         $response = $view->{$action}($request);
 

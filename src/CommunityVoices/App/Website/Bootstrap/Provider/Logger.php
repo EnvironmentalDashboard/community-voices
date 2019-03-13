@@ -13,16 +13,18 @@ use \Monolog;
 
 class Logger extends Provider
 {
+    protected $logger;
+
+    public function __construct($injector, $logger)
+    {
+        parent::__construct($injector);
+
+        $this->logger = $logger;
+    }
+
     public function init()
     {
-        $logger = new Monolog\Logger('name');
-
-        /**
-         * @config
-         */
-        $logger->pushHandler(new Monolog\Handler\StreamHandler(__DIR__ . '/../../../../log/access.log'));
-
-        $this->injector->share($logger);
+        $this->injector->share($this->logger);
         $this->injector->alias('Psr\Log\LoggerInterface', 'Monolog\Logger');
     }
 }

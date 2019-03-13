@@ -69,7 +69,7 @@
 								</div>
 							</div>
 							<xsl:value-of select='domain/article/attribution' />
-							<xsl:value-of select='domain/article/html' />
+							<xsl:value-of select='domain/article/html' disable-output-escaping="yes" />
 						</div>
 
 							<!-- <p> Tags: TODO </p> -->

@@ -45,7 +45,7 @@
     },
 
     "postLogin": {
-        "notation": "/login/authenticate",
+        "notation": "/login",
         "method": "post",
         "defaults": {
             "resource": "Identification",
@@ -72,7 +72,7 @@
     },
 
     "postRegistration": {
-        "notation": "/register/authenticate",
+        "notation": "/register",
         "method": "post",
         "defaults": {
             "resource": "User",

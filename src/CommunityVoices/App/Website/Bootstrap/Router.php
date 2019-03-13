@@ -32,12 +32,12 @@ class Router
          * @todo
          */
         $production_server = (getenv('SERVER') === 'environmentaldashboard.org');
-        
+
         $uri = isset($_SERVER['REQUEST_URI'])
                     ? $_SERVER['REQUEST_URI']
                     : '/';
 
-        $uri = ($production_server) ? '/community-voices' . substr(explode('?', $uri)[0], 1) : explode('?', $uri)[0];
+        $uri = $request->getPathInfo();
 
         $parameters = new \Symfony\Component\HttpFoundation\ParameterBag($matcher->match($uri));
         $request->attributes = $parameters;
