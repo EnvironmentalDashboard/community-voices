@@ -21,11 +21,16 @@ $injector = new Auryn\Injector;
 // Routes
 $routes = new Bootstrap\Routes;
 
+// Logger
+$logger = new Monolog\Logger('name');
+$logger->pushHandler(new Monolog\Handler\StreamHandler(__DIR__ . '/../../../../log/access.log'));
+
 // Instantiate the front controller
 $controller = new Bootstrap\FrontController(
     new Bootstrap\Router($routes->get()),
     new Bootstrap\Dispatcher($injector),
-    $injector
+    $injector,
+    $logger
 );
 
 // Start the request
