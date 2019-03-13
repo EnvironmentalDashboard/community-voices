@@ -24,6 +24,7 @@ class User extends Component\Controller
 
     /**
      * User registration
+     * @return bool A boolean of if the User was created successfully or not.
      */
     public function postUser($request)
     {
@@ -32,9 +33,12 @@ class User extends Component\Controller
         $confirmPassword = $request->request->get('confirmPassword');
         $firstName = $request->request->get('firstName');
         $lastName = $request->request->get('lastName');
+
+        // This may very well be '', but the service checks for the token
+        // being empty.
         $token = (string) $request->request->get('token');
 
-        $this->registrationService->createUser(
+        return $this->registrationService->createUser(
             $email,
             $password,
             $confirmPassword,

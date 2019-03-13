@@ -17,12 +17,12 @@ class User implements HasId, Palladium\Contract\HasId
     const ROLE_MANAGER = 3;
     const ROLE_ADMIN = 4;
 
-    const ERR_EMAIL_INVALID = 'Invalid email address';
+    const ERR_EMAIL_INVALID = 'Invalid email address format';
     const ERR_FNAME_REQUIRED = 'First name must be at least 1 character';
     const ERR_LNAME_REQUIRED = 'Last name must be at least 1 character';
-    const ERR_EMAIL_EXISTS = 'User with this email already exists';
+    const ERR_EMAIL_EXISTS = 'A user with this email already exists';
     const ERR_IDENTITY_KNOWN = 'ID must be null for registration';
-    const ERR_PASSWORD_MISMATCH = 'Confirm password must match';
+    const ERR_PASSWORD_MISMATCH = 'Password and password confirmation do not match';
     const ERR_PASSWORD_TOO_SHORT = 'Password length must exceed 4 characters';
 
     private $allowableRole = [

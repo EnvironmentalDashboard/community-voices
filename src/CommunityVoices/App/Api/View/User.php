@@ -14,14 +14,17 @@ class User
         $this->mapperFactory = $mapperFactory;
     }
 
-    public function postUser($response)
+    public function postUser()
     {
         $clientStateMapper = $this->mapperFactory->createClientStateMapper();
         $clientStateObserver = $clientStateMapper->retrieve();
 
-        $response = new Response(
-            !($clientStateObserver && $clientStateObserver->hasEntries())
-        );
+        // In the case that we have retrieved errors, we will send them along.
+        // Otherwise, our errors array will be an empty array.
+        $errors = ($clientStateObserver && $clientStateObserver->hasSubjectEntries('registration'))
+            ? $clientStateObserver->getEntriesBySubject('registration') : [];
+
+        $response = new HttpFoundation\JsonResponse(['errors' => $errors]);
 
         return $response;
     }

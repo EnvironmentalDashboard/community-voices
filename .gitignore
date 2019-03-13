@@ -16,5 +16,5 @@ CV_Media/
 migrate/importNextGen/
 migrate/importNextGen.zip
 
-# Sam's custom script for pulling on both servers
+# Sam's code to push to both servers
 pull-everywhere.sh

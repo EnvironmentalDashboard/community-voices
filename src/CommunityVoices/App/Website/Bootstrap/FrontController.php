@@ -2,8 +2,11 @@
 
 namespace CommunityVoices\App\Website\Bootstrap;
 
-use CommunityVoices\Api\Component\Exception\AccessDenied;
-use CommunityVoices\Api\Component\Exception\MethodNotFound;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+use CommunityVoices\App\Api\Component\Exception\AccessDenied;
+use CommunityVoices\App\Api\Component\Exception\MethodNotFound;
 
 /**
  * @overview Front controller to bootstrap the CommunityVoices application together
@@ -16,6 +19,7 @@ class FrontController
     protected $router;
     protected $dispatcher;
     protected $injector;
+    protected $logger;
 
     /**
      * Providers to initialize prior to request route & dispatching
@@ -35,11 +39,12 @@ class FrontController
         'CommunityVoices\App\Website\Bootstrap\Provider\UrlGenerator'
     ];
 
-    public function __construct($router, $dispatcher, $injector)
+    public function __construct($router, $dispatcher, $injector, $logger)
     {
         $this->router = $router;
         $this->dispatcher = $dispatcher;
         $this->injector = $injector;
+        $this->logger = $logger;
     }
 
     public function doRequest($request)
@@ -49,12 +54,12 @@ class FrontController
         try {
             $this->router->route($request);
             $this->dispatcher->dispatch($request)->send();
-        } catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
-            $this->notFound();
+        } catch (\Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
+            $this->notFound($request)->send();
         } catch (AccessDenied $e) {
-            $this->denied();
-        } catch (Exception $e) {
-            $this->fail();
+            $this->denied($request)->send();
+        } catch (\Throwable $t) {
+            $this->fail($request, $t)->send();
         }
     }
 
@@ -65,48 +70,52 @@ class FrontController
                 $provider = $this->injector->make($providerClass, [
                     ':injector' => $this->injector,
                     ':request' => $request,
-                    ':routes' => $this->router->getRoutes()
+                    ':routes' => $this->router->getRoutes(),
+                    ':logger' => $this->logger
                 ]);
 
                 $provider->init();
             } catch (Exception $e) {
-                $this->logger->alert('Failure loading application provider', [
-                    'provider' => $providerClass,
-                    'exception' => [
-                        'type' => get_class($e),
-                        'message' => $e->getMessage()
-                    ]
-                ]);
-
-                $this->fail();
+                $this->fail($request, $e);
             }
         }
     }
-    
 
     /**
      * A crucial application component failed to load
      *
      * Creates a failure response
-     * @todo
      */
-    public function fail()
+    public function fail($request, $error)
     {
-        echo "Failure";
-        exit;
+        // First, log our error.
+        $this->logger->alert('Critical system error', [
+            'exception' => [
+                'type' => get_class($error),
+                'message' => $error->getMessage()
+            ]
+        ]);
+
+        // Switch our resource and action to what we would rather have.
+        $request->attributes->set('resource', 'DisplayError');
+        $request->attributes->set('action', 'getError');
+
+        return $this->dispatcher->dispatch($request);
     }
 
     /**
      * A route was not found
      *
      * Creates a 404 response
-     * @todo
      */
-    public function notFound()
+    public function notFound($request)
     {
-        http_response_code(404);
-        echo file_get_contents('https://environmentaldashboard.org/404');
-        exit;
+        // Switch our resource and action to what we would rather have.
+        $request->attributes->set('resource', 'Display404');
+        $request->attributes->set('action', 'get404');
+
+        // Then, have the dispatcher dispatch this alternate request.
+        return $this->dispatcher->dispatch($request);
     }
 
     /**
@@ -114,9 +123,13 @@ class FrontController
      *
      * @todo
      */
-    public function denied()
+    public function denied($request)
     {
-        echo "Access denied";
-        exit;
+        // Switch our resource and action to what we would rather have.
+        $request->attributes->set('resource', 'AccessDenied');
+        $request->attributes->set('action', 'getAccessDenied');
+
+        // Then, have the dispatcher dispatch this alternate request.
+        return $this->dispatcher->dispatch($request);
     }
 }
