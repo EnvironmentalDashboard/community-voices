@@ -129,7 +129,9 @@
 	            <xsl:otherwise>
 	            	<xsl:attribute name="class">col-sm-2</xsl:attribute>
 	              <p>This quote is not used in any slides.</p>
-	              <p><a href="/community-voices/slides/new?prefill_quote={domain/quote/id}" class="btn btn-primary btn-block">Create one</a></p>
+				  <xsl:if test="$isManager">
+	              	<p><a href="/community-voices/slides/new?prefill_quote={domain/quote/id}" class="btn btn-primary btn-block">Create one</a></p>
+				</xsl:if>
 	            </xsl:otherwise>
 	          </xsl:choose>
 		      </div>

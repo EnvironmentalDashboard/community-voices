@@ -28,7 +28,7 @@ class View
     protected function paginationHTML(array $qs, int $count, int $limit, int $page)
     {
         $final_page = ceil($count / $limit);
-        $ret = '<nav aria-label="Page navigation example" class="text-center"><ul class="pagination" style="display: inline-flex;">';
+        $ret = '<nav aria-label="Page navigation example" class="text-center"><ul class="pagination" style="display: inline-flex; width: 95%; overflow: hidden; margin: auto;">';
         if ($page > 0) {
             $ret .= '<li class="page-item"><a class="page-link" href="?';
             $ret .= htmlspecialchars(http_build_query(array_replace($qs, ['page' => $page])));
@@ -36,12 +36,12 @@ class View
         }
         $ok = true;
         for ($i = 1; $i <= $final_page; $i++) {
-            if ($page > 20 && $i > 3 && $ok) {
+            if ($page > 17 && $i > 3 && $ok) {
                 $i = $page - 2;
                 $ok = false;
                 $ret .= "<li class='page-item'><span class='page-link'>...</span></li>";
             }
-            if ($i >= 20 && $final_page > ($i+3) && $page+3 < $i) {
+            if ($i >= 17 && $final_page > ($i+3) && $page+3 < $i) {
                 $i = $final_page - 3;
                 $ret .= "<li class='page-item'><span class='page-link'>...</span></li>";
             }
