@@ -5,6 +5,16 @@
   <xsl:variable name="isManager" select="package/identity/user/role = 'manager'
     or package/identity/user/role = 'administrator'" />
 
+    <xsl:template name="messages">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&#215;</span>
+            </button>
+        </div>
+    </xsl:template>
+
   <xsl:template match="/package">
 
     <nav class="navbar navbar-light bg-light" style="justify-content:initial">
@@ -41,6 +51,8 @@
         </xsl:choose>
       </div>
     </nav>
+
+    <xsl:call-template name="messages" />
 
     <div class="row pb-0" style="padding:15px;">
       <div class="col-12">
