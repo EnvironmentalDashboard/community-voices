@@ -10,15 +10,21 @@ class Quote
 {
     protected $recognitionAdapter;
     protected $quoteAPIController;
+    protected $tagAPIController;
+    protected $contentCategoryAPIController;
     protected $secureContainer;
 
     public function __construct(
         Component\RecognitionAdapter $recognitionAdapter,
         Api\Controller\Quote $quoteAPIController,
+        Api\Controller\Tag $tagAPIController,
+        Api\Controller\ContentCategory $contentCategoryAPIController,
         Api\Component\SecureContainer $secureContainer
     ) {
         $this->recognitionAdapter = $recognitionAdapter;
         $this->quoteAPIController = $quoteAPIController;
+        $this->tagAPIController = $tagAPIController;
+        $this->contentCategoryAPIController = $contentCategoryAPIController;
         $this->secureContainer = $secureContainer;
     }
 
@@ -36,7 +42,7 @@ class Quote
 
     public function getAllQuote($request)
     {
-        $apiController = $this->secureContainer->contain($this->quoteAPIController);
+        $quoteAPIController = $this->secureContainer->contain($this->quoteAPIController);
 
         // [example] filter by creator IDs
         // $request->attributes->set('creatorIDs', [1, 3 ,4 ,5 ,6]);
@@ -46,13 +52,18 @@ class Quote
 
         $identity = $this->recognitionAdapter->identify();
 
-        $apiController->getAllQuote($request, $identity);
+        $quoteAPIController->getAllQuote($request, $identity);
     }
 
     public function getQuoteUpload($request)
     {
-        $apiController = $this->secureContainer->contain($this->quoteAPIController);
-        $apiController->getQuoteUpload($request);
+        $quoteAPIController = $this->secureContainer->contain($this->quoteAPIController);
+        $tagAPIController = $this->secureContainer->contain($this->tagAPIController);
+        $contentCategoryAPIController = $this->secureContainer->contain($this->contentCategoryAPIController);
+
+        $quoteAPIController->getQuoteUpload($request);
+        $tagAPIController->getAllTag($request);
+        $contentCategoryAPIController->getAllContentCategory($request);
     }
 
     public function postQuoteUpload($request)
