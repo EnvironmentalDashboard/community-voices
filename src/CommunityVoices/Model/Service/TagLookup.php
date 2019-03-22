@@ -31,7 +31,7 @@ class TagLookup
 
     public function findAll($return = false)
     {
-        $tagCollection = new Entity\GroupCollection;
+        $tagCollection = new Entity\TagCollection;
         $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
         $tagMapper->fetchAllTags($tagCollection);
 
@@ -41,6 +41,7 @@ class TagLookup
         if ($return) {
             return $this->stateObserver;
         }
+
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
         $clientState->save($this->stateObserver);
     }

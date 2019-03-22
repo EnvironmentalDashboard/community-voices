@@ -35,10 +35,17 @@ class GroupCollection extends DataMapper
         }
     }
 
-    public function fetchAllTags(Entity\GroupCollection $groupCollection)
+    public function fetchAllContentCategories(Entity\ContentCategoryCollection $contentCategoryCollection)
+    {
+        foreach ($this->conn->query("SELECT id, label FROM `community-voices_groups` WHERE type = 'content-category'") as $row) {
+            $contentCategoryCollection->addEntityFromParams($row);
+        }
+    }
+
+    public function fetchAllTags(Entity\TagCollection $tagCollection)
     {
         foreach ($this->conn->query("SELECT id, label FROM `community-voices_groups` WHERE type = 'tag'") as $row) {
-            $groupCollection->addEntityFromParams($row);
+            $tagCollection->addEntityFromParams($row);
         }
     }
 
