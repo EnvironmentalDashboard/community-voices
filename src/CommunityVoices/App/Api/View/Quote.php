@@ -61,15 +61,7 @@ class Quote
 
     public function getQuoteUpload()
     {
-        $clientState = $this->mapperFactory->createClientStateMapper();
-        $stateObserver = $clientState->retrieve();
-
-        $stateObserver->setSubject('tagLookup');
-        $tag = $stateObserver->getEntry('tag')[0];
-
-        $response = new HttpFoundation\JsonResponse($tag->toArray());
-
-        return $response;
+        // intentionally blank
     }
 
     public function postQuoteUpload()

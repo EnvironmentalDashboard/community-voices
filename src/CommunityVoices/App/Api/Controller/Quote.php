@@ -14,12 +14,10 @@ class Quote extends Component\Controller
 
     public function __construct(
         Service\QuoteLookup $quoteLookup,
-        Service\QuoteManagement $quoteManagement,
-        Service\TagLookup $tagLookup
+        Service\QuoteManagement $quoteManagement
     ) {
         $this->quoteLookup = $quoteLookup;
         $this->quoteManagement = $quoteManagement;
-        $this->tagLookup = $tagLookup;
     }
 
     /**
@@ -101,7 +99,7 @@ class Quote extends Component\Controller
 
     public function getQuoteUpload()
     {
-        $this->tagLookup->findAll();
+        // intentionally blank
     }
 
     public function postQuoteUpload($request, $identity)
