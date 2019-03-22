@@ -15,9 +15,14 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 class Quote extends Component\View
 {
     protected $recognitionAdapter;
-    protected $quoteAPIView;
-    protected $secureContainer;
+    protected $mapperFactory;
     protected $transcriber;
+    protected $secureContainer;
+    protected $quoteAPIView;
+    protected $quoteLookup;
+    protected $tagLookup;
+    protected $tagAPIView;
+    protected $contentCategoryAPIView;
 
     public function __construct(
         Component\RecognitionAdapter $recognitionAdapter,
@@ -26,7 +31,9 @@ class Quote extends Component\View
         Api\Component\SecureContainer $secureContainer,
         Api\View\Quote $quoteAPIView,
         Service\QuoteLookup $quoteLookup,
-        Service\TagLookup $tagLookup
+        Service\TagLookup $tagLookup,
+        Api\View\Tag $tagAPIView,
+        Api\View\ContentCategory $contentCategoryAPIView
     ) {
         $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
@@ -35,6 +42,8 @@ class Quote extends Component\View
         $this->quoteAPIView = $quoteAPIView;
         $this->quoteLookup = $quoteLookup;
         $this->tagLookup = $tagLookup;
+        $this->tagAPIView = $tagAPIView;
+        $this->contentCategoryAPIView = $contentCategoryAPIView;
     }
 
     public function getQuote($request)
@@ -254,17 +263,25 @@ class Quote extends Component\View
             $this->transcriber->toXml($identity->toArray())
         );
 
-        $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
+        $tagAPIView = $this->secureContainer->contain($this->tagAPIView);
+        $contentCategoryAPIView = $this->secureContainer->contain($this->contentCategoryAPIView);
 
-        $quoteXMLElement = new SimpleXMLElement(
+        $tagXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
-                $quoteAPIView->getQuoteUpload()->getContent()
+                $tagAPIView->getAllTag()->getContent()
+            ))
+        );
+
+        $contentCategoryXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(json_decode(
+                $contentCategoryAPIView->getAllContentCategory()->getContent()
             ))
         );
 
         $quotePackageElement = new Helper\SimpleXMLElementExtension('<package/>');
         $packagedQuote = $quotePackageElement->addChild('domain');
-        $packagedQuote->adopt($quoteXMLElement);
+        $packagedQuote->adopt($tagXMLElement);
+        $packagedQuote->adopt($contentCategoryXMLElement);
         $packagedIdentity = $quotePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
         $quoteModule = new Component\Presenter('Module/Form/QuoteUpload');
