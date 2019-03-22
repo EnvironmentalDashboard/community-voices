@@ -36,7 +36,8 @@ class FrontController
         'CommunityVoices\App\Website\Bootstrap\Provider\Recognition',
         'CommunityVoices\App\Website\Bootstrap\Provider\Swift',
         'CommunityVoices\App\Website\Bootstrap\Provider\AccessControl',
-        'CommunityVoices\App\Website\Bootstrap\Provider\UrlGenerator'
+        'CommunityVoices\App\Website\Bootstrap\Provider\UrlGenerator',
+        'CommunityVoices\App\Website\Bootstrap\Provider\StateObserver'
     ];
 
     public function __construct($router, $dispatcher, $injector, $logger)
