@@ -92,7 +92,8 @@ class FrontController
         $this->logger->alert('Critical system error', [
             'exception' => [
                 'type' => get_class($error),
-                'message' => $error->getMessage()
+                'message' => $error->getMessage(),
+                'trace' => $error->getTraceAsString()
             ]
         ]);
 
