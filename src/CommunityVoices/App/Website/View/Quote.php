@@ -21,6 +21,7 @@ class Quote extends Component\View
     protected $quoteAPIView;
     protected $quoteLookup;
     protected $tagLookup;
+    protected $contentCategoryLookup;
     protected $tagAPIView;
     protected $contentCategoryAPIView;
 
@@ -32,6 +33,7 @@ class Quote extends Component\View
         Api\View\Quote $quoteAPIView,
         Service\QuoteLookup $quoteLookup,
         Service\TagLookup $tagLookup,
+        Service\ContentCategoryLookup $contentCategoryLookup,
         Api\View\Tag $tagAPIView,
         Api\View\ContentCategory $contentCategoryAPIView
     ) {
@@ -42,6 +44,7 @@ class Quote extends Component\View
         $this->quoteAPIView = $quoteAPIView;
         $this->quoteLookup = $quoteLookup;
         $this->tagLookup = $tagLookup;
+        $this->contentCategoryLookup = $contentCategoryLookup;
         $this->tagAPIView = $tagAPIView;
         $this->contentCategoryAPIView = $contentCategoryAPIView;
     }
@@ -266,12 +269,14 @@ class Quote extends Component\View
         $tagAPIView = $this->secureContainer->contain($this->tagAPIView);
         $contentCategoryAPIView = $this->secureContainer->contain($this->contentCategoryAPIView);
 
+        $this->tagLookup->findAll();
         $tagXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
                 $tagAPIView->getAllTag()->getContent()
             ))
         );
 
+        $this->contentCategoryLookup->findAll();
         $contentCategoryXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
                 $contentCategoryAPIView->getAllContentCategory()->getContent()
