@@ -40,9 +40,26 @@
               </div>
 
               <div class="form-group">
+                  <p class="mb-0">Content Categories</p>
+                  <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
+                    <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="categories[]" id="category{id}">
+                          <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
+                        </input>
+                        <label class="form-check-label">
+                          <xsl:attribute name="for">tag<xsl:value-of select='id' /></xsl:attribute>
+                          <xsl:value-of select="label"></xsl:value-of>
+                        </label>
+                      </div>
+                    </xsl:for-each>
+                  </div>
+              </div>
+
+              <div class="form-group">
                 <p class="mb-0">Tags</p>
                 <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
-                  <xsl:for-each select="domain/groupCollection/group">
+                  <xsl:for-each select="domain/tagCollection/tag">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="tags[]" id="tag{id}">
                         <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
