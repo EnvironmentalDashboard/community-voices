@@ -40,7 +40,10 @@
               </div>
 
               <div class="form-group">
-                  <p class="mb-0">Potential Content Categories (Check all that apply)</p>
+                  <p class="mb-0">
+                      Potential Content Categories
+                      <span style="font-size: small;">(Check all that apply)</span>
+                  </p>
                   <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
                     <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
                       <div class="form-check">
@@ -57,7 +60,10 @@
               </div>
 
               <div class="form-group">
-                <p class="mb-0">Tags (Check all that apply)</p>
+                <p class="mb-0">
+                    Tags
+                    <span style="font-size: small;">(Check all that apply)</span>
+                </p>
                 <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
                   <xsl:for-each select="domain/tagCollection/tag">
                     <div class="form-check">
