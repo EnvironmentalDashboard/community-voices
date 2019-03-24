@@ -47,7 +47,7 @@
                   <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
                     <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="categories[]" id="category{id}">
+                        <input class="form-check-input" type="checkbox" name="contentCategories[]" id="contentCategory{id}">
                           <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
                         </input>
                         <label class="form-check-label">

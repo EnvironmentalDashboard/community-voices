@@ -110,6 +110,7 @@ class Quote extends Component\Controller
         $dateRecorded = $request->request->get('dateRecorded');
         $approved = $request->request->get('approved');
         $tags = $request->request->get('tags');
+        $contentCategories = $request->request->get('contentCategories');
 
         if ($identity->getRole() <= 2) {
             $approved = null;
@@ -122,7 +123,8 @@ class Quote extends Component\Controller
             $dateRecorded,
             $approved,
             $identity,
-            $tags
+            $tags,
+            $contentCategories
         );
     }
 

@@ -130,7 +130,7 @@ class ImageManagement
                     $tagCollection->addEntity($tag);
                 }
                 $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
-                $tagMapper->saveTags($tagCollection);
+                $tagMapper->saveGroups($tagCollection);
             }
         }
 
@@ -212,7 +212,7 @@ class ImageManagement
                 $tag->setGroupId($tid);
                 $tagCollection->addEntity($tag);
             }
-            $tagMapper->saveTags($tagCollection);
+            $tagMapper->saveGroups($tagCollection);
         }
 
         return true;

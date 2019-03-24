@@ -42,7 +42,8 @@ class QuoteManagement
         $dateRecorded,
         $approved,
         $addedBy,
-        $tags
+        $tags,
+        $contentCategories
     ) {
 
         /*
@@ -100,6 +101,7 @@ class QuoteManagement
         $quoteMapper->save($quote);
 
         $qid = $quote->getId();
+
         $tagCollection = new Entity\GroupCollection;
         if (is_array($tags)) {
             foreach ($tags as $tid) {
@@ -110,8 +112,20 @@ class QuoteManagement
             }
         }
 
-        $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
-        $tagMapper->saveTags($tagCollection);
+        $groupMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
+        $groupMapper->saveGroups($tagCollection);
+
+        $contentCategoryCollection = new Entity\GroupCollection;
+        if (is_array($contentCategories)) {
+            foreach ($contentCategories as $ccid) {
+                $contentCategory = new Entity\ContentCategory;
+                $contentCategory->setMediaId($qid);
+                $contentCategory->setGroupId($ccid);
+                $contentCategoryCollection->addEntity($contentCategory);
+            }
+        }
+
+        $groupMapper->saveGroups($contentCategoryCollection);
 
         return true;
     }

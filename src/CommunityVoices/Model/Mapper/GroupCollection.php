@@ -55,11 +55,11 @@ class GroupCollection extends DataMapper
         $stmt->execute([$media->getId()]);
     }
 
-    public function saveTags(Entity\GroupCollection $groupCollection)
+    public function saveGroups(Entity\GroupCollection $groupCollection)
     {
-        foreach ($groupCollection->getCollection() as $tag) {
+        foreach ($groupCollection->getCollection() as $group) {
             $stmt = $this->conn->prepare("INSERT INTO `community-voices_media-group-map` (media_id, group_id) VALUES (?, ?)");
-            $stmt->execute([$tag->getMediaId(), $tag->getGroupId()]);
+            $stmt->execute([$group->getMediaId(), $group->getGroupId()]);
         }
     }
 
