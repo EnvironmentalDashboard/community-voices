@@ -122,7 +122,8 @@ class QuoteManagement
         $attribution,
         $subAttribution,
         $dateRecorded,
-        $status
+        $status,
+        $tags
     ) {
         $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
 
@@ -185,6 +186,22 @@ class QuoteManagement
          */
 
         $quoteMapper->save($quote);
+
+        // Save the quote's associated tags.
+        $qid = $quote->getId();
+
+        $tagCollection = new Entity\GroupCollection;
+        if (is_array($tags)) {
+            $groupMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
+            $groupMapper->deleteTags($quote);
+            foreach ($tags as $tid) {
+                $tag = new Entity\Tag;
+                $tag->setMediaId($qid);
+                $tag->setGroupId($tid);
+                $tagCollection->addEntity($tag);
+            }
+            $groupMapper->saveTags($tagCollection);
+        }
 
         return true;
     }
