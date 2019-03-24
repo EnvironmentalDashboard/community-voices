@@ -79,7 +79,7 @@
               <div class="form-group">
                 <p class="mb-0">Tags</p>
                 <div style="overflow-y:scroll;width:100%;height: 145px;border:none" id='sorted-tags'>
-                  <xsl:for-each select="domain/groupCollection/group">
+                  <xsl:for-each select="domain/tagCollection/tag">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="tags[]" id="tag{id}">
                         <xsl:if test="contains($tags, concat(',', id, ','))">
