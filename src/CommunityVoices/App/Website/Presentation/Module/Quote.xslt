@@ -83,7 +83,7 @@
 		          <div class="card-footer text-muted">
 		          	<p>Added <xsl:value-of select='domain/quote/dateCreated' /></p>
 		          	<p class="card-text">
-	                <xsl:for-each select="domain/quote/tagCollection/tagCollection/tag">
+	                <xsl:for-each select="domain/quote/tagCollection/groupCollection/group">
 	                  <span class="badge badge-primary mr-1"><xsl:value-of select="label"></xsl:value-of></span>
 	                </xsl:for-each>
 	              </p>
