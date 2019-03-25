@@ -388,7 +388,6 @@ class Quote extends Component\View
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', $formModuleXML);
-        $domainXMLElement->addChild('extraJS', "edit-quote");
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild(
             'title',
@@ -411,31 +410,17 @@ class Quote extends Component\View
 
     public function postQuoteUpdate($request)
     {
+        // Should be some logic to go back to the edit form
+        // if errors exist.
+        // But, for now, we simply will show the edited quote.
+        // dirname() removes the /edit from the url we are
+        // redirecting to
         $response = new HttpFoundation\RedirectResponse(
-            $request->headers->get('referer')
+            dirname($request->headers->get('referer'))
         );
 
         $this->finalize($response);
         return $response;
-
-        /*
-        $identity = $this->recognitionAdapter->identify();
-        $identityXMLElement = new SimpleXMLElement(
-          $this->transcriber->toXml($identity->toArray())
-        );
-        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
-        $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
-        $domainXMLElement->addChild(
-          'title',
-          "Community Voices"
-        );
-        $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
-        $presentation = new Component\Presenter('SinglePane');
-        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
-        $this->finalize($response);
-        return $response;
-        */
     }
 
     public function postQuoteUnpair($request)
