@@ -130,13 +130,9 @@ class Quote extends Component\Controller
 
     public function getQuoteUpdate($request)
     {
-        $quoteId = (int) $request->attributes->get('id');
-
-        try {
-            $this->quoteLookup->findById($quoteId);
-        } catch (Exception\IdentityNotFound $e) {
-            $this->send404();
-        }
+        // In order to autofill some form values,
+        // we need to get the current quote's data.
+        $this->getQuote($request);
     }
 
     public function postQuoteUpdate($request)
