@@ -14,7 +14,7 @@
                 <div id="alert"></div>
 
                 <form method='POST' style="max-width:400px;margin: 0 auto" id="form">
-                    <xsl:attribute name="action">/community-voices/quotes/<xsl:value-of select="domain/quote/id" />/edit/authenticate</xsl:attribute>
+                    <xsl:attribute name="action">/community-voices/quotes/<xsl:value-of select="domain/quote/id" />/edit</xsl:attribute>
 
                     <div class="form-group">
                         <label for="text">Quote</label>

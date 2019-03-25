@@ -207,7 +207,7 @@
     },
 
     "postQuoteUpdate": {
-        "notation": "/quotes/{id}/edit/authenticate",
+        "notation": "/quotes/{id}/edit",
         "method": "post",
         "defaults": {
             "resource": "Quote",
