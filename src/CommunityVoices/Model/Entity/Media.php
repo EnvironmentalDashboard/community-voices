@@ -42,6 +42,7 @@ class Media implements HasId
     private $status;
 
     private $tagCollection;
+    private $contentCategoryCollection;
 
     public function getId()
     {
@@ -114,6 +115,16 @@ class Media implements HasId
         $this->tagCollection = $tagCollection;
     }
 
+    public function getContentCategoryCollection()
+    {
+        return $this->contentCategoryCollection;
+    }
+
+    public function setContentCategoryCollection(GroupCollection $contentCategoryCollection)
+    {
+        $this->contentCategoryCollection = $contentCategoryCollection;
+    }
+
     public function toArray()
     {
         return ['media' => [
@@ -122,7 +133,9 @@ class Media implements HasId
             'dateCreated' => date("Y-m-d H:i:s", $this->dateCreated),
             'type' => $this->type,
             'status' => $this->allowableStatus[$this->status ?: self::STATUS_REJECTED],
-            'tagCollection' => $this->tagCollection ? $this->tagCollection->toArray() : null
+            'tagCollection' => $this->tagCollection ? $this->tagCollection->toArray() : null,
+            'contentCategoryCollection' => $this->contentCategoryCollection ?
+                $this->contentCategoryCollection->toArray() : null
         ]];
     }
 }
