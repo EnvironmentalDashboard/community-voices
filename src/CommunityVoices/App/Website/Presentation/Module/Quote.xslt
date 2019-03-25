@@ -102,6 +102,15 @@
 						        </a>
 									</p>
 									<p>
+										Potential Content Categories:
+										<xsl:for-each select="domain/quote/contentCategoryCollection/groupCollection/group">
+											<xsl:value-of select="label"></xsl:value-of>
+											<xsl:if test="position() != last()">
+												<xsl:text>, </xsl:text>
+											</xsl:if>
+										</xsl:for-each>
+									</p>
+									<p>
 										Tags:
 										<xsl:for-each select="domain/quote/tagCollection/groupCollection/group">
 											<xsl:value-of select="label"></xsl:value-of>
