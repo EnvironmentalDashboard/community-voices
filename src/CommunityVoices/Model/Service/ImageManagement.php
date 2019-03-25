@@ -203,7 +203,7 @@ class ImageManagement
 
         if (is_array($tags)) {
             $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
-            $tagMapper->deleteTags($image);
+            $tagMapper->deleteGroups($image);
             $iid = $image->getId();
             $tagCollection = new Entity\GroupCollection;
             foreach ($tags as $tid) {
@@ -230,7 +230,7 @@ class ImageManagement
         $fn = $image->getFilename();
 
         try {
-            $tagMapper->deleteTags($image);
+            $tagMapper->deleteGroups($image);
             $imageMapper->delete($image);
             if (file_exists($fn)) {
                 unlink($fn);

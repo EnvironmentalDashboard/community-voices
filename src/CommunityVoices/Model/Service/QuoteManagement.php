@@ -203,11 +203,11 @@ class QuoteManagement
 
         // Save the quote's associated tags.
         $qid = $quote->getId();
+        $groupMapper->deleteGroups($quote);
 
         $tagCollection = new Entity\GroupCollection;
         if (is_array($tags)) {
             $groupMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
-            $groupMapper->deleteTags($quote);
             foreach ($tags as $tid) {
                 $tag = new Entity\Tag;
                 $tag->setMediaId($qid);
@@ -228,7 +228,7 @@ class QuoteManagement
         $quote = new Entity\Quote;
         $quote->setId((int) $id);
 
-        $tagMapper->deleteTags($quote);
+        $tagMapper->deleteGroups($quote);
         $quoteMapper->delete($quote);
 
         return true;
