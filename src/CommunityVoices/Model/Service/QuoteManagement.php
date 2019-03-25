@@ -137,7 +137,8 @@ class QuoteManagement
         $subAttribution,
         $dateRecorded,
         $status,
-        $tags
+        $tags,
+        $contentCategories
     ) {
         $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
 
@@ -203,11 +204,11 @@ class QuoteManagement
 
         // Save the quote's associated tags.
         $qid = $quote->getId();
+        $groupMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
         $groupMapper->deleteGroups($quote);
 
-        $tagCollection = new Entity\GroupCollection;
         if (is_array($tags)) {
-            $groupMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
+            $tagCollection = new Entity\GroupCollection;
             foreach ($tags as $tid) {
                 $tag = new Entity\Tag;
                 $tag->setMediaId($qid);
@@ -215,6 +216,17 @@ class QuoteManagement
                 $tagCollection->addEntity($tag);
             }
             $groupMapper->saveGroups($tagCollection);
+        }
+
+        if (is_array($contentCategories)) {
+            $contentCategoryCollection = new Entity\GroupCollection;
+            foreach ($contentCategories as $ccid) {
+                $contentCategory = new Entity\ContentCategory;
+                $contentCategory->setMediaId($qid);
+                $contentCategory->setGroupId($ccid);
+                $contentCategoryCollection->addEntity($contentCategory);
+            }
+            $groupMapper->saveGroups($contentCategoryCollection);
         }
 
         return true;

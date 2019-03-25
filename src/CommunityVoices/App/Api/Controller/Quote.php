@@ -143,6 +143,7 @@ class Quote extends Component\Controller
         $dateRecorded = $request->request->get('dateRecorded');
         $status = $request->request->get('status');
         $tags = $request->request->get('tags') ?? [];
+        $contentCategories = $request->request->get('contentCategories') ?? [];
 
         $id = (int) $request->attributes->get('id');
         if ($id === 0) {
@@ -156,7 +157,8 @@ class Quote extends Component\Controller
             $subAttribution,
             $dateRecorded,
             $status,
-            $tags
+            $tags,
+            $contentCategories
         );
     }
 

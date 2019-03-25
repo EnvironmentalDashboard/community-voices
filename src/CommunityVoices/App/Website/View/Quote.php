@@ -350,23 +350,37 @@ class Quote extends Component\View
             $this->transcriber->toXml($quote)
         );
 
-        $tags = $this->tagLookup->findAll(true);
+        $tagAPIView = $this->secureContainer->contain($this->tagAPIView);
+        $contentCategoryAPIView = $this->secureContainer->contain($this->contentCategoryAPIView);
+
         $tagXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($tags->getEntry('tag')[0]->toArray())
+            $this->transcriber->toXml(json_decode(
+                $tagAPIView->getAllTag()->getContent()
+            ))
         );
 
-        $selectedTagString = ',';
+        $contentCategoryXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(json_decode(
+                $contentCategoryAPIView->getAllContentCategory()->getContent()
+            ))
+        );
+
+        $selectedGroupString = ',';
         foreach ($quote->quote->tagCollection->groupCollection as $group) {
-            $selectedTagString .= "{$group->group->id},";
+            $selectedGroupString .= "{$group->group->id},";
         }
-        $selectedTagXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(['selectedTags' => [$selectedTagString]])
+        foreach ($quote->quote->contentCategoryCollection->groupCollection as $group) {
+            $selectedGroupString .= "{$group->group->id},";
+        }
+        $selectedGroupXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(['selectedGroups' => [$selectedGroupString]])
         );
 
         $packagedQuote = $paramXML->addChild('domain');
         $packagedQuote->adopt($quoteXMLElement);
         $packagedQuote->adopt($tagXMLElement);
-        $packagedQuote->adopt($selectedTagXMLElement);
+        $packagedQuote->adopt($contentCategoryXMLElement);
+        $packagedQuote->adopt($selectedGroupXMLElement);
 
         $formModule = new Component\Presenter('Module/Form/QuoteUpdate');
         $formModuleXML = $formModule->generate($paramXML);

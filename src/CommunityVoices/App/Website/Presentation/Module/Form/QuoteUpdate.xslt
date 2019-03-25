@@ -2,7 +2,7 @@
     version="1.0">
 
     <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
-    <xsl:variable name="selectedTags" select="/form/domain/selectedTags" />
+    <xsl:variable name="selectedGroups" select="/form/domain/selectedGroups" />
 
     <xsl:template match="/form">
         <div class="row" style="padding:15px;">
@@ -52,13 +52,33 @@
                     </div>
 
                     <div class="form-group">
+                        <p class="mb-0">Content Categories</p>
+                        <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
+                          <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" name="contentCategories[]" id="contentCategory{id}">
+                                <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
+                                <xsl:if test="contains($selectedGroups, concat(',', id, ','))">
+                                  <xsl:attribute name="checked">checked</xsl:attribute>
+                                </xsl:if>
+                              </input>
+                              <label class="form-check-label">
+                                <xsl:attribute name="for">tag<xsl:value-of select='id' /></xsl:attribute>
+                                <xsl:value-of select="label"></xsl:value-of>
+                              </label>
+                            </div>
+                          </xsl:for-each>
+                        </div>
+                      </div>
+
+                    <div class="form-group">
                         <p class="mb-0">Tags</p>
                         <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
                           <xsl:for-each select="domain/tagCollection/tag">
                             <div class="form-check">
                               <input class="form-check-input" type="checkbox" name="tags[]" id="tag{id}">
                                 <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
-                                <xsl:if test="contains($selectedTags, concat(',', id, ','))">
+                                <xsl:if test="contains($selectedGroups, concat(',', id, ','))">
                                   <xsl:attribute name="checked">checked</xsl:attribute>
                                 </xsl:if>
                               </input>

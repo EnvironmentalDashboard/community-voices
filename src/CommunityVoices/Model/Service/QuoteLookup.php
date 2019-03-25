@@ -44,9 +44,16 @@ class QuoteLookup
         $quote->setId($quoteId);
 
         $tags = new Entity\GroupCollection;
+        // need to access GroupCollection constant
         $tags->forGroupType(1);
         $tags->forParent($quote);
         $quote->setTagCollection($tags);
+
+        $contentCategories = new Entity\GroupCollection;
+        // need to access GroupCollection constant
+        $contentCategories->forGroupType(3);
+        $contentCategories->forParent($quote);
+        $quote->setContentCategoryCollection($contentCategories);
 
         $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
         $quoteMapper->fetch($quote);
@@ -60,6 +67,7 @@ class QuoteLookup
 
         $groupCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
         $groupCollectionMapper->fetch($quote->getTagCollection());
+        $groupCollectionMapper->fetch($quote->getContentCategoryCollection());
 
         $this->stateObserver->setSubject('quoteLookup');
         $this->stateObserver->addEntry('quote', $quote);

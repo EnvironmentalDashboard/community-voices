@@ -80,8 +80,12 @@ class Quote
     public function getQuoteUpdate($request)
     {
         $apiController = $this->secureContainer->contain($this->quoteAPIController);
+        $tagAPIController = $this->secureContainer->contain($this->tagAPIController);
+        $contentCategoryAPIController = $this->secureContainer->contain($this->contentCategoryAPIController);
 
         $apiController->getQuote($request);
+        $tagAPIController->getAllTag($request);
+        $contentCategoryAPIController->getAllContentCategory($request);
     }
 
     public function postQuoteUpdate($request)
