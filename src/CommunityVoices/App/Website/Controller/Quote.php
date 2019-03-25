@@ -55,13 +55,16 @@ class Quote
         $quoteAPIController->getAllQuote($request, $identity);
     }
 
+    /*
+     * We need all of the tags in our database
+     * and all of the content categories to provide
+     * as checkbox options.
+     */
     public function getQuoteUpload($request)
     {
-        $quoteAPIController = $this->secureContainer->contain($this->quoteAPIController);
         $tagAPIController = $this->secureContainer->contain($this->tagAPIController);
         $contentCategoryAPIController = $this->secureContainer->contain($this->contentCategoryAPIController);
 
-        $quoteAPIController->getQuoteUpload($request);
         $tagAPIController->getAllTag($request);
         $contentCategoryAPIController->getAllContentCategory($request);
     }
