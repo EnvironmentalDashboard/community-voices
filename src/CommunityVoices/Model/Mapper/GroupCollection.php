@@ -37,14 +37,14 @@ class GroupCollection extends DataMapper
 
     public function fetchAllContentCategories(Entity\ContentCategoryCollection $contentCategoryCollection)
     {
-        foreach ($this->conn->query("SELECT id, label FROM `community-voices_groups` WHERE type = 'content-category'") as $row) {
+        foreach ($this->conn->query("SELECT id, label FROM `community-voices_groups` WHERE type = 'content-category' ORDER BY label ASC") as $row) {
             $contentCategoryCollection->addEntityFromParams($row);
         }
     }
 
     public function fetchAllTags(Entity\TagCollection $tagCollection)
     {
-        foreach ($this->conn->query("SELECT id, label FROM `community-voices_groups` WHERE type = 'tag'") as $row) {
+        foreach ($this->conn->query("SELECT id, label FROM `community-voices_groups` WHERE type = 'tag' ORDER BY label ASC") as $row) {
             $tagCollection->addEntityFromParams($row);
         }
     }
