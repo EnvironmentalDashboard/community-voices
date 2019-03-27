@@ -112,10 +112,10 @@
         ["CommunityVoices\\App\\Api\\Controller\\Location::getAllLocation", {"allow": "manager"}],
         ["CommunityVoices\\App\\Api\\View\\Location::getAllLocation", {"allow": "manager"}],
 
-        ["CommunityVoices\\App\\Api\\Controller\\Tag::getAllTag", {"allow": "manager"}],
-        ["CommunityVoices\\App\\Api\\View\\Tag::getAllTag", {"allow": "manager"}],
+        ["CommunityVoices\\App\\Api\\Controller\\Tag::getAllTag", {"allow": "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Tag::getAllTag", {"allow": "guest"}],
 
-        ["CommunityVoices\\App\\Api\\Controller\\ContentCategory::getAllContentCategory", {"allow": "manager"}],
-        ["CommunityVoices\\App\\Api\\View\\ContentCategory::getAllContentCategory", {"allow": "manager"}]
+        ["CommunityVoices\\App\\Api\\Controller\\ContentCategory::getAllContentCategory", {"allow": "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\ContentCategory::getAllContentCategory", {"allow": "guest"}]
     ]
 }
