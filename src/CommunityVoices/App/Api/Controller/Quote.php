@@ -55,6 +55,7 @@ class Quote extends Component\Controller
 
         $search = $request->query->get('search');
         $tags = $request->query->get('tags');
+        $contentCategories = $request->query->get('contentCategories');
         $attributions = $request->query->get('attributions');
         $subattributions = $request->query->get('subattributions');
         $creatorIDs = $request->attributes->get('creatorIDs');
@@ -94,7 +95,7 @@ class Quote extends Component\Controller
 
         $only_unused = !!$only_unused;
 
-        $this->quoteLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $attributions, $subattributions, $creatorIDs, $status);
+        $this->quoteLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $contentCategories, $attributions, $subattributions, $creatorIDs, $status);
     }
 
     public function getQuoteUpload()

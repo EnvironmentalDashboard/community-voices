@@ -182,6 +182,11 @@ class Quote extends Component\View
             $this->transcriber->toXml($tags)
         );
 
+        $contentCategories = $json->contentCategories;
+        $contentCategoryXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($contentCategories)
+        );
+
         $pagination = new \stdClass();
         $pagination->div = $this->paginationHTML($qs, $count, $limit, $page);
         $paginationXMLElement = new SimpleXMLElement(
@@ -206,6 +211,7 @@ class Quote extends Component\View
         $packagedQuote = $quotePackageElement->addChild('domain');
         $packagedQuote->adopt($quoteXMLElement);
         $packagedQuote->adopt($tagXMLElement);
+        $packagedQuote->adopt($contentCategoryXMLElement);
         $packagedQuote->adopt($attributionXMLElement);
         $packagedQuote->adopt($subattributionXMLElement);
         $packagedQuote->adopt($paginationXMLElement);

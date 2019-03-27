@@ -76,6 +76,27 @@
                   Show only unpaired quotes
                 </label>
               </div>
+              <xsl:if test="$isManager">
+                  <div class="form-group">
+                    <p class="mb-0">Potential Content Categories</p>
+                    <div style="overflow-y:scroll;width:100%;height: 145px;border:none" id='sorted-contentCategories'>
+                      <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" name="contentCategories[]" id="contentCategory{id}">
+                            <xsl:if test="contains($tags, concat(',', id, ','))">
+                              <xsl:attribute name="checked">checked</xsl:attribute>
+                            </xsl:if>
+                            <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
+                          </input>
+                          <label class="form-check-label">
+                            <xsl:attribute name="for">tag<xsl:value-of select='id' /></xsl:attribute>
+                            <xsl:value-of select="label"></xsl:value-of>
+                          </label>
+                        </div>
+                      </xsl:for-each>
+                    </div>
+                  </div>
+              </xsl:if>
               <div class="form-group">
                 <p class="mb-0">Tags</p>
                 <div style="overflow-y:scroll;width:100%;height: 145px;border:none" id='sorted-tags'>

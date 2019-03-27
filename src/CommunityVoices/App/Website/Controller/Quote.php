@@ -43,6 +43,8 @@ class Quote
     public function getAllQuote($request)
     {
         $quoteAPIController = $this->secureContainer->contain($this->quoteAPIController);
+        $tagAPIController = $this->secureContainer->contain($this->tagAPIController);
+        $contentCategoryAPIController = $this->secureContainer->contain($this->contentCategoryAPIController);
 
         // [example] filter by creator IDs
         // $request->attributes->set('creatorIDs', [1, 3 ,4 ,5 ,6]);
@@ -53,6 +55,8 @@ class Quote
         $identity = $this->recognitionAdapter->identify();
 
         $quoteAPIController->getAllQuote($request, $identity);
+        $tagAPIController->getAllTag($request);
+        $contentCategoryAPIController->getAllContentCategory($request);
     }
 
     /*

@@ -83,7 +83,7 @@ class QuoteLookup
      *
      * @return CommunityVoices\Model\Entity\QuoteCollection
      */
-    public function findAll(int $page, int $limit, int $offset, string $order, int $only_unused = 0, $search = '', $tags = null, $attributions = null, $subattributions = null, $creatorIDs=[], $status=[])
+    public function findAll(int $page, int $limit, int $offset, string $order, int $only_unused = 0, $search = '', $tags = null, $contentCategories = null, $attributions = null, $subattributions = null, $creatorIDs=[], $status=[])
     {
         $quoteCollection = new Entity\QuoteCollection;
         $quoteCollection->setPage($page);
@@ -94,7 +94,7 @@ class QuoteLookup
         $valid_creatorIDs = [];
 
         // Validate creator IDs
-        if (! empty($creatorIDs)) {
+        if (!empty($creatorIDs)) {
             foreach ($creatorIDs as $userID) {
                 // initialize User objects
                 $user = new Entity\User;
@@ -118,9 +118,6 @@ class QuoteLookup
         $quoteCollectionMapper->fetch($quoteCollection, $order, $only_unused, $search, $tags, $attributions, $subattributions, $limit, $offset);
         $quoteCollectionMapper->attributions($quoteCollectionAttributions);
         $quoteCollectionMapper->subattributions($quoteCollectionSubAttributions);
-
-        $tagLookup = new TagLookup($this->mapperFactory, $this->stateObserver);
-        $tagLookup->findAll();
 
         // map data
         // check whether collection empty, do something

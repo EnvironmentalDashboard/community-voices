@@ -54,6 +54,9 @@ class Quote
         $stateObserver->setSubject('tagLookup');
         $quoteCollection['tags'] = $stateObserver->getEntry('tag')[0]->toArray();
 
+        $stateObserver->setSubject('contentCategoryLookup');
+        $quoteCollection['contentCategories'] = $stateObserver->getEntry('contentCategory')[0]->toArray();
+
         $response = new HttpFoundation\JsonResponse($quoteCollection);
 
         return $response;
