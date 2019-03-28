@@ -1,6 +1,6 @@
 function sortCheckboxes($e) {
 	var sorted = [];
-	$e.children().each(function(i) { 
+	$e.children().each(function(i) {
 		var $input = $(this).children('input');
 		var $label = $(this).children('label');
 		sorted.push({
@@ -36,10 +36,10 @@ function cmp_str(a, b) {
 	return 0;
 }
 
-var targets = [$('#sorted-tags'), $('#sorted-photographers'), $('#sorted-orgs')];
+var targets = [$('#sorted-tags'), $('#sorted-contentCategories'), $('#sorted-photographers'), $('#sorted-orgs')];
 $(targets).each(function(i, target){
 	target.html(sortCheckboxes(target)); // sort once initially
-  target.on("change", function() { 
+  target.on("change", function() {
   	$(this).html(sortCheckboxes($(this))); // resort every time checkbox checked
   });
 });
@@ -73,5 +73,3 @@ $('.save-quote-changes').on('click', function(e) {
 		setTimeout(function() { btn.text('Save changes'); }, 2500);
   });
 });
-
-
