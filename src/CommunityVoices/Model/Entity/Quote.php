@@ -127,7 +127,7 @@ class Quote extends Media
             'text' => $this->text,
             'attribution' => $this->attribution,
             'subAttribution' => $this->subAttribution,
-            'quotationMarks' => $this->quotationMarks,
+            'quotationMarks' => $this->quotationMarks > 0 ? true : false,
             'dateRecorded' => date("Y-m-d H:i:s", $this->dateRecorded),
             'publicDocumentLink' => $this->publicDocumentLink,
             'sourceDocumentLink' => $this->sourceDocumentLink
