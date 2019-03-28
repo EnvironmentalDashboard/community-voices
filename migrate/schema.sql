@@ -496,3 +496,8 @@ ALTER TABLE `community-voices_slides`
 --
 ALTER TABLE `community-voices_tags`
   ADD CONSTRAINT `community-voices_tags_fk0` FOREIGN KEY (`group_id`) REFERENCES `community-voices_groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Adding quotation_marks field to `community-voices_quotes`
+--
+ALTER TABLE `community-voices_quotes` ADD `quotation_marks` BOOLEAN NOT NULL DEFAULT TRUE AFTER `sub_attribution`;
