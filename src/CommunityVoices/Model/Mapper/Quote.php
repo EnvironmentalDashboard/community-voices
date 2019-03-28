@@ -70,6 +70,7 @@ class Quote extends Media
                         child.text                      AS text,
                         child.attribution               AS attribution,
                         child.sub_attribution           AS subAttribution,
+                        child.quotation_marks           AS quotationMarks,
                         child.date_recorded             AS dateRecorded,
                         child.public_document_link      AS publicDocumentLink,
                         child.source_document_link      AS sourceDocumentLink
@@ -111,7 +112,7 @@ class Quote extends Media
     {
         if ($quote->getId()) {
             $this->update($quote);
-            return ;
+            return;
         }
 
         $this->create($quote);
