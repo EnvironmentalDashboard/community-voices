@@ -115,7 +115,7 @@ class QuoteLookup
         $quoteCollection->status = $status;
 
         $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
-        $quoteCollectionMapper->fetch($quoteCollection, $order, $only_unused, $search, $tags, $attributions, $subattributions, $limit, $offset);
+        $quoteCollectionMapper->fetch($quoteCollection, $order, $only_unused, $search, $tags, $contentCategories, $attributions, $subattributions, $limit, $offset);
         $quoteCollectionMapper->attributions($quoteCollectionAttributions);
         $quoteCollectionMapper->subattributions($quoteCollectionSubAttributions);
 
