@@ -171,7 +171,7 @@
             <div class="mb-4"><div class="embed-responsive embed-responsive-16by9">
               <xsl:choose>
                 <xsl:when test="domain/slide != ''">
-                  <iframe class="embed-responsive-item" id="preview" src="https://environmentaldashboard.org/community-voices/slides/{domain/slide/id}"></iframe>
+                  <iframe class="embed-responsive-item" id="preview" src="/community-voices/slides/{domain/slide/id}"></iframe>
                 </xsl:when>
                 <xsl:otherwise>
                   <iframe class="embed-responsive-item" id="preview" src="https://environmentaldashboard.org/community-voices/slides/12"></iframe>

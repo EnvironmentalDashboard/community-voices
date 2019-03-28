@@ -241,14 +241,14 @@
               <xsl:when test="$isManager">
                 <a href="slides/{id}/edit">
                   <div class="embed-responsive embed-responsive-16by9 mb-4">
-                    <iframe class="embed-responsive-item" id="preview" style="pointer-events: none;" src="https://environmentaldashboard.org/community-voices/slides/{id}"></iframe>
+                    <iframe class="embed-responsive-item" id="preview" style="pointer-events: none;" src="/community-voices/slides/{id}"></iframe>
                   </div>
                 </a>
               </xsl:when>
               <xsl:otherwise>
                 <a href="slides/edit/{id}">
                   <div class="embed-responsive embed-responsive-16by9 mb-4">
-                    <iframe class="embed-responsive-item" id="preview" style="pointer-events: none;" src="https://environmentaldashboard.org/community-voices/slides/{id}"></iframe>
+                    <iframe class="embed-responsive-item" id="preview" style="pointer-events: none;" src="/community-voices/slides/{id}"></iframe>
                   </div>
                 </a>
               </xsl:otherwise>
