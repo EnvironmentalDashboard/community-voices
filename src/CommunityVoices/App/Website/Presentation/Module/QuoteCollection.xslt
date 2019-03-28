@@ -7,6 +7,7 @@
     or package/identity/user/role = 'administrator'"/>
   <xsl:variable name="search" select="package/domain/search"/>
   <xsl:variable name="status" select="package/domain/status"/>
+  <xsl:variable name="contentCategories" select="package/domain/contentCategories"/>
   <xsl:variable name="tags" select="package/domain/tags"/>
   <xsl:variable name="attributions" select="package/domain/attributions"/>
   <xsl:variable name="subattributions" select="package/domain/subattributions"/>
@@ -83,7 +84,7 @@
                       <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
                         <div class="form-check">
                           <input class="form-check-input" type="checkbox" name="contentCategories[]" id="contentCategory{id}">
-                            <xsl:if test="contains($tags, concat(',', id, ','))">
+                            <xsl:if test="contains($contentCategories, concat(',', id, ','))">
                               <xsl:attribute name="checked">checked</xsl:attribute>
                             </xsl:if>
                             <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
