@@ -206,7 +206,12 @@
                   <xsl:choose>
                     <xsl:when test="$isManager">
                         <blockquote class="blockquote mb-0">
-                          <p contenteditable="true" id="text{id}"><xsl:value-of select="text"></xsl:value-of></p>
+                          <p contenteditable="true" id="text{id}">
+                              <xsl:if test="quotationMarks != ''">
+                                  <xsl:attribute name="class">quoted</xsl:attribute>
+                              </xsl:if>
+                              <xsl:value-of select="text"></xsl:value-of>
+                          </p>
                           <footer class="blockquote-footer">
                             <xsl:value-of select="attribution"></xsl:value-of>
                             <xsl:if test="subAttribution != '' and attribution != subAttribution">
