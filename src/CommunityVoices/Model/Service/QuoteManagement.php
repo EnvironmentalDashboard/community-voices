@@ -39,6 +39,7 @@ class QuoteManagement
         $text,
         $attribution,
         $subAttribution,
+        $quotationMarks,
         $dateRecorded,
         $approved,
         $addedBy,
@@ -54,6 +55,7 @@ class QuoteManagement
         $quote->setText($text);
         $quote->setAttribution($attribution);
         $quote->setSubAttribution($subAttribution);
+        $quote->setQuotationMarks(is_null($quotationMarks) ? 0 : 1);
         $quote->setDateRecorded($dateRecorded);
         $quote->setAddedBy($addedBy);
         if ($approved) {
@@ -121,6 +123,7 @@ class QuoteManagement
         $text,
         $attribution,
         $subAttribution,
+        $quotationMarks,
         $dateRecorded,
         $status,
         $tags
@@ -145,6 +148,7 @@ class QuoteManagement
         if ($subAttribution != null) {
             $quote->setSubAttribution($subAttribution);
         }
+        $quote->setQuotationMarks(is_null($quotationMarks) ? 0 : 1);
         if ($dateRecorded != null) {
             $quote->setDateRecorded($dateRecorded);
         }
