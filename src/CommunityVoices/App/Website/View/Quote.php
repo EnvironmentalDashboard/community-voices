@@ -67,9 +67,13 @@ class Quote extends Component\View
             $this->transcriber->toXml($boundaryQuotes['quoteCollection'][0])
         );
 
-        $nextQuoteXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($boundaryQuotes['quoteCollection'][1])
-        );
+        if (key_exists(1, $boundaryQuotes['quoteCollection'])) {
+            $nextQuoteXMLElement = new SimpleXMLElement(
+                $this->transcriber->toXml($boundaryQuotes['quoteCollection'][1])
+            );
+        } else {
+            $nextQuoteXMLElement = $prevQuoteXMLElement;
+        }
 
         /**
          * Quote XML "package"
