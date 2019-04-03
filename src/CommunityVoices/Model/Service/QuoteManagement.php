@@ -72,16 +72,6 @@ class QuoteManagement
 
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
 
-        /*
-         * Stop the upload process and save errors to the application state. If
-         * there is no attribution, there is no point in continuing the upload process.
-         */
-
-        if (!$isValid && $this->stateObserver->hasEntry('attribution', $quote::ERR_ATTRIBUTION_REQUIRED)) {
-            $clientState->save($this->stateObserver);
-            return false;
-        }
-
         $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
 
         /*

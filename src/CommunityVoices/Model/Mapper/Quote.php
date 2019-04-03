@@ -111,7 +111,7 @@ class Quote extends Media
     {
         if ($quote->getId()) {
             $this->update($quote);
-            return ;
+            return;
         }
 
         $this->create($quote);
