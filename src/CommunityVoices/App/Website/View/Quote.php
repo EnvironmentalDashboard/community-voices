@@ -431,9 +431,9 @@ class Quote extends Component\View
     public function postQuoteUpdate($request)
     {
         $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
-        $errors = $quoteAPIView->postQuoteUpdate()->getContent();
+        $errors = json_decode($quoteAPIView->postQuoteUpdate()->getContent());
 
-        if (!empty($errors)) {
+        if (!empty($errors->errors)) {
             return $this->getQuoteUpdate($request);
         }
 
