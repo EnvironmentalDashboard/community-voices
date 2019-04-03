@@ -68,7 +68,7 @@ class QuoteManagement
          */
 
         $this->stateObserver->setSubject('quoteUpload');
-        $isValid = $quote->validateForUpload($this->stateObserver);
+        $isValid = $quote->validateForUpload($this->stateObserver, $contentCategories);
 
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
 
@@ -161,7 +161,7 @@ class QuoteManagement
          */
 
         $this->stateObserver->setSubject('quoteUpdate');
-        $isValid = $quote->validateForUpload($this->stateObserver);
+        $isValid = $quote->validateForUpload($this->stateObserver, $contentCategories);
 
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
 
