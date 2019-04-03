@@ -151,7 +151,7 @@ class Quote extends Component\Controller
             $id = (int) $request->request->get('id');
         }
 
-        $this->quoteManagement->update(
+        return $this->quoteManagement->update(
             $id,
             $text,
             $attribution,

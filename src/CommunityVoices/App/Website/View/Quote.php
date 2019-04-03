@@ -430,6 +430,13 @@ class Quote extends Component\View
 
     public function postQuoteUpdate($request)
     {
+        $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
+        $errors = $quoteAPIView->postQuoteUpdate()->getContent();
+
+        if (!empty($errors)) {
+            return $this->getQuoteUpdate($request);
+        }
+
         // Should be some logic to go back to the edit form
         // if errors exist.
         // But, for now, we simply will show the edited quote.

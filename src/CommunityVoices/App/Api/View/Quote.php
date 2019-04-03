@@ -69,7 +69,17 @@ class Quote
 
     public function postQuoteUpload()
     {
-        // intentionally blank
+        $clientStateMapper = $this->mapperFactory->createClientStateMapper();
+        $clientStateObserver = $clientStateMapper->retrieve();
+
+        // In the case that we have retrieved errors, we will send them along.
+        // Otherwise, our errors array will be an empty array.
+        $errors = ($clientStateObserver && $clientStateObserver->hasSubjectEntries('quoteUpload'))
+            ? $clientStateObserver->getEntriesBySubject('quoteUpload') : [];
+
+        $response = new HttpFoundation\JsonResponse(['errors' => $errors]);
+
+        return $response;
     }
 
     public function getQuoteUpdate()
@@ -79,6 +89,16 @@ class Quote
 
     public function postQuoteUpdate()
     {
-        // intentionally blank
+        $clientStateMapper = $this->mapperFactory->createClientStateMapper();
+        $clientStateObserver = $clientStateMapper->retrieve();
+
+        // In the case that we have retrieved errors, we will send them along.
+        // Otherwise, our errors array will be an empty array.
+        $errors = ($clientStateObserver && $clientStateObserver->hasSubjectEntries('quoteUpdate'))
+            ? $clientStateObserver->getEntriesBySubject('quoteUpdate') : [];
+
+        $response = new HttpFoundation\JsonResponse(['errors' => $errors]);
+
+        return $response;
     }
 }

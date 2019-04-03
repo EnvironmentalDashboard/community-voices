@@ -9,6 +9,7 @@ use CommunityVoices\App\Api;
 class Quote
 {
     protected $recognitionAdapter;
+    protected $mapperFactory;
     protected $quoteAPIController;
     protected $tagAPIController;
     protected $contentCategoryAPIController;
@@ -16,12 +17,14 @@ class Quote
 
     public function __construct(
         Component\RecognitionAdapter $recognitionAdapter,
+        Component\MapperFactory $mapperFactory,
         Api\Controller\Quote $quoteAPIController,
         Api\Controller\Tag $tagAPIController,
         Api\Controller\ContentCategory $contentCategoryAPIController,
         Api\Component\SecureContainer $secureContainer
     ) {
         $this->recognitionAdapter = $recognitionAdapter;
+        $this->mapperFactory = $mapperFactory;
         $this->quoteAPIController = $quoteAPIController;
         $this->tagAPIController = $tagAPIController;
         $this->contentCategoryAPIController = $contentCategoryAPIController;
@@ -96,7 +99,33 @@ class Quote
     {
         $apiController = $this->secureContainer->contain($this->quoteAPIController);
 
-        $apiController->postQuoteUpdate($request);
+        $text = $request->request->get('text');
+        $attribution = $request->request->get('attribution');
+        $subAttribution = $request->request->get('subAttribution');
+        $dateRecorded = $request->request->get('dateRecorded');
+        $status = $request->request->get('status');
+        $tags = $request->request->get('tags') ?? [];
+        $contentCategories = $request->request->get('contentCategories') ?? [];
+
+        $form = [
+            'text' => $text,
+            'attribution' => $attribution,
+            'subAttribution' => $subAttribution,
+            'dateRecorded' => $dateRecorded,
+            'status' => $status,
+            'tags' => $tags,
+            'contentCategories' => $contentCategories
+        ];
+
+        $formCache = new Component\CachedItem('quoteUpdateForm');
+        $formCache->setValue($form);
+
+        $cacheMapper = $this->mapperFactory->createCacheMapper();
+        $cacheMapper->save($formCache);
+
+        if (!$apiController->postQuoteUpdate($request)) {
+            $this->getQuoteUpdate($request);
+        };
     }
 
     public function postQuoteDelete($request)
