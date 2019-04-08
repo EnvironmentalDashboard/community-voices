@@ -269,6 +269,34 @@ class Quote extends Component\View
             $this->transcriber->toXml($identity->toArray())
         );
 
+        /**
+         * Grab cached form
+         */
+        $formCache = new Component\CachedItem('quoteUploadForm');
+
+        $cacheMapper = $this->mapperFactory->createCacheMapper();
+        $cacheMapper->fetch($formCache);
+
+        $form = $formCache->getValue();
+
+        if (!is_null($form)) {
+            $formTags = $form['tags'];
+            $formContentCategories = $form['contentCategories'];
+
+            unset($form['tags']);
+            unset($form['contentCategories']);
+
+            $formParamXML = new Helper\SimpleXMLElementExtension(
+                '<form>' . $this->transcriber->toXml($form) . '</form>'
+            );
+        }
+
+        $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
+        $errors = json_decode($quoteAPIView->postQuoteUpload()->getContent());
+        $errorsXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($errors)
+        );
+
         $tagAPIView = $this->secureContainer->contain($this->tagAPIView);
         $contentCategoryAPIView = $this->secureContainer->contain($this->contentCategoryAPIView);
 
@@ -284,10 +312,32 @@ class Quote extends Component\View
             ))
         );
 
+        $selectedGroupString = ',';
+        $tagForEach = $formTags ?? [];
+        $contentCategoryForEach = $formContentCategories ?? [];
+
+        foreach ($tagForEach as $group) {
+            $selectedGroupString .= "{$group},";
+        }
+        foreach ($contentCategoryForEach as $group) {
+            $selectedGroupString .= "{$group},";
+        }
+        $selectedGroupXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(['selectedGroups' => [$selectedGroupString]])
+        );
+
         $quotePackageElement = new Helper\SimpleXMLElementExtension('<package/>');
         $packagedQuote = $quotePackageElement->addChild('domain');
+
         $packagedQuote->adopt($tagXMLElement);
         $packagedQuote->adopt($contentCategoryXMLElement);
+        $packagedQuote->adopt($errorsXMLElement);
+        $packagedQuote->adopt($selectedGroupXMLElement);
+
+        if (isset($formParamXML)) {
+            $packagedQuote->adopt($formParamXML);
+        }
+
         $packagedIdentity = $quotePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
         $quoteModule = new Component\Presenter('Module/Form/QuoteUpload');
@@ -314,31 +364,25 @@ class Quote extends Component\View
 
     public function postQuoteUpload($request)
     {
+        $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
+        $errors = json_decode($quoteAPIView->postQuoteUpload()->getContent());
+
+        if (!empty($errors->errors)) {
+            return $this->getQuoteUpload($request);
+        }
+
+        // We simply will show the edited quote.
+        // dirname() removes the /new from the url we are
+        // redirecting to.
+        // In the future, should redirect to the newly
+        // created quote.
+        // (can pass the new ID through postQuoteUpload())
         $response = new HttpFoundation\RedirectResponse(
-            $request->headers->get('referer')
+            dirname($request->headers->get('referer'))
         );
 
         $this->finalize($response);
         return $response;
-
-        /*
-        $identity = $this->recognitionAdapter->identify();
-        $identityXMLElement = new SimpleXMLElement(
-          $this->transcriber->toXml($identity->toArray())
-        );
-        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
-        $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
-        $domainXMLElement->addChild(
-          'title',
-          "Community Voices"
-        );
-        $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
-        $presentation = new Component\Presenter('SinglePane');
-        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
-        $this->finalize($response);
-        return $response;
-        */
     }
 
     public function getQuoteUpdate($request)
@@ -473,9 +517,7 @@ class Quote extends Component\View
             return $this->getQuoteUpdate($request);
         }
 
-        // Should be some logic to go back to the edit form
-        // if errors exist.
-        // But, for now, we simply will show the edited quote.
+        // We simply will show the edited quote.
         // dirname() removes the /edit from the url we are
         // redirecting to
         $response = new HttpFoundation\RedirectResponse(

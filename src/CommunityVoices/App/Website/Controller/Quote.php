@@ -81,7 +81,33 @@ class Quote
         $apiController = $this->secureContainer->contain($this->quoteAPIController);
         $identity = $this->recognitionAdapter->identify();
 
-        $apiController->postQuoteUpload($request, $identity);
+        $text = $request->request->get('text');
+        $attribution = $request->request->get('attribution');
+        $subAttribution = $request->request->get('subAttribution');
+        $dateRecorded = $request->request->get('dateRecorded');
+        $status = $request->request->get('status');
+        $tags = $request->request->get('tags') ?? [];
+        $contentCategories = $request->request->get('contentCategories') ?? [];
+
+        $form = [
+            'text' => $text,
+            'attribution' => $attribution,
+            'subAttribution' => $subAttribution,
+            'dateRecorded' => $dateRecorded,
+            'status' => $status,
+            'tags' => $tags,
+            'contentCategories' => $contentCategories
+        ];
+
+        $formCache = new Component\CachedItem('quoteUploadForm');
+        $formCache->setValue($form);
+
+        $cacheMapper = $this->mapperFactory->createCacheMapper();
+        $cacheMapper->save($formCache);
+
+        if (!$apiController->postQuoteUpload($request, $identity)) {
+            $this->getQuoteUpload($request);
+        }
     }
 
     public function getQuoteUpdate($request)

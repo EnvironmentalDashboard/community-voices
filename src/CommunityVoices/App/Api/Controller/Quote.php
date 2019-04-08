@@ -110,14 +110,14 @@ class Quote extends Component\Controller
         $subAttribution = $request->request->get('subAttribution');
         $dateRecorded = $request->request->get('dateRecorded');
         $approved = $request->request->get('approved');
-        $tags = $request->request->get('tags');
-        $contentCategories = $request->request->get('contentCategories');
+        $tags = $request->request->get('tags') ?? [];
+        $contentCategories = $request->request->get('contentCategories') ?? [];
 
         if ($identity->getRole() <= 2) {
             $approved = null;
         }
 
-        $this->quoteManagement->upload(
+        return $this->quoteManagement->upload(
             $text,
             $attribution,
             $subAttribution,

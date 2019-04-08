@@ -56,7 +56,6 @@ class QuoteManagement
         $quote->setAttribution($attribution);
         $quote->setSubAttribution($subAttribution);
         $quote->setDateRecorded($dateRecorded);
-        $quote->setAddedBy($addedBy);
         if ($approved) {
             $quote->setStatus(3);
         } else {

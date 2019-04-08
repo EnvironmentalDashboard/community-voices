@@ -104,7 +104,7 @@
                                 </xsl:if>
                               </input>
                               <label class="form-check-label">
-                                <xsl:attribute name="for">tag<xsl:value-of select='id' /></xsl:attribute>
+                                <xsl:attribute name="for">contentCategory<xsl:value-of select='id' /></xsl:attribute>
                                 <xsl:value-of select="label"></xsl:value-of>
                               </label>
                             </div>
