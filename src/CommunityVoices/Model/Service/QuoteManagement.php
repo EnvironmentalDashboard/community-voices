@@ -140,21 +140,11 @@ class QuoteManagement
 
         $quoteMapper->fetch($quote);
 
-        if ($text != null) {
-            $quote->setText($text);
-        }
-        if ($attribution != null) {
-            $quote->setAttribution($attribution);
-        }
-        if ($subAttribution != null) {
-            $quote->setSubAttribution($subAttribution);
-        }
-        if ($dateRecorded != null) {
-            $quote->setDateRecorded($dateRecorded);
-        }
-        if ($status != null) {
-            $quote->setStatus($status);
-        }
+        $quote->setText($text);
+        $quote->setAttribution($attribution);
+        $quote->setSubAttribution($subAttribution);
+        $quote->setDateRecorded($dateRecorded);
+        $quote->setStatus($status);
 
         /*
          * Create error observer w/ appropriate subject and pass to validator
