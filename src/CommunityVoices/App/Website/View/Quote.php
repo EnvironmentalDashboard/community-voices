@@ -360,11 +360,19 @@ class Quote extends Component\View
 
         $form = $formCache->getValue();
 
-        //if (!is_null($form)) {
-        //    $quote = (object) (['quote' => (object) $form]);
-        //} else {
-            $quote = json_decode($quoteAPIView->getQuote()->getContent());
-        //}
+        if (!is_null($form)) {
+            $formTags = $form['tags'];
+            $formContentCategories = $form['contentCategories'];
+
+            unset($form['tags']);
+            unset($form['contentCategories']);
+
+            $formParamXML = new Helper\SimpleXMLElementExtension(
+                '<form>' . $this->transcriber->toXml($form) . '</form>'
+            );
+        }
+
+        $quote = json_decode($quoteAPIView->getQuote()->getContent());
 
         $quote->quote->text = htmlspecialchars($quote->quote->text);
         $quoteXMLElement = new SimpleXMLElement(
@@ -387,11 +395,14 @@ class Quote extends Component\View
         );
 
         $selectedGroupString = ',';
-        foreach ($quote->quote->tagCollection->groupCollection as $group) {
-            $selectedGroupString .= "{$group->group->id},";
+        $tagForEach = isset($formTags) ? $formTags : $quote->quote->tagCollection->groupCollection;
+        $contentCategoryForEach = isset($formContentCategories) ? $formContentCategories : $quote->quote->contentCategoryCollection->groupCollection;
+
+        foreach ($tagForEach as $group) {
+            $selectedGroupString .= is_object($group) ? "{$group->group->id}," : "{$group},";
         }
-        foreach ($quote->quote->contentCategoryCollection->groupCollection as $group) {
-            $selectedGroupString .= "{$group->group->id},";
+        foreach ($contentCategoryForEach as $group) {
+            $selectedGroupString .= is_object($group) ? "{$group->group->id}," : "{$group},";
         }
         $selectedGroupXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(['selectedGroups' => [$selectedGroupString]])
@@ -402,6 +413,10 @@ class Quote extends Component\View
         $packagedQuote->adopt($tagXMLElement);
         $packagedQuote->adopt($contentCategoryXMLElement);
         $packagedQuote->adopt($selectedGroupXMLElement);
+
+        if (!is_null($form)) {
+            $packagedQuote->adopt($formParamXML);
+        }
 
         $formModule = new Component\Presenter('Module/Form/QuoteUpdate');
         $formModuleXML = $formModule->generate($paramXML);
