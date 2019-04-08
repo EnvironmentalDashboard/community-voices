@@ -78,9 +78,9 @@ class StateObserver implements FlexibleObserver
     * Detects entries by subject
     * @return bool Boolean indicating if there are entries for a specific subject
     */
-    public function hasSubjectEntries(): bool
+    public function hasSubjectEntries($subject): bool
     {
-        return count($this->collector[$this->subject]) > 0;
+        return key_exists($subject, $this->collector) && count($this->collector[$subject]) > 0;
     }
 
     /**

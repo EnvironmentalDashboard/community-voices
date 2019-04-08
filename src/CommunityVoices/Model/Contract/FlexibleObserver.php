@@ -9,6 +9,7 @@ interface FlexibleObserver
     public function addEntry($key, $value);
 
     public function hasEntries(): bool;
+    public function hasSubjectEntries($subject): bool;
 
     public function hasEntry($key, $value);
 
