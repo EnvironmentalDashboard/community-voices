@@ -372,6 +372,11 @@ class Quote extends Component\View
             );
         }
 
+        $errors = json_decode($quoteAPIView->postQuoteUpdate()->getContent());
+        $errorsXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($errors)
+        );
+
         $quote = json_decode($quoteAPIView->getQuote()->getContent());
 
         $quote->quote->text = htmlspecialchars($quote->quote->text);
@@ -413,6 +418,7 @@ class Quote extends Component\View
         $packagedQuote->adopt($tagXMLElement);
         $packagedQuote->adopt($contentCategoryXMLElement);
         $packagedQuote->adopt($selectedGroupXMLElement);
+        $packagedQuote->adopt($errorsXMLElement);
 
         if (!is_null($form)) {
             $packagedQuote->adopt($formParamXML);

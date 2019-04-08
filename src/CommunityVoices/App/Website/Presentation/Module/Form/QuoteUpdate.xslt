@@ -4,17 +4,28 @@
     <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
     <xsl:variable name="selectedGroups" select="/form/domain/selectedGroups" />
 
+    <xsl:template match="domain/errors/*">
+        <li style="margin-bottom: 0px;"><xsl:value-of select="." /></li>
+    </xsl:template>
+
     <xsl:template match="/form">
         <div class="row" style="padding:15px;">
             <div class="col-12">
-                <xsl:if test="@failure">
-                    <p>Attribution missing.</p>
-                </xsl:if>
-
-                <div id="alert"></div>
-
                 <form method='POST' style="max-width:400px;margin: 0 auto" id="form">
                     <xsl:attribute name="action">/community-voices/quotes/<xsl:value-of select="domain/quote/id" />/edit</xsl:attribute>
+
+                    <h1 class="h3 mb-3 font-weight-normal">Update Quote</h1>
+
+                    <xsl:if test="domain/errors != ''">
+                        <div class="card" style="margin-bottom: 16px;">
+                            <div class="card-body">
+                                <h1 class="h4 mb-4 font-weight-normal" style="margin-bottom: 0.5rem !important;">Some errors prevented update</h1>
+                                <ul style="margin-bottom: 0.5rem;">
+                                    <xsl:apply-templates select="domain/errors/*" />
+                                </ul>
+                            </div>
+                        </div>
+                    </xsl:if>
 
                     <div class="form-group">
                         <label for="text">Quote</label>
