@@ -220,7 +220,8 @@
         <div class="card">
           <div class="card-header">Quotes</div>
           <ul class="list-group list-group-flush">
-
+              <xsl:choose>
+              <xsl:when test="domain/quoteCollection/quote != ''">
             <xsl:for-each select="domain/quoteCollection/quote">
               <xsl:if test="$isManager or status = 'approved'">
 
@@ -274,6 +275,11 @@
 
               </xsl:if>
             </xsl:for-each>
+        </xsl:when>
+        <xsl:otherwise>
+            <li class="list-group-item">No quotes found.</li>
+        </xsl:otherwise>
+    </xsl:choose>
           </ul>
         </div>
       </div>
