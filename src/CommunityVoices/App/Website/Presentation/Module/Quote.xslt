@@ -69,11 +69,11 @@
 		            <blockquote class="blockquote mb-0">
 		              <p>
 						  <xsl:if test="domain/quote/quotationMarks != ''">
-							  &#8220;
+							  <xsl:text>&#8220;</xsl:text>
 						  </xsl:if>
 						  <xsl:value-of select='domain/quote/text' />
 						  <xsl:if test="domain/quote/quotationMarks != ''">
-							  &#8221;
+							  <xsl:text>&#8221;</xsl:text>
 						  </xsl:if>
 					  </p>
 		              <footer class='blockquote-footer'>
