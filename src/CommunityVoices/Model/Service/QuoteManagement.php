@@ -128,14 +128,7 @@ class QuoteManagement
 
     public function update(
         $id,
-        $text,
-        $attribution,
-        $subAttribution,
-        $quotationMarks,
-        $dateRecorded,
-        $status,
-        $tags,
-        $contentCategories
+        array $attributes
     ) {
         $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
 
@@ -148,18 +141,35 @@ class QuoteManagement
 
         $quoteMapper->fetch($quote);
 
-        $quote->setText($text);
-        $quote->setAttribution($attribution);
-        $quote->setSubAttribution($subAttribution);
-        $quote->setDateRecorded($dateRecorded);
-        $quote->setStatus($status);
+        /*
+         * Using an array of attributes allows
+         * us to only change specific attributes
+         * that we deem appropriate.
+         * Anything without a value in the array
+         * will not be changed.
+         */
+        if (key_exists("text", $attributes)) {
+            $quote->setText($attributes["text"]);
+        }
+        if (key_exists("attribution", $attributes)) {
+            $quote->setAttribution($attributes["attribution"]);
+        }
+        if (key_exists("subAttribution", $attributes)) {
+            $quote->setSubAttribution($attributes["subAttribution"]);
+        }
+        if (key_exists("dateRecorded", $attributes)) {
+            $quote->setDateRecorded($attributes["dateRecorded"]);
+        }
+        if (key_exists("status", $attributes)) {
+            $quote->setStatus($attributes["status"]);
+        }
 
         /*
          * Create error observer w/ appropriate subject and pass to validator
          */
 
         $this->stateObserver->setSubject('quoteUpdate');
-        $isValid = $quote->validateForUpload($this->stateObserver, $contentCategories);
+        $isValid = $quote->validateForUpload($this->stateObserver, $attributes["contentCategories"] ?? $quote->getContentCategoryCollection()->getCollection());
 
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
 
@@ -184,9 +194,9 @@ class QuoteManagement
         $groupMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
         $groupMapper->deleteGroups($quote);
 
-        if (is_array($tags)) {
+        if (key_exists("tags", $attributes) && is_array($attributes["tags"])) {
             $tagCollection = new Entity\GroupCollection;
-            foreach ($tags as $tid) {
+            foreach ($attributes["tags"] as $tid) {
                 $tag = new Entity\Tag;
                 $tag->setMediaId($qid);
                 $tag->setGroupId($tid);
@@ -195,9 +205,9 @@ class QuoteManagement
             $groupMapper->saveGroups($tagCollection);
         }
 
-        if (is_array($contentCategories)) {
+        if (key_exists("contentCategories", $attributes) && is_array($attributes["contentCategories"])) {
             $contentCategoryCollection = new Entity\GroupCollection;
-            foreach ($contentCategories as $ccid) {
+            foreach ($attributes["contentCategories"] as $ccid) {
                 $contentCategory = new Entity\ContentCategory;
                 $contentCategory->setMediaId($qid);
                 $contentCategory->setGroupId($ccid);

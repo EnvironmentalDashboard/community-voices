@@ -68,8 +68,13 @@ $('.save-quote-changes').on('click', function(e) {
 	var id = btn.data('id');
 	var text = $('#text' + id).text();
 	btn.text('Loading...');
-	$.post('/community-voices/quotes/' + id + '/edit/authenticate', {text: text}).done(function(d) {
+	$.post('/community-voices/api/quotes/' + id + '/edit', {text: text}).done(function(d) {
+		console.log(text);
+		console.log(d);
 		btn.text('Saved!');
-		setTimeout(function() { btn.text('Save changes'); }, 2500);
+  }).fail(function (f) {
+	  btn.text('Failed!');
+  }).always(function () {
+	  setTimeout(function() { btn.text('Save changes'); }, 2500);
   });
 });

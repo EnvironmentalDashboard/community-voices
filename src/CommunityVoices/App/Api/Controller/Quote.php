@@ -140,14 +140,19 @@ class Quote extends Component\Controller
 
     public function postQuoteUpdate($request)
     {
-        $text = $request->request->get('text');
-        $attribution = $request->request->get('attribution');
-        $subAttribution = $request->request->get('subAttribution');
-        $quotationMarks = $request->request->get('quotationMarks');
-        $dateRecorded = $request->request->get('dateRecorded');
-        $status = $request->request->get('status');
-        $tags = $request->request->get('tags') ?? [];
-        $contentCategories = $request->request->get('contentCategories') ?? [];
+        $attributes = [
+            "text" => $request->request->get('text'),
+            "attribution" => $request->request->get('attribution'),
+            "subAttribution" => $request->request->get('subAttribution'),
+            "quotationMarks" => $request->request->get('quotationMarks'),
+            "dateRecorded" => $request->request->get('dateRecorded'),
+            "status" => $request->request->get('status'),
+            "tags" => $request->request->get('tags'),
+            "contentCategories" => $request->request->get('contentCategories')
+        ];
+        $nonNullAttributes = array_filter($attributes, function ($v) {
+            return !is_null($v);
+        });
 
         $id = (int) $request->attributes->get('id');
         if ($id === 0) {
@@ -156,14 +161,7 @@ class Quote extends Component\Controller
 
         return $this->quoteManagement->update(
             $id,
-            $text,
-            $attribution,
-            $subAttribution,
-            $quotationMarks,
-            $dateRecorded,
-            $status,
-            $tags,
-            $contentCategories
+            $nonNullAttributes
         );
     }
 
