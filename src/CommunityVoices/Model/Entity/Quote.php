@@ -17,6 +17,8 @@ class Quote extends Media
     private $subAttribution;
     private $dateRecorded;
 
+    private $quotationMarks;
+
     private $publicDocumentLink;
     private $sourceDocumentLink;
 
@@ -55,6 +57,16 @@ class Quote extends Media
     public function setSubAttribution($subAttribution)
     {
         $this->subAttribution = htmlspecialchars($subAttribution);
+    }
+
+    public function getQuotationMarks()
+    {
+        return $this->quotationMarks;
+    }
+
+    public function setQuotationMarks($quotationMarks)
+    {
+        $this->quotationMarks = $quotationMarks;
     }
 
     public function getDateRecorded()
@@ -121,6 +133,7 @@ class Quote extends Media
             'text' => $this->text,
             'attribution' => $this->attribution,
             'subAttribution' => $this->subAttribution,
+            'quotationMarks' => $this->quotationMarks > 0 ? true : false,
             'dateRecorded' => date("Y-m-d H:i:s", $this->dateRecorded),
             'publicDocumentLink' => $this->publicDocumentLink,
             'sourceDocumentLink' => $this->sourceDocumentLink

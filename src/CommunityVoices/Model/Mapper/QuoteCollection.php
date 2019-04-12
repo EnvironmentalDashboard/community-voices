@@ -146,6 +146,7 @@ class QuoteCollection extends DataMapper
                         quote.text                      AS text,
                         quote.attribution               AS attribution,
                         quote.sub_attribution           AS subAttribution,
+                        quote.quotation_marks           AS quotationMarks,
                         quote.date_recorded             AS dateRecorded,
                         quote.public_document_link      AS publicDocumentLink,
                         quote.source_document_link      AS sourceDocumentLink

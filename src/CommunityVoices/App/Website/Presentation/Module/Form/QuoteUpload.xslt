@@ -58,6 +58,11 @@
               </div>
 
               <div class="form-group">
+                  <label for="quotationMarks">Include Quotation Marks</label>
+                  <input type='checkbox' name='quotationMarks' id='quotationMarks' class='form-control' checked="checked" />
+              </div>
+
+              <div class="form-group">
                 <label for="dateRecorded">Date Recorded</label>
                 <input class="form-control" id="dateRecorded" type='text' name='dateRecorded'>
                     <xsl:if test="domain/form != ''">

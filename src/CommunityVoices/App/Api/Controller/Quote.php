@@ -108,6 +108,7 @@ class Quote extends Component\Controller
         $text = $request->request->get('text');
         $attribution = $request->request->get('attribution');
         $subAttribution = $request->request->get('subAttribution');
+        $quotationMarks = $request->request->get('quotationMarks');
         $dateRecorded = $request->request->get('dateRecorded');
         $approved = $request->request->get('approved');
         $tags = $request->request->get('tags') ?? [];
@@ -121,6 +122,7 @@ class Quote extends Component\Controller
             $text,
             $attribution,
             $subAttribution,
+            $quotationMarks,
             $dateRecorded,
             $approved,
             $identity,
@@ -141,6 +143,7 @@ class Quote extends Component\Controller
         $text = $request->request->get('text');
         $attribution = $request->request->get('attribution');
         $subAttribution = $request->request->get('subAttribution');
+        $quotationMarks = $request->request->get('quotationMarks');
         $dateRecorded = $request->request->get('dateRecorded');
         $status = $request->request->get('status');
         $tags = $request->request->get('tags') ?? [];
@@ -156,6 +159,7 @@ class Quote extends Component\Controller
             $text,
             $attribution,
             $subAttribution,
+            $quotationMarks,
             $dateRecorded,
             $status,
             $tags,

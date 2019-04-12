@@ -1,0 +1,7 @@
+.quoted::before {
+    content: "\201C";
+}
+
+.quoted::after {
+    content: "\201D";
+}

@@ -72,13 +72,31 @@ class Quote extends Component\View
             $this->transcriber->toXml($quote)
         );
 
-        $prevQuoteXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($boundaryQuotes['quoteCollection'][0])
-        );
+        // If we have two quotes in our return, then we know we have both a next
+        // and a previous.
+        // If we otherwise only have one quote, it could be either the next or
+        // the previous and we need to compare IDs to know.
+        if (key_exists(1, $boundaryQuotes['quoteCollection'])) {
+            $prevQuoteXMLElement = new SimpleXMLElement(
+                $this->transcriber->toXml($boundaryQuotes['quoteCollection'][0])
+            );
 
-        $nextQuoteXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($boundaryQuotes['quoteCollection'][1])
-        );
+            $nextQuoteXMLElement = new SimpleXMLElement(
+                $this->transcriber->toXml($boundaryQuotes['quoteCollection'][1])
+            );
+        } else {
+            // This logic is probably best kept out of a view.
+            // TODO (but maybe it is fine in a view)
+            $isPrev = $boundaryQuotes['quoteCollection'][0]['quote']['id'] < $quote->quote->id;
+            $element = new SimpleXMLElement(
+                $this->transcriber->toXml($boundaryQuotes['quoteCollection'][0])
+            );
+
+            if ($isPrev)
+                $prevQuoteXMLElement = $element;
+            else
+                $nextQuoteXMLElement = $element;
+        }
 
         /**
          * Quote XML "package"
@@ -92,11 +110,15 @@ class Quote extends Component\View
             $this->transcriber->toXml(['slideId' => $this->quoteLookup->relatedSlide($quote->quote->id)])
         ));
 
-        $previousQuote = $packagedQuote->addChild('previous');
-        $previousQuote->adopt($prevQuoteXMLElement);
+        if (isset($prevQuoteXMLElement)) {
+            $previousQuote = $packagedQuote->addChild('previous');
+            $previousQuote->adopt($prevQuoteXMLElement);
+        }
 
-        $nextQuote = $packagedQuote->addChild('next');
-        $nextQuote->adopt($nextQuoteXMLElement);
+        if (isset($nextQuoteXMLElement)) {
+            $nextQuote = $packagedQuote->addChild('next');
+            $nextQuote->adopt($nextQuoteXMLElement);
+        }
 
         $packagedIdentity = $quotePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
@@ -248,6 +270,7 @@ class Quote extends Component\View
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: All Quotes");
         $domainXMLElement->addChild('extraJS', "quote-collection");
+        $domainXMLElement->addChild('extraCSS', "quote-collection");
         $domainXMLElement->addChild('metaDescription', "Searchable database of quotes used for Community Voices communication technology to promote environmental, social and economic sustainability in diverse communities.");
 
         $domainIdentity = $domainXMLElement->addChild('identity');

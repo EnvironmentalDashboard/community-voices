@@ -67,7 +67,15 @@
 						<div class="card mb-5">
 		          <div class="card-body">
 		            <blockquote class="blockquote mb-0">
-		              <p><xsl:value-of select='domain/quote/text' /></p>
+		              <p>
+						  <xsl:if test="domain/quote/quotationMarks != ''">
+							  &#8220;
+						  </xsl:if>
+						  <xsl:value-of select='domain/quote/text' />
+						  <xsl:if test="domain/quote/quotationMarks != ''">
+							  &#8221;
+						  </xsl:if>
+					  </p>
 		              <footer class='blockquote-footer'>
 		                <cite>
 		                  <xsl:attribute name="title"><xsl:value-of select='domain/quote/attribution' /></xsl:attribute>
