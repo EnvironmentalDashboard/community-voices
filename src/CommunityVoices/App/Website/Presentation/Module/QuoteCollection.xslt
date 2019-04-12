@@ -245,7 +245,7 @@
                         </blockquote>
                       <div class="mt-2">
                         <a class="btn btn-outline-info btn-sm d-inline mr-2" href="quotes/{id}">View quote</a>
-                        <a class="btn btn-outline-primary btn-sm d-inline mr-2 save-quote-changes" href="#" data-id="{id}">Save changes</a>
+                        <a class="btn btn-outline-primary btn-sm d-inline mr-2 save-quote-changes" href="#" data-id="{id}">Save text changes</a>
                         <a class="btn btn-outline-secondary btn-sm d-inline mr-2" href="quotes/{id}/edit">Edit meta data</a>
                         <xsl:choose>
                           <xsl:when test="relatedSlide = ''">
