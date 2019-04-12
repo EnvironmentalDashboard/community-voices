@@ -74,10 +74,14 @@ class Quote
 
         // In the case that we have retrieved errors, we will send them along.
         // Otherwise, our errors array will be an empty array.
-        $errors = ($clientStateObserver && $clientStateObserver->hasSubjectEntries('quoteUpload'))
+        $errors = ($clientStateObserver && $clientStateObserver->hasSubjectEntries('quoteUploadErrors'))
+            ? $clientStateObserver->getEntriesBySubject('quoteUploadErrors') : [];
+
+        $id = ($clientStateObserver && $clientStateObserver->hasSubjectEntries('quoteUpload'))
             ? $clientStateObserver->getEntriesBySubject('quoteUpload') : [];
 
-        $response = new HttpFoundation\JsonResponse(['errors' => $errors]);
+        $combined = ['upload' => ['errors' => $errors, 'quote' => $id]];
+        $response = new HttpFoundation\JsonResponse($combined);
 
         return $response;
     }

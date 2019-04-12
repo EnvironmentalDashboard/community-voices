@@ -292,9 +292,9 @@ class Quote extends Component\View
         }
 
         $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
-        $errors = json_decode($quoteAPIView->postQuoteUpload()->getContent());
-        $errorsXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($errors)
+        $upload = json_decode($quoteAPIView->postQuoteUpload()->getContent());
+        $uploadXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($upload)
         );
 
         $tagAPIView = $this->secureContainer->contain($this->tagAPIView);
@@ -331,7 +331,7 @@ class Quote extends Component\View
 
         $packagedQuote->adopt($tagXMLElement);
         $packagedQuote->adopt($contentCategoryXMLElement);
-        $packagedQuote->adopt($errorsXMLElement);
+        $packagedQuote->adopt($uploadXMLElement);
         $packagedQuote->adopt($selectedGroupXMLElement);
 
         if (isset($formParamXML)) {
@@ -365,20 +365,17 @@ class Quote extends Component\View
     public function postQuoteUpload($request)
     {
         $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
-        $errors = json_decode($quoteAPIView->postQuoteUpload()->getContent());
+        $upload = json_decode($quoteAPIView->postQuoteUpload()->getContent());
 
-        if (!empty($errors->errors)) {
+        if (!empty($upload->upload->errors)) {
             return $this->getQuoteUpload($request);
         }
 
         // We simply will show the edited quote.
         // dirname() removes the /new from the url we are
         // redirecting to.
-        // In the future, should redirect to the newly
-        // created quote.
-        // (can pass the new ID through postQuoteUpload())
         $response = new HttpFoundation\RedirectResponse(
-            dirname($request->headers->get('referer'))
+            dirname($request->headers->get('referer')) . '/' . $upload->upload->quote->id[0]
         );
 
         $this->finalize($response);

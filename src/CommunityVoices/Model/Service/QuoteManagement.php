@@ -67,7 +67,7 @@ class QuoteManagement
          * Create error observer w/ appropriate subject and pass to validator
          */
 
-        $this->stateObserver->setSubject('quoteUpload');
+        $this->stateObserver->setSubject('quoteUploadErrors');
         $isValid = $quote->validateForUpload($this->stateObserver, $contentCategories);
 
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
@@ -90,6 +90,11 @@ class QuoteManagement
         $quoteMapper->save($quote);
 
         $qid = $quote->getId();
+
+        // Save our new quote's ID to be used to redirect to it later.
+        $this->stateObserver->setSubject('quoteUpload');
+        $this->stateObserver->addEntry('id', $qid);
+        $clientState->save($this->stateObserver);
 
         $tagCollection = new Entity\GroupCollection;
         if (is_array($tags)) {
