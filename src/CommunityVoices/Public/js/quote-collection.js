@@ -62,19 +62,29 @@ $('.unpair-btn').on('click', function(e) {
 	}
 });
 
-$('.save-quote-changes').on('click', function(e) {
+$('.save-quote-text').on('click', function(e) {
 	e.preventDefault();
 	var btn = $(this);
 	var id = btn.data('id');
 	var text = $('#text' + id).text();
 	btn.text('Loading...');
 	$.post('/community-voices/api/quotes/' + id + '/edit', {text: text}).done(function(d) {
-		console.log(text);
-		console.log(d);
 		btn.text('Saved!');
   }).fail(function (f) {
 	  btn.text('Failed!');
   }).always(function () {
 	  setTimeout(function() { btn.text('Save changes'); }, 2500);
   });
+});
+
+$('.approve-checkbox').on('click', function (c) {
+	var target = c.target;
+	var newValue = target.checked;
+	var id = target.getAttribute('data-id');
+
+	var status = newValue ? 3 : 1;
+
+	$.post('/community-voices/api/quotes/' + id + '/edit', {status: status}).done(function(d) {
+
+	});
 });

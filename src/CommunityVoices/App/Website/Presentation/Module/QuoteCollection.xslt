@@ -245,7 +245,7 @@
                         </blockquote>
                       <div class="mt-2">
                         <a class="btn btn-outline-info btn-sm d-inline mr-2" href="quotes/{id}">View quote</a>
-                        <a class="btn btn-outline-primary btn-sm d-inline mr-2 save-quote-changes" href="#" data-id="{id}">Save text changes</a>
+                        <a class="btn btn-outline-primary btn-sm d-inline mr-2 save-quote-text" href="#" data-id="{id}">Save text changes</a>
                         <a class="btn btn-outline-secondary btn-sm d-inline mr-2" href="quotes/{id}/edit">Edit meta data</a>
                         <xsl:choose>
                           <xsl:when test="relatedSlide = ''">
@@ -255,6 +255,14 @@
                             <a data-action="quotes/{id}/unpair/{relatedSlide}" class="btn btn-outline-warning btn-sm d-inline unpair-btn" href="#">Unpair slide</a>
                           </xsl:otherwise>
                         </xsl:choose>
+                        <div class="form-check form-check-inline d-inline mr-2">
+                            <input class="form-check-input approve-checkbox" type="checkbox" id="approve-checkbox{id}" data-id="{id}">
+                                <xsl:if test="status = 'approved'">
+                                    <xsl:attribute name="checked">checked</xsl:attribute>
+                                </xsl:if>
+                            </input>
+                            <label class="form-check-label" for="approve-checkbox{id}">Approved</label>
+                        </div>
                       </div>
                     </xsl:when>
                     <xsl:otherwise>
