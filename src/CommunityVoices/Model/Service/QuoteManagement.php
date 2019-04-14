@@ -168,6 +168,9 @@ class QuoteManagement
          * Create error observer w/ appropriate subject and pass to validator
          */
 
+        $groupMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
+        $groupMapper->fetch($quote->getContentCategoryCollection());
+
         $this->stateObserver->setSubject('quoteUpdate');
         $isValid = $quote->validateForUpload($this->stateObserver, $attributes["contentCategories"] ?? $quote->getContentCategoryCollection()->getCollection());
 
@@ -186,33 +189,65 @@ class QuoteManagement
         /*
          * save $quote to database
          */
-
         $quoteMapper->save($quote);
 
         // Save the quote's associated tags.
         $qid = $quote->getId();
-        $groupMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
-        $groupMapper->deleteGroups($quote);
 
-        if (key_exists("tags", $attributes) && is_array($attributes["tags"])) {
+        /*
+         * If we are trying to adjust either our tags or content categories,
+         * we will need to delete all groups and add the appropriate ones back.
+         */
+        $addingGroups = key_exists("tags", $attributes) || key_exists("contentCategories", $attributes);
+        if ($addingGroups) {
+            // We only fetched the content category collection earlier,
+            // so we need to fill in the gap here.
+            $groupMapper->fetch($quote->getTagCollection());
+
+            // Delete all groups.
+            // TODO: delete only the appropriate groups
+            $groupMapper->deleteGroups($quote);
+
+            /*
+             * For both sets of groups, we will add back
+             * either what was already associated with the
+             * quote or something new depending on what new
+             * data we have sent in the request.
+             */
             $tagCollection = new Entity\GroupCollection;
-            foreach ($attributes["tags"] as $tid) {
+            if (key_exists("tags", $attributes) && is_array($attributes["tags"])) {
+                $tagLoop = $attributes["tags"];
+            } else {
+                $tagLoop = array_map(function ($t) {
+                    return $t->getId();
+                }, $quote->getTagCollection()->getCollection());
+            }
+
+            foreach ($tagLoop as $tid) {
                 $tag = new Entity\Tag;
                 $tag->setMediaId($qid);
                 $tag->setGroupId($tid);
                 $tagCollection->addEntity($tag);
             }
-            $groupMapper->saveGroups($tagCollection);
-        }
 
-        if (key_exists("contentCategories", $attributes) && is_array($attributes["contentCategories"])) {
+            $groupMapper->saveGroups($tagCollection);
+
             $contentCategoryCollection = new Entity\GroupCollection;
-            foreach ($attributes["contentCategories"] as $ccid) {
+            if (key_exists("contentCategories", $attributes) && is_array($attributes["contentCategories"])) {
+                $contentCategoryLoop = $attributes["contentCategories"];
+            } else {
+                $contentCategoryLoop = array_map(function ($cc) {
+                    return $cc->getId();
+                }, $quote->getContentCategoryCollection()->getCollection());
+            }
+
+            foreach ($contentCategoryLoop as $ccid) {
                 $contentCategory = new Entity\ContentCategory;
                 $contentCategory->setMediaId($qid);
                 $contentCategory->setGroupId($ccid);
                 $contentCategoryCollection->addEntity($contentCategory);
             }
+
             $groupMapper->saveGroups($contentCategoryCollection);
         }
 

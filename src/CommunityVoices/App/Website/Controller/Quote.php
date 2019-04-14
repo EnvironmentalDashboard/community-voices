@@ -130,8 +130,22 @@ class Quote
         $subAttribution = $request->request->get('subAttribution');
         $dateRecorded = $request->request->get('dateRecorded');
         $status = $request->request->get('status');
-        $tags = $request->request->get('tags') ?? [];
-        $contentCategories = $request->request->get('contentCategories') ?? [];
+
+        // Make sure that we pass in tags and content categories, even
+        // if they are empty.
+        if (is_null($request->request->get('tags'))) {
+            $tags = [];
+            $request->request->set('tags', []);
+        } else {
+            $tags = $request->request->get('tags');
+        }
+
+        if (is_null($request->request->get('contentCategories'))) {
+            $contentCategories = [];
+            $request->request->set('contentCategories', []);
+        } else {
+            $contentCategories = $request->request->get('contentCategories');
+        }
 
         $form = [
             'text' => $text,
