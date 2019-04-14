@@ -260,7 +260,12 @@
                     <xsl:otherwise>
                       <a href='quotes/{id}' style="color: inherit; text-decoration: inherit;">
                         <blockquote class="blockquote mb-0">
-                          <p><xsl:value-of select="text"></xsl:value-of></p>
+                          <p>
+                              <xsl:if test="quotationMarks != ''">
+                                  <xsl:attribute name="class">quoted</xsl:attribute>
+                              </xsl:if>
+                              <xsl:value-of select="text"></xsl:value-of>
+                          </p>
                           <footer class="blockquote-footer">
                             <xsl:value-of select="attribution"></xsl:value-of>
                             <xsl:if test="subAttribution != '' and attribution != subAttribution">
