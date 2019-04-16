@@ -39,6 +39,20 @@ class Routes
                 )
             );
 
+            // Allow ending a URL in '/'
+            $routes->add(
+                $name,
+                new Route(
+                    $appPrefix . $options['notation'] . '/',
+                    $options['defaults'],
+                    isset($options['requirements']) ? $options['requirements'] : [],
+                    [],
+                    '',
+                    [],
+                    isset($options['method']) ? $options['method'] : []
+                )
+            );
+
             // Add the API route
             $apiDefaults = [
                 'use-api' => true
@@ -46,6 +60,19 @@ class Routes
 
             $routes->add(
                 "api." . $name,
+                new Route(
+                    $appPrefix . '/api' . $options['notation'],
+                    array_merge($options['defaults'], $apiDefaults),
+                    isset($options['requirements']) ? $options['requirements'] : [],
+                    [],
+                    '',
+                    [],
+                    isset($options['method']) ? $options['method'] : []
+                )
+            );
+
+            $routes->add(
+                "api." . $name . '/',
                 new Route(
                     $appPrefix . '/api' . $options['notation'],
                     array_merge($options['defaults'], $apiDefaults),
