@@ -41,7 +41,7 @@ class Routes
 
             // Allow ending a URL in '/'
             $routes->add(
-                $name,
+                $name . '/',
                 new Route(
                     $appPrefix . $options['notation'] . '/',
                     $options['defaults'],
@@ -74,7 +74,7 @@ class Routes
             $routes->add(
                 "api." . $name . '/',
                 new Route(
-                    $appPrefix . '/api' . $options['notation'],
+                    $appPrefix . '/api' . $options['notation'] . '/',
                     array_merge($options['defaults'], $apiDefaults),
                     isset($options['requirements']) ? $options['requirements'] : [],
                     [],
