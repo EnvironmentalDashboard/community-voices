@@ -129,7 +129,10 @@ class Quote
         $attribution = $request->request->get('attribution');
         $subAttribution = $request->request->get('subAttribution');
         $dateRecorded = $request->request->get('dateRecorded');
-        $status = $request->request->get('status');
+        $status = $request->request->get('status') === "on" ? 3 : 1;
+
+        // Align our modifications to the status checkbox in our request.
+        $request->request->set('status', $status);
 
         // Make sure that we pass in tags and content categories, even
         // if they are empty.
