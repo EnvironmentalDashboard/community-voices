@@ -21,6 +21,7 @@
             <link rel="manifest" href="/manifest.json?v=9ByOqqx0o3" />
             <link rel="mask-icon" href="/safari-pinned-tab.svg?v=9ByOqqx0o3" color="#00a300" />
             <link rel="shortcut icon" href="/favicon.ico?v=9ByOqqx0o3" />
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
             <meta name="theme-color" content="#000000" />
             <title> <xsl:value-of select="title" /> </title>
 

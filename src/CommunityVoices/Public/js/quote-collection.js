@@ -84,7 +84,15 @@ $('.approve-checkbox').on('click', function (c) {
 
 	var status = newValue ? 3 : 1;
 
-	$.post('/community-voices/api/quotes/' + id + '/edit', {status: status}).done(function(d) {
+	var icon = $("#approve-checkbox-status" + id);
+	icon.attr("class", "far fa-check-circle");
 
+	$.post('/community-voices/api/quotes/' + id + '/edit', {status: status}).done(function(d) {
+		if (Object.keys(d).length > 0) {
+			icon.attr("class", "fas fa-exclamation-circle");
+			target.checked = false;
+		} else {
+			icon.attr("class", "fas fa-check-circle");
+		}
 	});
 });
