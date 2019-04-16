@@ -88,7 +88,7 @@ $('.approve-checkbox').on('click', function (c) {
 	icon.attr("class", "far fa-check-circle");
 
 	$.post('/community-voices/api/quotes/' + id + '/edit', {status: status}).done(function(d) {
-		if (Object.keys(d).length > 0) {
+		if (Object.keys(d.errors).length > 0) {
 			icon.attr("class", "fas fa-exclamation-circle");
 			target.checked = false;
 		} else {
