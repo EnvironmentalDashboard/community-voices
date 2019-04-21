@@ -53,7 +53,7 @@
                 <div class="form-group">
                   <p class="mb-0">Tags</p>
                   <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
-                    <xsl:for-each select="domain/groupCollection/group">
+                    <xsl:for-each select="domain/tagCollection/tag">
                       <div class="form-check">
                         <input class="form-check-input qtag-check" type="checkbox" name="quotetags[]" id="quotetag{id}">
                           <xsl:if test="contains($quotetags, concat(',', id, ','))">
@@ -104,7 +104,7 @@
                 <div class="form-group">
                   <p class="mb-0">Tags</p>
                   <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
-                    <xsl:for-each select="domain/groupCollection/group">
+                    <xsl:for-each select="domain/tagCollection/tag">
                       <div class="form-check">
                         <input class="form-check-input itag-check" type="checkbox" name="imagetags[]" id="imagetag{id}">
                           <xsl:if test="contains($imagetags, concat(',', id, ','))">
