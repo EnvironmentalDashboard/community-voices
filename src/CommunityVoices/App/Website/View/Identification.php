@@ -127,7 +127,7 @@ class Identification extends Component\View
     public function getLogout($request)
     {
         $response = new HttpFoundation\RedirectResponse(
-            $request->headers->get('referer')
+            $request->headers->get('referer') ?? $this->urlGenerator->generate('root')
         );
 
         $this->finalize($response);
