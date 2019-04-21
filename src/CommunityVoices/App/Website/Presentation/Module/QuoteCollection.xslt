@@ -263,7 +263,7 @@
                             </input>
                             <label class="form-check-label" for="approve-checkbox{id}">Approved</label>
                             <xsl:text> </xsl:text>
-                            <i id="approve-checkbox-status{id}"></i>
+                            <i id="modify-status{id}"></i>
                         </div>
                       </div>
                     </xsl:when>
