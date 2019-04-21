@@ -111,9 +111,12 @@
         </li>
       </ul>
       <div style="margin-left:auto">
+		  <xsl:if test="$isManager">
+			<a class="btn btn-outline-primary mr-2" href="/community-voices/images/new" data-toggle="modal" data-target="#createModal">+ Add image</a>
+		  </xsl:if>
         <xsl:choose>
           <xsl:when test="identity/user/id &gt; 0">
-            <a class="btn btn-outline-primary mr-2" href="/community-voices/logout">Logout <xsl:value-of select="identity/user/firstName" /></a>
+            <a class="btn btn-outline-primary" href="/community-voices/logout">Logout <xsl:value-of select="identity/user/firstName" /></a>
             <!-- <a>
               <xsl:attribute name="href">user/<xsl:value-of select="identity/user/id" /></xsl:attribute>
               View Account
@@ -126,9 +129,6 @@
             </div>
           </xsl:otherwise>
         </xsl:choose>
-        <xsl:if test="$isManager">
-          <a class="btn btn-outline-primary" href="/community-voices/images/new" data-toggle="modal" data-target="#createModal">+ Add image</a>
-        </xsl:if>
       </div>
     </nav>
 
