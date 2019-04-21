@@ -163,28 +163,35 @@
       </div>
       <div class="col-sm-9">
 
-          <xsl:for-each select="domain/articleCollection/article">
+          <xsl:choose>
+              <xsl:when test="domain/articleCollection/article != ''">
+              <xsl:for-each select="domain/articleCollection/article">
 
-            <xsl:if test="$isManager or status = 'approved'">
+                <xsl:if test="$isManager or status = 'approved'">
 
-              <ul class="list-unstyled">
-                <li class="media">
-                  <img class="mr-3" src="https://environmentaldashboard.org/community-voices/uploads/{image}" alt="{title}" style="width:200px" />
-                  <div class="media-body">
-                    <h5 class="mt-0 mb-1">
-                      <xsl:value-of select='title' />
-                      <xsl:if test="author != ''">
-                        &#160;<small class="text-muted">Interviewed by <xsl:value-of select='author' /></small>
-                      </xsl:if>
-                    </h5>
-                    <p><a class="btn btn-primary" href='articles/{id}'>Read more</a></p>
-                  </div>
-                </li>
-              </ul>
+                  <ul class="list-unstyled">
+                    <li class="media">
+                      <img class="mr-3" src="https://environmentaldashboard.org/community-voices/uploads/{image}" alt="{title}" style="width:200px" />
+                      <div class="media-body">
+                        <h5 class="mt-0 mb-1">
+                          <xsl:value-of select='title' />
+                          <xsl:if test="author != ''">
+                            &#160;<small class="text-muted">Interviewed by <xsl:value-of select='author' /></small>
+                          </xsl:if>
+                        </h5>
+                        <p><a class="btn btn-primary" href='articles/{id}'>Read more</a></p>
+                      </div>
+                    </li>
+                  </ul>
 
-            </xsl:if>
+                </xsl:if>
 
-          </xsl:for-each>
+              </xsl:for-each>
+        </xsl:when>
+        <xsl:otherwise>
+            <p>No articles found.</p>
+        </xsl:otherwise>
+      </xsl:choose>
 
       </div>
     </div>
