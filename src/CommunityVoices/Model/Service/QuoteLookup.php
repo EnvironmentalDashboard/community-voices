@@ -44,9 +44,16 @@ class QuoteLookup
         $quote->setId($quoteId);
 
         $tags = new Entity\GroupCollection;
+        // need to access GroupCollection constant
         $tags->forGroupType(1);
         $tags->forParent($quote);
         $quote->setTagCollection($tags);
+
+        $contentCategories = new Entity\GroupCollection;
+        // need to access GroupCollection constant
+        $contentCategories->forGroupType(3);
+        $contentCategories->forParent($quote);
+        $quote->setContentCategoryCollection($contentCategories);
 
         $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
         $quoteMapper->fetch($quote);
@@ -60,6 +67,7 @@ class QuoteLookup
 
         $groupCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
         $groupCollectionMapper->fetch($quote->getTagCollection());
+        $groupCollectionMapper->fetch($quote->getContentCategoryCollection());
 
         $this->stateObserver->setSubject('quoteLookup');
         $this->stateObserver->addEntry('quote', $quote);
@@ -75,7 +83,7 @@ class QuoteLookup
      *
      * @return CommunityVoices\Model\Entity\QuoteCollection
      */
-    public function findAll(int $page, int $limit, int $offset, string $order, int $only_unused = 0, $search = '', $tags = null, $attributions = null, $subattributions = null, $creatorIDs=[], $status=[])
+    public function findAll(int $page, int $limit, int $offset, string $order, int $only_unused = 0, $search = '', $tags = null, $contentCategories = null, $attributions = null, $subattributions = null, $creatorIDs=[], $status=[])
     {
         $quoteCollection = new Entity\QuoteCollection;
         $quoteCollection->setPage($page);
@@ -86,7 +94,7 @@ class QuoteLookup
         $valid_creatorIDs = [];
 
         // Validate creator IDs
-        if (! empty($creatorIDs)) {
+        if (!empty($creatorIDs)) {
             foreach ($creatorIDs as $userID) {
                 // initialize User objects
                 $user = new Entity\User;
@@ -107,12 +115,9 @@ class QuoteLookup
         $quoteCollection->status = $status;
 
         $quoteCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\QuoteCollection::class);
-        $quoteCollectionMapper->fetch($quoteCollection, $order, $only_unused, $search, $tags, $attributions, $subattributions, $limit, $offset);
+        $quoteCollectionMapper->fetch($quoteCollection, $order, $only_unused, $search, $tags, $contentCategories, $attributions, $subattributions, $limit, $offset);
         $quoteCollectionMapper->attributions($quoteCollectionAttributions);
         $quoteCollectionMapper->subattributions($quoteCollectionSubAttributions);
-
-        $tagLookup = new TagLookup($this->mapperFactory, $this->stateObserver);
-        $tagLookup->findAll();
 
         // map data
         // check whether collection empty, do something

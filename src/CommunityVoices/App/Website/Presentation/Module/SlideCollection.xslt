@@ -95,7 +95,7 @@
 	        		<div class="form-group">
                 <p class="mb-0">Tags</p>
                 <div style="overflow-y:scroll;width:100%;height: 145px;border:none" id="sorted-tags">
-                  <xsl:for-each select="domain/groupCollection/group">
+                  <xsl:for-each select="domain/tagCollection/tag">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="tags[]" id="tag{id}">
                         <xsl:if test="contains($tags, concat(',', id, ','))">
@@ -241,14 +241,14 @@
               <xsl:when test="$isManager">
                 <a href="slides/{id}/edit">
                   <div class="embed-responsive embed-responsive-16by9 mb-4">
-                    <iframe class="embed-responsive-item" id="preview" style="pointer-events: none;" src="https://environmentaldashboard.org/community-voices/slides/{id}"></iframe>
+                    <iframe class="embed-responsive-item" id="preview" style="pointer-events: none;" src="/community-voices/slides/{id}"></iframe>
                   </div>
                 </a>
               </xsl:when>
               <xsl:otherwise>
                 <a href="slides/edit/{id}">
                   <div class="embed-responsive embed-responsive-16by9 mb-4">
-                    <iframe class="embed-responsive-item" id="preview" style="pointer-events: none;" src="https://environmentaldashboard.org/community-voices/slides/{id}"></iframe>
+                    <iframe class="embed-responsive-item" id="preview" style="pointer-events: none;" src="/community-voices/slides/{id}"></iframe>
                   </div>
                 </a>
               </xsl:otherwise>

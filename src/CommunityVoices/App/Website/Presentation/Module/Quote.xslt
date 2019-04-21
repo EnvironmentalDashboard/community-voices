@@ -67,7 +67,15 @@
 						<div class="card mb-5">
 		          <div class="card-body">
 		            <blockquote class="blockquote mb-0">
-		              <p><xsl:value-of select='domain/quote/text' /></p>
+		              <p>
+						  <xsl:if test="domain/quote/quotationMarks != ''">
+							  <xsl:text>&#8220;</xsl:text>
+						  </xsl:if>
+						  <xsl:value-of select='domain/quote/text' />
+						  <xsl:if test="domain/quote/quotationMarks != ''">
+							  <xsl:text>&#8221;</xsl:text>
+						  </xsl:if>
+					  </p>
 		              <footer class='blockquote-footer'>
 		                <cite>
 		                  <xsl:attribute name="title"><xsl:value-of select='domain/quote/attribution' /></xsl:attribute>
@@ -101,11 +109,28 @@
 												Edit
 						        </a>
 									</p>
-									<p>
-										<xsl:for-each select="domain/quote/tagCollection/groupCollection/group">
-											<xsl:value-of select="label"></xsl:value-of>,
-										</xsl:for-each>
-									</p>
+									<xsl:if test="domain/quote/contentCategoryCollection/groupCollection/group != ''">
+										<p>
+											Potential Content Categories:
+											<xsl:for-each select="domain/quote/contentCategoryCollection/groupCollection/group">
+												<xsl:value-of select="label"></xsl:value-of>
+												<xsl:if test="position() != last()">
+													<xsl:text>, </xsl:text>
+												</xsl:if>
+											</xsl:for-each>
+										</p>
+									</xsl:if>
+									<xsl:if test="domain/quote/tagCollection/groupCollection/group != ''">
+										<p>
+											Tags:
+											<xsl:for-each select="domain/quote/tagCollection/groupCollection/group">
+												<xsl:value-of select="label"></xsl:value-of>
+												<xsl:if test="position() != last()">
+													<xsl:text>, </xsl:text>
+												</xsl:if>
+											</xsl:for-each>
+										</p>
+									</xsl:if>
 			          </xsl:if>
 		          </div>
 		        </div>

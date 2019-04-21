@@ -13,7 +13,7 @@
 	<xsl:variable name="orgs" select="package/domain/orgs"/>
   <xsl:variable name="order" select="package/domain/order"/>
   <xsl:variable name="unused" select="package/domain/unused"/>
-  <xsl:variable name="allTags" select="package/domain/groupCollection/group" />
+  <xsl:variable name="allTags" select="package/domain/tagCollection/tag" />
 
 	<xsl:template match="/package">
     <xsl:if test="$isManager">

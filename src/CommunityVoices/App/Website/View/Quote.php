@@ -15,9 +15,14 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 class Quote extends Component\View
 {
     protected $recognitionAdapter;
-    protected $quoteAPIView;
-    protected $secureContainer;
+    protected $mapperFactory;
     protected $transcriber;
+    protected $secureContainer;
+    protected $quoteAPIView;
+    protected $quoteLookup;
+    protected $tagLookup;
+    protected $tagAPIView;
+    protected $contentCategoryAPIView;
 
     public function __construct(
         Component\RecognitionAdapter $recognitionAdapter,
@@ -26,7 +31,9 @@ class Quote extends Component\View
         Api\Component\SecureContainer $secureContainer,
         Api\View\Quote $quoteAPIView,
         Service\QuoteLookup $quoteLookup,
-        Service\TagLookup $tagLookup
+        Service\TagLookup $tagLookup,
+        Api\View\Tag $tagAPIView,
+        Api\View\ContentCategory $contentCategoryAPIView
     ) {
         $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
@@ -35,6 +42,8 @@ class Quote extends Component\View
         $this->quoteAPIView = $quoteAPIView;
         $this->quoteLookup = $quoteLookup;
         $this->tagLookup = $tagLookup;
+        $this->tagAPIView = $tagAPIView;
+        $this->contentCategoryAPIView = $contentCategoryAPIView;
     }
 
     public function getQuote($request)
@@ -63,13 +72,31 @@ class Quote extends Component\View
             $this->transcriber->toXml($quote)
         );
 
-        $prevQuoteXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($boundaryQuotes['quoteCollection'][0])
-        );
+        // If we have two quotes in our return, then we know we have both a next
+        // and a previous.
+        // If we otherwise only have one quote, it could be either the next or
+        // the previous and we need to compare IDs to know.
+        if (key_exists(1, $boundaryQuotes['quoteCollection'])) {
+            $prevQuoteXMLElement = new SimpleXMLElement(
+                $this->transcriber->toXml($boundaryQuotes['quoteCollection'][0])
+            );
 
-        $nextQuoteXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($boundaryQuotes['quoteCollection'][1])
-        );
+            $nextQuoteXMLElement = new SimpleXMLElement(
+                $this->transcriber->toXml($boundaryQuotes['quoteCollection'][1])
+            );
+        } else {
+            // This logic is probably best kept out of a view.
+            // TODO (but maybe it is fine in a view)
+            $isPrev = $boundaryQuotes['quoteCollection'][0]['quote']['id'] < $quote->quote->id;
+            $element = new SimpleXMLElement(
+                $this->transcriber->toXml($boundaryQuotes['quoteCollection'][0])
+            );
+
+            if ($isPrev)
+                $prevQuoteXMLElement = $element;
+            else
+                $nextQuoteXMLElement = $element;
+        }
 
         /**
          * Quote XML "package"
@@ -83,11 +110,15 @@ class Quote extends Component\View
             $this->transcriber->toXml(['slideId' => $this->quoteLookup->relatedSlide($quote->quote->id)])
         ));
 
-        $previousQuote = $packagedQuote->addChild('previous');
-        $previousQuote->adopt($prevQuoteXMLElement);
+        if (isset($prevQuoteXMLElement)) {
+            $previousQuote = $packagedQuote->addChild('previous');
+            $previousQuote->adopt($prevQuoteXMLElement);
+        }
 
-        $nextQuote = $packagedQuote->addChild('next');
-        $nextQuote->adopt($nextQuoteXMLElement);
+        if (isset($nextQuoteXMLElement)) {
+            $nextQuote = $packagedQuote->addChild('next');
+            $nextQuote->adopt($nextQuoteXMLElement);
+        }
 
         $packagedIdentity = $quotePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
@@ -173,6 +204,11 @@ class Quote extends Component\View
             $this->transcriber->toXml($tags)
         );
 
+        $contentCategories = $json->contentCategories;
+        $contentCategoryXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($contentCategories)
+        );
+
         $pagination = new \stdClass();
         $pagination->div = $this->paginationHTML($qs, $count, $limit, $page);
         $paginationXMLElement = new SimpleXMLElement(
@@ -197,6 +233,7 @@ class Quote extends Component\View
         $packagedQuote = $quotePackageElement->addChild('domain');
         $packagedQuote->adopt($quoteXMLElement);
         $packagedQuote->adopt($tagXMLElement);
+        $packagedQuote->adopt($contentCategoryXMLElement);
         $packagedQuote->adopt($attributionXMLElement);
         $packagedQuote->adopt($subattributionXMLElement);
         $packagedQuote->adopt($paginationXMLElement);
@@ -233,6 +270,7 @@ class Quote extends Component\View
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: All Quotes");
         $domainXMLElement->addChild('extraJS', "quote-collection");
+        $domainXMLElement->addChild('extraCSS', "quote-collection");
         $domainXMLElement->addChild('metaDescription', "Searchable database of quotes used for Community Voices communication technology to promote environmental, social and economic sustainability in diverse communities.");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
@@ -254,17 +292,75 @@ class Quote extends Component\View
             $this->transcriber->toXml($identity->toArray())
         );
 
-        $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
+        /**
+         * Grab cached form
+         */
+        $formCache = new Component\CachedItem('quoteUploadForm');
 
-        $quoteXMLElement = new SimpleXMLElement(
+        $cacheMapper = $this->mapperFactory->createCacheMapper();
+        $cacheMapper->fetch($formCache);
+
+        $form = $formCache->getValue();
+
+        if (!is_null($form)) {
+            $formTags = $form['tags'];
+            $formContentCategories = $form['contentCategories'];
+
+            unset($form['tags']);
+            unset($form['contentCategories']);
+
+            $formParamXML = new Helper\SimpleXMLElementExtension(
+                '<form>' . $this->transcriber->toXml($form) . '</form>'
+            );
+        }
+
+        $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
+        $upload = json_decode($quoteAPIView->postQuoteUpload()->getContent());
+        $uploadXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($upload)
+        );
+
+        $tagAPIView = $this->secureContainer->contain($this->tagAPIView);
+        $contentCategoryAPIView = $this->secureContainer->contain($this->contentCategoryAPIView);
+
+        $tagXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
-                $quoteAPIView->getQuoteUpload()->getContent()
+                $tagAPIView->getAllTag()->getContent()
             ))
+        );
+
+        $contentCategoryXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(json_decode(
+                $contentCategoryAPIView->getAllContentCategory()->getContent()
+            ))
+        );
+
+        $selectedGroupString = ',';
+        $tagForEach = $formTags ?? [];
+        $contentCategoryForEach = $formContentCategories ?? [];
+
+        foreach ($tagForEach as $group) {
+            $selectedGroupString .= "{$group},";
+        }
+        foreach ($contentCategoryForEach as $group) {
+            $selectedGroupString .= "{$group},";
+        }
+        $selectedGroupXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(['selectedGroups' => [$selectedGroupString]])
         );
 
         $quotePackageElement = new Helper\SimpleXMLElementExtension('<package/>');
         $packagedQuote = $quotePackageElement->addChild('domain');
-        $packagedQuote->adopt($quoteXMLElement);
+
+        $packagedQuote->adopt($tagXMLElement);
+        $packagedQuote->adopt($contentCategoryXMLElement);
+        $packagedQuote->adopt($uploadXMLElement);
+        $packagedQuote->adopt($selectedGroupXMLElement);
+
+        if (isset($formParamXML)) {
+            $packagedQuote->adopt($formParamXML);
+        }
+
         $packagedIdentity = $quotePackageElement->addChild('identity');
         $packagedIdentity->adopt($identityXMLElement);
         $quoteModule = new Component\Presenter('Module/Form/QuoteUpload');
@@ -291,31 +387,22 @@ class Quote extends Component\View
 
     public function postQuoteUpload($request)
     {
+        $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
+        $upload = json_decode($quoteAPIView->postQuoteUpload()->getContent());
+
+        if (!empty($upload->upload->errors)) {
+            return $this->getQuoteUpload($request);
+        }
+
+        // We simply will show the edited quote.
+        // dirname() removes the /new from the url we are
+        // redirecting to.
         $response = new HttpFoundation\RedirectResponse(
-            $request->headers->get('referer')
+            dirname($request->headers->get('referer')) . '/' . $upload->upload->quote->id[0]
         );
 
         $this->finalize($response);
         return $response;
-
-        /*
-        $identity = $this->recognitionAdapter->identify();
-        $identityXMLElement = new SimpleXMLElement(
-          $this->transcriber->toXml($identity->toArray())
-        );
-        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
-        $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
-        $domainXMLElement->addChild(
-          'title',
-          "Community Voices"
-        );
-        $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
-        $presentation = new Component\Presenter('SinglePane');
-        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
-        $this->finalize($response);
-        return $response;
-        */
     }
 
     public function getQuoteUpdate($request)
@@ -327,29 +414,79 @@ class Quote extends Component\View
          */
         $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
 
+        /**
+         * Grab cached form
+         */
+        $formCache = new Component\CachedItem('quoteUpdateForm');
+
+        $cacheMapper = $this->mapperFactory->createCacheMapper();
+        $cacheMapper->fetch($formCache);
+
+        $form = $formCache->getValue();
+
+        if (!is_null($form)) {
+            $formTags = $form['tags'];
+            $formContentCategories = $form['contentCategories'];
+
+            unset($form['tags']);
+            unset($form['contentCategories']);
+
+            $formParamXML = new Helper\SimpleXMLElementExtension(
+                '<form>' . $this->transcriber->toXml($form) . '</form>'
+            );
+        }
+
+        $errors = json_decode($quoteAPIView->postQuoteUpdate()->getContent());
+        $errorsXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($errors)
+        );
+
         $quote = json_decode($quoteAPIView->getQuote()->getContent());
+
         $quote->quote->text = htmlspecialchars($quote->quote->text);
         $quoteXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($quote)
         );
 
-        $tags = $this->tagLookup->findAll(true);
+        $tagAPIView = $this->secureContainer->contain($this->tagAPIView);
+        $contentCategoryAPIView = $this->secureContainer->contain($this->contentCategoryAPIView);
+
         $tagXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($tags->getEntry('tag')[0]->toArray())
+            $this->transcriber->toXml(json_decode(
+                $tagAPIView->getAllTag()->getContent()
+            ))
         );
 
-        $selectedTagString = ',';
-        foreach ($quote->quote->tagCollection->groupCollection as $group) {
-            $selectedTagString .= "{$group->group->id},";
+        $contentCategoryXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(json_decode(
+                $contentCategoryAPIView->getAllContentCategory()->getContent()
+            ))
+        );
+
+        $selectedGroupString = ',';
+        $tagForEach = isset($formTags) ? $formTags : $quote->quote->tagCollection->groupCollection;
+        $contentCategoryForEach = isset($formContentCategories) ? $formContentCategories : $quote->quote->contentCategoryCollection->groupCollection;
+
+        foreach ($tagForEach as $group) {
+            $selectedGroupString .= is_object($group) ? "{$group->group->id}," : "{$group},";
         }
-        $selectedTagXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(['selectedTags' => [$selectedTagString]])
+        foreach ($contentCategoryForEach as $group) {
+            $selectedGroupString .= is_object($group) ? "{$group->group->id}," : "{$group},";
+        }
+        $selectedGroupXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(['selectedGroups' => [$selectedGroupString]])
         );
 
         $packagedQuote = $paramXML->addChild('domain');
         $packagedQuote->adopt($quoteXMLElement);
         $packagedQuote->adopt($tagXMLElement);
-        $packagedQuote->adopt($selectedTagXMLElement);
+        $packagedQuote->adopt($contentCategoryXMLElement);
+        $packagedQuote->adopt($selectedGroupXMLElement);
+        $packagedQuote->adopt($errorsXMLElement);
+
+        if (!is_null($form)) {
+            $packagedQuote->adopt($formParamXML);
+        }
 
         $formModule = new Component\Presenter('Module/Form/QuoteUpdate');
         $formModuleXML = $formModule->generate($paramXML);
@@ -393,9 +530,14 @@ class Quote extends Component\View
 
     public function postQuoteUpdate($request)
     {
-        // Should be some logic to go back to the edit form
-        // if errors exist.
-        // But, for now, we simply will show the edited quote.
+        $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
+        $errors = json_decode($quoteAPIView->postQuoteUpdate()->getContent());
+
+        if (!empty($errors->errors)) {
+            return $this->getQuoteUpdate($request);
+        }
+
+        // We simply will show the edited quote.
         // dirname() removes the /edit from the url we are
         // redirecting to
         $response = new HttpFoundation\RedirectResponse(

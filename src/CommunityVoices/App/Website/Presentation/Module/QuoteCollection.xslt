@@ -7,6 +7,7 @@
     or package/identity/user/role = 'administrator'"/>
   <xsl:variable name="search" select="package/domain/search"/>
   <xsl:variable name="status" select="package/domain/status"/>
+  <xsl:variable name="contentCategories" select="package/domain/contentCategories"/>
   <xsl:variable name="tags" select="package/domain/tags"/>
   <xsl:variable name="attributions" select="package/domain/attributions"/>
   <xsl:variable name="subattributions" select="package/domain/subattributions"/>
@@ -76,10 +77,31 @@
                   Show only unpaired quotes
                 </label>
               </div>
+              <xsl:if test="$isManager">
+                  <div class="form-group">
+                    <p class="mb-0">Potential Content Categories</p>
+                    <div style="overflow-y:scroll;width:100%;height: 145px;border:none" id='sorted-contentCategories'>
+                      <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" name="contentCategories[]" id="contentCategory{id}">
+                            <xsl:if test="contains($contentCategories, concat(',', id, ','))">
+                              <xsl:attribute name="checked">checked</xsl:attribute>
+                            </xsl:if>
+                            <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
+                          </input>
+                          <label class="form-check-label">
+                            <xsl:attribute name="for">tag<xsl:value-of select='id' /></xsl:attribute>
+                            <xsl:value-of select="label"></xsl:value-of>
+                          </label>
+                        </div>
+                      </xsl:for-each>
+                    </div>
+                  </div>
+              </xsl:if>
               <div class="form-group">
                 <p class="mb-0">Tags</p>
                 <div style="overflow-y:scroll;width:100%;height: 145px;border:none" id='sorted-tags'>
-                  <xsl:for-each select="domain/groupCollection/group">
+                  <xsl:for-each select="domain/tagCollection/tag">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="tags[]" id="tag{id}">
                         <xsl:if test="contains($tags, concat(',', id, ','))">
@@ -198,7 +220,8 @@
         <div class="card">
           <div class="card-header">Quotes</div>
           <ul class="list-group list-group-flush">
-
+              <xsl:choose>
+              <xsl:when test="domain/quoteCollection/quote != ''">
             <xsl:for-each select="domain/quoteCollection/quote">
               <xsl:if test="$isManager or status = 'approved'">
 
@@ -206,7 +229,12 @@
                   <xsl:choose>
                     <xsl:when test="$isManager">
                         <blockquote class="blockquote mb-0">
-                          <p contenteditable="true" id="text{id}"><xsl:value-of select="text"></xsl:value-of></p>
+                          <p contenteditable="true" id="text{id}">
+                              <xsl:if test="quotationMarks != ''">
+                                  <xsl:attribute name="class">quoted</xsl:attribute>
+                              </xsl:if>
+                              <xsl:value-of select="text"></xsl:value-of>
+                          </p>
                           <footer class="blockquote-footer">
                             <xsl:value-of select="attribution"></xsl:value-of>
                             <xsl:if test="subAttribution != '' and attribution != subAttribution">
@@ -216,7 +244,8 @@
                           </footer>
                         </blockquote>
                       <div class="mt-2">
-                        <a class="btn btn-outline-primary btn-sm d-inline mr-2 save-quote-changes" href="#" data-id="{id}">Save changes</a>
+                        <a class="btn btn-outline-info btn-sm d-inline mr-2" href="quotes/{id}">View quote</a>
+                        <a class="btn btn-outline-primary btn-sm d-inline mr-2 save-quote-text" href="#" data-id="{id}">Save text changes</a>
                         <a class="btn btn-outline-secondary btn-sm d-inline mr-2" href="quotes/{id}/edit">Edit meta data</a>
                         <xsl:choose>
                           <xsl:when test="relatedSlide = ''">
@@ -226,12 +255,27 @@
                             <a data-action="quotes/{id}/unpair/{relatedSlide}" class="btn btn-outline-warning btn-sm d-inline unpair-btn" href="#">Unpair slide</a>
                           </xsl:otherwise>
                         </xsl:choose>
+                        <div class="form-check form-check-inline d-inline mr-2">
+                            <input class="form-check-input approve-checkbox" type="checkbox" id="approve-checkbox{id}" data-id="{id}">
+                                <xsl:if test="status = 'approved'">
+                                    <xsl:attribute name="checked">checked</xsl:attribute>
+                                </xsl:if>
+                            </input>
+                            <label class="form-check-label" for="approve-checkbox{id}">Approved</label>
+                            <xsl:text> </xsl:text>
+                            <i id="modify-status{id}"></i>
+                        </div>
                       </div>
                     </xsl:when>
                     <xsl:otherwise>
                       <a href='quotes/{id}' style="color: inherit; text-decoration: inherit;">
                         <blockquote class="blockquote mb-0">
-                          <p><xsl:value-of select="text"></xsl:value-of></p>
+                          <p>
+                              <xsl:if test="quotationMarks != ''">
+                                  <xsl:attribute name="class">quoted</xsl:attribute>
+                              </xsl:if>
+                              <xsl:value-of select="text"></xsl:value-of>
+                          </p>
                           <footer class="blockquote-footer">
                             <xsl:value-of select="attribution"></xsl:value-of>
                             <xsl:if test="subAttribution != '' and attribution != subAttribution">
@@ -247,6 +291,11 @@
 
               </xsl:if>
             </xsl:for-each>
+        </xsl:when>
+        <xsl:otherwise>
+            <li class="list-group-item">No quotes found.</li>
+        </xsl:otherwise>
+    </xsl:choose>
           </ul>
         </div>
       </div>

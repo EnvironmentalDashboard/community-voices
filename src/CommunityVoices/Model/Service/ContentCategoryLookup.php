@@ -12,7 +12,7 @@ use CommunityVoices\Model\Component;
 use CommunityVoices\Model\Mapper;
 use CommunityVoices\Model\Exception;
 
-class TagLookup
+class ContentCategoryLookup
 {
     private $mapperFactory;
 
@@ -31,12 +31,12 @@ class TagLookup
 
     public function findAll($return = false)
     {
-        $tagCollection = new Entity\TagCollection;
+        $contentCategoryCollection = new Entity\ContentCategoryCollection;
         $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
-        $tagMapper->fetchAllTags($tagCollection);
+        $tagMapper->fetchAllContentCategories($contentCategoryCollection);
 
-        $this->stateObserver->setSubject('tagLookup');
-        $this->stateObserver->addEntry('tag', $tagCollection);
+        $this->stateObserver->setSubject('contentCategoryLookup');
+        $this->stateObserver->addEntry('contentCategory', $contentCategoryCollection);
 
         if ($return) {
             return $this->stateObserver;

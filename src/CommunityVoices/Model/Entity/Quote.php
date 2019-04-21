@@ -9,12 +9,15 @@ class Quote extends Media
     const ERR_ATTRIBUTION_REQUIRED = 'Quotes must have an attribution.';
     const ERR_SOURCE_LINK_INVALID = 'Source document link must be empty or a valid URL.';
     const ERR_PUBLIC_LINK_INVALID = 'Public document link must be empty or a valid URL.';
+    const ERR_MISSING_CONTENT_CATEGORY = 'Must provide a potential content category.';
 
     private $text;
 
     private $attribution;
     private $subAttribution;
     private $dateRecorded;
+
+    private $quotationMarks;
 
     private $publicDocumentLink;
     private $sourceDocumentLink;
@@ -56,6 +59,16 @@ class Quote extends Media
         $this->subAttribution = htmlspecialchars($subAttribution);
     }
 
+    public function getQuotationMarks()
+    {
+        return $this->quotationMarks;
+    }
+
+    public function setQuotationMarks($quotationMarks)
+    {
+        $this->quotationMarks = $quotationMarks;
+    }
+
     public function getDateRecorded()
     {
         return $this->dateRecorded;
@@ -87,7 +100,7 @@ class Quote extends Media
     }
 
 
-    public function validateForUpload(FlexibleObserver $stateObserver)
+    public function validateForUpload(FlexibleObserver $stateObserver, array $contentCategories)
     {
         $isValid = true;
 
@@ -106,6 +119,11 @@ class Quote extends Media
             $stateObserver->addEntry('publicDocumentLink', self::ERR_PUBLIC_LINK_INVALID);
         }
 
+        if (empty($contentCategories)) {
+            $isValid = false;
+            $stateObserver->addEntry('contentCategory', self::ERR_MISSING_CONTENT_CATEGORY);
+        }
+
         return $isValid;
     }
 
@@ -115,6 +133,7 @@ class Quote extends Media
             'text' => $this->text,
             'attribution' => $this->attribution,
             'subAttribution' => $this->subAttribution,
+            'quotationMarks' => $this->quotationMarks > 0 ? true : false,
             'dateRecorded' => date("Y-m-d H:i:s", $this->dateRecorded),
             'publicDocumentLink' => $this->publicDocumentLink,
             'sourceDocumentLink' => $this->sourceDocumentLink

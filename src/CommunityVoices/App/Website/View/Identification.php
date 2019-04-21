@@ -126,32 +126,9 @@ class Identification extends Component\View
 
     public function getLogout($request)
     {
-        $identity = $this->recognitionAdapter->identify();
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
+        $response = new HttpFoundation\RedirectResponse(
+            $request->headers->get('referer') ?? $this->urlGenerator->generate('root')
         );
-
-        /**
-         * Get base URL
-         */
-        //$urlGenerator = new UrlGenerator($routes, $context);
-        //$baseUrl = $urlGenerator->generate('root');
-
-        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
-
-        $domainXMLElement->addChild('main-pane', '<p>Logged out.</p>');
-        //$domainXMLElement->addChild('baseUrl', $baseUrl);
-        $domainXMLElement->addChild(
-            'title',
-            "Community Voices: Logout"
-        );
-
-        $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
-
-        $presentation = new Component\Presenter('SinglePane');
-
-        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 
         $this->finalize($response);
         return $response;

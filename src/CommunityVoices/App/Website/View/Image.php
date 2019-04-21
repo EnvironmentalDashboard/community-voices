@@ -176,9 +176,9 @@ class Image extends Component\View
         );
 
         $tags = $json->tags;
-        usort($tags->groupCollection, function ($a, $b) {
-            $a = $a->group->label;
-            $b = $b->group->label;
+        usort($tags->tagCollection, function ($a, $b) {
+            $a = $a->tag->label;
+            $b = $b->tag->label;
             return strcmp($a, $b);
         });
         $tagXMLElement = new SimpleXMLElement(
@@ -341,8 +341,8 @@ class Image extends Component\View
         );
 
         $selectedTagString = ',';
-        foreach ($image->image->tagCollection->groupCollection as $group) {
-            $selectedTagString .= "{$group->group->id},";
+        foreach ($image->image->tagCollection->tagCollection as $group) {
+            $selectedTagString .= "{$group->tag->id},";
         }
         $selectedTagXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(['selectedTags' => [$selectedTagString]])

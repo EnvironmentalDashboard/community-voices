@@ -35,24 +35,31 @@ class GroupCollection extends DataMapper
         }
     }
 
-    public function fetchAllTags(Entity\GroupCollection $groupCollection)
+    public function fetchAllContentCategories(Entity\ContentCategoryCollection $contentCategoryCollection)
     {
-        foreach ($this->conn->query("SELECT id, label FROM `community-voices_groups` WHERE type = 'tag'") as $row) {
-            $groupCollection->addEntityFromParams($row);
+        foreach ($this->conn->query("SELECT id, label FROM `community-voices_groups` WHERE type = 'content-category' ORDER BY label ASC") as $row) {
+            $contentCategoryCollection->addEntityFromParams($row);
         }
     }
 
-    public function deleteTags(Entity\Media $media)
+    public function fetchAllTags(Entity\TagCollection $tagCollection)
+    {
+        foreach ($this->conn->query("SELECT id, label FROM `community-voices_groups` WHERE type = 'tag' ORDER BY label ASC") as $row) {
+            $tagCollection->addEntityFromParams($row);
+        }
+    }
+
+    public function deleteGroups(Entity\Media $media)
     {
         $stmt = $this->conn->prepare("DELETE FROM `community-voices_media-group-map` WHERE media_id = ?");
         $stmt->execute([$media->getId()]);
     }
 
-    public function saveTags(Entity\GroupCollection $groupCollection)
+    public function saveGroups(Entity\GroupCollection $groupCollection)
     {
-        foreach ($groupCollection->getCollection() as $tag) {
+        foreach ($groupCollection->getCollection() as $group) {
             $stmt = $this->conn->prepare("INSERT INTO `community-voices_media-group-map` (media_id, group_id) VALUES (?, ?)");
-            $stmt->execute([$tag->getMediaId(), $tag->getGroupId()]);
+            $stmt->execute([$group->getMediaId(), $group->getGroupId()]);
         }
     }
 

@@ -36,7 +36,8 @@ class FrontController
         'CommunityVoices\App\Website\Bootstrap\Provider\Recognition',
         'CommunityVoices\App\Website\Bootstrap\Provider\Swift',
         'CommunityVoices\App\Website\Bootstrap\Provider\AccessControl',
-        'CommunityVoices\App\Website\Bootstrap\Provider\UrlGenerator'
+        'CommunityVoices\App\Website\Bootstrap\Provider\UrlGenerator',
+        'CommunityVoices\App\Website\Bootstrap\Provider\StateObserver'
     ];
 
     public function __construct($router, $dispatcher, $injector, $logger)
@@ -92,7 +93,8 @@ class FrontController
         $this->logger->alert('Critical system error', [
             'exception' => [
                 'type' => get_class($error),
-                'message' => $error->getMessage()
+                'message' => $error->getMessage(),
+                'trace' => $error->getTraceAsString()
             ]
         ]);
 

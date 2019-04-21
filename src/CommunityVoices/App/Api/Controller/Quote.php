@@ -14,12 +14,10 @@ class Quote extends Component\Controller
 
     public function __construct(
         Service\QuoteLookup $quoteLookup,
-        Service\QuoteManagement $quoteManagement,
-        Service\TagLookup $tagLookup
+        Service\QuoteManagement $quoteManagement
     ) {
         $this->quoteLookup = $quoteLookup;
         $this->quoteManagement = $quoteManagement;
-        $this->tagLookup = $tagLookup;
     }
 
     /**
@@ -57,6 +55,7 @@ class Quote extends Component\Controller
 
         $search = $request->query->get('search');
         $tags = $request->query->get('tags');
+        $contentCategories = $request->query->get('contentCategories');
         $attributions = $request->query->get('attributions');
         $subattributions = $request->query->get('subattributions');
         $creatorIDs = $request->attributes->get('creatorIDs');
@@ -96,12 +95,12 @@ class Quote extends Component\Controller
 
         $only_unused = !!$only_unused;
 
-        $this->quoteLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $attributions, $subattributions, $creatorIDs, $status);
+        $this->quoteLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $contentCategories, $attributions, $subattributions, $creatorIDs, $status);
     }
 
     public function getQuoteUpload()
     {
-        $this->tagLookup->findAll();
+        // intentionally blank
     }
 
     public function postQuoteUpload($request, $identity)
@@ -109,58 +108,60 @@ class Quote extends Component\Controller
         $text = $request->request->get('text');
         $attribution = $request->request->get('attribution');
         $subAttribution = $request->request->get('subAttribution');
+        $quotationMarks = $request->request->get('quotationMarks');
         $dateRecorded = $request->request->get('dateRecorded');
         $approved = $request->request->get('approved');
-        $tags = $request->request->get('tags');
+        $tags = $request->request->get('tags') ?? [];
+        $contentCategories = $request->request->get('contentCategories') ?? [];
 
         if ($identity->getRole() <= 2) {
             $approved = null;
         }
 
-        $this->quoteManagement->upload(
+        return $this->quoteManagement->upload(
             $text,
             $attribution,
             $subAttribution,
+            $quotationMarks,
             $dateRecorded,
             $approved,
             $identity,
-            $tags
+            $tags,
+            $contentCategories
         );
     }
 
     public function getQuoteUpdate($request)
     {
-        $quoteId = (int) $request->attributes->get('id');
-
-        try {
-            $this->quoteLookup->findById($quoteId);
-        } catch (Exception\IdentityNotFound $e) {
-            $this->send404();
-        }
+        // In order to autofill some form values,
+        // we need to get the current quote's data.
+        $this->getQuote($request);
     }
 
     public function postQuoteUpdate($request)
     {
-        $text = $request->request->get('text');
-        $attribution = $request->request->get('attribution');
-        $subAttribution = $request->request->get('subAttribution');
-        $dateRecorded = $request->request->get('dateRecorded');
-        $status = $request->request->get('status');
-        $tags = $request->request->get('tags') ?? [];
+        $attributes = [
+            "text" => $request->request->get('text'),
+            "attribution" => $request->request->get('attribution'),
+            "subAttribution" => $request->request->get('subAttribution'),
+            "quotationMarks" => $request->request->get('quotationMarks'),
+            "dateRecorded" => $request->request->get('dateRecorded'),
+            "status" => $request->request->get('status'),
+            "tags" => $request->request->get('tags'),
+            "contentCategories" => $request->request->get('contentCategories')
+        ];
+        $nonNullAttributes = array_filter($attributes, function ($v) {
+            return !is_null($v);
+        });
 
         $id = (int) $request->attributes->get('id');
         if ($id === 0) {
             $id = (int) $request->request->get('id');
         }
 
-        $this->quoteManagement->update(
+        return $this->quoteManagement->update(
             $id,
-            $text,
-            $attribution,
-            $subAttribution,
-            $dateRecorded,
-            $status,
-            $tags
+            $nonNullAttributes
         );
     }
 

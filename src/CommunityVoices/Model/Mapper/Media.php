@@ -30,6 +30,16 @@ class Media extends DataMapper
                     'groupType' => Entity\GroupCollection::GROUP_TYPE_TAG,
                     'parentType' => Entity\GroupCollection::PARENT_TYPE_MEDIA,
                 ]
+            ],
+            'contentCategoryCollection' => [
+                'class' => Entity\GroupCollection::class,
+                'attributes' => [
+                    'parentId' => 'id'
+                ],
+                'static' => [
+                    'groupType' => Entity\GroupCollection::GROUP_TYPE_CONT_CAT,
+                    'parentType' => Entity\GroupCollection::PARENT_TYPE_MEDIA,
+                ]
             ]
         ]
     ];

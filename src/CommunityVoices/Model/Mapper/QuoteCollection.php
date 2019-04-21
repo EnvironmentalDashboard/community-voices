@@ -31,7 +31,7 @@ class QuoteCollection extends DataMapper
         $container->subattributionCollection = $subattributions;
     }
 
-    public function fetch(Entity\QuoteCollection $quoteCollection, string $order_str = '', $only_unused = '', $search = '', $tags = null, $attributions = null, $subattributions = null, int $limit = 1, int $offset = 0)
+    public function fetch(Entity\QuoteCollection $quoteCollection, string $order_str = '', $only_unused = '', $search = '', $tags = null, $contentCategories = null, $attributions = null, $subattributions = null, int $limit = 1, int $offset = 0)
     {
         /**
          * @todo Fetch mecnahism should determine the general filter type to use,
@@ -60,7 +60,7 @@ class QuoteCollection extends DataMapper
                     break;
             }
 
-            $this->fetchAll($quoteCollection, $only_unused, $search, $tags, $attributions, $subattributions, $limit, $offset, $sort, $order);
+            $this->fetchAll($quoteCollection, $only_unused, $search, $tags, $contentCategories, $attributions, $subattributions, $limit, $offset, $sort, $order);
         }
     }
 
@@ -92,7 +92,7 @@ class QuoteCollection extends DataMapper
         }
     }
 
-    private function fetchAll(Entity\QuoteCollection $quoteCollection, $only_unused, $search, $tags, $attributions, $subattributions, int $limit, int $offset, $sort = 'date_recorded', $order = 'DESC')
+    private function fetchAll(Entity\QuoteCollection $quoteCollection, $only_unused, $search, $tags, $contentCategories, $attributions, $subattributions, int $limit, int $offset, $sort = 'date_recorded', $order = 'DESC')
     {
         $params = [];
         if ($search == '') {
@@ -107,6 +107,12 @@ class QuoteCollection extends DataMapper
             $tag_query = '';
         } else {
             $tag_query = 'AND id IN (SELECT media_id FROM `community-voices_media-group-map` WHERE group_id IN ('.implode(',', array_map('intval', $tags)).'))';
+        }
+
+        if ($contentCategories == null) {
+            $content_category_query = '';
+        } else {
+            $content_category_query = 'AND id IN (SELECT media_id FROM `community-voices_media-group-map` WHERE group_id IN ('.implode(',', array_map('intval', $contentCategories)).'))';
         }
 
         if ($attributions == null) {
@@ -140,6 +146,7 @@ class QuoteCollection extends DataMapper
                         quote.text                      AS text,
                         quote.attribution               AS attribution,
                         quote.sub_attribution           AS subAttribution,
+                        quote.quotation_marks           AS quotationMarks,
                         quote.date_recorded             AS dateRecorded,
                         quote.public_document_link      AS publicDocumentLink,
                         quote.source_document_link      AS sourceDocumentLink
@@ -149,7 +156,7 @@ class QuoteCollection extends DataMapper
 						`community-voices_quotes` quote
 						ON media.id = quote.media_id
 		          	WHERE 1
-                    {$search_query} {$tag_query} {$attribution_query} {$subattribution_query} {$only_unused_query}
+                    {$search_query} {$tag_query} {$content_category_query} {$attribution_query} {$subattribution_query} {$only_unused_query}
 		         "
                  . $this->query_prep($quoteCollection->status, "media.status")
                  . $this->query_prep($quoteCollection->creators, "media.added_by")

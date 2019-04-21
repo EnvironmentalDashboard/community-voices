@@ -54,6 +54,9 @@ class Quote
         $stateObserver->setSubject('tagLookup');
         $quoteCollection['tags'] = $stateObserver->getEntry('tag')[0]->toArray();
 
+        $stateObserver->setSubject('contentCategoryLookup');
+        $quoteCollection['contentCategories'] = $stateObserver->getEntry('contentCategory')[0]->toArray();
+
         $response = new HttpFoundation\JsonResponse($quoteCollection);
 
         return $response;
@@ -61,20 +64,26 @@ class Quote
 
     public function getQuoteUpload()
     {
-        $clientState = $this->mapperFactory->createClientStateMapper();
-        $stateObserver = $clientState->retrieve();
-
-        $stateObserver->setSubject('tagLookup');
-        $tag = $stateObserver->getEntry('tag')[0];
-
-        $response = new HttpFoundation\JsonResponse($tag->toArray());
-
-        return $response;
+        // intentionally blank
     }
 
     public function postQuoteUpload()
     {
-        // intentionally blank
+        $clientStateMapper = $this->mapperFactory->createClientStateMapper();
+        $clientStateObserver = $clientStateMapper->retrieve();
+
+        // In the case that we have retrieved errors, we will send them along.
+        // Otherwise, our errors array will be an empty array.
+        $errors = ($clientStateObserver && $clientStateObserver->hasSubjectEntries('quoteUploadErrors'))
+            ? $clientStateObserver->getEntriesBySubject('quoteUploadErrors') : [];
+
+        $id = ($clientStateObserver && $clientStateObserver->hasSubjectEntries('quoteUpload'))
+            ? $clientStateObserver->getEntriesBySubject('quoteUpload') : [];
+
+        $combined = ['upload' => ['errors' => $errors, 'quote' => $id]];
+        $response = new HttpFoundation\JsonResponse($combined);
+
+        return $response;
     }
 
     public function getQuoteUpdate()
@@ -84,6 +93,16 @@ class Quote
 
     public function postQuoteUpdate()
     {
-        // intentionally blank
+        $clientStateMapper = $this->mapperFactory->createClientStateMapper();
+        $clientStateObserver = $clientStateMapper->retrieve();
+
+        // In the case that we have retrieved errors, we will send them along.
+        // Otherwise, our errors array will be an empty array.
+        $errors = ($clientStateObserver && $clientStateObserver->hasSubjectEntries('quoteUpdate'))
+            ? $clientStateObserver->getEntriesBySubject('quoteUpdate') : [];
+
+        $response = new HttpFoundation\JsonResponse(['errors' => $errors]);
+
+        return $response;
     }
 }
