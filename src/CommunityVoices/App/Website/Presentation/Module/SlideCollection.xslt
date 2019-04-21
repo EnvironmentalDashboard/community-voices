@@ -16,7 +16,6 @@
   <xsl:variable name="attributions" select="package/domain/attributions"/>
   <xsl:variable name="content_category" select="package/domain/content_category"/>
 
-
 	<xsl:template match="/package">
 
 		<nav class="navbar navbar-light bg-light" style="justify-content:initial">

@@ -26,7 +26,7 @@ class Identification
      * User authentication
      */
     public function postCredentials($request)
-    {
+    {        
         $email    = $request->request->get('email');
         $password = $request->request->get('password');
         $remember = $request->request->get('remember') === 'on';

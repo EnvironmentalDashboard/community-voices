@@ -32,6 +32,8 @@ class Identification extends Component\View
 
     public function getLogin($request)
     {
+        $referer = $request->headers->get("referer");
+
         $identity = $this->recognitionAdapter->identify();
 
         $identityXMLElement = new SimpleXMLElement(
@@ -40,8 +42,10 @@ class Identification extends Component\View
 
         // If we are logged in, we should not be letting us log in again!
         if ($identity->getId()) {
+            // Our goal is to either return from where we came or go back to
+            // the root of the website.
             $response = new HttpFoundation\RedirectResponse(
-                $this->urlGenerator->generate('root')
+                $referer ?? $this->urlGenerator->generate("root")
             );
 
             $this->finalize($response);
@@ -70,6 +74,7 @@ class Identification extends Component\View
         $form = $formCache->getValue();
 
         $formParamXML = new Helper\SimpleXMLElementExtension('<form/>');
+        $formParamXML->addAttribute('referer', $referer);
         $formParamXML->addAttribute('failure', !is_null($form));
         $formParamXML->addAttribute('email-value', $form['email']);
         $formParamXML->addAttribute('remember-value', $form['remember']);
@@ -109,9 +114,8 @@ class Identification extends Component\View
             /**
              * Login success
              */
-
             $response = new HttpFoundation\RedirectResponse(
-                $this->urlGenerator->generate('root')
+                $request->request->get("referer") ?? $this->urlGenerator->generate("root")
             );
 
             $this->finalize($response);

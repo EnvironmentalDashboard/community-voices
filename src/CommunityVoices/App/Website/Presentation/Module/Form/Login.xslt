@@ -47,6 +47,10 @@
             </label>
           </div>
 
+          <xsl:if test="@referer != ''">
+              <input type="hidden" id="referer" name="referer" value="{@referer}" />
+          </xsl:if>
+
           <button class="btn btn-lg btn-primary btn-block mb-5" type="submit">Sign in</button>
         </form>
 
