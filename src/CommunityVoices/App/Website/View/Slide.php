@@ -426,7 +426,7 @@ class Slide extends Component\View
         );
 
         $obj = new \stdClass;
-        $obj->groupCollection = $json->groupCollection;
+        $obj->tagCollection = $json->tagCollection;
         $tagXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($obj)
         );
