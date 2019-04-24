@@ -234,6 +234,8 @@
         </div>
 			</div>
       <div class="col-sm-9">
+		  <xsl:choose>
+			  <xsl:when test="domain/slideCollection/slide != ''">
       	<xsl:for-each select="domain/slideCollection/slide">
       		<xsl:if test="$isManager or status = 'approved'">
             <xsl:choose>
@@ -254,6 +256,11 @@
             </xsl:choose>
 					</xsl:if>
 				</xsl:for-each>
+			</xsl:when>
+			<xsl:otherwise>
+				<p>No slides found.</p>
+			</xsl:otherwise>
+		</xsl:choose>
       </div>
 		</div>
 		<div class="row" style="padding:15px;">
