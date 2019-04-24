@@ -51,12 +51,6 @@ class Quote
         $quoteCollection['quoteCollectionAttributions'] = $stateObserver->getEntry('quoteCollectionAttributions')[0];
         $quoteCollection['quoteCollectionSubAttributions'] = $stateObserver->getEntry('quoteCollectionSubAttributions')[0];
 
-        $stateObserver->setSubject('tagLookup');
-        $quoteCollection['tags'] = $stateObserver->getEntry('tag')[0]->toArray();
-
-        $stateObserver->setSubject('contentCategoryLookup');
-        $quoteCollection['contentCategories'] = $stateObserver->getEntry('contentCategory')[0]->toArray();
-
         $response = new HttpFoundation\JsonResponse($quoteCollection);
 
         return $response;

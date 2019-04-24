@@ -47,7 +47,7 @@ class Quote extends Component\Controller
         $this->quoteLookup->findBoundaryQuotesById($quoteId);
     }
 
-    public function getAllQuote($request, $identity)
+    public function getAllQuote($request, $identity = 1)
     {
         /**
          * Grab parameters from bag
@@ -76,7 +76,7 @@ class Quote extends Component\Controller
          * RBAC usually be in the ACL, not here (i.e., two different View-
          * Controller pairs, arbitrated by a secure container)
          */
-        if ($identity->getRole() <= 2) {
+        if (is_object($identity) && $identity->getRole() <= 2) {
             $status = ["approved"];
         }
 

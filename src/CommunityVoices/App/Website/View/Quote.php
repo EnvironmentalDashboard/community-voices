@@ -199,14 +199,19 @@ class Quote extends Component\View
             $this->transcriber->toXml($obj)
         );
 
-        $tags = $json->tags;
+        $tagAPIView = $this->secureContainer->contain($this->tagAPIView);
+        $contentCategoryAPIView = $this->secureContainer->contain($this->contentCategoryAPIView);
+
         $tagXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($tags)
+            $this->transcriber->toXml(json_decode(
+                $tagAPIView->getAllTag()->getContent()
+            ))
         );
 
-        $contentCategories = $json->contentCategories;
         $contentCategoryXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($contentCategories)
+            $this->transcriber->toXml(json_decode(
+                $contentCategoryAPIView->getAllContentCategory()->getContent()
+            ))
         );
 
         $pagination = new \stdClass();
