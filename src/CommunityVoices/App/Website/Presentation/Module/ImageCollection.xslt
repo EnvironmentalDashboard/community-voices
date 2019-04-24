@@ -159,7 +159,7 @@
 
 	        		<div class="form-group">
                 <p class="mb-0">Tags</p>
-                <div style="overflow-y:scroll;width:100%;height: 210px;border:none" class='sorted-checkboxes'>
+                <div style="overflow-y:scroll;width:100%;height: 145px;border:none" class='sorted-checkboxes'>
                   <xsl:for-each select="$allTags">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="tags[]" id="globalTag{id}">
