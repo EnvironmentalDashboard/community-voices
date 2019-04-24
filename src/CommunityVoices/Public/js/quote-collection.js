@@ -36,7 +36,7 @@ function cmp_str(a, b) {
 	return 0;
 }
 
-var targets = [$('#sorted-tags'), $('#sorted-contentCategories'), $('#sorted-photographers'), $('#sorted-orgs')];
+var targets = [$('#sorted-tags'), $('#sorted-contentCategories'), $('#sorted-attribution'), $('#sorted-subattribution')];
 $(targets).each(function(i, target){
 	target.html(sortCheckboxes(target)); // sort once initially
   target.on("change", function() {
