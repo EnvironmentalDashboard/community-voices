@@ -71,7 +71,7 @@
 	        		</div>
 
               <div class="form-group">
-                <p class="mb-0">Content category</p>
+                <p class="mb-0">Content Category</p>
                 <div style="overflow-y:scroll;width:100%;height: 145px;border:none" id="sorted-cc">
                   <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
                     <div class="form-check">
