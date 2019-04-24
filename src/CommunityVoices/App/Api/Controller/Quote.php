@@ -7,15 +7,20 @@ use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Exception;
 use CommunityVoices\App\Api\Component;
 
+use CommunityVoices\App\Website\Component\RecognitionAdapter;
+
 class Quote extends Component\Controller
 {
+    protected $recognitionAdapter;
     protected $quoteLookup;
     protected $quoteManagement;
 
     public function __construct(
+        RecognitionAdapter $recognitionAdapter,
         Service\QuoteLookup $quoteLookup,
         Service\QuoteManagement $quoteManagement
     ) {
+        $this->recognitionAdapter = $recognitionAdapter;
         $this->quoteLookup = $quoteLookup;
         $this->quoteManagement = $quoteManagement;
     }
@@ -47,8 +52,10 @@ class Quote extends Component\Controller
         $this->quoteLookup->findBoundaryQuotesById($quoteId);
     }
 
-    public function getAllQuote($request, $identity = 1)
+    public function getAllQuote($request)
     {
+        $identity = $this->recognitionAdapter->identify();
+
         /**
          * Grab parameters from bag
          */
@@ -76,7 +83,7 @@ class Quote extends Component\Controller
          * RBAC usually be in the ACL, not here (i.e., two different View-
          * Controller pairs, arbitrated by a secure container)
          */
-        if (is_object($identity) && $identity->getRole() <= 2) {
+        if ($identity->getRole() <= 2) {
             $status = ["approved"];
         }
 

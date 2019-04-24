@@ -57,7 +57,7 @@ class Quote
 
         $identity = $this->recognitionAdapter->identify();
 
-        $quoteAPIController->getAllQuote($request, $identity);
+        $quoteAPIController->getAllQuote($request);
         $tagAPIController->getAllTag($request);
         $contentCategoryAPIController->getAllContentCategory($request);
     }
