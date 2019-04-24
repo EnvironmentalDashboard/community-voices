@@ -302,6 +302,8 @@
             <div class="table-responsive" style="max-width:100%">
               <table class="table" id="form-table" style="max-width:100%">
                 <tbody>
+					<xsl:choose>
+					<xsl:when test="domain/imageCollection/image != ''">
 						<button class="btn btn-secondary float-right" onclick="submitAll()" style="margin: 15px;">
 							Update All Images on Page
 						</button>
@@ -401,6 +403,11 @@
                       </td>
                     </tr>
                   </xsl:for-each>
+			  </xsl:when>
+			  <xsl:otherwise>
+				  <p>No images found.</p>
+			  </xsl:otherwise>
+		  </xsl:choose>
                 </tbody>
               </table>
             </div>
