@@ -1,6 +1,6 @@
 <?php
 
-namespace CommunityVoices\App\Website\Component\Mapper;
+namespace CommunityVoices\App\Api\Component\Mapper;
 
 use CommunityVoices\Model\Contract\Cookieable;
 use Symfony\Component\HttpFoundation;

@@ -8,7 +8,6 @@ use CommunityVoices\App\Api;
 
 class Quote
 {
-    protected $recognitionAdapter;
     protected $mapperFactory;
     protected $quoteAPIController;
     protected $tagAPIController;
@@ -16,7 +15,6 @@ class Quote
     protected $secureContainer;
 
     public function __construct(
-        Component\RecognitionAdapter $recognitionAdapter,
         Component\MapperFactory $mapperFactory,
         Api\Controller\Quote $quoteAPIController,
         Api\Controller\Tag $tagAPIController,
@@ -55,8 +53,6 @@ class Quote
         // [example] filter by status
         // $request->attributes->set('status', ['rejected', 'pending']);
 
-        $identity = $this->recognitionAdapter->identify();
-
         $quoteAPIController->getAllQuote($request);
         $tagAPIController->getAllTag($request);
         $contentCategoryAPIController->getAllContentCategory($request);
@@ -79,7 +75,6 @@ class Quote
     public function postQuoteUpload($request)
     {
         $apiController = $this->secureContainer->contain($this->quoteAPIController);
-        $identity = $this->recognitionAdapter->identify();
 
         $text = $request->request->get('text');
         $attribution = $request->request->get('attribution');
@@ -105,7 +100,7 @@ class Quote
         $cacheMapper = $this->mapperFactory->createCacheMapper();
         $cacheMapper->save($formCache);
 
-        if (!$apiController->postQuoteUpload($request, $identity)) {
+        if (!$apiController->postQuoteUpload($request)) {
             $this->getQuoteUpload($request);
         }
     }

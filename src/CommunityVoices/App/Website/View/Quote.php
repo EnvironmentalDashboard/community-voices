@@ -14,7 +14,6 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class Quote extends Component\View
 {
-    protected $recognitionAdapter;
     protected $mapperFactory;
     protected $transcriber;
     protected $secureContainer;
@@ -23,9 +22,9 @@ class Quote extends Component\View
     protected $tagLookup;
     protected $tagAPIView;
     protected $contentCategoryAPIView;
+    protected $identificationAPIView;
 
     public function __construct(
-        Component\RecognitionAdapter $recognitionAdapter,
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         Api\Component\SecureContainer $secureContainer,
@@ -33,9 +32,9 @@ class Quote extends Component\View
         Service\QuoteLookup $quoteLookup,
         Service\TagLookup $tagLookup,
         Api\View\Tag $tagAPIView,
-        Api\View\ContentCategory $contentCategoryAPIView
+        Api\View\ContentCategory $contentCategoryAPIView,
+        Api\View\Identification $identificationAPIView
     ) {
-        $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
         $this->transcriber = $transcriber;
         $this->secureContainer = $secureContainer;
@@ -44,6 +43,7 @@ class Quote extends Component\View
         $this->tagLookup = $tagLookup;
         $this->tagAPIView = $tagAPIView;
         $this->contentCategoryAPIView = $contentCategoryAPIView;
+        $this->identificationAPIView = $identificationAPIView;
     }
 
     public function getQuote($request)
@@ -167,7 +167,7 @@ class Quote extends Component\View
         /**
          * Gather identity information
          */
-        $identity = $this->recognitionAdapter->identify();
+        $identity = json_decode($this->identificationAPIView->getIdentity());
 
         $identityXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($identity->toArray())

@@ -3,7 +3,7 @@
 namespace CommunityVoices\App\Website\Bootstrap\Provider;
 
 use CommunityVoices\Model;
-use CommunityVoices\App\Website;
+use CommunityVoices\App\Api;
 use CommunityVoices\App\Website\Component\Provider;
 use \Palladium;
 
@@ -26,15 +26,15 @@ class Mappers extends Provider
 
     public function init()
     {
-        $websiteMapperFactory = new Website\Component\MapperFactory($this->request);
+        $APIMapperFactory = new Api\Component\MapperFactory($this->request);
         $modelMapperFactory = new Model\Component\MapperFactory($this->dbHandler);
-        
+
         /**
          * @config?
          */
         $pdMapperFactory = new Palladium\Component\MapperFactory($this->dbHandler, '`community-voices_identities`');
 
-        $this->injector->share($websiteMapperFactory);
+        $this->injector->share($APIMapperFactory);
         $this->injector->share($modelMapperFactory);
         $this->injector->share($pdMapperFactory);
 

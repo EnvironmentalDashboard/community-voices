@@ -1,12 +1,10 @@
 <?php
 
-namespace CommunityVoices\App\Website\Component;
+namespace CommunityVoices\App\Api\Component;
 
 use RuntimeException;
 use PDO;
 use ReflectionClass;
-
-use CommunityVoices\Model\Mapper\Cache;
 
 class MapperFactory
 {
@@ -19,11 +17,6 @@ class MapperFactory
     {
         $this->request = $request;
         $this->response = $response;
-    }
-
-    public function createCacheMapper()
-    {
-        return $this->create(Cache::class, null);
     }
 
     public function createCookieMapper($class)

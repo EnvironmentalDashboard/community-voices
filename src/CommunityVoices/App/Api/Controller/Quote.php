@@ -7,8 +7,6 @@ use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Exception;
 use CommunityVoices\App\Api\Component;
 
-use CommunityVoices\App\Website\Component\RecognitionAdapter;
-
 class Quote extends Component\Controller
 {
     protected $recognitionAdapter;
@@ -16,7 +14,7 @@ class Quote extends Component\Controller
     protected $quoteManagement;
 
     public function __construct(
-        RecognitionAdapter $recognitionAdapter,
+        Component\RecognitionAdapter $recognitionAdapter,
         Service\QuoteLookup $quoteLookup,
         Service\QuoteManagement $quoteManagement
     ) {
@@ -110,8 +108,10 @@ class Quote extends Component\Controller
         // intentionally blank
     }
 
-    public function postQuoteUpload($request, $identity)
+    public function postQuoteUpload($request)
     {
+        $identity = $this->recognitionAdapter->identify();
+
         $text = $request->request->get('text');
         $attribution = $request->request->get('attribution');
         $subAttribution = $request->request->get('subAttribution');

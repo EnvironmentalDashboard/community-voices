@@ -1,13 +1,13 @@
 <?php
 
-namespace CommunityVoices\App\Website\Component;
+namespace CommunityVoices\App\Api\Component;
 
 use CommunityVoices\Model\Service\Recognition;
 
 use CommunityVoices\Model\Entity;
 
-use CommunityVoices\App\Website\Component;
-use CommunityVoices\App\Website\Component\Mapper;
+use CommunityVoices\App\Api\Component;
+use CommunityVoices\App\Api\Component\Mapper;
 
 use \CommunityVoices\App\Api\Component\Contract\CanIdentify;
 
