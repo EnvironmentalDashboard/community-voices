@@ -31,9 +31,9 @@ class Dispatcher
          */
         $controllerSignature = self::CONTROLLER_SIGNATURE;
 
-        if ($request->attributes->has('use-api')) {
-            $controllerSignature = self::API_CONTROLLER_SIGNATURE;
-        }
+        //if ($request->attributes->has('use-api')) {
+        //    $controllerSignature = self::API_CONTROLLER_SIGNATURE;
+        //}
 
         $controller = $this->injector->make($controllerSignature . $resource);
         $controller->{$action}($request);
