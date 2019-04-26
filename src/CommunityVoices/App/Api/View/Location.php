@@ -22,7 +22,7 @@ class Location
         $stateObserver->setSubject("locationLookup");
         $locationCollection = $stateObserver->getEntry("locationCollection")[0]->toArray();
 
-        $response = new HttpFoundation\JsonResponse($locationCollection);
+        $response = new HttpFoundation\Response();
 
         return $response;
     }

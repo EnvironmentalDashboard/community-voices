@@ -12,27 +12,24 @@ use Symfony\Component\HttpFoundation;
 
 class AccessDenied extends Component\View
 {
-    protected $recognitionAdapter;
     protected $mapperFactory;
     protected $transcriber;
+    protected $identificationAPIView;
 
     public function __construct(
-        Component\RecognitionAdapter $recognitionAdapter,
         Component\MapperFactory $mapperFactory,
-        Component\Transcriber $transcriber
+        Component\Transcriber $transcriber,
+        Api\View\Identification $identificationAPIView
     ) {
-        $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
         $this->transcriber = $transcriber;
+        $this->identificationAPIView = $identificationAPIView;
     }
 
     public function getAccessDenied($request)
     {
-        // Gather identity.
-        $identity = $this->recognitionAdapter->identify();
-
         $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
+            $this->transcriber->toXml(json_decode($this->identificationAPIView->getIdentity()->getContent()))
         );
 
         /**

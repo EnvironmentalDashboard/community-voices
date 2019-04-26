@@ -16,6 +16,6 @@ class Recognition extends Provider
          * Alias CanIdentify depdencies with the local recognition service
          */
 
-        $this->injector->alias('CommunityVoices\App\Api\Component\Contract\CanIdentify', 'CommunityVoices\App\Website\Component\RecognitionAdapter');
+        $this->injector->alias('CommunityVoices\App\Api\Component\Contract\CanIdentify', 'CommunityVoices\App\Api\Component\RecognitionAdapter');
     }
 }

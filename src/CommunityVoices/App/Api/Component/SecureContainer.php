@@ -9,9 +9,7 @@ namespace CommunityVoices\App\Api\Component;
 class SecureContainer
 {
     private $identifier;
-
     private $arbiter;
-
     private $logger;
 
     public function __construct(

@@ -2,7 +2,7 @@
 
 namespace CommunityVoices\App\Website\Component;
 
-use CommunityVoices\App\Website\Component\Mapper;
+use CommunityVoices\App\Api\Component\Mapper;
 
 class View
 {

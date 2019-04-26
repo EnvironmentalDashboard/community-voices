@@ -12,33 +12,30 @@ use Symfony\Component\HttpFoundation;
 
 class Location extends Component\View
 {
-    protected $recognitionAdapter;
     protected $mapperFactory;
     protected $locationAPIView;
+    protected $identificationAPIView;
     protected $secureContainer;
     protected $transcriber;
 
     public function __construct(
-        Component\RecognitionAdapter $recognitionAdapter,
         Component\MapperFactory $mapperFactory,
         Api\View\Location $locationAPIView,
+        Api\View\Identification $identificationAPIView,
         Component\Transcriber $transcriber,
         Api\Component\SecureContainer $secureContainer
     ) {
-        $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
         $this->locationAPIView = $locationAPIView;
+        $this->identificationAPIView = $identificationAPIView;
         $this->transcriber = $transcriber;
         $this->secureContainer = $secureContainer;
     }
 
     public function getAllLocation($request)
     {
-        // Identity gathering
-        $identity = $this->recognitionAdapter->identify();
-
         $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
+            $this->transcriber->toXml(json_decode($identificationAPIView->getIdentity()->getContent()))
         );
 
         // Location data gathering

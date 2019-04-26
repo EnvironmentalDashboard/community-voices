@@ -31,15 +31,6 @@ class MapperFactory
         return $this->create($class, [$this->request, $this->response]);
     }
 
-    public function createSessionMapper($class)
-    {
-        $prepare = function ($instance) {
-            $instance->prepare();
-        };
-
-        return $this->create($class, null, $prepare);
-    }
-
     private function create($class, $handler, callable $prepare = null)
     {
         if (array_key_exists($class, $this->cache)) {

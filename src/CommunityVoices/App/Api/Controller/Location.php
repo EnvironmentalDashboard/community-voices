@@ -7,15 +7,20 @@ use CommunityVoices\App\Api\Component;
 
 class Location extends Component\Controller
 {
+    protected $secureContainer;
     protected $locationLookup;
 
     public function __construct(
+        Component\SecureContainer $secureContainer,
         Service\LocationLookup $locationLookup
     ) {
+        parent::__construct($secureContainer);
+
+        $this->secureContainer = $secureContainer;
         $this->locationLookup = $locationLookup;
     }
 
-    public function getAllLocation($request)
+    private function getAllLocation($request)
     {
         $this->locationLookup->findAll2();
     }
