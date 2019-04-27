@@ -8,15 +8,19 @@ use CommunityVoices\App\Api\Component;
 
 class ContentCategory extends Component\Controller
 {
+    protected $secureContainer;
     protected $contentCategoryLookup;
 
     public function __construct(
+        Component\SecureContainer $secureContainer,
         Service\ContentCategoryLookup $contentCategoryLookup
     ) {
+        parent::__construct($secureContainer);
+
         $this->contentCategoryLookup = $contentCategoryLookup;
     }
 
-    public function getAllContentCategory()
+    private function getAllContentCategory()
     {
         $this->contentCategoryLookup->findAll();
     }

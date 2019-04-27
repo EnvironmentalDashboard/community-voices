@@ -55,6 +55,10 @@ class FrontController
         try {
             $this->router->route($request);
             $this->dispatcher->dispatch($request)->send();
+        } catch (\Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
+            $this->notFound($request)->send();
+        } catch (AccessDenied $e) {
+            $this->denied($request)->send();
         } catch (\Throwable $t) {
             $this->fail($request, $t)->send();
         }
@@ -97,7 +101,7 @@ class FrontController
         $request->attributes->set('action', 'getError');
 
         $request->attributes->set('error', get_class($error));
-        $request->attributes->set('message', $error->getMessage());
+        $request->attributes->set('errorMessage', $error->getMessage());
 
         return $this->dispatcher->dispatch($request);
     }

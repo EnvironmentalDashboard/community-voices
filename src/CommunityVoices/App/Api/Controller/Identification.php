@@ -4,24 +4,28 @@ namespace CommunityVoices\App\Api\Controller;
 
 use CommunityVoices\App\Api\Component;
 
-class Identification
+class Identification extends Component\Controller
 {
+    protected $secureContainer;
     protected $recognitionAdapter;
 
     public function __construct(
+        Component\SecureContainer $secureContainer,
         Component\RecognitionAdapter $recognitionAdapter
     ) {
+        parent::__construct($secureContainer);
+
         $this->recognitionAdapter = $recognitionAdapter;
     }
 
-    public function getIdentity($request)
+    private function getIdentity($request)
     {
     }
 
     /**
      * User authentication
      */
-    public function postLogin($request)
+    private function postLogin($request)
     {
         $email    = $request->request->get('email');
         $password = $request->request->get('password');
@@ -30,7 +34,7 @@ class Identification
         $this->recognitionAdapter->authenticate($email, $password, $remember);
     }
 
-    public function postLogout($request)
+    private function postLogout($request)
     {
         $this->recognitionAdapter->logout();
     }

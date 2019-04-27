@@ -19,6 +19,15 @@ class Controller
         if (method_exists($this, $method)) {
             $secureThis = $this->secureContainer->contain($this);
             return call_user_func_array(array($secureThis, $method), $arguments);
+        } else {
+            // Check if our method ends with our secured string,
+            // and if so, remove it and try again.
+            if (substr_compare($method, $this->secureContainer::SECURED,
+                strlen($method) - strlen($this->secureContainer::SECURED), strlen($this->secureContainer::SECURED))) {
+                if (method_exists($this, substr($method, 0, -strlen($this->secureContainer::SECURED)))) {
+                    return call_user_func_array(array($this, substr($method, 0, -strlen($this->secureContainer::SECURED))), $arguments);
+                }
+            }
         }
     }
 

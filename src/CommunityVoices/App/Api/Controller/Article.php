@@ -9,15 +9,19 @@ use CommunityVoices\App\Api\Component;
 
 class Article extends Component\Controller
 {
+    protected $secureContainer;
     protected $articleLookup;
     protected $articleManagement;
     protected $imageManagement;
 
     public function __construct(
+        Component\SecureContainer $secureContainer,
         Service\ArticleLookup $articleLookup,
         Service\ArticleManagement $articleManagement,
         Service\ImageManagement $imageManagement
     ) {
+        parent::__construct($secureContainer);
+
         $this->articleLookup = $articleLookup;
         $this->articleManagement = $articleManagement;
         $this->imageManagement = $imageManagement;
@@ -26,7 +30,7 @@ class Article extends Component\Controller
     /**
      * Article lookup by id
      */
-    public function getArticle($request)
+    private function getArticle($request)
     {
         $articleId = $request->attributes->get('id');
 
@@ -37,7 +41,7 @@ class Article extends Component\Controller
         }
     }
 
-    public function getAllArticle($request, $identity)
+    private function getAllArticle($request, $identity)
     {
         $search = (string) $request->query->get('search');
         $tags = $request->query->get('tags');
@@ -59,12 +63,12 @@ class Article extends Component\Controller
         $this->articleLookup->findAll($page, $limit, $offset, $order, $search, $tags, $authors, $creatorIDs, $status);
     }
 
-    public function getArticleUpload()
+    private function getArticleUpload()
     {
         // intentionally blank
     }
 
-    public function postArticleUpload($request, $identity)
+    private function postArticleUpload($request, $identity)
     {
         $file = $request->files->get('file');
         $text = $request->request->get('text');
@@ -83,7 +87,7 @@ class Article extends Component\Controller
         $this->articleManagement->upload($uploaded_image, $text, $author, $dateRecorded, $approved, $identity);
     }
 
-    public function getArticleUpdate($request)
+    private function getArticleUpdate($request)
     {
         $articleId = $request->attributes->get('id');
 
@@ -94,7 +98,7 @@ class Article extends Component\Controller
         }
     }
 
-    public function postArticleUpdate($request)
+    private function postArticleUpdate($request)
     {
         // $file = $request->files->get('file');
         $text = $request->request->get('text');
