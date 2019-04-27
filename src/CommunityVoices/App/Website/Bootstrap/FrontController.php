@@ -55,10 +55,6 @@ class FrontController
         try {
             $this->router->route($request);
             $this->dispatcher->dispatch($request)->send();
-        } catch (\Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
-            $this->notFound($request)->send();
-        } catch (AccessDenied $e) {
-            $this->denied($request)->send();
         } catch (\Throwable $t) {
             $this->fail($request, $t)->send();
         }
@@ -83,14 +79,12 @@ class FrontController
     }
 
     /**
-     * A crucial application component failed to load
-     *
-     * Creates a failure response
+     * Any error in the website's processing
      */
     public function fail($request, $error)
     {
         // First, log our error.
-        $this->logger->alert('Critical system error', [
+        $this->logger->alert('System error', [
             'exception' => [
                 'type' => get_class($error),
                 'message' => $error->getMessage(),
@@ -101,6 +95,9 @@ class FrontController
         // Switch our resource and action to what we would rather have.
         $request->attributes->set('resource', 'DisplayError');
         $request->attributes->set('action', 'getError');
+
+        $request->attributes->set('error', get_class($error));
+        $request->attributes->set('message', $error->getMessage());
 
         return $this->dispatcher->dispatch($request);
     }

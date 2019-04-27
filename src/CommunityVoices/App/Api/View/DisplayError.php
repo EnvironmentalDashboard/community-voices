@@ -6,11 +6,10 @@ use Symfony\Component\HttpFoundation;
 
 class DisplayError
 {
-    public function getError()
+    public function getError($request)
     {
-        // Would be better to return what the error actually is.
-        $response = new HttpFoundation\Response();
-        $response->setStatusCode(500);
+        $response = new HttpFoundation\JsonResponse(["error" =>
+            ["type" => $request->attributes->get('error'), "message" => $request->attributes->get('message')]]);
 
         return $response;
     }

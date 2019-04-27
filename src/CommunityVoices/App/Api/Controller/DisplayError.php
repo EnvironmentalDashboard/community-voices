@@ -2,7 +2,9 @@
 
 namespace CommunityVoices\App\Api\Controller;
 
-class DisplayError
+use CommunityVoices\App\Api\Component;
+
+class DisplayError extends Component\Controller
 {
     public function getError()
     {
