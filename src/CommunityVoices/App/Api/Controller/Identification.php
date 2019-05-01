@@ -18,14 +18,14 @@ class Identification extends Component\Controller
         $this->recognitionAdapter = $recognitionAdapter;
     }
 
-    private function getIdentity($request)
+    protected function getIdentity($request)
     {
     }
 
     /**
      * User authentication
      */
-    private function postLogin($request)
+    protected function postLogin($request)
     {
         $email    = $request->request->get('email');
         $password = $request->request->get('password');
@@ -34,7 +34,7 @@ class Identification extends Component\Controller
         $this->recognitionAdapter->authenticate($email, $password, $remember);
     }
 
-    private function postLogout($request)
+    protected function postLogout($request)
     {
         $this->recognitionAdapter->logout();
     }

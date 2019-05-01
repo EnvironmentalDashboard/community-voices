@@ -20,7 +20,7 @@ class Location extends Component\Controller
         $this->locationLookup = $locationLookup;
     }
 
-    private function getAllLocation($request)
+    protected function getAllLocation($request)
     {
         $this->locationLookup->findAll2();
     }

@@ -8,9 +8,6 @@ namespace CommunityVoices\App\Api\Component;
 
 class SecureContainer
 {
-    // What we add to methods to indicate them as secure.
-    public const SECURED = "__SECURE";
-
     private $identifier;
     private $arbiter;
     private $logger;
@@ -27,6 +24,8 @@ class SecureContainer
 
     public function contain($decoratedInstance)
     {
+        $decoratedInstance->secured = true;
+        
         $containedItem = new ContainedItem($decoratedInstance, function ($method, $args, $contained) {
             $user = $this->identifier->identify();
 
@@ -47,10 +46,7 @@ class SecureContainer
                 throw new Exception\AccessDenied('Access denied');
             }
 
-            // In order for us not to get into a SecureContainer loop,
-            // we need to have an indication that we have secured this
-            // method.
-            return call_user_func_array([$contained, $method . self::SECURED], $args);
+            return call_user_func_array([$contained, $method], $args);
         });
 
         return $containedItem;

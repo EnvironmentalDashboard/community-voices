@@ -20,7 +20,7 @@ class ContentCategory extends Component\Controller
         $this->contentCategoryLookup = $contentCategoryLookup;
     }
 
-    private function getAllContentCategory()
+    protected function getAllContentCategory()
     {
         $this->contentCategoryLookup->findAll();
     }

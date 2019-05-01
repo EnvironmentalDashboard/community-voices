@@ -9,15 +9,19 @@ use CommunityVoices\App\Api\Component;
 
 class Quote extends Component\Controller
 {
+    protected $secureContainer;
     protected $recognitionAdapter;
     protected $quoteLookup;
     protected $quoteManagement;
 
     public function __construct(
+        Component\SecureContainer $secureContainer,
         Component\RecognitionAdapter $recognitionAdapter,
         Service\QuoteLookup $quoteLookup,
         Service\QuoteManagement $quoteManagement
     ) {
+        parent::__construct($secureContainer);
+
         $this->recognitionAdapter = $recognitionAdapter;
         $this->quoteLookup = $quoteLookup;
         $this->quoteManagement = $quoteManagement;
@@ -26,7 +30,7 @@ class Quote extends Component\Controller
     /**
      * Quote lookup by id
      */
-    public function getQuote($request)
+    protected function getQuote($request)
     {
         $quoteId = (int) $request->attributes->get('id');
 
@@ -43,14 +47,14 @@ class Quote extends Component\Controller
     /**
      * Look up quotes that boundary queried quote
      */
-    public function getBoundaryQuotes($request)
+    protected function getBoundaryQuotes($request)
     {
         $quoteId = (int) $request->attributes->get('id');
 
         $this->quoteLookup->findBoundaryQuotesById($quoteId);
     }
 
-    public function getAllQuote($request)
+    protected function getAllQuote($request)
     {
         $identity = $this->recognitionAdapter->identify();
 
@@ -103,12 +107,12 @@ class Quote extends Component\Controller
         $this->quoteLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $contentCategories, $attributions, $subattributions, $creatorIDs, $status);
     }
 
-    public function getQuoteUpload()
+    protected function getQuoteUpload()
     {
         // intentionally blank
     }
 
-    public function postQuoteUpload($request)
+    protected function postQuoteUpload($request)
     {
         $identity = $this->recognitionAdapter->identify();
 
@@ -138,14 +142,14 @@ class Quote extends Component\Controller
         );
     }
 
-    public function getQuoteUpdate($request)
+    protected function getQuoteUpdate($request)
     {
         // In order to autofill some form values,
         // we need to get the current quote's data.
         $this->getQuote($request);
     }
 
-    public function postQuoteUpdate($request)
+    protected function postQuoteUpdate($request)
     {
         $attributes = [
             "text" => $request->request->get('text'),
@@ -172,14 +176,14 @@ class Quote extends Component\Controller
         );
     }
 
-    public function postQuoteDelete($request)
+    protected function postQuoteDelete($request)
     {
         $id = (int) $request->attributes->get('id');
 
         $this->quoteManagement->delete($id);
     }
 
-    public function postQuoteUnpair($request)
+    protected function postQuoteUnpair($request)
     {
         $quote_id = (int) $request->attributes->get('quote');
         $slide_id = (int) $request->attributes->get('slide');

@@ -30,7 +30,7 @@ class Article extends Component\Controller
     /**
      * Article lookup by id
      */
-    private function getArticle($request)
+    protected function getArticle($request)
     {
         $articleId = $request->attributes->get('id');
 
@@ -41,7 +41,7 @@ class Article extends Component\Controller
         }
     }
 
-    private function getAllArticle($request, $identity)
+    protected function getAllArticle($request, $identity)
     {
         $search = (string) $request->query->get('search');
         $tags = $request->query->get('tags');
@@ -63,12 +63,12 @@ class Article extends Component\Controller
         $this->articleLookup->findAll($page, $limit, $offset, $order, $search, $tags, $authors, $creatorIDs, $status);
     }
 
-    private function getArticleUpload()
+    protected function getArticleUpload()
     {
         // intentionally blank
     }
 
-    private function postArticleUpload($request, $identity)
+    protected function postArticleUpload($request, $identity)
     {
         $file = $request->files->get('file');
         $text = $request->request->get('text');
@@ -87,7 +87,7 @@ class Article extends Component\Controller
         $this->articleManagement->upload($uploaded_image, $text, $author, $dateRecorded, $approved, $identity);
     }
 
-    private function getArticleUpdate($request)
+    protected function getArticleUpdate($request)
     {
         $articleId = $request->attributes->get('id');
 
@@ -98,7 +98,7 @@ class Article extends Component\Controller
         }
     }
 
-    private function postArticleUpdate($request)
+    protected function postArticleUpdate($request)
     {
         // $file = $request->files->get('file');
         $text = $request->request->get('text');
