@@ -6,16 +6,12 @@ use CommunityVoices\App\Api\Component;
 
 class Controller
 {
-    public $secured;
-
     protected $secureContainer;
 
     public function __construct(
         Component\SecureContainer $secureContainer
     ) {
         $this->secureContainer = $secureContainer;
-
-        $this->secured = false;
     }
 
     public function __call($method, $arguments)
@@ -25,6 +21,12 @@ class Controller
             $secureThis = $this->secureContainer->contain($this);
 
             $methodArray = $secured ? array($this, $method) : array($secureThis, $method);
+
+            // We want `secured` to be a property specific to each method
+            // call, so we will remove it when it is done.
+            if ($secured) {
+                unset($this->secured);
+            }
 
             return call_user_func_array($methodArray, $arguments);
         }
