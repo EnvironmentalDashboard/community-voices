@@ -25,7 +25,7 @@ class SecureContainer
     public function contain($decoratedInstance)
     {
         $decoratedInstance->secured = true;
-        
+
         $containedItem = new ContainedItem($decoratedInstance, function ($method, $args, $contained) {
             $user = $this->identifier->identify();
 
@@ -43,7 +43,7 @@ class SecureContainer
 
             if (!$this->arbiter->isAllowedForIdentity($signature, $user)) {
                 $this->logger->error('SecureContainer AccessDenied Exception', ['message' => 'Access denied']);
-                throw new Exception\AccessDenied('Access denied');
+                throw new Exception\AccessDenied($user);
             }
 
             return call_user_func_array([$contained, $method], $args);

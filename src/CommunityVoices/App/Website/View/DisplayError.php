@@ -12,12 +12,22 @@ use Symfony\Component\HttpFoundation;
 
 class DisplayError extends Component\View
 {
-    public function getError()
+    public function getError($request)
     {
         /**
          * DisplayError XML Package
          */
         $displayErrorPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
+
+        // Check if we are receiving a 404 error so that we can display the 404 page.
+        // Also check for an access denied error to display the access denied page.
+        $error = $request->attributes->get("error");
+        if ($error === "Symfony\\Component\\Routing\\Exception\\ResourceNotFoundException") {
+            $displayErrorPackageElement->addAttribute("error", "404");
+        } else if ($error === "CommunityVoices\\App\\Api\\Component\\Exception\\AccessDenied") {
+            $displayErrorPackageElement->addAttribute("error", "AccessDenied");
+            $displayErrorPackageElement->addAttribute("message", $request->attributes->get("message"));
+        }
 
         /**
          * Generate DisplayError module
