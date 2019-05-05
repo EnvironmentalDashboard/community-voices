@@ -78,9 +78,9 @@ class Article extends Component\Controller
             $approved = null;
         }
 
-        $uploaded_image = $this->imageManagement->upload($file, null, null, $dateRecorded, null, null, $identity, $approved, null);
+        $uploaded_images = $this->imageManagement->upload([$file], null, null, $dateRecorded, null, null, $identity, $approved, null);
 
-        $this->articleManagement->upload($uploaded_image, $text, $author, $dateRecorded, $approved, $identity);
+        $this->articleManagement->upload($uploaded_images[0], $text, $author, $dateRecorded, $approved, $identity);
     }
 
     public function getArticleUpdate($request)
