@@ -68,6 +68,7 @@ class Article extends Component\Controller
     {
         $file = $request->files->get('file');
         $text = $request->request->get('text');
+        $title = $request->request->get('title');
         $author = $request->request->get('author');
         $approved = $request->request->get('approved');
         $dateRecorded = $request->request->get('dateRecorded');
@@ -80,7 +81,7 @@ class Article extends Component\Controller
 
         $uploaded_images = $this->imageManagement->upload([$file], null, null, $dateRecorded, null, null, $identity, $approved, null);
 
-        $this->articleManagement->upload($uploaded_images[0], $text, $author, $dateRecorded, $approved, $identity);
+        $this->articleManagement->upload($uploaded_images[0], $text, $title, $author, $dateRecorded, $approved, $identity);
     }
 
     public function getArticleUpdate($request)

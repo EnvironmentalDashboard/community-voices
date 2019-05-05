@@ -32,7 +32,7 @@ class ArticleManagement
      * @param  String $dateRecorded       [description]
      * @return Boolean                     [description]
      */
-    public function upload(Entity\Image $image, $text, $author, $dateRecorded, $approved, $addedBy)
+    public function upload(Entity\Image $image, $text, $title, $author, $dateRecorded, $approved, $addedBy)
     {
         /*
          * Create Article entity and set attributes
@@ -41,6 +41,7 @@ class ArticleManagement
         $article = new Entity\Article;
 
         $article->setText($text);
+        $article->setTitle($title);
         $article->setAuthor($author);
         $article->setDateRecorded($dateRecorded);
         $article->setAddedBy($addedBy);
