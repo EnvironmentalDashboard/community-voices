@@ -21,7 +21,7 @@
 
           <xsl:choose>
             <xsl:when test="@email-value != ''">
-              <input type='email' name='email' id="email" value='{@email-value}' class="form-control" placeholder="Email address" required="" autofocus="" />
+              <input type='email' name='email' id="email" value='{@email-value}' class="form-control" placeholder="Email address" required="" />
             </xsl:when>
 
             <xsl:otherwise>
@@ -30,8 +30,11 @@
           </xsl:choose>
 
           <label for="password" class="sr-only">Password</label>
-
-          <input type="password" name="password" id="password" class="form-control" placeholder="Password" required="" />
+          <input type="password" name="password" id="password" class="form-control" placeholder="Password" required="">
+              <xsl:if test="@failure != ''">
+                  <xsl:attribute name="autofocus">autofocus</xsl:attribute>
+              </xsl:if>
+          </input>
 
           <div class="checkbox mb-3">
             <label>

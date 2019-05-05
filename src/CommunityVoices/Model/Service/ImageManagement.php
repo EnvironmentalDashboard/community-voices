@@ -56,7 +56,9 @@ class ImageManagement
         /*
          * Create image entity and set attributes
          */
+        $uploaded = [];
         $counter = (count($files) > 1) ? 1 : null;
+
         foreach ($files as $file) {
             $image = new Entity\Image;
 
@@ -119,9 +121,11 @@ class ImageManagement
              */
 
             $imageMapper->save($image);
+            array_push($uploaded, $image);
+
+            $iid = $image->getId();
 
             if (is_array($tags)) {
-                $iid = $image->getId();
                 $tagCollection = new Entity\GroupCollection;
                 foreach ($tags as $tid) {
                     $tag = new Entity\Tag;
@@ -134,7 +138,7 @@ class ImageManagement
             }
         }
 
-        return true;
+        return $uploaded;
     }
 
     public function update(
