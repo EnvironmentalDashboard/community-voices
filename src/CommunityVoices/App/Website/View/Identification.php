@@ -32,7 +32,7 @@ class Identification extends Component\View
 
     public function getLogin($request)
     {
-        $referer = $request->headers->get("referer");
+        $referer = $request->request->get("referer") ?? $request->headers->get("referer");
 
         $identity = $this->recognitionAdapter->identify();
 
