@@ -32,6 +32,7 @@ class ImageMatcher
                         BIT_COUNT(perceptual_hash ^ CAST(CONV(:hash, 16, 10) AS unsigned)) AS d,
                         HEX(perceptual_hash) AS conv_hash
                     FROM `community-voices_images`
+                    WHERE perceptual_hash IS NOT NULL
                     ORDER BY d
                     LIMIT 10";
 
