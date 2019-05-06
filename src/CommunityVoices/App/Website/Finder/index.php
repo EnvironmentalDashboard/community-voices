@@ -11,18 +11,10 @@ use Jenssegers\ImageHash;
 use CommunityVoices\App\Website\Finder;
 
 /**
- * Injector
- */
-
-$injector = new Auryn\Injector;
-
-/**
  * Db handler configuration
  */
 
 require '../db.php';
-
-$injector->share($dbHandler);
 
 /**
  * Handle presentation
