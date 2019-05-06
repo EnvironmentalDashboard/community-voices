@@ -18,6 +18,11 @@
                 padding: 15px;
                 margin: 15px 0;
             }
+
+            .image.exact-match {
+                border: 5px solid green;
+                padding: 11px;
+            }
         </style>
 
         <title>Image Finder</title>
@@ -25,20 +30,14 @@
     <body>
         <div class="page-wrap">
 
+            <h1>Image Matches</h1>
+            <p>The following images best match your input.</p>
+
             <p><a href="">Match another image.</a></p>
 
             <?php foreach ($matches as $image): ?>
 
-                <div class="image">
-                    <p>
-                        <img src="https://environmentaldashboard.org/community-voices/uploads/<?=$image->media_id ?>" width="100%">
-                    <p>
-
-                    <p>Image ID: <strong><?=$image->media_id ?></strong></p>
-                    <p>Hash: <strong><?=strtolower($image->conv_hash) ?></strong></p>
-                    <p>Distance: <strong><?=$image->d ?></strong></p>
-                    <p><a href="https://environmentaldashboard.org/community-voices/images/<?=$image->media_id ?>" target="_blank">Open image in new tab</a></p>
-                </div>
+                <?php include('matches-image-element.html.php'); ?>
 
             <?php endforeach; ?>
         </div>

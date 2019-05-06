@@ -45,7 +45,6 @@ try {
             ];
 
             die($controller->postMatchInquiry($params));
-            die;
 
         case 'GET':
             die($controller->getInputForm());
@@ -54,5 +53,9 @@ try {
             die('Did not recognize request method');
     }
 } catch (Exception $e) {
-    die('Encountered error: ' . $e->getMessage());
+    $params = [
+        'error' => $e->getMessage()
+    ];
+
+    die($controller->getErrorNotice($params));
 }

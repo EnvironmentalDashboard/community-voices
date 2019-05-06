@@ -11,7 +11,7 @@ class ImageFinderController
     private $fileManager;
 
 
-    const INPUT_ERR_BAD_DATA = "Bad form data.";
+    const INPUT_ERR_BAD_DATA = "Bad form data submitted.";
     const INPUT_ERR_NO_FILE = "No file uploaded.";
 
     public function __construct(
@@ -27,7 +27,7 @@ class ImageFinderController
     public function postMatchInquiry($params = [])
     {
         /**
-         * Validate input
+         * Process input
          */
         $isSubmitted = $params['submit'];
         $uploadedImage = $params['image'];
@@ -48,17 +48,22 @@ class ImageFinderController
         $this->fileManager->delete($tempFilepath);
 
         /**
-         * View: collection of matches
+         * View collection of matches
          */
         return $this->responder->matchesResponse($matches);
     }
 
-    public function getInputForm()
+    public function getInputForm($params = [])
     {
-        /**
-         * View: input interface
-         */
-
         return $this->responder->inputResponse();
+    }
+
+    public function getErrorNotice($params = [])
+    {
+        if (!array_key_exists('error', $params)) {
+            $params['error'] = "General error encountered.";
+        }
+
+        return $this->responder->errorResponse($params['error']);
     }
 }
