@@ -21,7 +21,7 @@ class View
     ) {
         $this->mapperFactory = $mapperFactory;
         $this->transcriber = $transcriber;
-        $this->identificationAPIView;
+        $this->identificationAPIView = $identificationAPIView;
     }
 
     protected function finalize($response)
