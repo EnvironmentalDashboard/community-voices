@@ -14,55 +14,37 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class Quote extends Component\View
 {
-    protected $mapperFactory;
-    protected $transcriber;
-    protected $secureContainer;
     protected $quoteAPIView;
     protected $quoteLookup;
     protected $tagLookup;
     protected $tagAPIView;
     protected $contentCategoryAPIView;
-    protected $identificationAPIView;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
-        Api\Component\SecureContainer $secureContainer,
+        Api\View\Identification $identificationAPIView,
         Api\View\Quote $quoteAPIView,
         Service\QuoteLookup $quoteLookup,
         Service\TagLookup $tagLookup,
         Api\View\Tag $tagAPIView,
-        Api\View\ContentCategory $contentCategoryAPIView,
-        Api\View\Identification $identificationAPIView
+        Api\View\ContentCategory $contentCategoryAPIView
     ) {
-        $this->mapperFactory = $mapperFactory;
-        $this->transcriber = $transcriber;
-        $this->secureContainer = $secureContainer;
+        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+
         $this->quoteAPIView = $quoteAPIView;
         $this->quoteLookup = $quoteLookup;
         $this->tagLookup = $tagLookup;
         $this->tagAPIView = $tagAPIView;
         $this->contentCategoryAPIView = $contentCategoryAPIView;
-        $this->identificationAPIView = $identificationAPIView;
     }
 
     public function getQuote($request)
     {
         /**
-         * Gather identity information (API component call)
-         */
-        $identity = $this->recognitionAdapter->identify();
-
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
-        /**
          * Gather quote information (API calls)
          */
-        $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
-
-        $quote = json_decode($quoteAPIView->getQuote()->getContent());
+        $quote = json_decode($this->quoteAPIView->getQuote()->getContent());
         $boundaryQuotes = json_decode($quoteAPIView->getBoundaryQuotes()->getContent(), true);
 
         /**
@@ -121,7 +103,7 @@ class Quote extends Component\View
         }
 
         $packagedIdentity = $quotePackageElement->addChild('identity');
-        $packagedIdentity->adopt($identityXMLElement);
+        $packagedIdentity->adopt($this->identityXMLElement());
 
         /**
          * Generate Quote module
@@ -150,7 +132,7 @@ class Quote extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
+        $domainIdentity->adopt($this->identityXMLElement());
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -165,19 +147,9 @@ class Quote extends Component\View
         parse_str($_SERVER['QUERY_STRING'], $qs);
 
         /**
-         * Gather identity information
-         */
-        $identity = json_decode($this->identificationAPIView->getIdentity());
-
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
-        /**
          * Gather quote information
          */
-        $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
-        $json = json_decode($quoteAPIView->getAllQuote()->getContent());
+        $json = json_decode($this->quoteAPIView->getAllQuote()->getContent());
 
         $obj = new \stdClass();
         $obj->quoteCollection = (array) $json->quoteCollection;
@@ -199,18 +171,15 @@ class Quote extends Component\View
             $this->transcriber->toXml($obj)
         );
 
-        $tagAPIView = $this->secureContainer->contain($this->tagAPIView);
-        $contentCategoryAPIView = $this->secureContainer->contain($this->contentCategoryAPIView);
-
         $tagXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
-                $tagAPIView->getAllTag()->getContent()
+                $this->tagAPIView->getAllTag()->getContent()
             ))
         );
 
         $contentCategoryXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
-                $contentCategoryAPIView->getAllContentCategory()->getContent()
+                $this->contentCategoryAPIView->getAllContentCategory()->getContent()
             ))
         );
 
@@ -252,7 +221,7 @@ class Quote extends Component\View
         }
 
         $packagedIdentity = $quotePackageElement->addChild('identity');
-        $packagedIdentity->adopt($identityXMLElement);
+        $packagedIdentity->adopt($this->identityXMLElement());
 
         /**
          * Generate Quote module
@@ -279,7 +248,7 @@ class Quote extends Component\View
         $domainXMLElement->addChild('metaDescription', "Searchable database of quotes used for Community Voices communication technology to promote environmental, social and economic sustainability in diverse communities.");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
+        $domainIdentity->adopt($this->identityXMLElement());
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -291,12 +260,6 @@ class Quote extends Component\View
 
     public function getQuoteUpload($request)
     {
-        $identity = $this->recognitionAdapter->identify();
-
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
         /**
          * Grab cached form
          */
@@ -319,24 +282,20 @@ class Quote extends Component\View
             );
         }
 
-        $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
-        $upload = json_decode($quoteAPIView->postQuoteUpload()->getContent());
+        $upload = json_decode($this->quoteAPIView->postQuoteUpload()->getContent());
         $uploadXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($upload)
         );
 
-        $tagAPIView = $this->secureContainer->contain($this->tagAPIView);
-        $contentCategoryAPIView = $this->secureContainer->contain($this->contentCategoryAPIView);
-
         $tagXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
-                $tagAPIView->getAllTag()->getContent()
+                $this->tagAPIView->getAllTag()->getContent()
             ))
         );
 
         $contentCategoryXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
-                $contentCategoryAPIView->getAllContentCategory()->getContent()
+                $this->contentCategoryAPIView->getAllContentCategory()->getContent()
             ))
         );
 
@@ -367,7 +326,7 @@ class Quote extends Component\View
         }
 
         $packagedIdentity = $quotePackageElement->addChild('identity');
-        $packagedIdentity->adopt($identityXMLElement);
+        $packagedIdentity->adopt($this->identityXMLElement());
         $quoteModule = new Component\Presenter('Module/Form/QuoteUpload');
         $quoteModuleXML = $quoteModule->generate($quotePackageElement);
         /**
@@ -383,7 +342,7 @@ class Quote extends Component\View
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: Quote Upload");
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
+        $domainIdentity->adopt($this->identityXMLElement());
         $presentation = new Component\Presenter('SinglePane');
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
         $this->finalize($response);
@@ -392,8 +351,7 @@ class Quote extends Component\View
 
     public function postQuoteUpload($request)
     {
-        $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
-        $upload = json_decode($quoteAPIView->postQuoteUpload()->getContent());
+        $upload = json_decode($this->quoteAPIView->postQuoteUpload()->getContent());
 
         if (!empty($upload->upload->errors)) {
             return $this->getQuoteUpload($request);
@@ -413,11 +371,6 @@ class Quote extends Component\View
     public function getQuoteUpdate($request)
     {
         $paramXML = new Helper\SimpleXMLElementExtension('<form/>');
-
-        /**
-         * Gather quote information
-         */
-        $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
 
         /**
          * Grab cached form
@@ -441,30 +394,27 @@ class Quote extends Component\View
             );
         }
 
-        $errors = json_decode($quoteAPIView->postQuoteUpdate()->getContent());
+        $errors = json_decode($this->quoteAPIView->postQuoteUpdate()->getContent());
         $errorsXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($errors)
         );
 
-        $quote = json_decode($quoteAPIView->getQuote()->getContent());
+        $quote = json_decode($this->quoteAPIView->getQuote()->getContent());
 
         $quote->quote->text = htmlspecialchars($quote->quote->text);
         $quoteXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($quote)
         );
 
-        $tagAPIView = $this->secureContainer->contain($this->tagAPIView);
-        $contentCategoryAPIView = $this->secureContainer->contain($this->contentCategoryAPIView);
-
         $tagXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
-                $tagAPIView->getAllTag()->getContent()
+                $this->tagAPIView->getAllTag()->getContent()
             ))
         );
 
         $contentCategoryXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
-                $contentCategoryAPIView->getAllContentCategory()->getContent()
+                $this->contentCategoryAPIView->getAllContentCategory()->getContent()
             ))
         );
 
@@ -496,12 +446,6 @@ class Quote extends Component\View
         $formModule = new Component\Presenter('Module/Form/QuoteUpdate');
         $formModuleXML = $formModule->generate($paramXML);
 
-        $identity = $this->recognitionAdapter->identify();
-
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
         /**
          * Get base URL
          */
@@ -521,9 +465,7 @@ class Quote extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
-
-        // var_dump($domainIdentity);
+        $domainIdentity->adopt($this->identityXMLElement());
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -535,8 +477,7 @@ class Quote extends Component\View
 
     public function postQuoteUpdate($request)
     {
-        $quoteAPIView = $this->secureContainer->contain($this->quoteAPIView);
-        $errors = json_decode($quoteAPIView->postQuoteUpdate()->getContent());
+        $errors = json_decode($this->quoteAPIView->postQuoteUpdate()->getContent());
 
         if (!empty($errors->errors)) {
             return $this->getQuoteUpdate($request);

@@ -13,41 +13,25 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class Landing extends Component\View
 {
-    protected $recognitionAdapter;
     protected $landingAPIView;
-    protected $secureContainer;
-    protected $transcriber;
 
     public function __construct(
-        Component\RecognitionAdapter $recognitionAdapter,
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
-        Api\Component\SecureContainer $secureContainer,
+        Api\View\Identification $identificationAPIView,
         Api\View\Landing $landingAPIView
     ) {
-        $this->recognitionAdapter = $recognitionAdapter;
-        $this->mapperFactory = $mapperFactory;
-        $this->transcriber = $transcriber;
-        $this->secureContainer = $secureContainer;
+        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+
         $this->landingAPIView = $landingAPIView;
     }
 
     public function getLanding($request)
     {
         /**
-         * Gather identity information
-         */
-        $identity = $this->recognitionAdapter->identify();
-
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
-        /**
          * Gather landing information
          */
-        $landingAPIView = $this->secureContainer->contain($this->landingAPIView);
-        $json = json_decode($landingAPIView->getLanding()->getContent());
+        $json = json_decode($this->landingAPIView->getLanding()->getContent());
         $obj = new \stdClass;
         $obj->slideCollection = (array) $json->slideCollection;
         unset($obj->slideCollection['count']);
@@ -74,7 +58,7 @@ class Landing extends Component\View
         $packagedLanding->adopt($landingXMLElement);
 
         $packagedIdentity = $landingPackageElement->addChild('identity');
-        $packagedIdentity->adopt($identityXMLElement);
+        $packagedIdentity->adopt($this->identityXMLElement());
 
         /**
          * Generate landing module
@@ -103,7 +87,7 @@ class Landing extends Component\View
         $domainXMLElement->addChild('metaDescription', "Community Voices communication technology combines images and words to advance environmental, social and economic sustainability in diverse communities.");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
+        $domainIdentity->adopt($this->identityXMLElement());
 
         $presentation = new Component\Presenter('SinglePane');
 

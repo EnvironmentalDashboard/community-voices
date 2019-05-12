@@ -14,23 +14,18 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class Article extends Component\View
 {
-    protected $recognitionAdapter;
     protected $articleAPIView;
-    protected $secureContainer;
-    protected $transcriber;
+    protected $articleLookup;
 
     public function __construct(
-        Component\RecognitionAdapter $recognitionAdapter,
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
-        Api\Component\SecureContainer $secureContainer,
+        Api\View\Identification $identificationAPIView,
         Api\View\Article $articleAPIView,
         Service\ArticleLookup $articleLookup
     ) {
-        $this->recognitionAdapter = $recognitionAdapter;
-        $this->mapperFactory = $mapperFactory;
-        $this->transcriber = $transcriber;
-        $this->secureContainer = $secureContainer;
+        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+
         $this->articleAPIView = $articleAPIView;
         $this->articleLookup = $articleLookup;
     }
@@ -38,20 +33,9 @@ class Article extends Component\View
     public function getArticle($request)
     {
         /**
-         * Gather identity information
-         */
-        $identity = $this->recognitionAdapter->identify();
-
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
-        /**
          * Gather article information
          */
-        $articleAPIView = $this->secureContainer->contain($this->articleAPIView);
-
-        $json = json_decode($articleAPIView->getArticle()->getContent());
+        $json = json_decode($this->articleAPIView->getArticle()->getContent());
         $articleXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($json)
         );
@@ -70,7 +54,7 @@ class Article extends Component\View
         // var_dump($packagedArticle);die;
 
         $packagedIdentity = $articlePackageElement->addChild('identity');
-        $packagedIdentity->adopt($identityXMLElement);
+        $packagedIdentity->adopt($this->identityXMLElement());
 
         /**
          * Generate Article module
@@ -99,7 +83,7 @@ class Article extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
+        $domainIdentity->adopt($this->identityXMLElement());
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -112,21 +96,11 @@ class Article extends Component\View
     public function getAllArticle($request)
     {
         parse_str($_SERVER['QUERY_STRING'], $qs);
-        /**
-         * Gather identity information
-         */
-        $identity = $this->recognitionAdapter->identify();
-
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
 
         /**
          * Gather article information
          */
-        $articleAPIView = $this->secureContainer->contain($this->articleAPIView);
-
-        $json = json_decode($articleAPIView->getAllArticle()->getContent());
+        $json = json_decode($this->articleAPIView->getAllArticle()->getContent());
         $obj = new \stdClass();
         $obj->articleCollection = (array) $json->articleCollection;
         $count = $obj->articleCollection['count'];
@@ -183,7 +157,7 @@ class Article extends Component\View
         }
 
         $packagedIdentity = $articlePackageElement->addChild('identity');
-        $packagedIdentity->adopt($identityXMLElement);
+        $packagedIdentity->adopt($this->identityXMLElement());
 
         /**
          * Generate Article module
@@ -210,7 +184,7 @@ class Article extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
+        $domainIdentity->adopt($this->identityXMLElement());
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -234,12 +208,6 @@ class Article extends Component\View
         $formModule = new Component\Presenter('Module/Form/ArticleUpload');
         $formModuleXML = $formModule->generate($paramXML);
 
-        $identity = $this->recognitionAdapter->identify();
-
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
         /**
          * Get base URL
          */
@@ -259,7 +227,7 @@ class Article extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
+        $domainIdentity->adopt($this->identityXMLElement());
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -277,25 +245,6 @@ class Article extends Component\View
 
         $this->finalize($response);
         return $response;
-
-        /*
-        $identity = $this->recognitionAdapter->identify();
-        $identityXMLElement = new SimpleXMLElement(
-          $this->transcriber->toXml($identity->toArray())
-        );
-        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
-        $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
-        $domainXMLElement->addChild(
-          'title',
-          "Community Voices"
-        );
-        $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
-        $presentation = new Component\Presenter('SinglePane');
-        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
-        $this->finalize($response);
-        return $response;
-        */
     }
 
     public function getArticleUpdate($request)
@@ -318,12 +267,6 @@ class Article extends Component\View
         $formModule = new Component\Presenter('Module/Form/ArticleUpdate');
         $formModuleXML = $formModule->generate($paramXML);
 
-        $identity = $this->recognitionAdapter->identify();
-
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
         /**
          * Get base URL
          */
@@ -343,9 +286,7 @@ class Article extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
-
-        // var_dump($domainIdentity);
+        $domainIdentity->adopt($this->identityXMLElement());
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -363,24 +304,5 @@ class Article extends Component\View
 
         $this->finalize($response);
         return $response;
-
-        /*
-        $identity = $this->recognitionAdapter->identify();
-        $identityXMLElement = new SimpleXMLElement(
-          $this->transcriber->toXml($identity->toArray())
-        );
-        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
-        $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
-        $domainXMLElement->addChild(
-          'title',
-          "Community Voices"
-        );
-        $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
-        $presentation = new Component\Presenter('SinglePane');
-        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
-        $this->finalize($response);
-        return $response;
-        */
     }
 }

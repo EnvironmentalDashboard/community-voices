@@ -12,6 +12,14 @@ use Symfony\Component\HttpFoundation;
 
 class DisplayError extends Component\View
 {
+    public function __construct(
+        Component\MapperFactory $mapperFactory,
+        Component\Transcriber $transcriber,
+        Api\View\Identification $identificationAPIView
+    ) {
+        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+    }
+
     public function getError($request)
     {
         /**

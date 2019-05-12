@@ -12,38 +12,25 @@ use Symfony\Component\HttpFoundation;
 
 class Location extends Component\View
 {
-    protected $mapperFactory;
     protected $locationAPIView;
-    protected $identificationAPIView;
-    protected $secureContainer;
-    protected $transcriber;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
-        Api\View\Location $locationAPIView,
-        Api\View\Identification $identificationAPIView,
         Component\Transcriber $transcriber,
-        Api\Component\SecureContainer $secureContainer
+        Api\View\Identification $identificationAPIView,
+        Api\View\Location $locationAPIView
     ) {
-        $this->mapperFactory = $mapperFactory;
+        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+
         $this->locationAPIView = $locationAPIView;
-        $this->identificationAPIView = $identificationAPIView;
-        $this->transcriber = $transcriber;
-        $this->secureContainer = $secureContainer;
     }
 
     public function getAllLocation($request)
     {
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode($identificationAPIView->getIdentity()->getContent()))
-        );
-
         // Location data gathering
-        $locationAPIView = $this->secureContainer->contain($this->locationAPIView);
-
         $locationXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
-                $locationAPIView->getAllLocation()->getContent()
+                $this->locationAPIView->getAllLocation()->getContent()
             ))
         );
 
@@ -56,7 +43,7 @@ class Location extends Component\View
         $packagedlocation->adopt($locationXMLElement);
 
         $packagedIdentity = $locationPackageElement->addChild('identity');
-        $packagedIdentity->adopt($identityXMLElement);
+        $packagedIdentity->adopt($this->identityXMLElement());
 
         /**
          * Generate Location module
@@ -79,7 +66,7 @@ class Location extends Component\View
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
+        $domainIdentity->adopt($this->identityXMLElement());
 
         $presentation = new Component\Presenter('SinglePane');
 

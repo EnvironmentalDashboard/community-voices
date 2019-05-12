@@ -13,20 +13,16 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class Identification extends Component\View
 {
-    protected $recognitionAdapter;
-    protected $mapperFactory;
-    protected $transcriber;
     protected $urlGenerator;
 
     public function __construct(
-        Component\RecognitionAdapter $recognitionAdapter,
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
+        Api\View\Identification $identificationAPIView,
         UrlGenerator $urlGenerator
     ) {
-        $this->recognitionAdapter = $recognitionAdapter;
-        $this->mapperFactory = $mapperFactory;
-        $this->transcriber = $transcriber;
+        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+
         $this->urlGenerator = $urlGenerator;
     }
 
@@ -34,14 +30,8 @@ class Identification extends Component\View
     {
         $referer = $request->request->get("referer") ?? $request->headers->get("referer");
 
-        $identity = $this->recognitionAdapter->identify();
-
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
         // If we are logged in, we should not be letting us log in again!
-        if ($identity->getId()) {
+        if ($this->identityXMLElement()) {
             // Our goal is to either return from where we came or go back to
             // the root of the website.
             $response = new HttpFoundation\RedirectResponse(
@@ -103,14 +93,9 @@ class Identification extends Component\View
      */
     public function postCredentials($request)
     {
-        $identity = $this->recognitionAdapter->identify();
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
-        if ($identity->getId()) {
+        if ($this->identityXMLElement()) {
             /**
              * Login success
              */

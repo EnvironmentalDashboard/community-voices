@@ -14,36 +14,24 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class User extends Component\View
 {
-    protected $recognitionAdapter;
-    protected $mapperFactory;
-    protected $transcriber;
     protected $urlGenerator;
     protected $userAPIView;
-    protected $secureContainer;
 
     public function __construct(
-        Component\RecognitionAdapter $recognitionAdapter,
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
+        Api\View\Identification $identificationAPIView,
         UrlGenerator $urlGenerator,
-        Api\View\User $userAPIView,
-        Api\Component\SecureContainer $secureContainer
+        Api\View\User $userAPIView
     ) {
-        $this->recognitionAdapter = $recognitionAdapter;
-        $this->mapperFactory = $mapperFactory;
-        $this->transcriber = $transcriber;
+        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+
         $this->urlGenerator = $urlGenerator;
         $this->userAPIView = $userAPIView;
-        $this->secureContainer = $secureContainer;
     }
 
     public function getProfile($request)
     {
-        $identity = $this->recognitionAdapter->identify();
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
         /**
          * Get base URL
          */
@@ -51,11 +39,9 @@ class User extends Component\View
         //$baseUrl = $urlGenerator->generate('root');
 
         // User data gathering
-        $userAPIView = $this->secureContainer->contain($this->userAPIView);
-
         $userXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
-                $userAPIView->getUser()->getContent()
+                $this->userAPIView->getUser()->getContent()
             ))
         );
 
@@ -68,7 +54,7 @@ class User extends Component\View
         $packagedlocation->adopt($userXMLElement);
 
         $packagedIdentity = $userPackageElement->addChild('identity');
-        $packagedIdentity->adopt($identityXMLElement);
+        $packagedIdentity->adopt($this->identityXMLElement());
 
         /**
          * Generate User module
@@ -85,7 +71,7 @@ class User extends Component\View
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
+        $domainIdentity->adopt($this->identityXMLElement());
 
         $domainXMLElement->addChild('extraJS', "user");
 
@@ -107,17 +93,11 @@ class User extends Component\View
 
     public function getRegistration($request)
     {
-        /* Gather identity information */
-        $identity = $this->recognitionAdapter->identify();
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
         // If we are already logged in, there are two cases:
         // 1. We logged in, then clicked on register.
         // 2. We just successfully registered.
         // In both cases, we want to leave this registration page.
-        if ($identity->getId()) {
+        if ($this->identityXMLElement()) {
             $response = new HttpFoundation\RedirectResponse(
                 $this->urlGenerator->generate('root')
             );
@@ -146,11 +126,9 @@ class User extends Component\View
         $formParamXML->addAttribute('token-value', $form['token']);
 
         // User data gathering
-        $userAPIView = $this->secureContainer->contain($this->userAPIView);
-
         $userXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
-                $userAPIView->postUser()->getContent()
+                $this->userAPIView->postUser()->getContent()
             ))
         );
 
@@ -180,8 +158,7 @@ class User extends Component\View
 
     public function postRegistration($request)
     {
-        $userAPIView = $this->secureContainer->contain($this->userAPIView);
-        $errors = $userAPIView->postUser()->getContent();
+        $errors = $this->userAPIView->postUser()->getContent();
 
         if (!empty($errors)) {
             return $this->getRegistration($request);

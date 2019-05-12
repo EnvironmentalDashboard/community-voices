@@ -2,16 +2,26 @@
 
 namespace CommunityVoices\App\Website\Component;
 
+use \SimpleXMLElement;
+
 use CommunityVoices\App\Api\Component\Mapper;
+use CommunityVoices\App\Api\View\Identification;
+use CommunityVoices\App\Website\Component;
 
 class View
 {
     protected $mapperFactory;
+    protected $transcriber;
+    protected $identificationAPIView;
 
     public function __construct(
-        MapperFactory $mapperFactory
+        Component\MapperFactory $mapperFactory,
+        Component\Transcriber $transcriber,
+        Identification $identificationAPIView
     ) {
         $this->mapperFactory = $mapperFactory;
+        $this->transcriber = $transcriber;
+        $this->identificationAPIView;
     }
 
     protected function finalize($response)
@@ -20,6 +30,13 @@ class View
 
         $cookieMapper->provideResponseHandler($response);
         $cookieMapper->mapToResponse();
+    }
+
+    protected function identityXMLElement()
+    {
+        return new SimpleXMLElement(
+            $this->transcriber->toXml(json_decode($this->identificationAPIView->getIdentity()->getContent()))
+        );
     }
 
     /**

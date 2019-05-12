@@ -2,42 +2,33 @@
 
 namespace CommunityVoices\App\Website\Controller;
 
-use CommunityVoices\Model\Service;
 use CommunityVoices\App\Website\Component;
 use CommunityVoices\App\Api;
 
 class User
 {
-    protected $recognitionAdapter;
     protected $mapperFactory;
-
     protected $userAPIController;
-
-    protected $secureContainer;
+    protected $identificationAPIController;
 
     public function __construct(
-        Component\RecognitionAdapter $recognitionAdapter,
         Component\MapperFactory $mapperFactory,
         Api\Controller\User $userAPIController,
-        Api\Component\SecureContainer $secureContainer
+        Api\Controller\Identification $identificationAPIController
     ) {
-        $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
         $this->userAPIController = $userAPIController;
-        $this->secureContainer = $secureContainer;
+        $this->identificationAPIController = $identificationAPIController;
     }
 
     public function getProfile($request)
     {
-        $apiController = $this->secureContainer->contain($this->userAPIController);
-        $apiController->getUser($request);
+        $this->userAPIController->getUser($request);
     }
 
     public function getProtectedPage($request)
     {
-        $apiController = $this->secureContainer->contain($this->userAPIController);
-
-        $apiController->postUser($request);
+        $this->userAPIController->postUser($request);
     }
 
     public function getRegistration($request)
@@ -47,8 +38,6 @@ class User
 
     public function postRegistration($request)
     {
-        $apiController = $this->secureContainer->contain($this->userAPIController);
-
         // Grab all of our form elements.
         // Our username and password from the form
         // will be used to log in as the new user if the
@@ -79,15 +68,13 @@ class User
         // we can log in as them.
         // If this failed, the error information will be stored
         // in StateObserver->'registration' via the Registration service.
-        if ($apiController->postUser($request)) {
-            $this->recognitionAdapter->authenticate($email, $password, false);
+        if ($this->userAPIController->postUser($request)) {
+            $this->identificationAPIController->postLogin($request);
         }
     }
 
     public function postRegistrationInvite($request)
     {
-        $apiController = $this->secureContainer->contain($this->userAPIController);
-
-        $apiController->newToken($request);
+        $this->userAPIController->newToken($request);
     }
 }

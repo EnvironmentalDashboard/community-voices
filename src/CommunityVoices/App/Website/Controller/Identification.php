@@ -2,19 +2,19 @@
 
 namespace CommunityVoices\App\Website\Controller;
 
-use CommunityVoices\Model\Service;
 use CommunityVoices\App\Website\Component;
+use CommunityVoices\App\Api;
 
 class Identification
 {
-    protected $recognitionAdapter;
+    protected $identificationAPIController;
     protected $mapperFactory;
 
     public function __construct(
-        Component\RecognitionAdapter $recognitionAdapter,
+        Api\Controller\Identification $identificationAPIController,
         Component\MapperFactory $mapperFactory
     ) {
-        $this->recognitionAdapter = $recognitionAdapter;
+        $this->identificationAPIController = $identificationAPIController;
         $this->mapperFactory = $mapperFactory;
     }
 
@@ -26,7 +26,7 @@ class Identification
      * User authentication
      */
     public function postCredentials($request)
-    {        
+    {
         $email    = $request->request->get('email');
         $password = $request->request->get('password');
         $remember = $request->request->get('remember') === 'on';
@@ -42,11 +42,11 @@ class Identification
         $cacheMapper = $this->mapperFactory->createCacheMapper();
         $cacheMapper->save($formCache);
 
-        $this->recognitionAdapter->authenticate($email, $password, $remember);
+        $this->identificationAPIController->postLogin($request);
     }
 
     public function getLogout($request)
     {
-        $this->recognitionAdapter->logout();
+        $this->identificationAPIController->postLogout($request);
     }
 }

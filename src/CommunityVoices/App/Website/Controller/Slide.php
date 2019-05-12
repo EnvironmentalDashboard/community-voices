@@ -2,73 +2,50 @@
 
 namespace CommunityVoices\App\Website\Controller;
 
-use CommunityVoices\Model\Service;
-use CommunityVoices\App\Website\Component;
 use CommunityVoices\App\Api;
 
 class Slide
 {
-    protected $recognitionAdapter;
     protected $slideAPIController;
-    protected $secureContainer;
 
     public function __construct(
-        Component\RecognitionAdapter $recognitionAdapter,
-        Api\Controller\Slide $slideAPIController,
-        Api\Component\SecureContainer $secureContainer
+        Api\Controller\Slide $slideAPIController
     ) {
-        $this->recognitionAdapter = $recognitionAdapter;
         $this->slideAPIController = $slideAPIController;
-        $this->secureContainer = $secureContainer;
     }
 
     public function getAllSlide($request)
     {
-        $apiController = $this->secureContainer->contain($this->slideAPIController);
-
-        $apiController->getAllSlide($request);
+        $this->slideAPIController->getAllSlide($request);
     }
 
     public function getSlide($request)
     {
-        $apiController = $this->secureContainer->contain($this->slideAPIController);
-
-        $apiController->getSlide($request);
+        $this->slideAPIController->getSlide($request);
     }
 
     public function getSlideUpload($request)
     {
-        $apiController = $this->secureContainer->contain($this->slideAPIController);
-        $apiController->getSlideUpload($request);
+        $this->slideAPIController->getSlideUpload($request);
     }
 
     public function postSlideUpload($request)
     {
-        $apiController = $this->secureContainer->contain($this->slideAPIController);
-        $identity = $this->recognitionAdapter->identify();
-
-        $apiController->postSlideUpload($request, $identity);
+        $this->slideAPIController->postSlideUpload($request);
     }
 
     public function getSlideUpdate($request)
     {
-        $apiController = $this->secureContainer->contain($this->slideAPIController);
-
-        $apiController->getSlideUpdate($request);
+        $this->slideAPIController->getSlideUpdate($request);
     }
 
     public function postSlideUpdate($request)
     {
-        $apiController = $this->secureContainer->contain($this->slideAPIController);
-        $identity = $this->recognitionAdapter->identify();
-
-        $apiController->postSlideUpdate($request, $identity);
+        $this->slideAPIController->postSlideUpdate($request);
     }
 
     public function postSlideDelete($request)
     {
-        $apiController = $this->secureContainer->contain($this->slideAPIController);
-
-        $apiController->postSlideDelete($request);
+        $this->slideAPIController->postSlideDelete($request);
     }
 }

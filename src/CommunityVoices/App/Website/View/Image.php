@@ -16,29 +16,23 @@ class Image extends Component\View
 {
     protected $imageAPIView;
     protected $imageLookup;
-    protected $mapperFactory;
-    protected $recognitionAdapter;
-    protected $secureContainer;
-    protected $transcriber;
+    protected $tagLookup;
     protected $urlGenerator;
 
     public function __construct(
+        Component\MapperFactory $mapperFactory,
+        Component\Transcriber $transcriber,
+        Api\View\Identification $identificationAPIView,
         Api\View\Image $imageAPIView,
         Service\ImageLookup $imageLookup,
-        Component\MapperFactory $mapperFactory,
-        Component\RecognitionAdapter $recognitionAdapter,
-        Api\Component\SecureContainer $secureContainer,
         Service\TagLookup $tagLookup,
-        Component\Transcriber $transcriber,
         UrlGenerator $urlGenerator
     ) {
+        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+
         $this->imageAPIView = $imageAPIView;
         $this->imageLookup = $imageLookup;
-        $this->mapperFactory = $mapperFactory;
-        $this->recognitionAdapter = $recognitionAdapter;
-        $this->secureContainer = $secureContainer;
         $this->tagLookup = $tagLookup;
-        $this->transcriber = $transcriber;
         $this->urlGenerator = $urlGenerator;
     }
 
@@ -50,19 +44,9 @@ class Image extends Component\View
     public function getImage($request)
     {
         /**
-         * Gather identity information
-         */
-        $identity = $this->recognitionAdapter->identify();
-
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
-        /**
          * Gather image information
          */
-        $imageAPIView = $this->secureContainer->contain($this->imageAPIView);
-        $json = json_decode($imageAPIView->getImage()->getContent());
+        $json = json_decode($this->imageAPIView->getImage()->getContent());
         $imageXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($json)
         );
@@ -85,7 +69,7 @@ class Image extends Component\View
         ));
 
         $packagedIdentity = $imagePackageElement->addChild('identity');
-        $packagedIdentity->adopt($identityXMLElement);
+        $packagedIdentity->adopt($this->identityXMLElement());
 
         /**
          * Generate image module
@@ -114,7 +98,7 @@ class Image extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
+        $domainIdentity->adopt($this->identityXMLElement());
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -127,20 +111,11 @@ class Image extends Component\View
     public function getAllImage($request)
     {
         parse_str($_SERVER['QUERY_STRING'], $qs);
-        /**
-         * Gather identity information
-         */
-        $identity = $this->recognitionAdapter->identify();
-
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
 
         /**
          * Gather image information
          */
-        $imageAPIView = $this->secureContainer->contain($this->imageAPIView);
-        $json = json_decode($imageAPIView->getAllImage()->getContent());
+        $json = json_decode($this->imageAPIView->getAllImage()->getContent());
         $obj = new \stdClass();
         $obj->imageCollection = $json->imageCollection;
         $count = $obj->imageCollection->count;
@@ -213,7 +188,7 @@ class Image extends Component\View
         }
 
         $packagedIdentity = $imagePackageElement->addChild('identity');
-        $packagedIdentity->adopt($identityXMLElement);
+        $packagedIdentity->adopt($this->identityXMLElement());
 
         /**
          * Generate image module
@@ -239,7 +214,7 @@ class Image extends Component\View
         $domainXMLElement->addChild('extraCSS', "image-collection");
         $domainXMLElement->addChild('metaDescription', "Searchable database of photos used for Community Voices communication technology to promote environmental, social and economic sustainability in diverse communities.");
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
+        $domainIdentity->adopt($this->identityXMLElement());
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -251,17 +226,9 @@ class Image extends Component\View
 
     public function getImageUpload($request)
     {
-        $identity = $this->recognitionAdapter->identify();
-
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
-        $imageAPIView = $this->secureContainer->contain($this->imageAPIView);
-
         $imageXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
-                $imageAPIView->getImageUpload()->getContent()
+                $this->imageAPIView->getImageUpload()->getContent()
             ))
         );
 
@@ -269,7 +236,7 @@ class Image extends Component\View
         $packagedImage = $imagePackageElement->addChild('domain');
         $packagedImage->adopt($imageXMLElement);
         $packagedIdentity = $imagePackageElement->addChild('identity');
-        $packagedIdentity->adopt($identityXMLElement);
+        $packagedIdentity->adopt($this->identityXMLElement());
         $imageModule = new Component\Presenter('Module/Form/ImageUpload');
         $imageModuleXML = $imageModule->generate($imagePackageElement);
         /**
@@ -285,7 +252,7 @@ class Image extends Component\View
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: Image Upload");
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
+        $domainIdentity->adopt($this->identityXMLElement());
         $presentation = new Component\Presenter('SinglePane');
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
         $this->finalize($response);
@@ -300,25 +267,6 @@ class Image extends Component\View
 
         $this->finalize($response);
         return $response;
-
-        /*
-        $identity = $this->recognitionAdapter->identify();
-        $identityXMLElement = new SimpleXMLElement(
-          $this->transcriber->toXml($identity->toArray())
-        );
-        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
-        $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
-        $domainXMLElement->addChild(
-          'title',
-          "Community Voices"
-        );
-        $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
-        $presentation = new Component\Presenter('SinglePane');
-        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
-        $this->finalize($response);
-        return $response;
-        */
     }
 
     public function getImageUpdate($request)
@@ -328,9 +276,7 @@ class Image extends Component\View
         /**
          * Gather image information
          */
-        $imageAPIView = $this->secureContainer->contain($this->imageAPIView);
-
-        $image = json_decode($imageAPIView->getImage()->getContent());
+        $image = json_decode($this->imageAPIView->getImage()->getContent());
         $imageXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($image)
         );
@@ -356,12 +302,6 @@ class Image extends Component\View
         $formModule = new Component\Presenter('Module/Form/ImageUpdate');
         $formModuleXML = $formModule->generate($paramXML);
 
-        $identity = $this->recognitionAdapter->identify();
-
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
         /**
          * Get base URL
          */
@@ -379,9 +319,7 @@ class Image extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
-
-        // var_dump($domainIdentity);
+        $domainIdentity->adopt($this->identityXMLElement());
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -399,25 +337,6 @@ class Image extends Component\View
 
         $this->finalize($response);
         return $response;
-
-        /*
-        $identity = $this->recognitionAdapter->identify();
-        $identityXMLElement = new SimpleXMLElement(
-          $this->transcriber->toXml($identity->toArray())
-        );
-        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
-        $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
-        $domainXMLElement->addChild(
-          'title',
-          "Community Voices"
-        );
-        $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
-        $presentation = new Component\Presenter('SinglePane');
-        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
-        $this->finalize($response);
-        return $response;
-        */
     }
 
     public function postImageUnpair($request)

@@ -10,18 +10,21 @@ use CommunityVoices\App\Api\Component;
 class Article extends Component\Controller
 {
     protected $secureContainer;
+    protected $recognitionAdapter;
     protected $articleLookup;
     protected $articleManagement;
     protected $imageManagement;
 
     public function __construct(
         Component\SecureContainer $secureContainer,
+        Component\RecognitionAdapter $recognitionAdapter,
         Service\ArticleLookup $articleLookup,
         Service\ArticleManagement $articleManagement,
         Service\ImageManagement $imageManagement
     ) {
         parent::__construct($secureContainer);
 
+        $this->recognitionAdapter = $recognitionAdapter;
         $this->articleLookup = $articleLookup;
         $this->articleManagement = $articleManagement;
         $this->imageManagement = $imageManagement;
@@ -41,8 +44,10 @@ class Article extends Component\Controller
         }
     }
 
-    protected function getAllArticle($request, $identity)
+    protected function getAllArticle($request)
     {
+        $identity = $this->recognitionAdapter->identify();
+
         $search = (string) $request->query->get('search');
         $tags = $request->query->get('tags');
         $authors = $request->query->get('authors');
@@ -68,8 +73,10 @@ class Article extends Component\Controller
         // intentionally blank
     }
 
-    protected function postArticleUpload($request, $identity)
+    protected function postArticleUpload($request)
     {
+        $identity = $this->recognitionAdapter->identify();
+
         $file = $request->files->get('file');
         $text = $request->request->get('text');
         $title = $request->request->get('title');

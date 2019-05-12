@@ -13,22 +13,16 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class Slide extends Component\View
 {
-    protected $recognitionAdapter;
     protected $slideAPIView;
-    protected $secureContainer;
-    protected $transcriber;
 
     public function __construct(
-        Component\RecognitionAdapter $recognitionAdapter,
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
-        Api\Component\SecureContainer $secureContainer,
+        Api\View\IdentificationAPIView $identificationAPIView,
         Api\View\Slide $slideAPIView
     ) {
-        $this->recognitionAdapter = $recognitionAdapter;
-        $this->mapperFactory = $mapperFactory;
-        $this->transcriber = $transcriber;
-        $this->secureContainer = $secureContainer;
+        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+
         $this->slideAPIView = $slideAPIView;
     }
 
@@ -37,20 +31,10 @@ class Slide extends Component\View
         parse_str($_SERVER['QUERY_STRING'], $qs);
 
         /**
-         * Gather identity information
-         */
-        $identity = $this->recognitionAdapter->identify();
-
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
-        /**
          * Gather slide information
          */
-        $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
         // var_dump($slideAPIView->getAllSlide()->getContent());die;
-        $json = json_decode($slideAPIView->getAllSlide()->getContent());
+        $json = json_decode($this->slideAPIView->getAllSlide()->getContent());
         // var_dump($json->slideCollection);die;
         $obj = new \stdClass();
         $obj->slideCollection = (array) $json->slideCollection;
@@ -137,7 +121,7 @@ class Slide extends Component\View
         // var_dump($packagedSlide);die;
 
         $packagedIdentity = $slidePackageElement->addChild('identity');
-        $packagedIdentity->adopt($identityXMLElement);
+        $packagedIdentity->adopt($this->identityXMLElement());
 
         /**
          * Generate slide module
@@ -168,7 +152,7 @@ class Slide extends Component\View
         $domainXMLElement->addChild('metaDescription', "Searchable database of content for Community Voices communication technology combining images and words to advance sustainability in diverse communities.");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
+        $domainIdentity->adopt($this->identityXMLElement());
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -180,21 +164,10 @@ class Slide extends Component\View
 
     public function getSlide($request)
     {
-
-        /**
-         * Gather identity information
-         */
-        $identity = $this->recognitionAdapter->identify();
-
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
-
         /**
          * Gather slide information
          */
-        $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
-        $json = json_decode($slideAPIView->getSlide()->getContent());
+        $json = json_decode($this->slideAPIView->getSlide()->getContent());
         $json->slide->quote->quote->text = $json->slide->quote->quote->text;
         $json->slide->quote->quote->attribution = $json->slide->quote->quote->attribution;
         $json->slide->quote->quote->subAttribution = $json->slide->quote->quote->subAttribution;
@@ -231,7 +204,7 @@ class Slide extends Component\View
         $packagedSlide->adopt($slideXMLElement);
 
         $packagedIdentity = $slidePackageElement->addChild('identity');
-        $packagedIdentity->adopt($identityXMLElement);
+        $packagedIdentity->adopt($this->identityXMLElement());
 
         /**
          * Generate slide module
@@ -259,7 +232,7 @@ class Slide extends Component\View
         );
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
+        $domainIdentity->adopt($this->identityXMLElement());
 
         $presentation = new Component\Presenter('Blank');
 
@@ -274,14 +247,7 @@ class Slide extends Component\View
     {
         parse_str($_SERVER['QUERY_STRING'], $qs);
 
-        $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
-        $json = json_decode($slideAPIView->getSlideUpload()->getContent());
-
-        $identity = $this->recognitionAdapter->identify();
-
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
+        $json = json_decode($this->slideAPIView->getSlideUpload()->getContent());
 
         $obj = new \stdClass;
         $obj->tagCollection = $json->tagCollection;
@@ -326,7 +292,7 @@ class Slide extends Component\View
         $packagedSlide->adopt($orgXMLElement);
         $packagedSlide->adopt($locXMLElement);
         $packagedIdentity = $slidePackageElement->addChild('identity');
-        $packagedIdentity->adopt($identityXMLElement);
+        $packagedIdentity->adopt($this->identityXMLElement());
         $slideModule = new Component\Presenter('Module/Form/SlideUpload');
         $slideModuleXML = $slideModule->generate($slidePackageElement);
         // var_dump($slideModuleXML);die;
@@ -374,25 +340,6 @@ class Slide extends Component\View
 
         $this->finalize($response);
         return $response;
-
-        /*
-        $identity = $this->recognitionAdapter->identify();
-        $identityXMLElement = new SimpleXMLElement(
-          $this->transcriber->toXml($identity->toArray())
-        );
-        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
-        $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
-        $domainXMLElement->addChild(
-          'title',
-          "Community Voices"
-        );
-        $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
-        $presentation = new Component\Presenter('SinglePane');
-        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
-        $this->finalize($response);
-        return $response;
-        */
     }
 
     public function getSlideUpdate($request)
@@ -407,14 +354,7 @@ class Slide extends Component\View
         );
         parse_str($_SERVER['QUERY_STRING'], $qs);
 
-        $slideAPIView = $this->secureContainer->contain($this->slideAPIView);
-        $json = json_decode($slideAPIView->getSlideUpdate()->getContent());
-
-        $identity = $this->recognitionAdapter->identify();
-
-        $identityXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($identity->toArray())
-        );
+        $json = json_decode($this->slideAPIView->getSlideUpdate()->getContent());
 
         $obj = new \stdClass;
         $json->slide->contentCategory->contentCategory->label =
@@ -478,7 +418,7 @@ class Slide extends Component\View
         // var_dump($packagedSlide);die;
 
         $packagedIdentity = $slidePackageElement->addChild('identity');
-        $packagedIdentity->adopt($identityXMLElement);
+        $packagedIdentity->adopt($this->identityXMLElement());
         $slideModule = new Component\Presenter('Module/Form/SlideUpload');
         $slideModuleXML = $slideModule->generate($slidePackageElement);
         // var_dump($packagedSlide->slide);die;
@@ -526,24 +466,5 @@ class Slide extends Component\View
 
         $this->finalize($response);
         return $response;
-
-        /*
-        $identity = $this->recognitionAdapter->identify();
-        $identityXMLElement = new SimpleXMLElement(
-          $this->transcriber->toXml($identity->toArray())
-        );
-        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
-        $domainXMLElement->addChild('main-pane', '<p>Success.</p>');
-        $domainXMLElement->addChild(
-          'title',
-          "Community Voices"
-        );
-        $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($identityXMLElement);
-        $presentation = new Component\Presenter('SinglePane');
-        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
-        $this->finalize($response);
-        return $response;
-        */
     }
 }

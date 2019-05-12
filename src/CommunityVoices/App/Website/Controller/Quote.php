@@ -12,50 +12,40 @@ class Quote
     protected $quoteAPIController;
     protected $tagAPIController;
     protected $contentCategoryAPIController;
-    protected $secureContainer;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Api\Controller\Quote $quoteAPIController,
         Api\Controller\Tag $tagAPIController,
-        Api\Controller\ContentCategory $contentCategoryAPIController,
-        Api\Component\SecureContainer $secureContainer
+        Api\Controller\ContentCategory $contentCategoryAPIController
     ) {
-        $this->recognitionAdapter = $recognitionAdapter;
         $this->mapperFactory = $mapperFactory;
         $this->quoteAPIController = $quoteAPIController;
         $this->tagAPIController = $tagAPIController;
         $this->contentCategoryAPIController = $contentCategoryAPIController;
-        $this->secureContainer = $secureContainer;
     }
 
     public function getQuote($request)
     {
-        $apiController = $this->secureContainer->contain($this->quoteAPIController);
-
         /**
          * Direct requests for various components page requires
          */
 
-        $apiController->getQuote($request);
-        $apiController->getBoundaryQuotes($request);
+        $this->quoteAPIController->getQuote($request);
+        $this->quoteAPIController->getBoundaryQuotes($request);
     }
 
     public function getAllQuote($request)
     {
-        $quoteAPIController = $this->secureContainer->contain($this->quoteAPIController);
-        $tagAPIController = $this->secureContainer->contain($this->tagAPIController);
-        $contentCategoryAPIController = $this->secureContainer->contain($this->contentCategoryAPIController);
-
         // [example] filter by creator IDs
         // $request->attributes->set('creatorIDs', [1, 3 ,4 ,5 ,6]);
 
         // [example] filter by status
         // $request->attributes->set('status', ['rejected', 'pending']);
 
-        $quoteAPIController->getAllQuote($request);
-        $tagAPIController->getAllTag($request);
-        $contentCategoryAPIController->getAllContentCategory($request);
+        $this->quoteAPIController->getAllQuote($request);
+        $this->tagAPIController->getAllTag($request);
+        $this->contentCategoryAPIController->getAllContentCategory($request);
     }
 
     /*
@@ -65,17 +55,12 @@ class Quote
      */
     public function getQuoteUpload($request)
     {
-        $tagAPIController = $this->secureContainer->contain($this->tagAPIController);
-        $contentCategoryAPIController = $this->secureContainer->contain($this->contentCategoryAPIController);
-
-        $tagAPIController->getAllTag($request);
-        $contentCategoryAPIController->getAllContentCategory($request);
+        $this->tagAPIController->getAllTag($request);
+        $this->contentCategoryAPIController->getAllContentCategory($request);
     }
 
     public function postQuoteUpload($request)
     {
-        $apiController = $this->secureContainer->contain($this->quoteAPIController);
-
         $text = $request->request->get('text');
         $attribution = $request->request->get('attribution');
         $subAttribution = $request->request->get('subAttribution');
@@ -100,26 +85,20 @@ class Quote
         $cacheMapper = $this->mapperFactory->createCacheMapper();
         $cacheMapper->save($formCache);
 
-        if (!$apiController->postQuoteUpload($request)) {
+        if (!$this->quoteAPIController->postQuoteUpload($request)) {
             $this->getQuoteUpload($request);
         }
     }
 
     public function getQuoteUpdate($request)
     {
-        $apiController = $this->secureContainer->contain($this->quoteAPIController);
-        $tagAPIController = $this->secureContainer->contain($this->tagAPIController);
-        $contentCategoryAPIController = $this->secureContainer->contain($this->contentCategoryAPIController);
-
-        $apiController->getQuote($request);
-        $tagAPIController->getAllTag($request);
-        $contentCategoryAPIController->getAllContentCategory($request);
+        $this->quoteAPIController->getQuote($request);
+        $this->tagAPIController->getAllTag($request);
+        $this->contentCategoryAPIController->getAllContentCategory($request);
     }
 
     public function postQuoteUpdate($request)
     {
-        $apiController = $this->secureContainer->contain($this->quoteAPIController);
-
         $text = $request->request->get('text');
         $attribution = $request->request->get('attribution');
         $subAttribution = $request->request->get('subAttribution');
@@ -161,22 +140,18 @@ class Quote
         $cacheMapper = $this->mapperFactory->createCacheMapper();
         $cacheMapper->save($formCache);
 
-        if (!$apiController->postQuoteUpdate($request)) {
+        if (!$this->quoteAPIController->postQuoteUpdate($request)) {
             $this->getQuoteUpdate($request);
         };
     }
 
     public function postQuoteDelete($request)
     {
-        $apiController = $this->secureContainer->contain($this->quoteAPIController);
-
-        $apiController->postQuoteDelete($request);
+        $this->quoteAPIController->postQuoteDelete($request);
     }
 
     public function postQuoteUnpair($request)
     {
-        $apiController = $this->secureContainer->contain($this->quoteAPIController);
-
-        $apiController->postQuoteUnpair($request);
+        $this->quoteAPIController->postQuoteUnpair($request);
     }
 }
