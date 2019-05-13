@@ -6,7 +6,7 @@ use \SimpleXMLElement;
 use \DOMDocument;
 use \XSLTProcessor;
 
-use CommunityVoices\Model\Service;
+use CommunityVoices\App\Api;
 use CommunityVoices\App\Website\Component;
 use Symfony\Component\HttpFoundation;
 use Symfony\Component\Routing\Generator\UrlGenerator;
