@@ -247,7 +247,7 @@
                 </a>
               </xsl:when>
               <xsl:otherwise>
-                <a href="slides/edit/{id}">
+                <a href="slides/{id}">
                   <div class="embed-responsive embed-responsive-16by9 mb-4">
                     <iframe class="embed-responsive-item" id="preview" style="pointer-events: none;" src="/community-voices/slides/{id}"></iframe>
                   </div>
