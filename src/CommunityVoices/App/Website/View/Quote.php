@@ -45,7 +45,7 @@ class Quote extends Component\View
          * Gather quote information (API calls)
          */
         $quote = json_decode($this->quoteAPIView->getQuote()->getContent());
-        $boundaryQuotes = json_decode($quoteAPIView->getBoundaryQuotes()->getContent(), true);
+        $boundaryQuotes = json_decode($this->quoteAPIView->getBoundaryQuotes()->getContent(), true);
 
         /**
          * Process API information

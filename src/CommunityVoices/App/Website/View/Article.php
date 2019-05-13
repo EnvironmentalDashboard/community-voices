@@ -197,8 +197,7 @@ class Article extends Component\View
     public function getArticleUpload($request)
     {
         try {
-            $articleAPIView = $this->secureContainer->contain($this->articleAPIView);
-            $articleAPIView->getArticleUpload();
+            $this->articleAPIView->getArticleUpload();
         } catch (Exception $e) {
             echo $e->getMessage();
             return;
@@ -254,10 +253,9 @@ class Article extends Component\View
         /**
          * Gather article information
          */
-        $articleAPIView = $this->secureContainer->contain($this->articleAPIView);
         $articleXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
-                $articleAPIView->getArticle()->getContent()
+                $this->articleAPIView->getArticle()->getContent()
             ))
         );
 
