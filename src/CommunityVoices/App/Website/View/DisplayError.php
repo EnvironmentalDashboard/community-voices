@@ -34,8 +34,10 @@ class DisplayError extends Component\View
             $displayErrorPackageElement->addAttribute("error", "404");
         } else if ($error === "CommunityVoices\\App\\Api\\Component\\Exception\\AccessDenied") {
             $displayErrorPackageElement->addAttribute("error", "AccessDenied");
-            $displayErrorPackageElement->addAttribute("message", $request->attributes->get("message"));
         }
+
+        $identity = $displayErrorPackageElement->addChild('identity');
+        $identity->adopt($this->identityXMLElement());
 
         /**
          * Generate DisplayError module
@@ -55,7 +57,6 @@ class DisplayError extends Component\View
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', $displayErrorModuleXML);
-        //$domainXMLElement->addChild('baseUrl', $baseUrl);
 
         $presentation = new Component\Presenter('SinglePane');
 

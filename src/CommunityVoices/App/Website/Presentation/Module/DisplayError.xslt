@@ -23,7 +23,19 @@
               <p class="text-center">
 				  <xsl:choose>
 					  <xsl:when test="@error = 'AccessDenied'">
-						  <xsl:value-of select="@message"/>
+						  You are not allowed to view this page.
+
+						  <xsl:value-of select="identity/user/id"/>
+						  <xsl:choose>
+							  <xsl:when test="identity/user/id = ''">
+								  <a href="/community-voices/login">
+									  Please log in.
+								  </a>
+							  </xsl:when>
+							  <xsl:otherwise>
+								  You do not have sufficient permissions for this action.
+							  </xsl:otherwise>
+						  </xsl:choose>
 					  </xsl:when>
 					  <xsl:when test="@error = '404'">
 						  The page you are looking for could not be found.
