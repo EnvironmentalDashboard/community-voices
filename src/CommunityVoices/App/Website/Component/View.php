@@ -39,6 +39,11 @@ class View
         );
     }
 
+    protected function isLoggedIn()
+    {
+        return !empty($this->identityXMLElement()->id);
+    }
+
     /**
      * @todo Mark-up should not be in view
      */

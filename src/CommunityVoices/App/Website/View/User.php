@@ -97,7 +97,7 @@ class User extends Component\View
         // 1. We logged in, then clicked on register.
         // 2. We just successfully registered.
         // In both cases, we want to leave this registration page.
-        if ($this->identityXMLElement()) {
+        if ($this->isLoggedIn()) {
             $response = new HttpFoundation\RedirectResponse(
                 $this->urlGenerator->generate('root')
             );

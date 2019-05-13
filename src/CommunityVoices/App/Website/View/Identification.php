@@ -31,7 +31,7 @@ class Identification extends Component\View
         $referer = $request->request->get("referer") ?? $request->headers->get("referer");
 
         // If we are logged in, we should not be letting us log in again!
-        if ($this->identityXMLElement()) {
+        if ($this->isLoggedIn()) {
             // Our goal is to either return from where we came or go back to
             // the root of the website.
             $response = new HttpFoundation\RedirectResponse(
@@ -95,7 +95,7 @@ class Identification extends Component\View
     {
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
-        if ($this->identityXMLElement()) {
+        if ($this->isLoggedIn()) {
             /**
              * Login success
              */
