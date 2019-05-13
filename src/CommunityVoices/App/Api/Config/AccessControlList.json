@@ -122,6 +122,12 @@
         ["CommunityVoices\\App\\Api\\View\\DisplayError::getError", {"allow": "guest"}],
 
         ["CommunityVoices\\App\\Api\\Controller\\Identification::postLogin", {"allow": "guest"}],
-        ["CommunityVoices\\App\\Api\\View\\Identification::postLogin", {"allow": "guest"}]
+        ["CommunityVoices\\App\\Api\\View\\Identification::postLogin", {"allow": "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Identification::getIdentity", {"allow": "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Identification::getIdentity", {"allow": "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Identification::postLogout", {"allow": "user"}],
+        ["CommunityVoices\\App\\Api\\View\\Identification::postLogout", {"allow": "user"}]
     ]
 }

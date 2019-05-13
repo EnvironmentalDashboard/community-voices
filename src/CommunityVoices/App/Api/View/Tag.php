@@ -3,20 +3,24 @@
 namespace CommunityVoices\App\Api\View;
 
 use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\App\Api\Component;
 use Symfony\Component\HttpFoundation;
 use Symfony\Component\HttpFoundation\Response;
 
-class Tag
+class Tag extends Component\View
 {
     protected $mapperFactory;
 
     public function __construct(
+        Component\SecureContainer $secureContainer,
         MapperFactory $mapperFactory
     ) {
+        parent::__construct($secureContainer);
+
         $this->mapperFactory = $mapperFactory;
     }
 
-    public function getAllTag()
+    protected function getAllTag()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();

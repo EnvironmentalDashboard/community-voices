@@ -3,19 +3,24 @@
 namespace CommunityVoices\App\Api\View;
 
 use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\App\Api\Component;
 use Symfony\Component\HttpFoundation;
 use Symfony\Component\HttpFoundation\Response;
 
-class Landing
+class Landing extends Component\View
 {
     protected $mapperFactory;
 
-    public function __construct(MapperFactory $mapperFactory)
-    {
+    public function __construct(
+        Component\SecureContainer $secureContainer,
+        MapperFactory $mapperFactory
+    ) {
+        parent::__construct($secureContainer);
+
         $this->mapperFactory = $mapperFactory;
     }
 
-    public function getLanding()
+    protected function getLanding()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();

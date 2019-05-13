@@ -3,19 +3,24 @@
 namespace CommunityVoices\App\Api\View;
 
 use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\App\Api\Component;
 use Symfony\Component\HttpFoundation;
 use Symfony\Component\HttpFoundation\Response;
 
-class Quote
+class Quote extends Component\View
 {
     protected $mapperFactory;
 
-    public function __construct(MapperFactory $mapperFactory)
-    {
+    public function __construct(
+        Component\SecureContainer $secureContainer,
+        MapperFactory $mapperFactory
+    ) {
+        parent::__construct($secureContainer);
+
         $this->mapperFactory = $mapperFactory;
     }
 
-    public function getQuote()
+    protected function getQuote()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -28,7 +33,7 @@ class Quote
         return $response;
     }
 
-    public function getBoundaryQuotes()
+    protected function getBoundaryQuotes()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -41,7 +46,7 @@ class Quote
         return $response;
     }
 
-    public function getAllQuote()
+    protected function getAllQuote()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -56,12 +61,12 @@ class Quote
         return $response;
     }
 
-    public function getQuoteUpload()
+    protected function getQuoteUpload()
     {
         // intentionally blank
     }
 
-    public function postQuoteUpload()
+    protected function postQuoteUpload()
     {
         $clientStateMapper = $this->mapperFactory->createClientStateMapper();
         $clientStateObserver = $clientStateMapper->retrieve();
@@ -80,12 +85,12 @@ class Quote
         return $response;
     }
 
-    public function getQuoteUpdate()
+    protected function getQuoteUpdate()
     {
         // intentionally blank
     }
 
-    public function postQuoteUpdate()
+    protected function postQuoteUpdate()
     {
         $clientStateMapper = $this->mapperFactory->createClientStateMapper();
         $clientStateObserver = $clientStateMapper->retrieve();

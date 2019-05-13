@@ -3,18 +3,23 @@
 namespace CommunityVoices\App\Api\View;
 
 use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\App\Api\Component;
 use Symfony\Component\HttpFoundation;
 
-class User
+class User extends Component\View
 {
     protected $mapperFactory;
 
-    public function __construct(MapperFactory $mapperFactory)
-    {
+    public function __construct(
+        Component\SecureContainer $secureContainer,
+        MapperFactory $mapperFactory
+    ) {
+        parent::__construct($secureContainer);
+
         $this->mapperFactory = $mapperFactory;
     }
 
-    public function postUser()
+    protected function postUser()
     {
         $clientStateMapper = $this->mapperFactory->createClientStateMapper();
         $clientStateObserver = $clientStateMapper->retrieve();
@@ -29,7 +34,7 @@ class User
         return $response;
     }
 
-    public function getUser()
+    protected function getUser()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();

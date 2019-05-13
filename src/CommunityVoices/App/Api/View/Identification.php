@@ -6,17 +6,20 @@ use Symfony\Component\HttpFoundation;
 
 use CommunityVoices\App\Api\Component;
 
-class Identification
+class Identification extends Component\View
 {
     protected $recognitionAdapter;
 
     public function __construct(
+        Component\SecureContainer $secureContainer,
         Component\RecognitionAdapter $recognitionAdapter
     ) {
+        parent::__construct($secureContainer);
+
         $this->recognitionAdapter = $recognitionAdapter;
     }
 
-    public function getIdentity()
+    protected function getIdentity()
     {
         $identity = $this->recognitionAdapter->identify();
 
@@ -25,7 +28,7 @@ class Identification
         return $response;
     }
 
-    public function postLogin()
+    protected function postLogin()
     {
         $identity = $this->recognitionAdapter->identify();
 
@@ -40,7 +43,7 @@ class Identification
         return $response;
     }
 
-    public function postLogout()
+    protected function postLogout()
     {
         $identity = $this->recognitionAdapter->identify();
 

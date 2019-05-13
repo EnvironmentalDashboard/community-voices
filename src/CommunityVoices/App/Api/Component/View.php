@@ -4,7 +4,7 @@ namespace CommunityVoices\App\Api\Component;
 
 use CommunityVoices\App\Api\Component;
 
-class Controller
+class View
 {
     protected $secureContainer;
 
@@ -15,13 +15,13 @@ class Controller
     }
 
     /*
-     * Automatically secures each called function in every API controller.
+     * Automatically secures each called function in every API view.
      * Note that this is somewhat hacked into making it work with the
      * SecureContainer.
      * A future implementation could easily make SecureContainer obsolete
      * by simply providing its functionality in this function.
      *
-     * Also note that this is copied code from the View object.
+     * Also note that this is copied code from the Controller object.
      * It would be better to move this such that duplicate code is not repeated.
      */
     public function __call($method, $arguments)
@@ -42,12 +42,5 @@ class Controller
         } else {
             throw new Exception\MethodNotFound("Method not found " . get_class($this) . "::" . $method);
         }
-    }
-
-    protected function send404()
-    {
-        http_response_code(404);
-        echo file_get_contents('https://environmentaldashboard.org/404');
-        exit;
     }
 }

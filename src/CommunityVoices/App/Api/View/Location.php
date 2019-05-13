@@ -3,18 +3,23 @@
 namespace CommunityVoices\App\Api\View;
 
 use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\App\Api\Component;
 use Symfony\Component\HttpFoundation;
 
-class Location
+class Location extends Component\View
 {
     protected $mapperFactory;
 
-    public function __construct(MapperFactory $mapperFactory)
-    {
+    public function __construct(
+        Component\SecureContainer $secureContainer,
+        MapperFactory $mapperFactory
+    ) {
+        parent::__construct($secureContainer);
+
         $this->mapperFactory = $mapperFactory;
     }
 
-    public function getAllLocation()
+    protected function getAllLocation()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();

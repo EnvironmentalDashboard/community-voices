@@ -3,19 +3,24 @@
 namespace CommunityVoices\App\Api\View;
 
 use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\App\Api\Component;
 use Symfony\Component\HttpFoundation;
 use Symfony\Component\HttpFoundation\Response;
 
-class Article
+class Article extends Component\View
 {
     protected $mapperFactory;
 
-    public function __construct(MapperFactory $mapperFactory)
-    {
+    public function __construct(
+        Component\SecureContainer $secureContainer,
+        MapperFactory $mapperFactory
+    ) {
+        parent::__construct($secureContainer);
+
         $this->mapperFactory = $mapperFactory;
     }
 
-    public function getArticle()
+    protected function getArticle()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -28,7 +33,7 @@ class Article
         return $response;
     }
 
-    public function getAllArticle()
+    protected function getAllArticle()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -45,22 +50,22 @@ class Article
         return $response;
     }
 
-    public function getArticleUpload()
+    protected function getArticleUpload()
     {
         // intentionally blank
     }
 
-    public function postArticleUpload()
+    protected function postArticleUpload()
     {
         // intentionally blank
     }
 
-    public function getArticleUpdate()
+    protected function getArticleUpdate()
     {
         // intentionally blank
     }
 
-    public function postArticleUpdate()
+    protected function postArticleUpdate()
     {
         // intentionally blank
     }

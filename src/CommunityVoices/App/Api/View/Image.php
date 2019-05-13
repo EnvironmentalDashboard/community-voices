@@ -3,24 +3,29 @@
 namespace CommunityVoices\App\Api\View;
 
 use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\App\Api\Component;
 use Symfony\Component\HttpFoundation;
 use Symfony\Component\HttpFoundation\Response;
 
-class Image
+class Image extends Component\View
 {
     protected $mapperFactory;
 
-    public function __construct(MapperFactory $mapperFactory)
-    {
+    public function __construct(
+        Component\SecureContainer $secureContainer,
+        MapperFactory $mapperFactory
+    ) {
+        parent::__construct($secureContainer);
+
         $this->mapperFactory = $mapperFactory;
     }
 
-    public function sendImage()
+    protected function sendImage()
     {
         // wut
     }
 
-    public function getImage()
+    protected function getImage()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -34,7 +39,7 @@ class Image
         return $response;
     }
 
-    public function getAllImage()
+    protected function getAllImage()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -52,7 +57,7 @@ class Image
         return $response;
     }
 
-    public function getImageUpload()
+    protected function getImageUpload()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -65,7 +70,7 @@ class Image
         return $response;
     }
 
-    public function postImageUpload()
+    protected function postImageUpload()
     {
         // intentionally blank
     }
