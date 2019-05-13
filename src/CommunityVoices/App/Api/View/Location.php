@@ -25,9 +25,9 @@ class Location extends Component\View
         $stateObserver = $clientState->retrieve();
 
         $stateObserver->setSubject("locationLookup");
-        $locationCollection = $stateObserver->getEntry("locationCollection")[0]->toArray();
+        $locationCollection = $stateObserver->getEntry("locationCollection")[0];
 
-        $response = new HttpFoundation\Response();
+        $response = new HttpFoundation\JsonResponse($locationCollection->toArray());
 
         return $response;
     }
