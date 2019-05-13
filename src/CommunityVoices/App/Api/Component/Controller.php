@@ -14,6 +14,13 @@ class Controller
         $this->secureContainer = $secureContainer;
     }
 
+    /*
+     * Automatically secures each called function in every API controller.
+     * Note that this is somewhat hacked into making it work with the
+     * SecureContainer.
+     * A future implementation could easily make SecureContainer obsolete
+     * by simply providing its functionality in this function.
+     */
     public function __call($method, $arguments)
     {
         if (method_exists($this, $method)) {
@@ -29,6 +36,8 @@ class Controller
             }
 
             return call_user_func_array($methodArray, $arguments);
+        } else {
+            throw new Exception\MethodNotFound("Method not found " . get_class($this) . "::" . $method);
         }
     }
 
