@@ -58,3 +58,6 @@ function load_uncropped(e) {
     setTimeout(function() {image.setAttribute('src', base + id);}, 100);
   }
 }
+
+// This file should contain something that sorts selected tags when they
+// are selected (most likely).
