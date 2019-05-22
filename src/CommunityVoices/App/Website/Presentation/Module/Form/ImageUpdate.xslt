@@ -47,7 +47,7 @@
               <div class="form-group">
                 <label for="dateTaken">Date Taken</label>
                 <input class="form-control" id="dateTaken" type='text' name='dateTaken'>
-                  <xsl:attribute name="value"><xsl:value-of select="domain/image/dateCreated"/></xsl:attribute>
+                  <xsl:attribute name="value"><xsl:value-of select="domain/image/dateTaken"/></xsl:attribute>
                 </input>
               </div>
 

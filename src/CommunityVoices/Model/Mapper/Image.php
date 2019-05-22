@@ -53,9 +53,9 @@ class Image extends Media
         $query = "SELECT
                         parent.id                       AS id,
                         parent.added_by                 AS addedBy,
-                        parent.date_created             AS dateCreated,
                         CAST(parent.type AS UNSIGNED)   AS type,
                         CAST(parent.status AS UNSIGNED) AS status,
+                        child.date_taken                AS dateTaken,
                         child.filename                  AS filename,
                         child.generated_tags            AS generatedTags,
                         child.title                     AS title,
