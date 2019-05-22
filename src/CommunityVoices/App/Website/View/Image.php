@@ -287,7 +287,7 @@ class Image extends Component\View
         );
 
         $selectedTagString = ',';
-        foreach ($image->image->tagCollection->tagCollection as $group) {
+        foreach ($image->image->tagCollection->groupCollection as $group) {
             $selectedTagString .= "{$group->tag->id},";
         }
         $selectedTagXMLElement = new SimpleXMLElement(
