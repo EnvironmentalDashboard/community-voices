@@ -288,7 +288,7 @@ class Image extends Component\View
 
         $selectedTagString = ',';
         foreach ($image->image->tagCollection->groupCollection as $group) {
-            $selectedTagString .= "{$group->tag->id},";
+            $selectedTagString .= "{$group->group->id},";
         }
         $selectedTagXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(['selectedTags' => [$selectedTagString]])
