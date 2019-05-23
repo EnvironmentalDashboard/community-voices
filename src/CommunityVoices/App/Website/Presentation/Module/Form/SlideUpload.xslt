@@ -226,10 +226,10 @@
             <form method='post' class="d-inline" id="form">
               <xsl:choose>
                 <xsl:when test="domain/slide != ''">
-                  <xsl:attribute name="action">/community-voices/slides/<xsl:value-of select="domain/slide/id" />/edit/authenticate</xsl:attribute>
+                  <xsl:attribute name="action">/community-voices/api/slides/<xsl:value-of select="domain/slide/id" />/edit/authenticate</xsl:attribute>
                 </xsl:when>
                 <xsl:otherwise>
-                  <xsl:attribute name="action">/community-voices/slides/new/authenticate</xsl:attribute>
+                  <xsl:attribute name="action">/community-voices/api/slides/new/authenticate</xsl:attribute>
                 </xsl:otherwise>
               </xsl:choose>
               <input type="hidden" name="image_id" value="{domain/slide/image/image/id}" />
