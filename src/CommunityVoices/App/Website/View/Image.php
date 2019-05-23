@@ -263,7 +263,7 @@ class Image extends Component\View
     public function postImageUpload($request)
     {
         $response = new HttpFoundation\RedirectResponse(
-            $request->headers->get('referer')
+            $this->urlGenerator->generate('getAllImage')
         );
 
         $this->finalize($response);
