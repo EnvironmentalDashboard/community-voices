@@ -130,7 +130,10 @@ if (form.length > 0) {
         $.ajax({
             url : $(this).attr('action'),
             type: $(this).attr('method'),
-            data: $(this).serialize()
+            data: $(this).serialize(),
+            success: function (data) {
+                window.location.replace(window.location.href);
+            }
         });
     });
 }
