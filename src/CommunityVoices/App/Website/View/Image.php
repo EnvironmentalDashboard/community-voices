@@ -251,6 +251,7 @@ class Image extends Component\View
         $domainXMLElement->addChild('main-pane', $imageModuleXML);
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: Image Upload");
+        $domainXMLElement->addChild('extraJS', "https://cdn.jsdelivr.net/npm/exif-js image-upload");
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($this->identityXMLElement());
         $presentation = new Component\Presenter('SinglePane');
