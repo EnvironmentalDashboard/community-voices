@@ -375,5 +375,14 @@
             "resource": "Location",
             "action": "getAllLocation"
         }
+    },
+
+    "getAllContentCategory": {
+        "notation": "/content-categories",
+        "method": "get",
+        "defaults": {
+            "resource": "ContentCategory",
+            "action": "getAllContentCategory"
+        }
     }
 }
