@@ -9,10 +9,10 @@ use Symfony\Component\HttpFoundation;
 class Location extends Component\View
 {
     public function __construct(
-        MapperFactory $mapperFactory,
-        Component\SecureContainer $secureContainer
+        Component\SecureContainer $secureContainer,
+        MapperFactory $mapperFactory
     ) {
-        parent::__construct($mapperFactory, $secureContainer);
+        parent::__construct($secureContainer, $mapperFactory);
     }
 
     protected function getAllLocation()
