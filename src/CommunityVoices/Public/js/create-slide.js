@@ -126,7 +126,7 @@ if (delete_form.length > 0) {
         e.preventDefault();
 
         var action = $(this).attr('action');
-        
+
         if (confirm('Are you sure? This action can not be undone.')) {
             $.post(action).done(function(d) {
                 goToSlidesList();
@@ -147,7 +147,6 @@ if (form.length > 0) {
             type: $(this).attr('method'),
             data: $(this).serialize(),
             success: function (data) {
-                console.log(data);
                 // If our slide is successfully processed, we will redirect
                 // back to the list of slides, which is a way of showing success.
                 if (Object.keys(data.errors).length == 0) {
