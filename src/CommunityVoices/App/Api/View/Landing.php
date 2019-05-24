@@ -9,15 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Landing extends Component\View
 {
-    protected $mapperFactory;
-
     public function __construct(
-        Component\SecureContainer $secureContainer,
-        MapperFactory $mapperFactory
+        MapperFactory $mapperFactory,
+        Component\SecureContainer $secureContainer
     ) {
-        parent::__construct($secureContainer);
-
-        $this->mapperFactory = $mapperFactory;
+        parent::__construct($mapperFactory, $secureContainer);
     }
 
     protected function getLanding()

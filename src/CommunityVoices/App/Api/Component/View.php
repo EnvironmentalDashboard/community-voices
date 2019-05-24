@@ -2,15 +2,19 @@
 
 namespace CommunityVoices\App\Api\Component;
 
+use CommunityVoices\Model\Component\MapperFactory;
 use CommunityVoices\App\Api\Component;
 
 class View
 {
+    protected $mapperFactory;
     protected $secureContainer;
 
     public function __construct(
+        MapperFactory $mapperFactory,
         Component\SecureContainer $secureContainer
     ) {
+        $this->mapperFactory = $mapperFactory;
         $this->secureContainer = $secureContainer;
     }
 
@@ -42,5 +46,20 @@ class View
         } else {
             throw new Exception\MethodNotFound("Method not found " . get_class($this) . "::" . $method);
         }
+    }
+
+    protected function errorsResponse($key)
+    {
+        $clientStateMapper = $this->mapperFactory->createClientStateMapper();
+        $clientStateObserver = $clientStateMapper->retrieve();
+
+        // In the case that we have retrieved errors, we will send them along.
+        // Otherwise, our errors array will be an empty array.
+        $errors = ($clientStateObserver && $clientStateObserver->hasSubjectEntries($key))
+            ? $clientStateObserver->getEntriesBySubject($key) : [];
+
+        $response = new HttpFoundation\JsonResponse(['errors' => $errors]);
+
+        return $response;
     }
 }

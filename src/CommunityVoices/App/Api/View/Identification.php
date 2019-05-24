@@ -4,6 +4,7 @@ namespace CommunityVoices\App\Api\View;
 
 use Symfony\Component\HttpFoundation;
 
+use CommunityVoices\Model\Component\MapperFactory;
 use CommunityVoices\App\Api\Component;
 
 class Identification extends Component\View
@@ -11,10 +12,11 @@ class Identification extends Component\View
     protected $recognitionAdapter;
 
     public function __construct(
+        MapperFactory $mapperFactory,
         Component\SecureContainer $secureContainer,
         Component\RecognitionAdapter $recognitionAdapter
     ) {
-        parent::__construct($secureContainer);
+        parent::__construct($mapperFactory, $secureContainer);
 
         $this->recognitionAdapter = $recognitionAdapter;
     }
