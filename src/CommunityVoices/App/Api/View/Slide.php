@@ -124,7 +124,17 @@ class Slide extends Component\View
 
     protected function postSlideUpdate()
     {
-        // intentionally blank
+        $clientStateMapper = $this->mapperFactory->createClientStateMapper();
+        $clientStateObserver = $clientStateMapper->retrieve();
+
+        // In the case that we have retrieved errors, we will send them along.
+        // Otherwise, our errors array will be an empty array.
+        $errors = ($clientStateObserver && $clientStateObserver->hasSubjectEntries('slideUpdate'))
+            ? $clientStateObserver->getEntriesBySubject('slideUpdate') : [];
+
+        $response = new HttpFoundation\JsonResponse(['errors' => $errors]);
+
+        return $response;
     }
 
     private function convert_from_latin1_to_utf8_recursively($dat)

@@ -302,12 +302,14 @@
                       </div>
                     </xsl:for-each>
                   </div>
+                  <div id="alert"></div>
                   <input type='submit' value="Create slide" class="btn btn-primary" />
                 </xsl:otherwise>
               </xsl:choose>
             </form>
             <xsl:if test="domain/slide != ''">
               <form action="/community-voices/slides/{domain/slide/id}/delete/authenticate" method="POST" class="d-inline" id="delete-form">
+                <div id="alert"></div>
                 <input type="submit" value="Delete slide" class="btn btn-danger" />
               </form>
             </xsl:if>

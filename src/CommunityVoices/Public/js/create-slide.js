@@ -110,14 +110,26 @@ $('#filter-images').on('submit', function(e) {
     image_page = 1;
     getImage(image_page);
 });
+
+function goToSlidesList () {
+    // What if the API could give a path given an argument of the route
+    // name? Would be kind of effectively doing what is done here.
+    var here = window.location.href;
+    var cv = here.substring(here.lastIndexOf("community-voices"), -1);
+
+    window.location.replace(cv + "community-voices/slides");
+}
+
 var delete_form = $('#delete-form');
 if (delete_form.length > 0) {
     delete_form.on('submit', function(e) {
         e.preventDefault();
+
         var action = $(this).attr('action');
-        if (confirm('This action can not be undone.')) {
+        
+        if (confirm('Are you sure? This action can not be undone.')) {
             $.post(action).done(function(d) {
-                window.history.go(-1);
+                goToSlidesList();
             });
         }
     });
@@ -126,19 +138,38 @@ var form = $('#form');
 if (form.length > 0) {
     form.on('submit', function(e) {
         e.preventDefault();
-        $('#alert').html('<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Success!</strong> Slide updated<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+
+        // This could use helper functions for constructing this HTML.
+        $('#alert').html('<div class="alert alert-secondary alert-dismissible fade show" role="alert">Loading... (will redirect upon success)<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+
         $.ajax({
             url : $(this).attr('action'),
             type: $(this).attr('method'),
             data: $(this).serialize(),
             success: function (data) {
-                // If our slide is successfully uploaded, we will redirect
+                console.log(data);
+                // If our slide is successfully processed, we will redirect
                 // back to the list of slides, which is a way of showing success.
-                if (data.errors.length == 0) {
-                    // This will always be /slides/new
-                    var here = window.location.href;
+                if (Object.keys(data.errors).length == 0) {
+                    goToSlidesList();
+                } else {
+                    // If our slide fails to be processed, we will display this.
+                    var alert = $("#alert .alert");
 
-                    window.location.replace(here.substring(0, here.lastIndexOf('/')));
+                    // This is similar code as quote-collection.js, and thus
+                    // should be transferred to a helper function.
+                    var combinedString = Object.keys(data.errors).map(function (e) {
+                        return data.errors[e].join(", ");
+                    }).join(", ");
+
+                    if (alert.length == 0) {
+                        $('#alert').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">Failed! ' + combinedString + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    } else {
+                        alert.removeClass("alert-secondary");
+                        alert.addClass("alert-danger");
+
+                        alert.text("Failed! " + combinedString);
+                    }
                 }
             }
         });
