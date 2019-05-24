@@ -386,6 +386,15 @@
         }
     },
 
+    "getContentCategory": {
+        "notation": "/content-categories/{id}",
+        "method": "get",
+        "defaults": {
+            "resource": "ContentCategory",
+            "action": "getContentCategory"
+        }
+    },
+
     "getContentCategoryUpload": {
         "notation": "/content-categories/new",
         "method": "get",

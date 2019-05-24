@@ -19,6 +19,11 @@ class ContentCategory
         $this->contentCategoryAPIController->getAllContentCategory($request);
     }
 
+    public function getContentCategory($request)
+    {
+        $this->contentCategoryAPIController->getContentCategory($request);
+    }
+
     public function getContentCategoryUpload($request)
     {
         $this->contentCategoryAPIController->getContentCategoryUpload($request);
