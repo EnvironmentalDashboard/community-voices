@@ -132,7 +132,14 @@ if (form.length > 0) {
             type: $(this).attr('method'),
             data: $(this).serialize(),
             success: function (data) {
-                window.location.replace(window.location.href);
+                // If our slide is successfully uploaded, we will redirect
+                // back to the list of slides, which is a way of showing success.
+                if (data.errors.length == 0) {
+                    // This will always be /slides/new
+                    var here = window.location.href;
+
+                    window.location.replace(here.substring(0, here.lastIndexOf('/')));
+                }
             }
         });
     });
