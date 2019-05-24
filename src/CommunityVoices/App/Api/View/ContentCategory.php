@@ -28,4 +28,17 @@ class ContentCategory extends Component\View
 
         return $response;
     }
+
+    protected function getContentCategory()
+    {
+        $clientState = $this->mapperFactory->createClientStateMapper();
+        $stateObserver = $clientState->retrieve();
+
+        $stateObserver->setSubject('contentCategoryLookup');
+        $contentCategory = $stateObserver->getEntry('contentCategory')[0];
+
+        $response = new HttpFoundation\JsonResponse($contentCategory->toArray());
+
+        return $response;
+    }
 }
