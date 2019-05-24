@@ -2,6 +2,8 @@
 
 namespace CommunityVoices\App\Api\Component;
 
+use Symfony\Component\HttpFoundation;
+
 use CommunityVoices\Model\Component\MapperFactory;
 use CommunityVoices\App\Api\Component;
 
