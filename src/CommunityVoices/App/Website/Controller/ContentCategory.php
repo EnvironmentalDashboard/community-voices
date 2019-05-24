@@ -18,4 +18,24 @@ class ContentCategory
     {
         $this->contentCategoryAPIController->getAllContentCategory($request);
     }
+
+    public function getContentCategoryUpload($request)
+    {
+        $this->contentCategoryAPIController->getContentCategoryUpload($request);
+    }
+
+    public function postContentCategoryUpload($request)
+    {
+        $this->contentCategoryAPIController->postContentCategoryUpload($request);
+    }
+
+    public function getContentCategoryUpdate($request)
+    {
+        $this->contentCategoryAPIController->getContentCategoryUpdate($request);
+    }
+
+    public function postContentCategoryUpdate($request)
+    {
+        $this->contentCategoryAPIController->postContentCategoryUpdate($request);
+    }
 }

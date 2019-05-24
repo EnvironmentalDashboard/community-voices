@@ -384,5 +384,41 @@
             "resource": "ContentCategory",
             "action": "getAllContentCategory"
         }
+    },
+
+    "getContentCategoryUpload": {
+        "notation": "/content-categories/new",
+        "method": "get",
+        "defaults": {
+            "resource": "ContentCategory",
+            "action": "getContentCategoryUpload"
+        }
+    },
+
+    "postContentCategoryUpload": {
+        "notation": "/content-categories/new",
+        "method": "post",
+        "defaults": {
+            "resource": "ContentCategory",
+            "action": "postContentCategoryUpload"
+        }
+    },
+
+    "getContentCategoryUpdate": {
+        "notation": "/content-categories/{id}/edit",
+        "method": "get",
+        "defaults": {
+            "resource": "ContentCategory",
+            "action": "getContentCategoryUpdate"
+        }
+    },
+
+    "postContentCategoryUpdate": {
+        "notation": "/content-categories/{id}/edit",
+        "method": "post",
+        "defaults": {
+            "resource": "ContentCategory",
+            "action": "postContentCategoryUpdate"
+        }
     }
 }

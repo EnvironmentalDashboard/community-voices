@@ -31,4 +31,24 @@ class ContentCategory extends Component\View
     {
         // TODO: write this
     }
+
+    public function getContentCategoryUpload($request)
+    {
+        // TODO: write this
+    }
+
+    public function postContentCategoryUpload($request)
+    {
+        // TODO: write this
+    }
+
+    public function getContentCategoryUpdate($request)
+    {
+        // TODO: write this
+    }
+
+    public function postContentCategoryUpdate($request)
+    {
+        // TODO: write this
+    }
 }
