@@ -33,32 +33,8 @@
       </h1>
     </div>
     <div>
-      <xsl:choose>
-        <xsl:when test="domain/slide/contentCategory/contentCategory/id = 1">
-          <xsl:attribute name="style">width:100%;background:rgb(150,81,23);position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw</xsl:attribute>
-          Serving Our Community
-        </xsl:when>
-        <xsl:when test="domain/slide/contentCategory/contentCategory/id = 2">
-          <xsl:attribute name="style">width:100%;background:rgb(92,92,92);position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw</xsl:attribute>
-          Our Downtown
-        </xsl:when>
-        <xsl:when test="domain/slide/contentCategory/contentCategory/id = 3">
-          <xsl:attribute name="style">width:100%;background:rgb(4,54,75);position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw</xsl:attribute>
-          Next Generation
-        </xsl:when>
-        <xsl:when test="domain/slide/contentCategory/contentCategory/id = 4">
-          <xsl:attribute name="style">width:100%;background:rgb(86,114,34);position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw</xsl:attribute>
-          Heritage
-        </xsl:when>
-        <xsl:when test="domain/slide/contentCategory/contentCategory/id = 5">
-          <xsl:attribute name="style">width:100%;background:rgb(67,118,45);position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw</xsl:attribute>
-          Natural Oberlin
-        </xsl:when>
-        <xsl:when test="domain/slide/contentCategory/contentCategory/id = 6">
-          <xsl:attribute name="style">width:100%;background:rgb(94,0,224);position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw</xsl:attribute>
-          Our Neighbours
-        </xsl:when>
-      </xsl:choose>
+        <xsl:attribute name="style">width:100%;background:<xsl:value-of select="domain/slide/contentCategory/contentCategory/color" />;position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw</xsl:attribute>
+        <xsl:value-of select="domain/slide/contentCategory/contentCategory/label" />
       <img src="" alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto">
         <xsl:choose>
           <xsl:when test="domain/slide/contentCategory/contentCategory/id = 1">
