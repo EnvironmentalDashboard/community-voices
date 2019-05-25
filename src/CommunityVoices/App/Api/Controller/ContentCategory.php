@@ -43,4 +43,9 @@ class ContentCategory extends Component\Controller
             $this->send404();
         }
     }
+
+    protected function getContentCategoryUpload()
+    {
+        // intentionally blank
+    }
 }

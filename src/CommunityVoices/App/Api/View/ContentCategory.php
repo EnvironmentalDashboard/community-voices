@@ -41,4 +41,9 @@ class ContentCategory extends Component\View
 
         return $response;
     }
+
+    protected function getContentCategoryUpload()
+    {
+        // intentionally blank
+    }
 }
