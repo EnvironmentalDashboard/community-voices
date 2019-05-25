@@ -21,9 +21,8 @@ class Group implements HasId
     ];
 
     private $id;
-
     private $label;
-
+    
     protected $type;
 
     public function getId()

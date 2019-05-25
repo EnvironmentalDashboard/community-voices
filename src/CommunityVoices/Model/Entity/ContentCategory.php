@@ -4,27 +4,15 @@ namespace CommunityVoices\Model\Entity;
 
 class ContentCategory extends Group
 {
-    // This is a field in the database, but not sure why it exists
-    // and how it is utilized.
-    private $mediaFilename;
-    private $mediaId;
     private $groupId;
+    private $image;
 
+    // Not currently in database.
     protected $probability; /* @TODO required, number >= 0 */
 
     public function __construct()
     {
         $this->type = self::TYPE_CONT_CAT;
-    }
-
-    public function setMediaId(int $id)
-    {
-        $this->mediaId = $id;
-    }
-
-    public function getMediaId()
-    {
-        return $this->mediaId;
     }
 
     public function setGroupId(int $id)
@@ -37,16 +25,17 @@ class ContentCategory extends Group
         return $this->groupId;
     }
 
-    public function getMediaFilename()
+    public function getImage()
     {
-        return $this->mediaFilename;
+        return $this->image;
     }
 
-    public function setMediaFilename($mediaFilename)
+    public function setImage(Image $image)
     {
-        $this->mediaFilename = $mediaFilename;
+        $this->image = $image;
     }
 
+    // Not currently in database
     public function setProbability($probability)
     {
         $this->probability = $probability;
@@ -60,7 +49,7 @@ class ContentCategory extends Group
     public function toArray()
     {
         return ['contentCategory' => array_merge(parent::toArray()['group'], [
-            'mediaFilename' => $this->mediaFilename,
+            'image' => $this->image->toArray(),
             'probability' => $this->probability
         ])];
     }

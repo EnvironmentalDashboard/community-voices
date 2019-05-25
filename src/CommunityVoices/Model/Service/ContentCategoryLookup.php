@@ -22,18 +22,14 @@ class ContentCategoryLookup
         $this->stateObserver = $stateObserver;
     }
 
-    public function findAll($return = false)
+    public function findAll()
     {
         $contentCategoryCollection = new Entity\ContentCategoryCollection;
-        $tagMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
-        $tagMapper->fetchAllContentCategories($contentCategoryCollection);
+        $groupMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
+        $groupMapper->fetchAllContentCategories($contentCategoryCollection);
 
         $this->stateObserver->setSubject('contentCategoryLookup');
         $this->stateObserver->addEntry('contentCategory', $contentCategoryCollection);
-
-        if ($return) {
-            return $this->stateObserver;
-        }
 
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
         $clientState->save($this->stateObserver);

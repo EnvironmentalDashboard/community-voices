@@ -113,7 +113,7 @@ class SlideCollection extends DataMapper
                  . $this->query_prep($slideCollection->status, "media.status")
                  . $this->query_prep($slideCollection->creators, "media.added_by");
         $query .= ($sort === 'rand') ? " ORDER BY RAND() LIMIT {$limit}" : " ORDER BY {$sort} {$order} LIMIT {$offset}, {$limit}";
-        
+
         $statement = $this->conn->prepare($query);
 
         $statement->execute($params);
@@ -125,15 +125,20 @@ class SlideCollection extends DataMapper
         foreach ($results as $key => $entry) {
             $imgMapper = new Mapper\Image($this->conn);
             $quoteMapper = new Mapper\Quote($this->conn);
+            $contentCategoryMapper = new Mapper\ContentCategory($this->conn);
+
             $entry['image'] = new Entity\Image;
             $entry['image']->setId($entry['imageId']);
             $imgMapper->fetch($entry['image']);
+
             $entry['quote'] = new Entity\Quote;
             $entry['quote']->setId($entry['quoteId']);
             $quoteMapper->fetch($entry['quote']);
-            $contentCategory = new Entity\ContentCategory;
-            $contentCategory->setId((int) $entry['contentCategoryId']);
-            $entry['ContentCategory'] = $contentCategory;
+
+            $entry['contentCategory'] = new Entity\ContentCategory;
+            $entry['contentCategory']->setGroupId((int) $entry['contentCategoryId']);
+            $contentCategoryMapper->fetch($entry['contentCategory']);
+
             if ($entry['formattedText'] == '') {
                 $entry['formattedText'] = clone $entry['quote'];
             }

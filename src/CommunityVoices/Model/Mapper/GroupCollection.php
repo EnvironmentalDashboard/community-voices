@@ -12,8 +12,10 @@ namespace CommunityVoices\Model\Mapper;
 
 use PDO;
 use InvalidArgumentException;
+
 use CommunityVoices\Model\Component\DataMapper;
 use CommunityVoices\Model\Entity;
+use CommunityVoices\Model\Mapper;
 
 class GroupCollection extends DataMapper
 {
@@ -37,7 +39,24 @@ class GroupCollection extends DataMapper
 
     public function fetchAllContentCategories(Entity\ContentCategoryCollection $contentCategoryCollection)
     {
-        foreach ($this->conn->query("SELECT id, label FROM `community-voices_groups` WHERE type = 'content-category' ORDER BY label ASC") as $row) {
+        foreach ($this->conn->query("SELECT
+                        parent.id                           AS id,
+                        parent.label                        AS label,
+                        CAST(parent.type AS UNSIGNED)       AS type,
+                        child.image_id                      AS imageId
+                    FROM
+                        `community-voices_groups` parent
+                    JOIN
+                        `community-voices_content-categories` child
+                        ON parent.id = child.group_id
+                    WHERE
+                        type = 'content-category'
+                    ORDER BY label ASC") as $row) {
+            $imageMapper = new Mapper\Image($this->conn);
+            $row['image'] = new Entity\Image;
+            $row['image']->setId($row['imageId']);
+            $imageMapper->fetch($row['image']);
+
             $contentCategoryCollection->addEntityFromParams($row);
         }
     }

@@ -21,7 +21,7 @@ class Slide extends Media
             'contentCategory' => [
                 'class' => Entity\ContentCategory::class,
                 'attributes' => [
-                    'id' => 'contentCategoryId'
+                    'group_id' => 'contentCategoryId'
                 ]
             ],
             'image' => [
@@ -110,22 +110,29 @@ class Slide extends Media
         if ($results) {
             $imgMapper = new Mapper\Image($this->conn);
             $quoteMapper = new Mapper\Quote($this->conn);
+            $contentCategoryMapper = new Mapper\ContentCategory($this->conn);
+
             $results['image'] = new Entity\Image;
             $results['image']->setId($results['imageId']);
             $imgMapper->fetch($results['image']);
+
             $results['quote'] = new Entity\Quote;
             $results['quote']->setId($results['quoteId']);
             $quoteMapper->fetch($results['quote']);
+
             $user = new Entity\User;
             $user->setId($results['addedBy']);
             $results['addedBy'] = $user;
-            $contentCategory = new Entity\ContentCategory;
-            $contentCategory->setId($results['contentCategoryId']);
-            $results['ContentCategory'] = $contentCategory;
+
+            $results['contentCategory'] = new Entity\ContentCategory;
+            $results['contentCategory']->setGroupId($results['contentCategoryId']);
+            $contentCategoryMapper->fetch($results['contentCategory']);
+
             $tagCollection = new Entity\GroupCollection;
             $tagCollection->forParentId($results['id']);
             $tagCollection->forParentType(0);
             $results['TagCollection'] = $tagCollection;
+
             if ($results['formattedText'] == '') {
                 $results['formattedText'] = clone $results['quote'];
             }
@@ -175,7 +182,7 @@ class Slide extends Media
         $statement = $this->conn->prepare($query);
         // $slide->setFormattedText($slide->getQuote());
         $statement->bindValue(':media_id', $slide->getId());
-        $statement->bindValue(':content_category_id', $slide->getContentCategory()->getId());
+        $statement->bindValue(':content_category_id', $slide->getContentCategory()->getGroupId());
         $statement->bindValue(':image_id', $slide->getImage()->getId());
         $statement->bindValue(':quote_id', $slide->getQuote()->getId());
         // $statement->bindValue(':formatted_text', $slide->getFormattedText());
@@ -208,7 +215,7 @@ class Slide extends Media
 
         // $slide->setFormattedText($slide->getQuote());
         $statement->bindValue(':media_id', $slide->getId());
-        $statement->bindValue(':content_category_id', $slide->getContentCategory()->getId());
+        $statement->bindValue(':content_category_id', $slide->getContentCategory()->getGroupId());
         $statement->bindValue(':image_id', $slide->getImage()->getId());
         $statement->bindValue(':quote_id', $slide->getQuote()->getId());
         // $statement->bindValue(':formatted_text', $slide->getFormattedText());
