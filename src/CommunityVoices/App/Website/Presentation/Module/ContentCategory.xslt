@@ -5,26 +5,26 @@
 
   <xsl:template match="/package">
     <div>
-        <xsl:attribute name="style">width:100%;background:<xsl:value-of select="domain/slide/contentCategory/contentCategory/color" />;position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw</xsl:attribute>
-        <xsl:value-of select="domain/slide/contentCategory/contentCategory/label" />
+        <xsl:attribute name="style">width:100%;background:<xsl:value-of select="domain/contentCategory/color" />;position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw</xsl:attribute>
+        <xsl:value-of select="domain/contentCategory/label" />
       <img src="" alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto">
         <xsl:choose>
-          <xsl:when test="domain/slide/contentCategory/contentCategory/id = 1">
+          <xsl:when test="domain/contentCategory/id = 1">
             <xsl:attribute name="src">https://environmentaldashboard.org/community-voices/public/images/1.png</xsl:attribute>
           </xsl:when>
-          <xsl:when test="domain/slide/contentCategory/contentCategory/id = 2">
+          <xsl:when test="domain/contentCategory/id = 2">
             <xsl:attribute name="src">https://environmentaldashboard.org/community-voices/public/images/2.png</xsl:attribute>
           </xsl:when>
-          <xsl:when test="domain/slide/contentCategory/contentCategory/id = 3">
+          <xsl:when test="domain/contentCategory/id = 3">
             <xsl:attribute name="src">https://environmentaldashboard.org/community-voices/public/images/3.png</xsl:attribute>
           </xsl:when>
-          <xsl:when test="domain/slide/contentCategory/contentCategory/id = 4">
+          <xsl:when test="domain/contentCategory/id = 4">
             <xsl:attribute name="src">https://environmentaldashboard.org/community-voices/public/images/4.png</xsl:attribute>
           </xsl:when>
-          <xsl:when test="domain/slide/contentCategory/contentCategory/id = 5">
+          <xsl:when test="domain/contentCategory/id = 5">
             <xsl:attribute name="src">https://environmentaldashboard.org/community-voices/public/images/5.png</xsl:attribute>
           </xsl:when>
-          <xsl:when test="domain/slide/contentCategory/contentCategory/id = 6">
+          <xsl:when test="domain/contentCategory/id = 6">
             <xsl:attribute name="src">https://environmentaldashboard.org/community-voices/public/images/6.png</xsl:attribute>
           </xsl:when>
         </xsl:choose>
