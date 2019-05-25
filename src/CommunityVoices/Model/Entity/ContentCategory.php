@@ -2,6 +2,8 @@
 
 namespace CommunityVoices\Model\Entity;
 
+use CommunityVoices\Model\Contract\FlexibleObserver;
+
 class ContentCategory extends Group
 {
     private $groupId;
@@ -46,6 +48,12 @@ class ContentCategory extends Group
     public function getProbability()
     {
         return $this->probability;
+    }
+
+    public function validateForUpload(FlexibleObserver $stateObserver)
+    {
+        // This checks for label being present.
+        return parent::validateForUpload($stateObserver);
     }
 
     public function toArray()
