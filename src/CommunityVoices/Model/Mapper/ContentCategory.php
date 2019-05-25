@@ -88,13 +88,14 @@ class ContentCategory extends Group
         $query = "UPDATE
                         `community-voices_content-categories`
                     SET
-                        media_filename = :media_filename
+                        color = :color
                     WHERE
                         group_id = :group_id";
 
         $statement = $this->conn->prepare($query);
 
         $statement->bindValue(':group_id', $contentCategory->getId());
+        $statement->bindValue(':color', $contentCategory->getColor());
 
         $statement->execute();
     }
@@ -105,14 +106,15 @@ class ContentCategory extends Group
 
         $query = "INSERT INTO
                         `community-voices_content-categories`
-                        (group_id, media_filename)
+                        (group_id, image_id, color)
                     VALUES
-                        (:group_id, :media_filename)";
+                        (:group_id, :image_id, :color)";
 
         $statement = $this->conn->prepare($query);
 
         $statement->bindValue(':group_id', $contentCategory->getGroupId());
-        $statement->bindValue(':media_filename', $contentCategory->getMediaFilename());
+        $statement->bindValue(':image_id', $contentCategory->getImage()->getId());
+        $statement->bindValue(':color', $contentCategory->getColor());
 
         $statement->execute();
     }
