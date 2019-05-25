@@ -48,8 +48,12 @@
     </div>
   </nav>
 
+  <div class="row">
     <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
-        <iframe class="embed-responsive-item" id="preview" style="pointer-events: none;" src="/community-voices/content-categories/{id}"></iframe>
+        <div class="col-md-4">
+            <iframe class="embed-responsive-item" id="preview" style="pointer-events: none;" src="/community-voices/content-categories/{id}"></iframe>
+        </div>
     </xsl:for-each>
+</div>
   </xsl:template>
 </xsl:stylesheet>
