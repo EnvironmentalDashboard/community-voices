@@ -46,4 +46,9 @@ class ContentCategory extends Component\View
     {
         // intentionally blank
     }
+
+    protected function postContentCategoryUpload()
+    {
+        return $this->errorsResponse('contentCategoryUpload');
+    }
 }

@@ -48,4 +48,14 @@ class ContentCategory extends Component\Controller
     {
         // intentionally blank
     }
+
+    protected function postContentCategoryUpload($request)
+    {
+        $file = $request->files->get('file');
+        $label = $request->request->get('label');
+
+        $uploaded_images = $this->imageManagement->upload([$file], null, null, $dateRecorded, null, null, $identity, $approved, null);
+
+        $this->contentCategoryManagement->upload($uploaded_images[0], $label);
+    }
 }
