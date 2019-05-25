@@ -387,7 +387,7 @@
     },
 
     "getContentCategory": {
-        "notation": "/content-categories/{id}",
+        "notation": "/content-categories/{groupId}",
         "method": "get",
         "defaults": {
             "resource": "ContentCategory",
@@ -414,7 +414,7 @@
     },
 
     "getContentCategoryUpdate": {
-        "notation": "/content-categories/{id}/edit",
+        "notation": "/content-categories/{groupId}/edit",
         "method": "get",
         "defaults": {
             "resource": "ContentCategory",
@@ -423,7 +423,7 @@
     },
 
     "postContentCategoryUpdate": {
-        "notation": "/content-categories/{id}/edit",
+        "notation": "/content-categories/{groupId}/edit",
         "method": "post",
         "defaults": {
             "resource": "ContentCategory",
