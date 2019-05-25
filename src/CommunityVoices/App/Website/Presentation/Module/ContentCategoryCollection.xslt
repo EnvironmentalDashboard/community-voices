@@ -28,7 +28,7 @@
     </ul>
     <div style="margin-left:auto">
         <xsl:if test="$isManager">
-          <a class="btn btn-outline-primary mr-2" href="/community-voices/slides/new">+ Add content category</a>
+          <a class="btn btn-outline-primary mr-2" href="/community-voices/content-categories/new">+ Add content category</a>
         </xsl:if>
       <xsl:choose>
         <xsl:when test="identity/user/id &gt; 0">
