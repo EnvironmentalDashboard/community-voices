@@ -35,8 +35,25 @@ class ContentCategoryLookup
         $clientState->save($this->stateObserver);
     }
 
-    public function findById($id)
+    public function findById($groupId)
     {
+        $contentCategory = new Entity\ContentCategory;
+        $contentCategory->setGroupId($groupId);
 
+        $contentCategoryMapper = $this->mapperFactory->createDataMapper(Mapper\ContentCategory::class);
+        $contentCategoryMapper->fetch($contentCategory);
+
+        if (!$contentCategory->getId()) {
+            throw new Exception\IdentityNotFound;
+        }
+
+        $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
+        $imageMapper->fetch($contentCategory->getImage());
+
+        $this->stateObserver->setSubject('contentCategoryLookup');
+        $this->stateObserver->addEntry('contentCategory', $contentCategory);
+
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($this->stateObserver);
     }
 }

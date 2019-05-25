@@ -118,6 +118,9 @@
         ["CommunityVoices\\App\\Api\\Controller\\ContentCategory::getAllContentCategory", {"allow": "guest"}],
         ["CommunityVoices\\App\\Api\\View\\ContentCategory::getAllContentCategory", {"allow": "guest"}],
 
+        ["CommunityVoices\\App\\Api\\Controller\\ContentCategory::getContentCategory", {"allow": "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\ContentCategory::getContentCategory", {"allow": "guest"}],
+
         ["CommunityVoices\\App\\Api\\Controller\\DisplayError::getError", {"allow": "guest"}],
         ["CommunityVoices\\App\\Api\\View\\DisplayError::getError", {"allow": "guest"}],
 
