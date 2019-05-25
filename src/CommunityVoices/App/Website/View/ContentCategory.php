@@ -118,21 +118,67 @@ class ContentCategory extends Component\View
 
     public function getContentCategoryUpload($request)
     {
-        // TODO: write this
+        return $this->getContentCategoryUpdate($request);
     }
 
     public function postContentCategoryUpload($request)
     {
-        // TODO: write this
+        $response = new HttpFoundation\RedirectResponse(
+            $request->headers->get('referer')
+        );
+
+        $this->finalize($response);
+        return $response;
     }
 
     public function getContentCategoryUpdate($request)
     {
-        // TODO: write this
+        $paramXML = new Helper\SimpleXMLElementExtension('<form/>');
+
+        try {
+            $contentCategoryXMLElement = new SimpleXMLElement(
+                $this->transcriber->toXml(json_decode(
+                    $this->contentCategoryAPIView->getContentCategory()->getContent()
+                ))
+            );
+
+            $packagedContentCategory = $paramXML->addChild('domain');
+            $packagedContentCategory->adopt($contentCategoryXMLElement);
+        } catch (\Error $e) {
+            // This happens when we are uploading, not updating.
+            // Nothing is very big of a deal in this case.
+        }
+
+        $formModule = new Component\Presenter('Module/Form/ContentCategory');
+        $formModuleXML = $formModule->generate($paramXML);
+
+        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
+
+        $domainXMLElement->addChild('main-pane', $formModuleXML);
+        $domainXMLElement->addChild(
+            'title',
+            "Community Voices: Content Category Update"
+        );
+
+
+        $domainIdentity = $domainXMLElement->addChild('identity');
+        $domainIdentity->adopt($this->identityXMLElement());
+
+        $presentation = new Component\Presenter('SinglePane');
+
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
+
+        $this->finalize($response);
+        return $response;
     }
 
     public function postContentCategoryUpdate($request)
     {
-        // TODO: write this
+        $response = new HttpFoundation\RedirectResponse(
+            $request->headers->get('referer')
+        );
+
+        $this->finalize($response);
+        return $response;
     }
 }
