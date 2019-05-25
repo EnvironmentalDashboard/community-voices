@@ -16,7 +16,9 @@
                         <label for="label">Label</label>
                         <input type="text" name="label" id="label" class="form-control">
                             <xsl:if test="domain/contentCategory != ''">
-                                <xsl:value-of select="domain/contentCategory/label" />
+                                <xsl:attribute name="value">
+                                    <xsl:value-of select="domain/contentCategory/label" />
+                                </xsl:attribute>
                             </xsl:if>
                         </input>
                     </div>
@@ -25,7 +27,9 @@
                         <label for="color">Color</label>
                         <input type="color" name="color" id="color" class="form-control">
                             <xsl:if test="domain/contentCategory != ''">
-                                <xsl:value-of select="domain/contentCategory/color" />
+                                <xsl:attribute name="value">
+                                    <xsl:value-of select="domain/contentCategory/color" />
+                                </xsl:attribute>
                             </xsl:if>
                         </input>
                     </div>
