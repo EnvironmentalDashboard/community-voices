@@ -25,7 +25,8 @@
 
                     <div class="form-group">
                         <label for="color">Color</label>
-                        <input type="color" name="color" id="color" class="form-control">
+                        <br />
+                        <input type="color" name="color" id="color">
                             <xsl:if test="domain/contentCategory != ''">
                                 <xsl:attribute name="value">
                                     <xsl:value-of select="domain/contentCategory/color" />
