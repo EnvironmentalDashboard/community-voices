@@ -32,7 +32,7 @@ class ContentCategory extends Component\Controller
     // (along the way, how to handle 404s should be solved)
     protected function getContentCategory($request)
     {
-        $contentCategoryId = (int) $request->attributes->get("id");
+        $contentCategoryId = (int) $request->attributes->get("groupId");
 
         try {
             $this->contentCategoryLookup->findById($contentCategoryId);
@@ -64,8 +64,9 @@ class ContentCategory extends Component\Controller
         $this->getContentCategory($request);
     }
 
-    protected function postContentCategoryUpdate()
+    protected function postContentCategoryUpdate($request)
     {
+        $groupId = $request->attributes->get('groupId');
         $label = $request->request->get('label');
 
         $this->contentCategoryManagement->update($label);
