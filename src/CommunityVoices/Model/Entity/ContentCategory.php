@@ -8,6 +8,7 @@ class ContentCategory extends Group
 {
     private $groupId;
     private $image;
+    private $color;
 
     // Not currently in database.
     protected $probability; /* @TODO required, number >= 0 */
@@ -39,6 +40,16 @@ class ContentCategory extends Group
         $this->image = $image;
     }
 
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    public function setColor($color)
+    {
+        $this->color = $color;
+    }
+
     // Not currently in database
     public function setProbability($probability)
     {
@@ -60,6 +71,7 @@ class ContentCategory extends Group
     {
         return ['contentCategory' => array_merge(parent::toArray()['group'], [
             'image' => $this->image ? $this->image->toArray() : null,
+            'color' => $this->color,
             'probability' => $this->probability
         ])];
     }
