@@ -51,4 +51,14 @@ class ContentCategory extends Component\View
     {
         return $this->errorsResponse('contentCategoryUpload');
     }
+
+    protected function getContentCategoryUpdate()
+    {
+        // intentionally blank
+    }
+
+    protected function postContentCategoryUpdate()
+    {
+        return $this->errorsResponse('contentCategoryUpdate');
+    }
 }

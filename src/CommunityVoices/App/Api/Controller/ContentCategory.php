@@ -58,4 +58,16 @@ class ContentCategory extends Component\Controller
 
         $this->contentCategoryManagement->upload($uploaded_images[0], $label);
     }
+
+    protected function getContentCategoryUpdate($request)
+    {
+        $this->getContentCategory($request);
+    }
+
+    protected function postContentCategoryUpdate()
+    {
+        $label = $request->request->get('label');
+
+        $this->contentCategoryManagement->update($label);
+    }
 }
