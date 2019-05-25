@@ -43,7 +43,8 @@ class GroupCollection extends DataMapper
                         parent.id                           AS id,
                         parent.label                        AS label,
                         CAST(parent.type AS UNSIGNED)       AS type,
-                        child.image_id                      AS imageId
+                        child.image_id                      AS imageId,
+                        child.color                         AS color
                     FROM
                         `community-voices_groups` parent
                     JOIN
