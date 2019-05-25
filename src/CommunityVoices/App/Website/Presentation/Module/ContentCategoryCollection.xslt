@@ -13,7 +13,7 @@
       <li class="nav-item mr-2">
         <a class="nav-link" href="/community-voices/articles">Articles</a>
       </li>
-      <li class="nav-item mr-2 active">
+      <li class="nav-item mr-2">
         <a class="nav-link" href="/community-voices/slides">Slides</a>
       </li>
       <li class="nav-item mr-2">
@@ -22,7 +22,7 @@
       <li class="nav-item mr-2">
         <a class="nav-link" href="/community-voices/quotes">Quotes</a>
       </li>
-      <li class="nav-item mr-2">
+      <li class="nav-item mr-2 active">
           <a class="nav-link" href="/community-voices/content-categories">Content Categories <span class="sr-only">(current)</span></a>
       </li>
     </ul>
