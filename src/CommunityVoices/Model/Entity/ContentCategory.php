@@ -15,7 +15,9 @@ class ContentCategory extends Group
         $this->type = self::TYPE_CONT_CAT;
     }
 
-    public function setGroupId(int $id)
+    // This should be locked into an int once the database has no slides
+    // that lack a content category.
+    public function setGroupId($id)
     {
         $this->groupId = $id;
     }
@@ -49,7 +51,7 @@ class ContentCategory extends Group
     public function toArray()
     {
         return ['contentCategory' => array_merge(parent::toArray()['group'], [
-            'image' => $this->image->toArray(),
+            'image' => $this->image ? $this->image->toArray() : null,
             'probability' => $this->probability
         ])];
     }
