@@ -14,10 +14,15 @@ class Image extends Component\Controller
     protected $tagLookup;
 
     public function __construct(
+        Component\SecureContainer $secureContainer,
+        Component\RecognitionAdapter $recognitionAdapter,
         Service\ImageLookup $imageLookup,
         Service\ImageManagement $imageManagement,
         Service\TagLookup $tagLookup
     ) {
+        parent::__construct($secureContainer);
+
+        $this->recognitionAdapter = $recognitionAdapter;
         $this->imageLookup = $imageLookup;
         $this->imageManagement = $imageManagement;
         $this->tagLookup = $tagLookup;
@@ -70,8 +75,10 @@ class Image extends Component\Controller
         $this->tagLookup->findAll();
     }
 
-    public function postImageUpload($request, $identity)
+    public function postImageUpload($request)
     {
+        $identity = $this->recognitionAdapter->identify();
+
         $files = $request->files->get('file');
         $title = $request->request->get('title');
         $description = $request->request->get('description');

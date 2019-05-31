@@ -110,14 +110,26 @@ $('#filter-images').on('submit', function(e) {
     image_page = 1;
     getImage(image_page);
 });
+
+function goToSlidesList () {
+    // What if the API could give a path given an argument of the route
+    // name? Would be kind of effectively doing what is done here.
+    var here = window.location.href;
+    var cv = here.substring(here.lastIndexOf("community-voices"), -1);
+
+    window.location.replace(cv + "community-voices/slides");
+}
+
 var delete_form = $('#delete-form');
 if (delete_form.length > 0) {
     delete_form.on('submit', function(e) {
         e.preventDefault();
+
         var action = $(this).attr('action');
-        if (confirm('This action can not be undone.')) {
+
+        if (confirm('Are you sure? This action can not be undone.')) {
             $.post(action).done(function(d) {
-                window.history.go(-1);
+                goToSlidesList();
             });
         }
     });
@@ -126,11 +138,39 @@ var form = $('#form');
 if (form.length > 0) {
     form.on('submit', function(e) {
         e.preventDefault();
-        $('#alert').html('<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Success!</strong> Slide updated<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+
+        // This could use helper functions for constructing this HTML.
+        $('#alert').html('<div class="alert alert-secondary alert-dismissible fade show" role="alert">Loading... (will redirect upon success)<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+
         $.ajax({
             url : $(this).attr('action'),
             type: $(this).attr('method'),
-            data: $(this).serialize()
+            data: $(this).serialize(),
+            success: function (data) {
+                // If our slide is successfully processed, we will redirect
+                // back to the list of slides, which is a way of showing success.
+                if (Object.keys(data.errors).length == 0) {
+                    goToSlidesList();
+                } else {
+                    // If our slide fails to be processed, we will display this.
+                    var alert = $("#alert .alert");
+
+                    // This is similar code as quote-collection.js, and thus
+                    // should be transferred to a helper function.
+                    var combinedString = Object.keys(data.errors).map(function (e) {
+                        return data.errors[e].join(", ");
+                    }).join(", ");
+
+                    if (alert.length == 0) {
+                        $('#alert').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">Failed! ' + combinedString + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    } else {
+                        alert.removeClass("alert-secondary");
+                        alert.addClass("alert-danger");
+
+                        alert.text("Failed! " + combinedString);
+                    }
+                }
+            }
         });
     });
 }
@@ -215,7 +255,7 @@ function getImage(page) {
         var html = '<div class="card-columns">';
         $.each(data['imageCollection'], function(index, element) {
             if (typeof element === 'object') {
-                html += '<div class="card bg-dark text-white ajax-image" data-id="'+element['image']['id']+'"><img class="card-img" src="/community-voices/api/uploads/'+element['image']['id']+'" alt="'+element['image']['title']+'" /></div>';
+                html += '<div class="card bg-dark text-white ajax-image" data-id="'+element['image']['id']+'"><img class="card-img" src="https://environmentaldashboard.org/community-voices/uploads/'+element['image']['id']+'" alt="'+element['image']['title']+'" /></div>';
             }
         });
         html += '</div>';

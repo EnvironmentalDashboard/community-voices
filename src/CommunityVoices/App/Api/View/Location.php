@@ -8,15 +8,11 @@ use Symfony\Component\HttpFoundation;
 
 class Location extends Component\View
 {
-    protected $mapperFactory;
-
     public function __construct(
         Component\SecureContainer $secureContainer,
         MapperFactory $mapperFactory
     ) {
-        parent::__construct($secureContainer);
-
-        $this->mapperFactory = $mapperFactory;
+        parent::__construct($secureContainer, $mapperFactory);
     }
 
     protected function getAllLocation()

@@ -9,10 +9,17 @@ use CommunityVoices\App\Api\Component;
 
 class Slide extends Component\Controller
 {
+    protected $recognitionAdapter;
     protected $slideLookup;
     protected $slideManagement;
+    protected $tagLookup;
+    protected $quoteLookup;
+    protected $imageLookup;
+    protected $locationLookup;
 
     public function __construct(
+        Component\SecureContainer $secureContainer,
+        Component\RecognitionAdapter $recognitionAdapter,
         Service\SlideLookup $slideLookup,
         Service\SlideManagement $slideManagement,
         Service\TagLookup $tagLookup,
@@ -20,6 +27,9 @@ class Slide extends Component\Controller
         Service\ImageLookup $imageLookup,
         Service\LocationLookup $locationLookup
     ) {
+        parent::__construct($secureContainer);
+
+        $this->recognitionAdapter = $recognitionAdapter;
         $this->slideLookup = $slideLookup;
         $this->slideManagement = $slideManagement;
         $this->tagLookup = $tagLookup;
@@ -82,8 +92,10 @@ class Slide extends Component\Controller
         $this->quoteLookup->attributions($stateObserver);
     }
 
-    public function postSlideUpload($request, $identity)
+    public function postSlideUpload($request)
     {
+        $identity = $this->recognitionAdapter->identify();
+
         $imageId = $request->request->get('image_id');
         $quoteId = $request->request->get('quote_id');
         $contentCategory = $request->request->get('content_category');
@@ -115,8 +127,10 @@ class Slide extends Component\Controller
         }
     }
 
-    public function postSlideUpdate($request, $identity)
+    public function postSlideUpdate($request)
     {
+        $identity = $this->recognitionAdapter->identify();
+
         $imageId = (int) $request->request->get('image_id');
         $quoteId = (int) $request->request->get('quote_id');
         $contentCategory = (int) $request->request->get('content_category');

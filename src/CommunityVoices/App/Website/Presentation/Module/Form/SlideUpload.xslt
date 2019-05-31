@@ -226,10 +226,10 @@
             <form method='post' class="d-inline" id="form">
               <xsl:choose>
                 <xsl:when test="domain/slide != ''">
-                  <xsl:attribute name="action">/community-voices/slides/<xsl:value-of select="domain/slide/id" />/edit/authenticate</xsl:attribute>
+                  <xsl:attribute name="action">/community-voices/api/slides/<xsl:value-of select="domain/slide/id" />/edit/authenticate</xsl:attribute>
                 </xsl:when>
                 <xsl:otherwise>
-                  <xsl:attribute name="action">/community-voices/slides/new/authenticate</xsl:attribute>
+                  <xsl:attribute name="action">/community-voices/api/slides/new/authenticate</xsl:attribute>
                 </xsl:otherwise>
               </xsl:choose>
               <input type="hidden" name="image_id" value="{domain/slide/image/image/id}" />
@@ -302,12 +302,14 @@
                       </div>
                     </xsl:for-each>
                   </div>
+                  <div id="alert"></div>
                   <input type='submit' value="Create slide" class="btn btn-primary" />
                 </xsl:otherwise>
               </xsl:choose>
             </form>
             <xsl:if test="domain/slide != ''">
               <form action="/community-voices/slides/{domain/slide/id}/delete/authenticate" method="POST" class="d-inline" id="delete-form">
+                <div id="alert"></div>
                 <input type="submit" value="Delete slide" class="btn btn-danger" />
               </form>
             </xsl:if>

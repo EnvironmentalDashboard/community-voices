@@ -2,15 +2,18 @@
 
 namespace CommunityVoices\App\Api\View;
 
-use CommunityVoices\App\Api\Component;
 use Symfony\Component\HttpFoundation;
+
+use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\App\Api\Component;
 
 class DisplayError extends Component\View
 {
     public function __construct(
-        Component\SecureContainer $secureContainer
+        Component\SecureContainer $secureContainer,
+        MapperFactory $mapperFactory
     ) {
-        parent::__construct($secureContainer);
+        parent::__construct($secureContainer, $mapperFactory);
     }
 
     protected function getError($request)

@@ -67,7 +67,11 @@ $('.delete-form').on('submit', function(e) {
   btn.style.bottom = '3px';
   btn.addEventListener('click', function() {
     form.parent().parent().remove();
-    $('#alert').addClass('d-none');
+    $('#alert').removeClass('alert-danger').addClass('alert-success');
+    $('#alert-content').text("Success!");
+    setTimeout(function () {
+        $('#alert').removeClass('alert-success').addClass('d-none');
+    }, 2000);
     $.post(action);
   });
   $('#alert-content').append(btn);

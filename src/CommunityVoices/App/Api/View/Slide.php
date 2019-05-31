@@ -9,15 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Slide extends Component\View
 {
-    protected $mapperFactory;
-
     public function __construct(
         Component\SecureContainer $secureContainer,
         MapperFactory $mapperFactory
     ) {
-        parent::__construct($secureContainer);
-
-        $this->mapperFactory = $mapperFactory;
+        parent::__construct($secureContainer, $mapperFactory);
     }
 
     protected function getAllSlide()
@@ -80,7 +76,17 @@ class Slide extends Component\View
 
     protected function postSlideUpload()
     {
-        // intentionally blank
+        $clientStateMapper = $this->mapperFactory->createClientStateMapper();
+        $clientStateObserver = $clientStateMapper->retrieve();
+
+        // In the case that we have retrieved errors, we will send them along.
+        // Otherwise, our errors array will be an empty array.
+        $errors = ($clientStateObserver && $clientStateObserver->hasSubjectEntries('slideUpload'))
+            ? $clientStateObserver->getEntriesBySubject('slideUpload') : [];
+
+        $response = new HttpFoundation\JsonResponse(['errors' => $errors]);
+
+        return $response;
     }
 
     protected function getSlideUpdate()
@@ -114,7 +120,7 @@ class Slide extends Component\View
 
     protected function postSlideUpdate()
     {
-        // intentionally blank
+        return $this->errorsResponse("slideUpdate");
     }
 
     private function convert_from_latin1_to_utf8_recursively($dat)

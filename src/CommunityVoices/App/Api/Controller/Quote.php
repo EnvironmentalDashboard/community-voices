@@ -9,7 +9,6 @@ use CommunityVoices\App\Api\Component;
 
 class Quote extends Component\Controller
 {
-    protected $secureContainer;
     protected $recognitionAdapter;
     protected $quoteLookup;
     protected $quoteManagement;
