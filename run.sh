@@ -15,20 +15,18 @@ then
 	then
 		. db.config
 	fi
-else
-	echo "You must have a database configuration!"
-	echo "Exiting without running."
-	exit
 fi
 
 # Prepare a FQDN into a domain name.
 # On Linux, dnsdomainname can be used,
 # but using cut allows for backwards-compatibility
 # with Mac OS.
-production_domain=environmentaldashboard.org
+production_domain1="environmentaldashboard.org"
+production_domain2="communityhub.cloud"
 domain=`cut -f 2- -d . <<< $HOSTNAME`
 
-if [ "$domain" = "$production_domain" ] || [ "$HOSTNAME" = "$production_domain" ]
+if [ "$domain" = "$production_domain1" ] || [ "$HOSTNAME" = "$production_domain1" ] || \
+	 [ "$domain" = "$production_domain2" ] || [ "$HOSTNAME" = "$production_domain2" ]
 then
 	# live server:
 	# Get the computer name.
