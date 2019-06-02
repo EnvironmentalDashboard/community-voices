@@ -48,10 +48,21 @@
     </div>
   </nav>
 
-  <div class="row">
+  <div class="row no-gutters">
     <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
         <div class="col-md-4">
-            <iframe class="embed-responsive-item" id="preview" style="pointer-events: none;" src="/community-voices/content-categories/{id}"></iframe>
+            <a>
+                <xsl:attribute name="href">
+                    <xsl:text>/community-voices/content-categories/</xsl:text>
+                    <xsl:value-of select="id" />
+                    <xsl:if test="$isManager">
+                        <xsl:text>/edit</xsl:text>
+                    </xsl:if>
+                </xsl:attribute>
+                <div class="embed-responsive embed-responsive-16by9 mb-4">
+                    <iframe class="embed-responsive-item" id="preview" style="pointer-events: none; width: 100%" src="/community-voices/content-categories/{id}"></iframe>
+                </div>
+            </a>
         </div>
     </xsl:for-each>
 </div>
