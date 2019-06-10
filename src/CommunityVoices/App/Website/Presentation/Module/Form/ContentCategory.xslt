@@ -55,6 +55,13 @@
 
                     <input type='submit' class='btn btn-primary' />
                 </form>
+
+                <xsl:if test="domain/contentCategory != ''">
+                    <form action="/community-voices/content-categories/{domain/contentCategory/id}/delete" method="POST" style="max-width:400px;margin: 0 auto" id="delete-form">
+                      <div id="alert"></div>
+                      <input type="submit" value="Delete content category" class="btn btn-danger" onclick="return confirm('Are you sure?')" />
+                    </form>
+                </xsl:if>
             </div>
         </div>
     </xsl:template>
