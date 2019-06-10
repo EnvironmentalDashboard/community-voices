@@ -85,6 +85,12 @@ class Group extends DataMapper
         $statement->execute();
 
         $group->setId($this->conn->lastInsertId());
+
+        // This ensures compatibility with ContentCategory,
+        // which uses a group ID as its primary key.
+        if (method_exists($group, 'setGroupId')) {
+            $group->setGroupId($group->getId());
+        }
     }
 
     /**

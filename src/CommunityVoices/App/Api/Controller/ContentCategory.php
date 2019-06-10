@@ -59,10 +59,14 @@ class ContentCategory extends Component\Controller
 
     protected function postContentCategoryUpload($request)
     {
+        $identity = $this->recognitionAdapter->identify();
+
         $file = $request->files->get('file');
         $label = $request->request->get('label');
 
-        $uploaded_images = $this->imageManagement->upload([$file], null, null, $dateRecorded, null, null, $identity, $approved, null);
+        if (!is_null($file)) {
+            $uploaded_images = $this->imageManagement->upload([$file], null, null, null, null, null, $identity, true, null);
+        }
 
         $this->contentCategoryManagement->upload($uploaded_images[0], $label);
     }

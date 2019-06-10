@@ -175,7 +175,7 @@ class ContentCategory extends Component\View
     public function postContentCategoryUpdate($request)
     {
         $response = new HttpFoundation\RedirectResponse(
-            $request->headers->get('referer')
+            dirname(dirname($request->headers->get('referer')))
         );
 
         $this->finalize($response);

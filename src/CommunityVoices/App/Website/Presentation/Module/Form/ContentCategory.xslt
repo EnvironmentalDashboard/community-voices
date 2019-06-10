@@ -10,7 +10,17 @@
                     <p>Label missing.</p>
                 </xsl:if>
 
-                <form method='post' style="max-width:400px;margin: 0 auto" action="edit" enctype='multipart/form-data'>
+                <form method='post' style="max-width:400px;margin: 0 auto" enctype='multipart/form-data'>
+                    <xsl:attribute name="action">
+                        <xsl:choose>
+                            <xsl:when test="domain/contentCategory != ''">
+                                <xsl:text>edit</xsl:text>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:text>/community-voices/content-categories/new</xsl:text>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:attribute>
 
                     <div class="custom-file">
                       <label for="file" class="custom-file-label">Image</label>
