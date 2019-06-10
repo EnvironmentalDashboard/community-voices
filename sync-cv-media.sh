@@ -1,4 +1,4 @@
-#! /usr/bin/sh
+#! /bin/sh
 #
 # Note: this script requires equal versions of unison on both machines.
 # On top of that, `ednyc1` must be resolved to an actual host
