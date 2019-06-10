@@ -63,12 +63,13 @@ class ContentCategory extends Component\Controller
 
         $file = $request->files->get('file');
         $label = $request->request->get('label');
+        $color = $request->request->get('color');
 
         if (!is_null($file)) {
             $uploaded_images = $this->imageManagement->upload([$file], null, null, null, null, null, $identity, true, null);
         }
 
-        $this->contentCategoryManagement->upload($uploaded_images[0], $label);
+        $this->contentCategoryManagement->upload($uploaded_images[0], $label, $color);
     }
 
     protected function getContentCategoryUpdate($request)
@@ -83,11 +84,12 @@ class ContentCategory extends Component\Controller
         $groupId = $request->attributes->get('groupId');
         $file = $request->files->get('file');
         $label = $request->request->get('label');
+        $color = $request->request->get('color');
 
         if (!is_null($file)) {
             $uploaded_images = $this->imageManagement->upload([$file], null, null, null, null, null, $identity, true, null);
         }
 
-        $this->contentCategoryManagement->update($groupId, isset($uploaded_images) ? $uploaded_images[0] : null, $label);
+        $this->contentCategoryManagement->update($groupId, isset($uploaded_images) ? $uploaded_images[0] : null, $label, $color);
     }
 }

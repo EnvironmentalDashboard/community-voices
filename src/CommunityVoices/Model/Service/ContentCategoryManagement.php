@@ -22,12 +22,14 @@ class ContentCategoryManagement
 
     public function upload(
         Entity\Image $image,
-        $label
+        $label,
+        $color
     ) {
         $contentCategory = new Entity\ContentCategory;
 
         $contentCategory->setImage($image);
         $contentCategory->setLabel($label);
+        $contentCategory->setColor($color);
 
         // Error observer
         $this->stateObserver->setSubject('contentCategoryUpload');
@@ -45,7 +47,7 @@ class ContentCategoryManagement
         return true;
     }
 
-    public function update($groupId, ?Entity\Image $image, $label)
+    public function update($groupId, ?Entity\Image $image, $label, $color)
     {
         $contentCategoryMapper = $this->mapperFactory->createDataMapper(Mapper\ContentCategory::class);
 
@@ -59,6 +61,7 @@ class ContentCategoryManagement
         }
 
         $contentCategory->setLabel($label);
+        $contentCategory->setColor($color);
 
         // Error observer
         $this->stateObserver->setSubject('contentCategoryUpdate');
