@@ -7,4 +7,4 @@
 # via Homebrew or by source using this guide:
 # https://github.com/bcpierce00/unison/issues/200
 
-unison CV_Media/images/ ssh://root@ednyc1//var/www/uploads/CV_Media/images
+unison CV_Media/images/ ssh://root@ednyc1//var/www/uploads/CV_Media/images -batch
