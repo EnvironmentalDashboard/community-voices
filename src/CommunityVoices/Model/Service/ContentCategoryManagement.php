@@ -45,7 +45,7 @@ class ContentCategoryManagement
         return true;
     }
 
-    public function update($groupId, $label)
+    public function update($groupId, ?Entity\Image $image, $label)
     {
         $contentCategoryMapper = $this->mapperFactory->createDataMapper(Mapper\ContentCategory::class);
 
@@ -53,6 +53,10 @@ class ContentCategoryManagement
         $contentCategory->setGroupId((int) $groupId);
 
         $contentCategoryMapper->fetch($contentCategory);
+
+        if (!is_null($image)) {
+            $contentCategory->setImage($image);
+        }
 
         $contentCategory->setLabel($label);
 
@@ -62,7 +66,7 @@ class ContentCategoryManagement
 
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
 
-        if (!$isValid || $this->stateObserver->hasEntries()) {
+        if ($this->stateObserver->hasEntries()) {
             $clientState->save($this->stateObserver);
             return false;
         }

@@ -88,6 +88,7 @@ class ContentCategory extends Group
         $query = "UPDATE
                         `community-voices_content-categories`
                     SET
+                        image_id = :image_id,
                         color = :color
                     WHERE
                         group_id = :group_id";
@@ -95,6 +96,7 @@ class ContentCategory extends Group
         $statement = $this->conn->prepare($query);
 
         $statement->bindValue(':group_id', $contentCategory->getId());
+        $statement->bindValue(':image_id', $contentCategory->getImage()->getId());
         $statement->bindValue(':color', $contentCategory->getColor());
 
         $statement->execute();

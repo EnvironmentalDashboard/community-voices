@@ -10,7 +10,15 @@
                     <p>Label missing.</p>
                 </xsl:if>
 
-                <form method='post' style="max-width:400px;margin: 0 auto" action="edit">
+                <form method='post' style="max-width:400px;margin: 0 auto" action="edit" enctype='multipart/form-data'>
+
+                    <div class="custom-file">
+                      <label for="file" class="custom-file-label">Image</label>
+                      <input class="custom-file-input" id="file" type='file' name='file' accept='.jpg, .jpeg, .png' />
+                      <xsl:if test="domain/contentCategory/image != ''">
+                          <p>Upload a file only if you would like to change the current image.</p>
+                      </xsl:if>
+                    </div>
 
                     <div class="form-group">
                         <label for="label">Label</label>

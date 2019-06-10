@@ -10,16 +10,24 @@ use CommunityVoices\App\Api\Component;
 
 class ContentCategory extends Component\Controller
 {
-    protected $secureContainer;
+    protected $recognitionAdapter;
     protected $contentCategoryLookup;
+    protected $contentCategoryManagement;
+    protected $imageManagement;
 
     public function __construct(
         Component\SecureContainer $secureContainer,
-        Service\ContentCategoryLookup $contentCategoryLookup
+        Component\RecognitionAdapter $recognitionAdapter,
+        Service\ContentCategoryLookup $contentCategoryLookup,
+        Service\ContentCategoryManagement $contentCategoryManagement,
+        Service\ImageManagement $imageManagement
     ) {
         parent::__construct($secureContainer);
 
+        $this->recognitionAdapter = $recognitionAdapter;
         $this->contentCategoryLookup = $contentCategoryLookup;
+        $this->contentCategoryManagement = $contentCategoryManagement;
+        $this->imageManagement = $imageManagement;
     }
 
     protected function getAllContentCategory()
@@ -66,9 +74,16 @@ class ContentCategory extends Component\Controller
 
     protected function postContentCategoryUpdate($request)
     {
+        $identity = $this->recognitionAdapter->identify();
+
         $groupId = $request->attributes->get('groupId');
+        $file = $request->files->get('file');
         $label = $request->request->get('label');
 
-        $this->contentCategoryManagement->update($label);
+        if (!is_null($file)) {
+            $uploaded_images = $this->imageManagement->upload([$file], null, null, null, null, null, $identity, true, null);
+        }
+
+        $this->contentCategoryManagement->update($groupId, isset($uploaded_images) ? $uploaded_images[0] : null, $label);
     }
 }
