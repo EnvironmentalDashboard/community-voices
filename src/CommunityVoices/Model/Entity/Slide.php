@@ -25,6 +25,7 @@ class Slide extends Media
     private $contentCategory;
 
     private $image;
+    private $logo;
     private $quote;
 
     private $probability = 1;
@@ -63,6 +64,16 @@ class Slide extends Media
     public function setImage(Image $image)
     {
         $this->image = $image;
+    }
+
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(Image $logo)
+    {
+        $this->logo = $logo;
     }
 
     public function getQuote()

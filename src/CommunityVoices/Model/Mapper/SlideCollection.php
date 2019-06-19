@@ -97,6 +97,7 @@ class SlideCollection extends DataMapper
                         CAST(media.status AS UNSIGNED)  AS status,
                         slide.content_category_id       AS contentCategoryId,
                         slide.image_id                  AS imageId,
+                        slide.logo_id                   AS logoId,
                         slide.quote_id                  AS quoteId,
                         slide.formatted_text            AS formattedText,
                         slide.probability               AS probability,
@@ -130,6 +131,10 @@ class SlideCollection extends DataMapper
             $entry['image'] = new Entity\Image;
             $entry['image']->setId($entry['imageId']);
             $imgMapper->fetch($entry['image']);
+
+            $entry['logo'] = new Entity\Image;
+            $entry['logo']->setId($entry['logoId']);
+            $imgMapper->fetch($entry['logo']);
 
             $entry['quote'] = new Entity\Quote;
             $entry['quote']->setId($entry['quoteId']);

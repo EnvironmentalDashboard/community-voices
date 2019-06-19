@@ -30,6 +30,12 @@ class Slide extends Media
                     'id' => 'imageId'
                 ]
             ],
+            'logo' => [
+                'class' => Entity\Image::class,
+                'attributes' => [
+                    'id' => 'logoId'
+                ]
+            ],
             'quote' => [
                 'class' => Entity\Quote::class,
                 'attributes' => [
@@ -85,6 +91,7 @@ class Slide extends Media
                         CAST(parent.status AS UNSIGNED)     AS status,
                         child.content_category_id           AS contentCategoryId,
                         child.image_id                      AS imageId,
+                        child.logo_id                       AS logoId,
                         child.quote_id                      AS quoteId,
                         child.formatted_text                AS formattedText,
                         child.probability                   AS probability,
@@ -115,6 +122,10 @@ class Slide extends Media
             $results['image'] = new Entity\Image;
             $results['image']->setId($results['imageId']);
             $imgMapper->fetch($results['image']);
+
+            $results['logo'] = new Entity\Image;
+            $results['logo']->setId($results['logoId']);
+            $imgMapper->fetch($results['logo']);
 
             $results['quote'] = new Entity\Quote;
             $results['quote']->setId($results['quoteId']);
@@ -171,6 +182,7 @@ class Slide extends Media
                     SET
                         content_category_id = :content_category_id,
                         image_id = :image_id,
+                        logo_id = :logo_id,
                         quote_id = :quote_id,
                         probability = :probability,
                         decay_percent = :decay_percent,
@@ -184,6 +196,7 @@ class Slide extends Media
         $statement->bindValue(':media_id', $slide->getId());
         $statement->bindValue(':content_category_id', $slide->getContentCategory()->getGroupId());
         $statement->bindValue(':image_id', $slide->getImage()->getId());
+        $statement->bindValue(':logo_id', $slide->getLogo()->getId());
         $statement->bindValue(':quote_id', $slide->getQuote()->getId());
         // $statement->bindValue(':formatted_text', $slide->getFormattedText());
         $statement->bindValue(':probability', $slide->getProbability());
@@ -205,10 +218,10 @@ class Slide extends Media
 
         $query = "INSERT INTO
                         `community-voices_slides`
-                        (media_id, content_category_id, image_id, quote_id, probability,
+                        (media_id, content_category_id, image_id, logo_id, quote_id, probability,
                             decay_percent, decay_start, decay_end)
                     VALUES
-                        (:media_id, :content_category_id, :image_id, :quote_id, :probability,
+                        (:media_id, :content_category_id, :image_id, :logo_id, :quote_id, :probability,
                             :decay_percent, :decay_start, :decay_end)";
 
         $statement = $this->conn->prepare($query);
@@ -217,6 +230,7 @@ class Slide extends Media
         $statement->bindValue(':media_id', $slide->getId());
         $statement->bindValue(':content_category_id', $slide->getContentCategory()->getGroupId());
         $statement->bindValue(':image_id', $slide->getImage()->getId());
+        $statement->bindValue(':logo_id', $slide->getLogo()->getId());
         $statement->bindValue(':quote_id', $slide->getQuote()->getId());
         // $statement->bindValue(':formatted_text', $slide->getFormattedText());
         $statement->bindValue(':probability', $slide->getProbability());
