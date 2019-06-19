@@ -10,7 +10,7 @@
                     <p>Label missing.</p>
                 </xsl:if>
 
-                <form method='post' style="max-width:400px;margin: 0 auto" enctype='multipart/form-data'>
+                <form method='post' id="ccform" style="max-width:400px;margin: 0 auto" enctype='multipart/form-data'>
                     <xsl:attribute name="action">
                         <xsl:choose>
                             <xsl:when test="domain/contentCategory != ''">
@@ -52,16 +52,20 @@
                             </xsl:if>
                         </input>
                     </div>
-
-                    <input type='submit' class='btn btn-primary' />
                 </form>
 
                 <xsl:if test="domain/contentCategory != ''">
                     <form action="/community-voices/content-categories/{domain/contentCategory/id}/delete" method="POST" style="max-width:400px;margin: 0 auto" id="delete-form">
                       <div id="alert"></div>
-                      <input type="submit" value="Delete content category" class="btn btn-danger" onclick="return confirm('Are you sure?')" />
                     </form>
                 </xsl:if>
+
+                <div class="btn-group" role="group" aria-label="Content Category actions" style="max-width: 400px; margin: 0 auto; display: flex; flex-direction: row; justify-content: left">
+                    <input type='submit' form="ccform" class='btn btn-primary' />
+                    <xsl:if test="domain/contentCategory != ''">
+                        <input type="submit" form="delete-form" value="Delete content category" class="btn btn-danger" onclick="return confirm('Are you sure?')" />
+                    </xsl:if>
+                </div>
             </div>
         </div>
     </xsl:template>
