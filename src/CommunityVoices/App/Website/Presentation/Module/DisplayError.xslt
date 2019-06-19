@@ -25,7 +25,6 @@
 					  <xsl:when test="@error = 'AccessDenied'">
 						  You are not allowed to view this page.
 
-						  <xsl:value-of select="identity/user/id"/>
 						  <xsl:choose>
 							  <xsl:when test="identity/user/id = ''">
 								  <a href="/community-voices/login">
