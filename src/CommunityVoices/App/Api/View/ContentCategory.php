@@ -61,4 +61,9 @@ class ContentCategory extends Component\View
     {
         return $this->errorsResponse('contentCategoryUpdate');
     }
+
+    protected function postContentCategoryDelete()
+    {
+        // intentionally blank
+    }
 }

@@ -92,4 +92,11 @@ class ContentCategory extends Component\Controller
 
         $this->contentCategoryManagement->update($groupId, isset($uploaded_images) ? $uploaded_images[0] : null, $label, $color);
     }
+
+    protected function postContentCategoryDelete($request)
+    {
+        $groupId = $request->attributes->get('groupId');
+
+        $this->contentCategoryManagement->delete($groupId);
+    }
 }

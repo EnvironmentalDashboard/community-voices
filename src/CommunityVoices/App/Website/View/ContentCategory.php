@@ -181,4 +181,14 @@ class ContentCategory extends Component\View
         $this->finalize($response);
         return $response;
     }
+
+    public function postContentCategoryDelete($request)
+    {
+        $response = new HttpFoundation\RedirectResponse(
+            dirname(dirname($request->headers->get('referer')))
+        );
+
+        $this->finalize($response);
+        return $response;
+    }
 }

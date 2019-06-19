@@ -429,5 +429,14 @@
             "resource": "ContentCategory",
             "action": "postContentCategoryUpdate"
         }
+    },
+
+    "postContentCategoryDelete": {
+        "notation": "/content-categories/{groupId}/delete",
+        "method": "post",
+        "defaults": {
+            "resource": "ContentCategory",
+            "action": "postContentCategoryDelete"
+        }
     }
 }

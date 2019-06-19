@@ -77,4 +77,16 @@ class ContentCategoryManagement
         $contentCategoryMapper->save($contentCategory);
         return true;
     }
+
+    public function delete($id)
+    {
+        $contentCategoryMapper = $this->mapperFactory->createDataMapper(Mapper\ContentCategory::class);
+
+        $contentCategory = new Entity\ContentCategory;
+        $contentCategory->setId((int) $id);
+
+        $contentCategoryMapper->delete($contentCategory);
+
+        return true;
+    }
 }

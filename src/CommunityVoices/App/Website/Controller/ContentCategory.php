@@ -43,4 +43,9 @@ class ContentCategory
     {
         $this->contentCategoryAPIController->postContentCategoryUpdate($request);
     }
+
+    public function postContentCategoryDelete($request)
+    {
+        $this->contentCategoryAPIController->postContentCategoryDelete($request);
+    }
 }
