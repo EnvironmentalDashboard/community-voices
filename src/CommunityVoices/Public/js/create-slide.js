@@ -5,16 +5,19 @@ if ($('#slide_text').length) { // if youre editing slide
     var current_text = $('#slide_text').val(),
         current_attr = $('#slide_attr').val(),
         current_image = $('#slide_image').val(),
-        current_ccid = $('#slide_cc').val();
+        current_ccid = $('#slide_cc').val(),
+        current_logo = $('#slide_logo').val();
 } else { // creating slide
     var current_text = 'Quote goes here',
         current_attr = 'Attribution',
         current_image = 10,
-        current_ccid = 1;
+        current_ccid = 1,
+        current_logo = 0;
 }
 var $quote_container = $('#ajax-quote');
 var $image_container = $('#ajax-image');
 var $content_categories = $('#content-categories');
+var $prev_btn = $('#quote-btn');
 getQuote(1);
 getImage(1);
 $(document).on('click', '.ajax-quote', function(e) { // need attach event handler this way bc targeted elements are dynamically generated
@@ -24,8 +27,17 @@ $(document).on('click', '.ajax-quote', function(e) { // need attach event handle
     $("input[name='quote_id']").val($(this).data('id'));
 });
 $(document).on('click', '.ajax-image', function(e) {
-    current_image = $(this).data('id');
-    $("input[name='image_id']").val(current_image);
+    // This will set either the logo or the image depending on what
+    // we have currently selected.
+    var isImage = $prev_btn.attr('id') === 'img-btn';
+
+    if (isImage)
+        current_image = $(this).data('id');
+    else
+        current_logo = $(this).data('id');
+
+    $("input[name='" + (isImage ? 'image_id' : 'logo_id') + "']").val(current_image);
+    
     renderSlide(current_text, current_attr, current_image, current_ccid);
 });
 $('#content-categories img').on('click', function() {
@@ -33,7 +45,6 @@ $('#content-categories img').on('click', function() {
     renderSlide(current_text, current_attr, current_image, current_ccid);
     $("input[name='content_category']").val(current_ccid);
 });
-var $prev_btn = $('#quote-btn');
 $('#quote-btn').on('click', function(e) {
     e.preventDefault();
     $quote_container.css('display', '');
@@ -45,16 +56,19 @@ $('#quote-btn').on('click', function(e) {
     $('#filter-quotes').parent().css('display', '');
     $('#filter-images').parent().css('display', 'none');
 });
-$('#img-btn').on('click', function(e) {
-    e.preventDefault();
+function openImages (btn) {
     $quote_container.css('display', 'none');
     $image_container.css('display', '');
     $content_categories.css('display', 'none');
-    $(this).addClass('active');
+    btn.addClass('active');
     $prev_btn.removeClass('active');
-    $prev_btn = $(this);
+    $prev_btn = btn;
     $('#filter-quotes').parent().css('display', 'none');
     $('#filter-images').parent().css('display', '');
+}
+$('#img-btn').on('click', function(e) {
+    e.preventDefault();
+    openImages($(this));
 });
 $('#cc-btn').on('click', function(e) {
     e.preventDefault();
@@ -66,6 +80,10 @@ $('#cc-btn').on('click', function(e) {
     $prev_btn = $(this);
     $('#filter-quotes').parent().css('display', 'none');
     $('#filter-images').parent().css('display', 'none');
+});
+$('#logo-btn').on('click', function (e) {
+    e.preventDefault();
+    openImages($(this));
 });
 $('#next-quote').on('click', function(e) {
     e.preventDefault();
@@ -204,27 +222,13 @@ if (prefill_quote) {
 
 function renderSlide(quote_text, attribution, image, ccid) {
     var iframe = document.getElementById('preview');
-    var cc = contentCategory(ccid);
-    var head = '<html><head><meta charset="utf-8" /><style>* { box-sizing:border-box }html, body { height: 100%; font-family:Comfortaa, sans-serif; }</style><link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet" /></head><body style="background:#000;margin:0;padding:0;">';
-    var body = '<div style="display: flex;align-items:center;max-height:100%"><div><img src="https://environmentaldashboard.org/community-voices/uploads/'+image+'" style="flex-shrink: 0;width: auto;height: 86vh;max-width:70vw;max-height:100%" /></div><h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">'+quote_text+'<div style="font-size:2vw;margin-top:2vw">&#x2014; '+attribution+'</div></h1></div><div style="width:100%;background:'+cc.bg+';position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw">'+cc.text+'<img src="'+cc.image+'" alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto" /></div></body></html>';
-    iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(head + body);
-}
 
-function contentCategory(id) {
-    switch (id) {
-        case 1:
-            return {text: 'Serving Our Community', image: 'https://environmentaldashboard.org/community-voices/public/images/1.png', bg: 'rgb(150,81,23)'}
-        case 2:
-            return {text: 'Our Downtown', image: 'https://environmentaldashboard.org/community-voices/public/images/2.png', bg: 'rgb(92,92,92)'}
-        case 3:
-            return {text: 'Next Generation', image: 'https://environmentaldashboard.org/community-voices/public/images/3.png', bg: 'rgb(4,54,75)'}
-        case 4:
-            return {text: 'Heritage', image: 'https://environmentaldashboard.org/community-voices/public/images/4.png', bg: 'rgb(86,114,34)'}
-        case 5:
-            return {text: 'Natural Oberlin', image: 'https://environmentaldashboard.org/community-voices/public/images/5.png', bg: 'rgb(67,118,45)'}
-        case 6:
-            return {text: 'Our Neighbours', image: 'https://environmentaldashboard.org/community-voices/public/images/6.png', bg: 'rgb(94,0,224)'}
-    }
+    $.getJSON('/community-voices/api/content-categories/' + ccid, {}, function (data) {
+        var cc = data.contentCategory;
+        var head = '<html><head><base href="' + window.location.origin + '" /><meta charset="utf-8" /><style>* { box-sizing:border-box }html, body { height: 100%; font-family:Comfortaa, sans-serif; }</style><link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet" /></head><body style="background:#000;margin:0;padding:0;">';
+        var body = '<div style="display: flex;align-items:center;max-height:100%"><div><img src="/community-voices/uploads/'+image+'" style="flex-shrink: 0;width: auto;height: 86vh;max-width:70vw;max-height:100%" /></div><h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">'+quote_text+'<div style="font-size:2vw;margin-top:2vw">&#x2014; '+attribution+'</div></h1></div><div style="width:100%;background:'+cc.color+';position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw">'+cc.label+'<img src="/community-voices/uploads/'+cc.image.image.id+'" alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto" /></div></body></html>';
+        iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(head + body);
+    });
 }
 
 function getParameterByName(name, url) {

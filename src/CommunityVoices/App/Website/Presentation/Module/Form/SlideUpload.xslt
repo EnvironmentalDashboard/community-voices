@@ -42,6 +42,9 @@
               <li class="nav-item">
                 <a class="nav-link" href="#" id="cc-btn">Select a content category</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="logo-btn">Select a logo image (optional)</a>
+              </li>
             </ul>
             <div class="card bg-light mb-3">
               <div class="card-header bg-transparent">Search Quotes</div>
@@ -220,6 +223,7 @@
                 <input type="hidden" id="slide_attr" value="{domain/slide/quote/quote/attribution}"/>
                 <input type="hidden" id="slide_image" value="{domain/slide/image/image/id}"/>
                 <input type="hidden" id="slide_cc" value="{domain/slide/contentCategory/contentCategory/id}"/>
+                <input type="hidden" id="slide_logo" value="{domain/slide/logo/image/id}"/>
               </form>
             </xsl:if>
             <!-- main form for creating/editing slides -->
@@ -233,6 +237,7 @@
                 </xsl:otherwise>
               </xsl:choose>
               <input type="hidden" name="image_id" value="{domain/slide/image/image/id}" />
+              <input type="hidden" name="logo_id" value="{domain/slide/logo/image/id}" />
               <input type="hidden" name="quote_id" value="{domain/slide/quote/quote/id}"/>
               <input type="hidden" name="content_category" value="{domain/slide/contentCategory/contentCategory/id}"/>
               <xsl:choose>
