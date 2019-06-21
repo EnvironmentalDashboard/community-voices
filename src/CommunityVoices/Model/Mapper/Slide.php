@@ -123,9 +123,13 @@ class Slide extends Media
             $results['image']->setId($results['imageId']);
             $imgMapper->fetch($results['image']);
 
-            $results['logo'] = new Entity\Image;
-            $results['logo']->setId($results['logoId']);
-            $imgMapper->fetch($results['logo']);
+            if (is_null($results['logoId'])) {
+                $results['logo'] = null;
+            } else {
+                $results['logo'] = new Entity\Image;
+                $results['logo']->setId($results['logoId']);
+                $imgMapper->fetch($results['logo']);
+            }
 
             $results['quote'] = new Entity\Quote;
             $results['quote']->setId($results['quoteId']);

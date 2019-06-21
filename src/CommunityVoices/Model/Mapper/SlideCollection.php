@@ -132,9 +132,13 @@ class SlideCollection extends DataMapper
             $entry['image']->setId($entry['imageId']);
             $imgMapper->fetch($entry['image']);
 
-            $entry['logo'] = new Entity\Image;
-            $entry['logo']->setId($entry['logoId']);
-            $imgMapper->fetch($entry['logo']);
+            if (is_null($entry['logoId'])) {
+                $entry['logo'] = null;
+            } else {
+                $entry['logo'] = new Entity\Image;
+                $entry['logo']->setId($entry['logoId']);
+                $imgMapper->fetch($entry['logo']);
+            }
 
             $entry['quote'] = new Entity\Quote;
             $entry['quote']->setId($entry['quoteId']);

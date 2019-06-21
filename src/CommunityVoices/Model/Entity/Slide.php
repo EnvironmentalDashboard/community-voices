@@ -71,7 +71,7 @@ class Slide extends Media
         return $this->logo;
     }
 
-    public function setLogo(Image $logo)
+    public function setLogo(?Image $logo)
     {
         $this->logo = $logo;
     }
@@ -209,6 +209,7 @@ class Slide extends Media
         return ['slide' => array_merge(parent::toArray()['media'], [
             'contentCategory' => $this->contentCategory ? $this->contentCategory->toArray() : null,
             'image' => $this->image ? $this->image->toArray() : null,//$this->image ? $this->image->toArray() : null,
+            'logo' => $this->logo ? $this->logo->toArray() : null,
             'quote' => $this->quote ? $this->quote->toArray() : null,//$this->quote ? $this->quote->toArray() : null,
             'probability' => $this->probability,
             'decayPercent' => $this->decayPercent,
