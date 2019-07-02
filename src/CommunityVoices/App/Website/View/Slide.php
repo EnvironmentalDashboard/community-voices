@@ -14,16 +14,19 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 class Slide extends Component\View
 {
     protected $slideAPIView;
+    protected $contentCategoryAPIView;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         Api\View\Identification $identificationAPIView,
-        Api\View\Slide $slideAPIView
+        Api\View\Slide $slideAPIView,
+        Api\View\ContentCategory $contentCategoryAPIView
     ) {
         parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
 
         $this->slideAPIView = $slideAPIView;
+        $this->contentCategoryAPIView = $contentCategoryAPIView;
     }
 
     public function getAllSlide($request)
@@ -279,6 +282,12 @@ class Slide extends Component\View
             $this->transcriber->toXml($obj)
         );
 
+        $contentCategoryXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(json_decode(
+                $this->contentCategoryAPIView->getAllContentCategory()->getContent()
+            ))
+        );
+
         $paramXML = new SimpleXMLElement('<form/>');
         $formModule = new Component\Presenter('Module/Form/SlideUpload');
         $formModuleXML = $formModule->generate($paramXML);
@@ -291,6 +300,7 @@ class Slide extends Component\View
         $packagedSlide->adopt($photoXMLElement);
         $packagedSlide->adopt($orgXMLElement);
         $packagedSlide->adopt($locXMLElement);
+        $packagedSlide->adopt($contentCategoryXMLElement);
         $packagedIdentity = $slidePackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement());
         $slideModule = new Component\Presenter('Module/Form/SlideUpload');

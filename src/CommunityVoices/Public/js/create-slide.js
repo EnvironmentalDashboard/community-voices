@@ -37,11 +37,11 @@ $(document).on('click', '.ajax-image', function(e) {
         current_logo = $(this).data('id');
 
     $("input[name='" + (isImage ? 'image_id' : 'logo_id') + "']").val(current_image);
-    
+
     renderSlide(current_text, current_attr, current_image, current_ccid);
 });
-$('#content-categories img').on('click', function() {
-    current_ccid = $(this).data('id');
+$('#content-categories div.embed-responsive').on('click', function() {
+    current_ccid = $(this).children('iframe').data('id');
     renderSlide(current_text, current_attr, current_image, current_ccid);
     $("input[name='content_category']").val(current_ccid);
 });

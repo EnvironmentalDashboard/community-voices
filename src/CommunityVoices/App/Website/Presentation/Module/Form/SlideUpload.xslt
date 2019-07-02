@@ -193,28 +193,15 @@
                 <p class="mt-2"><a id="prev-image" href="" class="btn btn-sm btn-outline-primary">&#8592; Previous page</a> <a id="next-image" href="" class="btn btn-sm btn-outline-primary float-right">Next page &#8594;</a></p>
               </div>
             </div>
-            <div><div style="display:none" id="content-categories">
-              <div class="card-columns">
-                <div class="card bg-dark text-white">
-                  <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/heritage.png" data-id="4" alt="Card image" />
-                </div>
-                <div class="card bg-dark text-white">
-                  <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/nature_photos.png" data-id="5" alt="Card image" />
-                </div>
-                <div class="card bg-dark text-white">
-                  <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/neighbors.png" data-id="6" alt="Card image" />
-                </div>
-                <div class="card bg-dark text-white">
-                  <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/next-generation.png" data-id="3" alt="Card image" />
-                </div>
-                <div class="card bg-dark text-white">
-                  <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/our-downtown.png" data-id="2" alt="Card image" />
-                </div>
-                <div class="card bg-dark text-white">
-                  <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/serving-our-community.png" data-id="1" alt="Card image" />
-                </div>
-              </div>
-            </div></div>
+            <div><div style="display:none" id="content-categories"> <div class="row no-gutters">
+                <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
+                    <div class="col-md-4">
+                        <div class="embed-responsive embed-responsive-16by9 mb-4" style="cursor: pointer">
+                            <iframe class="embed-responsive-item" data-id="{id}" style="pointer-events: none; width: 100%" src="/community-voices/content-categories/{id}"></iframe>
+                        </div>
+                    </div>
+                </xsl:for-each>
+            </div></div></div>
 
             <!-- this form holds prefill values if there are any in query string to prepopulate slide with -->
             <xsl:if test="domain/slide != ''">
