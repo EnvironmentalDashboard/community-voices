@@ -33,9 +33,9 @@
       </h1>
     </div>
     <div>
-        <xsl:attribute name="style">width:100%;background:<xsl:value-of select="domain/slide/contentCategory/contentCategory/color" />;position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw</xsl:attribute>
+        <xsl:attribute name="style">width:100%;background:<xsl:value-of select="domain/slide/contentCategory/contentCategory/color" />;position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:7vh;line-height:14vh;font-weight:700;padding-left:1vw</xsl:attribute>
         <xsl:if test="domain/slide/logo/image/id != ''">
-            <img src="" alt="" style="position:absolute;left:2vw;bottom:2vw;width:10vw;height:auto">
+            <img alt="" style="position:absolute;left:2vw;bottom:2vw;width:10vw;height:auto">
                 <xsl:attribute name="src">/community-voices/uploads/<xsl:value-of select="domain/slide/logo/image/id" /></xsl:attribute>
             </img>
         </xsl:if>
@@ -45,7 +45,7 @@
             </xsl:if>
             <xsl:value-of select="domain/slide/contentCategory/contentCategory/label" />
         </span>
-        <img src="" alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto">
+        <img alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto">
           <xsl:attribute name="src">/community-voices/uploads/<xsl:value-of select="domain/slide/contentCategory/contentCategory/image/image/id" /></xsl:attribute>
         </img>
     </div>
