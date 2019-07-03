@@ -36,7 +36,7 @@ $(document).on('click', '.ajax-image', function(e) {
     else
         current_logo = $(this).data('id');
 
-    $("input[name='" + (isImage ? 'image_id' : 'logo_id') + "']").val(current_image);
+    $("input[name='" + (isImage ? 'image_id' : 'logo_id') + "']").val($(this).data('id'));
 
     renderSlide(current_text, current_attr, current_image, current_ccid, current_logo);
 });

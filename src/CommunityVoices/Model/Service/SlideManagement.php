@@ -33,6 +33,7 @@ class SlideManagement
         $quoteId,
         $imageId,
         $contentCategory,
+        $logoId,
         $screens,
         $dateRecorded,
         $approved,
@@ -45,7 +46,14 @@ class SlideManagement
         $image->setId((int) $imageId);
 
         $category = new Entity\ContentCategory;
-        $category->setId((int) $contentCategory);
+        $category->setGroupId((int) $contentCategory);
+
+        if (!is_null($logoId)) {
+            $logo = new Entity\Image;
+            $logo->setId((int) $logoId);
+        } else {
+            $logo = null;
+        }
 
         /*
          * Create Slide entity and set attributes
@@ -55,6 +63,7 @@ class SlideManagement
         $slide->setContentCategory($category);
         $slide->setImage($image);
         $slide->setQuote($quote);
+        $slide->setLogo($logo);
         $slide->setProbability(0);
         $slide->setDecayPercent(0);
         $slide->setDecayEnd(time()+3600);
@@ -110,7 +119,7 @@ class SlideManagement
         return true;
     }
 
-    public function update(int $id, int $imageId, int $quoteId, int $contentCategory, array $screens, int $decay_percent, float $probability, string $decay_start, string $decay_end, int $status, $addedBy)
+    public function update(int $id, int $imageId, int $quoteId, int $contentCategory, int $logoId, array $screens, int $decay_percent, float $probability, string $decay_start, string $decay_end, int $status, $addedBy)
     {
         $quote = new Entity\Quote;
         $quote->setId((int) $quoteId);
@@ -119,7 +128,14 @@ class SlideManagement
         $image->setId((int) $imageId);
 
         $category = new Entity\ContentCategory;
-        $category->setId((int) $contentCategory);
+        $category->setGroupId((int) $contentCategory);
+
+        if (!is_null($logoId)) {
+            $logo = new Entity\Image;
+            $logo->setId((int) $logoId);
+        } else {
+            $logo = null;
+        }
 
         /*
          * Create Slide entity and set attributes
@@ -130,6 +146,7 @@ class SlideManagement
         $slide->setContentCategory($category);
         $slide->setImage($image);
         $slide->setQuote($quote);
+        $slide->setLogo($logo);
         $slide->setProbability((int) $probability);
         $slide->setDecayPercent((int) $decay_percent);
         $slide->setDecayEnd((int) strtotime($decay_end));
