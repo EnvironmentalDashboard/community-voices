@@ -14,7 +14,7 @@ For this, simply run `./build.sh`.
 
 To run, simply run `./run.sh`.
 If you provide any command-line arguments, it will run it in our special live server case rather than for the local machine.
-The server will then be running on `localhost:3002`.
+The server will then be running on `localhost:3001`.
 If you want to stop the server, run `docker stop PROD_CV`.
 In general, Docker will start the server as soon as you start Docker.
 
