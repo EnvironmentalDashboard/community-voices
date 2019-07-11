@@ -159,7 +159,7 @@ class SlideManagement
          * Create error observer w/ appropriate subject and pass to validator
          */
 
-        $this->stateObserver->setSubject('slideUpload');
+        $this->stateObserver->setSubject('slideUpdate');
         $isValid = $slide->validateForUpload($this->stateObserver);
 
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
@@ -169,7 +169,7 @@ class SlideManagement
          */
         // $this->stateObserver->getEntries() to see errors
         if (!$isValid) { // && $this->stateObserver->hasEntry('attribution', $quote::ERR_ATTRIBUTION_REQUIRED)
-             $clientState->save($this->stateObserver);
+            $clientState->save($this->stateObserver);
             return false;
         }
 
