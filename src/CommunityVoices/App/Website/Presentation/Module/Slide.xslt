@@ -41,7 +41,7 @@
         </xsl:if>
         <span>
             <xsl:if test="domain/slide/logo/image/id != ''">
-                <xsl:attribute name="style">position:aboslute;left:14vw</xsl:attribute>
+                <xsl:attribute name="style">position:absolute;left:14vw</xsl:attribute>
             </xsl:if>
             <xsl:value-of select="domain/slide/contentCategory/contentCategory/label" />
         </span>
