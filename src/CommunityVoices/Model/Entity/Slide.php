@@ -196,7 +196,7 @@ class Slide extends Media
         }
 
         if (!$this->contentCategory || ($this->contentCategory instanceof ContentCategory
-            && !$this->contentCategory->getId())) {
+            && !$this->contentCategory->getGroupId())) {
             $isValid = false;
             $stateObserver->addEntry('contentCategory', self::ERR_CONTENT_CATEGORY_RELATIONSHIP_MISSING);
         }
