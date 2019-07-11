@@ -100,12 +100,8 @@ $('#next-image').on('click', function(e) {
 $('#clear-image').on('click', function(e) {
     e.preventDefault();
 
-    var isImage = $prev_btn.attr('id') === 'img-btn';
-
-    if (isImage)
-        current_image = null;
-    else
-        current_logo = null;
+    current_logo = null;
+    $("input[name='logo_id']").val(null);
 
     renderSlide(current_text, current_attr, current_image, current_ccid, current_logo);
 });

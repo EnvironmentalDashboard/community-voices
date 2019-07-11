@@ -102,7 +102,11 @@ class Slide extends Component\Controller
 
         $imageId = $request->request->get('image_id');
         $quoteId = $request->request->get('quote_id');
-        $logoId = $request->request->get('logo_id');
+
+        $logo = $request->request->get('logo_id');
+        if (!is_null($logo))
+            $logo = (int)($logo);
+
         $contentCategory = $request->request->get('content_category');
         $screens = (array) $request->request->get('screens');
         $dateRecorded = 'now';
@@ -112,7 +116,7 @@ class Slide extends Component\Controller
         //   $approved = null;
         // }
 
-        $this->slideManagement->upload($quoteId, $imageId, $contentCategory, $logoId, $screens, $dateRecorded, $approved, $identity);
+        $this->slideManagement->upload($quoteId, $imageId, $contentCategory, $logo, $screens, $dateRecorded, $approved, $identity);
     }
 
     public function getSlideUpdate($request)
@@ -140,7 +144,11 @@ class Slide extends Component\Controller
         $imageId = (int) $request->request->get('image_id');
         $quoteId = (int) $request->request->get('quote_id');
         $contentCategory = (int) $request->request->get('content_category');
-        $logo = (int) $request->request->get('logo_id');
+
+        $logo = $request->request->get('logo_id');
+        if (!is_null($logo))
+            $logo = (int)($logo);
+
         $screens = (array) $request->request->get('screens');
         $decay_percent = (int) $request->request->get('decay_percent');
         $probability = (float) $request->request->get('probability');
