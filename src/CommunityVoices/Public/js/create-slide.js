@@ -69,6 +69,7 @@ function openImages (btn) {
 $('#img-btn').on('click', function(e) {
     e.preventDefault();
     openImages($(this));
+    $('#clear-image').css('display', 'none');
 });
 $('#cc-btn').on('click', function(e) {
     e.preventDefault();
@@ -84,6 +85,7 @@ $('#cc-btn').on('click', function(e) {
 $('#logo-btn').on('click', function (e) {
     e.preventDefault();
     openImages($(this));
+    $('#clear-image').css('display', 'inline-block');
 });
 $('#next-quote').on('click', function(e) {
     e.preventDefault();
@@ -94,6 +96,18 @@ $('#next-image').on('click', function(e) {
     e.preventDefault();
     $image_container.find('.selectables').empty();
     getImage(++image_page);
+});
+$('#clear-image').on('click', function(e) {
+    e.preventDefault();
+
+    var isImage = $prev_btn.attr('id') === 'img-btn';
+
+    if (isImage)
+        current_image = null;
+    else
+        current_logo = null;
+
+    renderSlide(current_text, current_attr, current_image, current_ccid, current_logo);
 });
 $('#filter-quotes').on('submit', function(e) {
     e.preventDefault();
