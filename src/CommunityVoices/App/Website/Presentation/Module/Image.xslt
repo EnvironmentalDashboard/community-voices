@@ -1,57 +1,46 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   version="1.0">
 
+  <xsl:import href="../Component/Navbar.xslt" />
   <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
   <xsl:variable name="isManager" select="package/identity/user/role = 'manager'
     or package/identity/user/role = 'administrator'"/>
 
     <xsl:template match="/package">
-      <nav class="navbar navbar-light bg-light" style="justify-content:initial">
-        <a class="navbar-brand" href="/community-voices/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
-        <div class="float-left">
-          <ul class="navbar-nav" style="width:initial">
-            <li class="nav-item mr-2">
-              <a class="nav-link" href="/community-voices/articles">Articles</a>
-            </li>
-            <li class="nav-item mr-2">
-              <a class="nav-link" href="/community-voices/slides">Slides</a>
-            </li>
-            <li class="nav-item mr-2 active">
-              <a class="nav-link" href="/community-voices/images">Images <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item mr-2">
-              <a class="nav-link" href="/community-voices/quotes">Quotes</a>
-            </li>
-          </ul>
-        </div>
-        <xsl:choose>
-          <xsl:when test="$isManager">
-            <a class="btn btn-outline-primary btn-sm mr-2" href="new" style="margin-left:auto">+ Add image</a>
-          </xsl:when>
-          <xsl:otherwise>
-            <div style="margin-left:auto"></div>
-          </xsl:otherwise>
-        </xsl:choose>
-        <div class="btn-group float-right">
-          <xsl:choose>
-            <xsl:when test="number(domain/prevId) = domain/prevId">
-              <a class="btn btn-outline-primary btn-sm" href="/community-voices/images/{domain/prevId}">&#171; Previous image</a>
-            </xsl:when>
-            <xsl:otherwise>
-              <a href="#" class="btn btn-outline-primary disabled btn-sm" disabled="disabled">&#171; Previous image</a>
-            </xsl:otherwise>
-          </xsl:choose>
-          <xsl:choose>
-            <xsl:when test="number(domain/nextId) = domain/nextId">
-              <a class="btn btn-outline-primary btn-sm" href="/community-voices/images/{domain/nextId}">Next image &#187;</a>
-            </xsl:when>
-            <xsl:otherwise>
-              <a class="btn btn-outline-primary disabled btn-sm" href="#" disabled="disabled">Next image &#187;</a>
-            </xsl:otherwise>
-          </xsl:choose>
-        </div>
-      </nav>
+        <xsl:call-template name="navbar">
+            <xsl:with-param name="active">
+                Images
+            </xsl:with-param>
+            <xsl:with-param name="rightButtons">
+                <xsl:choose>
+                  <xsl:when test="$isManager">
+                    <a class="btn btn-outline-primary btn-sm mr-2" href="new" style="margin-left:auto">+ Add image</a>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <div style="margin-left:auto"></div>
+                  </xsl:otherwise>
+                </xsl:choose>
+                <div class="btn-group float-right">
+                  <xsl:choose>
+                    <xsl:when test="number(domain/prevId) = domain/prevId">
+                      <a class="btn btn-outline-primary btn-sm" href="/community-voices/images/{domain/prevId}">&#171; Previous image</a>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <a href="#" class="btn btn-outline-primary disabled btn-sm" disabled="disabled">&#171; Previous image</a>
+                    </xsl:otherwise>
+                  </xsl:choose>
+                  <xsl:choose>
+                    <xsl:when test="number(domain/nextId) = domain/nextId">
+                      <a class="btn btn-outline-primary btn-sm" href="/community-voices/images/{domain/nextId}">Next image &#187;</a>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <a class="btn btn-outline-primary disabled btn-sm" href="#" disabled="disabled">Next image &#187;</a>
+                    </xsl:otherwise>
+                  </xsl:choose>
+                </div>
+            </xsl:with-param>
+        </xsl:call-template>
 
       <xsl:choose><xsl:when test="$isManager or domain/image/status = 'approved'">
       <div class="row" style="padding:15px;">

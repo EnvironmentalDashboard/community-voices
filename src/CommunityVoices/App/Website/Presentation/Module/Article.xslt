@@ -1,36 +1,26 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	version="1.0">
 
+	<xsl:import href="../Component/Navbar.xslt" />
 	<xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
 	<xsl:variable name="isManager" select="package/identity/user/role = 'manager'
 		or package/identity/user/role = 'administrator'"/>
 
 		<xsl:template match="/package">
-
-			<nav class="navbar navbar-light bg-light" style="justify-content:initial">
-	      <a class="navbar-brand" href="/community-voices/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
-	      <ul class="navbar-nav" style="width:initial">
-	        <li class="nav-item mr-2 active">
-	          <a class="nav-link" href="/community-voices/articles">Articles <span class="sr-only">(current)</span></a>
-	        </li>
-	        <li class="nav-item mr-2">
-	          <a class="nav-link" href="/community-voices/slides">Slides</a>
-	        </li>
-	        <li class="nav-item mr-2">
-	          <a class="nav-link" href="/community-voices/images">Images</a>
-	        </li>
-	        <li class="nav-item mr-2">
-	          <a class="nav-link" href="/community-voices/quotes">Quotes</a>
-	        </li>
-	      </ul>
-	      <xsl:if test="$isManager">
-	        <a style="margin-left:auto" class="btn btn-outline-primary">
-	        	<xsl:attribute name="href">/community-voices/articles/<xsl:value-of select='domain/article/id'/>/edit</xsl:attribute>
-						Edit
-	        </a>
-	      </xsl:if>
-	    </nav>
+			<xsl:call-template name="navbar">
+				<xsl:with-param name="active">
+					Articles
+				</xsl:with-param>
+				<xsl:with-param name="rightButtons">
+					<xsl:if test="$isManager">
+					  <a style="margin-left:auto" class="btn btn-outline-primary">
+						  <xsl:attribute name="href">/community-voices/articles/<xsl:value-of select='domain/article/id'/>/edit</xsl:attribute>
+								  Edit
+					  </a>
+					</xsl:if>
+				</xsl:with-param>
+			</xsl:call-template>
 
 			<div class="row" style="padding:15px;">
         <div class="col-12">

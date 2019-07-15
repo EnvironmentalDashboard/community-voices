@@ -1,58 +1,47 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	version="1.0">
 
+	<xsl:import href="../Component/Navbar.xslt" />
 	<xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
 	<xsl:variable name="isManager" select="package/identity/user/role = 'manager'
 		or package/identity/user/role = 'administrator'"/>
 
 		<xsl:template match="/package">
+			<xsl:call-template name="navbar">
+				<xsl:with-param name="active">
+					Quotes
+				</xsl:with-param>
+				<xsl:with-param name="rightButtons">
+					<xsl:choose>
+			          <xsl:when test="$isManager">
+			            <a class="btn btn-outline-primary btn-sm mr-2" href="new" style="margin-left:auto">+ Add quote</a>
+			          </xsl:when>
+			          <xsl:otherwise>
+			            <div style="margin-left:auto"></div>
+			          </xsl:otherwise>
+			        </xsl:choose>
+			        <div class="btn-group float-right">
+			          <xsl:choose>
+			            <xsl:when test="number(domain/previous/quote/id) = domain/previous/quote/id">
+			              <a class="btn btn-outline-primary btn-sm" href="/community-voices/quotes/{domain/previous/quote/id}">&#171; Previous quote</a>
+			            </xsl:when>
+			            <xsl:otherwise>
+			              <a href="#" class="btn btn-outline-primary disabled btn-sm" disabled="disabled">&#171; Previous quote</a>
+			            </xsl:otherwise>
+			          </xsl:choose>
+			          <xsl:choose>
+			            <xsl:when test="number(domain/next/quote/id) = domain/next/quote/id">
+			              <a class="btn btn-outline-primary btn-sm" href="/community-voices/quotes/{domain/next/quote/id}">Next quote &#187;</a>
+			            </xsl:when>
+			            <xsl:otherwise>
+			              <a class="btn btn-outline-primary disabled btn-sm" href="#" disabled="disabled">Next quote &#187;</a>
+			            </xsl:otherwise>
+			          </xsl:choose>
+			        </div>
+				</xsl:with-param>
+			</xsl:call-template>
 
-      <nav class="navbar navbar-light bg-light" style="justify-content:initial">
-        <a class="navbar-brand" href="/community-voices/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
-        <div class="float-left">
-          <ul class="navbar-nav" style="width:initial">
-            <li class="nav-item mr-2">
-              <a class="nav-link" href="/community-voices/articles">Articles</a>
-            </li>
-            <li class="nav-item mr-2">
-              <a class="nav-link" href="/community-voices/slides">Slides</a>
-            </li>
-            <li class="nav-item mr-2">
-              <a class="nav-link" href="/community-voices/images">Images</a>
-            </li>
-            <li class="nav-item mr-2 active">
-              <a class="nav-link" href="/community-voices/quotes">Quotes <span class="sr-only">(current)</span></a>
-            </li>
-          </ul>
-        </div>
-        <xsl:choose>
-          <xsl:when test="$isManager">
-            <a class="btn btn-outline-primary btn-sm mr-2" href="new" style="margin-left:auto">+ Add quote</a>
-          </xsl:when>
-          <xsl:otherwise>
-            <div style="margin-left:auto"></div>
-          </xsl:otherwise>
-        </xsl:choose>
-        <div class="btn-group float-right">
-          <xsl:choose>
-            <xsl:when test="number(domain/previous/quote/id) = domain/previous/quote/id">
-              <a class="btn btn-outline-primary btn-sm" href="/community-voices/quotes/{domain/previous/quote/id}">&#171; Previous quote</a>
-            </xsl:when>
-            <xsl:otherwise>
-              <a href="#" class="btn btn-outline-primary disabled btn-sm" disabled="disabled">&#171; Previous quote</a>
-            </xsl:otherwise>
-          </xsl:choose>
-          <xsl:choose>
-            <xsl:when test="number(domain/next/quote/id) = domain/next/quote/id">
-              <a class="btn btn-outline-primary btn-sm" href="/community-voices/quotes/{domain/next/quote/id}">Next quote &#187;</a>
-            </xsl:when>
-            <xsl:otherwise>
-              <a class="btn btn-outline-primary disabled btn-sm" href="#" disabled="disabled">Next quote &#187;</a>
-            </xsl:otherwise>
-          </xsl:choose>
-        </div>
-      </nav>
 			<xsl:choose><xsl:when test="$isManager or domain/quote/status = 'approved'">
 				<div class="row" style="padding:15px;">
 					<div>
