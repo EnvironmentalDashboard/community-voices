@@ -1,6 +1,9 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="1.0">
 
+    <xsl:variable name="isManager" select="package/identity/user/role = 'manager'
+      or package/identity/user/role = 'administrator'" />
+
     <xsl:template name="userButtons">
         <xsl:choose>
           <xsl:when test="identity/user/id &gt; 0">
