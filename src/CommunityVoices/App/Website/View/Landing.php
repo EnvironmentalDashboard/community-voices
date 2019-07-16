@@ -14,16 +14,19 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 class Landing extends Component\View
 {
     protected $landingAPIView;
+    protected $contentCategoryAPIView;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         Api\View\Identification $identificationAPIView,
-        Api\View\Landing $landingAPIView
+        Api\View\Landing $landingAPIView,
+        Api\View\ContentCategory $contentCategoryAPIView
     ) {
         parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
 
         $this->landingAPIView = $landingAPIView;
+        $this->contentCategoryAPIView = $contentCategoryAPIView;
     }
 
     public function getLanding($request)
@@ -52,10 +55,17 @@ class Landing extends Component\View
             $this->transcriber->toXml($obj)
         );
 
+        $contentCategoryXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(json_decode(
+                $this->contentCategoryAPIView->getAllContentCategory()->getContent()
+            ))
+        );
+
         $landingPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
 
         $packagedLanding = $landingPackageElement->addChild('domain');
         $packagedLanding->adopt($landingXMLElement);
+        $packagedLanding->adopt($contentCategoryXMLElement);
 
         $packagedIdentity = $landingPackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement());

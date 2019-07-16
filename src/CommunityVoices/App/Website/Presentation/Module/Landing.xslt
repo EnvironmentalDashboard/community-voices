@@ -47,13 +47,16 @@
     </div>
 
     <div class="row mb-3 pt-0" style="padding: 15px">
-      <div class="col"><img data-cc="1" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/images/serving-our-community.png" style="cursor:pointer" /></div>
-      <div class="col"><img data-cc="2" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/images/our-downtown.png" style="cursor:pointer" /></div>
-      <div class="col"><img data-cc="3" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/images/next-generation.png" style="cursor:pointer" /></div>
-      <div class="col"><img data-cc="6" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/images/neighbors.png" style="cursor:pointer" /></div>
-      <div class="col"><img data-cc="5" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/images/nature_photos.png" style="cursor:pointer" /></div>
-      <div class="col"><img data-cc="4" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/images/heritage.png" style="cursor:pointer" /></div>
-      <div class="col"><img data-cc="rand" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/images/random.png" style="cursor:pointer" /></div>
+        <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
+            <div class="col" style="height:100%">
+                <div style="height:105px;width:130px;background-color:{color};position:relative;border-radius:10px">
+                    <img data-cc="{id}" class="img-fluid selector-img" src="/community-voices/uploads/{image/image/id}" style="cursor:pointer;max-height: 100%;max-width: 100%;width: auto;height: auto;position: absolute;top: 0;bottom: 0;left: 0;right: 0;margin: auto;" />
+                </div>
+
+                <div style="text-align:center;font-weight:bold"><xsl:value-of select="label" /></div>
+            </div>
+        </xsl:for-each>
+        <!-- div class="col"><img data-cc="rand" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/images/random.png" style="cursor:pointer" /></div -->
     </div>
 
     <div class="row mb-5" style="padding: 15px">
