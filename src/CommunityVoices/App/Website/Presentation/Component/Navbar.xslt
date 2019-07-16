@@ -89,17 +89,19 @@
                       <xsl:value-of select="$active" />
                   </xsl:with-param>
               </xsl:call-template>
-              <xsl:call-template name="navitem">
-                  <xsl:with-param name="href">
-                      /community-voices/content-categories
-                  </xsl:with-param>
-                  <xsl:with-param name="name">
-                      Content Categories
-                  </xsl:with-param>
-                  <xsl:with-param name="active">
-                      <xsl:value-of select="$active" />
-                  </xsl:with-param>
-              </xsl:call-template>
+              <xsl:if test="$isManager">
+                  <xsl:call-template name="navitem">
+                      <xsl:with-param name="href">
+                          /community-voices/content-categories
+                      </xsl:with-param>
+                      <xsl:with-param name="name">
+                          Content Categories
+                      </xsl:with-param>
+                      <xsl:with-param name="active">
+                          <xsl:value-of select="$active" />
+                      </xsl:with-param>
+                  </xsl:call-template>
+            </xsl:if>
           </ul>
           <div style="margin-left:auto">
               <xsl:choose>
