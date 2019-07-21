@@ -118,6 +118,24 @@
         ["CommunityVoices\\App\\Api\\Controller\\ContentCategory::getAllContentCategory", {"allow": "guest"}],
         ["CommunityVoices\\App\\Api\\View\\ContentCategory::getAllContentCategory", {"allow": "guest"}],
 
+        ["CommunityVoices\\App\\Api\\Controller\\ContentCategory::getContentCategory", {"allow": "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\ContentCategory::getContentCategory", {"allow": "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\ContentCategory::getContentCategoryUpload", {"allow": "admin"}],
+        ["CommunityVoices\\App\\Api\\View\\ContentCategory::getContentCategoryUpload", {"allow": "admin"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\ContentCategory::postContentCategoryUpload", {"allow": "admin"}],
+        ["CommunityVoices\\App\\Api\\View\\ContentCategory::postContentCategoryUpload", {"allow": "admin"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\ContentCategory::getContentCategoryUpdate", {"allow": "admin"}],
+        ["CommunityVoices\\App\\Api\\View\\ContentCategory::getContentCategoryUpdate", {"allow": "admin"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\ContentCategory::postContentCategoryUpdate", {"allow": "admin"}],
+        ["CommunityVoices\\App\\Api\\View\\ContentCategory::postContentCategoryUpdate", {"allow": "admin"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\ContentCategory::postContentCategoryDelete", {"allow": "admin"}],
+        ["CommunityVoices\\App\\Api\\View\\ContentCategory::postContentCategoryDelete", {"allow": "admin"}],
+
         ["CommunityVoices\\App\\Api\\Controller\\DisplayError::getError", {"allow": "guest"}],
         ["CommunityVoices\\App\\Api\\View\\DisplayError::getError", {"allow": "guest"}],
 

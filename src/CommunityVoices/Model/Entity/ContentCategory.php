@@ -2,14 +2,15 @@
 
 namespace CommunityVoices\Model\Entity;
 
+use CommunityVoices\Model\Contract\FlexibleObserver;
+
 class ContentCategory extends Group
 {
-    // This is a field in the database, but not sure why it exists
-    // and how it is utilized.
-    private $mediaFilename;
-    private $mediaId;
     private $groupId;
+    private $image;
+    private $color;
 
+    // Not currently in database.
     protected $probability; /* @TODO required, number >= 0 */
 
     public function __construct()
@@ -17,17 +18,9 @@ class ContentCategory extends Group
         $this->type = self::TYPE_CONT_CAT;
     }
 
-    public function setMediaId(int $id)
-    {
-        $this->mediaId = $id;
-    }
-
-    public function getMediaId()
-    {
-        return $this->mediaId;
-    }
-
-    public function setGroupId(int $id)
+    // This should be locked into an int once the database has no slides
+    // that lack a content category.
+    public function setGroupId($id)
     {
         $this->groupId = $id;
     }
@@ -37,16 +30,27 @@ class ContentCategory extends Group
         return $this->groupId;
     }
 
-    public function getMediaFilename()
+    public function getImage()
     {
-        return $this->mediaFilename;
+        return $this->image;
     }
 
-    public function setMediaFilename($mediaFilename)
+    public function setImage(Image $image)
     {
-        $this->mediaFilename = $mediaFilename;
+        $this->image = $image;
     }
 
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    public function setColor($color)
+    {
+        $this->color = $color;
+    }
+
+    // Not currently in database
     public function setProbability($probability)
     {
         $this->probability = $probability;
@@ -57,10 +61,17 @@ class ContentCategory extends Group
         return $this->probability;
     }
 
+    public function validateForUpload(FlexibleObserver $stateObserver)
+    {
+        // This checks for label being present.
+        return parent::validateForUpload($stateObserver);
+    }
+
     public function toArray()
     {
         return ['contentCategory' => array_merge(parent::toArray()['group'], [
-            'mediaFilename' => $this->mediaFilename,
+            'image' => $this->image ? $this->image->toArray() : null,
+            'color' => $this->color,
             'probability' => $this->probability
         ])];
     }

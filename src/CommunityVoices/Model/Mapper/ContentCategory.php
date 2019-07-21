@@ -7,6 +7,17 @@ use CommunityVoices\Model\Entity;
 
 class ContentCategory extends Group
 {
+    protected $relations = [
+        'Entity' => [
+            'image' => [
+                'class' => Entity\Image::class,
+                'attributes' => [
+                    'id' => 'imageId'
+                ]
+            ]
+        ]
+    ];
+
     /**
      * @uses ContentCategory::fetchById
      */
@@ -27,7 +38,8 @@ class ContentCategory extends Group
                         parent.id                           AS id,
                         parent.label                        AS label,
                         CAST(parent.type AS UNSIGNED)       AS type,
-                        child.media_filename                AS mediaFilename
+                        child.image_id                      AS imageId,
+                        child.color                         AS color
                     FROM
                         `community-voices_groups` parent
                     JOIN
@@ -38,16 +50,18 @@ class ContentCategory extends Group
 
         $statement = $this->conn->prepare($query);
 
-        $statement->bindValue(':id', $contentCategory->getId());
+        $statement->bindValue(':id', $contentCategory->getGroupId());
 
         $statement->execute();
 
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            $this->populateEntity($contentCategory, $result);
+            $convertedParams = $this->convertRelations($this->relations, $result);
+
+            $this->populateEntity($contentCategory, array_merge($result, $convertedParams));
         } else {
-            $contentCategory->setId(null);
+            $contentCategory->setGroupId(null);
         }
     }
 
@@ -59,7 +73,7 @@ class ContentCategory extends Group
      */
     public function save(Entity\Group $contentCategory)
     {
-        if ($contentCategory->getId()) {
+        if ($contentCategory->getGroupId()) {
             $this->update($contentCategory);
             return ;
         }
@@ -74,13 +88,16 @@ class ContentCategory extends Group
         $query = "UPDATE
                         `community-voices_content-categories`
                     SET
-                        media_filename = :media_filename
+                        image_id = :image_id,
+                        color = :color
                     WHERE
                         group_id = :group_id";
 
         $statement = $this->conn->prepare($query);
 
         $statement->bindValue(':group_id', $contentCategory->getId());
+        $statement->bindValue(':image_id', $contentCategory->getImage()->getId());
+        $statement->bindValue(':color', $contentCategory->getColor());
 
         $statement->execute();
     }
@@ -91,14 +108,15 @@ class ContentCategory extends Group
 
         $query = "INSERT INTO
                         `community-voices_content-categories`
-                        (group_id, media_filename)
+                        (group_id, image_id, color)
                     VALUES
-                        (:group_id, :media_filename)";
+                        (:group_id, :image_id, :color)";
 
         $statement = $this->conn->prepare($query);
 
-        $statement->bindValue(':group_id', $contentCategory->getId());
-        $statement->bindValue(':media_filename', $contentCategory->getMediaFilename());
+        $statement->bindValue(':group_id', $contentCategory->getGroupId());
+        $statement->bindValue(':image_id', $contentCategory->getImage()->getId());
+        $statement->bindValue(':color', $contentCategory->getColor());
 
         $statement->execute();
     }

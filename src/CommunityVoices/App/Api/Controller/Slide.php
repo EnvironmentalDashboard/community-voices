@@ -16,6 +16,7 @@ class Slide extends Component\Controller
     protected $quoteLookup;
     protected $imageLookup;
     protected $locationLookup;
+    protected $contentCategoryLookup;
 
     public function __construct(
         Component\SecureContainer $secureContainer,
@@ -25,7 +26,8 @@ class Slide extends Component\Controller
         Service\TagLookup $tagLookup,
         Service\QuoteLookup $quoteLookup,
         Service\ImageLookup $imageLookup,
-        Service\LocationLookup $locationLookup
+        Service\LocationLookup $locationLookup,
+        Service\ContentCategoryLookup $contentCategoryLookup
     ) {
         parent::__construct($secureContainer);
 
@@ -36,6 +38,7 @@ class Slide extends Component\Controller
         $this->quoteLookup = $quoteLookup;
         $this->imageLookup = $imageLookup;
         $this->locationLookup = $locationLookup;
+        $this->contentCategoryLookup = $contentCategoryLookup;
     }
 
     /**
@@ -90,6 +93,7 @@ class Slide extends Component\Controller
         $stateObserver = $this->imageLookup->photographers($stateObserver, true);
         $stateObserver = $this->imageLookup->orgs($stateObserver, true);
         $this->quoteLookup->attributions($stateObserver);
+        $this->contentCategoryLookup->findAll();
     }
 
     public function postSlideUpload($request)
@@ -98,6 +102,11 @@ class Slide extends Component\Controller
 
         $imageId = $request->request->get('image_id');
         $quoteId = $request->request->get('quote_id');
+
+        $logo = $request->request->get('logo_id');
+        if (!is_null($logo))
+            $logo = (int)($logo);
+
         $contentCategory = $request->request->get('content_category');
         $screens = (array) $request->request->get('screens');
         $dateRecorded = 'now';
@@ -107,7 +116,7 @@ class Slide extends Component\Controller
         //   $approved = null;
         // }
 
-        $this->slideManagement->upload($quoteId, $imageId, $contentCategory, $screens, $dateRecorded, $approved, $identity);
+        $this->slideManagement->upload($quoteId, $imageId, $contentCategory, $logo, $screens, $dateRecorded, $approved, $identity);
     }
 
     public function getSlideUpdate($request)
@@ -120,6 +129,7 @@ class Slide extends Component\Controller
         $stateObserver = $this->imageLookup->photographers($stateObserver, true);
         $stateObserver = $this->imageLookup->orgs($stateObserver, true);
         $stateObserver = $this->quoteLookup->attributions($stateObserver, true);
+        $this->contentCategoryLookup->findAll();
         try {
             $this->slideLookup->findById($slideId, $stateObserver);
         } catch (Exception\IdentityNotFound $e) {
@@ -134,6 +144,11 @@ class Slide extends Component\Controller
         $imageId = (int) $request->request->get('image_id');
         $quoteId = (int) $request->request->get('quote_id');
         $contentCategory = (int) $request->request->get('content_category');
+
+        $logo = $request->request->get('logo_id');
+        if (!is_null($logo))
+            $logo = (int)($logo);
+
         $screens = (array) $request->request->get('screens');
         $decay_percent = (int) $request->request->get('decay_percent');
         $probability = (float) $request->request->get('probability');
@@ -142,7 +157,7 @@ class Slide extends Component\Controller
         $id = (int) $request->attributes->get('id');
         $status = ($request->request->get('approve') === '1') ? 3 : 1;
 
-        $this->slideManagement->update($id, $imageId, $quoteId, $contentCategory, $screens, $decay_percent, $probability, $decay_start, $decay_end, $status, $identity);
+        $this->slideManagement->update($id, $imageId, $quoteId, $contentCategory, $logo, $screens, $decay_percent, $probability, $decay_start, $decay_end, $status, $identity);
     }
 
     public function postSlideDelete($request)

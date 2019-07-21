@@ -30,7 +30,7 @@ class View extends Component\SecuredComponent
         $errors = ($clientStateObserver && $clientStateObserver->hasSubjectEntries($key))
             ? $clientStateObserver->getEntriesBySubject($key) : [];
 
-        $response = new HttpFoundation\JsonResponse(['errors' => $errors]);
+        $response = new HttpFoundation\JsonResponse(['error' => $errors]);
 
         return $response;
     }

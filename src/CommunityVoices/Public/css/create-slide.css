@@ -1,2 +1,7 @@
 .selectables, #list-view, #gallery-view {cursor:pointer}
-.card-columns .card:hover {border-color:#21a7df}
+.card-columns .card:hover, #content-categories div.embed-responsive:hover iframe {
+    border-color: #21a7df;
+    border-radius: calc(0.25rem - 1px);
+    border-width: 1px;
+    border-style: solid;
+}

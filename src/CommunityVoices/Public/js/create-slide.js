@@ -5,35 +5,46 @@ if ($('#slide_text').length) { // if youre editing slide
     var current_text = $('#slide_text').val(),
         current_attr = $('#slide_attr').val(),
         current_image = $('#slide_image').val(),
-        current_ccid = $('#slide_cc').val();
+        current_ccid = $('#slide_cc').val(),
+        current_logo = $('#slide_logo').val();
 } else { // creating slide
     var current_text = 'Quote goes here',
         current_attr = 'Attribution',
         current_image = 10,
-        current_ccid = 1;
+        current_ccid = 1,
+        current_logo = null;
 }
 var $quote_container = $('#ajax-quote');
 var $image_container = $('#ajax-image');
 var $content_categories = $('#content-categories');
+var $prev_btn = $('#quote-btn');
 getQuote(1);
 getImage(1);
 $(document).on('click', '.ajax-quote', function(e) { // need attach event handler this way bc targeted elements are dynamically generated
     current_text = $(this).data('text');
     current_attr = $(this).data('attribution');
-    renderSlide(current_text, current_attr, current_image, current_ccid);
+    renderSlide(current_text, current_attr, current_image, current_ccid, current_logo);
     $("input[name='quote_id']").val($(this).data('id'));
 });
 $(document).on('click', '.ajax-image', function(e) {
-    current_image = $(this).data('id');
-    $("input[name='image_id']").val(current_image);
-    renderSlide(current_text, current_attr, current_image, current_ccid);
+    // This will set either the logo or the image depending on what
+    // we have currently selected.
+    var isImage = $prev_btn.attr('id') === 'img-btn';
+
+    if (isImage)
+        current_image = $(this).data('id');
+    else
+        current_logo = $(this).data('id');
+
+    $("input[name='" + (isImage ? 'image_id' : 'logo_id') + "']").val($(this).data('id'));
+
+    renderSlide(current_text, current_attr, current_image, current_ccid, current_logo);
 });
-$('#content-categories img').on('click', function() {
-    current_ccid = $(this).data('id');
-    renderSlide(current_text, current_attr, current_image, current_ccid);
+$('#content-categories div.embed-responsive').on('click', function() {
+    current_ccid = $(this).children('iframe').data('id');
+    renderSlide(current_text, current_attr, current_image, current_ccid, current_logo);
     $("input[name='content_category']").val(current_ccid);
 });
-var $prev_btn = $('#quote-btn');
 $('#quote-btn').on('click', function(e) {
     e.preventDefault();
     $quote_container.css('display', '');
@@ -45,16 +56,20 @@ $('#quote-btn').on('click', function(e) {
     $('#filter-quotes').parent().css('display', '');
     $('#filter-images').parent().css('display', 'none');
 });
-$('#img-btn').on('click', function(e) {
-    e.preventDefault();
+function openImages (btn) {
     $quote_container.css('display', 'none');
     $image_container.css('display', '');
     $content_categories.css('display', 'none');
-    $(this).addClass('active');
+    btn.addClass('active');
     $prev_btn.removeClass('active');
-    $prev_btn = $(this);
+    $prev_btn = btn;
     $('#filter-quotes').parent().css('display', 'none');
     $('#filter-images').parent().css('display', '');
+}
+$('#img-btn').on('click', function(e) {
+    e.preventDefault();
+    openImages($(this));
+    $('#clear-image').css('display', 'none');
 });
 $('#cc-btn').on('click', function(e) {
     e.preventDefault();
@@ -67,6 +82,11 @@ $('#cc-btn').on('click', function(e) {
     $('#filter-quotes').parent().css('display', 'none');
     $('#filter-images').parent().css('display', 'none');
 });
+$('#logo-btn').on('click', function (e) {
+    e.preventDefault();
+    openImages($(this));
+    $('#clear-image').css('display', 'inline-block');
+});
 $('#next-quote').on('click', function(e) {
     e.preventDefault();
     $quote_container.find('.selectables').empty();
@@ -76,6 +96,14 @@ $('#next-image').on('click', function(e) {
     e.preventDefault();
     $image_container.find('.selectables').empty();
     getImage(++image_page);
+});
+$('#clear-image').on('click', function(e) {
+    e.preventDefault();
+
+    current_logo = null;
+    $("input[name='logo_id']").val(null);
+
+    renderSlide(current_text, current_attr, current_image, current_ccid, current_logo);
 });
 $('#filter-quotes').on('submit', function(e) {
     e.preventDefault();
@@ -149,7 +177,7 @@ if (form.length > 0) {
             success: function (data) {
                 // If our slide is successfully processed, we will redirect
                 // back to the list of slides, which is a way of showing success.
-                if (Object.keys(data.errors).length == 0) {
+                if (data.error && Object.keys(data.error).length == 0) {
                     goToSlidesList();
                 } else {
                     // If our slide fails to be processed, we will display this.
@@ -157,8 +185,8 @@ if (form.length > 0) {
 
                     // This is similar code as quote-collection.js, and thus
                     // should be transferred to a helper function.
-                    var combinedString = Object.keys(data.errors).map(function (e) {
-                        return data.errors[e].join(", ");
+                    var combinedString = Object.keys(data.error).map(function (e) {
+                        return Array.isArray(data.error[e]) ? data.error[e].join(", ") : data.error[e];
                     }).join(", ");
 
                     if (alert.length == 0) {
@@ -190,7 +218,7 @@ var prefill_quote = getParameterByName('prefill_quote');
 if (prefill_image) {
     $("input[name='image_id']").val(prefill_image);
     current_image = prefill_image;
-    renderSlide(current_text, current_attr, current_image, current_ccid);
+    renderSlide(current_text, current_attr, current_image, current_ccid, current_logo);
 }
 
 if (prefill_quote) {
@@ -202,29 +230,23 @@ if (prefill_quote) {
     });
 }
 
-function renderSlide(quote_text, attribution, image, ccid) {
+function renderSlide(quote_text, attribution, image, ccid, logo) {
     var iframe = document.getElementById('preview');
-    var cc = contentCategory(ccid);
-    var head = '<html><head><meta charset="utf-8" /><style>* { box-sizing:border-box }html, body { height: 100%; font-family:Comfortaa, sans-serif; }</style><link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet" /></head><body style="background:#000;margin:0;padding:0;">';
-    var body = '<div style="display: flex;align-items:center;max-height:100%"><div><img src="https://environmentaldashboard.org/community-voices/uploads/'+image+'" style="flex-shrink: 0;width: auto;height: 86vh;max-width:70vw;max-height:100%" /></div><h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">'+quote_text+'<div style="font-size:2vw;margin-top:2vw">&#x2014; '+attribution+'</div></h1></div><div style="width:100%;background:'+cc.bg+';position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw">'+cc.text+'<img src="'+cc.image+'" alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto" /></div></body></html>';
-    iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(head + body);
-}
 
-function contentCategory(id) {
-    switch (id) {
-        case 1:
-            return {text: 'Serving Our Community', image: 'https://environmentaldashboard.org/community-voices/public/images/1.png', bg: 'rgb(150,81,23)'}
-        case 2:
-            return {text: 'Our Downtown', image: 'https://environmentaldashboard.org/community-voices/public/images/2.png', bg: 'rgb(92,92,92)'}
-        case 3:
-            return {text: 'Next Generation', image: 'https://environmentaldashboard.org/community-voices/public/images/3.png', bg: 'rgb(4,54,75)'}
-        case 4:
-            return {text: 'Heritage', image: 'https://environmentaldashboard.org/community-voices/public/images/4.png', bg: 'rgb(86,114,34)'}
-        case 5:
-            return {text: 'Natural Oberlin', image: 'https://environmentaldashboard.org/community-voices/public/images/5.png', bg: 'rgb(67,118,45)'}
-        case 6:
-            return {text: 'Our Neighbours', image: 'https://environmentaldashboard.org/community-voices/public/images/6.png', bg: 'rgb(94,0,224)'}
-    }
+    $.getJSON('/community-voices/api/content-categories/' + ccid, {}, function (data) {
+        var cc = data.contentCategory;
+        var head = '<html><head><base href="' + window.location.origin + '" /><meta charset="utf-8" /><style>* { box-sizing:border-box }html, body { height: 100%; font-family:Comfortaa, sans-serif; }</style><link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet" /></head><body style="background:#000;margin:0;padding:0;">';
+        var body = '<div style="display: flex;align-items:center;max-height:100%"><div><img src="/community-voices/uploads/'+
+            image+'" style="flex-shrink: 0;width: auto;height: 86vh;max-width:70vw;max-height:100%" /></div><h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">'+
+            quote_text+'<div style="font-size:2vw;margin-top:2vw">&#x2014; '+
+            attribution+'</div></h1></div><div style="width:100%;background:'+
+            cc.color+';position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:7vh;line-height:14vh;font-weight:700;padding-left:1vw">'+
+            (logo ? '<img src="/community-voices/uploads/' + logo + '" alt="" style="position:absolute;left:2vw;bottom:2vw;width:10vw;height:auto;" />' : '')+
+            (logo ? '<span style="position:absolute;left:14vw;">' : '')+cc.label+(logo ? '</span>' : '')+
+            '<img src="/community-voices/uploads/'+
+            cc.image.image.id+'" alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto" /></div></body></html>';
+        iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(head + body);
+    });
 }
 
 function getParameterByName(name, url) {

@@ -1,5 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="1.0">
+
+    <xsl:import href="../../Component/Navbar.xslt" />
     <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
     <xsl:variable name="search" select="package/domain/search"/>
@@ -10,23 +12,12 @@
     <xsl:variable name="attributions" select="package/domain/attributions"/>
 
     <xsl:template match="/form">
-      <nav class="navbar navbar-light bg-light" style="justify-content:initial">
-        <a class="navbar-brand" href="/community-voices/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
-        <ul class="navbar-nav" style="width:initial">
-          <li class="nav-item mr-2">
-            <a class="nav-link" href="/community-voices/articles">Articles</a>
-          </li>
-          <li class="nav-item mr-2 active">
-            <a class="nav-link" href="/community-voices/slides">Slides <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item mr-2">
-            <a class="nav-link" href="/community-voices/images">Images</a>
-          </li>
-          <li class="nav-item mr-2">
-            <a class="nav-link" href="/community-voices/quotes">Quotes</a>
-          </li>
-        </ul>
-      </nav>
+        <xsl:call-template name="navbar">
+            <xsl:with-param name="active">
+                Slides
+            </xsl:with-param>
+        </xsl:call-template>
+
       <div class="row" style="padding:15px;">
         <div class="col-12">
         <h2 class="mb-4">Create a slide</h2>
@@ -41,6 +32,9 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#" id="cc-btn">Select a content category</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="logo-btn">Select a logo image (optional)</a>
               </li>
             </ul>
             <div class="card bg-light mb-3">
@@ -187,31 +181,23 @@
             <div>
               <div style="display:none;min-height:400px" id="ajax-image">
                 <div class="selectables"></div>
-                <p class="mt-2"><a id="prev-image" href="" class="btn btn-sm btn-outline-primary">&#8592; Previous page</a> <a id="next-image" href="" class="btn btn-sm btn-outline-primary float-right">Next page &#8594;</a></p>
+                <p class="mt-2">
+                    <a id="prev-image" href="" class="btn btn-sm btn-outline-primary">&#8592; Previous page</a>
+                    <!-- The clear button will only will be displayed on logo selection. -->
+                    <a id="clear-image" href="" style="display:none" class="btn btn-sm btn-outline-primary">Clear logo</a>
+                    <a id="next-image" href="" class="btn btn-sm btn-outline-primary float-right">Next page &#8594;</a>
+                </p>
               </div>
             </div>
-            <div><div style="display:none" id="content-categories">
-              <div class="card-columns">
-                <div class="card bg-dark text-white">
-                  <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/heritage.png" data-id="4" alt="Card image" />
-                </div>
-                <div class="card bg-dark text-white">
-                  <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/nature_photos.png" data-id="5" alt="Card image" />
-                </div>
-                <div class="card bg-dark text-white">
-                  <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/neighbors.png" data-id="6" alt="Card image" />
-                </div>
-                <div class="card bg-dark text-white">
-                  <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/next-generation.png" data-id="3" alt="Card image" />
-                </div>
-                <div class="card bg-dark text-white">
-                  <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/our-downtown.png" data-id="2" alt="Card image" />
-                </div>
-                <div class="card bg-dark text-white">
-                  <img class="card-img" src="https://environmentaldashboard.org/cv_slides/categorybars/serving-our-community.png" data-id="1" alt="Card image" />
-                </div>
-              </div>
-            </div></div>
+            <div><div style="display:none" id="content-categories"> <div class="row no-gutters">
+                <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
+                    <div class="col-md-4">
+                        <div class="embed-responsive embed-responsive-16by9 mb-4" style="cursor: pointer">
+                            <iframe class="embed-responsive-item" data-id="{id}" style="pointer-events: none; width: 100%" src="/community-voices/content-categories/{id}"></iframe>
+                        </div>
+                    </div>
+                </xsl:for-each>
+            </div></div></div>
 
             <!-- this form holds prefill values if there are any in query string to prepopulate slide with -->
             <xsl:if test="domain/slide != ''">
@@ -220,6 +206,7 @@
                 <input type="hidden" id="slide_attr" value="{domain/slide/quote/quote/attribution}"/>
                 <input type="hidden" id="slide_image" value="{domain/slide/image/image/id}"/>
                 <input type="hidden" id="slide_cc" value="{domain/slide/contentCategory/contentCategory/id}"/>
+                <input type="hidden" id="slide_logo" value="{domain/slide/logo/image/id}"/>
               </form>
             </xsl:if>
             <!-- main form for creating/editing slides -->
@@ -233,6 +220,7 @@
                 </xsl:otherwise>
               </xsl:choose>
               <input type="hidden" name="image_id" value="{domain/slide/image/image/id}" />
+              <input type="hidden" name="logo_id" value="{domain/slide/logo/image/id}" />
               <input type="hidden" name="quote_id" value="{domain/slide/quote/quote/id}"/>
               <input type="hidden" name="content_category" value="{domain/slide/contentCategory/contentCategory/id}"/>
               <xsl:choose>

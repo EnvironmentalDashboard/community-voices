@@ -21,7 +21,6 @@ class Group implements HasId
     ];
 
     private $id;
-
     private $label;
 
     protected $type;
@@ -33,9 +32,7 @@ class Group implements HasId
 
     public function setId($id)
     {
-        if (is_int($id) || is_null($id)) {
-            $this->id = $id;
-        }
+        $this->id = is_null($id) ? null : ((int) $id);
     }
 
     public function getLabel()

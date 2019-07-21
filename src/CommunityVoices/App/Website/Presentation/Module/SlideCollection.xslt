@@ -1,6 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	version="1.0">
 
+	<xsl:import href="../Component/Navbar.xslt" />
 	<xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
 	<xsl:variable name="isManager" select="package/identity/user/role = 'manager'
@@ -17,44 +18,18 @@
   <xsl:variable name="content_category" select="package/domain/content_category"/>
 
 	<xsl:template match="/package">
+		<xsl:call-template name="navbar">
+			<xsl:with-param name="active">
+				Slides
+			</xsl:with-param>
+			<xsl:with-param name="rightButtons">
+				<xsl:if test="$isManager">
+	  				<a class="btn btn-outline-primary mr-2" href="/community-voices/slides/new">+ Add slide</a>
+	  		  	</xsl:if>
 
-		<nav class="navbar navbar-light bg-light" style="justify-content:initial">
-      <a class="navbar-brand" href="/community-voices/" style="color:#28a745;font-family:'Multicolore',sans-serif">Community Voices</a>
-      <ul class="navbar-nav" style="width:initial">
-        <li class="nav-item mr-2">
-          <a class="nav-link" href="/community-voices/articles">Articles</a>
-        </li>
-        <li class="nav-item mr-2 active">
-          <a class="nav-link" href="/community-voices/slides">Slides <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item mr-2">
-          <a class="nav-link" href="/community-voices/images">Images</a>
-        </li>
-        <li class="nav-item mr-2">
-          <a class="nav-link" href="/community-voices/quotes">Quotes</a>
-        </li>
-      </ul>
-      <div style="margin-left:auto">
-		  <xsl:if test="$isManager">
-			<a class="btn btn-outline-primary mr-2" href="/community-voices/slides/new">+ Add slide</a>
-		  </xsl:if>
-        <xsl:choose>
-          <xsl:when test="identity/user/id &gt; 0">
-            <a class="btn btn-outline-primary" href="/community-voices/logout">Logout <xsl:value-of select="identity/user/firstName" /></a>
-            <!-- <a>
-              <xsl:attribute name="href">user/<xsl:value-of select="identity/user/id" /></xsl:attribute>
-              View Account
-            </a> -->
-          </xsl:when>
-          <xsl:otherwise>
-            <div class="btn-group">
-              <a class="btn btn-outline-primary" href="/community-voices/login">Login</a>
-              <a class="btn btn-outline-primary" href="/community-voices/register">Register</a>
-            </div>
-          </xsl:otherwise>
-        </xsl:choose>
-      </div>
-    </nav>
+				<xsl:call-template name="userButtons" />
+			</xsl:with-param>
+		</xsl:call-template>
 
 		<div class="row" style="padding:15px;">
 			<div class="col-sm-3">

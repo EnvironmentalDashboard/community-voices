@@ -375,5 +375,68 @@
             "resource": "Location",
             "action": "getAllLocation"
         }
+    },
+
+    "getAllContentCategory": {
+        "notation": "/content-categories",
+        "method": "get",
+        "defaults": {
+            "resource": "ContentCategory",
+            "action": "getAllContentCategory"
+        }
+    },
+
+    "getContentCategoryUpload": {
+        "notation": "/content-categories/new",
+        "method": "get",
+        "defaults": {
+            "resource": "ContentCategory",
+            "action": "getContentCategoryUpload"
+        }
+    },
+
+    "postContentCategoryUpload": {
+        "notation": "/content-categories/new",
+        "method": "post",
+        "defaults": {
+            "resource": "ContentCategory",
+            "action": "postContentCategoryUpload"
+        }
+    },
+
+    "getContentCategory": {
+        "notation": "/content-categories/{groupId}",
+        "method": "get",
+        "defaults": {
+            "resource": "ContentCategory",
+            "action": "getContentCategory"
+        }
+    },
+
+    "getContentCategoryUpdate": {
+        "notation": "/content-categories/{groupId}/edit",
+        "method": "get",
+        "defaults": {
+            "resource": "ContentCategory",
+            "action": "getContentCategoryUpdate"
+        }
+    },
+
+    "postContentCategoryUpdate": {
+        "notation": "/content-categories/{groupId}/edit",
+        "method": "post",
+        "defaults": {
+            "resource": "ContentCategory",
+            "action": "postContentCategoryUpdate"
+        }
+    },
+
+    "postContentCategoryDelete": {
+        "notation": "/content-categories/{groupId}/delete",
+        "method": "post",
+        "defaults": {
+            "resource": "ContentCategory",
+            "action": "postContentCategoryDelete"
+        }
     }
 }

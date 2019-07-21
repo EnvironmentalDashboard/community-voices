@@ -118,10 +118,10 @@ $('.save-quote-text').on('click', function(e) {
 	setLoadingIcon(icon);
 
 	$.post('/community-voices/api/quotes/' + id + '/edit', {text: text}).done(function(d) {
-		if (Object.keys(d.errors).length > 0) {
+		if (Object.keys(d.error).length > 0) {
 			setFailureIcon(icon);
 
-			addErrorsTooltip(icon, d.errors);
+			addErrorsTooltip(icon, d.error);
 		} else {
 			setSuccessIcon(icon);
 		}
@@ -140,10 +140,10 @@ $('.approve-checkbox').on('click', function (c) {
 	setLoadingIcon(icon);
 
 	$.post('/community-voices/api/quotes/' + id + '/edit', {status: status}).done(function(d) {
-		if (Object.keys(d.errors).length > 0) {
+		if (Object.keys(d.error).length > 0) {
 			setFailureIcon(icon);
 
-			addErrorsTooltip(icon, d.errors);
+			addErrorsTooltip(icon, d.error);
 
 			target.checked = !target.checked;
 		} else {
