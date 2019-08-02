@@ -18,8 +18,8 @@ var $quote_container = $('#ajax-quote');
 var $image_container = $('#ajax-image');
 var $content_categories = $('#content-categories');
 var $prev_btn = $('#quote-btn');
-getQuote(1);
-getImage(1);
+getQuote(quote_page);
+getImage(image_page);
 $(document).on('click', '.ajax-quote', function(e) { // need attach event handler this way bc targeted elements are dynamically generated
     current_text = $(this).data('text');
     current_attr = $(this).data('attribution');
@@ -47,6 +47,7 @@ $('#content-categories div.embed-responsive').on('click', function() {
 });
 $('#quote-btn').on('click', function(e) {
     e.preventDefault();
+    quote_page = 1;
     $quote_container.css('display', '');
     $image_container.css('display', 'none');
     $content_categories.css('display', 'none');
@@ -57,6 +58,7 @@ $('#quote-btn').on('click', function(e) {
     $('#filter-images').parent().css('display', 'none');
 });
 function openImages (btn) {
+    image_page = 1;
     $quote_container.css('display', 'none');
     $image_container.css('display', '');
     $content_categories.css('display', 'none');
@@ -90,12 +92,46 @@ $('#logo-btn').on('click', function (e) {
 $('#next-quote').on('click', function(e) {
     e.preventDefault();
     $quote_container.find('.selectables').empty();
+
+    var prevBtn = $('#prev-quote');
+    prevBtn.removeClass('disabled');
+    prevBtn.removeAttr('aria-disabled');
+
     getQuote(++quote_page);
+});
+$('#prev-quote').on('click', function(e) {
+    e.preventDefault();
+    $quote_container.find('.selectables').empty();
+
+    quote_page--;
+    if (quote_page === 1) {
+        $(this).addClass('disabled');
+        $(this).attr('aria-disabled', true);
+    }
+
+    getQuote(quote_page);
 });
 $('#next-image').on('click', function(e) {
     e.preventDefault();
     $image_container.find('.selectables').empty();
+
+    var prevBtn = $('#prev-image');
+    prevBtn.removeClass('disabled');
+    prevBtn.removeAttr('aria-disabled');
+
     getImage(++image_page);
+});
+$('#prev-image').on('click', function(e) {
+    e.preventDefault();
+    $image_container.find('.selectables').empty();
+
+    image_page--;
+    if (image_page === 1) {
+        $(this).addClass('disabled');
+        $(this).attr('aria-disabled', true);
+    }
+
+    getImage(image_page);
 });
 $('#clear-image').on('click', function(e) {
     e.preventDefault();

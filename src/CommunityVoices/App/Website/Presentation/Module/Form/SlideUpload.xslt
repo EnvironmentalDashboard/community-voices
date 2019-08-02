@@ -175,14 +175,14 @@
             <div>
               <div id="ajax-quote" style="min-height:400px">
                 <div class="selectables"></div>
-                <p class="mt-2"><a id="prev-quote" href="" class="btn btn-sm btn-outline-primary">&#8592; Previous page</a> <a id="next-quote" href="" class="btn btn-sm btn-outline-primary float-right">Next page &#8594;</a></p>
+                <p class="mt-2"><a id="prev-quote" href="" class="btn btn-sm btn-outline-primary disabled" aria-disabled="true">&#8592; Previous page</a> <a id="next-quote" href="" class="btn btn-sm btn-outline-primary float-right">Next page &#8594;</a></p>
               </div>
             </div>
             <div>
               <div style="display:none;min-height:400px" id="ajax-image">
                 <div class="selectables"></div>
                 <p class="mt-2">
-                    <a id="prev-image" href="" class="btn btn-sm btn-outline-primary">&#8592; Previous page</a>
+                    <a id="prev-image" href="" class="btn btn-sm btn-outline-primary disabled" aria-disabled="true">&#8592; Previous page</a>
                     <!-- The clear button will only will be displayed on logo selection. -->
                     <a id="clear-image" href="" style="display:none" class="btn btn-sm btn-outline-primary">Clear logo</a>
                     <a id="next-image" href="" class="btn btn-sm btn-outline-primary float-right">Next page &#8594;</a>
