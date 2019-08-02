@@ -297,6 +297,8 @@ function getParameterByName(name, url) {
 }
 
 function getQuote(page) {
+    $('#quote-page').text(page);
+
     $.getJSON('/community-voices/api/quotes', { per_page: 15, page: page, search: quote_search, tags: quote_tags, attributions: quote_attrs, unused: 1 }, function(data) {
         var html = '<div class="card"><div class="card-header">Quotes</div><ul class="list-group list-group-flush">';
         $.each(data['quoteCollection'], function(index, element) {
@@ -310,6 +312,8 @@ function getQuote(page) {
 }
 
 function getImage(page) {
+    $('#image-page').text(page);
+
     $.getJSON('/community-voices/api/images', { per_page: 10, page: page, search: image_search, tags: image_tags, photographers: photographers, orgs: orgs, unused: 1 }, function(data) {
         var html = '<div class="card-columns">';
         $.each(data['imageCollection'], function(index, element) {
