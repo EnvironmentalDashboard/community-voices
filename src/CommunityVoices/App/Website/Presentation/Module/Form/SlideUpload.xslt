@@ -181,7 +181,7 @@
             <div>
               <div style="display:none;min-height:400px" id="ajax-image">
                 <div class="selectables"></div>
-                <p class="mt-2">
+                <p class="mt-2" style="display:flex;justify-content:space-between">
                     <a id="prev-image" href="" class="btn btn-sm btn-outline-primary disabled" aria-disabled="true">&#8592; Previous page</a>
                     <!-- The clear button will only will be displayed on logo selection. -->
                     <a id="clear-image" href="" style="display:none" class="btn btn-sm btn-outline-primary">Clear logo</a>
