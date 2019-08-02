@@ -122,10 +122,12 @@ $('#filter-quotes').on('submit', function(e) {
 });
 $('#filter-images').on('submit', function(e) {
     e.preventDefault();
-    image_search = $('#search-quotes').val();
+    image_search = $('#search-images').val();
     image_tags = [];
+    photographers = [];
+    orgs = [];
     $('.itag-check:checkbox:checked').each(function() {
-        image_tags.push((this).val());
+        image_tags.push($(this).val());
     });
     $('.photo-check:checkbox:checked').each(function() {
         photographers.push($(this).val());
@@ -259,8 +261,6 @@ function getParameterByName(name, url) {
 }
 
 function getQuote(page) {
-    console.log(quote_search);
-    console.log(quote_tags);
     $.getJSON('/community-voices/api/quotes', { per_page: 15, page: page, search: quote_search, tags: quote_tags, attributions: quote_attrs, unused: 1 }, function(data) {
         var html = '<div class="card"><div class="card-header">Quotes</div><ul class="list-group list-group-flush">';
         $.each(data['quoteCollection'], function(index, element) {
