@@ -112,7 +112,6 @@ $('#filter-quotes').on('submit', function(e) {
     $('.qtag-check:checkbox:checked').each(function() {
         quote_tags.push($(this).val());
     });
-    quote_tags = $('#quote-tags').val();
     quote_attrs = [];
     $('.attr-check:checkbox:checked').each(function() {
         quote_attrs.push($(this).val());
@@ -260,6 +259,8 @@ function getParameterByName(name, url) {
 }
 
 function getQuote(page) {
+    console.log(quote_search);
+    console.log(quote_tags);
     $.getJSON('/community-voices/api/quotes', { per_page: 15, page: page, search: quote_search, tags: quote_tags, attributions: quote_attrs, unused: 1 }, function(data) {
         var html = '<div class="card"><div class="card-header">Quotes</div><ul class="list-group list-group-flush">';
         $.each(data['quoteCollection'], function(index, element) {
