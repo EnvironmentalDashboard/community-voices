@@ -6,6 +6,21 @@
   <xsl:variable name="isManager" select="package/identity/user/role = 'manager'
     or package/identity/user/role = 'administrator'" />
 
+  <xsl:template name="carousel-selector">
+    <xsl:param name="data-cc" />
+    <xsl:param name="background-color" />
+    <xsl:param name="label" />
+    <xsl:param name="image-src" />
+
+    <div style="display: flex; flex-direction: column; width: 130px">
+        <div style="display: flex; justify-content: center; align-content: center; background-color: {$background-color}; border-radius: 10px; height: 105px; width: 130px">
+            <img data-cc="{$data-cc}" src="{$image-src}" class="selector-img" style="cursor: pointer; margin: auto; max-width: 130px; max-height: 105px" />
+        </div>
+
+        <div style="text-align:center; font-weight:bold"><xsl:value-of select="$label" /></div>
+    </div>
+  </xsl:template>
+
   <xsl:template match="/package">
 
     <xsl:call-template name="navbar" />
@@ -48,14 +63,36 @@
 
     <div style="display: flex; justify-content: space-between; padding: 0px 15px">
         <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
-            <div style="display: flex; flex-direction: column; width: 130px">
-                <div style="display: flex; justify-content: center; align-content: center; background-color: {color}; border-radius: 10px; height: 105px; width: 130px">
-                    <img data-cc="{id}" src="/community-voices/uploads/{image/image/id}" style="cursor: pointer; margin: auto; max-width: 130px; max-height: 105px" />
-                </div>
-
-                <div style="text-align:center; font-weight:bold"><xsl:value-of select="label" /></div>
-            </div>
+          <xsl:call-template name="carousel-selector">
+            <xsl:with-param name="data-cc">
+              <xsl:value-of select="id" />
+            </xsl:with-param>
+            <xsl:with-param name="background-color">
+              <xsl:value-of select="color" />
+            </xsl:with-param>
+            <xsl:with-param name="label">
+              <xsl:value-of select="label" />
+            </xsl:with-param>
+            <xsl:with-param name="image-src">
+              /community-voices/uploads/<xsl:value-of select="image/image/id" />
+            </xsl:with-param>
+          </xsl:call-template>
         </xsl:for-each>
+
+        <xsl:call-template name="carousel-selector">
+          <xsl:with-param name="data-cc">
+            <xsl:text>rand</xsl:text>
+          </xsl:with-param>
+          <xsl:with-param name="background-color">
+            #CA4D46
+          </xsl:with-param>
+          <xsl:with-param name="label">
+            Random
+          </xsl:with-param>
+          <xsl:with-param name="image-src">
+            <xsl:text>/community-voices/public/images/random_icon.svg</xsl:text>
+          </xsl:with-param>
+        </xsl:call-template>
     </div>
 
     <div class="row mb-5" style="padding: 15px">
