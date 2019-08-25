@@ -46,17 +46,16 @@
       </div>
     </div>
 
-    <div class="row mb-3 pt-0" style="padding: 15px">
+    <div style="display: flex; justify-content: space-between; padding: 0px 15px">
         <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
-            <div class="col" style="height:100%">
-                <div style="height:105px;width:130px;background-color:{color};position:relative;border-radius:10px">
-                    <img data-cc="{id}" class="img-fluid selector-img" src="/community-voices/uploads/{image/image/id}" style="cursor:pointer;max-height: 100%;max-width: 100%;width: auto;height: auto;position: absolute;top: 0;bottom: 0;left: 0;right: 0;margin: auto;" />
+            <div style="display: flex; flex-direction: column; width: 130px">
+                <div style="display: flex; justify-content: center; align-content: center; background-color: {color}; border-radius: 10px; height: 105px; width: 130px">
+                    <img data-cc="{id}" src="/community-voices/uploads/{image/image/id}" style="cursor: pointer; margin: auto; max-width: 130px; max-height: 105px" />
                 </div>
 
-                <div style="text-align:center;font-weight:bold"><xsl:value-of select="label" /></div>
+                <div style="text-align:center; font-weight:bold"><xsl:value-of select="label" /></div>
             </div>
         </xsl:for-each>
-        <!-- div class="col"><img data-cc="rand" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/images/random.png" style="cursor:pointer" /></div -->
     </div>
 
     <div class="row mb-5" style="padding: 15px">
