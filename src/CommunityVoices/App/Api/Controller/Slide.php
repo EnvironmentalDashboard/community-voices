@@ -16,7 +16,6 @@ class Slide extends Component\Controller
     protected $quoteLookup;
     protected $imageLookup;
     protected $locationLookup;
-    protected $contentCategoryLookup;
 
     public function __construct(
         Component\SecureContainer $secureContainer,
@@ -26,8 +25,7 @@ class Slide extends Component\Controller
         Service\TagLookup $tagLookup,
         Service\QuoteLookup $quoteLookup,
         Service\ImageLookup $imageLookup,
-        Service\LocationLookup $locationLookup,
-        Service\ContentCategoryLookup $contentCategoryLookup
+        Service\LocationLookup $locationLookup
     ) {
         parent::__construct($secureContainer);
 
@@ -38,7 +36,6 @@ class Slide extends Component\Controller
         $this->quoteLookup = $quoteLookup;
         $this->imageLookup = $imageLookup;
         $this->locationLookup = $locationLookup;
-        $this->contentCategoryLookup = $contentCategoryLookup;
     }
 
     /**
@@ -93,7 +90,6 @@ class Slide extends Component\Controller
         $stateObserver = $this->imageLookup->photographers($stateObserver, true);
         $stateObserver = $this->imageLookup->orgs($stateObserver, true);
         $this->quoteLookup->attributions($stateObserver);
-        $this->contentCategoryLookup->findAll();
     }
 
     public function postSlideUpload($request)
@@ -129,7 +125,6 @@ class Slide extends Component\Controller
         $stateObserver = $this->imageLookup->photographers($stateObserver, true);
         $stateObserver = $this->imageLookup->orgs($stateObserver, true);
         $stateObserver = $this->quoteLookup->attributions($stateObserver, true);
-        $this->contentCategoryLookup->findAll();
         try {
             $this->slideLookup->findById($slideId, $stateObserver);
         } catch (Exception\IdentityNotFound $e) {

@@ -59,7 +59,7 @@
                       </input>
                       <label class="form-check-label">
                         <xsl:attribute name="for">cc<xsl:value-of select='position()' /></xsl:attribute>
-                        <xsl:value-of select="."></xsl:value-of>
+                        <xsl:value-of select="label"></xsl:value-of>
                       </label>
                     </div>
                   </xsl:for-each>
