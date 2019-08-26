@@ -61,38 +61,40 @@
       </div>
     </div>
 
-    <div style="display: flex; justify-content: space-between; padding: 0px 15px">
-        <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
+    <div class="row" style="padding: 15px">
+      <div style="display: flex; justify-content: space-between; flex-wrap: wrap; padding: 0px 15px; width: 100%">
+          <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
+            <xsl:call-template name="carousel-selector">
+              <xsl:with-param name="data-cc">
+                <xsl:value-of select="id" />
+              </xsl:with-param>
+              <xsl:with-param name="background-color">
+                <xsl:value-of select="color" />
+              </xsl:with-param>
+              <xsl:with-param name="label">
+                <xsl:value-of select="label" />
+              </xsl:with-param>
+              <xsl:with-param name="image-src">
+                /community-voices/uploads/<xsl:value-of select="image/image/id" />
+              </xsl:with-param>
+            </xsl:call-template>
+          </xsl:for-each>
+
           <xsl:call-template name="carousel-selector">
             <xsl:with-param name="data-cc">
-              <xsl:value-of select="id" />
+              <xsl:text>rand</xsl:text>
             </xsl:with-param>
             <xsl:with-param name="background-color">
-              <xsl:value-of select="color" />
+              #CA4D46
             </xsl:with-param>
             <xsl:with-param name="label">
-              <xsl:value-of select="label" />
+              Random
             </xsl:with-param>
             <xsl:with-param name="image-src">
-              /community-voices/uploads/<xsl:value-of select="image/image/id" />
+              <xsl:text>/community-voices/public/images/random_icon.svg</xsl:text>
             </xsl:with-param>
           </xsl:call-template>
-        </xsl:for-each>
-
-        <xsl:call-template name="carousel-selector">
-          <xsl:with-param name="data-cc">
-            <xsl:text>rand</xsl:text>
-          </xsl:with-param>
-          <xsl:with-param name="background-color">
-            #CA4D46
-          </xsl:with-param>
-          <xsl:with-param name="label">
-            Random
-          </xsl:with-param>
-          <xsl:with-param name="image-src">
-            <xsl:text>/community-voices/public/images/random_icon.svg</xsl:text>
-          </xsl:with-param>
-        </xsl:call-template>
+      </div>
     </div>
 
     <div class="row mb-5" style="padding: 15px">
