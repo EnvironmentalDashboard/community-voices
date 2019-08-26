@@ -80,6 +80,9 @@
             </xsl:call-template>
           </xsl:for-each>
 
+          <xsl:comment>
+            @config
+          </xsl:comment>
           <xsl:call-template name="carousel-selector">
             <xsl:with-param name="data-cc">
               <xsl:text>rand</xsl:text>
