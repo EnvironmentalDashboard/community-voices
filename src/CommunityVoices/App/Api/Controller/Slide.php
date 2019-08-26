@@ -45,14 +45,26 @@ class Slide extends Component\Controller
      */
     public function getAllSlide($request)
     {
+      $identity = $this->recognitionAdapter->identify();
+
         $search = (string) $request->query->get('search');
         $tags = $request->query->get('tags');
         $photographers = $request->query->get('photographers');
         $orgs = $request->query->get('orgs');
         $order = (string) $request->query->get('order');
         $attributions = $request->query->get('attributions');
+
         $status = $request->query->get('status');
-        $status = ($status == null) ? ["approved","pending","rejected"] : explode(',', $status);
+
+        if ($status == null) {
+          if ($identity->getRole() >= 3) {
+            $status = ['approved', 'pending', 'rejected'];
+          } else {
+            $status = ['approved'];
+          }
+        } else {
+          $status = explode(',', $status);
+        }
 
         $page = (int) $request->query->get('page');
         $page = ($page > 0) ? $page - 1 : 0; // current page, make page 0-based

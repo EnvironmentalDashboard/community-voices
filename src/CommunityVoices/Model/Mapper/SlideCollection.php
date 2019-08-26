@@ -10,7 +10,7 @@ use CommunityVoices\Model\Mapper;
 
 class SlideCollection extends DataMapper
 {
-    public function fetch(Entity\SlideCollection $slideCollection, int $limit, int $offset, string $order_str, string $search, $tags, $photographers, $orgs, $attributions, array $contentCategories = [])
+    public function fetch(Entity\SlideCollection $slideCollection, int $limit, int $offset, string $order_str, string $search, $tags, $photographers, $orgs, $attributions, array $contentCategories = [], $status = ["approved","pending","rejected"])
     {
         switch ($order_str) {
             case 'asc':
@@ -30,10 +30,10 @@ class SlideCollection extends DataMapper
                 $order = 'DESC';
                 break;
         }
-        $this->fetchAll($slideCollection, $limit, $offset, $search, $tags, $photographers, $orgs, $attributions, $contentCategories, $sort, $order);
+        $this->fetchAll($slideCollection, $limit, $offset, $search, $tags, $photographers, $orgs, $attributions, $contentCategories, $sort, $order, $status);
     }
 
-    private function fetchAll(Entity\SlideCollection $slideCollection, int $limit, int $offset, $search, $tags, $photographers, $orgs, $attributions, array $contentCategories = [], $sort = 'media.id', $order = 'DESC')
+    private function fetchAll(Entity\SlideCollection $slideCollection, int $limit, int $offset, $search, $tags, $photographers, $orgs, $attributions, array $contentCategories = [], $sort = 'media.id', $order = 'DESC', $status = ["approved","pending","rejected"])
     {
         $params = [];
         if ($search == '') {
@@ -111,7 +111,7 @@ class SlideCollection extends DataMapper
 						ON media.id = slide.media_id
 		          	WHERE {$content_category_query} {$search_query} {$tag_query} {$attribution_query} {$photographer_query} {$org_query}
 		         "
-                 . $this->query_prep($slideCollection->status, "media.status")
+                 . $this->query_prep($status, "media.status")
                  . $this->query_prep($slideCollection->creators, "media.added_by");
         $query .= ($sort === 'rand') ? " ORDER BY RAND() LIMIT {$limit}" : " ORDER BY {$sort} {$order} LIMIT {$offset}, {$limit}";
 
