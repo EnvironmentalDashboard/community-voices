@@ -51,14 +51,14 @@
                   <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="content_category[]">
-                        <xsl:attribute name="id">cc<xsl:value-of select='position()' /></xsl:attribute>
-                        <xsl:if test="contains($content_category, concat(',', position(), ','))">
+                        <xsl:attribute name="id">cc<xsl:value-of select='id' /></xsl:attribute>
+                        <xsl:if test="contains($content_category, concat(',', id, ','))">
                           <xsl:attribute name="checked">checked</xsl:attribute>
                         </xsl:if>
-                        <xsl:attribute name="value"><xsl:value-of select='position()' /></xsl:attribute>
+                        <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
                       </input>
                       <label class="form-check-label">
-                        <xsl:attribute name="for">cc<xsl:value-of select='position()' /></xsl:attribute>
+                        <xsl:attribute name="for">cc<xsl:value-of select='id' /></xsl:attribute>
                         <xsl:value-of select="label"></xsl:value-of>
                       </label>
                     </div>
