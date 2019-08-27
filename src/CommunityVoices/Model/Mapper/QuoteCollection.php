@@ -144,6 +144,8 @@ class QuoteCollection extends DataMapper
                         CAST(media.type AS UNSIGNED)    AS type,
                         CAST(media.status AS UNSIGNED)  AS status,
                         quote.text                      AS text,
+                        quote.original_text             AS originalText,
+                        quote.interviewer               AS interviewer,
                         quote.attribution               AS attribution,
                         quote.sub_attribution           AS subAttribution,
                         quote.quotation_marks           AS quotationMarks,

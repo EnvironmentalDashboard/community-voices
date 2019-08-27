@@ -12,7 +12,9 @@ class Quote extends Media
     const ERR_MISSING_CONTENT_CATEGORY = 'Must provide a potential content category.';
 
     private $text;
+    private $originalText;
 
+    private $interviewer;
     private $attribution;
     private $subAttribution;
     private $dateRecorded;
@@ -37,6 +39,26 @@ class Quote extends Media
     public function setText($text)
     {
         $this->text = htmlspecialchars($text);
+    }
+
+    public function getOriginalText()
+    {
+        return $this->originalText;
+    }
+
+    public function setOriginalText($originalText)
+    {
+        $this->originalText = $originalText ? htmlspecialchars($originalText) : null;
+    }
+
+    public function getInterviewer()
+    {
+        return $this->interviewer;
+    }
+
+    public function setInterviewer($interviewer)
+    {
+        $this->interviewer = $interviewer ? htmlspecialchars($interviewer) : null;
     }
 
     public function getAttribution()
@@ -131,6 +153,8 @@ class Quote extends Media
     {
         return ['quote' => array_merge(parent::toArray()['media'], [
             'text' => $this->text,
+            'originalText' => $this->originalText,
+            'interviewer' => $this->interviewer,
             'attribution' => $this->attribution,
             'subAttribution' => $this->subAttribution,
             'quotationMarks' => $this->quotationMarks > 0 ? true : false,
