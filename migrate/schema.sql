@@ -4,8 +4,6 @@
 CREATE DATABASE IF NOT EXISTS `community_voices` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `community_voices`;
 
--- --------------------------------------------------------
-
 --
 -- Table structure for table `community-voices_articles`
 --
@@ -27,7 +25,8 @@ CREATE TABLE `community-voices_articles` (
 
 CREATE TABLE `community-voices_content-categories` (
   `group_id` int(21) NOT NULL,
-  `media_filename` varchar(255) NOT NULL
+  `image_id` int(21) DEFAULT NULL,
+  `color` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -81,6 +80,7 @@ CREATE TABLE `community-voices_images` (
   `photographer` varchar(255) DEFAULT NULL,
   `organization` varchar(255) DEFAULT NULL,
   `exif` text,
+  `perceptual_hash` bigint(20) UNSIGNED DEFAULT NULL,
   `crop_x` int(11) NOT NULL DEFAULT '0',
   `crop_y` int(11) NOT NULL DEFAULT '0',
   `crop_height` int(11) NOT NULL DEFAULT '0',
@@ -181,8 +181,11 @@ CREATE TABLE `community-voices_organization-categories` (
 CREATE TABLE `community-voices_quotes` (
   `media_id` int(21) NOT NULL,
   `text` text,
+  `original_text` text,
+  `interviewer` varchar(255) DEFAULT NULL,
   `attribution` varchar(255) DEFAULT NULL,
   `sub_attribution` varchar(255) DEFAULT NULL,
+  `quotation_marks` tinyint(1) NOT NULL DEFAULT '1',
   `date_recorded` datetime DEFAULT NULL,
   `public_document_link` varchar(255) DEFAULT NULL,
   `source_document_link` varchar(255) DEFAULT NULL,
@@ -199,6 +202,7 @@ CREATE TABLE `community-voices_slides` (
   `media_id` int(21) NOT NULL,
   `content_category_id` int(21) DEFAULT NULL,
   `image_id` int(21) DEFAULT NULL,
+  `logo_id` int(21) DEFAULT NULL,
   `quote_id` int(21) DEFAULT NULL,
   `formatted_text` text,
   `probability` int(21) NOT NULL,
@@ -346,7 +350,8 @@ ALTER TABLE `community-voices_slides`
   ADD UNIQUE KEY `image_id_2` (`image_id`,`quote_id`),
   ADD KEY `community-voices_slides_fk1` (`content_category_id`),
   ADD KEY `community-voices_slides_fk2` (`image_id`),
-  ADD KEY `community-voices_slides_fk3` (`quote_id`);
+  ADD KEY `community-voices_slides_fk3` (`quote_id`),
+  ADD KEY `logo_id` (`logo_id`);
 
 --
 -- Indexes for table `community-voices_tags`
@@ -374,12 +379,12 @@ ALTER TABLE `community-voices_users`
 -- AUTO_INCREMENT for table `community-voices_groups`
 --
 ALTER TABLE `community-voices_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 --
 -- AUTO_INCREMENT for table `community-voices_identities`
 --
 ALTER TABLE `community-voices_identities`
-  MODIFY `identity_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
+  MODIFY `identity_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=400;
 --
 -- AUTO_INCREMENT for table `community-voices_location-category-map`
 --
@@ -394,7 +399,7 @@ ALTER TABLE `community-voices_locations`
 -- AUTO_INCREMENT for table `community-voices_media`
 --
 ALTER TABLE `community-voices_media`
-  MODIFY `id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4206;
+  MODIFY `id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4338;
 --
 -- AUTO_INCREMENT for table `community-voices_media-article-map`
 --
@@ -404,22 +409,22 @@ ALTER TABLE `community-voices_media-article-map`
 -- AUTO_INCREMENT for table `community-voices_media-group-map`
 --
 ALTER TABLE `community-voices_media-group-map`
-  MODIFY `id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7408;
+  MODIFY `id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7906;
 --
 -- AUTO_INCREMENT for table `community-voices_media-location-map`
 --
 ALTER TABLE `community-voices_media-location-map`
-  MODIFY `id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17473;
+  MODIFY `id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18241;
 --
 -- AUTO_INCREMENT for table `community-voices_tokens`
 --
 ALTER TABLE `community-voices_tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 --
 -- AUTO_INCREMENT for table `community-voices_users`
 --
 ALTER TABLE `community-voices_users`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 --
 -- Constraints for dumped tables
 --
@@ -496,8 +501,3 @@ ALTER TABLE `community-voices_slides`
 --
 ALTER TABLE `community-voices_tags`
   ADD CONSTRAINT `community-voices_tags_fk0` FOREIGN KEY (`group_id`) REFERENCES `community-voices_groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Adding quotation_marks field to `community-voices_quotes`
---
-ALTER TABLE `community-voices_quotes` ADD `quotation_marks` BOOLEAN NOT NULL DEFAULT TRUE AFTER `sub_attribution`;
