@@ -114,7 +114,7 @@
               <a class="dropdown-item" data-action="/community-voices/articles" href="#">Articles</a>
             </div>
           </div>
-          <button type="submit" class="btn btn-outline-primary form-control" style="max-width:15%">Search</button>
+          <button type="submit" class="btn btn-outline-primary form-control" style="max-width:15%; min-width: 100px">Search</button>
         </div>
       </form>
     </div>
