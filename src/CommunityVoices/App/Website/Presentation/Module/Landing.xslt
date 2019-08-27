@@ -12,9 +12,9 @@
     <xsl:param name="label" />
     <xsl:param name="image-src" />
 
-    <div style="display: flex; flex-direction: column; width: 130px">
+    <div style="display: flex; flex-direction: column; width: 130px" class="carousel-selection-flex-item">
         <div style="display: flex; justify-content: center; align-content: center; background-color: {$background-color}; border-radius: 10px; height: 105px; width: 130px">
-            <img data-cc="{$data-cc}" src="{$image-src}" class="selector-img" style="cursor: pointer; margin: auto; max-width: 130px; max-height: 105px" />
+            <img data-cc="{$data-cc}" src="{$image-src}" class="selector-img" style="cursor: pointer; margin: auto; max-width: 130px; max-height: 95px" />
         </div>
 
         <div style="text-align:center; font-weight:bold"><xsl:value-of select="$label" /></div>
@@ -62,7 +62,7 @@
     </div>
 
     <div class="row" style="padding: 15px">
-      <div style="display: flex; justify-content: space-between; flex-wrap: wrap; padding: 0px 15px; width: 100%">
+      <div style="display: flex; flex-wrap: wrap; padding: 0px 15px; width: 100%" id="carousel-selection-flex-container">
           <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
             <xsl:call-template name="carousel-selector">
               <xsl:with-param name="data-cc">
