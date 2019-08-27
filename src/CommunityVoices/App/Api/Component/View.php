@@ -12,10 +12,13 @@ class View extends Component\SecuredComponent
     protected $mapperFactory;
 
     public function __construct(
-        Component\SecureContainer $secureContainer,
+        Arbiter $arbiter,
+        Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger,
+
         MapperFactory $mapperFactory
     ) {
-        parent::__construct($secureContainer);
+        parent::__construct($arbiter, $identifier, $logger);
 
         $this->mapperFactory = $mapperFactory;
     }

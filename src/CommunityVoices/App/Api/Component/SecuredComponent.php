@@ -6,38 +6,36 @@ use CommunityVoices\App\Api\Component;
 
 class SecuredComponent
 {
-    protected $secureContainer;
+  private $identifier;
+  private $arbiter;
+  private $logger;
 
-    public function __construct(
-        Component\SecureContainer $secureContainer
-    ) {
-        $this->secureContainer = $secureContainer;
+  public function __construct(
+      Arbiter $arbiter,
+      Contract\CanIdentify $identifier,
+      \Psr\Log\LoggerInterface $logger
+  ) {
+      $this->arbiter = $arbiter;
+      $this->identifier = $identifier;
+      $this->logger = $logger;
+  }
+
+  // Automatically secures each called function in every API controller / view.
+  public function __call($method, $arguments)
+  {
+    $user = $this->identifier->identify();
+    $signature = get_class($this) . "::" . $method;
+
+    if (!method_exists($this, $method)) {
+        $this->logger->error('SecuredComponent MethodNotFound Exception', ['message' => 'Method not found ' . $signature]);
+        throw new Exception\MethodNotFound('Method not found ' . $signature);
     }
 
-    /*
-     * Automatically secures each called function in every API controller / view.
-     * Note that this is somewhat hacked into making it work with the
-     * SecureContainer.
-     * A future implementation could easily make SecureContainer obsolete
-     * by simply providing its functionality in this function.
-     */
-    public function __call($method, $arguments)
-    {
-        if (method_exists($this, $method)) {
-            $secured = property_exists($this, "secured") && $this->secured;
-            $secureThis = $this->secureContainer->contain($this);
-
-            $methodArray = $secured ? array($this, $method) : array($secureThis, $method);
-
-            // We want `secured` to be a property specific to each method
-            // call, so we will remove it when it is done.
-            if ($secured) {
-                unset($this->secured);
-            }
-
-            return call_user_func_array($methodArray, $arguments);
-        } else {
-            throw new Exception\MethodNotFound("Method not found " . get_class($this) . "::" . $method);
-        }
+    if (!$this->arbiter->isAllowedForIdentity($signature, $user)) {
+        $this->logger->error('SecuredComponent AccessDenied Exception', ['message' => 'Access denied']);
+        throw new Exception\AccessDenied($user);
     }
+
+    return call_user_func_array([$this, $method], $arguments);
+  }
 }

@@ -7,9 +7,11 @@ use CommunityVoices\App\Api\Component;
 class Controller extends Component\SecuredComponent
 {
     public function __construct(
-        Component\SecureContainer $secureContainer
+        Arbiter $arbiter,
+        Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger
     ) {
-        parent::__construct($secureContainer);
+        parent::__construct($arbiter, $identifier, $logger);
     }
 
     protected function send404()

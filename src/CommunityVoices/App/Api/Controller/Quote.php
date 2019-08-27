@@ -14,12 +14,15 @@ class Quote extends Component\Controller
     protected $quoteManagement;
 
     public function __construct(
-        Component\SecureContainer $secureContainer,
+        Component\Arbiter $arbiter,
+        Component\Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger,
+
         Component\RecognitionAdapter $recognitionAdapter,
         Service\QuoteLookup $quoteLookup,
         Service\QuoteManagement $quoteManagement
     ) {
-        parent::__construct($secureContainer);
+        parent::__construct($arbiter, $identifier, $logger);
 
         $this->recognitionAdapter = $recognitionAdapter;
         $this->quoteLookup = $quoteLookup;

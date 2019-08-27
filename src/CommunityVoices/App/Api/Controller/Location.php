@@ -7,16 +7,17 @@ use CommunityVoices\App\Api\Component;
 
 class Location extends Component\Controller
 {
-    protected $secureContainer;
     protected $locationLookup;
 
     public function __construct(
-        Component\SecureContainer $secureContainer,
+        Component\Arbiter $arbiter,
+        Component\Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger,
+
         Service\LocationLookup $locationLookup
     ) {
-        parent::__construct($secureContainer);
+        parent::__construct($arbiter, $identifier, $logger);
 
-        $this->secureContainer = $secureContainer;
         $this->locationLookup = $locationLookup;
     }
 

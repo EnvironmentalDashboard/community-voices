@@ -19,7 +19,10 @@ class Slide extends Component\Controller
     protected $contentCategoryLookup;
 
     public function __construct(
-        Component\SecureContainer $secureContainer,
+        Component\Arbiter $arbiter,
+        Component\Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger,
+
         Component\RecognitionAdapter $recognitionAdapter,
         Service\SlideLookup $slideLookup,
         Service\SlideManagement $slideManagement,
@@ -29,7 +32,7 @@ class Slide extends Component\Controller
         Service\LocationLookup $locationLookup,
         Service\ContentCategoryLookup $contentCategoryLookup
     ) {
-        parent::__construct($secureContainer);
+        parent::__construct($arbiter, $identifier, $logger);
 
         $this->recognitionAdapter = $recognitionAdapter;
         $this->slideLookup = $slideLookup;

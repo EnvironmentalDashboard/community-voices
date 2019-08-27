@@ -12,11 +12,13 @@ class Identification extends Component\View
     protected $recognitionAdapter;
 
     public function __construct(
-        Component\SecureContainer $secureContainer,
+        Component\Arbiter $arbiter,
+        Component\Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger,
         MapperFactory $mapperFactory,
         Component\RecognitionAdapter $recognitionAdapter
     ) {
-        parent::__construct($secureContainer, $mapperFactory);
+        parent::__construct($arbiter, $identifier, $logger, $mapperFactory);
 
         $this->recognitionAdapter = $recognitionAdapter;
     }

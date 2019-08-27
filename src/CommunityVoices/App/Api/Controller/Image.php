@@ -14,13 +14,16 @@ class Image extends Component\Controller
     protected $tagLookup;
 
     public function __construct(
-        Component\SecureContainer $secureContainer,
+        Component\Arbiter $arbiter,
+        Component\Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger,
+
         Component\RecognitionAdapter $recognitionAdapter,
         Service\ImageLookup $imageLookup,
         Service\ImageManagement $imageManagement,
         Service\TagLookup $tagLookup
     ) {
-        parent::__construct($secureContainer);
+        parent::__construct($arbiter, $identifier, $logger);
 
         $this->recognitionAdapter = $recognitionAdapter;
         $this->imageLookup = $imageLookup;

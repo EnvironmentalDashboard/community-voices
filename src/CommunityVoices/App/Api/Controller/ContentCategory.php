@@ -10,19 +10,21 @@ use CommunityVoices\App\Api\Component;
 
 class ContentCategory extends Component\Controller
 {
-    protected $recognitionAdapter;
     protected $contentCategoryLookup;
     protected $contentCategoryManagement;
     protected $imageManagement;
 
     public function __construct(
-        Component\SecureContainer $secureContainer,
+        Component\Arbiter $arbiter,
+        Component\Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger,
+
         Component\RecognitionAdapter $recognitionAdapter,
         Service\ContentCategoryLookup $contentCategoryLookup,
         Service\ContentCategoryManagement $contentCategoryManagement,
         Service\ImageManagement $imageManagement
     ) {
-        parent::__construct($secureContainer);
+        parent::__construct($arbiter, $identifier, $logger);
 
         $this->recognitionAdapter = $recognitionAdapter;
         $this->contentCategoryLookup = $contentCategoryLookup;
