@@ -7,16 +7,20 @@ use CommunityVoices\App\Api;
 class Slide
 {
     protected $slideAPIController;
+    protected $contentCategoryAPIController;
 
     public function __construct(
-        Api\Controller\Slide $slideAPIController
+        Api\Controller\Slide $slideAPIController,
+        Api\Controller\ContentCategory $contentCategoryAPIController
     ) {
         $this->slideAPIController = $slideAPIController;
+        $this->contentCategoryAPIController = $contentCategoryAPIController;
     }
 
     public function getAllSlide($request)
     {
         $this->slideAPIController->getAllSlide($request);
+        $this->contentCategoryAPIController->getAllContentCategory($request);
     }
 
     public function getSlide($request)
@@ -27,6 +31,7 @@ class Slide
     public function getSlideUpload($request)
     {
         $this->slideAPIController->getSlideUpload($request);
+        $this->contentCategoryAPIController->getAllContentCategory($request);
     }
 
     public function postSlideUpload($request)
@@ -37,6 +42,7 @@ class Slide
     public function getSlideUpdate($request)
     {
         $this->slideAPIController->getSlideUpdate($request);
+        $this->contentCategoryAPIController->getAllContentCategory($request);
     }
 
     public function postSlideUpdate($request)

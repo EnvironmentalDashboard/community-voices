@@ -46,7 +46,7 @@ class SlideLookup
         $slideCollection->setLimit($limit);
 
         $slideCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\SlideCollection::class);
-        $slideCollectionMapper->fetch($slideCollection, $limit, $offset, $order, $search, $tags, $photographers, $orgs, $attributions, $contentCategories);
+        $slideCollectionMapper->fetch($slideCollection, $limit, $offset, $order, $search, $tags, $photographers, $orgs, $attributions, $contentCategories, $status);
 
         $stateObserver->setSubject('slideFindAll');
         $stateObserver->addEntry('slideCollection', $slideCollection);

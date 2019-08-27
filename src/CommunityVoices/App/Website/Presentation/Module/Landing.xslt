@@ -6,6 +6,21 @@
   <xsl:variable name="isManager" select="package/identity/user/role = 'manager'
     or package/identity/user/role = 'administrator'" />
 
+  <xsl:template name="carousel-selector">
+    <xsl:param name="data-cc" />
+    <xsl:param name="background-color" />
+    <xsl:param name="label" />
+    <xsl:param name="image-src" />
+
+    <div style="display: flex; flex-direction: column; width: 130px" class="carousel-selection-flex-item">
+        <div style="display: flex; justify-content: center; align-content: center; background-color: {$background-color}; border-radius: 10px; height: 105px; width: 130px">
+            <img data-cc="{$data-cc}" src="{$image-src}" class="selector-img" style="cursor: pointer; margin: auto; max-width: 130px; max-height: 95px" />
+        </div>
+
+        <div style="text-align:center; font-weight:bold"><xsl:value-of select="$label" /></div>
+    </div>
+  </xsl:template>
+
   <xsl:template match="/package">
 
     <xsl:call-template name="navbar" />
@@ -46,24 +61,50 @@
       </div>
     </div>
 
-    <div class="row mb-3 pt-0" style="padding: 15px">
-        <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
-            <div class="col" style="height:100%">
-                <div style="height:105px;width:130px;background-color:{color};position:relative;border-radius:10px">
-                    <img data-cc="{id}" class="img-fluid selector-img" src="/community-voices/uploads/{image/image/id}" style="cursor:pointer;max-height: 100%;max-width: 100%;width: auto;height: auto;position: absolute;top: 0;bottom: 0;left: 0;right: 0;margin: auto;" />
-                </div>
+    <div class="row" style="padding: 15px">
+      <div style="display: flex; flex-wrap: wrap; padding: 0px 15px; width: 100%" id="carousel-selection-flex-container">
+          <xsl:for-each select="domain/contentCategoryCollection/contentCategory">
+            <xsl:call-template name="carousel-selector">
+              <xsl:with-param name="data-cc">
+                <xsl:value-of select="id" />
+              </xsl:with-param>
+              <xsl:with-param name="background-color">
+                <xsl:value-of select="color" />
+              </xsl:with-param>
+              <xsl:with-param name="label">
+                <xsl:value-of select="label" />
+              </xsl:with-param>
+              <xsl:with-param name="image-src">
+                /community-voices/uploads/<xsl:value-of select="image/image/id" />
+              </xsl:with-param>
+            </xsl:call-template>
+          </xsl:for-each>
 
-                <div style="text-align:center;font-weight:bold"><xsl:value-of select="label" /></div>
-            </div>
-        </xsl:for-each>
-        <!-- div class="col"><img data-cc="rand" class="img-fluid selector-img" src="https://environmentaldashboard.org/community-voices/public/images/random.png" style="cursor:pointer" /></div -->
+          <xsl:comment>
+            @config
+          </xsl:comment>
+          <xsl:call-template name="carousel-selector">
+            <xsl:with-param name="data-cc">
+              <xsl:text>rand</xsl:text>
+            </xsl:with-param>
+            <xsl:with-param name="background-color">
+              #CA4D46
+            </xsl:with-param>
+            <xsl:with-param name="label">
+              Random
+            </xsl:with-param>
+            <xsl:with-param name="image-src">
+              <xsl:text>/community-voices/public/images/random_icon.svg</xsl:text>
+            </xsl:with-param>
+          </xsl:call-template>
+      </div>
     </div>
 
     <div class="row mb-5" style="padding: 15px">
       <form action="/community-voices/slides" method="GET" style="width:100%;padding:15px" id="search-form">
         <h4 class="mb-2">Looking for more content?</h4>
         <div class="input-group input-group-lg">
-          <input name="search" type="text" class="form-control" aria-label="Search Community Voices" placeholder="Search slides, images, or quotes" style="background: url(https://environmentaldashboard.org/community-voices/public/images/search.svg) no-repeat left 1rem center;background-size: 20px 20px;padding-left: 3rem" />
+          <input name="search" type="text" class="form-control" aria-label="Search Community Voices" placeholder="Search slides, images, or quotes" style="background: url(/community-voices/public/images/search.svg) no-repeat left 1rem center;background-size: 20px 20px;padding-left: 3rem" />
           <div class="input-group-append">
             <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown-btn">Slides</button>
             <div class="dropdown-menu" id="searchables">
@@ -73,7 +114,7 @@
               <a class="dropdown-item" data-action="/community-voices/articles" href="#">Articles</a>
             </div>
           </div>
-          <button type="submit" class="btn btn-outline-primary form-control" style="max-width:15%">Search</button>
+          <button type="submit" class="btn btn-outline-primary form-control" style="max-width:15%; min-width: 100px">Search</button>
         </div>
       </form>
     </div>
