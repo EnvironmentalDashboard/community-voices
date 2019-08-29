@@ -41,6 +41,6 @@ class Transcriber
     private function encode($input)
     {
         // For our XSLT, we want all booleans to come out as strings.
-        return is_bool($input) ? var_export($input, true) : htmlspecialchars($input);
+        return (is_bool($input) && $input) ? var_export($input, true) : htmlspecialchars($input);
     }
 }
