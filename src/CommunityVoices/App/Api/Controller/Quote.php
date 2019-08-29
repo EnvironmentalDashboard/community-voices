@@ -13,6 +13,19 @@ class Quote extends Component\Controller
     protected $quoteLookup;
     protected $quoteManagement;
 
+    const FORM_ATTRIBUTES = [
+        'text',
+        'originalText',
+        'interviewer',
+        'attribution',
+        'subAttribution',
+        'quotationMarks',
+        'dateRecorded',
+        'status',
+        'tags',
+        'contentCategories'
+    ];
+
     public function __construct(
         Component\SecureContainer $secureContainer,
         Component\RecognitionAdapter $recognitionAdapter,
@@ -154,30 +167,9 @@ class Quote extends Component\Controller
 
     protected function postQuoteUpdate($request)
     {
-        $attributes = [
-            "text" => $request->request->get('text'),
-            "originalText" => $request->request->get('originalText'),
-            "interviewer" => $request->request->get('interviewer'),
-            "attribution" => $request->request->get('attribution'),
-            "subAttribution" => $request->request->get('subAttribution'),
-            "quotationMarks" => $request->request->get('quotationMarks'),
-            "dateRecorded" => $request->request->get('dateRecorded'),
-            "status" => $request->request->get('status'),
-            "tags" => $request->request->get('tags'),
-            "contentCategories" => $request->request->get('contentCategories')
-        ];
-        $nonNullAttributes = array_filter($attributes, function ($v) {
-            return !is_null($v);
-        });
-
-        $id = (int) $request->attributes->get('id');
-        if ($id === 0) {
-            $id = (int) $request->request->get('id');
-        }
-
         return $this->quoteManagement->update(
-            $id,
-            $nonNullAttributes
+            $this->getId($request),
+            $this->getFormAttributes($request, self::FORM_ATTRIBUTES)
         );
     }
 
