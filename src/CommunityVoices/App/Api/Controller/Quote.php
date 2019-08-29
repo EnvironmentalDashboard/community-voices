@@ -14,21 +14,15 @@ class Quote extends Component\Controller
     protected $quoteLookup;
     protected $quoteManagement;
 
-    // consider using key-value to handle a default
+    // for future usage of this pattern: the value is the default value
     const FORM_ATTRIBUTES = [
         'text',
         'originalText',
         'interviewer',
         'attribution',
         'subAttribution',
-        'quotationMarks',
-        'dateRecorded',
-        'status',
-        'tags',
-        'contentCategories'
-    ];
-    const FORM_DEFAULTS = [
         'quotationMarks' => false,
+        'dateRecorded',
         'status' => Entity\Media::STATUS_PENDING,
         'tags' => [],
         'contentCategories' => []
@@ -136,14 +130,15 @@ class Quote extends Component\Controller
     {
         $identity = $this->recognitionAdapter->identify();
 
-        // this needs to be in QuoteManagement->save
+        // this needs to be in QuoteManagement->save,
+        // but can be saved for when user roles are worked on
         // if ($identity->getRole() <= 2) {
         //     $approved = null;
         // }
 
         return $this->quoteManagement->save(
             null,
-            $this->getFormAttributes($request, self::FORM_ATTRIBUTES, self::FORM_DEFAULTS),
+            $this->getFormAttributes($request, self::FORM_ATTRIBUTES),
             $identity
         );
     }
@@ -159,7 +154,7 @@ class Quote extends Component\Controller
     {
         return $this->quoteManagement->save(
             $this->getId($request),
-            $this->getFormAttributes($request, self::FORM_ATTRIBUTES, self::FORM_DEFAULTS)
+            $this->getFormAttributes($request, self::FORM_ATTRIBUTES)
         );
     }
 

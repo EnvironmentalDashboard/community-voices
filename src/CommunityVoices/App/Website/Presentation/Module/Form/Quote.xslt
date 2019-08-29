@@ -251,10 +251,13 @@
 
                       <div class="form-group">
                         Approve:
+                        <xsl:comment>
+                          It would be good to standardize 'approved' or '3' coming out to XSLT.
+                        </xsl:comment>
                         <input type="checkbox" name="status" id="status">
                             <xsl:choose>
                                 <xsl:when test="domain/form != ''">
-                                    <xsl:if test="domain/form/status = 'approved'">
+                                    <xsl:if test="domain/form/status = '3'">
                                         <xsl:attribute name="checked">checked</xsl:attribute>
                                     </xsl:if>
                                 </xsl:when>
