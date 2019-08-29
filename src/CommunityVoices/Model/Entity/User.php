@@ -113,6 +113,11 @@ class User implements HasId, Palladium\Contract\HasId
         return $this->role ? $this->allowableRole[$this->role] : null;
     }
 
+    public function isRoleAtLeast($role)
+    {
+        return $this->role >= $role;
+    }
+
     private function passwordsMatch()
     {
         return $this->password === $this->confirmPassword;

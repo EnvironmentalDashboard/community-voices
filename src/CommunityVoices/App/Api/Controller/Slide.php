@@ -3,6 +3,7 @@
 namespace CommunityVoices\App\Api\Controller;
 
 use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Exception;
 use CommunityVoices\App\Api\Component;
@@ -19,7 +20,6 @@ class Slide extends Component\Controller
     protected $contentCategoryLookup;
 
     public function __construct(
-        Component\Arbiter $arbiter,
         Component\Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
 
@@ -32,7 +32,7 @@ class Slide extends Component\Controller
         Service\LocationLookup $locationLookup,
         Service\ContentCategoryLookup $contentCategoryLookup
     ) {
-        parent::__construct($arbiter, $identifier, $logger);
+        parent::__construct($identifier, $logger);
 
         $this->recognitionAdapter = $recognitionAdapter;
         $this->slideLookup = $slideLookup;
@@ -44,12 +44,17 @@ class Slide extends Component\Controller
         $this->contentCategoryLookup = $contentCategoryLookup;
     }
 
+    protected function CANgetAllSlide($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+    }
+
     /**
      * Grabs all slides from databbase
      * @param  Request $request A request from the client's machine
      * @return SlideCollection  A collection of all slides in the database
      */
-    public function getAllSlide($request)
+    protected function getAllSlide($request)
     {
         $search = (string) $request->query->get('search');
         $tags = $request->query->get('tags');
@@ -75,10 +80,15 @@ class Slide extends Component\Controller
         $this->imageLookup->orgs($stateObserver);
     }
 
+    protected function CANgetSlide($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+    }
+
     /**
      * Slide lookup by id
      */
-    public function getSlide($request)
+    protected function getSlide($request)
     {
         $slideId = (int) $request->attributes->get('id');
 
@@ -89,7 +99,12 @@ class Slide extends Component\Controller
         }
     }
 
-    public function getSlideUpload()
+    protected function CANgetSlideUpload($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+    }
+
+    protected function getSlideUpload()
     {
         $stateObserver = $this->tagLookup->findAll(true);
         $stateObserver = $this->locationLookup->findAll($stateObserver, true);
@@ -99,7 +114,12 @@ class Slide extends Component\Controller
         $this->contentCategoryLookup->findAll();
     }
 
-    public function postSlideUpload($request)
+    protected function CANpostSlideUpload($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+    }
+
+    protected function postSlideUpload($request)
     {
         $identity = $this->recognitionAdapter->identify();
 
@@ -122,7 +142,12 @@ class Slide extends Component\Controller
         $this->slideManagement->upload($quoteId, $imageId, $contentCategory, $logo, $screens, $dateRecorded, $approved, $identity);
     }
 
-    public function getSlideUpdate($request)
+    protected function CANgetSlideUpdate($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+    }
+
+    protected function getSlideUpdate($request)
     {
         $slideId = (int) $request->attributes->get('id');
 
@@ -140,7 +165,12 @@ class Slide extends Component\Controller
         }
     }
 
-    public function postSlideUpdate($request)
+    protected function CANpostSlideUpdate($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+    }
+
+    protected function postSlideUpdate($request)
     {
         $identity = $this->recognitionAdapter->identify();
 
@@ -163,7 +193,12 @@ class Slide extends Component\Controller
         $this->slideManagement->update($id, $imageId, $quoteId, $contentCategory, $logo, $screens, $decay_percent, $probability, $decay_start, $decay_end, $status, $identity);
     }
 
-    public function postSlideDelete($request)
+    protected function CANpostSlideDelete($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+    }
+
+    protected function postSlideDelete($request)
     {
         $id = (int) $request->attributes->get('id');
 

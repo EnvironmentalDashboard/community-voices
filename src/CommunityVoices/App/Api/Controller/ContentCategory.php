@@ -3,6 +3,7 @@
 namespace CommunityVoices\App\Api\Controller;
 
 use CommunityVoices\Model\Service\ContentCategoryLookup;
+use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Exception;
 
@@ -15,7 +16,6 @@ class ContentCategory extends Component\Controller
     protected $imageManagement;
 
     public function __construct(
-        Component\Arbiter $arbiter,
         Component\Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
 
@@ -24,7 +24,7 @@ class ContentCategory extends Component\Controller
         Service\ContentCategoryManagement $contentCategoryManagement,
         Service\ImageManagement $imageManagement
     ) {
-        parent::__construct($arbiter, $identifier, $logger);
+        parent::__construct($identifier, $logger);
 
         $this->recognitionAdapter = $recognitionAdapter;
         $this->contentCategoryLookup = $contentCategoryLookup;
@@ -32,9 +32,19 @@ class ContentCategory extends Component\Controller
         $this->imageManagement = $imageManagement;
     }
 
+    protected function CANgetAllContentCategory($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+    }
+
     protected function getAllContentCategory()
     {
         $this->contentCategoryLookup->findAll();
+    }
+
+    protected function CANgetContentCategory($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     // Note that this is basically a copy of the Quote controller's method,
@@ -54,9 +64,19 @@ class ContentCategory extends Component\Controller
         }
     }
 
+    protected function CANgetContentCategoryUpload($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+    }
+
     protected function getContentCategoryUpload()
     {
         // intentionally blank
+    }
+
+    protected function CANpostContentCategoryUpload($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 
     protected function postContentCategoryUpload($request)
@@ -74,9 +94,19 @@ class ContentCategory extends Component\Controller
         $this->contentCategoryManagement->upload($uploaded_images[0], $label, $color);
     }
 
+    protected function CANgetContentCategoryUpdate($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+    }
+
     protected function getContentCategoryUpdate($request)
     {
         $this->getContentCategory($request);
+    }
+
+    protected function CANpostContentCategoryUpdate($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 
     protected function postContentCategoryUpdate($request)
@@ -93,6 +123,11 @@ class ContentCategory extends Component\Controller
         }
 
         $this->contentCategoryManagement->update($groupId, isset($uploaded_images) ? $uploaded_images[0] : null, $label, $color);
+    }
+
+    protected function CANpostContentCategoryDelete($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 
     protected function postContentCategoryDelete($request)

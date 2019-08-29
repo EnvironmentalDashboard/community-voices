@@ -2,6 +2,7 @@
 
 namespace CommunityVoices\App\Api\View;
 
+use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Component\MapperFactory;
 use CommunityVoices\App\Api\Component;
 use Symfony\Component\HttpFoundation;
@@ -9,15 +10,12 @@ use Symfony\Component\HttpFoundation;
 class Location extends Component\View
 {
     public function __construct(
-        Component\Arbiter $arbiter,
-        Component\Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger,
         MapperFactory $mapperFactory
     ) {
-        parent::__construct($arbiter, $identifier, $logger, $mapperFactory);
+        parent::__construct($mapperFactory);
     }
 
-    protected function getAllLocation()
+    public function getAllLocation()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();

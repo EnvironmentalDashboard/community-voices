@@ -10,15 +10,12 @@ use CommunityVoices\App\Api\Component;
 class DisplayError extends Component\View
 {
     public function __construct(
-        Component\Arbiter $arbiter,
-        Component\Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger,
         MapperFactory $mapperFactory
     ) {
-        parent::__construct($arbiter, $identifier, $logger, $mapperFactory);
+        parent::__construct($mapperFactory);
     }
 
-    protected function getError($request)
+    public function getError($request)
     {
         $response = new HttpFoundation\JsonResponse(["error" =>
             ["type" => $request->attributes->get('error'), "message" => $request->attributes->get('message')]]);

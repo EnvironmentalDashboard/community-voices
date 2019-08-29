@@ -3,19 +3,20 @@
 namespace CommunityVoices\App\Api\Component;
 
 use CommunityVoices\App\Api\Component;
+use CommunityVoices\Model\Entity;
 
 class SecuredComponent
 {
   private $identifier;
-  private $arbiter;
   private $logger;
 
+  // Since our standard is camelCase, no normal function names will start with 'CAN'
+  const ACCESS_CONTROL_PREFIX = 'CAN';
+
   public function __construct(
-      Arbiter $arbiter,
       Contract\CanIdentify $identifier,
       \Psr\Log\LoggerInterface $logger
   ) {
-      $this->arbiter = $arbiter;
       $this->identifier = $identifier;
       $this->logger = $logger;
   }
@@ -31,11 +32,26 @@ class SecuredComponent
         throw new Exception\MethodNotFound('Method not found ' . $signature);
     }
 
-    if (!$this->arbiter->isAllowedForIdentity($signature, $user)) {
-        $this->logger->error('SecuredComponent AccessDenied Exception', ['message' => 'Access denied']);
-        throw new Exception\AccessDenied($user);
+    // In future, may need to create one class for all these rules, as
+    // XSLT cannot access it currently.
+    $accessControlMethod = 'CAN' . $method;
+
+    if (method_exists($this, $accessControlMethod)) {
+        if (!$this->{$accessControlMethod}($user, $arguments)) {
+            $this->accessDenied($user);
+        }
+    } else {
+        var_dump('did not find ' . $accessControlMethod);
+        die();
+        $this->accessDenied($user);
     }
 
     return call_user_func_array([$this, $method], $arguments);
+  }
+
+  private function accessDenied($user)
+  {
+      $this->logger->error('SecuredComponent AccessDenied Exception', ['message' => 'Access denied']);
+      throw new Exception\AccessDenied($user);
   }
 }

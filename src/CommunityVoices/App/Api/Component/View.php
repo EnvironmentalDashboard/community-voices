@@ -7,19 +7,13 @@ use Symfony\Component\HttpFoundation;
 use CommunityVoices\Model\Component\MapperFactory;
 use CommunityVoices\App\Api\Component;
 
-class View extends Component\SecuredComponent
+class View
 {
     protected $mapperFactory;
 
     public function __construct(
-        Arbiter $arbiter,
-        Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger,
-
         MapperFactory $mapperFactory
     ) {
-        parent::__construct($arbiter, $identifier, $logger);
-
         $this->mapperFactory = $mapperFactory;
     }
 

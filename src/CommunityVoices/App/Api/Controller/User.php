@@ -3,6 +3,7 @@
 namespace CommunityVoices\App\Api\Controller;
 
 use CommunityVoices\Model\Service;
+use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Exception;
 use CommunityVoices\App\Api\Component;
 
@@ -13,20 +14,30 @@ class User extends Component\Controller
     protected $userManagement;
 
     public function __construct(
+        Component\Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger,
+
         Service\Registration $registrationService,
         Service\UserLookup $userLookup //,
         // Service\UserManagement $userManagement
     ) {
+        parent::__construct($identifier, $logger);
+
         $this->registrationService = $registrationService;
         $this->userLookup = $userLookup;
         //$this->userLookup = $userManagement;
+    }
+
+    protected function CANpostUser($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     /**
      * User registration
      * @return bool A boolean of if the User was created successfully or not.
      */
-    public function postUser($request)
+    protected function postUser($request)
     {
         $email = $request->request->get('email');
         $password = $request->request->get('password');
@@ -48,7 +59,13 @@ class User extends Component\Controller
         );
     }
 
-    public function getUser($request)
+    protected function CANgetUser($user)
+    {
+        // probably will be $user->id == $arguments[0]->attributes->get('id')
+        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+    }
+
+    protected function getUser($request)
     {
         $userId = (int) $request->attributes->get('id');
 
@@ -59,7 +76,12 @@ class User extends Component\Controller
         }
     }
 
-    public function newToken($request)
+    protected function CANnewToken($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+    }
+
+    protected function newToken($request)
     {
         $email = $request->request->get('email');
         $role = (int) $request->request->get('role');

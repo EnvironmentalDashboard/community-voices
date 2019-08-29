@@ -10,15 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 class Article extends Component\View
 {
     public function __construct(
-        Component\Arbiter $arbiter,
-        Component\Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger,
         MapperFactory $mapperFactory
     ) {
-        parent::__construct($arbiter, $identifier, $logger, $mapperFactory);
+        parent::__construct($mapperFactory);
     }
 
-    protected function getArticle()
+    public function getArticle()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -31,7 +28,7 @@ class Article extends Component\View
         return $response;
     }
 
-    protected function getAllArticle()
+    public function getAllArticle()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -48,22 +45,22 @@ class Article extends Component\View
         return $response;
     }
 
-    protected function getArticleUpload()
+    public function getArticleUpload()
     {
         // intentionally blank
     }
 
-    protected function postArticleUpload()
+    public function postArticleUpload()
     {
         // intentionally blank
     }
 
-    protected function getArticleUpdate()
+    public function getArticleUpdate()
     {
         // intentionally blank
     }
 
-    protected function postArticleUpdate()
+    public function postArticleUpdate()
     {
         // intentionally blank
     }

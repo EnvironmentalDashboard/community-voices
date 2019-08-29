@@ -10,15 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 class Quote extends Component\View
 {
     public function __construct(
-        Component\Arbiter $arbiter,
-        Component\Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger,
         MapperFactory $mapperFactory
     ) {
-        parent::__construct($arbiter, $identifier, $logger, $mapperFactory);
+        parent::__construct($mapperFactory);
     }
 
-    protected function getQuote()
+    public function getQuote()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -31,7 +28,7 @@ class Quote extends Component\View
         return $response;
     }
 
-    protected function getBoundaryQuotes()
+    public function getBoundaryQuotes()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -44,7 +41,7 @@ class Quote extends Component\View
         return $response;
     }
 
-    protected function getAllQuote()
+    public function getAllQuote()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -59,12 +56,12 @@ class Quote extends Component\View
         return $response;
     }
 
-    protected function getQuoteUpload()
+    public function getQuoteUpload()
     {
         // intentionally blank
     }
 
-    protected function postQuoteUpload()
+    public function postQuoteUpload()
     {
         $clientStateMapper = $this->mapperFactory->createClientStateMapper();
         $clientStateObserver = $clientStateMapper->retrieve();
@@ -83,12 +80,12 @@ class Quote extends Component\View
         return $response;
     }
 
-    protected function getQuoteUpdate()
+    public function getQuoteUpdate()
     {
         // intentionally blank
     }
 
-    protected function postQuoteUpdate()
+    public function postQuoteUpdate()
     {
         return $this->errorsResponse("quoteUpdate");
     }

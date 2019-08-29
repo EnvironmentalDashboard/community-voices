@@ -3,6 +3,7 @@
 namespace CommunityVoices\App\Api\Controller;
 
 use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Exception;
 use CommunityVoices\App\Api\Component;
@@ -14,7 +15,6 @@ class Quote extends Component\Controller
     protected $quoteManagement;
 
     public function __construct(
-        Component\Arbiter $arbiter,
         Component\Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
 
@@ -22,11 +22,16 @@ class Quote extends Component\Controller
         Service\QuoteLookup $quoteLookup,
         Service\QuoteManagement $quoteManagement
     ) {
-        parent::__construct($arbiter, $identifier, $logger);
+        parent::__construct($identifier, $logger);
 
         $this->recognitionAdapter = $recognitionAdapter;
         $this->quoteLookup = $quoteLookup;
         $this->quoteManagement = $quoteManagement;
+    }
+
+    protected function CANgetQuote($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     /**
@@ -46,6 +51,11 @@ class Quote extends Component\Controller
         }
     }
 
+    protected function CANgetBoundaryQuotes($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+    }
+
     /**
      * Look up quotes that boundary queried quote
      */
@@ -54,6 +64,11 @@ class Quote extends Component\Controller
         $quoteId = (int) $request->attributes->get('id');
 
         $this->quoteLookup->findBoundaryQuotesById($quoteId);
+    }
+
+    protected function CANgetAllQuote($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     protected function getAllQuote($request)
@@ -109,9 +124,19 @@ class Quote extends Component\Controller
         $this->quoteLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $contentCategories, $attributions, $subattributions, $creatorIDs, $status);
     }
 
+    protected function CANgetQuoteUpload($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+    }
+
     protected function getQuoteUpload()
     {
         // intentionally blank
+    }
+
+    protected function CANpostQuoteUpload($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     protected function postQuoteUpload($request)
@@ -144,11 +169,21 @@ class Quote extends Component\Controller
         );
     }
 
+    protected function CANgetQuoteUpdate($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+    }
+
     protected function getQuoteUpdate($request)
     {
         // In order to autofill some form values,
         // we need to get the current quote's data.
         $this->getQuote($request);
+    }
+
+    protected function CANpostQuoteUpdate($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     protected function postQuoteUpdate($request)
@@ -178,11 +213,21 @@ class Quote extends Component\Controller
         );
     }
 
+    protected function CANpostQuoteDelete($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+    }
+
     protected function postQuoteDelete($request)
     {
         $id = (int) $request->attributes->get('id');
 
         $this->quoteManagement->delete($id);
+    }
+
+    protected function CANpostQuoteUnpair($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 
     protected function postQuoteUnpair($request)

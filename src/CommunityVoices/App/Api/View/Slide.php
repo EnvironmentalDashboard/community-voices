@@ -10,15 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 class Slide extends Component\View
 {
     public function __construct(
-        Component\Arbiter $arbiter,
-        Component\Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger,
         MapperFactory $mapperFactory
     ) {
-        parent::__construct($arbiter, $identifier, $logger, $mapperFactory);
+        parent::__construct($mapperFactory);
     }
 
-    protected function getAllSlide()
+    public function getAllSlide()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -40,7 +37,7 @@ class Slide extends Component\View
         return $response;
     }
 
-    protected function getSlide()
+    public function getSlide()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -53,7 +50,7 @@ class Slide extends Component\View
         return $response;
     }
 
-    protected function getSlideUpload()
+    public function getSlideUpload()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -76,7 +73,7 @@ class Slide extends Component\View
         return $response;
     }
 
-    protected function postSlideUpload()
+    public function postSlideUpload()
     {
         $clientStateMapper = $this->mapperFactory->createClientStateMapper();
         $clientStateObserver = $clientStateMapper->retrieve();
@@ -91,7 +88,7 @@ class Slide extends Component\View
         return $response;
     }
 
-    protected function getSlideUpdate()
+    public function getSlideUpdate()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -120,7 +117,7 @@ class Slide extends Component\View
         return $response;
     }
 
-    protected function postSlideUpdate()
+    public function postSlideUpdate()
     {
         return $this->errorsResponse("slideUpdate");
     }

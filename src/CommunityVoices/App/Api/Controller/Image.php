@@ -3,6 +3,7 @@
 namespace CommunityVoices\App\Api\Controller;
 
 use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Exception;
 use CommunityVoices\App\Api\Component;
@@ -14,7 +15,6 @@ class Image extends Component\Controller
     protected $tagLookup;
 
     public function __construct(
-        Component\Arbiter $arbiter,
         Component\Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
 
@@ -23,7 +23,7 @@ class Image extends Component\Controller
         Service\ImageManagement $imageManagement,
         Service\TagLookup $tagLookup
     ) {
-        parent::__construct($arbiter, $identifier, $logger);
+        parent::__construct($identifier, $logger);
 
         $this->recognitionAdapter = $recognitionAdapter;
         $this->imageLookup = $imageLookup;
@@ -31,17 +31,27 @@ class Image extends Component\Controller
         $this->tagLookup = $tagLookup;
     }
 
-    public function sendImage($request)
+    protected function CANsendImage($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+    }
+
+    protected function sendImage($request)
     {
         $imageId = $request->attributes->get('id');
 
         $this->imageLookup->printById((int) $imageId);
     }
 
+    protected function CANgetImage($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+    }
+
     /**
      * image lookup by id
      */
-    public function getImage($request)
+    protected function getImage($request)
     {
         $imageId = $request->attributes->get('id');
 
@@ -52,7 +62,12 @@ class Image extends Component\Controller
         }
     }
 
-    public function getAllImage($request)
+    protected function CANgetAllImage($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+    }
+
+    protected function getAllImage($request)
     {
         $search = (string) $request->query->get('search');
         $tags = $request->query->get('tags');
@@ -73,12 +88,22 @@ class Image extends Component\Controller
         $this->imageLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $photographers, $orgs, $status);
     }
 
-    public function getImageUpload()
+    protected function CANgetImageUpload($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_USER);
+    }
+
+    protected function getImageUpload()
     {
         $this->tagLookup->findAll();
     }
 
-    public function postImageUpload($request)
+    protected function CANpostImageUpload($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_USER);
+    }
+
+    protected function postImageUpload($request)
     {
         $identity = $this->recognitionAdapter->identify();
 
@@ -104,7 +129,12 @@ class Image extends Component\Controller
       );
     }
 
-    public function getImageUpdate($request)
+    protected function CANgetImageUpdate($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+    }
+
+    protected function getImageUpdate($request)
     {
         $imageId = $request->attributes->get('id');
         try {
@@ -114,7 +144,12 @@ class Image extends Component\Controller
         }
     }
 
-    public function postImageUpdate($request)
+    protected function CANpostImageUpdate($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+    }
+
+    protected function postImageUpdate($request)
     {
         $id = (int) $request->attributes->get('id');
         if ($id === 0) {
@@ -146,14 +181,24 @@ class Image extends Component\Controller
         );
     }
 
-    public function postImageDelete($request)
+    protected function CANpostImageDelete($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+    }
+
+    protected function postImageDelete($request)
     {
         $id = (int) $request->attributes->get('id');
 
         $this->imageManagement->delete($id);
     }
 
-    public function postImageUnpair($request)
+    protected function CANpostImageUnpair($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+    }
+
+    protected function postImageUnpair($request)
     {
         $image_id = (int) $request->attributes->get('image');
         $slide_id = (int) $request->attributes->get('slide');

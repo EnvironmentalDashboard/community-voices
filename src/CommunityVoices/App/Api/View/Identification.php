@@ -12,18 +12,15 @@ class Identification extends Component\View
     protected $recognitionAdapter;
 
     public function __construct(
-        Component\Arbiter $arbiter,
-        Component\Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger,
         MapperFactory $mapperFactory,
         Component\RecognitionAdapter $recognitionAdapter
     ) {
-        parent::__construct($arbiter, $identifier, $logger, $mapperFactory);
+        parent::__construct($mapperFactory);
 
         $this->recognitionAdapter = $recognitionAdapter;
     }
 
-    protected function getIdentity()
+    public function getIdentity()
     {
         $identity = $this->recognitionAdapter->identify();
 
@@ -32,7 +29,7 @@ class Identification extends Component\View
         return $response;
     }
 
-    protected function postLogin()
+    public function postLogin()
     {
         $identity = $this->recognitionAdapter->identify();
 
@@ -47,7 +44,7 @@ class Identification extends Component\View
         return $response;
     }
 
-    protected function postLogout()
+    public function postLogout()
     {
         $identity = $this->recognitionAdapter->identify();
 

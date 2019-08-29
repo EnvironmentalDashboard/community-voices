@@ -2,6 +2,7 @@
 
 namespace CommunityVoices\App\Api\Controller;
 
+use CommunityVoices\Model\Entity;
 use CommunityVoices\App\Api\Component;
 
 class Identification extends Component\Controller
@@ -9,19 +10,28 @@ class Identification extends Component\Controller
     protected $recognitionAdapter;
 
     public function __construct(
-        Component\Arbiter $arbiter,
         Component\Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
 
         Component\RecognitionAdapter $recognitionAdapter
     ) {
-        parent::__construct($arbiter, $identifier, $logger);
+        parent::__construct($identifier, $logger);
 
         $this->recognitionAdapter = $recognitionAdapter;
     }
 
+    protected function CANgetIdentity($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+    }
+
     protected function getIdentity($request)
     {
+    }
+
+    protected function CANgetLogin($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     /**
@@ -34,6 +44,11 @@ class Identification extends Component\Controller
         $remember = $request->request->get('remember') === 'on';
 
         $this->recognitionAdapter->authenticate($email, $password, $remember);
+    }
+
+    protected function CANpostLogout($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_USER);
     }
 
     protected function postLogout($request)

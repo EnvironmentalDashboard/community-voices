@@ -3,6 +3,7 @@
 namespace CommunityVoices\App\Api\Controller;
 
 use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Exception;
 use CommunityVoices\App\Api\Component;
@@ -15,7 +16,6 @@ class Article extends Component\Controller
     protected $imageManagement;
 
     public function __construct(
-        Component\Arbiter $arbiter,
         Component\Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
 
@@ -24,12 +24,17 @@ class Article extends Component\Controller
         Service\ArticleManagement $articleManagement,
         Service\ImageManagement $imageManagement
     ) {
-        parent::__construct($arbiter, $identifier, $logger);
+        parent::__construct($identifier, $logger);
 
         $this->recognitionAdapter = $recognitionAdapter;
         $this->articleLookup = $articleLookup;
         $this->articleManagement = $articleManagement;
         $this->imageManagement = $imageManagement;
+    }
+
+    protected function CANgetArticle($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     /**
@@ -44,6 +49,11 @@ class Article extends Component\Controller
         } catch (Exception\IdentityNotFound $e) {
             $this->send404();
         }
+    }
+
+    protected function CANgetAllArticle($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     protected function getAllArticle($request)
@@ -70,9 +80,19 @@ class Article extends Component\Controller
         $this->articleLookup->findAll($page, $limit, $offset, $order, $search, $tags, $authors, $creatorIDs, $status);
     }
 
+    protected function CANgetArticleUpload($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+    }
+
     protected function getArticleUpload()
     {
         // intentionally blank
+    }
+
+    protected function CANpostArticleUpload($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     protected function postArticleUpload($request)
@@ -97,6 +117,11 @@ class Article extends Component\Controller
         $this->articleManagement->upload($uploaded_images[0], $text, $title, $author, $dateRecorded, $approved, $identity);
     }
 
+    protected function CANgetArticleUpdate($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+    }
+
     protected function getArticleUpdate($request)
     {
         $articleId = $request->attributes->get('id');
@@ -106,6 +131,11 @@ class Article extends Component\Controller
         } catch (Exception\IdentityNotFound $e) {
             $this->send404();
         }
+    }
+
+    protected function CANpostArticleUpdate($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     protected function postArticleUpdate($request)

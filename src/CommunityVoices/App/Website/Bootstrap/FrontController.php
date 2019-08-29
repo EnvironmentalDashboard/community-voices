@@ -35,7 +35,6 @@ class FrontController
         'CommunityVoices\App\Website\Bootstrap\Provider\Mappers',
         'CommunityVoices\App\Website\Bootstrap\Provider\Recognition',
         'CommunityVoices\App\Website\Bootstrap\Provider\Swift',
-        'CommunityVoices\App\Website\Bootstrap\Provider\AccessControl',
         'CommunityVoices\App\Website\Bootstrap\Provider\UrlGenerator',
         'CommunityVoices\App\Website\Bootstrap\Provider\StateObserver'
     ];

@@ -3,19 +3,31 @@
 namespace CommunityVoices\App\Api\Controller;
 
 use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 
-class Landing
+use CommunityVoices\App\Api\Component;
+
+class Landing extends Component\Controller
 {
     protected $slideLookup;
     protected $slideManagement;
 
     public function __construct(
+        Component\Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger,
         Service\SlideLookup $slideLookup,
         Service\SlideManagement $slideManagement
     ) {
+        parent::__construct($identifier, $logger);
+
         $this->slideLookup = $slideLookup;
         $this->slideManagement = $slideManagement;
+    }
+
+    protected function CANgetLanding($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     /**
@@ -23,7 +35,7 @@ class Landing
      * @param  Request $request A request from the client's machine
      * @return SlideCollection  A collection of all slides in the database
      */
-    public function getLanding($request)
+    protected function getLanding($request)
     {
         $this->slideLookup->findAll(
             0, // page

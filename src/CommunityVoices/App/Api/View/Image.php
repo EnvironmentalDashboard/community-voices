@@ -10,20 +10,17 @@ use Symfony\Component\HttpFoundation\Response;
 class Image extends Component\View
 {
     public function __construct(
-        Component\Arbiter $arbiter,
-        Component\Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger,
         MapperFactory $mapperFactory
     ) {
-        parent::__construct($arbiter, $identifier, $logger, $mapperFactory);
+        parent::__construct($mapperFactory);
     }
 
-    protected function sendImage()
+    public function sendImage()
     {
         // wut
     }
 
-    protected function getImage()
+    public function getImage()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -37,7 +34,7 @@ class Image extends Component\View
         return $response;
     }
 
-    protected function getAllImage()
+    public function getAllImage()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -55,7 +52,7 @@ class Image extends Component\View
         return $response;
     }
 
-    protected function getImageUpload()
+    public function getImageUpload()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -68,7 +65,7 @@ class Image extends Component\View
         return $response;
     }
 
-    protected function postImageUpload()
+    public function postImageUpload()
     {
         // intentionally blank
     }

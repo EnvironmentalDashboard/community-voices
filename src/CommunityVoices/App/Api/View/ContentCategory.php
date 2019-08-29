@@ -10,15 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 class ContentCategory extends Component\View
 {
     public function __construct(
-        Component\Arbiter $arbiter,
-        Component\Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger,
         MapperFactory $mapperFactory
     ) {
-        parent::__construct($arbiter, $identifier, $logger, $mapperFactory);
+        parent::__construct($mapperFactory);
     }
 
-    protected function getAllContentCategory()
+    public function getAllContentCategory()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -31,7 +28,7 @@ class ContentCategory extends Component\View
         return $response;
     }
 
-    protected function getContentCategory()
+    public function getContentCategory()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -44,27 +41,27 @@ class ContentCategory extends Component\View
         return $response;
     }
 
-    protected function getContentCategoryUpload()
+    public function getContentCategoryUpload()
     {
         // intentionally blank
     }
 
-    protected function postContentCategoryUpload()
+    public function postContentCategoryUpload()
     {
         return $this->errorsResponse('contentCategoryUpload');
     }
 
-    protected function getContentCategoryUpdate()
+    public function getContentCategoryUpdate()
     {
         // intentionally blank
     }
 
-    protected function postContentCategoryUpdate()
+    public function postContentCategoryUpdate()
     {
         return $this->errorsResponse('contentCategoryUpdate');
     }
 
-    protected function postContentCategoryDelete()
+    public function postContentCategoryDelete()
     {
         // intentionally blank
     }
