@@ -3,6 +3,7 @@
 namespace CommunityVoices\App\Api\Controller;
 
 use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Exception;
 use CommunityVoices\App\Api\Component;
@@ -162,7 +163,7 @@ class Slide extends Component\Controller
         $decay_start = (string) $request->request->get('decay_start');
         $decay_end = (string) $request->request->get('decay_end');
         $id = (int) $request->attributes->get('id');
-        $status = ($request->request->get('approve') === '1') ? 3 : 1;
+        $status = ($request->request->get('approve') === '1') ? Entity\Media::STATUS_APPROVED : Entity\Media::STATUS_PENDING;
 
         $this->slideManagement->update($id, $imageId, $quoteId, $contentCategory, $logo, $screens, $decay_percent, $probability, $decay_start, $decay_end, $status, $identity);
     }

@@ -2,6 +2,7 @@
 
 namespace CommunityVoices\App\Website\Controller;
 
+use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 use CommunityVoices\App\Website\Component;
 use CommunityVoices\App\Api;
@@ -102,7 +103,7 @@ class Quote
         $subAttribution = $request->request->get('subAttribution');
         $quotationMarks = $request->request->get('quotationMarks') === 'on';
         $dateRecorded = $request->request->get('dateRecorded');
-        $status = $request->request->get('status') === 'on' ? 3 : 1;
+        $status = $request->request->get('status') === 'on' ? Entity\Media::STATUS_APPROVED : Entity\Media::STATUS_PENDING;
         $tags = $request->request->get('tags') ?? [];
         $contentCategories = $request->request->get('contentCategories') ?? [];
 

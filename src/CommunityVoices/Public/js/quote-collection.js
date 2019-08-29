@@ -133,6 +133,8 @@ $('.approve-checkbox').on('click', function (c) {
 	var newValue = target.checked;
 	var id = target.getAttribute('data-id');
 
+	// approved = 3, pending = 1
+	// probably should be able to pass this as strings
 	var status = newValue ? 3 : 1;
 
 	var icon = $("#modify-status" + id);
