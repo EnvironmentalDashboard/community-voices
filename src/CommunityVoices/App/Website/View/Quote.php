@@ -342,6 +342,7 @@ class Quote extends Component\View
         $domainXMLElement->addChild('main-pane', $quoteModuleXML);
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: Quote Upload");
+        $domainXMLElement->addChild('extraJS', 'quote-form');
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($this->identityXMLElement());
         $presentation = new Component\Presenter('SinglePane');
@@ -464,6 +465,7 @@ class Quote extends Component\View
             'title',
             "Community Voices: Quote Update"
         );
+        $domainXMLElement->addChild('extraJS', 'quote-form');
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');

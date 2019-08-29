@@ -74,7 +74,22 @@
                         </textarea>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" id="originalTextDiv">
+                      <xsl:choose>
+                          <xsl:when test="domain/form != ''">
+                              <xsl:if test="domain/form/originalText = ''">
+                                  <xsl:attribute name="style">display: none</xsl:attribute>
+                              </xsl:if>
+                          </xsl:when>
+                          <xsl:when test="domain/quote != ''">
+                              <xsl:if test="domain/quote/originalText = ''">
+                                  <xsl:attribute name="style">display: none</xsl:attribute>
+                              </xsl:if>
+                          </xsl:when>
+                          <xsl:otherwise>
+                            <xsl:attribute name="style">display: none</xsl:attribute>
+                          </xsl:otherwise>
+                      </xsl:choose>
                         <label for="originalText">Original Text</label>
                         <textarea name='originalText' id='originalText' class='form-control'>
                             <xsl:choose>
@@ -86,6 +101,24 @@
                                 </xsl:when>
                             </xsl:choose>
                         </textarea>
+                    </div>
+
+                    <div class="form-group">
+                      Edited
+                      <input type="checkbox" id="editedCheckbox" class="form-control" onclick="clickEdited()">
+                        <xsl:choose>
+                            <xsl:when test="domain/form != ''">
+                                <xsl:if test="domain/form/originalText != ''">
+                                    <xsl:attribute name="checked">checked</xsl:attribute>
+                                </xsl:if>
+                            </xsl:when>
+                            <xsl:when test="domain/quote != ''">
+                                <xsl:if test="domain/quote/originalText != ''">
+                                    <xsl:attribute name="checked">checked</xsl:attribute>
+                                </xsl:if>
+                            </xsl:when>
+                        </xsl:choose>
+                      </input>
                     </div>
 
                     <div class="form-group">
