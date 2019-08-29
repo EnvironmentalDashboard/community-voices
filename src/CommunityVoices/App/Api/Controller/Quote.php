@@ -116,6 +116,8 @@ class Quote extends Component\Controller
         $identity = $this->recognitionAdapter->identify();
 
         $text = $request->request->get('text');
+        $originalText = $request->request->get('originalText');
+        $interviewer = $request->request->get('interviewer');
         $attribution = $request->request->get('attribution');
         $subAttribution = $request->request->get('subAttribution');
         $quotationMarks = $request->request->get('quotationMarks');
@@ -130,6 +132,8 @@ class Quote extends Component\Controller
 
         return $this->quoteManagement->upload(
             $text,
+            $originalText,
+            $interviewer,
             $attribution,
             $subAttribution,
             $quotationMarks,
@@ -152,6 +156,8 @@ class Quote extends Component\Controller
     {
         $attributes = [
             "text" => $request->request->get('text'),
+            "originalText" => $request->request->get('originalText'),
+            "interviewer" => $request->request->get('interviewer'),
             "attribution" => $request->request->get('attribution'),
             "subAttribution" => $request->request->get('subAttribution'),
             "quotationMarks" => $request->request->get('quotationMarks'),

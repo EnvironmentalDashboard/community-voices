@@ -37,6 +37,8 @@ class QuoteManagement
      */
     public function upload(
         $text,
+        $originalText,
+        $interviewer,
         $attribution,
         $subAttribution,
         $quotationMarks,
@@ -54,6 +56,8 @@ class QuoteManagement
         $quote = new Entity\Quote;
 
         $quote->setText($text);
+        $quote->setOriginalText($originalText);
+        $quote->setInterviewer($interviewer);
         $quote->setAttribution($attribution);
         $quote->setSubAttribution($subAttribution);
         $quote->setQuotationMarks(is_null($quotationMarks) ? 0 : 1);
@@ -150,6 +154,12 @@ class QuoteManagement
          */
         if (key_exists("text", $attributes)) {
             $quote->setText($attributes["text"]);
+        }
+        if (key_exists("originalText", $attributes)) {
+            $quote->setOriginalText($attributes["originalText"]);
+        }
+        if (key_exists("interviewer", $attributes)) {
+            $quote->setInterviewer($attributes["interviewer"]);
         }
         if (key_exists("attribution", $attributes)) {
             $quote->setAttribution($attributes["attribution"]);

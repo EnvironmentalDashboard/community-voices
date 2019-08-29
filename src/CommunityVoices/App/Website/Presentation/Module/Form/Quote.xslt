@@ -75,6 +75,36 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="originalText">Original Text</label>
+                        <textarea name='originalText' id='originalText' class='form-control'>
+                            <xsl:choose>
+                                <xsl:when test="domain/form != ''">
+                                    <xsl:value-of select="domain/form/originalText"/>
+                                </xsl:when>
+                                <xsl:when test="domain/quote != ''">
+                                    <xsl:value-of select="domain/quote/originalText"/>
+                                </xsl:when>
+                            </xsl:choose>
+                        </textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="interviewer">Interviewer</label>
+                        <input type='text' name='interviewer' id='interviewer' class='form-control'>
+                            <xsl:attribute name="value">
+                                <xsl:choose>
+                                    <xsl:when test="domain/form != ''">
+                                        <xsl:value-of select="domain/form/interviewer"/>
+                                    </xsl:when>
+                                    <xsl:when test="domain/quote != ''">
+                                        <xsl:value-of select="domain/quote/interviewer"/>
+                                    </xsl:when>
+                                </xsl:choose>
+                            </xsl:attribute>
+                        </input>
+                    </div>
+
+                    <div class="form-group">
                         <label for="attribution">Attribution</label>
                         <input type='text' name='attribution' id='attribution' class='form-control'>
                             <xsl:attribute name="value">

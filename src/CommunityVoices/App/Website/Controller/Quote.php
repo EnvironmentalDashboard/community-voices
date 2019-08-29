@@ -99,6 +99,8 @@ class Quote
     private function saveQuoteForm($request, $cacheName)
     {
         $text = $request->request->get('text');
+        $originalText = $request->request->get('originalText');
+        $interviewer = $request->request->get('interviewer');
         $attribution = $request->request->get('attribution');
         $subAttribution = $request->request->get('subAttribution');
         $quotationMarks = $request->request->get('quotationMarks') === 'on';
@@ -109,6 +111,8 @@ class Quote
 
         $form = [
             'text' => $text,
+            'originalText' => $originalText,
+            'interviewer' => $interviewer,
             'attribution' => $attribution,
             'subAttribution' => $subAttribution,
             'quotationMarks' => $quotationMarks,
