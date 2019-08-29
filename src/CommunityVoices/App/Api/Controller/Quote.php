@@ -25,6 +25,10 @@ class Quote extends Component\Controller
         'tags',
         'contentCategories'
     ];
+    const FORM_DEFAULTS = [
+        'tags' => [],
+        'contentCategories' => []
+    ];
 
     public function __construct(
         Component\SecureContainer $secureContainer,
@@ -169,7 +173,7 @@ class Quote extends Component\Controller
     {
         return $this->quoteManagement->update(
             $this->getId($request),
-            $this->getFormAttributes($request, self::FORM_ATTRIBUTES)
+            $this->getFormAttributes($request, self::FORM_ATTRIBUTES, self::FORM_DEFAULTS)
         );
     }
 
