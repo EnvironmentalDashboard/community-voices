@@ -13,12 +13,14 @@ error_reporting(E_ALL);
 
 require dirname(__DIR__) . '/App/Website/db.php';
 
-$galleries = [1 => 5, // serving-our-community (id of content category) => probability
-                            2 => 5, // our-downtown
-                            3 => 5, // next-generation
-                            6 => 5, // neighbors
-                            5 => 5, // nature_photos
-                            4 => 5]; // heritage
+$contentCategoryQuery = 'SELECT group_id FROM `community-voices_content-categories`';
+$DEFAULT_PROBABILITY = 5;
+$galleries = [];
+
+foreach ($dbHandler->query($contentCategoryQuery) as $row) {
+  $galleries[$row['group_id']] = $DEFAULT_PROBABILITY;
+}
+
 $gallery_names = array_keys($galleries);
 foreach ($galleries as $gallery => $numerator) {
     if (isset($_GET[$gallery])) {

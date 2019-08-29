@@ -17,7 +17,6 @@ class Slide extends Component\Controller
     protected $quoteLookup;
     protected $imageLookup;
     protected $locationLookup;
-    protected $contentCategoryLookup;
 
     public function __construct(
         Component\Contract\CanIdentify $identifier,
@@ -29,8 +28,7 @@ class Slide extends Component\Controller
         Service\TagLookup $tagLookup,
         Service\QuoteLookup $quoteLookup,
         Service\ImageLookup $imageLookup,
-        Service\LocationLookup $locationLookup,
-        Service\ContentCategoryLookup $contentCategoryLookup
+        Service\LocationLookup $locationLookup
     ) {
         parent::__construct($identifier, $logger);
 
@@ -41,7 +39,6 @@ class Slide extends Component\Controller
         $this->quoteLookup = $quoteLookup;
         $this->imageLookup = $imageLookup;
         $this->locationLookup = $locationLookup;
-        $this->contentCategoryLookup = $contentCategoryLookup;
     }
 
     protected function CANgetAllSlide($user)
@@ -56,14 +53,26 @@ class Slide extends Component\Controller
      */
     protected function getAllSlide($request)
     {
+      $identity = $this->recognitionAdapter->identify();
+
         $search = (string) $request->query->get('search');
         $tags = $request->query->get('tags');
         $photographers = $request->query->get('photographers');
         $orgs = $request->query->get('orgs');
         $order = (string) $request->query->get('order');
         $attributions = $request->query->get('attributions');
+
         $status = $request->query->get('status');
-        $status = ($status == null) ? ["approved","pending","rejected"] : explode(',', $status);
+
+        if ($status == null) {
+          if ($identity->getRole() >= 3) {
+            $status = ['approved', 'pending', 'rejected'];
+          } else {
+            $status = ['approved'];
+          }
+        } else {
+          $status = explode(',', $status);
+        }
 
         $page = (int) $request->query->get('page');
         $page = ($page > 0) ? $page - 1 : 0; // current page, make page 0-based
@@ -111,7 +120,6 @@ class Slide extends Component\Controller
         $stateObserver = $this->imageLookup->photographers($stateObserver, true);
         $stateObserver = $this->imageLookup->orgs($stateObserver, true);
         $this->quoteLookup->attributions($stateObserver);
-        $this->contentCategoryLookup->findAll();
     }
 
     protected function CANpostSlideUpload($user)
@@ -157,7 +165,6 @@ class Slide extends Component\Controller
         $stateObserver = $this->imageLookup->photographers($stateObserver, true);
         $stateObserver = $this->imageLookup->orgs($stateObserver, true);
         $stateObserver = $this->quoteLookup->attributions($stateObserver, true);
-        $this->contentCategoryLookup->findAll();
         try {
             $this->slideLookup->findById($slideId, $stateObserver);
         } catch (Exception\IdentityNotFound $e) {

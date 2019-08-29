@@ -1,0 +1,28 @@
+#carousel-selection-flex-container {
+  justify-content: space-between
+}
+
+.carousel-selection-flex-item {
+  flex-basis: 132px
+}
+
+/* This may cause problems with <5 content categories existing. */
+@media (min-width: 768px) {
+  #carousel-selection-flex-container {
+    justify-content: center
+  }
+
+  .carousel-selection-flex-item {
+    flex-basis: 137px
+  }
+}
+
+@media (min-width: 992px) {
+  #carousel-selection-flex-container {
+    justify-content: space-between
+  }
+
+  .carousel-selection-flex-item {
+    flex-basis: 132px
+  }
+}

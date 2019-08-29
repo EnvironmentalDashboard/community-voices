@@ -91,14 +91,10 @@ class Slide extends Component\View
             $this->transcriber->toXml($obj)
         );
 
-        $obj = new \stdClass;
-        $obj->contentCategoryCollection = array_map(function ($a) {
-            $o = new \stdClass;
-            $o->contentCategory = $a;
-            return $o;
-        }, ['Serving Our Community', 'Our Downtown', 'Next Generation', 'Heritage', 'Natural Oberlin', 'Neighbors']);
         $contentCategoryXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($obj)
+            $this->transcriber->toXml(json_decode(
+                $this->contentCategoryAPIView->getAllContentCategory()->getContent()
+            ))
         );
 
         /**

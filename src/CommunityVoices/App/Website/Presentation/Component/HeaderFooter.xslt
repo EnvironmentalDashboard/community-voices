@@ -152,7 +152,7 @@
       </div>
       <div class="row">
         <div class="col">
-          <p class="text-muted text-center" style="margin-top: 30px">Oberlin College 2018 | <a href="mailto:dashboard@oberlin.edu" style="color: #6c757d; text-decoration: underline;">Contact Us</a></p>
+          <p class="text-muted text-center" style="margin-top: 30px">Oberlin College 2019 | <a href="mailto:dashboard@oberlin.edu" style="color: #6c757d; text-decoration: underline;">Contact Us</a></p>
         </div>
       </div>
       <div class="row">
