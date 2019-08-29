@@ -48,7 +48,7 @@ class Identification extends Component\Controller
 
     protected function CANpostLogout($user)
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_USER);
+        return $user->isRoleAtLeast(Entity\User::ROLE_UNVERIFIED);
     }
 
     protected function postLogout($request)
