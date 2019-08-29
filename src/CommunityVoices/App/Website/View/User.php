@@ -30,7 +30,7 @@ class User extends Component\View
         $this->userAPIView = $userAPIView;
     }
 
-    public function getProfile($request)
+    public function getUser($request)
     {
         /**
          * Get base URL

@@ -89,12 +89,12 @@
         }
     },
 
-    "getProfile": {
-        "notation": "/user/{id}",
+    "getUser": {
+        "notation": "/users/{id}",
         "method": "get",
         "defaults": {
             "resource": "User",
-            "action": "getProfile"
+            "action": "getUser"
         }
     },
 
