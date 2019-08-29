@@ -69,8 +69,8 @@ class Quote extends Component\View
 
         // In the case that we have retrieved errors, we will send them along.
         // Otherwise, our errors array will be an empty array.
-        $errors = ($clientStateObserver && $clientStateObserver->hasSubjectEntries('quoteUploadErrors'))
-            ? $clientStateObserver->getEntriesBySubject('quoteUploadErrors') : [];
+        $errors = ($clientStateObserver && $clientStateObserver->hasSubjectEntries('quoteFormErrors'))
+            ? $clientStateObserver->getEntriesBySubject('quoteFormErrors') : [];
 
         $id = ($clientStateObserver && $clientStateObserver->hasSubjectEntries('quoteUpload'))
             ? $clientStateObserver->getEntriesBySubject('quoteUpload') : [];
@@ -88,6 +88,6 @@ class Quote extends Component\View
 
     protected function postQuoteUpdate()
     {
-        return $this->errorsResponse("quoteUpdate");
+        return $this->errorsResponse("quoteFormErrors");
     }
 }

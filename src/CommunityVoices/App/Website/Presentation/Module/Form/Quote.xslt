@@ -251,18 +251,15 @@
 
                       <div class="form-group">
                         Approve:
-                        <xsl:comment>
-                          Not entirely sure why '3' is the magic true string.
-                        </xsl:comment>
                         <input type="checkbox" name="status" id="status">
                             <xsl:choose>
                                 <xsl:when test="domain/form != ''">
-                                    <xsl:if test="domain/form/status = '3'">
+                                    <xsl:if test="domain/form/status = 'approved'">
                                         <xsl:attribute name="checked">checked</xsl:attribute>
                                     </xsl:if>
                                 </xsl:when>
                                 <xsl:when test="domain/quote != ''">
-                                    <xsl:if test="domain/quote/status = '3'">
+                                    <xsl:if test="domain/quote/status = 'approved'">
                                         <xsl:attribute name="checked">checked</xsl:attribute>
                                     </xsl:if>
                                 </xsl:when>

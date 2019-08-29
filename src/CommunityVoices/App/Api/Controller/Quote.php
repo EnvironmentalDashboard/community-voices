@@ -3,6 +3,7 @@
 namespace CommunityVoices\App\Api\Controller;
 
 use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Exception;
 use CommunityVoices\App\Api\Component;
@@ -13,6 +14,7 @@ class Quote extends Component\Controller
     protected $quoteLookup;
     protected $quoteManagement;
 
+    // consider using key-value to handle a default
     const FORM_ATTRIBUTES = [
         'text',
         'originalText',
@@ -26,6 +28,8 @@ class Quote extends Component\Controller
         'contentCategories'
     ];
     const FORM_DEFAULTS = [
+        'quotationMarks' => false,
+        'status' => Entity\Media::STATUS_PENDING,
         'tags' => [],
         'contentCategories' => []
     ];
@@ -132,33 +136,15 @@ class Quote extends Component\Controller
     {
         $identity = $this->recognitionAdapter->identify();
 
-        $text = $request->request->get('text');
-        $originalText = $request->request->get('originalText');
-        $interviewer = $request->request->get('interviewer');
-        $attribution = $request->request->get('attribution');
-        $subAttribution = $request->request->get('subAttribution');
-        $quotationMarks = $request->request->get('quotationMarks');
-        $dateRecorded = $request->request->get('dateRecorded');
-        $approved = $request->request->get('approved');
-        $tags = $request->request->get('tags') ?? [];
-        $contentCategories = $request->request->get('contentCategories') ?? [];
+        // this needs to be in QuoteManagement->save
+        // if ($identity->getRole() <= 2) {
+        //     $approved = null;
+        // }
 
-        if ($identity->getRole() <= 2) {
-            $approved = null;
-        }
-
-        return $this->quoteManagement->upload(
-            $text,
-            $originalText,
-            $interviewer,
-            $attribution,
-            $subAttribution,
-            $quotationMarks,
-            $dateRecorded,
-            $approved,
-            $identity,
-            $tags,
-            $contentCategories
+        return $this->quoteManagement->save(
+            null,
+            $this->getFormAttributes($request, self::FORM_ATTRIBUTES, self::FORM_DEFAULTS),
+            $identity
         );
     }
 
@@ -171,7 +157,7 @@ class Quote extends Component\Controller
 
     protected function postQuoteUpdate($request)
     {
-        return $this->quoteManagement->update(
+        return $this->quoteManagement->save(
             $this->getId($request),
             $this->getFormAttributes($request, self::FORM_ATTRIBUTES, self::FORM_DEFAULTS)
         );

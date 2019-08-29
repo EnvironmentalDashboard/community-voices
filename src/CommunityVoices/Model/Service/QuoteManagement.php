@@ -8,10 +8,21 @@ use CommunityVoices\Model\Component;
 use CommunityVoices\Model\Mapper;
 use CommunityVoices\Model\Exception;
 
-class QuoteManagement
+class QuoteManagement extends Management
 {
     private $mapperFactory;
     private $stateObserver;
+
+    const FORM_ATTRIBUTES = [
+        'text',
+        'originalText',
+        'interviewer',
+        'attribution',
+        'subAttribution',
+        'quotationMarks',
+        'dateRecorded',
+        'status'
+    ];
 
     /**
      * @param MapperFactory $mapperFactory
@@ -25,121 +36,12 @@ class QuoteManagement
         $this->stateObserver = $stateObserver;
     }
 
-    /**
-     * Maps a new quote to the database
-     * @param  String $text               [description]
-     * @param  String $attribution        [description]
-     * @param  String $subAttribution     [description]
-     * @param  String $dateRecorded       [description]
-     * @param  String $publicDocumentLink [description]
-     * @param  String $sourceDocumentLink [description]
-     * @return Boolean                     [description]
-     */
-    public function upload(
-        $text,
-        $originalText,
-        $interviewer,
-        $attribution,
-        $subAttribution,
-        $quotationMarks,
-        $dateRecorded,
-        $approved,
-        $addedBy,
-        $tags,
-        $contentCategories
-    ) {
-
-        /*
-         * Create Quote entity and set attributes
-         */
-
-        $quote = new Entity\Quote;
-
-        $quote->setText($text);
-        $quote->setOriginalText($originalText);
-        $quote->setInterviewer($interviewer);
-        $quote->setAttribution($attribution);
-        $quote->setSubAttribution($subAttribution);
-        $quote->setQuotationMarks(is_null($quotationMarks) ? 0 : 1);
-        $quote->setDateRecorded($dateRecorded);
-        $quote->setAddedBy($addedBy);
-        if ($approved) {
-            $quote->setStatus(3);
-        } else {
-            $quote->setStatus(1);
-        }
-
-        // There is no reason that we should store a value for originalText if it is the same
-        // as text.
-        if (strcmp($quote->getText(), $quote->getOriginalText()) == 0) {
-            $quote->setOriginalText(null);
-        }
-
-        /*
-         * Create error observer w/ appropriate subject and pass to validator
-         */
-
-        $this->stateObserver->setSubject('quoteUploadErrors');
-        $isValid = $quote->validateForUpload($this->stateObserver, $contentCategories);
-
-        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
-
-        /*
-         * If there are any errors at this point, save the error state and stop
-         * the registration process
-         */
-
-        if ($this->stateObserver->hasEntries()) {
-            $clientState->save($this->stateObserver);
-            return false;
-        }
-
-        /*
-         * save $quote to database
-         */
-
-        $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
-        $quoteMapper->save($quote);
-
-        $qid = $quote->getId();
-
-        // Save our new quote's ID to be used to redirect to it later.
-        $this->stateObserver->setSubject('quoteUpload');
-        $this->stateObserver->addEntry('id', $qid);
-        $clientState->save($this->stateObserver);
-
-        $tagCollection = new Entity\GroupCollection;
-        if (is_array($tags)) {
-            foreach ($tags as $tid) {
-                $tag = new Entity\Tag;
-                $tag->setMediaId($qid);
-                $tag->setGroupId($tid);
-                $tagCollection->addEntity($tag);
-            }
-        }
-
-        $groupMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
-        $groupMapper->saveGroups($tagCollection);
-
-        $contentCategoryCollection = new Entity\GroupCollection;
-        if (is_array($contentCategories)) {
-            foreach ($contentCategories as $ccid) {
-                $contentCategory = new Entity\ContentCategory;
-                $contentCategory->setMediaId($qid);
-                $contentCategory->setGroupId($ccid);
-                $contentCategoryCollection->addEntity($contentCategory);
-            }
-        }
-
-        $groupMapper->saveGroups($contentCategoryCollection);
-
-        return true;
-    }
-
-    public function update(
+    public function save(
         $id,
-        array $attributes
+        array $attributes,
+        $identity = null
     ) {
+        $isUpload = is_null($id);
         $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
 
         /*
@@ -147,9 +49,13 @@ class QuoteManagement
          */
 
         $quote = new Entity\Quote;
-        $quote->setId((int) $id);
 
-        $quoteMapper->fetch($quote);
+        // Since this function will either upload or update, we will pick what to do
+        // on if $id has a value or not.
+        if (!$isUpload) {
+            $quote->setId((int) $id);
+            $quoteMapper->fetch($quote);
+        }
 
         /*
          * Using an array of attributes allows
@@ -158,26 +64,10 @@ class QuoteManagement
          * Anything without a value in the array
          * will not be changed.
          */
-        if (key_exists("text", $attributes)) {
-            $quote->setText($attributes["text"]);
-        }
-        if (key_exists("originalText", $attributes)) {
-            $quote->setOriginalText($attributes["originalText"]);
-        }
-        if (key_exists("interviewer", $attributes)) {
-            $quote->setInterviewer($attributes["interviewer"]);
-        }
-        if (key_exists("attribution", $attributes)) {
-            $quote->setAttribution($attributes["attribution"]);
-        }
-        if (key_exists("subAttribution", $attributes)) {
-            $quote->setSubAttribution($attributes["subAttribution"]);
-        }
-        if (key_exists("dateRecorded", $attributes)) {
-            $quote->setDateRecorded($attributes["dateRecorded"]);
-        }
-        if (key_exists("status", $attributes)) {
-            $quote->setStatus($attributes["status"]);
+        $this->setEntityAttributes($quote, $attributes, self::FORM_ATTRIBUTES);
+
+        if ($isUpload) {
+            $quote->setAddedBy($identity);
         }
 
         // There is no reason that we should store a value for originalText if it is the same
@@ -190,10 +80,13 @@ class QuoteManagement
          * Create error observer w/ appropriate subject and pass to validator
          */
 
+        // We should only get content categories on update, as nothing is attached to nothing.
         $groupMapper = $this->mapperFactory->createDataMapper(Mapper\GroupCollection::class);
-        $groupMapper->fetch($quote->getContentCategoryCollection());
+        if (!$isUpload) {
+            $groupMapper->fetch($quote->getContentCategoryCollection());
+        }
 
-        $this->stateObserver->setSubject('quoteUpdate');
+        $this->stateObserver->setSubject('quoteFormErrors');
         $isValid = $quote->validateForUpload($this->stateObserver, $attributes["contentCategories"] ?? $quote->getContentCategoryCollection()->getCollection());
 
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
@@ -216,19 +109,30 @@ class QuoteManagement
         // Save the quote's associated tags.
         $qid = $quote->getId();
 
+        // Save our new quote's ID to be used to redirect to it later.
+        // This will only be done on upload, hence the is_null
+        if ($isUpload) {
+            $this->stateObserver->setSubject('quoteUpload');
+            $this->stateObserver->addEntry('id', $qid);
+            $clientState->save($this->stateObserver);
+        }
+
         /*
          * If we are trying to adjust either our tags or content categories,
          * we will need to delete all groups and add the appropriate ones back.
          */
         $addingGroups = key_exists("tags", $attributes) || key_exists("contentCategories", $attributes);
         if ($addingGroups) {
-            // We only fetched the content category collection earlier,
-            // so we need to fill in the gap here.
-            $groupMapper->fetch($quote->getTagCollection());
+            // We should only delete groups on update.
+            if (!$isUpload) {
+                // We only fetched the content category collection earlier,
+                // so we need to fill in the gap here.
+                $groupMapper->fetch($quote->getTagCollection());
 
-            // Delete all groups.
-            // TODO: delete only the appropriate groups
-            $groupMapper->deleteGroups($quote);
+                // Delete all groups.
+                // TODO: delete only the appropriate groups
+                $groupMapper->deleteGroups($quote);
+            }
 
             /*
              * For both sets of groups, we will add back
