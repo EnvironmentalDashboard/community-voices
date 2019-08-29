@@ -41,6 +41,8 @@ class SecuredComponent
             $this->accessDenied($user);
         }
     } else {
+        // this should be removed once this feature is shipped, but it is
+        // incredibly helpful for debugging
         var_dump('did not find ' . $accessControlMethod);
         die();
         $this->accessDenied($user);

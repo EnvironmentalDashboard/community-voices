@@ -29,7 +29,7 @@ class Identification extends Component\Controller
     {
     }
 
-    protected function CANgetLogin($user)
+    protected function CANpostLogin($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
