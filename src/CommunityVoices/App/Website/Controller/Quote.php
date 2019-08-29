@@ -61,6 +61,42 @@ class Quote
 
     public function postQuoteUpload($request)
     {
+        $this->saveQuoteForm($request, 'quoteUploadForm');
+
+        if (!$this->quoteAPIController->postQuoteUpload($request)) {
+            $this->getQuoteUpload($request);
+        }
+    }
+
+    public function getQuoteUpdate($request)
+    {
+        $this->quoteAPIController->getQuote($request);
+        $this->tagAPIController->getAllTag($request);
+        $this->contentCategoryAPIController->getAllContentCategory($request);
+    }
+
+    public function postQuoteUpdate($request)
+    {
+        $this->saveQuoteForm($request, 'quoteUpdateForm');
+
+        if (!$this->quoteAPIController->postQuoteUpdate($request)) {
+            $this->getQuoteUpdate($request);
+        };
+    }
+
+    public function postQuoteDelete($request)
+    {
+        $this->quoteAPIController->postQuoteDelete($request);
+    }
+
+    public function postQuoteUnpair($request)
+    {
+        $this->quoteAPIController->postQuoteUnpair($request);
+    }
+
+    // ------
+    private function saveQuoteForm($request, $cacheName)
+    {
         $text = $request->request->get('text');
         $attribution = $request->request->get('attribution');
         $subAttribution = $request->request->get('subAttribution');
@@ -81,81 +117,10 @@ class Quote
             'contentCategories' => $contentCategories
         ];
 
-        $formCache = new Component\CachedItem('quoteUploadForm');
+        $formCache = new Component\CachedItem($cacheName);
         $formCache->setValue($form);
 
         $cacheMapper = $this->mapperFactory->createCacheMapper();
         $cacheMapper->save($formCache);
-
-        if (!$this->quoteAPIController->postQuoteUpload($request)) {
-            $this->getQuoteUpload($request);
-        }
-    }
-
-    public function getQuoteUpdate($request)
-    {
-        $this->quoteAPIController->getQuote($request);
-        $this->tagAPIController->getAllTag($request);
-        $this->contentCategoryAPIController->getAllContentCategory($request);
-    }
-
-    public function postQuoteUpdate($request)
-    {
-        $text = $request->request->get('text');
-        $attribution = $request->request->get('attribution');
-        $subAttribution = $request->request->get('subAttribution');
-        $quotationMarks = $request->request->get('quotationMarks') === 'on';
-        $dateRecorded = $request->request->get('dateRecorded');
-        $status = $request->request->get('status') === "on" ? 3 : 1;
-
-        // Align our modifications to the status checkbox in our request.
-        $request->request->set('status', $status);
-
-        // Make sure that we pass in tags and content categories, even
-        // if they are empty.
-        if (is_null($request->request->get('tags'))) {
-            $tags = [];
-            $request->request->set('tags', []);
-        } else {
-            $tags = $request->request->get('tags');
-        }
-
-        if (is_null($request->request->get('contentCategories'))) {
-            $contentCategories = [];
-            $request->request->set('contentCategories', []);
-        } else {
-            $contentCategories = $request->request->get('contentCategories');
-        }
-
-        $form = [
-            'text' => $text,
-            'attribution' => $attribution,
-            'subAttribution' => $subAttribution,
-            'quotationMarks' => $quotationMarks,
-            'dateRecorded' => $dateRecorded,
-            'status' => $status,
-            'tags' => $tags,
-            'contentCategories' => $contentCategories
-        ];
-
-        $formCache = new Component\CachedItem('quoteUpdateForm');
-        $formCache->setValue($form);
-
-        $cacheMapper = $this->mapperFactory->createCacheMapper();
-        $cacheMapper->save($formCache);
-
-        if (!$this->quoteAPIController->postQuoteUpdate($request)) {
-            $this->getQuoteUpdate($request);
-        };
-    }
-
-    public function postQuoteDelete($request)
-    {
-        $this->quoteAPIController->postQuoteDelete($request);
-    }
-
-    public function postQuoteUnpair($request)
-    {
-        $this->quoteAPIController->postQuoteUnpair($request);
     }
 }
