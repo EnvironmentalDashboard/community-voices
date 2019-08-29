@@ -7,7 +7,8 @@
     <xsl:template name="userButtons">
         <xsl:choose>
           <xsl:when test="identity/user/id &gt; 0">
-            <a class="btn btn-outline-primary mr-2" href="/community-voices/logout">Logout <xsl:value-of select="identity/user/firstName" /></a>
+            <a class="btn btn-outline" href="/community-voices/users/{identity/user/id}"><xsl:value-of select="identity/user/firstName" /></a>
+            <a class="btn btn-outline-primary mr-2" href="/community-voices/logout">Logout</a>
           </xsl:when>
           <xsl:otherwise>
             <div class="btn-group">

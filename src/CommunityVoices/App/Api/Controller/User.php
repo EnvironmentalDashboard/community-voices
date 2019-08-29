@@ -59,10 +59,10 @@ class User extends Component\Controller
         );
     }
 
-    protected function CANgetUser($user)
+    protected function CANgetUser($user, $arguments)
     {
-        // probably will be $user->id == $arguments[0]->attributes->get('id')
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN)
+            || $user->getId() == $arguments[0]->attributes->get('id');
     }
 
     protected function getUser($request)
