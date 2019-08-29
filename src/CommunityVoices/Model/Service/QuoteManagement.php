@@ -69,6 +69,12 @@ class QuoteManagement
             $quote->setStatus(1);
         }
 
+        // There is no reason that we should store a value for originalText if it is the same
+        // as text.
+        if (strcmp($quote->getText(), $quote->getOriginalText()) == 0) {
+            $quote->setOriginalText(null);
+        }
+
         /*
          * Create error observer w/ appropriate subject and pass to validator
          */
@@ -172,6 +178,12 @@ class QuoteManagement
         }
         if (key_exists("status", $attributes)) {
             $quote->setStatus($attributes["status"]);
+        }
+
+        // There is no reason that we should store a value for originalText if it is the same
+        // as text.
+        if (strcmp($quote->getText(), $quote->getOriginalText()) == 0) {
+            $quote->setOriginalText(null);
         }
 
         /*
