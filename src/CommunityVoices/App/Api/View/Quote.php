@@ -75,7 +75,7 @@ class Quote extends Component\View
         $id = ($clientStateObserver && $clientStateObserver->hasSubjectEntries('quoteUpload'))
             ? $clientStateObserver->getEntriesBySubject('quoteUpload') : [];
 
-        $combined = ['upload' => ['errors' => $errors, 'quote' => $id]];
+        $combined = ['upload' => ['error' => $errors, 'quote' => $id]];
         $response = new HttpFoundation\JsonResponse($combined);
 
         return $response;

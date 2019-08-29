@@ -64,8 +64,9 @@ class Quote
         $text = $request->request->get('text');
         $attribution = $request->request->get('attribution');
         $subAttribution = $request->request->get('subAttribution');
+        $quotationMarks = $request->request->get('quotationMarks') === 'on';
         $dateRecorded = $request->request->get('dateRecorded');
-        $status = $request->request->get('status');
+        $status = $request->request->get('status') === 'on' ? 3 : 1;
         $tags = $request->request->get('tags') ?? [];
         $contentCategories = $request->request->get('contentCategories') ?? [];
 
@@ -73,6 +74,7 @@ class Quote
             'text' => $text,
             'attribution' => $attribution,
             'subAttribution' => $subAttribution,
+            'quotationMarks' => $quotationMarks,
             'dateRecorded' => $dateRecorded,
             'status' => $status,
             'tags' => $tags,
@@ -102,6 +104,7 @@ class Quote
         $text = $request->request->get('text');
         $attribution = $request->request->get('attribution');
         $subAttribution = $request->request->get('subAttribution');
+        $quotationMarks = $request->request->get('quotationMarks') === 'on';
         $dateRecorded = $request->request->get('dateRecorded');
         $status = $request->request->get('status') === "on" ? 3 : 1;
 
@@ -128,6 +131,7 @@ class Quote
             'text' => $text,
             'attribution' => $attribution,
             'subAttribution' => $subAttribution,
+            'quotationMarks' => $quotationMarks,
             'dateRecorded' => $dateRecorded,
             'status' => $status,
             'tags' => $tags,
