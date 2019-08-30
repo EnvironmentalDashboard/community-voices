@@ -26,6 +26,11 @@ class User
         $this->userAPIController->getUser($request);
     }
 
+    public function getAllUser($request)
+    {
+        $this->userAPIController->getAllUser($request);
+    }
+
     public function getProtectedPage($request)
     {
         $this->userAPIController->postUser($request);

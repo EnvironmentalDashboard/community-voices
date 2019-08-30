@@ -19,6 +19,7 @@ class UserCollection extends DataMapper
     public function fetchAll(Entity\UserCollection $userCollection)
     {
         $query = "SELECT
+                        id                      AS id,
                         email                   AS email,
                         fname                   AS firstName,
                         lname                   AS lastName,

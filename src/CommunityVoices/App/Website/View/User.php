@@ -83,6 +83,41 @@ class User extends Component\View
         return $response;
     }
 
+    // This needs to be patterned VERY badly.
+    public function getAllUser($request)
+    {
+        $userXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(json_decode(
+                $this->userAPIView->getAllUser()->getContent()
+            ))
+        );
+
+        $userPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
+
+        $packagedUser = $userPackageElement->addChild('domain');
+        $packagedUser->adopt($userXMLElement);
+
+        $packagedIdentity = $userPackageElement->addChild('identity');
+        $packagedIdentity->adopt($this->identityXMLElement());
+
+        $userModule = new Component\Presenter('Module/UserCollection');
+        $userModuleXML = $userModule->generate($userPackageElement);
+
+        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
+
+        $domainXMLElement->addChild('main-pane', $userModuleXML);
+
+        $domainIdentity = $domainXMLElement->addChild('identity');
+        $domainIdentity->adopt($this->identityXMLElement());
+
+        $presentation = new Component\Presenter('SinglePane');
+
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
+
+        $this->finalize($response);
+        return $response;
+    }
+
     public function getProtectedPage($response)
     {
         $response = new HttpFoundation\Response('ok');
