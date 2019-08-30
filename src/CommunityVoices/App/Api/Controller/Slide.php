@@ -41,7 +41,7 @@ class Slide extends Component\Controller
         $this->locationLookup = $locationLookup;
     }
 
-    protected function CANgetAllSlide($user)
+    public static function CANgetAllSlide($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
@@ -89,7 +89,7 @@ class Slide extends Component\Controller
         $this->imageLookup->orgs($stateObserver);
     }
 
-    protected function CANgetSlide($user)
+    public static function CANgetSlide($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
@@ -108,7 +108,7 @@ class Slide extends Component\Controller
         }
     }
 
-    protected function CANgetSlideUpload($user)
+    public static function CANgetSlideUpload($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
@@ -122,7 +122,7 @@ class Slide extends Component\Controller
         $this->quoteLookup->attributions($stateObserver);
     }
 
-    protected function CANpostSlideUpload($user)
+    public static function CANpostSlideUpload($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
@@ -150,7 +150,7 @@ class Slide extends Component\Controller
         $this->slideManagement->upload($quoteId, $imageId, $contentCategory, $logo, $screens, $dateRecorded, $approved, $identity);
     }
 
-    protected function CANgetSlideUpdate($user)
+    public static function CANgetSlideUpdate($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
@@ -172,7 +172,7 @@ class Slide extends Component\Controller
         }
     }
 
-    protected function CANpostSlideUpdate($user)
+    public static function CANpostSlideUpdate($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
@@ -200,7 +200,7 @@ class Slide extends Component\Controller
         $this->slideManagement->update($id, $imageId, $quoteId, $contentCategory, $logo, $screens, $decay_percent, $probability, $decay_start, $decay_end, $status, $identity);
     }
 
-    protected function CANpostSlideDelete($user)
+    public static function CANpostSlideDelete($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }

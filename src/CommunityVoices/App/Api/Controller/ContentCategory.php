@@ -42,7 +42,7 @@ class ContentCategory extends Component\Controller
         $this->contentCategoryLookup->findAll();
     }
 
-    protected function CANgetContentCategory($user)
+    public static function CANgetContentCategory($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
@@ -64,7 +64,7 @@ class ContentCategory extends Component\Controller
         }
     }
 
-    protected function CANgetContentCategoryUpload($user)
+    public static function CANgetContentCategoryUpload($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
@@ -74,7 +74,7 @@ class ContentCategory extends Component\Controller
         // intentionally blank
     }
 
-    protected function CANpostContentCategoryUpload($user)
+    public static function CANpostContentCategoryUpload($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
@@ -94,7 +94,7 @@ class ContentCategory extends Component\Controller
         $this->contentCategoryManagement->upload($uploaded_images[0], $label, $color);
     }
 
-    protected function CANgetContentCategoryUpdate($user)
+    public static function CANgetContentCategoryUpdate($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
@@ -104,7 +104,7 @@ class ContentCategory extends Component\Controller
         $this->getContentCategory($request);
     }
 
-    protected function CANpostContentCategoryUpdate($user)
+    public static function CANpostContentCategoryUpdate($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
@@ -125,7 +125,7 @@ class ContentCategory extends Component\Controller
         $this->contentCategoryManagement->update($groupId, isset($uploaded_images) ? $uploaded_images[0] : null, $label, $color);
     }
 
-    protected function CANpostContentCategoryDelete($user)
+    public static function CANpostContentCategoryDelete($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }

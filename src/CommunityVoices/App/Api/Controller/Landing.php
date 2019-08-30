@@ -25,7 +25,7 @@ class Landing extends Component\Controller
         $this->slideManagement = $slideManagement;
     }
 
-    protected function CANgetLanding($user)
+    public static function CANgetLanding($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }

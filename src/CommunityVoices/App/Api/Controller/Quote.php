@@ -29,7 +29,7 @@ class Quote extends Component\Controller
         $this->quoteManagement = $quoteManagement;
     }
 
-    protected function CANgetQuote($user)
+    public static function CANgetQuote($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
@@ -51,7 +51,7 @@ class Quote extends Component\Controller
         }
     }
 
-    protected function CANgetBoundaryQuotes($user)
+    public static function CANgetBoundaryQuotes($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
@@ -66,7 +66,7 @@ class Quote extends Component\Controller
         $this->quoteLookup->findBoundaryQuotesById($quoteId);
     }
 
-    protected function CANgetAllQuote($user)
+    public static function CANgetAllQuote($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
@@ -124,7 +124,7 @@ class Quote extends Component\Controller
         $this->quoteLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $contentCategories, $attributions, $subattributions, $creatorIDs, $status);
     }
 
-    protected function CANgetQuoteUpload($user)
+    public static function CANgetQuoteUpload($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
@@ -134,7 +134,7 @@ class Quote extends Component\Controller
         // intentionally blank
     }
 
-    protected function CANpostQuoteUpload($user)
+    public static function CANpostQuoteUpload($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
@@ -169,7 +169,7 @@ class Quote extends Component\Controller
         );
     }
 
-    protected function CANgetQuoteUpdate($user)
+    public static function CANgetQuoteUpdate($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
@@ -181,7 +181,7 @@ class Quote extends Component\Controller
         $this->getQuote($request);
     }
 
-    protected function CANpostQuoteUpdate($user)
+    public static function CANpostQuoteUpdate($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
@@ -213,7 +213,7 @@ class Quote extends Component\Controller
         );
     }
 
-    protected function CANpostQuoteDelete($user)
+    public static function CANpostQuoteDelete($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
@@ -225,7 +225,7 @@ class Quote extends Component\Controller
         $this->quoteManagement->delete($id);
     }
 
-    protected function CANpostQuoteUnpair($user)
+    public static function CANpostQuoteUnpair($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }

@@ -13,7 +13,7 @@ class DisplayError extends Component\Controller
         parent::__construct($identifier, $logger);
     }
 
-    protected function CANgetError()
+    public static function CANgetError()
     {
         return true;
     }

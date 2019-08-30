@@ -28,7 +28,7 @@ class User extends Component\Controller
         //$this->userLookup = $userManagement;
     }
 
-    protected function CANpostUser($user)
+    public static function CANpostUser($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
@@ -59,7 +59,7 @@ class User extends Component\Controller
         );
     }
 
-    protected function CANgetUser($user, $arguments)
+    public static function CANgetUser($user, $arguments)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN)
             || $user->getId() == $arguments[0]->attributes->get('id');
@@ -86,7 +86,7 @@ class User extends Component\Controller
         $this->userLookup->findAll();
     }
 
-    protected function CANnewToken($user)
+    public static function CANnewToken($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }

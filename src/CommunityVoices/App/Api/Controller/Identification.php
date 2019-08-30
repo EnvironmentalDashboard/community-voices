@@ -20,7 +20,7 @@ class Identification extends Component\Controller
         $this->recognitionAdapter = $recognitionAdapter;
     }
 
-    protected function CANgetIdentity($user)
+    public static function CANgetIdentity($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
@@ -29,7 +29,7 @@ class Identification extends Component\Controller
     {
     }
 
-    protected function CANpostLogin($user)
+    public static function CANpostLogin($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
@@ -46,7 +46,7 @@ class Identification extends Component\Controller
         $this->recognitionAdapter->authenticate($email, $password, $remember);
     }
 
-    protected function CANpostLogout($user)
+    public static function CANpostLogout($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_UNVERIFIED);
     }

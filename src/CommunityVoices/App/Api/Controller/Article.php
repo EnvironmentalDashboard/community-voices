@@ -32,7 +32,7 @@ class Article extends Component\Controller
         $this->imageManagement = $imageManagement;
     }
 
-    protected function CANgetArticle($user)
+    public static function CANgetArticle($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
@@ -51,7 +51,7 @@ class Article extends Component\Controller
         }
     }
 
-    protected function CANgetAllArticle($user)
+    public static function CANgetAllArticle($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
@@ -80,7 +80,7 @@ class Article extends Component\Controller
         $this->articleLookup->findAll($page, $limit, $offset, $order, $search, $tags, $authors, $creatorIDs, $status);
     }
 
-    protected function CANgetArticleUpload($user)
+    public static function CANgetArticleUpload($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
@@ -90,7 +90,7 @@ class Article extends Component\Controller
         // intentionally blank
     }
 
-    protected function CANpostArticleUpload($user)
+    public static function CANpostArticleUpload($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
@@ -117,7 +117,7 @@ class Article extends Component\Controller
         $this->articleManagement->upload($uploaded_images[0], $text, $title, $author, $dateRecorded, $approved, $identity);
     }
 
-    protected function CANgetArticleUpdate($user)
+    public static function CANgetArticleUpdate($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
@@ -133,7 +133,7 @@ class Article extends Component\Controller
         }
     }
 
-    protected function CANpostArticleUpdate($user)
+    public static function CANpostArticleUpdate($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
