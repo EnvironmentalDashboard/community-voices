@@ -165,7 +165,7 @@ class Image extends Component\Controller
         $crop_y = $request->request->get('crop_y');
         $crop_width = $request->request->get('crop_width');
         $crop_height = $request->request->get('crop_height');
-        $status = ($request->request->get('approve') === '1') ? 3 : 1; // 3 = approved, 1 = pending
+        $status = ($request->request->get('approve') === '1') ? Entity\Media::STATUS_APPROVED : Entity\Media::STATUS_PENDING;
         $tags = $request->request->get('tags') ?? [];
 
         $this->imageManagement->update(

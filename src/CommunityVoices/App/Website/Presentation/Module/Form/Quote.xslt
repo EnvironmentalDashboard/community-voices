@@ -4,7 +4,7 @@
     <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
     <xsl:variable name="selectedGroups" select="/form/domain/selectedGroups" />
 
-    <xsl:template match="domain/errors/*">
+    <xsl:template match="domain/error/*|domain/upload/error/*">
         <li style="margin-bottom: 0px;"><xsl:value-of select="." /></li>
     </xsl:template>
 
@@ -12,16 +12,49 @@
         <div class="row" style="padding:15px;">
             <div class="col-12">
                 <form method='POST' style="max-width:400px;margin: 0 auto" id="form">
-                    <xsl:attribute name="action">/community-voices/quotes/<xsl:value-of select="domain/quote/id" />/edit</xsl:attribute>
+                    <xsl:attribute name="action">
+                      <xsl:choose>
+                        <xsl:when test="domain/quote != ''">
+                          <xsl:text>/community-voices/quotes/</xsl:text>
+                          <xsl:value-of select="domain/quote/id" />
+                          <xsl:text>/edit</xsl:text>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:text>/community-voices/quotes/new</xsl:text>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </xsl:attribute>
 
-                    <h1 class="h3 mb-3 font-weight-normal">Update Quote</h1>
+                    <h1 class="h3 mb-3 font-weight-normal">
+                      <xsl:choose>
+                        <xsl:when test="domain/quote != ''">
+                          Update
+                        </xsl:when>
+                        <xsl:otherwise>
+                          Upload
+                        </xsl:otherwise>
+                      </xsl:choose>
 
-                    <xsl:if test="domain/errors != ''">
+                      Quote
+                    </h1>
+
+                    <xsl:if test="domain/error != '' or domain/upload/error != ''">
                         <div class="card" style="margin-bottom: 16px;">
                             <div class="card-body">
-                                <h1 class="h4 mb-4 font-weight-normal" style="margin-bottom: 0.5rem !important;">Some errors prevented update</h1>
+                                <h1 class="h4 mb-4 font-weight-normal" style="margin-bottom: 0.5rem !important;">
+                                  Some errors prevented
+                                  <xsl:choose>
+                                    <xsl:when test="domain/quote != ''">
+                                      update
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                      upload
+                                    </xsl:otherwise>
+                                  </xsl:choose>
+                                </h1>
                                 <ul style="margin-bottom: 0.5rem;">
-                                    <xsl:apply-templates select="domain/errors/*" />
+                                    <xsl:apply-templates select="domain/error/*" />
+                                    <xsl:apply-templates select="domain/upload/error/*" />
                                 </ul>
                             </div>
                         </div>
@@ -34,11 +67,74 @@
                                 <xsl:when test="domain/form != ''">
                                     <xsl:value-of select="domain/form/text"/>
                                 </xsl:when>
-                                <xsl:otherwise>
+                                <xsl:when test="domain/quote != ''">
                                     <xsl:value-of select="domain/quote/text"/>
-                                </xsl:otherwise>
+                                </xsl:when>
                             </xsl:choose>
                         </textarea>
+                    </div>
+
+                    <div class="form-group" id="originalTextDiv">
+                      <xsl:choose>
+                          <xsl:when test="domain/form != ''">
+                              <xsl:if test="domain/form/originalText = ''">
+                                  <xsl:attribute name="style">display: none</xsl:attribute>
+                              </xsl:if>
+                          </xsl:when>
+                          <xsl:when test="domain/quote != ''">
+                              <xsl:if test="domain/quote/originalText = ''">
+                                  <xsl:attribute name="style">display: none</xsl:attribute>
+                              </xsl:if>
+                          </xsl:when>
+                          <xsl:otherwise>
+                            <xsl:attribute name="style">display: none</xsl:attribute>
+                          </xsl:otherwise>
+                      </xsl:choose>
+                        <label for="originalText">Original Text</label>
+                        <textarea name='originalText' id='originalText' class='form-control'>
+                            <xsl:choose>
+                                <xsl:when test="domain/form != ''">
+                                    <xsl:value-of select="domain/form/originalText"/>
+                                </xsl:when>
+                                <xsl:when test="domain/quote != ''">
+                                    <xsl:value-of select="domain/quote/originalText"/>
+                                </xsl:when>
+                            </xsl:choose>
+                        </textarea>
+                    </div>
+
+                    <div class="form-group">
+                      Edited
+                      <input type="checkbox" id="editedCheckbox" class="form-control" onclick="clickEdited()">
+                        <xsl:choose>
+                            <xsl:when test="domain/form != ''">
+                                <xsl:if test="domain/form/originalText != ''">
+                                    <xsl:attribute name="checked">checked</xsl:attribute>
+                                </xsl:if>
+                            </xsl:when>
+                            <xsl:when test="domain/quote != ''">
+                                <xsl:if test="domain/quote/originalText != ''">
+                                    <xsl:attribute name="checked">checked</xsl:attribute>
+                                </xsl:if>
+                            </xsl:when>
+                        </xsl:choose>
+                      </input>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="interviewer">Interviewer</label>
+                        <input type='text' name='interviewer' id='interviewer' class='form-control'>
+                            <xsl:attribute name="value">
+                                <xsl:choose>
+                                    <xsl:when test="domain/form != ''">
+                                        <xsl:value-of select="domain/form/interviewer"/>
+                                    </xsl:when>
+                                    <xsl:when test="domain/quote != ''">
+                                        <xsl:value-of select="domain/quote/interviewer"/>
+                                    </xsl:when>
+                                </xsl:choose>
+                            </xsl:attribute>
+                        </input>
                     </div>
 
                     <div class="form-group">
@@ -49,9 +145,9 @@
                                     <xsl:when test="domain/form != ''">
                                         <xsl:value-of select="domain/form/attribution"/>
                                     </xsl:when>
-                                    <xsl:otherwise>
+                                    <xsl:when test="domain/quote != ''">
                                         <xsl:value-of select="domain/quote/attribution"/>
-                                    </xsl:otherwise>
+                                    </xsl:when>
                                 </xsl:choose>
                             </xsl:attribute>
                         </input>
@@ -65,9 +161,9 @@
                                     <xsl:when test="domain/form != ''">
                                         <xsl:value-of select="domain/form/subAttribution"/>
                                     </xsl:when>
-                                    <xsl:otherwise>
+                                    <xsl:when test="domain/quote != ''">
                                         <xsl:value-of select="domain/quote/subAttribution"/>
-                                    </xsl:otherwise>
+                                    </xsl:when>
                                 </xsl:choose>
                             </xsl:attribute>
                         </input>
@@ -76,9 +172,18 @@
                     <div class="form-group">
                         <label for="quotationMarks">Include Quotation Marks</label>
                         <input type='checkbox' name='quotationMarks' id='quotationMarks' class='form-control'>
-                            <xsl:if test="domain/quote/quotationMarks != ''">
-                                <xsl:attribute name="checked"/>
-                            </xsl:if>
+                          <xsl:choose>
+                              <xsl:when test="domain/form != ''">
+                                  <xsl:if test="domain/form/quotationMarks = 'true'">
+                                      <xsl:attribute name="checked">checked</xsl:attribute>
+                                  </xsl:if>
+                              </xsl:when>
+                              <xsl:when test="domain/quote != ''">
+                                  <xsl:if test="domain/quote/quotationMarks = 'true'">
+                                      <xsl:attribute name="checked">checked</xsl:attribute>
+                                  </xsl:if>
+                              </xsl:when>
+                          </xsl:choose>
                         </input>
                     </div>
 
@@ -90,9 +195,9 @@
                                     <xsl:when test="domain/form != ''">
                                         <xsl:value-of select="domain/form/dateRecorded"/>
                                     </xsl:when>
-                                    <xsl:otherwise>
+                                    <xsl:when test="domain/quote != ''">
                                         <xsl:value-of select="domain/quote/dateRecorded"/>
-                                    </xsl:otherwise>
+                                    </xsl:when>
                                 </xsl:choose>
                             </xsl:attribute>
                         </input>
@@ -146,18 +251,21 @@
 
                       <div class="form-group">
                         Approve:
+                        <xsl:comment>
+                          It would be good to standardize 'approved' or '3' coming out to XSLT.
+                        </xsl:comment>
                         <input type="checkbox" name="status" id="status">
                             <xsl:choose>
-                                <xsl:when test="domain/form = 'approved'">
-                                    <xsl:if test="domain/form/status != ''">
+                                <xsl:when test="domain/form != ''">
+                                    <xsl:if test="domain/form/status = '3'">
                                         <xsl:attribute name="checked">checked</xsl:attribute>
                                     </xsl:if>
                                 </xsl:when>
-                                <xsl:otherwise>
+                                <xsl:when test="domain/quote != ''">
                                     <xsl:if test="domain/quote/status = 'approved'">
                                         <xsl:attribute name="checked">checked</xsl:attribute>
                                     </xsl:if>
-                                </xsl:otherwise>
+                                </xsl:when>
                             </xsl:choose>
                         </input>
                       </div>

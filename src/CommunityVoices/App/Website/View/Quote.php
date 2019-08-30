@@ -282,9 +282,9 @@ class Quote extends Component\View
             );
         }
 
-        $upload = json_decode($this->quoteAPIView->postQuoteUpload()->getContent());
-        $uploadXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($upload)
+        $errors = json_decode($this->quoteAPIView->postQuoteUpload()->getContent());
+        $errorsXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($errors)
         );
 
         $tagXMLElement = new SimpleXMLElement(
@@ -313,22 +313,23 @@ class Quote extends Component\View
             $this->transcriber->toXml(['selectedGroups' => [$selectedGroupString]])
         );
 
-        $quotePackageElement = new Helper\SimpleXMLElementExtension('<package/>');
-        $packagedQuote = $quotePackageElement->addChild('domain');
+        $quoteFormElement = new Helper\SimpleXMLElementExtension('<form/>');
+        $packagedQuote = $quoteFormElement->addChild('domain');
 
         $packagedQuote->adopt($tagXMLElement);
         $packagedQuote->adopt($contentCategoryXMLElement);
-        $packagedQuote->adopt($uploadXMLElement);
+        $packagedQuote->adopt($errorsXMLElement);
         $packagedQuote->adopt($selectedGroupXMLElement);
 
         if (isset($formParamXML)) {
             $packagedQuote->adopt($formParamXML);
         }
 
-        $packagedIdentity = $quotePackageElement->addChild('identity');
+        $packagedIdentity = $quoteFormElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement());
-        $quoteModule = new Component\Presenter('Module/Form/QuoteUpload');
-        $quoteModuleXML = $quoteModule->generate($quotePackageElement);
+        $quoteModule = new Component\Presenter('Module/Form/Quote');
+        $quoteModuleXML = $quoteModule->generate($quoteFormElement);
+
         /**
          * Get base URL
          */
@@ -341,6 +342,7 @@ class Quote extends Component\View
         $domainXMLElement->addChild('main-pane', $quoteModuleXML);
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
         $domainXMLElement->addChild('title', "Community Voices: Quote Upload");
+        $domainXMLElement->addChild('extraJS', 'quote-form');
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($this->identityXMLElement());
         $presentation = new Component\Presenter('SinglePane');
@@ -353,7 +355,7 @@ class Quote extends Component\View
     {
         $upload = json_decode($this->quoteAPIView->postQuoteUpload()->getContent());
 
-        if (!empty($upload->upload->errors)) {
+        if (!empty($upload->upload->error)) {
             return $this->getQuoteUpload($request);
         }
 
@@ -439,11 +441,12 @@ class Quote extends Component\View
         $packagedQuote->adopt($selectedGroupXMLElement);
         $packagedQuote->adopt($errorsXMLElement);
 
+
         if (!is_null($form)) {
             $packagedQuote->adopt($formParamXML);
         }
 
-        $formModule = new Component\Presenter('Module/Form/QuoteUpdate');
+        $formModule = new Component\Presenter('Module/Form/Quote');
         $formModuleXML = $formModule->generate($paramXML);
 
         /**
@@ -462,6 +465,7 @@ class Quote extends Component\View
             'title',
             "Community Voices: Quote Update"
         );
+        $domainXMLElement->addChild('extraJS', 'quote-form');
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
@@ -479,7 +483,7 @@ class Quote extends Component\View
     {
         $errors = json_decode($this->quoteAPIView->postQuoteUpdate()->getContent());
 
-        if (!empty($errors->errors)) {
+        if (!empty($errors->error)) {
             return $this->getQuoteUpdate($request);
         }
 

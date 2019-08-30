@@ -68,13 +68,13 @@ class Quote extends Component\View
 
         // In the case that we have retrieved errors, we will send them along.
         // Otherwise, our errors array will be an empty array.
-        $errors = ($clientStateObserver && $clientStateObserver->hasSubjectEntries('quoteUploadErrors'))
-            ? $clientStateObserver->getEntriesBySubject('quoteUploadErrors') : [];
+        $errors = ($clientStateObserver && $clientStateObserver->hasSubjectEntries('quoteFormErrors'))
+            ? $clientStateObserver->getEntriesBySubject('quoteFormErrors') : [];
 
         $id = ($clientStateObserver && $clientStateObserver->hasSubjectEntries('quoteUpload'))
             ? $clientStateObserver->getEntriesBySubject('quoteUpload') : [];
 
-        $combined = ['upload' => ['errors' => $errors, 'quote' => $id]];
+        $combined = ['upload' => ['error' => $errors, 'quote' => $id]];
         $response = new HttpFoundation\JsonResponse($combined);
 
         return $response;
@@ -87,6 +87,6 @@ class Quote extends Component\View
 
     public function postQuoteUpdate()
     {
-        return $this->errorsResponse("quoteUpdate");
+        return $this->errorsResponse("quoteFormErrors");
     }
 }

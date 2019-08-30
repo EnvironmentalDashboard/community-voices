@@ -79,36 +79,31 @@
 		          </div>
 		          <div class="card-footer text-muted">
 		          	<p>Added <xsl:value-of select='domain/quote/dateCreated' /></p>
-		          	<p class="card-text">
-	                <xsl:for-each select="domain/quote/tagCollection/groupCollection/group">
-	                  <span class="badge badge-primary mr-1"><xsl:value-of select="label"></xsl:value-of></span>
-	                </xsl:for-each>
-	              </p>
 			          <xsl:if test="$isManager">
 			            <p>Status: <xsl:value-of select='domain/quote/status' /></p>
+									<xsl:if test="domain/quote/interviewer != ''">
+										<p>
+											Interviewer: <xsl:value-of select='domain/quote/interviewer' />
+										</p>
+									</xsl:if>
+									<xsl:if test="domain/quote/originalText != ''">
+										<p>
+											Original Quote:
+											<xsl:if test="domain/quote/quotationMarks != ''">
+												<xsl:text>&#8220;</xsl:text>
+											</xsl:if>
+											<xsl:value-of select='domain/quote/originalText' />
+											<xsl:if test="domain/quote/quotationMarks != ''">
+												<xsl:text>&#8221;</xsl:text>
+											</xsl:if>
+										</p>
+									</xsl:if>
 			            <p>
 										Uploader:
 										<xsl:value-of select='domain/quote/addedBy/user/firstName' />
 										<xsl:text> </xsl:text>
 										<xsl:value-of select='domain/quote/addedBy/user/lastName' />
 									</p>
-									<p>
-										<a>
-						            <xsl:attribute name="href">/community-voices/quotes/<xsl:value-of select='domain/quote/id'/>/edit</xsl:attribute>
-												Edit
-						        </a>
-									</p>
-									<xsl:if test="domain/quote/contentCategoryCollection/groupCollection/group != ''">
-										<p>
-											Potential Content Categories:
-											<xsl:for-each select="domain/quote/contentCategoryCollection/groupCollection/group">
-												<xsl:value-of select="label"></xsl:value-of>
-												<xsl:if test="position() != last()">
-													<xsl:text>, </xsl:text>
-												</xsl:if>
-											</xsl:for-each>
-										</p>
-									</xsl:if>
 									<xsl:if test="domain/quote/tagCollection/groupCollection/group != ''">
 										<p>
 											Tags:
@@ -120,6 +115,23 @@
 											</xsl:for-each>
 										</p>
 									</xsl:if>
+									<xsl:if test="domain/quote/contentCategoryCollection/groupCollection/group != ''">
+										<p>
+											Potential Content Categories:
+											<xsl:for-each select="domain/quote/contentCategoryCollection/groupCollection/group">
+												<xsl:value-of select="label"></xsl:value-of>
+												<xsl:if test="position() != last()">
+													<xsl:text>, </xsl:text>
+												</xsl:if>
+											</xsl:for-each>
+										</p>
+									</xsl:if>
+									<p>
+										<a>
+												<xsl:attribute name="href">/community-voices/quotes/<xsl:value-of select='domain/quote/id'/>/edit</xsl:attribute>
+												Edit
+										</a>
+									</p>
 			          </xsl:if>
 		          </div>
 		        </div>

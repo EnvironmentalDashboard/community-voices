@@ -7,6 +7,7 @@ use CommunityVoices\Model\Contract\FlexibleObserver;
 class ContentCategory extends Group
 {
     private $groupId;
+    private $mediaId;
     private $image;
     private $color;
 
@@ -16,6 +17,21 @@ class ContentCategory extends Group
     public function __construct()
     {
         $this->type = self::TYPE_CONT_CAT;
+    }
+
+    /**
+     * While this is not mapped to anything in the database,
+     * this is required to correctly help the Mappers create
+     * mappings between the content categories and media.
+     */
+    public function setMediaId(int $id)
+    {
+        $this->mediaId = $id;
+    }
+
+    public function getMediaId()
+    {
+        return $this->mediaId;
     }
 
     // This should be locked into an int once the database has no slides

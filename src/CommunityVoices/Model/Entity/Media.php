@@ -98,10 +98,18 @@ class Media implements HasId
         return $this->status;
     }
 
+    // truthy is approved,
+    // falsy is pending,
+    // rejected requires work to set
+    // (this probably all needs to be revised)
     public function setStatus($status)
     {
         if (array_key_exists($status, $this->allowableStatus)) {
             $this->status = (int) $status;
+        } else if ($status) {
+            $this->status = self::STATUS_APPROVED;
+        } else {
+            $this->status = self::STATUS_PENDING;
         }
     }
 
