@@ -13,19 +13,23 @@ class User extends Component\Controller
     protected $userLookup;
     protected $userManagement;
 
+    const FORM_ATTRIBUTES = [
+        'role'
+    ];
+
     public function __construct(
         Component\Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
 
         Service\Registration $registrationService,
-        Service\UserLookup $userLookup //,
-        // Service\UserManagement $userManagement
+        Service\UserLookup $userLookup,
+        Service\UserManagement $userManagement
     ) {
         parent::__construct($identifier, $logger);
 
         $this->registrationService = $registrationService;
         $this->userLookup = $userLookup;
-        //$this->userLookup = $userManagement;
+        $this->userManagement = $userManagement;
     }
 
     public static function CANpostRegistration($user)
@@ -83,8 +87,10 @@ class User extends Component\Controller
 
     protected function postUser($request)
     {
-        var_dump('change user in service');
-        die();
+        $this->userManagement->update(
+            $this->getId($request),
+            $this->getFormAttributes($request, self::FORM_ATTRIBUTES)
+        );
     }
 
     public static function CANgetAllUser($user, $arguments)

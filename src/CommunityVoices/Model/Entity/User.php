@@ -149,13 +149,9 @@ class User implements HasId, Palladium\Contract\HasId
         return $this->password === $this->confirmPassword;
     }
 
-    public function validateForRegistration(FlexibleObserver $stateObserver)
+    public function validateForSave(FlexibleObserver $stateObserver)
     {
         $isValid = true;
-
-        if (!is_null($this->id)) {
-            throw new IdentityKnown(self::ERR_IDENTITY_KNOWN);
-        }
 
         if (!$this->firstName || empty($this->firstName)) {
             $isValid = false;
@@ -171,6 +167,19 @@ class User implements HasId, Palladium\Contract\HasId
             $isValid = false;
             $stateObserver->addEntry('email', self::ERR_EMAIL_INVALID);
         }
+
+        return $isValid;
+    }
+
+    public function validateForRegistration(FlexibleObserver $stateObserver)
+    {
+        $isValid = true;
+
+        if (!is_null($this->id)) {
+            throw new IdentityKnown(self::ERR_IDENTITY_KNOWN);
+        }
+
+        $this->validateForSave($stateObserver);
 
         if (strlen($this->password) < 5) {
             $isValid = false;

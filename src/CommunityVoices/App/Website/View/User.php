@@ -101,7 +101,12 @@ class User extends Component\View
 
     public function postUser($request)
     {
-        return $this->getUser($request);
+        $response = new HttpFoundation\RedirectResponse(
+            $request->headers->get('referer')
+        );
+
+        $this->finalize($response);
+        return $response;
     }
 
     // This needs to be patterned VERY badly.
