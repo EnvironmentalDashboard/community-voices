@@ -41,9 +41,8 @@ class Presenter
 
         $processor = new XSLTProcessor;
 
-        // This should only be used to get to our access control - do not get into bad habits
-        // because PHP makes a lot more logical sense than XSLT.
-        $processor->registerPHPFunctions();
+        // We can only call PHP to reference our access control.
+        $processor->registerPHPFunctions('CommunityVoices\App\Website\Component\Presenter::can');
 
         $processor->importStyleSheet($template);
 
