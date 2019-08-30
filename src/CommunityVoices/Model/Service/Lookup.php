@@ -43,7 +43,13 @@ class Lookup
     public function findAll()
     {
         $collection = $this->getCollectionEntity();
-        $collectionMapper = $this->mapperFactory->createDataMapper($this->getCollectionMapper());
+        $mapper = $this->getCollectionMapper();
+
+        if (is_null($collection) || is_null($mapper)) {
+            throw new \Exception('Lookup Service not yet fully implemented');
+        }
+
+        $collectionMapper = $this->mapperFactory->createDataMapper($mapper);
 
         $collectionMapper->fetch($collection);
 

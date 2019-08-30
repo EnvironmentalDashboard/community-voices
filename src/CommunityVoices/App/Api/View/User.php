@@ -41,4 +41,20 @@ class User extends Component\View
 
         return $response;
     }
+
+    // This is repetitive and should be made a parent method.
+    // That is a longer task, though, as it requires syncing up entry
+    // into the state observer to make it rules based.
+    public function getAllUser()
+    {
+        $clientState = $this->mapperFactory->createClientStateMapper();
+        $stateObserver = $clientState->retrieve();
+
+        $stateObserver->setSubject('userLookup');
+        $user = $stateObserver->getEntry('userCollection')[0];
+
+        $response = new HttpFoundation\JsonResponse($user->toArray());
+
+        return $response;
+    }
 }

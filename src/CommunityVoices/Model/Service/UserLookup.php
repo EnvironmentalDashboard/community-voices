@@ -21,6 +21,16 @@ class UserLookup extends Lookup
         parent::__construct($mapperFactory, $stateObserver);
     }
 
+    public function getCollectionEntity()
+    {
+        return new Entity\UserCollection;
+    }
+
+    public function getCollectionMapper()
+    {
+        return Mapper\UserCollection::class;
+    }
+
     /**
      * Lookup user by id
      *
