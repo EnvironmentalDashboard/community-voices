@@ -105,7 +105,7 @@ class User extends Component\View
                                 'lowercase' => $value
                             ]
                         ];
-                    }, Entity\User::ALLOWABLE_ROLE)
+                    }, Entity\User::ALLOWABLE_DATABASE_ROLE)
             ])
         );
 

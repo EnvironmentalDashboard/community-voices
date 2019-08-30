@@ -33,6 +33,13 @@ class User implements HasId, Palladium\Contract\HasId
         self::ROLE_ADMIN => 'administrator'
     ];
 
+    const ALLOWABLE_DATABASE_ROLE = [
+        self::ROLE_UNVERIFIED => 'new user',
+        self::ROLE_USER => 'user',
+        self::ROLE_MANAGER => 'manager',
+        self::ROLE_ADMIN => 'administrator'
+    ];
+
     private $id;
 
     private $email;
