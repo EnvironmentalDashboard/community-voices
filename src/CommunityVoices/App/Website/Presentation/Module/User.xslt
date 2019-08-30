@@ -14,6 +14,7 @@
     	<div class="row" style="padding:15px;">
         <div class="col-12">
         	<h1>Hello, <xsl:value-of select='domain/user/firstName' /><xsl:text> </xsl:text><xsl:value-of select='domain/user/lastName' /></h1>
+          <p>Role: <xsl:value-of select="domain/user/role" /></p>
         	<!-- <form action="/community-voices/register/invite" class="mt-5 form-inline needs-validation" method="POST" novalidate="" id="form">
         		<p class="mr-sm-3">Invite other users by email:</p>
         		<label class="sr-only" for="email">Email</label>
@@ -30,6 +31,20 @@
 					  </select>
 				  	<button type="submit" class="btn btn-primary mb-2">Submit</button>
         	</form> -->
+
+          <form action="/community-voices/users/{domain/user/id}" class="form-inline">
+            <div class="form-group">
+              <label for="role">Change role to </label>
+
+              <select class="form-control" id="role" name="role">
+                <xsl:for-each select="domain/roles/role">
+                  <option value="{value}"><xsl:value-of select="name" /></option>
+                </xsl:for-each>
+              </select>
+
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
 				</div>
 			</div>
 

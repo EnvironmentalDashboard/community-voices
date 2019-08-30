@@ -52,6 +52,6 @@ class UserTest extends TestCase
 
         $userController = new User($registrationService);
 
-        $userController->postUser($request);
+        $userController->postRegistration($request);
     }
 }

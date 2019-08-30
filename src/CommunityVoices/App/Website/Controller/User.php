@@ -33,7 +33,7 @@ class User
 
     public function getProtectedPage($request)
     {
-        $this->userAPIController->postUser($request);
+        $this->userAPIController->postRegistration($request);
     }
 
     public function getRegistration($request)
@@ -73,7 +73,7 @@ class User
         // we can log in as them.
         // If this failed, the error information will be stored
         // in StateObserver->'registration' via the Registration service.
-        if ($this->userAPIController->postUser($request)) {
+        if ($this->userAPIController->postRegistration($request)) {
             $this->identificationAPIController->postLogin($request);
         }
     }

@@ -17,6 +17,12 @@ class User implements HasId, Palladium\Contract\HasId
     const ROLE_MANAGER = 3;
     const ROLE_ADMIN = 4;
 
+    const ROLE_GUEST_STRING = 'guest';
+    const ROLE_UNVERIFIED_STRING = 'unverified';
+    const ROLE_USER_STRING = 'user';
+    const ROLE_MANAGER_STRING = 'manager';
+    const ROLE_ADMIN_STRING = 'administrator';
+
     const ERR_EMAIL_INVALID = 'Invalid email address format';
     const ERR_FNAME_REQUIRED = 'First name must be at least 1 character';
     const ERR_LNAME_REQUIRED = 'Last name must be at least 1 character';
@@ -26,26 +32,26 @@ class User implements HasId, Palladium\Contract\HasId
     const ERR_PASSWORD_TOO_SHORT = 'Password length must exceed 4 characters';
 
     const ALLOWABLE_ROLE = [
-        self::ROLE_GUEST => 'guest',
-        self::ROLE_UNVERIFIED => 'new user',
-        self::ROLE_USER => 'user',
-        self::ROLE_MANAGER => 'manager',
-        self::ROLE_ADMIN => 'administrator'
+        self::ROLE_GUEST => self::ROLE_GUEST_STRING,
+        self::ROLE_UNVERIFIED => self::ROLE_UNVERIFIED_STRING,
+        self::ROLE_USER => self::ROLE_USER_STRING,
+        self::ROLE_MANAGER => self::ROLE_MANAGER_STRING,
+        self::ROLE_ADMIN => self::ROLE_ADMIN_STRING
     ];
 
     const STRING_TO_ROLE = [
-        'guest' => self::ROLE_GUEST,
-        'new user' => self::ROLE_UNVERIFIED,
-        'user' => self::ROLE_USER,
-        'manager' => self::ROLE_MANAGER,
-        'administrator' => self::ROLE_ADMIN
+        self::ROLE_GUEST_STRING => self::ROLE_GUEST,
+        self::ROLE_UNVERIFIED_STRING => self::ROLE_UNVERIFIED,
+        self::ROLE_USER_STRING => self::ROLE_USER,
+        self::ROLE_MANAGER_STRING => self::ROLE_MANAGER,
+        self::ROLE_ADMIN_STRING => self::ROLE_ADMIN
     ];
 
     const ALLOWABLE_DATABASE_ROLE = [
-        self::ROLE_UNVERIFIED => 'new user',
-        self::ROLE_USER => 'user',
-        self::ROLE_MANAGER => 'manager',
-        self::ROLE_ADMIN => 'administrator'
+        self::ROLE_UNVERIFIED => self::ROLE_UNVERIFIED_STRING,
+        self::ROLE_USER => self::ROLE_USER_STRING,
+        self::ROLE_MANAGER => self::ROLE_MANAGER_STRING,
+        self::ROLE_ADMIN => self::ROLE_ADMIN_STRING
     ];
 
     private $id;

@@ -28,7 +28,7 @@ class User extends Component\Controller
         //$this->userLookup = $userManagement;
     }
 
-    public static function CANpostUser($user)
+    public static function CANpostRegistration($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
@@ -37,7 +37,7 @@ class User extends Component\Controller
      * User registration
      * @return bool A boolean of if the User was created successfully or not.
      */
-    protected function postUser($request)
+    protected function postRegistration($request)
     {
         $email = $request->request->get('email');
         $password = $request->request->get('password');

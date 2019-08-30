@@ -46,13 +46,28 @@ class User extends Component\View
             ))
         );
 
+        $rolesXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml([
+                'roles' =>
+                    array_map(function ($value) {
+                        return [
+                            'role' => [
+                                'name' => ucfirst($value),
+                                'value' => Entity\User::STRING_TO_ROLE[$value]
+                            ]
+                        ];
+                    }, Entity\User::ALLOWABLE_DATABASE_ROLE)
+            ])
+        );
+
         /**
          * User XML Package
          */
         $userPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
 
-        $packagedlocation = $userPackageElement->addChild('domain');
-        $packagedlocation->adopt($userXMLElement);
+        $packagedUser = $userPackageElement->addChild('domain');
+        $packagedUser->adopt($userXMLElement);
+        $packagedUser->adopt($rolesXMLElement);
 
         $packagedIdentity = $userPackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement());
@@ -181,7 +196,7 @@ class User extends Component\View
         // User data gathering
         $userXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
-                $this->userAPIView->postUser()->getContent()
+                $this->userAPIView->postRegistration()->getContent()
             ))
         );
 
@@ -211,7 +226,7 @@ class User extends Component\View
 
     public function postRegistration($request)
     {
-        $errors = $this->userAPIView->postUser()->getContent();
+        $errors = $this->userAPIView->postRegistration()->getContent();
 
         if (!empty($errors)) {
             return $this->getRegistration($request);

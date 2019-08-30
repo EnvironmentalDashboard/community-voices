@@ -27,6 +27,6 @@ class UserTest extends TestCase
 
         $userView = new User($mapperFactory);
 
-        $this->assertTrue($userView->postUser(null));
+        $this->assertTrue($userView->postRegistration(null));
     }
 }
