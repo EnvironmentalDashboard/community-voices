@@ -7,8 +7,8 @@ use CommunityVoices\Model\Mapper;
 
 class Lookup
 {
-    private $mapperFactory;
-    private $stateObserver;
+    protected $mapperFactory;
+    protected $stateObserver;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
