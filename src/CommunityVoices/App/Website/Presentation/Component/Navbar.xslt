@@ -3,6 +3,7 @@
 
     <xsl:variable name="isManager" select="package/identity/user/role = 'manager'
       or package/identity/user/role = 'administrator'" />
+    <xsl:variable name="isAdministrator" select="package/identity/user/role = 'administrator'" />
 
     <xsl:template name="userButtons">
         <xsl:choose>
@@ -105,7 +106,20 @@
                           <xsl:value-of select="$active" />
                       </xsl:with-param>
                   </xsl:call-template>
-            </xsl:if>
+              </xsl:if>
+              <xsl:if test="$isAdministrator">
+                <xsl:call-template name="navitem">
+                    <xsl:with-param name="href">
+                        /community-voices/users
+                    </xsl:with-param>
+                    <xsl:with-param name="name">
+                        Users
+                    </xsl:with-param>
+                    <xsl:with-param name="active">
+                        <xsl:value-of select="$active" />
+                    </xsl:with-param>
+                </xsl:call-template>
+              </xsl:if>
           </ul>
           <div style="margin-left:auto">
               <xsl:choose>

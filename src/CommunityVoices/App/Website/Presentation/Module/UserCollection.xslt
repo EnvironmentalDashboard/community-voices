@@ -5,7 +5,11 @@
 	<xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
 	<xsl:template match="/package">
-		<xsl:call-template name="navbar" />
+		<xsl:call-template name="navbar">
+			<xsl:with-param name="active">
+				Users
+			</xsl:with-param>
+		</xsl:call-template>
 
       <div class="row">
           <div class="col-12">
