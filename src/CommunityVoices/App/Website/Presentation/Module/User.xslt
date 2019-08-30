@@ -32,7 +32,7 @@
 				  	<button type="submit" class="btn btn-primary mb-2">Submit</button>
         	</form> -->
 
-          <form action="/community-voices/users/{domain/user/id}" class="form-inline">
+          <form action="/community-voices/users/{domain/user/id}" method="POST" class="form-inline">
             <div class="form-group">
               <label for="role">Change role to </label>
 

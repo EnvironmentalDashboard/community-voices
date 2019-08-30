@@ -107,6 +107,15 @@
         }
     },
 
+    "postUser": {
+      "notation": "/users/{id}",
+      "method": "post",
+      "defaults": {
+        "resource": "User",
+        "action": "postUser"
+      }
+    },
+
     "getAllSlide": {
         "notation": "/slides",
         "method": "get",

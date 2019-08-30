@@ -26,6 +26,11 @@ class User
         $this->userAPIController->getUser($request);
     }
 
+    public function postUser($request)
+    {
+        $this->userAPIController->postUser($request);
+    }
+
     public function getAllUser($request)
     {
         $this->userAPIController->getAllUser($request);

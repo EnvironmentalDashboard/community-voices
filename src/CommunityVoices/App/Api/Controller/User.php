@@ -76,6 +76,17 @@ class User extends Component\Controller
         }
     }
 
+    public static function CANpostUser($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+    }
+
+    protected function postUser($request)
+    {
+        var_dump('change user in service');
+        die();
+    }
+
     public static function CANgetAllUser($user, $arguments)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);

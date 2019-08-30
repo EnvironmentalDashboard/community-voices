@@ -99,6 +99,11 @@ class User extends Component\View
         return $response;
     }
 
+    public function postUser($request)
+    {
+        return $this->getUser($request);
+    }
+
     // This needs to be patterned VERY badly.
     public function getAllUser($request)
     {
