@@ -33,6 +33,14 @@ class User implements HasId, Palladium\Contract\HasId
         self::ROLE_ADMIN => 'administrator'
     ];
 
+    const STRING_TO_ROLE = [
+        'guest' => self::ROLE_GUEST,
+        'new user' => self::ROLE_UNVERIFIED,
+        'user' => self::ROLE_USER,
+        'manager' => self::ROLE_MANAGER,
+        'administrator' => self::ROLE_ADMIN
+    ];
+
     const ALLOWABLE_DATABASE_ROLE = [
         self::ROLE_UNVERIFIED => 'new user',
         self::ROLE_USER => 'user',
@@ -55,6 +63,8 @@ class User implements HasId, Palladium\Contract\HasId
     {
         if (is_int($id) || is_null($id)) {
             $this->id = $id;
+        } else if (is_string($id)) {
+            $this->id = (int) $id;
         }
     }
 
@@ -107,6 +117,8 @@ class User implements HasId, Palladium\Contract\HasId
     {
         if (array_key_exists($role, self::ALLOWABLE_ROLE)) {
             $this->role = (int) $role;
+        } else if (is_string($role)) {
+            $this->setRole(self::STRING_TO_ROLE[$role]);
         }
     }
 

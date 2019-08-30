@@ -1,6 +1,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="1.0">
 
+    <xsl:import href="AccessControl.xslt" />
+
     <xsl:variable name="isManager" select="package/identity/user/role = 'manager'
       or package/identity/user/role = 'administrator'" />
     <xsl:variable name="isAdministrator" select="package/identity/user/role = 'administrator'" />
@@ -107,19 +109,24 @@
                       </xsl:with-param>
                   </xsl:call-template>
               </xsl:if>
-              <xsl:if test="$isAdministrator">
-                <xsl:call-template name="navitem">
-                    <xsl:with-param name="href">
-                        /community-voices/users
-                    </xsl:with-param>
-                    <xsl:with-param name="name">
-                        Users
-                    </xsl:with-param>
-                    <xsl:with-param name="active">
-                        <xsl:value-of select="$active" />
-                    </xsl:with-param>
-                </xsl:call-template>
-              </xsl:if>
+              <xsl:call-template name="can">
+                <xsl:with-param name="action">
+                  <xsl:text>User::CANgetAllUser</xsl:text>
+                </xsl:with-param>
+                <xsl:with-param name="then">
+                  <xsl:call-template name="navitem">
+                      <xsl:with-param name="href">
+                          /community-voices/users
+                      </xsl:with-param>
+                      <xsl:with-param name="name">
+                          Users
+                      </xsl:with-param>
+                      <xsl:with-param name="active">
+                          <xsl:value-of select="$active" />
+                      </xsl:with-param>
+                  </xsl:call-template>
+                </xsl:with-param>
+              </xsl:call-template>
           </ul>
           <div style="margin-left:auto">
               <xsl:choose>

@@ -76,7 +76,7 @@ class User extends Component\Controller
         }
     }
 
-    protected function CANgetAllUser($user)
+    public static function CANgetAllUser($user, $arguments)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
