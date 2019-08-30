@@ -3,10 +3,6 @@
 
     <xsl:import href="AccessControl.xslt" />
 
-    <xsl:variable name="isManager" select="package/identity/user/role = 'manager'
-      or package/identity/user/role = 'administrator'" />
-    <xsl:variable name="isAdministrator" select="package/identity/user/role = 'administrator'" />
-
     <xsl:template name="userButtons">
         <xsl:choose>
           <xsl:when test="identity/user/id &gt; 0">
@@ -97,17 +93,17 @@
                   </xsl:with-param>
               </xsl:call-template>
               <xsl:if test="$isManager">
-                  <xsl:call-template name="navitem">
-                      <xsl:with-param name="href">
-                          /community-voices/content-categories
-                      </xsl:with-param>
-                      <xsl:with-param name="name">
-                          Content Categories
-                      </xsl:with-param>
-                      <xsl:with-param name="active">
-                          <xsl:value-of select="$active" />
-                      </xsl:with-param>
-                  </xsl:call-template>
+                <xsl:call-template name="navitem">
+                    <xsl:with-param name="href">
+                        /community-voices/content-categories
+                    </xsl:with-param>
+                    <xsl:with-param name="name">
+                        Content Categories
+                    </xsl:with-param>
+                    <xsl:with-param name="active">
+                        <xsl:value-of select="$active" />
+                    </xsl:with-param>
+                </xsl:call-template>
               </xsl:if>
               <xsl:call-template name="can">
                 <xsl:with-param name="action">

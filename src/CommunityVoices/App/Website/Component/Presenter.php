@@ -6,6 +6,7 @@ use \DOMDocument;
 use \XSLTProcessor;
 
 use CommunityVoices\Model\Entity;
+use CommunityVoices\App\Api\Controller;
 
 /**
  * @codeCoverageIgnore

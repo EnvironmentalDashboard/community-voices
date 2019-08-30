@@ -32,7 +32,7 @@ class ContentCategory extends Component\Controller
         $this->imageManagement = $imageManagement;
     }
 
-    protected function CANgetAllContentCategory($user)
+    public static function CANgetAllContentCategory($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }

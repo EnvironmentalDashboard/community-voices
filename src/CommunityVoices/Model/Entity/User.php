@@ -118,7 +118,8 @@ class User implements HasId, Palladium\Contract\HasId
         if (array_key_exists($role, self::ALLOWABLE_ROLE)) {
             $this->role = (int) $role;
         } else if (is_string($role)) {
-            $this->setRole(self::STRING_TO_ROLE[$role]);
+            if (array_key_exists($role, self::STRING_TO_ROLE))
+                $this->setRole(self::STRING_TO_ROLE[$role]);
         }
     }
 
