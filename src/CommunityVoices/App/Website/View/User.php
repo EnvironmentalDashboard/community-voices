@@ -6,6 +6,7 @@ use \SimpleXMLElement;
 use \DOMDocument;
 use \XSLTProcessor;
 
+use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 use CommunityVoices\App\Api;
 use CommunityVoices\App\Website\Component;
@@ -92,10 +93,27 @@ class User extends Component\View
             ))
         );
 
+        // This allows us to loop over the existing roles in the database.
+        $rolesXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml([
+                'roles' =>
+                    array_map(function ($value) {
+                        return [
+                            'role' => [
+                                // Sad that XSLT doesn't easily capitalize.
+                                'capitalized' => ucfirst($value),
+                                'lowercase' => $value
+                            ]
+                        ];
+                    }, Entity\User::ALLOWABLE_ROLE)
+            ])
+        );
+
         $userPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
 
         $packagedUser = $userPackageElement->addChild('domain');
         $packagedUser->adopt($userXMLElement);
+        $packagedUser->adopt($rolesXMLElement);
 
         $packagedIdentity = $userPackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement());
