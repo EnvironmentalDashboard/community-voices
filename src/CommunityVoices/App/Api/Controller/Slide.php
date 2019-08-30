@@ -116,7 +116,7 @@ class Slide extends Component\Controller
     protected function getSlideUpload()
     {
         $stateObserver = $this->tagLookup->findAll(true);
-        $stateObserver = $this->locationLookup->findAll($stateObserver, true);
+        $stateObserver = $this->locationLookup->findAll2($stateObserver, true);
         $stateObserver = $this->imageLookup->photographers($stateObserver, true);
         $stateObserver = $this->imageLookup->orgs($stateObserver, true);
         $this->quoteLookup->attributions($stateObserver);

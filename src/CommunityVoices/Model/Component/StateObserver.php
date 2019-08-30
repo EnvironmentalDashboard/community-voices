@@ -43,6 +43,10 @@ class StateObserver implements FlexibleObserver
      * Adds an entry to the collector
      * @param string $key
      * @param string $value
+     *
+     * If the key is given a class rather than a string,
+     * the same procedure as setSubject will be used to
+     * deduce what the string should be.
      */
     public function addEntry($key, $value)
     {
@@ -52,6 +56,8 @@ class StateObserver implements FlexibleObserver
 
         if (is_null($key)) {
             throw new Exception('Notification key not specified.');
+        } else if (!is_string($key)) {
+            $key = $this->getSubjectNameFromClass($key);
         }
 
         if (!array_key_exists($this->subject, $this->collector)) {

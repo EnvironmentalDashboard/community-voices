@@ -12,21 +12,13 @@ use CommunityVoices\Model\Component;
 use CommunityVoices\Model\Mapper;
 use CommunityVoices\Model\Exception;
 
-class UserLookup
+class UserLookup extends Lookup
 {
-    private $mapperFactory;
-
-    private $stateObserver;
-
-    /**
-     * @param ComponentMapperFactory $mapperFactory Factory for creating mappers
-     */
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\StateObserver $stateObserver
     ) {
-        $this->mapperFactory = $mapperFactory;
-        $this->stateObserver = $stateObserver;
+        parent::__construct($mapperFactory, $stateObserver);
     }
 
     /**

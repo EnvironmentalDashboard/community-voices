@@ -28,6 +28,6 @@ class Location extends Component\Controller
 
     protected function getAllLocation($request)
     {
-        $this->locationLookup->findAll2();
+        $this->locationLookup->findAll();
     }
 }

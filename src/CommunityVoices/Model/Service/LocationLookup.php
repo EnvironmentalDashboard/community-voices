@@ -12,27 +12,31 @@ use CommunityVoices\Model\Component;
 use CommunityVoices\Model\Mapper;
 use CommunityVoices\Model\Exception;
 
-class LocationLookup
+class LocationLookup extends Lookup
 {
-    private $mapperFactory;
-
-    private $stateObserver;
-
-    /**
-     * @param ComponentMapperFactory $mapperFactory Factory for creating mappers
-     */
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\StateObserver $stateObserver
     ) {
-        $this->mapperFactory = $mapperFactory;
-        $this->stateObserver = $stateObserver;
+        parent::__construct($mapperFactory, $stateObserver);
+    }
+
+    public function getCollectionEntity()
+    {
+        return new Entity\LocationCollection;
+    }
+
+    public function getCollectionMapper()
+    {
+        return Mapper\LocationCollection::class;
     }
 
     /**
      * TODO: remove having two findAll by adjusting where this findAll is used
+     * this is the misimplementation, as the standard implementation is now stored
+     * in Lookup
      */
-    public function findAll($stateObserver, $return = false)
+    public function findAll2($stateObserver, $return = false)
     {
         $locCollection = new Entity\LocationCollection;
         $locMapper = $this->mapperFactory->createDataMapper(Mapper\Location::class);
@@ -46,20 +50,6 @@ class LocationLookup
         }
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
         $clientState->save($stateObserver);
-    }
-
-    public function findAll2()
-    {
-        $locationCollection = new Entity\LocationCollection;
-        $locationCollectionMapper = $this->mapperFactory->createDataMapper(Mapper\LocationCollection::class);
-
-        $locationCollectionMapper->fetch($locationCollection);
-
-        $this->stateObserver->setSubject($this);
-        $this->stateObserver->addEntry('locationCollection', $locationCollection);
-
-        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
-        $clientState->save($this->stateObserver);
     }
 
     public function locationsFor($slideId, $stateObserver, $return = false)

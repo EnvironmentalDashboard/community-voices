@@ -76,6 +76,16 @@ class User extends Component\Controller
         }
     }
 
+    protected function CANgetAllUser($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+    }
+
+    protected function getAllUser($request)
+    {
+        $this->userLookup->findAll();
+    }
+
     protected function CANnewToken($user)
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);

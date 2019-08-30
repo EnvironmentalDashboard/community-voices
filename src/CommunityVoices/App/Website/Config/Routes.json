@@ -89,6 +89,15 @@
         }
     },
 
+    "getAllUser": {
+      "notation": "/users",
+      "method": "get",
+      "defaults": {
+        "resource": "User",
+        "action": "getAllUser"
+      }
+    },
+
     "getUser": {
         "notation": "/users/{id}",
         "method": "get",
