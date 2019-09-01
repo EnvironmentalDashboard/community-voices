@@ -53,6 +53,7 @@ class User extends Component\View
                         return [
                             'role' => [
                                 'name' => ucfirst($value),
+                                'lowercase' => $value,
                                 'value' => Entity\User::STRING_TO_ROLE[$value]
                             ]
                         ];

@@ -38,7 +38,12 @@
 
               <select class="form-control" id="role" name="role">
                 <xsl:for-each select="domain/roles/role">
-                  <option value="{value}"><xsl:value-of select="name" /></option>
+                  <option value="{value}">
+                    <xsl:if test="lowercase = /package/domain/user/role">
+                      <xsl:attribute name="selected">selected</xsl:attribute>
+                    </xsl:if>
+                    <xsl:value-of select="name" />
+                  </option>
                 </xsl:for-each>
               </select>
 
