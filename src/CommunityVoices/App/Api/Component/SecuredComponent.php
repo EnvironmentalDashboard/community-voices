@@ -2,6 +2,7 @@
 
 namespace CommunityVoices\App\Api\Component;
 
+use CommunityVoices\App\Api\AccessControl;
 use CommunityVoices\App\Api\Component;
 use CommunityVoices\Model\Entity;
 
@@ -10,8 +11,7 @@ class SecuredComponent
   private $identifier;
   private $logger;
 
-  // Since our standard is camelCase, no normal function names will start with 'CAN'
-  const ACCESS_CONTROL_PREFIX = 'CAN';
+  const ACCESS_CONTROL_NAMESPACE = 'CommunityVoices\App\Api\AccessControl\\';
 
   public function __construct(
       Contract\CanIdentify $identifier,
@@ -32,18 +32,16 @@ class SecuredComponent
         throw new Exception\MethodNotFound('Method not found ' . $signature);
     }
 
-    // In future, may need to create one class for all these rules, as
-    // XSLT cannot access it currently.
-    $accessControlMethod = 'CAN' . $method;
+    $accessControlClass = self::ACCESS_CONTROL_NAMESPACE . ((new \ReflectionClass($this))->getShortName());
 
-    if (method_exists($this, $accessControlMethod)) {
-        if (!$this->{$accessControlMethod}($user, $arguments)) {
+    if (method_exists($accessControlClass, $method)) {
+        if (!call_user_func_array([$accessControlClass, $method], [$user, $arguments])) {
             $this->accessDenied($user);
         }
     } else {
         // this should be removed once this feature is shipped, but it is
         // incredibly helpful for debugging
-        var_dump('did not find ' . $accessControlMethod);
+        var_dump('did not find ' . $accessControlClass . '::' . $method);
         die();
         $this->accessDenied($user);
     }

@@ -21,11 +21,6 @@ class Location extends Component\Controller
         $this->locationLookup = $locationLookup;
     }
 
-    public static function CANgetAllLocation($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
-    }
-
     protected function getAllLocation($request)
     {
         $this->locationLookup->findAll();

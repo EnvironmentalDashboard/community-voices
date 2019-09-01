@@ -43,11 +43,6 @@ class Quote extends Component\Controller
         $this->quoteManagement = $quoteManagement;
     }
 
-    public static function CANgetQuote($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
-    }
-
     /**
      * Quote lookup by id
      */
@@ -65,11 +60,6 @@ class Quote extends Component\Controller
         }
     }
 
-    public static function CANgetBoundaryQuotes($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
-    }
-
     /**
      * Look up quotes that boundary queried quote
      */
@@ -78,11 +68,6 @@ class Quote extends Component\Controller
         $quoteId = (int) $request->attributes->get('id');
 
         $this->quoteLookup->findBoundaryQuotesById($quoteId);
-    }
-
-    public static function CANgetAllQuote($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     protected function getAllQuote($request)
@@ -138,19 +123,9 @@ class Quote extends Component\Controller
         $this->quoteLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $contentCategories, $attributions, $subattributions, $creatorIDs, $status);
     }
 
-    public static function CANgetQuoteUpload($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
-    }
-
     protected function getQuoteUpload()
     {
         // intentionally blank
-    }
-
-    public static function CANpostQuoteUpload($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     protected function postQuoteUpload($request)
@@ -170,21 +145,11 @@ class Quote extends Component\Controller
         );
     }
 
-    public static function CANgetQuoteUpdate($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
-    }
-
     protected function getQuoteUpdate($request)
     {
         // In order to autofill some form values,
         // we need to get the current quote's data.
         $this->getQuote($request);
-    }
-
-    public static function CANpostQuoteUpdate($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     protected function postQuoteUpdate($request)
@@ -195,21 +160,11 @@ class Quote extends Component\Controller
         );
     }
 
-    public static function CANpostQuoteDelete($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
-    }
-
     protected function postQuoteDelete($request)
     {
         $id = (int) $request->attributes->get('id');
 
         $this->quoteManagement->delete($id);
-    }
-
-    public static function CANpostQuoteUnpair($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 
     protected function postQuoteUnpair($request)

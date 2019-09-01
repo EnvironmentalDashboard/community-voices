@@ -32,11 +32,6 @@ class User extends Component\Controller
         $this->userManagement = $userManagement;
     }
 
-    public static function CANpostRegistration($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
-    }
-
     /**
      * User registration
      * @return bool A boolean of if the User was created successfully or not.
@@ -63,12 +58,6 @@ class User extends Component\Controller
         );
     }
 
-    public static function CANgetUser($user, $arguments)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN)
-            || $user->getId() == $arguments[0]->attributes->get('id');
-    }
-
     protected function getUser($request)
     {
         $userId = (int) $request->attributes->get('id');
@@ -80,11 +69,6 @@ class User extends Component\Controller
         }
     }
 
-    public static function CANpostUser($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
-    }
-
     protected function postUser($request)
     {
         $this->userManagement->update(
@@ -93,19 +77,9 @@ class User extends Component\Controller
         );
     }
 
-    public static function CANgetAllUser($user, $arguments)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
-    }
-
     protected function getAllUser($request)
     {
         $this->userLookup->findAll();
-    }
-
-    public static function CANnewToken($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     protected function newToken($request)

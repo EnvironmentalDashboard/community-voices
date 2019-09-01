@@ -107,7 +107,7 @@
               </xsl:if>
               <xsl:call-template name="can">
                 <xsl:with-param name="action">
-                  <xsl:text>User::CANgetAllUser</xsl:text>
+                  <xsl:text>User::getAllUser</xsl:text>
                 </xsl:with-param>
                 <xsl:with-param name="then">
                   <xsl:call-template name="navitem">

@@ -41,11 +41,6 @@ class Slide extends Component\Controller
         $this->locationLookup = $locationLookup;
     }
 
-    public static function CANgetAllSlide($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
-    }
-
     /**
      * Grabs all slides from databbase
      * @param  Request $request A request from the client's machine
@@ -89,11 +84,6 @@ class Slide extends Component\Controller
         $this->imageLookup->orgs($stateObserver);
     }
 
-    public static function CANgetSlide($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
-    }
-
     /**
      * Slide lookup by id
      */
@@ -108,11 +98,6 @@ class Slide extends Component\Controller
         }
     }
 
-    public static function CANgetSlideUpload($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
-    }
-
     protected function getSlideUpload()
     {
         $stateObserver = $this->tagLookup->findAll(true);
@@ -120,11 +105,6 @@ class Slide extends Component\Controller
         $stateObserver = $this->imageLookup->photographers($stateObserver, true);
         $stateObserver = $this->imageLookup->orgs($stateObserver, true);
         $this->quoteLookup->attributions($stateObserver);
-    }
-
-    public static function CANpostSlideUpload($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     protected function postSlideUpload($request)
@@ -150,11 +130,6 @@ class Slide extends Component\Controller
         $this->slideManagement->upload($quoteId, $imageId, $contentCategory, $logo, $screens, $dateRecorded, $approved, $identity);
     }
 
-    public static function CANgetSlideUpdate($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
-    }
-
     protected function getSlideUpdate($request)
     {
         $slideId = (int) $request->attributes->get('id');
@@ -170,11 +145,6 @@ class Slide extends Component\Controller
         } catch (Exception\IdentityNotFound $e) {
             $this->send404();
         }
-    }
-
-    public static function CANpostSlideUpdate($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     protected function postSlideUpdate($request)
@@ -198,11 +168,6 @@ class Slide extends Component\Controller
         $status = ($request->request->get('approve') === '1') ? Entity\Media::STATUS_APPROVED : Entity\Media::STATUS_PENDING;
 
         $this->slideManagement->update($id, $imageId, $quoteId, $contentCategory, $logo, $screens, $decay_percent, $probability, $decay_start, $decay_end, $status, $identity);
-    }
-
-    public static function CANpostSlideDelete($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 
     protected function postSlideDelete($request)

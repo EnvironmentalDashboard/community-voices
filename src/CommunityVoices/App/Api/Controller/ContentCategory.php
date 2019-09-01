@@ -32,19 +32,9 @@ class ContentCategory extends Component\Controller
         $this->imageManagement = $imageManagement;
     }
 
-    public static function CANgetAllContentCategory($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
-    }
-
     protected function getAllContentCategory()
     {
         $this->contentCategoryLookup->findAll();
-    }
-
-    public static function CANgetContentCategory($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     // Note that this is basically a copy of the Quote controller's method,
@@ -64,19 +54,9 @@ class ContentCategory extends Component\Controller
         }
     }
 
-    public static function CANgetContentCategoryUpload($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
-    }
-
     protected function getContentCategoryUpload()
     {
         // intentionally blank
-    }
-
-    public static function CANpostContentCategoryUpload($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 
     protected function postContentCategoryUpload($request)
@@ -94,19 +74,9 @@ class ContentCategory extends Component\Controller
         $this->contentCategoryManagement->upload($uploaded_images[0], $label, $color);
     }
 
-    public static function CANgetContentCategoryUpdate($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
-    }
-
     protected function getContentCategoryUpdate($request)
     {
         $this->getContentCategory($request);
-    }
-
-    public static function CANpostContentCategoryUpdate($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 
     protected function postContentCategoryUpdate($request)
@@ -123,11 +93,6 @@ class ContentCategory extends Component\Controller
         }
 
         $this->contentCategoryManagement->update($groupId, isset($uploaded_images) ? $uploaded_images[0] : null, $label, $color);
-    }
-
-    public static function CANpostContentCategoryDelete($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 
     protected function postContentCategoryDelete($request)

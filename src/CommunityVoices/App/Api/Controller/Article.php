@@ -32,11 +32,6 @@ class Article extends Component\Controller
         $this->imageManagement = $imageManagement;
     }
 
-    public static function CANgetArticle($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
-    }
-
     /**
      * Article lookup by id
      */
@@ -49,11 +44,6 @@ class Article extends Component\Controller
         } catch (Exception\IdentityNotFound $e) {
             $this->send404();
         }
-    }
-
-    public static function CANgetAllArticle($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     protected function getAllArticle($request)
@@ -80,19 +70,9 @@ class Article extends Component\Controller
         $this->articleLookup->findAll($page, $limit, $offset, $order, $search, $tags, $authors, $creatorIDs, $status);
     }
 
-    public static function CANgetArticleUpload($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
-    }
-
     protected function getArticleUpload()
     {
         // intentionally blank
-    }
-
-    public static function CANpostArticleUpload($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     protected function postArticleUpload($request)
@@ -117,11 +97,6 @@ class Article extends Component\Controller
         $this->articleManagement->upload($uploaded_images[0], $text, $title, $author, $dateRecorded, $approved, $identity);
     }
 
-    public static function CANgetArticleUpdate($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
-    }
-
     protected function getArticleUpdate($request)
     {
         $articleId = $request->attributes->get('id');
@@ -131,11 +106,6 @@ class Article extends Component\Controller
         } catch (Exception\IdentityNotFound $e) {
             $this->send404();
         }
-    }
-
-    public static function CANpostArticleUpdate($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     protected function postArticleUpdate($request)

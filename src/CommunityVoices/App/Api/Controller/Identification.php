@@ -20,18 +20,8 @@ class Identification extends Component\Controller
         $this->recognitionAdapter = $recognitionAdapter;
     }
 
-    public static function CANgetIdentity($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
-    }
-
     protected function getIdentity($request)
     {
-    }
-
-    public static function CANpostLogin($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     /**
@@ -44,11 +34,6 @@ class Identification extends Component\Controller
         $remember = $request->request->get('remember') === 'on';
 
         $this->recognitionAdapter->authenticate($email, $password, $remember);
-    }
-
-    public static function CANpostLogout($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_UNVERIFIED);
     }
 
     protected function postLogout($request)

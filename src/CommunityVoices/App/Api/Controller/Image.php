@@ -31,21 +31,11 @@ class Image extends Component\Controller
         $this->tagLookup = $tagLookup;
     }
 
-    public static function CANsendImage($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
-    }
-
     protected function sendImage($request)
     {
         $imageId = $request->attributes->get('id');
 
         $this->imageLookup->printById((int) $imageId);
-    }
-
-    public static function CANgetImage($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     /**
@@ -60,11 +50,6 @@ class Image extends Component\Controller
         } catch (Exception\IdentityNotFound $e) {
             $this->send404();
         }
-    }
-
-    public static function CANgetAllImage($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     protected function getAllImage($request)
@@ -88,19 +73,9 @@ class Image extends Component\Controller
         $this->imageLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $photographers, $orgs, $status);
     }
 
-    public static function CANgetImageUpload($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_USER);
-    }
-
     protected function getImageUpload()
     {
         $this->tagLookup->findAll();
-    }
-
-    public static function CANpostImageUpload($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_USER);
     }
 
     protected function postImageUpload($request)
@@ -129,11 +104,6 @@ class Image extends Component\Controller
       );
     }
 
-    public static function CANgetImageUpdate($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
-    }
-
     protected function getImageUpdate($request)
     {
         $imageId = $request->attributes->get('id');
@@ -142,11 +112,6 @@ class Image extends Component\Controller
         } catch (Exception\IdentityNotFound $e) {
             $this->send404();
         }
-    }
-
-    public static function CANpostImageUpdate($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     protected function postImageUpdate($request)
@@ -181,21 +146,11 @@ class Image extends Component\Controller
         );
     }
 
-    public static function CANpostImageDelete($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
-    }
-
     protected function postImageDelete($request)
     {
         $id = (int) $request->attributes->get('id');
 
         $this->imageManagement->delete($id);
-    }
-
-    public static function CANpostImageUnpair($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 
     protected function postImageUnpair($request)

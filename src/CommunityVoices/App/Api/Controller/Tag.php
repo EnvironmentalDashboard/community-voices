@@ -22,11 +22,6 @@ class Tag extends Component\Controller
         $this->tagLookup = $tagLookup;
     }
 
-    public static function CANgetAllTag($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
-    }
-
     protected function getAllTag()
     {
         $this->tagLookup->findAll();

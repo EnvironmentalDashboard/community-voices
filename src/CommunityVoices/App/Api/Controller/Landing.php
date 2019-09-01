@@ -25,11 +25,6 @@ class Landing extends Component\Controller
         $this->slideManagement = $slideManagement;
     }
 
-    public static function CANgetLanding($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
-    }
-
     /**
      * Grabs all slides from databbase
      * @param  Request $request A request from the client's machine
