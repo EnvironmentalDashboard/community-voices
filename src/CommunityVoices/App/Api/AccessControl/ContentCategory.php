@@ -40,4 +40,9 @@ class ContentCategory
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
+
+    public static function getAllContentCategoryFromNavbar($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+    }
 }
