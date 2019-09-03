@@ -35,4 +35,9 @@ class Article
     {
         return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
+
+    public static function searchByStatus($user)
+    {
+        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+    }
 }
