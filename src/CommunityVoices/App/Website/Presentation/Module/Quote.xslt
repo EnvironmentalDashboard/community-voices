@@ -78,7 +78,12 @@
 		            </blockquote>
 		          </div>
 		          <div class="card-footer text-muted">
-		          	<p>Added <xsl:value-of select='domain/quote/dateCreated' /></p>
+		          	<p>
+									<xsl:if test="not($isManager)">
+										<xsl:attribute name="style">margin-bottom: 0</xsl:attribute>
+									</xsl:if>
+									Added <xsl:value-of select='domain/quote/dateCreated' />
+								</p>
 			          <xsl:if test="$isManager">
 			            <p>Status: <xsl:value-of select='domain/quote/status' /></p>
 									<xsl:if test="domain/quote/interviewer != ''">
@@ -127,6 +132,9 @@
 										</p>
 									</xsl:if>
 									<p>
+										<xsl:if test="$isManager">
+											<xsl:attribute name="style">margin-bottom: 0</xsl:attribute>
+										</xsl:if>
 										<a>
 												<xsl:attribute name="href">/community-voices/quotes/<xsl:value-of select='domain/quote/id'/>/edit</xsl:attribute>
 												Edit
