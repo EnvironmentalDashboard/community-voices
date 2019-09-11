@@ -2,6 +2,7 @@
 
 namespace CommunityVoices\App\Api\AccessControl;
 
+use CommunityVoices\App\Api\Component\AccessControlHelper;
 use CommunityVoices\Model\Entity;
 
 class Slide
@@ -11,9 +12,10 @@ class Slide
         return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
-    public static function getSlide($user)
+    public static function getSlide($user, $arguments, $stateObserver = null)
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return ($user->isRoleAtLeast(Entity\User::ROLE_GUEST) && AccessControlHelper::isApprovedMedia($stateObserver, 'slideLookup', 'slide'))
+            || $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     public static function getSlideUpload($user)
