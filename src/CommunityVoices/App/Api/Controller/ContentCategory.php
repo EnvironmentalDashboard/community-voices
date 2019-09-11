@@ -18,13 +18,14 @@ class ContentCategory extends Component\Controller
     public function __construct(
         Component\Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
+        \Auryn\Injector $injector,
 
         Component\RecognitionAdapter $recognitionAdapter,
         Service\ContentCategoryLookup $contentCategoryLookup,
         Service\ContentCategoryManagement $contentCategoryManagement,
         Service\ImageManagement $imageManagement
     ) {
-        parent::__construct($identifier, $logger);
+        parent::__construct($identifier, $logger, $injector);
 
         $this->recognitionAdapter = $recognitionAdapter;
         $this->contentCategoryLookup = $contentCategoryLookup;

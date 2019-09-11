@@ -15,10 +15,12 @@ class SecuredComponent
 
   public function __construct(
       Contract\CanIdentify $identifier,
-      \Psr\Log\LoggerInterface $logger
+      \Psr\Log\LoggerInterface $logger,
+      \Auryn\Injector $injector
   ) {
       $this->identifier = $identifier;
       $this->logger = $logger;
+      $this->injector = $injector;
   }
 
   // Automatically secures each called function in every API controller / view.
@@ -35,7 +37,7 @@ class SecuredComponent
     $accessControlClass = self::ACCESS_CONTROL_NAMESPACE . ((new \ReflectionClass($this))->getShortName());
 
     if (method_exists($accessControlClass, $method)) {
-        if (!call_user_func_array([$accessControlClass, $method], [$user, $arguments])) {
+        if (!call_user_func_array([$accessControlClass, $method], [$user, $arguments, $this->injector])) {
             $this->accessDenied($user);
         }
     } else {

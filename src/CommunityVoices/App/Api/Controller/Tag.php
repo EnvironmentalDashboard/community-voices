@@ -14,10 +14,11 @@ class Tag extends Component\Controller
     public function __construct(
         Component\Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
+        \Auryn\Injector $injector,
 
         Service\TagLookup $tagLookup
     ) {
-        parent::__construct($identifier, $logger);
+        parent::__construct($identifier, $logger, $injector);
 
         $this->tagLookup = $tagLookup;
     }

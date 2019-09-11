@@ -16,10 +16,12 @@ class Landing extends Component\Controller
     public function __construct(
         Component\Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
+        \Auryn\Injector $injector,
+
         Service\SlideLookup $slideLookup,
         Service\SlideManagement $slideManagement
     ) {
-        parent::__construct($identifier, $logger);
+        parent::__construct($identifier, $logger, $injector);
 
         $this->slideLookup = $slideLookup;
         $this->slideManagement = $slideManagement;

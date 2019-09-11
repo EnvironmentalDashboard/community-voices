@@ -31,12 +31,13 @@ class Quote extends Component\Controller
     public function __construct(
         Component\Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
+        \Auryn\Injector $injector,
 
         Component\RecognitionAdapter $recognitionAdapter,
         Service\QuoteLookup $quoteLookup,
         Service\QuoteManagement $quoteManagement
     ) {
-        parent::__construct($identifier, $logger);
+        parent::__construct($identifier, $logger, $injector);
 
         $this->recognitionAdapter = $recognitionAdapter;
         $this->quoteLookup = $quoteLookup;

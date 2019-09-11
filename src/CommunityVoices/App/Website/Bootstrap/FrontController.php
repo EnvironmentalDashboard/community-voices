@@ -31,6 +31,7 @@ class FrontController
      */
     protected $providers = [
         'CommunityVoices\App\Website\Bootstrap\Provider\Database',
+        'CommunityVoices\App\Website\Bootstrap\Provider\Injector',
         'CommunityVoices\App\Website\Bootstrap\Provider\Logger',
         'CommunityVoices\App\Website\Bootstrap\Provider\Mappers',
         'CommunityVoices\App\Website\Bootstrap\Provider\Recognition',
