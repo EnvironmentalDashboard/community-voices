@@ -6,10 +6,12 @@ use CommunityVoices\Model\Entity;
 
 class Quote
 {
-    public static function getQuote($user, $arguments, $stateObserver)
+    public static function getQuote($user, $arguments, $stateObserver = null)
     {
-        $stateObserver->setSubject('quoteLookup');
-        $quote = $stateObserver->getEntry('quote')[0];
+        if ($stateObserver) {
+            $stateObserver->setSubject('quoteLookup');
+            $quote = $stateObserver->getEntry('quote')[0];
+        }
 
         $guestPermission = $quote ? $quote->getStatus() === Entity\Media::STATUS_APPROVED : true;
 
