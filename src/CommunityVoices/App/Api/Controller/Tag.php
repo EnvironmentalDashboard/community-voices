@@ -2,6 +2,7 @@
 
 namespace CommunityVoices\App\Api\Controller;
 
+use CommunityVoices\Model\Component\StateObserver;
 use CommunityVoices\Model\Service\TagLookup;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
@@ -14,11 +15,11 @@ class Tag extends Component\Controller
     public function __construct(
         Component\Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
-        \Auryn\Injector $injector,
+        StateObserver $stateObserver,
 
         Service\TagLookup $tagLookup
     ) {
-        parent::__construct($identifier, $logger, $injector);
+        parent::__construct($identifier, $logger, $stateObserver);
 
         $this->tagLookup = $tagLookup;
     }

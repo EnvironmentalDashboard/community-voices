@@ -2,7 +2,7 @@
 
 namespace CommunityVoices\App\Api\Controller;
 
-use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\Model\Component\StateObserver;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Exception;
@@ -31,13 +31,13 @@ class Quote extends Component\Controller
     public function __construct(
         Component\Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
-        \Auryn\Injector $injector,
+        StateObserver $stateObserver,
 
         Component\RecognitionAdapter $recognitionAdapter,
         Service\QuoteLookup $quoteLookup,
         Service\QuoteManagement $quoteManagement
     ) {
-        parent::__construct($identifier, $logger, $injector);
+        parent::__construct($identifier, $logger, $stateObserver);
 
         $this->recognitionAdapter = $recognitionAdapter;
         $this->quoteLookup = $quoteLookup;

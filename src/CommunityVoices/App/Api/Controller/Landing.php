@@ -2,7 +2,7 @@
 
 namespace CommunityVoices\App\Api\Controller;
 
-use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\Model\Component\StateObserver;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 
@@ -16,12 +16,12 @@ class Landing extends Component\Controller
     public function __construct(
         Component\Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
-        \Auryn\Injector $injector,
+        StateObserver $stateObserver,
 
         Service\SlideLookup $slideLookup,
         Service\SlideManagement $slideManagement
     ) {
-        parent::__construct($identifier, $logger, $injector);
+        parent::__construct($identifier, $logger, $stateObserver);
 
         $this->slideLookup = $slideLookup;
         $this->slideManagement = $slideManagement;

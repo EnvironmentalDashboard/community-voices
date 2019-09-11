@@ -6,16 +6,15 @@ use CommunityVoices\Model\Entity;
 
 class Quote
 {
-    public static function getQuote($user, $arguments, $injector)
+    public static function getQuote($user, $arguments, $stateObserver)
     {
-        $quoteLookup = $injector->make("CommunityVoices\\Model\\Service\\QuoteLookup");
-        $quoteLookup->findById($arguments[0]->attributes->get('id'));
-
-        $stateObserver = $injector->make("CommunityVoices\\Model\\Component\\StateObserver");
         $stateObserver->setSubject('quoteLookup');
+        var_dump($stateObserver);
         $quote = $stateObserver->getEntry('quote')[0];
 
-        return ($user->isRoleAtLeast(Entity\User::ROLE_GUEST) && $quote->getStatus() === Entity\Media::STATUS_APPROVED)
+        $guestPermission = $quote ? $quote->getStatus() === Entity\Media::STATUS_APPROVED : true;
+
+        return ($user->isRoleAtLeast(Entity\User::ROLE_GUEST) && $guestPermission)
             || $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 

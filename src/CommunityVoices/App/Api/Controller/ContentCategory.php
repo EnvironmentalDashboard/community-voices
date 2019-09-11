@@ -2,6 +2,7 @@
 
 namespace CommunityVoices\App\Api\Controller;
 
+use CommunityVoices\Model\Component\StateObserver;
 use CommunityVoices\Model\Service\ContentCategoryLookup;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
@@ -18,14 +19,14 @@ class ContentCategory extends Component\Controller
     public function __construct(
         Component\Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
-        \Auryn\Injector $injector,
+        StateObserver $stateObserver,
 
         Component\RecognitionAdapter $recognitionAdapter,
         Service\ContentCategoryLookup $contentCategoryLookup,
         Service\ContentCategoryManagement $contentCategoryManagement,
         Service\ImageManagement $imageManagement
     ) {
-        parent::__construct($identifier, $logger, $injector);
+        parent::__construct($identifier, $logger, $stateObserver);
 
         $this->recognitionAdapter = $recognitionAdapter;
         $this->contentCategoryLookup = $contentCategoryLookup;

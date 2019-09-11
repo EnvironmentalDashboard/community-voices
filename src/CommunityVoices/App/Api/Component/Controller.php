@@ -2,6 +2,7 @@
 
 namespace CommunityVoices\App\Api\Component;
 
+use CommunityVoices\Model\Component\StateObserver;
 use CommunityVoices\App\Api\Component;
 
 class Controller extends Component\SecuredComponent
@@ -9,9 +10,9 @@ class Controller extends Component\SecuredComponent
     public function __construct(
         Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
-        \Auryn\Injector $injector
+        StateObserver $stateObserver
     ) {
-        parent::__construct($identifier, $logger, $injector);
+        parent::__construct($identifier, $logger, $stateObserver);
     }
 
     // Attempts two ways to get the ID of the current element.
