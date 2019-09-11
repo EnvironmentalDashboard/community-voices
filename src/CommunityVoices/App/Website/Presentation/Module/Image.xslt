@@ -42,7 +42,6 @@
             </xsl:with-param>
         </xsl:call-template>
 
-      <xsl:choose><xsl:when test="$isManager or domain/image/status = 'approved'">
       <div class="row" style="padding:15px;">
         <div>
           <xsl:choose>
@@ -125,13 +124,6 @@
           </xsl:choose>
         </div>
       </div>
-
-    </xsl:when>
-      <xsl:otherwise>
-        <p class="text-center">Unauthorized Content</p>
-      </xsl:otherwise>
-
-    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>

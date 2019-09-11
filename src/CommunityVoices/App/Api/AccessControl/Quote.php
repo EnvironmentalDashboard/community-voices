@@ -3,19 +3,13 @@
 namespace CommunityVoices\App\Api\AccessControl;
 
 use CommunityVoices\Model\Entity;
+use CommunityVoices\App\Api\Component\AccessControlHelper;
 
 class Quote
 {
     public static function getQuote($user, $arguments, $stateObserver = null)
     {
-        if ($stateObserver) {
-            $stateObserver->setSubject('quoteLookup');
-            $quote = $stateObserver->getEntry('quote')[0];
-        }
-
-        $guestPermission = $quote ? $quote->getStatus() === Entity\Media::STATUS_APPROVED : true;
-
-        return ($user->isRoleAtLeast(Entity\User::ROLE_GUEST) && $guestPermission)
+        return ($user->isRoleAtLeast(Entity\User::ROLE_GUEST) && AccessControlHelper::isApprovedMedia($stateObserver, 'quoteLookup', 'quote'))
             || $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 

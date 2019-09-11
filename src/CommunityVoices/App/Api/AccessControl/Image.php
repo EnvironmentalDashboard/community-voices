@@ -3,6 +3,7 @@
 namespace CommunityVoices\App\Api\AccessControl;
 
 use CommunityVoices\Model\Entity;
+use CommunityVoices\App\Api\Component\AccessControlHelper;
 
 class Image
 {
@@ -11,9 +12,10 @@ class Image
         return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
-    public static function getImage($user)
+    public static function getImage($user, $arguments, $stateObserver = null)
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return ($user->isRoleAtLeast(Entity\User::ROLE_GUEST) && AccessControlHelper::isApprovedMedia($stateObserver, 'imageLookup', 'image'))
+            || $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     public static function getAllImage($user)
