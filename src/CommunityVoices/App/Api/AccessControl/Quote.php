@@ -9,7 +9,6 @@ class Quote
     public static function getQuote($user, $arguments, $stateObserver)
     {
         $stateObserver->setSubject('quoteLookup');
-        var_dump($stateObserver);
         $quote = $stateObserver->getEntry('quote')[0];
 
         $guestPermission = $quote ? $quote->getStatus() === Entity\Media::STATUS_APPROVED : true;

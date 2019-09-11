@@ -2,7 +2,7 @@
 
 namespace CommunityVoices\App\Api\Controller;
 
-use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\Model\Component\StateObserver;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Exception;
@@ -17,13 +17,14 @@ class Image extends Component\Controller
     public function __construct(
         Component\Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
+        StateObserver $stateObserver,
 
         Component\RecognitionAdapter $recognitionAdapter,
         Service\ImageLookup $imageLookup,
         Service\ImageManagement $imageManagement,
         Service\TagLookup $tagLookup
     ) {
-        parent::__construct($identifier, $logger);
+        parent::__construct($identifier, $logger, $stateObserver);
 
         $this->recognitionAdapter = $recognitionAdapter;
         $this->imageLookup = $imageLookup;

@@ -2,7 +2,7 @@
 
 namespace CommunityVoices\App\Api\Controller;
 
-use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\Model\Component\StateObserver;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Exception;
@@ -18,13 +18,14 @@ class Article extends Component\Controller
     public function __construct(
         Component\Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
+        StateObserver $stateObserver,
 
         Component\RecognitionAdapter $recognitionAdapter,
         Service\ArticleLookup $articleLookup,
         Service\ArticleManagement $articleManagement,
         Service\ImageManagement $imageManagement
     ) {
-        parent::__construct($identifier, $logger);
+        parent::__construct($identifier, $logger, $stateObserver);
 
         $this->recognitionAdapter = $recognitionAdapter;
         $this->articleLookup = $articleLookup;

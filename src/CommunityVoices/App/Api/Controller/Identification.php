@@ -2,6 +2,7 @@
 
 namespace CommunityVoices\App\Api\Controller;
 
+use CommunityVoices\Model\Component\StateObserver;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\App\Api\Component;
 
@@ -12,10 +13,11 @@ class Identification extends Component\Controller
     public function __construct(
         Component\Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
+        StateObserver $stateObserver,
 
         Component\RecognitionAdapter $recognitionAdapter
     ) {
-        parent::__construct($identifier, $logger);
+        parent::__construct($identifier, $logger, $stateObserver);
 
         $this->recognitionAdapter = $recognitionAdapter;
     }

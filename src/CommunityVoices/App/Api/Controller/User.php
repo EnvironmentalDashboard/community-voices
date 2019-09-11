@@ -2,6 +2,7 @@
 
 namespace CommunityVoices\App\Api\Controller;
 
+use CommunityVoices\Model\Component\StateObserver;
 use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Exception;
@@ -20,12 +21,13 @@ class User extends Component\Controller
     public function __construct(
         Component\Contract\CanIdentify $identifier,
         \Psr\Log\LoggerInterface $logger,
+        StateObserver $stateObserver,
 
         Service\Registration $registrationService,
         Service\UserLookup $userLookup,
         Service\UserManagement $userManagement
     ) {
-        parent::__construct($identifier, $logger);
+        parent::__construct($identifier, $logger, $stateObserver);
 
         $this->registrationService = $registrationService;
         $this->userLookup = $userLookup;
