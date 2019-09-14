@@ -24,7 +24,7 @@ class Slide extends AccessController
 
     public function getSlide()
     {
-        return ($this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST)/* && AccessControlHelper::isApprovedMedia($stateObserver, 'slideLookup', 'slide')*/)
+        return ($this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST) && $this->isApprovedMedia('slideLookup', 'slide'))
             || $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 

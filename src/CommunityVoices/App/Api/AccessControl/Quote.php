@@ -20,7 +20,7 @@ class Quote extends AccessController
 
     public function getQuote()
     {
-        return ($this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST) /*&& AccessControlHelper::isApprovedMedia($stateObserver, 'quoteLookup', 'quote')*/)
+        return ($this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST) && $this->isApprovedMedia('quoteLookup', 'quote'))
             || $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 

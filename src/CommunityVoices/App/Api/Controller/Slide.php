@@ -10,6 +10,7 @@ use CommunityVoices\App\Api\AccessControl;
 
 class Slide extends Component\Controller
 {
+    protected $slideAccessControl;
     protected $recognitionAdapter;
     protected $slideLookup;
     protected $slideManagement;
@@ -31,6 +32,7 @@ class Slide extends Component\Controller
     ) {
         parent::__construct($slideAccessControl);
 
+        $this->slideAccessControl = $slideAccessControl;
         $this->recognitionAdapter = $recognitionAdapter;
         $this->slideLookup = $slideLookup;
         $this->slideManagement = $slideManagement;
@@ -92,6 +94,7 @@ class Slide extends Component\Controller
 
         try {
             $this->slideLookup->findById($slideId);
+            $this->slideAccessControl->redoAccessControl();
         } catch (Exception\IdentityNotFound $e) {
             $this->send404();
         }
@@ -134,7 +137,7 @@ class Slide extends Component\Controller
         $slideId = (int) $request->attributes->get('id');
 
         $stateObserver = $this->tagLookup->findAll(true);
-        $stateObserver = $this->locationLookup->findAll($stateObserver, true);
+        $stateObserver = $this->locationLookup->findAll2($stateObserver, true);
         $stateObserver = $this->locationLookup->locationsFor($slideId, $stateObserver, true);
         $stateObserver = $this->imageLookup->photographers($stateObserver, true);
         $stateObserver = $this->imageLookup->orgs($stateObserver, true);

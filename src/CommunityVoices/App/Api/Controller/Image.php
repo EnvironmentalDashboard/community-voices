@@ -10,6 +10,7 @@ use CommunityVoices\App\Api\AccessControl;
 
 class Image extends Component\Controller
 {
+    protected $imageAccessControl;
     protected $imageLookup;
     protected $imageManagement;
     protected $tagLookup;
@@ -24,6 +25,7 @@ class Image extends Component\Controller
     ) {
         parent::__construct($imageAccessControl);
 
+        $this->imageAccessControl = $imageAccessControl;
         $this->recognitionAdapter = $recognitionAdapter;
         $this->imageLookup = $imageLookup;
         $this->imageManagement = $imageManagement;
@@ -46,6 +48,7 @@ class Image extends Component\Controller
 
         try {
             $this->imageLookup->findById((int) $imageId);
+            $this->imageAccessControl->redoAccessControl();
         } catch (Exception\IdentityNotFound $e) {
             $this->send404();
         }

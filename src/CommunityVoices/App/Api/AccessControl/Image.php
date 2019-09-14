@@ -24,7 +24,7 @@ class Image extends AccessController
 
     public function getImage()
     {
-        return ($this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST) /*&& AccessControlHelper::isApprovedMedia($stateObserver, 'imageLookup', 'image')*/)
+        return ($this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST) && $this->isApprovedMedia('imageLookup', 'image'))
             || $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 

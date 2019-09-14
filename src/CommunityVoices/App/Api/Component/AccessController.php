@@ -2,6 +2,7 @@
 
 namespace CommunityVoices\App\Api\Component;
 
+use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Component\StateObserver;
 
 class AccessController
@@ -24,6 +25,16 @@ class AccessController
     protected function getUser()
     {
         return $this->identifier->identify();
+    }
+
+    // Determines if entry has approved media in it.
+    // If no entry, it is assumed to be approved.
+    protected function isApprovedMedia($subject, $entry)
+    {
+        $this->stateObserver->setSubject($subject);
+        $entity = $this->stateObserver->getEntry($entry)[0];
+
+        return $entity ? $entity->getStatus() === Entity\Media::STATUS_APPROVED : true;
     }
 
     // Reruns the access control function and throws an exception appropriately.
