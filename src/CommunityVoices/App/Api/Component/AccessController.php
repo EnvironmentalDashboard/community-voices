@@ -2,17 +2,22 @@
 
 namespace CommunityVoices\App\Api\Component;
 
+use CommunityVoices\Model\Component\StateObserver;
+
 class AccessController
 {
     private $identifier;
     private $logger;
+    private $stateObserver;
 
     public function __construct(
         Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger
+        \Psr\Log\LoggerInterface $logger,
+        StateObserver $stateObserver
     ) {
         $this->identifier = $identifier;
         $this->logger = $logger;
+        $this->stateObserver = $stateObserver;
     }
 
     // Maybe worth just storing in the class itself.

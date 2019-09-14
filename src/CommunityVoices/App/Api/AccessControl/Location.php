@@ -2,6 +2,7 @@
 
 namespace CommunityVoices\App\Api\AccessControl;
 
+use CommunityVoices\Model\Component\StateObserver;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\App\Api\Component\Contract;
 use CommunityVoices\App\Api\Component\AccessController;
@@ -10,9 +11,10 @@ class Location extends AccessController
 {
     public function __construct(
         Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger
+        \Psr\Log\LoggerInterface $logger,
+        StateObserver $stateObserver
     ) {
-        parent::__construct($identifier, $logger);
+        parent::__construct($identifier, $logger, $stateObserver);
     }
 
     public function getAllLocation()
