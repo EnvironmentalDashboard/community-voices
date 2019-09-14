@@ -1,8 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="1.0">
 
-    <xsl:import href="AccessControl.xslt" />
-
     <xsl:template name="userButtons">
         <xsl:choose>
           <xsl:when test="identity/user/id &gt; 0">
@@ -92,42 +90,32 @@
                       <xsl:value-of select="$active" />
                   </xsl:with-param>
               </xsl:call-template>
-              <xsl:call-template name="can">
-                <xsl:with-param name="action">
-                  <xsl:text>ContentCategory::getAllContentCategoryFromNavbar</xsl:text>
-                </xsl:with-param>
-                <xsl:with-param name="then">
-                  <xsl:call-template name="navitem">
-                      <xsl:with-param name="href">
-                          /community-voices/content-categories
-                      </xsl:with-param>
-                      <xsl:with-param name="name">
-                          Content Categories
-                      </xsl:with-param>
-                      <xsl:with-param name="active">
-                          <xsl:value-of select="$active" />
-                      </xsl:with-param>
-                  </xsl:call-template>
-                </xsl:with-param>
-              </xsl:call-template>
-              <xsl:call-template name="can">
-                <xsl:with-param name="action">
-                  <xsl:text>User::getAllUser</xsl:text>
-                </xsl:with-param>
-                <xsl:with-param name="then">
-                  <xsl:call-template name="navitem">
-                      <xsl:with-param name="href">
-                          /community-voices/users
-                      </xsl:with-param>
-                      <xsl:with-param name="name">
-                          Users
-                      </xsl:with-param>
-                      <xsl:with-param name="active">
-                          <xsl:value-of select="$active" />
-                      </xsl:with-param>
-                  </xsl:call-template>
-                </xsl:with-param>
-              </xsl:call-template>
+              <xsl:if test="accessControl/ContentCategory/getAllContentCategoryFromNavbar != ''">
+                <xsl:call-template name="navitem">
+                    <xsl:with-param name="href">
+                        /community-voices/content-categories
+                    </xsl:with-param>
+                    <xsl:with-param name="name">
+                        Content Categories
+                    </xsl:with-param>
+                    <xsl:with-param name="active">
+                        <xsl:value-of select="$active" />
+                    </xsl:with-param>
+                </xsl:call-template>
+              </xsl:if>
+              <xsl:if test="accessControl/User/getAllUser != ''">
+                <xsl:call-template name="navitem">
+                    <xsl:with-param name="href">
+                        /community-voices/users
+                    </xsl:with-param>
+                    <xsl:with-param name="name">
+                        Users
+                    </xsl:with-param>
+                    <xsl:with-param name="active">
+                        <xsl:value-of select="$active" />
+                    </xsl:with-param>
+                </xsl:call-template>
+              </xsl:if>
           </ul>
           <div style="margin-left:auto">
               <xsl:choose>

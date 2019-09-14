@@ -21,12 +21,14 @@ class Landing extends Component\View
         Component\Transcriber $transcriber,
         Api\View\Identification $identificationAPIView,
         Api\View\Landing $landingAPIView,
-        Api\View\ContentCategory $contentCategoryAPIView
+        Api\View\ContentCategory $contentCategoryAPIView,
+        Api\AccessControl\ContentCategory $contentCategoryAccessControl
     ) {
         parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
 
         $this->landingAPIView = $landingAPIView;
         $this->contentCategoryAPIView = $contentCategoryAPIView;
+        $this->contentCategoryAccessControl = $contentCategoryAccessControl;
     }
 
     public function getLanding($request)
@@ -69,6 +71,10 @@ class Landing extends Component\View
 
         $packagedIdentity = $landingPackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement());
+
+        // needs to actually use objects - therefore, needs design first
+        $packagedAccessControl = $landingPackageElement->addChild('accessControl');
+        $this->addAccessControlRule($packagedAccessControl, 'ContentCategory', 'getAllContentCategoryFromNavbar', $this->contentCategoryAccessControl->getAllContentCategoryFromNavbar());
 
         /**
          * Generate landing module

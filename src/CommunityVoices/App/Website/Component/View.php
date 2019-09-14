@@ -44,6 +44,19 @@ class View
         return !empty($this->identityXMLElement()->id);
     }
 
+    protected function addAccessControlRule($container, $parent, $key, $value)
+    {
+        $container->adopt(new SimpleXMLElement(
+            $this->transcriber->toXml(
+                [
+                    $parent => [
+                        $key => $value
+                    ]
+                ]
+            )
+        ));
+    }
+
     /**
      * @todo Mark-up should not be in view
      */
