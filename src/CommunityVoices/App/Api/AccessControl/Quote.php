@@ -5,6 +5,7 @@ namespace CommunityVoices\App\Api\AccessControl;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\App\Api\Component\Contract;
 use CommunityVoices\App\Api\Component\AccessController;
+use CommunityVoices\App\Api\Controller;
 
 class Quote extends AccessController
 {

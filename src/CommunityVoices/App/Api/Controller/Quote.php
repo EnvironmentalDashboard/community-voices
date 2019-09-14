@@ -10,6 +10,7 @@ use CommunityVoices\App\Api\AccessControl;
 
 class Quote extends Component\Controller
 {
+    protected $quoteAccessControl;
     protected $recognitionAdapter;
     protected $quoteLookup;
     protected $quoteManagement;
@@ -37,6 +38,7 @@ class Quote extends Component\Controller
     ) {
         parent::__construct($quoteAccessControl);
 
+        $this->quoteAccessControl = $quoteAccessControl;
         $this->recognitionAdapter = $recognitionAdapter;
         $this->quoteLookup = $quoteLookup;
         $this->quoteManagement = $quoteManagement;
@@ -51,6 +53,7 @@ class Quote extends Component\Controller
 
         try {
             $this->quoteLookup->findById($quoteId);
+            $this->quoteAccessControl->redoAccessControl();
         } catch (Exception\IdentityNotFound $e) {
             /**
            * @todo This is not necessarily the way to handle 404s
