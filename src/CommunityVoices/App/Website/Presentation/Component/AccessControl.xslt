@@ -9,14 +9,7 @@
       <xsl:param name="details" />
       <xsl:param name="then" />
 
-      <xsl:variable name="phpFunction">
-        <xsl:text>CommunityVoices\App\Website\Component\Presenter::can</xsl:text>
-      </xsl:variable>
-      <xsl:variable name="accessControlNamespace">
-        <xsl:text>CommunityVoices\App\Api\AccessControl\</xsl:text>
-      </xsl:variable>
-
-      <xsl:if test="php:function(string($phpFunction),concat(string($accessControlNamespace),$action),/package/identity/user,$details)">
+      <xsl:if test="package/accessControl/action != ''">
         <xsl:copy-of select="$then" />
       </xsl:if>
     </xsl:template>

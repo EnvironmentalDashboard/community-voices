@@ -2,17 +2,15 @@
 
 namespace CommunityVoices\App\Api\Controller;
 
-use CommunityVoices\Model\Component\StateObserver;
 use CommunityVoices\App\Api\Component;
+use CommunityVoices\App\Api\AccessControl;
 
 class DisplayError extends Component\Controller
 {
     public function __construct(
-        Component\Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger,
-        StateObserver $stateObserver
+        AccessControl\DisplayError $displayErrorAccessControl
     ) {
-        parent::__construct($identifier, $logger, $stateObserver);
+        parent::__construct($displayErrorAccessControl);
     }
 
     protected function getError()

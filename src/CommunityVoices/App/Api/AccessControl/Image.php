@@ -3,53 +3,61 @@
 namespace CommunityVoices\App\Api\AccessControl;
 
 use CommunityVoices\Model\Entity;
-use CommunityVoices\App\Api\Component\AccessControlHelper;
+use CommunityVoices\App\Api\Component\Contract;
+use CommunityVoices\App\Api\Component\AccessController;
 
-class Image
+class Image extends AccessController
 {
-    public static function sendImage($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+    public function __construct(
+        Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger
+    ) {
+        parent::__construct($identifier, $logger);
     }
 
-    public static function getImage($user, $arguments, $stateObserver = null)
+    public function sendImage()
     {
-        return ($user->isRoleAtLeast(Entity\User::ROLE_GUEST) && AccessControlHelper::isApprovedMedia($stateObserver, 'imageLookup', 'image'))
-            || $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
-    public static function getAllImage($user)
+    public function getImage()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return ($this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST) /*&& AccessControlHelper::isApprovedMedia($stateObserver, 'imageLookup', 'image')*/)
+            || $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
-    public static function getImageUpload($user)
+    public function getAllImage()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_USER);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
-    public static function postImageUpload($user)
+    public function getImageUpload()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_USER);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_USER);
     }
 
-    public static function getImageUpdate($user)
+    public function postImageUpload()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_USER);
     }
 
-    public static function postImageUpdate($user)
+    public function getImageUpdate()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
-    public static function postImageDelete($user)
+    public function postImageUpdate()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
-    public static function postImageUnpair($user)
+    public function postImageDelete()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+    }
+
+    public function postImageUnpair()
+    {
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 }

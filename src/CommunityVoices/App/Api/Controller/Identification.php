@@ -2,22 +2,20 @@
 
 namespace CommunityVoices\App\Api\Controller;
 
-use CommunityVoices\Model\Component\StateObserver;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\App\Api\Component;
+use CommunityVoices\App\Api\AccessControl;
 
 class Identification extends Component\Controller
 {
     protected $recognitionAdapter;
 
     public function __construct(
-        Component\Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger,
-        StateObserver $stateObserver,
+        AccessControl\Identification $identificationAccessControl,
 
         Component\RecognitionAdapter $recognitionAdapter
     ) {
-        parent::__construct($identifier, $logger, $stateObserver);
+        parent::__construct($identificationAccessControl);
 
         $this->recognitionAdapter = $recognitionAdapter;
     }

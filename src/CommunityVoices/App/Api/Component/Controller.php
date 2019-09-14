@@ -8,11 +8,9 @@ use CommunityVoices\App\Api\Component;
 class Controller extends Component\SecuredComponent
 {
     public function __construct(
-        Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger,
-        StateObserver $stateObserver
+        Component\AccessController $accessController
     ) {
-        parent::__construct($identifier, $logger, $stateObserver);
+        parent::__construct($accessController);
     }
 
     // Attempts two ways to get the ID of the current element.

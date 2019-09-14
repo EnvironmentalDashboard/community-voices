@@ -3,32 +3,41 @@
 namespace CommunityVoices\App\Api\AccessControl;
 
 use CommunityVoices\Model\Entity;
+use CommunityVoices\App\Api\Component\Contract;
+use CommunityVoices\App\Api\Component\AccessController;
 
-class User
+class User extends AccessController
 {
-    public static function postRegistration($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+    public function __construct(
+        Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger
+    ) {
+        parent::__construct($identifier, $logger);
     }
 
-    public static function getUser($user, $arguments)
+    public function postRegistration()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN)
-            || $user->getId() == $arguments[0]->attributes->get('id');
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
-    public static function postUser($user)
+    public function getUser($arguments)
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_ADMIN)
+            || $this->getUser()->getId() == $arguments[0]->attributes->get('id');
     }
 
-    public static function getAllUser($user, $arguments)
+    public function postUser()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 
-    public static function newToken($user)
+    public function getAllUser()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+    }
+
+    public function newToken()
+    {
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 }

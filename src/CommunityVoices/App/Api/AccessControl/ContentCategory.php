@@ -3,46 +3,55 @@
 namespace CommunityVoices\App\Api\AccessControl;
 
 use CommunityVoices\Model\Entity;
+use CommunityVoices\App\Api\Component\Contract;
+use CommunityVoices\App\Api\Component\AccessController;
 
-class ContentCategory
+class ContentCategory extends AccessController
 {
-    public static function getAllContentCategory($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+    public function __construct(
+        Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger
+    ) {
+        parent::__construct($identifier, $logger);
     }
 
-    public static function getContentCategory($user)
+    public function getAllContentCategory()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
-    public static function getContentCategoryUpload($user)
+    public function getContentCategory()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
-    public static function postContentCategoryUpload($user)
+    public function getContentCategoryUpload()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 
-    public static function getContentCategoryUpdate($user)
+    public function postContentCategoryUpload()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 
-    public static function postContentCategoryUpdate($user)
+    public function getContentCategoryUpdate()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 
-    public static function postContentCategoryDelete($user)
+    public function postContentCategoryUpdate()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 
-    public static function getAllContentCategoryFromNavbar($user)
+    public function postContentCategoryDelete()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+    }
+
+    public function getAllContentCategoryFromNavbar()
+    {
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 }

@@ -2,45 +2,52 @@
 
 namespace CommunityVoices\App\Api\AccessControl;
 
-use CommunityVoices\App\Api\Component\AccessControlHelper;
+use CommunityVoices\App\Api\Component\Contract;
+use CommunityVoices\App\Api\Component\AccessController;
 use CommunityVoices\Model\Entity;
 
-class Slide
+class Slide extends AccessController
 {
-    public static function getAllSlide($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+    public function __construct(
+        Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger
+    ) {
+        parent::__construct($identifier, $logger);
     }
 
-    public static function getSlide($user, $arguments, $stateObserver = null)
+    public function getAllSlide()
     {
-        return ($user->isRoleAtLeast(Entity\User::ROLE_GUEST) && AccessControlHelper::isApprovedMedia($stateObserver, 'slideLookup', 'slide'))
-            || $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
-    public static function getSlideUpload($user)
+    public function getSlide()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return ($this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST)/* && AccessControlHelper::isApprovedMedia($stateObserver, 'slideLookup', 'slide')*/)
+            || $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
-    public static function postSlideUpload($user)
+    public function getSlideUpload()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
-    public static function getSlideUpdate($user)
+    public function postSlideUpload()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
-
-    public static function postSlideUpdate($user)
+    public function getSlideUpdate()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
-    public static function postSlideDelete($user)
+    public function postSlideUpdate()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+    }
+
+    public function postSlideDelete()
+    {
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 }

@@ -2,11 +2,11 @@
 
 namespace CommunityVoices\App\Api\Controller;
 
-use CommunityVoices\Model\Component\StateObserver;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 
 use CommunityVoices\App\Api\Component;
+use CommunityVoices\App\Api\AccessControl;
 
 class Landing extends Component\Controller
 {
@@ -14,14 +14,12 @@ class Landing extends Component\Controller
     protected $slideManagement;
 
     public function __construct(
-        Component\Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger,
-        StateObserver $stateObserver,
+        AccessControl\Landing $landingAccessControl,
 
         Service\SlideLookup $slideLookup,
         Service\SlideManagement $slideManagement
     ) {
-        parent::__construct($identifier, $logger, $stateObserver);
+        parent::__construct($landingAccessControl);
 
         $this->slideLookup = $slideLookup;
         $this->slideManagement = $slideManagement;

@@ -2,9 +2,19 @@
 
 namespace CommunityVoices\App\Api\AccessControl;
 
-class DisplayError
+use CommunityVoices\App\Api\Component\Contract;
+use CommunityVoices\App\Api\Component\AccessController;
+
+class DisplayError extends AccessController
 {
-    public static function getError()
+    public function __construct(
+        Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger
+    ) {
+        parent::__construct($identifier, $logger);
+    }
+
+    public function getError()
     {
         return true;
     }

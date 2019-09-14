@@ -2,11 +2,11 @@
 
 namespace CommunityVoices\App\Api\Controller;
 
-use CommunityVoices\Model\Component\StateObserver;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Exception;
 use CommunityVoices\App\Api\Component;
+use CommunityVoices\App\Api\AccessControl;
 
 class Article extends Component\Controller
 {
@@ -16,16 +16,14 @@ class Article extends Component\Controller
     protected $imageManagement;
 
     public function __construct(
-        Component\Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger,
-        StateObserver $stateObserver,
+        AccessControl\Article $articleAccessControl,
 
         Component\RecognitionAdapter $recognitionAdapter,
         Service\ArticleLookup $articleLookup,
         Service\ArticleManagement $articleManagement,
         Service\ImageManagement $imageManagement
     ) {
-        parent::__construct($identifier, $logger, $stateObserver);
+        parent::__construct($articleAccessControl);
 
         $this->recognitionAdapter = $recognitionAdapter;
         $this->articleLookup = $articleLookup;

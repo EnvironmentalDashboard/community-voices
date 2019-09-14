@@ -3,41 +3,50 @@
 namespace CommunityVoices\App\Api\AccessControl;
 
 use CommunityVoices\Model\Entity;
+use CommunityVoices\App\Api\Component\Contract;
+use CommunityVoices\App\Api\Component\AccessController;
 
-class Article
+class Article extends AccessController
 {
-    public static function getArticle($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+    public function __construct(
+        Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger
+    ) {
+        parent::__construct($identifier, $logger);
     }
 
-    public static function getAllArticle($user)
+    public function getArticle()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
-    public static function getArticleUpload($user)
+    public function getAllArticle()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
-    public static function postArticleUpload($user)
+    public function getArticleUpload()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
-    public static function getArticleUpdate($user)
+    public function postArticleUpload()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
-    public static function postArticleUpdate($user)
+    public function getArticleUpdate()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
-    public static function searchByStatus($user)
+    public function postArticleUpdate()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+    }
+
+    public function searchByStatus()
+    {
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 }

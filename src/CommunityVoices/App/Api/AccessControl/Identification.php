@@ -3,21 +3,30 @@
 namespace CommunityVoices\App\Api\AccessControl;
 
 use CommunityVoices\Model\Entity;
+use CommunityVoices\App\Api\Component\Contract;
+use CommunityVoices\App\Api\Component\AccessController;
 
-class Identification
+class Identification extends AccessController
 {
-    public static function getIdentity($user)
-    {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+    public function __construct(
+        Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger
+    ) {
+        parent::__construct($identifier, $logger);
     }
 
-    public static function postLogin($user)
+    public function getIdentity()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
-    public static function postLogout($user)
+    public function postLogin()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_UNVERIFIED);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
+    }
+
+    public function postLogout()
+    {
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_UNVERIFIED);
     }
 }

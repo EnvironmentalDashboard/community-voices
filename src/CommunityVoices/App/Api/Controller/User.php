@@ -2,11 +2,11 @@
 
 namespace CommunityVoices\App\Api\Controller;
 
-use CommunityVoices\Model\Component\StateObserver;
 use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Exception;
 use CommunityVoices\App\Api\Component;
+use CommunityVoices\App\Api\AccessControl;
 
 class User extends Component\Controller
 {
@@ -19,9 +19,7 @@ class User extends Component\Controller
     ];
 
     public function __construct(
-        Component\Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger,
-        StateObserver $stateObserver,
+        AccessControl\User $userAccessControl,
 
         Service\Registration $registrationService,
         Service\UserLookup $userLookup,

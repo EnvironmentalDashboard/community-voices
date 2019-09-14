@@ -3,53 +3,61 @@
 namespace CommunityVoices\App\Api\AccessControl;
 
 use CommunityVoices\Model\Entity;
-use CommunityVoices\App\Api\Component\AccessControlHelper;
+use CommunityVoices\App\Api\Component\Contract;
+use CommunityVoices\App\Api\Component\AccessController;
 
-class Quote
+class Quote extends AccessController
 {
-    public static function getQuote($user, $arguments, $stateObserver = null)
-    {
-        return ($user->isRoleAtLeast(Entity\User::ROLE_GUEST) && AccessControlHelper::isApprovedMedia($stateObserver, 'quoteLookup', 'quote'))
-            || $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+    public function __construct(
+        Contract\CanIdentify $identifier,
+        \Psr\Log\LoggerInterface $logger
+    ) {
+        parent::__construct($identifier, $logger);
     }
 
-    public static function getBoundaryQuotes($user)
+    public function getQuote()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return ($this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST) /*&& AccessControlHelper::isApprovedMedia($stateObserver, 'quoteLookup', 'quote')*/)
+            || $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
-    public static function getAllQuote($user)
+    public function getBoundaryQuotes()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
-    public static function getQuoteUpload($user)
+    public function getAllQuote()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
-    public static function postQuoteUpload($user)
+    public function getQuoteUpload()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
-    public static function getQuoteUpdate($user)
+    public function postQuoteUpload()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
-    public static function postQuoteUpdate($user)
+    public function getQuoteUpdate()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
-    public static function postQuoteDelete($user)
+    public function postQuoteUpdate()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
-    public static function postQuoteUnpair($user)
+    public function postQuoteDelete()
     {
-        return $user->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+    }
+
+    public function postQuoteUnpair()
+    {
+        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 }

@@ -2,11 +2,11 @@
 
 namespace CommunityVoices\App\Api\Controller;
 
-use CommunityVoices\Model\Component\StateObserver;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Exception;
 use CommunityVoices\App\Api\Component;
+use CommunityVoices\App\Api\AccessControl;
 
 class Slide extends Component\Controller
 {
@@ -19,9 +19,7 @@ class Slide extends Component\Controller
     protected $locationLookup;
 
     public function __construct(
-        Component\Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger,
-        StateObserver $stateObserver,
+        AccessControl\Slide $slideAccessControl,
 
         Component\RecognitionAdapter $recognitionAdapter,
         Service\SlideLookup $slideLookup,
@@ -31,7 +29,7 @@ class Slide extends Component\Controller
         Service\ImageLookup $imageLookup,
         Service\LocationLookup $locationLookup
     ) {
-        parent::__construct($identifier, $logger, $stateObserver);
+        parent::__construct($slideAccessControl);
 
         $this->recognitionAdapter = $recognitionAdapter;
         $this->slideLookup = $slideLookup;

@@ -2,11 +2,11 @@
 
 namespace CommunityVoices\App\Api\Controller;
 
-use CommunityVoices\Model\Component\StateObserver;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Exception;
 use CommunityVoices\App\Api\Component;
+use CommunityVoices\App\Api\AccessControl;
 
 class Image extends Component\Controller
 {
@@ -15,16 +15,14 @@ class Image extends Component\Controller
     protected $tagLookup;
 
     public function __construct(
-        Component\Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger,
-        StateObserver $stateObserver,
+        AccessControl\Image $imageAccessControl,
 
         Component\RecognitionAdapter $recognitionAdapter,
         Service\ImageLookup $imageLookup,
         Service\ImageManagement $imageManagement,
         Service\TagLookup $tagLookup
     ) {
-        parent::__construct($identifier, $logger, $stateObserver);
+        parent::__construct($imageAccessControl);
 
         $this->recognitionAdapter = $recognitionAdapter;
         $this->imageLookup = $imageLookup;

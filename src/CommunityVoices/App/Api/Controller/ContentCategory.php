@@ -2,13 +2,12 @@
 
 namespace CommunityVoices\App\Api\Controller;
 
-use CommunityVoices\Model\Component\StateObserver;
-use CommunityVoices\Model\Service\ContentCategoryLookup;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Exception;
 
 use CommunityVoices\App\Api\Component;
+use CommunityVoices\App\Api\AccessControl;
 
 class ContentCategory extends Component\Controller
 {
@@ -17,16 +16,14 @@ class ContentCategory extends Component\Controller
     protected $imageManagement;
 
     public function __construct(
-        Component\Contract\CanIdentify $identifier,
-        \Psr\Log\LoggerInterface $logger,
-        StateObserver $stateObserver,
+        AccessControl\ContentCategory $contentCategoryAccessControl,
 
         Component\RecognitionAdapter $recognitionAdapter,
         Service\ContentCategoryLookup $contentCategoryLookup,
         Service\ContentCategoryManagement $contentCategoryManagement,
         Service\ImageManagement $imageManagement
     ) {
-        parent::__construct($identifier, $logger, $stateObserver);
+        parent::__construct($contentCategoryAccessControl);
 
         $this->recognitionAdapter = $recognitionAdapter;
         $this->contentCategoryLookup = $contentCategoryLookup;
