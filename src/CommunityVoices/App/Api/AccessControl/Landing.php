@@ -19,6 +19,6 @@ class Landing extends AccessController
 
     public function getLanding()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 }

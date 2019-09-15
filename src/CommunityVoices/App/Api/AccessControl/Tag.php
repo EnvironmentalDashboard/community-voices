@@ -19,6 +19,6 @@ class Tag extends AccessController
 
     public function getAllTag()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 }

@@ -19,16 +19,16 @@ class Identification extends AccessController
 
     public function getIdentity()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     public function postLogin()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     public function postLogout()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_UNVERIFIED);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_UNVERIFIED);
     }
 }

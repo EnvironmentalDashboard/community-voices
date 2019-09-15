@@ -16,19 +16,25 @@ class Landing extends Component\View
     protected $landingAPIView;
     protected $contentCategoryAPIView;
 
+    protected $contentCategoryAccessControl;
+    protected $userAccessControl;
+
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         Api\View\Identification $identificationAPIView,
         Api\View\Landing $landingAPIView,
         Api\View\ContentCategory $contentCategoryAPIView,
-        Api\AccessControl\ContentCategory $contentCategoryAccessControl
+        Api\AccessControl\ContentCategory $contentCategoryAccessControl,
+        Api\AccessControl\User $userAccessControl
     ) {
         parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
 
         $this->landingAPIView = $landingAPIView;
         $this->contentCategoryAPIView = $contentCategoryAPIView;
+
         $this->contentCategoryAccessControl = $contentCategoryAccessControl;
+        $this->userAccessControl = $userAccessControl;
     }
 
     public function getLanding($request)
@@ -75,6 +81,7 @@ class Landing extends Component\View
         // needs to actually use objects - therefore, needs design first
         $packagedAccessControl = $landingPackageElement->addChild('accessControl');
         $this->addAccessControlRule($packagedAccessControl, 'ContentCategory', 'getAllContentCategoryFromNavbar', $this->contentCategoryAccessControl->getAllContentCategoryFromNavbar());
+        $this->addAccessControlRule($packagedAccessControl, 'User', 'getAllUser', $this->userAccessControl->getAllUser());
 
         /**
          * Generate landing module

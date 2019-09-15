@@ -22,7 +22,7 @@ class AccessController
     }
 
     // Maybe worth just storing in the class itself.
-    protected function getUser()
+    protected function getUserEntity()
     {
         return $this->identifier->identify();
     }

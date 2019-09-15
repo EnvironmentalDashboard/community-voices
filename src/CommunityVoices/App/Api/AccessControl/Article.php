@@ -19,36 +19,36 @@ class Article extends AccessController
 
     public function getArticle()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     public function getAllArticle()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     public function getArticleUpload()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     public function postArticleUpload()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     public function getArticleUpdate()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     public function postArticleUpdate()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     public function searchByStatus()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 }

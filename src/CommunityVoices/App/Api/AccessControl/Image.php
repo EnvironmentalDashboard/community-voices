@@ -19,47 +19,47 @@ class Image extends AccessController
 
     public function sendImage()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     public function getImage()
     {
-        return ($this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST) && $this->isApprovedMedia('imageLookup', 'image'))
-            || $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return ($this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_GUEST) && $this->isApprovedMedia('imageLookup', 'image'))
+            || $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     public function getAllImage()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     public function getImageUpload()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_USER);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_USER);
     }
 
     public function postImageUpload()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_USER);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_USER);
     }
 
     public function getImageUpdate()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     public function postImageUpdate()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     public function postImageDelete()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 
     public function postImageUnpair()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 }

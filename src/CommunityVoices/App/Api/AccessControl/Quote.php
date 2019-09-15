@@ -20,47 +20,47 @@ class Quote extends AccessController
 
     public function getQuote()
     {
-        return ($this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST) && $this->isApprovedMedia('quoteLookup', 'quote'))
-            || $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return ($this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_GUEST) && $this->isApprovedMedia('quoteLookup', 'quote'))
+            || $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     public function getBoundaryQuotes()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     public function getAllQuote()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     public function getQuoteUpload()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     public function postQuoteUpload()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     public function getQuoteUpdate()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     public function postQuoteUpdate()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     public function postQuoteDelete()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 
     public function postQuoteUnpair()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 }

@@ -19,6 +19,6 @@ class Location extends AccessController
 
     public function getAllLocation()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 }

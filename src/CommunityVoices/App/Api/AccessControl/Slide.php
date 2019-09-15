@@ -19,37 +19,37 @@ class Slide extends AccessController
 
     public function getAllSlide()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_GUEST);
     }
 
     public function getSlide()
     {
-        return ($this->getUser()->isRoleAtLeast(Entity\User::ROLE_GUEST) && $this->isApprovedMedia('slideLookup', 'slide'))
-            || $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return ($this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_GUEST) && $this->isApprovedMedia('slideLookup', 'slide'))
+            || $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     public function getSlideUpload()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     public function postSlideUpload()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     public function getSlideUpdate()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     public function postSlideUpdate()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_MANAGER);
     }
 
     public function postSlideDelete()
     {
-        return $this->getUser()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
+        return $this->getUserEntity()->isRoleAtLeast(Entity\User::ROLE_ADMIN);
     }
 }
