@@ -14,6 +14,7 @@ use CommunityVoices\App\Website\Component;
 
 class ContentCategory extends Component\View
 {
+    protected $contentCategoryAccessControl;
     protected $contentCategoryAPIView;
 
     public function __construct(
@@ -26,6 +27,7 @@ class ContentCategory extends Component\View
     ) {
         parent::__construct($mapperFactory, $transcriber, $identificationAPIView, $contentCategoryAccessControl, $userAccessControl);
 
+        $this->contentCategoryAccessControl = $contentCategoryAccessControl;
         $this->contentCategoryAPIView = $contentCategoryAPIView;
     }
 
@@ -47,6 +49,8 @@ class ContentCategory extends Component\View
 
         $packagedAccessControl = $contentCategoryPackageElement->addChild('accessControl');
         $this->addNavbarAccessControl($packagedAccessControl);
+        $this->addAccessControlRule($packagedAccessControl, 'ContentCategory', 'getContentCategoryUpdate', $this->contentCategoryAccessControl->getContentCategoryUpdate());
+        $this->addAccessControlRule($packagedAccessControl, 'ContentCategory', 'getContentCategoryUpload', $this->contentCategoryAccessControl->getContentCategoryUpload());
 
         $contentCategoryModule = new Component\Presenter('Module/ContentCategoryCollection');
         $contentCategoryModuleXML = $contentCategoryModule->generate($contentCategoryPackageElement);

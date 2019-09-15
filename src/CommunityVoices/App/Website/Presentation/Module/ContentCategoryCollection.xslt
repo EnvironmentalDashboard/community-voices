@@ -25,7 +25,7 @@
                 <xsl:attribute name="href">
                     <xsl:text>/community-voices/content-categories/</xsl:text>
                     <xsl:value-of select="id" />
-                    <xsl:if test="accessControl/ContentCategory/getContentCategoryUpdate">
+                    <xsl:if test="/package/accessControl/ContentCategory/getContentCategoryUpdate != ''">
                       <xsl:text>/edit</xsl:text>
                     </xsl:if>
                 </xsl:attribute>
