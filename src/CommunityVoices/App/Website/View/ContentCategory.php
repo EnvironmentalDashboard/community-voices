@@ -20,9 +20,11 @@ class ContentCategory extends Component\View
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         Api\View\Identification $identificationAPIView,
+        Api\AccessControl\ContentCategory $contentCategoryAccessControl,
+        Api\AccessControl\User $userAccessControl,
         Api\View\ContentCategory $contentCategoryAPIView
     ) {
-        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+        parent::__construct($mapperFactory, $transcriber, $identificationAPIView, $contentCategoryAccessControl, $userAccessControl);
 
         $this->contentCategoryAPIView = $contentCategoryAPIView;
     }
@@ -42,6 +44,9 @@ class ContentCategory extends Component\View
 
         $packagedIdentity = $contentCategoryPackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement());
+
+        $packagedAccessControl = $contentCategoryPackageElement->addChild('accessControl');
+        $this->addNavbarAccessControl($packagedAccessControl);
 
         $contentCategoryModule = new Component\Presenter('Module/ContentCategoryCollection');
         $contentCategoryModuleXML = $contentCategoryModule->generate($contentCategoryPackageElement);

@@ -11,17 +11,12 @@
 					Articles
 				</xsl:with-param>
 				<xsl:with-param name="rightButtons">
-					<xsl:call-template name="can">
-						<xsl:with-param name="action">
-							<xsl:text>Article::getArticleUpdate</xsl:text>
-						</xsl:with-param>
-						<xsl:with-param name="then">
-						  <a style="margin-left:auto" class="btn btn-outline-primary">
-							  <xsl:attribute name="href">/community-voices/articles/<xsl:value-of select='domain/article/id'/>/edit</xsl:attribute>
-									  Edit
-						  </a>
-						</xsl:with-param>
-					</xsl:call-template>
+					<xsl:if test="accessControl/Article/getArticleUpdate">
+					  <a style="margin-left:auto" class="btn btn-outline-primary">
+						  <xsl:attribute name="href">/community-voices/articles/<xsl:value-of select='domain/article/id'/>/edit</xsl:attribute>
+								  Edit
+					  </a>
+					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
 

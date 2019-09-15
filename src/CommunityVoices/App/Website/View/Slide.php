@@ -20,10 +20,12 @@ class Slide extends Component\View
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         Api\View\Identification $identificationAPIView,
+        Api\AccessControl\ContentCategory $contentCategoryAccessControl,
+        Api\AccessControl\User $userAccessControl,
         Api\View\Slide $slideAPIView,
         Api\View\ContentCategory $contentCategoryAPIView
     ) {
-        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+        parent::__construct($mapperFactory, $transcriber, $identificationAPIView, $contentCategoryAccessControl, $userAccessControl);
 
         $this->slideAPIView = $slideAPIView;
         $this->contentCategoryAPIView = $contentCategoryAPIView;
@@ -121,6 +123,9 @@ class Slide extends Component\View
 
         $packagedIdentity = $slidePackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement());
+
+        $packagedAccessControl = $slidePackageElement->addChild('accessControl');
+        $this->addNavbarAccessControl($packagedAccessControl);
 
         /**
          * Generate slide module
@@ -299,6 +304,8 @@ class Slide extends Component\View
         $packagedSlide->adopt($contentCategoryXMLElement);
         $packagedIdentity = $slidePackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedAccessControl = $slidePackageElement->addChild('accessControl');
+        $this->addNavbarAccessControl($packagedAccessControl);
         $slideModule = new Component\Presenter('Module/Form/SlideUpload');
         $slideModuleXML = $slideModule->generate($slidePackageElement);
         // var_dump($slideModuleXML);die;
@@ -421,6 +428,8 @@ class Slide extends Component\View
 
         $packagedIdentity = $slidePackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedAccessControl = $slidePackageElement->addChild('accessControl');
+        $this->addNavbarAccessControl($packagedAccessControl);
         $slideModule = new Component\Presenter('Module/Form/SlideUpload');
         $slideModuleXML = $slideModule->generate($slidePackageElement);
         // var_dump($packagedSlide->slide);die;

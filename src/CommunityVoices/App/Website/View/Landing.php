@@ -23,18 +23,15 @@ class Landing extends Component\View
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         Api\View\Identification $identificationAPIView,
-        Api\View\Landing $landingAPIView,
-        Api\View\ContentCategory $contentCategoryAPIView,
         Api\AccessControl\ContentCategory $contentCategoryAccessControl,
-        Api\AccessControl\User $userAccessControl
+        Api\AccessControl\User $userAccessControl,
+        Api\View\Landing $landingAPIView,
+        Api\View\ContentCategory $contentCategoryAPIView
     ) {
-        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+        parent::__construct($mapperFactory, $transcriber, $identificationAPIView, $contentCategoryAccessControl, $userAccessControl);
 
         $this->landingAPIView = $landingAPIView;
         $this->contentCategoryAPIView = $contentCategoryAPIView;
-
-        $this->contentCategoryAccessControl = $contentCategoryAccessControl;
-        $this->userAccessControl = $userAccessControl;
     }
 
     public function getLanding($request)
@@ -79,10 +76,11 @@ class Landing extends Component\View
         $packagedIdentity->adopt($this->identityXMLElement());
 
         // needs to actually use objects - therefore, needs design first
+        // and on top of that, the entire view creation would need to get refactored
+        // for this to be automated nicely
         $packagedAccessControl = $landingPackageElement->addChild('accessControl');
-        $this->addAccessControlRule($packagedAccessControl, 'ContentCategory', 'getAllContentCategoryFromNavbar', $this->contentCategoryAccessControl->getAllContentCategoryFromNavbar());
-        $this->addAccessControlRule($packagedAccessControl, 'User', 'getAllUser', $this->userAccessControl->getAllUser());
-
+        $this->addNavbarAccessControl($packagedAccessControl);
+        
         /**
          * Generate landing module
          */

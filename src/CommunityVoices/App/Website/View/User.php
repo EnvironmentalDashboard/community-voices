@@ -22,10 +22,12 @@ class User extends Component\View
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         Api\View\Identification $identificationAPIView,
+        Api\AccessControl\ContentCategory $contentCategoryAccessControl,
+        Api\AccessControl\User $userAccessControl,
         UrlGenerator $urlGenerator,
         Api\View\User $userAPIView
     ) {
-        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+        parent::__construct($mapperFactory, $transcriber, $identificationAPIView, $contentCategoryAccessControl, $userAccessControl);
 
         $this->urlGenerator = $urlGenerator;
         $this->userAPIView = $userAPIView;
@@ -72,6 +74,9 @@ class User extends Component\View
 
         $packagedIdentity = $userPackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement());
+
+        $packagedAccessControl = $userPackageElement->addChild('accessControl');
+        $this->addNavbarAccessControl($packagedAccessControl);
 
         /**
          * Generate User module
@@ -143,6 +148,9 @@ class User extends Component\View
 
         $packagedIdentity = $userPackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement());
+
+        $packagedAccessControl = $userPackageElement->addChild('accessControl');
+        $this->addNavbarAccessControl($packagedAccessControl);
 
         $userModule = new Component\Presenter('Module/UserCollection');
         $userModuleXML = $userModule->generate($userPackageElement);

@@ -25,7 +25,7 @@ class User extends Component\Controller
         Service\UserLookup $userLookup,
         Service\UserManagement $userManagement
     ) {
-        parent::__construct($identifier, $logger, $stateObserver);
+        parent::__construct($userAccessControl);
 
         $this->registrationService = $registrationService;
         $this->userLookup = $userLookup;

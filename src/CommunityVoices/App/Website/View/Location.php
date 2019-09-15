@@ -18,9 +18,11 @@ class Location extends Component\View
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         Api\View\Identification $identificationAPIView,
+        Api\AccessControl\ContentCategory $contentCategoryAccessControl,
+        Api\AccessControl\User $userAccessControl,
         Api\View\Location $locationAPIView
     ) {
-        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+        parent::__construct($mapperFactory, $transcriber, $identificationAPIView, $contentCategoryAccessControl, $userAccessControl);
 
         $this->locationAPIView = $locationAPIView;
     }
@@ -44,6 +46,9 @@ class Location extends Component\View
 
         $packagedIdentity = $locationPackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement());
+
+        $packagedAccessControl = $locationPackageElement->addChild('accessControl');
+        $this->addNavbarAccessControl($packagedAccessControl);
 
         /**
          * Generate Location module

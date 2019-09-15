@@ -21,10 +21,12 @@ class Article extends Component\View
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         Api\View\Identification $identificationAPIView,
+        Api\AccessControl\ContentCategory $contentCategoryAccessControl,
+        Api\AccessControl\User $userAccessControl,
         Api\View\Article $articleAPIView,
         Service\ArticleLookup $articleLookup
     ) {
-        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+        parent::__construct($mapperFactory, $transcriber, $identificationAPIView, $contentCategoryAccessControl, $userAccessControl);
 
         $this->articleAPIView = $articleAPIView;
         $this->articleLookup = $articleLookup;
@@ -55,6 +57,9 @@ class Article extends Component\View
 
         $packagedIdentity = $articlePackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement());
+
+        $packagedAccessControl = $articlePackageElement->addChild('accessControl');
+        $this->addNavbarAccessControl($packagedAccessControl);
 
         /**
          * Generate Article module
@@ -158,6 +163,9 @@ class Article extends Component\View
 
         $packagedIdentity = $articlePackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement());
+
+        $packagedAccessControl = $articlePackageElement->addChild('accessControl');
+        $this->addNavbarAccessControl($packagedAccessControl);
 
         /**
          * Generate Article module

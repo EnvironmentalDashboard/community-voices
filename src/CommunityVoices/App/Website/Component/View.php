@@ -6,6 +6,7 @@ use \SimpleXMLElement;
 
 use CommunityVoices\App\Api\Component\Mapper;
 use CommunityVoices\App\Api\View\Identification;
+use CommunityVoices\App\Api\AccessControl;
 use CommunityVoices\App\Website\Component;
 
 class View
@@ -13,15 +14,21 @@ class View
     protected $mapperFactory;
     protected $transcriber;
     protected $identificationAPIView;
+    protected $contentCategoryAccessControl;
+    protected $userAccessControl;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
-        Identification $identificationAPIView
+        Identification $identificationAPIView,
+        AccessControl\ContentCategory $contentCategoryAccessControl,
+        AccessControl\User $userAccessControl
     ) {
         $this->mapperFactory = $mapperFactory;
         $this->transcriber = $transcriber;
         $this->identificationAPIView = $identificationAPIView;
+        $this->contentCategoryAccessControl = $contentCategoryAccessControl;
+        $this->userAccessControl = $userAccessControl;
     }
 
     protected function finalize($response)
@@ -55,6 +62,12 @@ class View
                 ]
             )
         ));
+    }
+
+    protected function addNavbarAccessControl($container)
+    {
+        $this->addAccessControlRule($container, 'ContentCategory', 'getAllContentCategoryFromNavbar', $this->contentCategoryAccessControl->getAllContentCategoryFromNavbar());
+        $this->addAccessControlRule($container, 'User', 'getAllUser', $this->userAccessControl->getAllUser());
     }
 
     /**

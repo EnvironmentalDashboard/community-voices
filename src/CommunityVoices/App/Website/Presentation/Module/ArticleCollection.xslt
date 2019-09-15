@@ -1,7 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   version="1.0">
 
-  <xsl:import href="../Component/AccessControl.xslt" />
   <xsl:import href="../Component/Navbar.xslt" />
   <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
@@ -17,14 +16,9 @@
               Articles
           </xsl:with-param>
           <xsl:with-param name="rightButtons">
-              <xsl:call-template name="can">
-                <xsl:with-param name="action">
-                  <xsl:text>Article::getArticleUpload</xsl:text>
-                </xsl:with-param>
-                <xsl:with-param name="then">
-                  <a class="btn btn-outline-primary mr-2" href="/community-voices/articles/new">+ Add article</a>
-                </xsl:with-param>
-              </xsl:call-template>
+              <xsl:if test="accessControl/Article/getArticleUpload != ''">
+                <a class="btn btn-outline-primary mr-2" href="/community-voices/articles/new">+ Add article</a>
+              </xsl:if>
 
               <xsl:call-template name="userButtons" />
           </xsl:with-param>
@@ -105,42 +99,37 @@
                   </option>
                 </select>
               </div>
-              <xsl:call-template name="can">
-                <xsl:with-param name="action">
-                  <xsl:text>Article::searchByStatus</xsl:text>
-                </xsl:with-param>
-                <xsl:with-param name="then">
-                  <div class="form-group">
-                    <label for="status">Status</label>
-                    <select class="form-control" id="status" name="status">
-                      <option value="approved,pending,rejected">
-                        <xsl:if test="$status = ',approved,pending,rejected,'">
-                          <xsl:attribute name="selected">selected</xsl:attribute>
-                        </xsl:if>
-                        All
-                      </option>
-                      <option value="approved">
-                        <xsl:if test="$status = ',approved,'">
-                          <xsl:attribute name="selected">selected</xsl:attribute>
-                        </xsl:if>
-                        Approved
-                      </option>
-                      <option value="pending">
-                        <xsl:if test="$status = ',pending,'">
-                          <xsl:attribute name="selected">selected</xsl:attribute>
-                        </xsl:if>
-                        Pending
-                      </option>
-                      <option value="rejected">
-                        <xsl:if test="$status = ',rejected,'">
-                          <xsl:attribute name="selected">selected</xsl:attribute>
-                        </xsl:if>
-                        Rejected
-                      </option>
-                    </select>
-                  </div>
-                </xsl:with-param>
-              </xsl:call-template>
+              <xsl:if test="accessControl/Article/searchByStatus != ''">
+                <div class="form-group">
+                  <label for="status">Status</label>
+                  <select class="form-control" id="status" name="status">
+                    <option value="approved,pending,rejected">
+                      <xsl:if test="$status = ',approved,pending,rejected,'">
+                        <xsl:attribute name="selected">selected</xsl:attribute>
+                      </xsl:if>
+                      All
+                    </option>
+                    <option value="approved">
+                      <xsl:if test="$status = ',approved,'">
+                        <xsl:attribute name="selected">selected</xsl:attribute>
+                      </xsl:if>
+                      Approved
+                    </option>
+                    <option value="pending">
+                      <xsl:if test="$status = ',pending,'">
+                        <xsl:attribute name="selected">selected</xsl:attribute>
+                      </xsl:if>
+                      Pending
+                    </option>
+                    <option value="rejected">
+                      <xsl:if test="$status = ',rejected,'">
+                        <xsl:attribute name="selected">selected</xsl:attribute>
+                      </xsl:if>
+                      Rejected
+                    </option>
+                  </select>
+                </div>
+              </xsl:if>
             </div>
             <div class="card-footer bg-transparent"><button type="button" onclick="this.parentNode.parentNode.reset()" class="btn btn-secondary mr-2">Reset</button> <button type="submit" class="btn btn-primary">Search</button></div>
           </form>

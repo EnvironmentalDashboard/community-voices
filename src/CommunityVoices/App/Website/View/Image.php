@@ -23,12 +23,14 @@ class Image extends Component\View
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         Api\View\Identification $identificationAPIView,
+        Api\AccessControl\ContentCategory $contentCategoryAccessControl,
+        Api\AccessControl\User $userAccessControl,
         Api\View\Image $imageAPIView,
         Service\ImageLookup $imageLookup,
         Service\TagLookup $tagLookup,
         UrlGenerator $urlGenerator
     ) {
-        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+        parent::__construct($mapperFactory, $transcriber, $identificationAPIView, $contentCategoryAccessControl, $userAccessControl);
 
         $this->imageAPIView = $imageAPIView;
         $this->imageLookup = $imageLookup;
@@ -70,6 +72,9 @@ class Image extends Component\View
 
         $packagedIdentity = $imagePackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement());
+
+        $packagedAccessControl = $imagePackageElement->addChild('accessControl');
+        $this->addNavbarAccessControl($packagedAccessControl);
 
         /**
          * Generate image module
@@ -189,6 +194,9 @@ class Image extends Component\View
 
         $packagedIdentity = $imagePackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement());
+
+        $packagedAccessControl = $imagePackageElement->addChild('accessControl');
+        $this->addNavbarAccessControl($packagedAccessControl);
 
         /**
          * Generate image module

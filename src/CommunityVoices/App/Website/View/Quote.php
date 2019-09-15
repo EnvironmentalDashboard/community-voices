@@ -24,13 +24,15 @@ class Quote extends Component\View
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         Api\View\Identification $identificationAPIView,
+        Api\AccessControl\ContentCategory $contentCategoryAccessControl,
+        Api\AccessControl\User $userAccessControl,
         Api\View\Quote $quoteAPIView,
         Service\QuoteLookup $quoteLookup,
         Service\TagLookup $tagLookup,
         Api\View\Tag $tagAPIView,
         Api\View\ContentCategory $contentCategoryAPIView
     ) {
-        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+        parent::__construct($mapperFactory, $transcriber, $identificationAPIView, $contentCategoryAccessControl, $userAccessControl);
 
         $this->quoteAPIView = $quoteAPIView;
         $this->quoteLookup = $quoteLookup;
@@ -104,6 +106,9 @@ class Quote extends Component\View
 
         $packagedIdentity = $quotePackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement());
+
+        $packagedAccessControl = $quotePackageElement->addChild('accessControl');
+        $this->addNavbarAccessControl($packagedAccessControl);
 
         /**
          * Generate Quote module
@@ -222,6 +227,9 @@ class Quote extends Component\View
 
         $packagedIdentity = $quotePackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement());
+
+        $packagedAccessControl = $quotePackageElement->addChild('accessControl');
+        $this->addNavbarAccessControl($packagedAccessControl);
 
         /**
          * Generate Quote module
