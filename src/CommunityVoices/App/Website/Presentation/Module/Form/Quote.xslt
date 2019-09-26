@@ -4,7 +4,7 @@
     <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
     <xsl:variable name="selectedGroups" select="/form/domain/selectedGroups" />
 
-    <xsl:template match="domain/error/*|domain/upload/error/*">
+    <xsl:template match="domain/errors/*|domain/upload/errors/*">
         <li style="margin-bottom: 0px;"><xsl:value-of select="." /></li>
     </xsl:template>
 
@@ -38,7 +38,7 @@
                       Quote
                     </h1>
 
-                    <xsl:if test="domain/error != '' or domain/upload/error != ''">
+                    <xsl:if test="domain/errors != '' or domain/upload/errors != ''">
                         <div class="card" style="margin-bottom: 16px;">
                             <div class="card-body">
                                 <h1 class="h4 mb-4 font-weight-normal" style="margin-bottom: 0.5rem !important;">
@@ -53,8 +53,8 @@
                                   </xsl:choose>
                                 </h1>
                                 <ul style="margin-bottom: 0.5rem;">
-                                    <xsl:apply-templates select="domain/error/*" />
-                                    <xsl:apply-templates select="domain/upload/error/*" />
+                                    <xsl:apply-templates select="domain/errors/*" />
+                                    <xsl:apply-templates select="domain/upload/errors/*" />
                                 </ul>
                             </div>
                         </div>
@@ -183,6 +183,9 @@
                                       <xsl:attribute name="checked">checked</xsl:attribute>
                                   </xsl:if>
                               </xsl:when>
+                              <xsl:otherwise>
+                                <xsl:attribute name="checked">checked</xsl:attribute>
+                              </xsl:otherwise>
                           </xsl:choose>
                         </input>
                     </div>

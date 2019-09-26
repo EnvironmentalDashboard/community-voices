@@ -18,7 +18,7 @@ class DisplayError extends Component\View
 
     protected function getError($request)
     {
-        $response = new HttpFoundation\JsonResponse(["error" =>
+        $response = new HttpFoundation\JsonResponse(["errors" =>
             ["type" => $request->attributes->get('error'), "message" => $request->attributes->get('message')]]);
 
         return $response;

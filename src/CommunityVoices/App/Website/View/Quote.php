@@ -355,7 +355,7 @@ class Quote extends Component\View
     {
         $upload = json_decode($this->quoteAPIView->postQuoteUpload()->getContent());
 
-        if (!empty($upload->upload->error)) {
+        if (!empty($upload->upload->errors)) {
             return $this->getQuoteUpload($request);
         }
 
@@ -483,7 +483,7 @@ class Quote extends Component\View
     {
         $errors = json_decode($this->quoteAPIView->postQuoteUpdate()->getContent());
 
-        if (!empty($errors->error)) {
+        if (!empty($errors->errors)) {
             return $this->getQuoteUpdate($request);
         }
 
