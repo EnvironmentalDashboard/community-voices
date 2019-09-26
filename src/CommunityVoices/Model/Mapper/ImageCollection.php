@@ -9,13 +9,6 @@ use CommunityVoices\Model\Entity;
 
 class ImageCollection extends DataMapper
 {
-
-    // private $status = [
-    //     1 => 'pending',
-    //     2 => 'rejected',
-    //     3 => 'approved'
-    // ];
-
     public function photographers(\stdClass $container)
     {
         $photographers = [];

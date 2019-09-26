@@ -118,10 +118,10 @@ $('.save-quote-text').on('click', function(e) {
 	setLoadingIcon(icon);
 
 	$.post('/community-voices/api/quotes/' + id + '/edit', {text: text}).done(function(d) {
-		if (Object.keys(d.error).length > 0) {
+		if (Object.keys(d.errors).length > 0) {
 			setFailureIcon(icon);
 
-			addErrorsTooltip(icon, d.error);
+			addErrorsTooltip(icon, d.errors);
 		} else {
 			setSuccessIcon(icon);
 		}
@@ -133,6 +133,8 @@ $('.approve-checkbox').on('click', function (c) {
 	var newValue = target.checked;
 	var id = target.getAttribute('data-id');
 
+	// approved = 3, pending = 1
+	// probably should be able to pass this as strings
 	var status = newValue ? 3 : 1;
 
 	var icon = $("#modify-status" + id);
@@ -140,10 +142,10 @@ $('.approve-checkbox').on('click', function (c) {
 	setLoadingIcon(icon);
 
 	$.post('/community-voices/api/quotes/' + id + '/edit', {status: status}).done(function(d) {
-		if (Object.keys(d.error).length > 0) {
+		if (Object.keys(d.errors).length > 0) {
 			setFailureIcon(icon);
 
-			addErrorsTooltip(icon, d.error);
+			addErrorsTooltip(icon, d.errors);
 
 			target.checked = !target.checked;
 		} else {

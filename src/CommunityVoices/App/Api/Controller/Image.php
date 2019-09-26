@@ -3,6 +3,7 @@
 namespace CommunityVoices\App\Api\Controller;
 
 use CommunityVoices\Model\Component\MapperFactory;
+use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Exception;
 use CommunityVoices\App\Api\Component;
@@ -127,7 +128,7 @@ class Image extends Component\Controller
         $crop_y = $request->request->get('crop_y');
         $crop_width = $request->request->get('crop_width');
         $crop_height = $request->request->get('crop_height');
-        $status = ($request->request->get('approve') === '1') ? 3 : 1; // 3 = approved, 1 = pending
+        $status = ($request->request->get('approve') === '1') ? Entity\Media::STATUS_APPROVED : Entity\Media::STATUS_PENDING;
         $tags = $request->request->get('tags') ?? [];
 
         $this->imageManagement->update(

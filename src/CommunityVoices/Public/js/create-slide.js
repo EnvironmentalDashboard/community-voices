@@ -214,7 +214,7 @@ if (form.length > 0) {
             success: function (data) {
                 // If our slide is successfully processed, we will redirect
                 // back to the list of slides, which is a way of showing success.
-                if (data.error && Object.keys(data.error).length == 0) {
+                if (data.errors && Object.keys(data.errors).length == 0) {
                     goToSlidesList();
                 } else {
                     // If our slide fails to be processed, we will display this.
@@ -222,8 +222,8 @@ if (form.length > 0) {
 
                     // This is similar code as quote-collection.js, and thus
                     // should be transferred to a helper function.
-                    var combinedString = Object.keys(data.error).map(function (e) {
-                        return Array.isArray(data.error[e]) ? data.error[e].join(", ") : data.error[e];
+                    var combinedString = Object.keys(data.errors).map(function (e) {
+                        return Array.isArray(data.errors[e]) ? data.errors[e].join(", ") : data.errors[e];
                     }).join(", ");
 
                     if (alert.length == 0) {

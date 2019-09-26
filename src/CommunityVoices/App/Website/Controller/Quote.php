@@ -2,6 +2,7 @@
 
 namespace CommunityVoices\App\Website\Controller;
 
+use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 use CommunityVoices\App\Website\Component;
 use CommunityVoices\App\Api;
@@ -61,29 +62,7 @@ class Quote
 
     public function postQuoteUpload($request)
     {
-        $text = $request->request->get('text');
-        $attribution = $request->request->get('attribution');
-        $subAttribution = $request->request->get('subAttribution');
-        $dateRecorded = $request->request->get('dateRecorded');
-        $status = $request->request->get('status');
-        $tags = $request->request->get('tags') ?? [];
-        $contentCategories = $request->request->get('contentCategories') ?? [];
-
-        $form = [
-            'text' => $text,
-            'attribution' => $attribution,
-            'subAttribution' => $subAttribution,
-            'dateRecorded' => $dateRecorded,
-            'status' => $status,
-            'tags' => $tags,
-            'contentCategories' => $contentCategories
-        ];
-
-        $formCache = new Component\CachedItem('quoteUploadForm');
-        $formCache->setValue($form);
-
-        $cacheMapper = $this->mapperFactory->createCacheMapper();
-        $cacheMapper->save($formCache);
+        $this->saveQuoteForm($request, 'quoteUploadForm');
 
         if (!$this->quoteAPIController->postQuoteUpload($request)) {
             $this->getQuoteUpload($request);
@@ -99,46 +78,7 @@ class Quote
 
     public function postQuoteUpdate($request)
     {
-        $text = $request->request->get('text');
-        $attribution = $request->request->get('attribution');
-        $subAttribution = $request->request->get('subAttribution');
-        $dateRecorded = $request->request->get('dateRecorded');
-        $status = $request->request->get('status') === "on" ? 3 : 1;
-
-        // Align our modifications to the status checkbox in our request.
-        $request->request->set('status', $status);
-
-        // Make sure that we pass in tags and content categories, even
-        // if they are empty.
-        if (is_null($request->request->get('tags'))) {
-            $tags = [];
-            $request->request->set('tags', []);
-        } else {
-            $tags = $request->request->get('tags');
-        }
-
-        if (is_null($request->request->get('contentCategories'))) {
-            $contentCategories = [];
-            $request->request->set('contentCategories', []);
-        } else {
-            $contentCategories = $request->request->get('contentCategories');
-        }
-
-        $form = [
-            'text' => $text,
-            'attribution' => $attribution,
-            'subAttribution' => $subAttribution,
-            'dateRecorded' => $dateRecorded,
-            'status' => $status,
-            'tags' => $tags,
-            'contentCategories' => $contentCategories
-        ];
-
-        $formCache = new Component\CachedItem('quoteUpdateForm');
-        $formCache->setValue($form);
-
-        $cacheMapper = $this->mapperFactory->createCacheMapper();
-        $cacheMapper->save($formCache);
+        $this->saveQuoteForm($request, 'quoteUpdateForm');
 
         if (!$this->quoteAPIController->postQuoteUpdate($request)) {
             $this->getQuoteUpdate($request);
@@ -153,5 +93,39 @@ class Quote
     public function postQuoteUnpair($request)
     {
         $this->quoteAPIController->postQuoteUnpair($request);
+    }
+
+    // ------
+    private function saveQuoteForm($request, $cacheName)
+    {
+        $text = $request->request->get('text');
+        $originalText = $request->request->get('originalText');
+        $interviewer = $request->request->get('interviewer');
+        $attribution = $request->request->get('attribution');
+        $subAttribution = $request->request->get('subAttribution');
+        $quotationMarks = $request->request->get('quotationMarks') === 'on';
+        $dateRecorded = $request->request->get('dateRecorded');
+        $status = $request->request->get('status') === 'on' ? Entity\Media::STATUS_APPROVED : Entity\Media::STATUS_PENDING;
+        $tags = $request->request->get('tags') ?? [];
+        $contentCategories = $request->request->get('contentCategories') ?? [];
+
+        $form = [
+            'text' => $text,
+            'originalText' => $originalText,
+            'interviewer' => $interviewer,
+            'attribution' => $attribution,
+            'subAttribution' => $subAttribution,
+            'quotationMarks' => $quotationMarks,
+            'dateRecorded' => $dateRecorded,
+            'status' => $status,
+            'tags' => $tags,
+            'contentCategories' => $contentCategories
+        ];
+
+        $formCache = new Component\CachedItem($cacheName);
+        $formCache->setValue($form);
+
+        $cacheMapper = $this->mapperFactory->createCacheMapper();
+        $cacheMapper->save($formCache);
     }
 }
