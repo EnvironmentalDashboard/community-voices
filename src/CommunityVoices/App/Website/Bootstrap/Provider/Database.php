@@ -15,10 +15,11 @@ class Database extends Provider
     {
         $host   = getenv('MYSQL_HOST');
         $dbname = getenv('MYSQL_DB');
+        $port   = getenv('MYSQL_PORT');
         $user   = getenv('MYSQL_USER');
         $pass   = getenv('MYSQL_PASS');
 
-        $dsn = sprintf('mysql:host=%s;dbname=%s;charset=utf8;port=3306', $host, $dbname);
+        $dsn = sprintf('mysql:host=%s;dbname=%s;charset=utf8;port=%s', $host, $dbname, $port);
         $handler = new PDO($dsn, $user, $pass);
 
         $handler->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
