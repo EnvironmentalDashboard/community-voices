@@ -25,13 +25,13 @@ class Group extends DataMapper
     private function fetchById(Entity\Group $group)
     {
         $query = "SELECT
-                        group.id                            AS id,
-                        group.label                         AS label,
-                        CAST(group.type AS UNSIGNED)        AS type,
+                        group_entity.id                            AS id,
+                        group_entity.label                         AS label,
+                        CAST(group_entity.type AS UNSIGNED)        AS type,
                     FROM
-                        `community-voices_groups` group
+                        `community-voices_groups` group_entity
                     WHERE
-                        group.id = :id";
+                        group_entity.id = :id";
 
         $statement = $this->conn->prepare($query);
 

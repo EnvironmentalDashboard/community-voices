@@ -87,19 +87,16 @@ class GroupCollection extends DataMapper
     {
         // also select junction.id? would it be needed anywhere?
         $query = "SELECT
-                        groups.id                                   AS id,
-                        CAST(groups.type AS UNSIGNED)               AS type,
-                        groups.label                                AS label
+                        group_entity.id                                   AS id,
+                        CAST(group_entity.type AS UNSIGNED)               AS type,
+                        group_entity.label                                AS label
                     FROM
                         `community-voices_media-group-map` junction
                     JOIN
-                        #
-                        # `groups` is plural because group is a reserved word
-                        #
-                        `community-voices_groups` groups
-                        ON junction.group_id = groups.id
+                        `community-voices_groups` group_entity
+                        ON junction.group_id = group_entity.id
                     WHERE
-                        CAST(groups.type AS UNSIGNED) = :type
+                        CAST(group_entity.type AS UNSIGNED) = :type
                         AND junction.media_id = :mediaId";
 
         $statement = $this->conn->prepare($query);
@@ -121,40 +118,34 @@ class GroupCollection extends DataMapper
         if ($groupCollection->getGroupType() === Entity\GroupCollection::GROUP_TYPE_CONT_CAT) {
             $query = "SELECT
                             junction.id                                 AS id,
-                            CAST(groups.type AS UNSIGNED)               AS type,
+                            CAST(group_entity.type AS UNSIGNED)         AS type,
                             junction.probability                        AS probability,
-                            groups.label                                AS label,
+                            group_entity.label                          AS label,
                             contentCategory.media_filename              AS mediaFilename
                         FROM
                             `community-voices_location-category-map` junction
                         JOIN
-                            #
-                            #  `groups` is plural because group is a reserved word
-                            #
-                            `community-voices_groups` groups
-                            ON junction.group_id = groups.id
+                            `community-voices_groups` group_entity
+                            ON junction.group_id = group_entity.id
                         LEFT JOIN
                             `community-voices_content-categories` contentCategory
-                            ON groups.id = contentCategory.group_id
+                            ON group_entity.id = contentCategory.group_id
                         WHERE
-                            CAST(groups.type AS UNSIGNED) = :type
+                            CAST(group_entity.type AS UNSIGNED) = :type
                             AND junction.location_id = :locationId";
         } else {
             $query = "SELECT
                             junction.id                                 AS id,
-                            CAST(groups.type AS UNSIGNED)               AS type,
+                            CAST(group_entity.type AS UNSIGNED)         AS type,
                             junction.probability                        AS probability,
-                            groups.label                                AS label
+                            group_entity.label                          AS label
                         FROM
                             `community-voices_location-category-map` junction
                         JOIN
-                            #
-                            # `groups` is plural because group is a reserved word
-                            #
-                            `community-voices_groups` groups
-                            ON junction.group_id = groups.id
+                            `community-voices_groups` group_entity
+                            ON junction.group_id = group_entity.id
                         WHERE
-                            CAST(groups.type AS UNSIGNED) = :type
+                            CAST(group_entity.type AS UNSIGNED) = :type
                             AND junction.location_id = :locationId";
         }
 
