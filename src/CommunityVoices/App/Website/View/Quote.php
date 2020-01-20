@@ -66,7 +66,7 @@ class Quote extends Component\View
             $nextQuoteXMLElement = new SimpleXMLElement(
                 $this->transcriber->toXml($boundaryQuotes['quoteCollection'][1])
             );
-        } else {
+        } else if (key_exists(0, $boundaryQuotes['quoteCollection'])) {
             // This logic is probably best kept out of a view.
             // TODO (but maybe it is fine in a view)
             $isPrev = $boundaryQuotes['quoteCollection'][0]['quote']['id'] < $quote->quote->id;
