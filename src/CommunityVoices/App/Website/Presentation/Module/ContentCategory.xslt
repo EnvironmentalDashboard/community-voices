@@ -7,7 +7,7 @@
     <div>
         <xsl:attribute name="style">width:100%;background:<xsl:value-of select="domain/contentCategory/color" />;position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:8vh;line-height:14vh;font-weight:700;padding-left:1vw</xsl:attribute>
         <xsl:value-of select="domain/contentCategory/label" />
-      <img src="" alt="" style="position:absolute;right:3vw;bottom:2vw;width:25vw;height:auto">
+      <img src="" alt="" style="position:absolute;right:3vw;bottom:2vw;max-width:25vw;max-height:25vh">
         <xsl:attribute name="src">/community-voices/uploads/<xsl:value-of select="domain/contentCategory/image/image/id" /></xsl:attribute>
       </img>
     </div>
