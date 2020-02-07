@@ -147,7 +147,7 @@
 
                   <ul class="list-unstyled">
                     <li class="media">
-                      <img class="mr-3" src="https://environmentaldashboard.org/community-voices/uploads/{image}" alt="{title}" style="width:200px" />
+                      <img class="mr-3" src="/community-voices/uploads/{image}" alt="{title}" style="width:200px" />
                       <div class="media-body">
                         <h5 class="mt-0 mb-1">
                           <xsl:value-of select='title' />

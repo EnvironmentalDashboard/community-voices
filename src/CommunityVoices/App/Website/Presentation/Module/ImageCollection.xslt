@@ -296,7 +296,7 @@
                             <xsl:attribute name="alt"><xsl:value-of select='title' /></xsl:attribute>
 							<xsl:attribute name="onerror">
 								this.onerror = null;
-								this.src = "https://environmentaldashboard.org/community-voices/uploads/<xsl:value-of select='id' />?max_width=325";
+								this.src = "/community-voices/uploads/<xsl:value-of select='id' />?max_width=325";
 							</xsl:attribute>
                           </img>
                         </a>
@@ -403,7 +403,7 @@
                     <a href="images/{id}">
                       <div class="image">
                         <img>
-                          <xsl:attribute name="src">https://environmentaldashboard.org/community-voices/uploads/<xsl:value-of select='id' /></xsl:attribute>
+                          <xsl:attribute name="src">/community-voices/uploads/<xsl:value-of select='id' /></xsl:attribute>
                           <xsl:attribute name="alt"><xsl:value-of select='title' /></xsl:attribute>
                           <xsl:attribute name="class">card-img</xsl:attribute>
                         </img>

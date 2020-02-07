@@ -38,12 +38,12 @@
 								  </ol> -->
 								  <div class="carousel-inner">
 								    <div class="carousel-item active">
-									    <img class="d-block w-100" src="https://environmentaldashboard.org/community-voices/uploads/{domain/article/image}" alt="{title}" />
+									    <img class="d-block w-100" src="/community-voices/uploads/{domain/article/image}" alt="{title}" />
 								    </div>
 								    <xsl:for-each select="domain/relatedSlides/media_id">
 								    	<div class="carousel-item">
 								    		<div class="embed-responsive embed-responsive-16by9">
-												  <iframe class="embed-responsive-item" src="https://environmentaldashboard.org/community-voices/slides/{.}"></iframe>
+												  <iframe class="embed-responsive-item" src="/community-voices/slides/{.}"></iframe>
 												</div>
 									    </div>
 										</xsl:for-each>

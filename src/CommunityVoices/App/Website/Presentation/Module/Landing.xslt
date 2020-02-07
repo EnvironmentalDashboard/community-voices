@@ -35,14 +35,14 @@
                 <xsl:when test="$i = 1">
                   <div class="carousel-item active">
                     <div class="embed-responsive embed-responsive-16by9 mb-4">
-                      <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;" src="https://environmentaldashboard.org/community-voices/slides/{id}"></iframe>
+                      <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;" src="/community-voices/slides/{id}"></iframe>
                     </div>
                   </div>
                 </xsl:when>
                 <xsl:otherwise>
                   <div class="carousel-item">
                     <div class="embed-responsive embed-responsive-16by9 mb-4">
-                      <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;" src="https://environmentaldashboard.org/community-voices/slides/{id}"></iframe>
+                      <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;" src="/community-voices/slides/{id}"></iframe>
                     </div>
                   </div>
                 </xsl:otherwise>

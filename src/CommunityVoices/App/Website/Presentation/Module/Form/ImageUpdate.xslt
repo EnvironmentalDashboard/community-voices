@@ -10,7 +10,7 @@
         <div class="col-12">
 
           <div class="mb-2">
-            <img src="https://environmentaldashboard.org/community-voices/uploads/{domain/image/id}" alt="{domain/image/title}" id="cropper-img" style="width:80%;margin:0 auto;" class="mt-2 d-block" />
+            <img src="/community-voices/uploads/{domain/image/id}" alt="{domain/image/title}" id="cropper-img" style="width:80%;margin:0 auto;" class="mt-2 d-block" />
           </div>
 
           <div style="max-width:400px;margin: 0 auto">
