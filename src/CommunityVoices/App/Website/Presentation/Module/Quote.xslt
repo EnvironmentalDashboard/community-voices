@@ -141,9 +141,9 @@
 	            <xsl:when test="domain/slideId != ''">
 	            	<xsl:attribute name="class">col-sm-4</xsl:attribute>
 	              <h4>Content featuring this quote</h4>
-	              <a href='https://environmentaldashboard.org/community-voices/slides/{domain/slideId}'>
+	              <a href='/community-voices/slides/{domain/slideId}'>
 	                <div class="embed-responsive embed-responsive-16by9 mb-4">
-	                  <iframe class="embed-responsive-item" style="pointer-events: none;" src="https://environmentaldashboard.org/community-voices/slides/{domain/slideId}"></iframe>
+	                  <iframe class="embed-responsive-item" style="pointer-events: none;" src="/community-voices/slides/{domain/slideId}"></iframe>
 	                </div>
 	              </a>
 	              <p>

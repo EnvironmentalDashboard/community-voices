@@ -4,11 +4,11 @@
     <?php endif; ?>
 
     <p>
-        <img src="https://environmentaldashboard.org/community-voices/uploads/<?=$image->media_id ?>" width="100%">
+        <img src="/community-voices/uploads/<?=$image->media_id ?>" width="100%">
     <p>
 
     <p>Image ID: <strong><?=$image->media_id ?></strong></p>
     <p>Hash: <strong><?=strtolower($image->conv_hash) ?></strong></p>
     <p>Distance: <strong><?=$image->d ?></strong></p>
-    <p><a href="https://environmentaldashboard.org/community-voices/images/<?=$image->media_id ?>" target="_blank">Open image in new tab</a></p>
+    <p><a href="/community-voices/images/<?=$image->media_id ?>" target="_blank">Open image in new tab</a></p>
 </div>

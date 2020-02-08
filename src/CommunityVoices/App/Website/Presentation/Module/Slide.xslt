@@ -8,7 +8,7 @@
 
   <xsl:template match="/package">
     <div style="display: flex;align-items:center;height: 86vh">
-      <img src="https://environmentaldashboard.org/community-voices/uploads/{domain/slide/image/image/id}" alt="{domain/slide/image/image/title}" style="flex-shrink: 0;width: auto;max-height: 86vh;max-width:70vw;max-height:100%" />
+      <img src="/community-voices/uploads/{domain/slide/image/image/id}" alt="{domain/slide/image/image/title}" style="flex-shrink: 0;width: auto;max-height: 86vh;max-width:70vw;max-height:100%" />
       <h1 style="{concat('color:#fff;padding:3vw;font-size:', domain/slide/font_size, 'vw;font-weight:400')}">
         <xsl:choose>
           <xsl:when test="domain/slide/quote/quote/quotationMarks = ''">

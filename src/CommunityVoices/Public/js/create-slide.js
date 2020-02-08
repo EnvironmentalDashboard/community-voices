@@ -318,7 +318,7 @@ function getImage(page) {
         var html = '<div class="card-columns">';
         $.each(data['imageCollection'], function(index, element) {
             if (typeof element === 'object') {
-                html += '<div class="card bg-dark text-white ajax-image" data-id="'+element['image']['id']+'"><img class="card-img" src="https://environmentaldashboard.org/community-voices/uploads/'+element['image']['id']+'" alt="'+element['image']['title']+'" /></div>';
+                html += '<div class="card bg-dark text-white ajax-image" data-id="'+element['image']['id']+'"><img class="card-img" src="/community-voices/uploads/'+element['image']['id']+'" alt="'+element['image']['title']+'" /></div>';
             }
         });
         html += '</div>';

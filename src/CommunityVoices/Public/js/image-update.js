@@ -30,7 +30,7 @@ function enable_cropper() {
 }
 enable_cropper();
 
-const base = 'https://environmentaldashboard.org/community-voices/uploads/';
+const base = '/community-voices/uploads/';
 var rect = {crop_x: 0, crop_y: 0, crop_height: 0, crop_width:0};
 function load_uncropped(e) {
   var text = e.firstChild.nodeValue,

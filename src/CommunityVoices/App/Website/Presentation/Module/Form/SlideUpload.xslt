@@ -168,7 +168,7 @@
                   <iframe class="embed-responsive-item" id="preview" src="/community-voices/slides/{domain/slide/id}"></iframe>
                 </xsl:when>
                 <xsl:otherwise>
-                  <iframe class="embed-responsive-item" id="preview" src="https://environmentaldashboard.org/community-voices/slides/12"></iframe>
+                  <iframe class="embed-responsive-item" id="preview" src="/community-voices/slides/12"></iframe>
                 </xsl:otherwise>
               </xsl:choose>
             </div></div>

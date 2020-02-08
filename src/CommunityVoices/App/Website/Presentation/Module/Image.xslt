@@ -55,7 +55,7 @@
           </xsl:choose>
           <div class="card mb-3">
             <img class="card-img-top">
-              <xsl:attribute name="src">https://environmentaldashboard.org/community-voices/uploads/<xsl:value-of select='domain/image/id' /></xsl:attribute>
+              <xsl:attribute name="src">/community-voices/uploads/<xsl:value-of select='domain/image/id' /></xsl:attribute>
               <xsl:attribute name="alt"><xsl:value-of select='domain/image/title' /></xsl:attribute>
             </img>
             <div class="card-body">
@@ -104,9 +104,9 @@
             <xsl:when test="domain/slideId != ''">
               <xsl:attribute name="class">col-sm-4</xsl:attribute>
               <h4>Content featuring this image</h4>
-              <a href='https://environmentaldashboard.org/community-voices/slides/{domain/slideId}'>
+              <a href='/community-voices/slides/{domain/slideId}'>
                 <div class="embed-responsive embed-responsive-16by9 mb-4">
-                  <iframe class="embed-responsive-item" style="pointer-events: none;" src="https://environmentaldashboard.org/community-voices/slides/{domain/slideId}"></iframe>
+                  <iframe class="embed-responsive-item" style="pointer-events: none;" src="/community-voices/slides/{domain/slideId}"></iframe>
                 </div>
               </a>
               <p>
