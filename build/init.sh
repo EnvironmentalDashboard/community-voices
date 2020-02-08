@@ -12,3 +12,7 @@ ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 	php composer.phar update
 a2enmod rewrite headers && mv /var/www/html/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
 service postfix start
+
+# Make sure log/access.log exists
+mkdir -p /var/www/html/log
+touch /var/www/html/log/access.log
