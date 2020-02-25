@@ -16,3 +16,4 @@ service postfix start
 # Make sure log/access.log exists
 mkdir -p /var/www/html/log
 touch /var/www/html/log/access.log
+chmod a+w /var/www/html/log/access.log
