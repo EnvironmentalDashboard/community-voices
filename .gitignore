@@ -21,3 +21,5 @@ migrate/importNextGen.zip
 # Sam's various personal scripts
 pull-everywhere.sh
 run-cle-db.sh
+
+db/
