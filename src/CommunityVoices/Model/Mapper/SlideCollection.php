@@ -43,7 +43,7 @@ class SlideCollection extends DataMapper
             $params[] = "%{$search}%";
             $params[] = "%{$search}%";
             $params[] = "%{$search}%";
-            $search_image_query = 'AND slide.image_id IN (SELECT `community-voices_images`.media_id FROM `community-voices_images` WHERE title LIKE ? OR description LIKE ? OR photographer LIKE ? OR organization LIKE ?)';
+            $search_image_query = 'OR slide.image_id IN (SELECT `community-voices_images`.media_id FROM `community-voices_images` WHERE title LIKE ? OR description LIKE ? OR photographer LIKE ? OR organization LIKE ?)';
             $params[] = "%{$search}%";
             $params[] = "%{$search}%";
             $params[] = "%{$search}%";
