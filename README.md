@@ -12,11 +12,18 @@ Reference [this link](https://stackoverflow.com/a/43365425/2397924) for debuggin
 Once Docker is installed, you are ready to build the Community Voices container.
 For this, simply run `./build.sh`.
 
+Next, for development, you would then run `./run-db.sh`.
+This creates a local database to use in development.
+If you would like to seed this database with production data,
+run `./download-prod.sh` and then `./upload-prod.sh`.
+If you prefer to use a custom dump (or utilize the Cleveland dump),
+provide the filename as an argument to `./upload-prod.sh`.
+
 To run, simply run `./run.sh`.
 If you provide any command-line arguments, it will run it in our special live server case rather than for the local machine.
 The server will then be running on `localhost:3001`.
-If you want to stop the server, run `docker stop PROD_CV`.
+If you want to stop the server, run `docker stop LOCAL_CV`.
 In general, Docker will start the server as soon as you start Docker.
 
-To delete this container later, you can run `docker rmi community-voices`.
-(May need to force it with `-f` and list containers with `docker container ls`)
+To delete this container later, you can run `docker stop LOCAL_CV` and then
+`docker rm LOCAL_CV`.
