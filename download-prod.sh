@@ -16,3 +16,4 @@ then
 fi
 
 mysqldump --column-statistics=0 -h 159.89.232.129 -P $port -u $user --password=$pass --databases community_voices > db/dump.sql
+mysqldump --column-statistics=0 -h 206.189.255.84 -P $cle_port -u $cle_user --password=$cle_pass --databases community-voices > db/cle_dump.sql
