@@ -19,7 +19,11 @@ run `./download-prod.sh` and then `./upload-prod.sh`.
 If you prefer to use a custom dump (or utilize the Cleveland dump),
 provide the filename as an argument to `./upload-prod.sh`.
 
-To run, simply run `./run.sh`.
+You can also sync your local photo directory with that of the server.
+To do this, run `./sync-photos-from-server.sh`.
+This will simply populate your `CV_Media` folder - it will never modify the server's.
+
+To run Community Voices, simply run `./run.sh`.
 If you provide any command-line arguments, it will run it in our special live server case rather than for the local machine.
 The server will then be running on `localhost:3001`.
 If you want to stop the server, run `docker stop LOCAL_CV`.
