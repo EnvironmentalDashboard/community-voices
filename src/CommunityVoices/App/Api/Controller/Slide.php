@@ -121,11 +121,16 @@ class Slide extends Component\Controller
         $dateRecorded = 'now';
         $approved = null;//$request->request->get('approved');
 
+        $decay_percent = (int) $request->request->get('decay_percent');
+        $probability = (float) $request->request->get('probability');
+        $decay_start = (string) $request->request->get('decay_start');
+        $decay_end = (string) $request->request->get('decay_end');
+
         // if ($identity->getRole() <= 2){
         //   $approved = null;
         // }
 
-        $this->slideManagement->upload($quoteId, $imageId, $contentCategory, $logo, $screens, $dateRecorded, $approved, $identity);
+        $this->slideManagement->upload($quoteId, $imageId, $contentCategory, $logo, $screens, $dateRecorded, $decay_percent, $probability, $decay_start, $decay_end, $approved, $identity);
     }
 
     public function getSlideUpdate($request)

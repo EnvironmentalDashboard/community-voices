@@ -36,6 +36,10 @@ class SlideManagement
         $logoId,
         $screens,
         $dateRecorded,
+        $decay_percent,
+        $probability,
+        $decay_start,
+        $decay_end,
         $approved,
         $addedBy
     ) {
@@ -64,10 +68,10 @@ class SlideManagement
         $slide->setImage($image);
         $slide->setQuote($quote);
         $slide->setLogo($logo);
-        $slide->setProbability(0);
-        $slide->setDecayPercent(0);
-        $slide->setDecayEnd(time()+3600);
-        $slide->setDecayStart(time());
+        $slide->setProbability((int) $probability);
+        $slide->setDecayPercent((int) $decay_percent);
+        $slide->setDecayEnd((int) strtotime($decay_end));
+        $slide->setDecayStart((int) strtotime($decay_start));
         // $slide->setDateRecorded($dateRecorded);
         $slide->setAddedBy($addedBy);
         if ($approved) {
