@@ -47,5 +47,6 @@ else
 	-e "MYSQL_HOST=cv-mysql" -e "MYSQL_DB=community_voices" -e "MYSQL_PORT=3306" -e "MYSQL_USER=root" \
 	--link cv-mysql:cv-mysql \
 	-e SERVER=`hostname` \
+	-e API_URL=http://localhost:80/community-voices/api \
 	--name LOCAL_CV community-voices
 fi

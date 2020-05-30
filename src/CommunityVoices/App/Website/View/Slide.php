@@ -19,11 +19,12 @@ class Slide extends Component\View
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
-        Api\View\Identification $identificationAPIView,
+        //Api\View\Identification $identificationAPIView,
+        Component\ApiProvider $apiProvider,
         Api\View\Slide $slideAPIView,
         Api\View\ContentCategory $contentCategoryAPIView
     ) {
-        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+        parent::__construct($mapperFactory, $transcriber, $apiProvider);
 
         $this->slideAPIView = $slideAPIView;
         $this->contentCategoryAPIView = $contentCategoryAPIView;

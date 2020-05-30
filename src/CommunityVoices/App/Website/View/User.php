@@ -20,11 +20,12 @@ class User extends Component\View
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
-        Api\View\Identification $identificationAPIView,
+        //Api\View\Identification $identificationAPIView,
+        Component\ApiProvider $apiProvider,
         UrlGenerator $urlGenerator,
         Api\View\User $userAPIView
     ) {
-        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+        parent::__construct($mapperFactory, $transcriber, $apiProvider);
 
         $this->urlGenerator = $urlGenerator;
         $this->userAPIView = $userAPIView;

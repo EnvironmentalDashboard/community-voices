@@ -98,6 +98,16 @@
         }
     },
 
+    "getIdentity": {
+      "notation": "/identity",
+      "method": "get",
+      "defaults": {
+        "resource": "Identification",
+        "action": "getIdentity",
+        "use-api": "true"
+      }
+    },
+
     "getAllSlide": {
         "notation": "/slides",
         "method": "get",
@@ -366,6 +376,16 @@
             "resource": "Article",
             "action": "postArticleUpdate"
         }
+    },
+
+    "getArticleRelatedSlides": {
+      "notation": "/articles/{title}/slides",
+      "method": "get",
+      "defaults": {
+        "resource": "Article",
+        "action": "getArticleRelatedSlides",
+        "use-api": "true"
+      }
     },
 
     "getAllLocation": {

@@ -118,4 +118,11 @@ class Article extends Component\Controller
 
         $this->articleManagement->update($id, $text, $title, $author, $dateRecorded, $status);
     }
+
+    protected function getArticleRelatedSlides($request)
+    {
+        $title = $request->attributes->get('title');
+
+        $this->articleLookup->relatedSlides2($title);
+    }
 }

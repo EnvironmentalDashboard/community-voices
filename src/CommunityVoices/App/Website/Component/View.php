@@ -12,16 +12,19 @@ class View
 {
     protected $mapperFactory;
     protected $transcriber;
-    protected $identificationAPIView;
+    //protected $identificationAPIView;
+    protected $apiProvider;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
-        Identification $identificationAPIView
+        //Identification $identificationAPIView
+        Component\ApiProvider $apiProvider
     ) {
         $this->mapperFactory = $mapperFactory;
         $this->transcriber = $transcriber;
-        $this->identificationAPIView = $identificationAPIView;
+        //$this->identificationAPIView = $identificationAPIView;
+        $this->apiProvider = $apiProvider;
     }
 
     protected function finalize($response)
@@ -35,7 +38,7 @@ class View
     protected function identityXMLElement()
     {
         return new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode($this->identificationAPIView->getIdentity()->getContent()))
+            $this->transcriber->toXml($this->apiProvider->getJson('/identity'))
         );
     }
 

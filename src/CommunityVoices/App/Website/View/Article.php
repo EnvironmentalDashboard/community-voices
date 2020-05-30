@@ -14,20 +14,21 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class Article extends Component\View
 {
-    protected $articleAPIView;
-    protected $articleLookup;
+    //protected $articleAPIView;
+    //protected $articleLookup;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
-        Api\View\Identification $identificationAPIView,
-        Api\View\Article $articleAPIView,
-        Service\ArticleLookup $articleLookup
+        //Api\View\Identification $identificationAPIView,
+        Component\ApiProvider $apiProvider
+        //Api\View\Article $articleAPIView,
+        //Service\ArticleLookup $articleLookup
     ) {
-        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+        parent::__construct($mapperFactory, $transcriber, $apiProvider);
 
-        $this->articleAPIView = $articleAPIView;
-        $this->articleLookup = $articleLookup;
+        //$this->articleAPIView = $articleAPIView;
+        //$this->articleLookup = $articleLookup;
     }
 
     public function getArticle($request)
@@ -35,7 +36,8 @@ class Article extends Component\View
         /**
          * Gather article information
          */
-        $json = json_decode($this->articleAPIView->getArticle()->getContent());
+        $id = $request->attributes->get('id');
+        $json = $this->apiProvider->getJson("/articles/{$id}");
         $articleXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($json)
         );
@@ -48,8 +50,9 @@ class Article extends Component\View
 
         $packagedArticle = $articlePackageElement->addChild('domain');
         $packagedArticle->adopt($articleXMLElement);
+        $encodedTitle = rawurlencode($json->article->title);
         $packagedArticle->adopt(new SimpleXMLElement(
-            $this->transcriber->toXml(['relatedSlides' => $this->articleLookup->relatedSlides($json->article->title)])
+            $this->transcriber->toXml($this->apiProvider->getQueriedJson("/articles/{$encodedTitle}/slides", $request))
         ));
         // var_dump($packagedArticle);die;
 
@@ -100,7 +103,7 @@ class Article extends Component\View
         /**
          * Gather article information
          */
-        $json = json_decode($this->articleAPIView->getAllArticle()->getContent());
+        $json = $this->apiProvider->getQueriedJson('/articles', $request);
         $obj = new \stdClass();
         $obj->articleCollection = (array) $json->articleCollection;
         $count = $obj->articleCollection['count'];

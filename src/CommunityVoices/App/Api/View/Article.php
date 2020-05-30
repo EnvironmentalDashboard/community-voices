@@ -65,4 +65,17 @@ class Article extends Component\View
     {
         // intentionally blank
     }
+
+    protected function getArticleRelatedSlides()
+    {
+        $clientState = $this->mapperFactory->createClientStateMapper();
+        $stateObserver = $clientState->retrieve();
+
+        $stateObserver->setSubject('articleLookup');
+        $slides = $stateObserver->getEntry('relatedSlides')[0];
+
+        $response = new HttpFoundation\JsonResponse($slides);
+
+        return $response;
+    }
 }

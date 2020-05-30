@@ -52,12 +52,12 @@ class FrontController
     {
         $this->loadProviders($request);
 
-        try {
+        // try {
             $this->router->route($request);
             $this->dispatcher->dispatch($request)->send();
-        } catch (\Throwable $t) {
-            $this->fail($request, $t)->send();
-        }
+        // } catch (\Throwable $t) {
+        //     $this->fail($request, $t)->send();
+        // }
     }
 
     protected function loadProviders($request)
