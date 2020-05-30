@@ -52,7 +52,7 @@ class Article extends Component\View
         $packagedArticle->adopt($articleXMLElement);
         $encodedTitle = rawurlencode($json->article->title);
         $packagedArticle->adopt(new SimpleXMLElement(
-            $this->transcriber->toXml($this->apiProvider->getQueriedJson("/articles/{$encodedTitle}/slides", $request))
+            $this->transcriber->toXml(['relatedSlides' => $this->apiProvider->getQueriedJson("/articles/{$encodedTitle}/slides", $request)])
         ));
         // var_dump($packagedArticle);die;
 
