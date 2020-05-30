@@ -199,12 +199,6 @@ class Article extends Component\View
 
     public function getArticleUpload($request)
     {
-        try {
-            $this->articleAPIView->getArticleUpload();
-        } catch (Exception $e) {
-            echo $e->getMessage();
-            return;
-        }
         $paramXML = new SimpleXMLElement('<form/>');
 
         $formModule = new Component\Presenter('Module/Form/ArticleUpload');
@@ -256,9 +250,10 @@ class Article extends Component\View
         /**
          * Gather article information
          */
+        $id = $request->attributes->get('id');
         $articleXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
-                $this->articleAPIView->getArticle()->getContent()
+                $this->apiProvider->getJson("/articles/{$id}/edit")
             ))
         );
 

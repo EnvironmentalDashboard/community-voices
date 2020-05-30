@@ -32,7 +32,7 @@ class ContentCategory extends Component\View
     {
         $contentCategoryXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
-                $this->contentCategoryAPIView->getAllContentCategory()->getContent()
+                $this->apiProvider->getJson('/content-categories')
             ))
         );
 
