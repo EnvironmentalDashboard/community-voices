@@ -35,16 +35,16 @@ class View
         $cookieMapper->mapToResponse();
     }
 
-    protected function identityXMLElement()
+    protected function identityXMLElement($request)
     {
         return new SimpleXMLElement(
-            $this->transcriber->toXml($this->apiProvider->getJson('/identity'))
+            $this->transcriber->toXml($this->apiProvider->getJson('/identity', $request))
         );
     }
 
-    protected function isLoggedIn()
+    protected function isLoggedIn($request)
     {
-        return !empty($this->identityXMLElement()->id);
+        return !empty($this->identityXMLElement($request)->id);
     }
 
     /**

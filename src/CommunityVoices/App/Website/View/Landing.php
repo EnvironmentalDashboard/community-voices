@@ -69,7 +69,7 @@ class Landing extends Component\View
         $packagedLanding->adopt($contentCategoryXMLElement);
 
         $packagedIdentity = $landingPackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
 
         /**
          * Generate landing module
@@ -99,7 +99,7 @@ class Landing extends Component\View
         $domainXMLElement->addChild('metaDescription', "Community Voices communication technology combines images and words to advance environmental, social and economic sustainability in diverse communities.");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 

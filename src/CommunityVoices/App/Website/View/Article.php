@@ -37,7 +37,7 @@ class Article extends Component\View
          * Gather article information
          */
         $id = $request->attributes->get('id');
-        $json = $this->apiProvider->getJson("/articles/{$id}");
+        $json = $this->apiProvider->getJson("/articles/{$id}", $request);
         $articleXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($json)
         );
@@ -57,7 +57,7 @@ class Article extends Component\View
         // var_dump($packagedArticle);die;
 
         $packagedIdentity = $articlePackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
 
         /**
          * Generate Article module
@@ -86,7 +86,7 @@ class Article extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -160,7 +160,7 @@ class Article extends Component\View
         }
 
         $packagedIdentity = $articlePackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
 
         /**
          * Generate Article module
@@ -187,7 +187,7 @@ class Article extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -223,7 +223,7 @@ class Article extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -253,7 +253,7 @@ class Article extends Component\View
         $id = $request->attributes->get('id');
         $articleXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
-                $this->apiProvider->getJson("/articles/{$id}/edit")
+                $this->apiProvider->getJson("/articles/{$id}/edit", $request)
             ))
         );
 
@@ -282,7 +282,7 @@ class Article extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 

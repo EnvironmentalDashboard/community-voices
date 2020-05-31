@@ -32,7 +32,7 @@ class ContentCategory extends Component\View
     {
         $contentCategoryXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
-                $this->apiProvider->getJson('/content-categories')
+                $this->apiProvider->getJson('/content-categories', $request)
             ))
         );
 
@@ -42,7 +42,7 @@ class ContentCategory extends Component\View
         $packagedContentCategory->adopt($contentCategoryXMLElement);
 
         $packagedIdentity = $contentCategoryPackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
 
         $contentCategoryModule = new Component\Presenter('Module/ContentCategoryCollection');
         $contentCategoryModuleXML = $contentCategoryModule->generate($contentCategoryPackageElement);
@@ -52,7 +52,7 @@ class ContentCategory extends Component\View
         $domainXMLElement->addChild('main-pane', $contentCategoryModuleXML);
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -81,7 +81,7 @@ class ContentCategory extends Component\View
         $packagedContentCategory->adopt($contentCategoryXMLElement);
 
         $packagedIdentity = $contentCategoryPackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
 
         $contentCategoryModule = new Component\Presenter('Module/ContentCategory');
         $contentCategoryModuleXML = $contentCategoryModule->generate($contentCategoryPackageElement);
@@ -106,7 +106,7 @@ class ContentCategory extends Component\View
         );
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('Blank');
 
@@ -163,7 +163,7 @@ class ContentCategory extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 

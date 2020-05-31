@@ -44,7 +44,7 @@ class Location extends Component\View
         $packagedlocation->adopt($locationXMLElement);
 
         $packagedIdentity = $locationPackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
 
         /**
          * Generate Location module
@@ -67,7 +67,7 @@ class Location extends Component\View
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 

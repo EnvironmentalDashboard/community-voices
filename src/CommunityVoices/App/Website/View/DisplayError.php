@@ -38,7 +38,7 @@ class DisplayError extends Component\View
         }
 
         $identity = $displayErrorPackageElement->addChild('identity');
-        $identity->adopt($this->identityXMLElement());
+        $identity->adopt($this->identityXMLElement($request));
 
         /**
          * Generate DisplayError module

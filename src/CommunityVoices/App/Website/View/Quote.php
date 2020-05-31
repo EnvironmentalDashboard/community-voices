@@ -104,7 +104,7 @@ class Quote extends Component\View
         }
 
         $packagedIdentity = $quotePackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
 
         /**
          * Generate Quote module
@@ -133,7 +133,7 @@ class Quote extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -222,7 +222,7 @@ class Quote extends Component\View
         }
 
         $packagedIdentity = $quotePackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
 
         /**
          * Generate Quote module
@@ -249,7 +249,7 @@ class Quote extends Component\View
         $domainXMLElement->addChild('metaDescription', "Searchable database of quotes used for Community Voices communication technology to promote environmental, social and economic sustainability in diverse communities.");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -327,7 +327,7 @@ class Quote extends Component\View
         }
 
         $packagedIdentity = $quoteFormElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
         $quoteModule = new Component\Presenter('Module/Form/Quote');
         $quoteModuleXML = $quoteModule->generate($quoteFormElement);
 
@@ -345,7 +345,7 @@ class Quote extends Component\View
         $domainXMLElement->addChild('title', "Community Voices: Quote Upload");
         $domainXMLElement->addChild('extraJS', 'quote-form');
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
         $presentation = new Component\Presenter('SinglePane');
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
         $this->finalize($response);
@@ -470,7 +470,7 @@ class Quote extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 

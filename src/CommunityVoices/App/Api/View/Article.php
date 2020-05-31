@@ -29,7 +29,7 @@ class Article extends Component\View
         return $response;
     }
 
-    protected function getAllArticle()
+    protected function getAllArticle($request)
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();

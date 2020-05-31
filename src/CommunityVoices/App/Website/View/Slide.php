@@ -121,7 +121,7 @@ class Slide extends Component\View
         // var_dump($packagedSlide);die;
 
         $packagedIdentity = $slidePackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
 
         /**
          * Generate slide module
@@ -152,7 +152,7 @@ class Slide extends Component\View
         $domainXMLElement->addChild('metaDescription', "Searchable database of content for Community Voices communication technology combining images and words to advance sustainability in diverse communities.");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -204,7 +204,7 @@ class Slide extends Component\View
         $packagedSlide->adopt($slideXMLElement);
 
         $packagedIdentity = $slidePackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
 
         /**
          * Generate slide module
@@ -232,7 +232,7 @@ class Slide extends Component\View
         );
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('Blank');
 
@@ -299,7 +299,7 @@ class Slide extends Component\View
         $packagedSlide->adopt($locXMLElement);
         $packagedSlide->adopt($contentCategoryXMLElement);
         $packagedIdentity = $slidePackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
         $slideModule = new Component\Presenter('Module/Form/SlideUpload');
         $slideModuleXML = $slideModule->generate($slidePackageElement);
         // var_dump($slideModuleXML);die;
@@ -421,7 +421,7 @@ class Slide extends Component\View
         // var_dump($packagedSlide);die;
 
         $packagedIdentity = $slidePackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
         $slideModule = new Component\Presenter('Module/Form/SlideUpload');
         $slideModuleXML = $slideModule->generate($slidePackageElement);
         // var_dump($packagedSlide->slide);die;

@@ -55,7 +55,7 @@ class User extends Component\View
         $packagedlocation->adopt($userXMLElement);
 
         $packagedIdentity = $userPackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
 
         /**
          * Generate User module
@@ -72,7 +72,7 @@ class User extends Component\View
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $domainXMLElement->addChild('extraJS', "user");
 
@@ -98,7 +98,7 @@ class User extends Component\View
         // 1. We logged in, then clicked on register.
         // 2. We just successfully registered.
         // In both cases, we want to leave this registration page.
-        if ($this->isLoggedIn()) {
+        if ($this->isLoggedIn($request)) {
             $response = new HttpFoundation\RedirectResponse(
                 $this->urlGenerator->generate('root')
             );

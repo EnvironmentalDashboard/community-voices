@@ -70,7 +70,7 @@ class Image extends Component\View
         ));
 
         $packagedIdentity = $imagePackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
 
         /**
          * Generate image module
@@ -99,7 +99,7 @@ class Image extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -189,7 +189,7 @@ class Image extends Component\View
         }
 
         $packagedIdentity = $imagePackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
 
         /**
          * Generate image module
@@ -215,7 +215,7 @@ class Image extends Component\View
         $domainXMLElement->addChild('extraCSS', "image-collection");
         $domainXMLElement->addChild('metaDescription', "Searchable database of photos used for Community Voices communication technology to promote environmental, social and economic sustainability in diverse communities.");
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -237,7 +237,7 @@ class Image extends Component\View
         $packagedImage = $imagePackageElement->addChild('domain');
         $packagedImage->adopt($imageXMLElement);
         $packagedIdentity = $imagePackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
         $imageModule = new Component\Presenter('Module/Form/ImageUpload');
         $imageModuleXML = $imageModule->generate($imagePackageElement);
         /**
@@ -254,7 +254,7 @@ class Image extends Component\View
         $domainXMLElement->addChild('title', "Community Voices: Image Upload");
         $domainXMLElement->addChild('extraJS', "https://cdn.jsdelivr.net/npm/exif-js image-upload");
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
         $presentation = new Component\Presenter('SinglePane');
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
         $this->finalize($response);
@@ -321,7 +321,7 @@ class Image extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 
