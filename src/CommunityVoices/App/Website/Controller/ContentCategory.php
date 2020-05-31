@@ -6,46 +6,46 @@ use CommunityVoices\App\Api;
 
 class ContentCategory
 {
-    protected $contentCategoryAPIController;
+    //protected $contentCategoryAPIController;
 
     public function __construct(
-        Api\Controller\ContentCategory $contentCategoryAPIController
+        //Api\Controller\ContentCategory $contentCategoryAPIController
     ) {
-        $this->contentCategoryAPIController = $contentCategoryAPIController;
+        //$this->contentCategoryAPIController = $contentCategoryAPIController;
     }
 
     public function getAllContentCategory($request)
     {
-        $this->contentCategoryAPIController->getAllContentCategory($request);
+        //$this->contentCategoryAPIController->getAllContentCategory($request);
     }
 
     public function getContentCategory($request)
     {
-        $this->contentCategoryAPIController->getContentCategory($request);
+        //$this->contentCategoryAPIController->getContentCategory($request);
     }
 
     public function getContentCategoryUpload($request)
     {
-        $this->contentCategoryAPIController->getContentCategoryUpload($request);
+        //$this->contentCategoryAPIController->getContentCategoryUpload($request);
     }
 
     public function postContentCategoryUpload($request)
     {
-        $this->contentCategoryAPIController->postContentCategoryUpload($request);
+        //$this->contentCategoryAPIController->postContentCategoryUpload($request);
     }
 
     public function getContentCategoryUpdate($request)
     {
-        $this->contentCategoryAPIController->getContentCategoryUpdate($request);
+        //$this->contentCategoryAPIController->getContentCategoryUpdate($request);
     }
 
     public function postContentCategoryUpdate($request)
     {
-        $this->contentCategoryAPIController->postContentCategoryUpdate($request);
+        //$this->contentCategoryAPIController->postContentCategoryUpdate($request);
     }
 
     public function postContentCategoryDelete($request)
     {
-        $this->contentCategoryAPIController->postContentCategoryDelete($request);
+        //$this->contentCategoryAPIController->postContentCategoryDelete($request);
     }
 }

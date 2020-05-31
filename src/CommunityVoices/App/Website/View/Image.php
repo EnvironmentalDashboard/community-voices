@@ -14,9 +14,9 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class Image extends Component\View
 {
-    protected $imageAPIView;
-    protected $imageLookup;
-    protected $tagLookup;
+    // protected $imageAPIView;
+    // protected $imageLookup;
+    // protected $tagLookup;
     protected $urlGenerator;
 
     public function __construct(
@@ -24,16 +24,16 @@ class Image extends Component\View
         Component\Transcriber $transcriber,
         //Api\View\Identification $identificationAPIView,
         Component\ApiProvider $apiProvider,
-        Api\View\Image $imageAPIView,
-        Service\ImageLookup $imageLookup,
-        Service\TagLookup $tagLookup,
+        // Api\View\Image $imageAPIView,
+        // Service\ImageLookup $imageLookup,
+        // Service\TagLookup $tagLookup,
         UrlGenerator $urlGenerator
     ) {
         parent::__construct($mapperFactory, $transcriber, $apiProvider);
 
-        $this->imageAPIView = $imageAPIView;
-        $this->imageLookup = $imageLookup;
-        $this->tagLookup = $tagLookup;
+        // $this->imageAPIView = $imageAPIView;
+        // $this->imageLookup = $imageLookup;
+        // $this->tagLookup = $tagLookup;
         $this->urlGenerator = $urlGenerator;
     }
 
@@ -47,7 +47,8 @@ class Image extends Component\View
         /**
          * Gather image information
          */
-        $json = json_decode($this->imageAPIView->getImage()->getContent());
+        $id = $request->attributes->get('id');
+        $json = $this->apiProvider->getJson("/images/{$id}");
         $imageXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($json)
         );
@@ -116,7 +117,7 @@ class Image extends Component\View
         /**
          * Gather image information
          */
-        $json = json_decode($this->imageAPIView->getAllImage()->getContent());
+        $json = $this->apiProvider->getQueriedJson('/images');
         $obj = new \stdClass();
         $obj->imageCollection = $json->imageCollection;
         $count = $obj->imageCollection->count;
@@ -228,9 +229,9 @@ class Image extends Component\View
     public function getImageUpload($request)
     {
         $imageXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $this->imageAPIView->getImageUpload()->getContent()
-            ))
+            $this->transcriber->toXml(
+                $this->apiProvider->getJson('/images/new')
+            )
         );
 
         $imagePackageElement = new Helper\SimpleXMLElementExtension('<package/>');
@@ -278,7 +279,8 @@ class Image extends Component\View
         /**
          * Gather image information
          */
-        $image = json_decode($this->imageAPIView->getImage()->getContent());
+        $id = $request->attributes->get('id');
+        $image = json_decode($this->apiProvider->getJson("/images/{$id}"));
         $imageXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($image)
         );

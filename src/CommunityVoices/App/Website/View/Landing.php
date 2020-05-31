@@ -13,21 +13,21 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class Landing extends Component\View
 {
-    protected $landingAPIView;
-    protected $contentCategoryAPIView;
+    // protected $landingAPIView;
+    // protected $contentCategoryAPIView;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         //Api\View\Identification $identificationAPIView,
-        Component\ApiProvider $apiProvider,
-        Api\View\Landing $landingAPIView,
-        Api\View\ContentCategory $contentCategoryAPIView
+        Component\ApiProvider $apiProvider
+        // Api\View\Landing $landingAPIView,
+        // Api\View\ContentCategory $contentCategoryAPIView
     ) {
         parent::__construct($mapperFactory, $transcriber, $apiProvider);
 
-        $this->landingAPIView = $landingAPIView;
-        $this->contentCategoryAPIView = $contentCategoryAPIView;
+        // $this->landingAPIView = $landingAPIView;
+        // $this->contentCategoryAPIView = $contentCategoryAPIView;
     }
 
     public function getLanding($request)
@@ -35,7 +35,7 @@ class Landing extends Component\View
         /**
          * Gather landing information
          */
-        $json = json_decode($this->landingAPIView->getLanding()->getContent());
+        $json = $this->apiProvider->getJson('/', $request);
         $obj = new \stdClass;
         $obj->slideCollection = (array) $json->slideCollection;
         unset($obj->slideCollection['count']);
@@ -57,9 +57,9 @@ class Landing extends Component\View
         );
 
         $contentCategoryXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $this->contentCategoryAPIView->getAllContentCategory()->getContent()
-            ))
+            $this->transcriber->toXml(
+                $this->apiProvider->getJson('/content-categories', $request)
+            )
         );
 
         $landingPackageElement = new Helper\SimpleXMLElementExtension('<package/>');

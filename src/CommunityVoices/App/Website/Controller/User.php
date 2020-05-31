@@ -8,27 +8,27 @@ use CommunityVoices\App\Api;
 class User
 {
     protected $mapperFactory;
-    protected $userAPIController;
-    protected $identificationAPIController;
+    // protected $userAPIController;
+    // protected $identificationAPIController;
 
     public function __construct(
-        Component\MapperFactory $mapperFactory,
-        Api\Controller\User $userAPIController,
-        Api\Controller\Identification $identificationAPIController
+        Component\MapperFactory $mapperFactory
+        // Api\Controller\User $userAPIController,
+        // Api\Controller\Identification $identificationAPIController
     ) {
         $this->mapperFactory = $mapperFactory;
-        $this->userAPIController = $userAPIController;
-        $this->identificationAPIController = $identificationAPIController;
+        // $this->userAPIController = $userAPIController;
+        // $this->identificationAPIController = $identificationAPIController;
     }
 
     public function getProfile($request)
     {
-        $this->userAPIController->getUser($request);
+        // $this->userAPIController->getUser($request);
     }
 
     public function getProtectedPage($request)
     {
-        $this->userAPIController->postUser($request);
+        // $this->userAPIController->postUser($request);
     }
 
     public function getRegistration($request)
@@ -68,13 +68,13 @@ class User
         // we can log in as them.
         // If this failed, the error information will be stored
         // in StateObserver->'registration' via the Registration service.
-        if ($this->userAPIController->postUser($request)) {
-            $this->identificationAPIController->postLogin($request);
-        }
+        // if ($this->userAPIController->postUser($request)) {
+        //     $this->identificationAPIController->postLogin($request);
+        // }
     }
 
     public function postRegistrationInvite($request)
     {
-        $this->userAPIController->newToken($request);
+        // $this->userAPIController->newToken($request);
     }
 }

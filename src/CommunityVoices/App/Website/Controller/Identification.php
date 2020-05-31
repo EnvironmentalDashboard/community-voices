@@ -7,16 +7,16 @@ use CommunityVoices\App\Api;
 
 class Identification
 {
-    protected $identificationAPIController;
+    //protected $identificationAPIController;
     protected $mapperFactory;
     protected $apiProvider;
 
     public function __construct(
-        Api\Controller\Identification $identificationAPIController,
+        //Api\Controller\Identification $identificationAPIController,
         Component\MapperFactory $mapperFactory,
         Component\ApiProvider $apiProvider
     ) {
-        $this->identificationAPIController = $identificationAPIController;
+        //$this->identificationAPIController = $identificationAPIController;
         $this->mapperFactory = $mapperFactory;
         $this->apiProvider = $apiProvider;
     }

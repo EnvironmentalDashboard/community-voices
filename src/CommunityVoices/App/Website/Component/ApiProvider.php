@@ -27,11 +27,11 @@ class ApiProvider
         //     $context = stream_context_create($opts);
         // }
 
-        if ($request->cookies->has('userToken')) {
+        if (!empty($request->cookies->all())) {
             $opts = [
                 'http' => [
                     'method' => 'GET',
-                    'header' => "Cookie: userToken={$request->cookies->get('userToken')}"
+                    'header' => "Cookie: " . $_SERVER['HTTP_COOKIE']
                 ]
             ];
             $context = stream_context_create($opts);
@@ -49,6 +49,16 @@ class ApiProvider
 
     public function get($path, $request)
     {
+        if (!empty($request->cookies->all())) {
+            $opts = [
+                'http' => [
+                    'method' => 'GET',
+                    'header' => "Cookie: " . $_SERVER['HTTP_COOKIE']
+                ]
+            ];
+            $context = stream_context_create($opts);
+        }
+
         return file_get_contents(getenv('API_URL') . $path, false, $context ?? null);
     }
 
@@ -58,9 +68,9 @@ class ApiProvider
 
         $opts = [
             'http' => [
-                'header' => 'Content-Type: application/x-www-form-urlencoded\r\n',
+                'header' => "Content-Type: application/x-www-form-urlencoded\r\nCookie: " . $_SERVER['HTTP_COOKIE'] . "\r\n",
                 'method' => 'POST',
-                'content' => http_build_query($data)
+                'content' => http_build_query($data),
             ]
         ];
         $context = stream_context_create($opts);

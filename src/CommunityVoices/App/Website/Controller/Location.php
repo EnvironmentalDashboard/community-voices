@@ -6,16 +6,16 @@ use CommunityVoices\App\Api;
 
 class Location
 {
-    protected $locationAPIController;
+    //protected $locationAPIController;
 
     public function __construct(
-        Api\Controller\Location $locationAPIController
+        //Api\Controller\Location $locationAPIController
     ) {
-        $this->locationAPIController = $locationAPIController;
+        //$this->locationAPIController = $locationAPIController;
     }
 
     public function getAllLocation($request)
     {
-        $this->locationAPIController->getAllLocation($request);
+        //$this->locationAPIController->getAllLocation($request);
     }
 }

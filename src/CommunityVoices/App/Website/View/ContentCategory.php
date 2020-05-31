@@ -14,18 +14,18 @@ use CommunityVoices\App\Website\Component;
 
 class ContentCategory extends Component\View
 {
-    protected $contentCategoryAPIView;
+    //protected $contentCategoryAPIView;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         //Api\View\Identification $identificationAPIView,
-        Component\ApiProvider $apiProvider,
-        Api\View\ContentCategory $contentCategoryAPIView
+        Component\ApiProvider $apiProvider
+        //Api\View\ContentCategory $contentCategoryAPIView
     ) {
         parent::__construct($mapperFactory, $transcriber, $apiProvider);
 
-        $this->contentCategoryAPIView = $contentCategoryAPIView;
+        //$this->contentCategoryAPIView = $contentCategoryAPIView;
     }
 
     public function getAllContentCategory($request)
@@ -64,7 +64,8 @@ class ContentCategory extends Component\View
 
     public function getContentCategory($request)
     {
-        $json = json_decode($this->contentCategoryAPIView->getContentCategory()->getContent());
+        $id = $request->attributes->get('groupId');
+        $json = json_decode($this->apiProvider->getJson("/content-categories/{$groupId}"));
 
         $contentCategoryXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($json)
@@ -137,9 +138,10 @@ class ContentCategory extends Component\View
         $paramXML = new Helper\SimpleXMLElementExtension('<form/>');
 
         try {
+            $id = $request->attributes->get('groupId');
             $contentCategoryXMLElement = new SimpleXMLElement(
                 $this->transcriber->toXml(json_decode(
-                    $this->contentCategoryAPIView->getContentCategory()->getContent()
+                    $this->apiProvider->getJson("/content-categories/{$id}")
                 ))
             );
 

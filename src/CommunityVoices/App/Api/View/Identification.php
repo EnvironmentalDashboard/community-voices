@@ -30,7 +30,7 @@ class Identification extends Component\View
         return $response;
     }
 
-    protected function postLogin()
+    protected function postCredentials()
     {
         $identity = $this->recognitionAdapter->identify();
 
@@ -45,7 +45,7 @@ class Identification extends Component\View
         return $response;
     }
 
-    protected function postLogout()
+    protected function getLogout()
     {
         $identity = $this->recognitionAdapter->identify();
 
