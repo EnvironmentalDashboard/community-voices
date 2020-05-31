@@ -163,7 +163,7 @@
         ["CommunityVoices\\App\\Api\\Controller\\Identification::getIdentity", {"allow": "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Identification::getIdentity", {"allow": "guest"}],
 
-        ["CommunityVoices\\App\\Api\\Controller\\Identification::getLogout", {"allow": "user"}],
-        ["CommunityVoices\\App\\Api\\View\\Identification::getLogout", {"allow": "user"}]
+        ["CommunityVoices\\App\\Api\\Controller\\Identification::getLogout", {"allow": "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Identification::getLogout", {"allow": "guest"}]
     ]
 }
