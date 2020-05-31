@@ -350,7 +350,8 @@
       "method": "get",
       "defaults": {
         "resource": "Image",
-        "action": "sendImage"
+        "action": "sendImage",
+        "use-api": true
       }
     },
 
