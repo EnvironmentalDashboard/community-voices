@@ -93,7 +93,7 @@ class User extends Component\View
         return $response;
     }
 
-    public function getRegistration($request)
+    public function getRegistration($request, $errors = self::ERRORS_DEFAULT)
     {
         // If we are already logged in, there are two cases:
         // 1. We logged in, then clicked on register.
@@ -128,12 +128,11 @@ class User extends Component\View
         $formParamXML->addAttribute('token-value', $form['token']);
 
         // User data gathering
-        // pass this in
-        // $userXMLElement = new SimpleXMLElement(
-        //     $this->transcriber->toXml(
-        //         $this->userAPIView->postUser()->getContent()
-        //     )
-        // );
+        $userXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(
+                $errors
+            )
+        );
 
         $packagedUser = $formParamXML->addChild('domain');
         $packagedUser->adopt($userXMLElement);
@@ -159,14 +158,11 @@ class User extends Component\View
         return $response;
     }
 
-    public function postRegistration($request)
+    public function postRegistration($request, $errors = self::ERRORS_DEFAULT)
     {
-        // Pass this in
-        // $errors = $this->userAPIView->postUser()->getContent();
-        //
-        // if (!empty($errors)) {
-        //     return $this->getRegistration($request);
-        // }
+        if (!empty($errors->errors)) {
+            return $this->getRegistration($request, $errors);
+        }
 
         $response = new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')

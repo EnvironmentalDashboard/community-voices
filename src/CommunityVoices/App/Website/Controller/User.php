@@ -10,15 +10,18 @@ class User
     protected $mapperFactory;
     // protected $userAPIController;
     // protected $identificationAPIController;
+    protected $apiProvider;
 
     public function __construct(
-        Component\MapperFactory $mapperFactory
+        Component\MapperFactory $mapperFactory,
         // Api\Controller\User $userAPIController,
         // Api\Controller\Identification $identificationAPIController
+        Component\ApiProvider $apiProvider
     ) {
         $this->mapperFactory = $mapperFactory;
         // $this->userAPIController = $userAPIController;
         // $this->identificationAPIController = $identificationAPIController;
+        $this->apiProvider = $apiProvider;
     }
 
     public function getUser($request)
@@ -71,6 +74,14 @@ class User
         // if ($this->userAPIController->postUser($request)) {
         //     $this->identificationAPIController->postLogin($request);
         // }
+
+        $errors = $this->apiProvider->postJson('/register', $request);
+
+        if (empty($errors->errors)) {
+            $this->apiProvider->postJson('/login', $request);
+        }
+
+        return $errors;
     }
 
     public function postRegistrationInvite($request)
