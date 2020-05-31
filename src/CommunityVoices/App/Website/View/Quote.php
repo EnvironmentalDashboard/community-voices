@@ -165,6 +165,7 @@ class Quote extends Component\View
             $quote->quote->text = $quote->quote->text;
             $quote->quote->attribution = $quote->quote->attribution;
             $quote->quote->subAttribution = $quote->quote->subAttribution;
+            // This call makes this page very slow - refactor.
             $quote->quote->relatedSlide = $this->apiProvider->getJson("/quotes/{$quote->quote->id}/slide", $request);
         }
         $obj->quoteCollection = array_values($obj->quoteCollection);
@@ -260,7 +261,7 @@ class Quote extends Component\View
         return $response;
     }
 
-    public function getQuoteUpload($request)
+    public function getQuoteUpload($request, $errors = self::ERRORS_DEFAULT)
     {
         /**
          * Grab cached form
@@ -284,11 +285,9 @@ class Quote extends Component\View
             );
         }
 
-        // Change this to an argument passed in.
-        // $errors = $this->quoteAPIView->postQuoteUpload()->getContent();
-        // $errorsXMLElement = new SimpleXMLElement(
-        //     $this->transcriber->toXml($errors)
-        // );
+        $errorsXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($errors)
+        );
 
         $tagXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(
@@ -354,14 +353,11 @@ class Quote extends Component\View
         return $response;
     }
 
-    public function postQuoteUpload($request)
+    public function postQuoteUpload($request, $errors = self::ERRORS_DEFAULT)
     {
-        // This needs to be an argument to the function.
-        // $upload = json_decode($this->quoteAPIView->postQuoteUpload()->getContent());
-        //
-        // if (!empty($upload->upload->errors)) {
-        //     return $this->getQuoteUpload($request);
-        // }
+        if (!empty($errors->upload->errors)) {
+            return $this->getQuoteUpload($request, $errors);
+        }
 
         // We simply will show the edited quote.
         // dirname() removes the /new from the url we are
@@ -374,7 +370,7 @@ class Quote extends Component\View
         return $response;
     }
 
-    public function getQuoteUpdate($request)
+    public function getQuoteUpdate($request, $errors = self::ERRORS_DEFAULT)
     {
         $paramXML = new Helper\SimpleXMLElementExtension('<form/>');
 
@@ -400,11 +396,9 @@ class Quote extends Component\View
             );
         }
 
-        // Needs to be argument to function.
-        // $errors = json_decode($this->quoteAPIView->postQuoteUpdate()->getContent());
-        // $errorsXMLElement = new SimpleXMLElement(
-        //     $this->transcriber->toXml($errors)
-        // );
+        $errorsXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml($errors)
+        );
 
         $id = $request->attributes->get('id');
         $quote = $this->apiProvider->getJson("/quotes/{$id}", $request);
@@ -485,14 +479,11 @@ class Quote extends Component\View
         return $response;
     }
 
-    public function postQuoteUpdate($request)
+    public function postQuoteUpdate($request, $errors = self::ERRORS_DEFAULT)
     {
-        // This needs to be argument to function.
-        // $errors = json_decode($this->quoteAPIView->postQuoteUpdate()->getContent());
-        //
-        // if (!empty($errors->errors)) {
-        //     return $this->getQuoteUpdate($request);
-        // }
+        if (!empty($errors->errors)) {
+            return $this->getQuoteUpdate($request, $errors);
+        }
 
         // We simply will show the edited quote.
         // dirname() removes the /edit from the url we are

@@ -13,17 +13,20 @@ class Quote
     // protected $quoteAPIController;
     // protected $tagAPIController;
     // protected $contentCategoryAPIController;
+    protected $apiProvider;
 
     public function __construct(
-        Component\MapperFactory $mapperFactory
+        Component\MapperFactory $mapperFactory,
         // Api\Controller\Quote $quoteAPIController,
         // Api\Controller\Tag $tagAPIController,
         // Api\Controller\ContentCategory $contentCategoryAPIController
+        Component\ApiProvider $apiProvider
     ) {
         $this->mapperFactory = $mapperFactory;
         // $this->quoteAPIController = $quoteAPIController;
         // $this->tagAPIController = $tagAPIController;
         // $this->contentCategoryAPIController = $contentCategoryAPIController;
+        $this->apiProvider = $apiProvider;
     }
 
     public function getQuote($request)
@@ -64,6 +67,9 @@ class Quote
     {
         $this->saveQuoteForm($request, 'quoteUploadForm');
 
+        $errors = $this->apiProvider->postJson('/quotes/new', $request);
+        return $errors;
+
         // if (!$this->quoteAPIController->postQuoteUpload($request)) {
         //     $this->getQuoteUpload($request);
         // }
@@ -79,6 +85,10 @@ class Quote
     public function postQuoteUpdate($request)
     {
         $this->saveQuoteForm($request, 'quoteUpdateForm');
+
+        $id = $request->attributes->get('id');
+        $errors = $this->apiProvider->postJson("/quotes/{$id}/edit", $request);
+        return $errors;
 
         // if (!$this->quoteAPIController->postQuoteUpdate($request)) {
         //     $this->getQuoteUpdate($request);

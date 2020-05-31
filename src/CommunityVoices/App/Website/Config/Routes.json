@@ -270,7 +270,8 @@
         "method": "post",
         "defaults": {
             "resource": "Quote",
-            "action": "postQuoteDelete"
+            "action": "postQuoteDelete",
+            "use-api": true
         }
     },
 
@@ -279,7 +280,8 @@
         "method": "post",
         "defaults": {
             "resource": "Quote",
-            "action": "postQuoteUnpair"
+            "action": "postQuoteUnpair",
+            "use-api": true
         }
     },
 

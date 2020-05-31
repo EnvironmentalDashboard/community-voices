@@ -10,6 +10,8 @@ use CommunityVoices\App\Website\Component;
 
 class View
 {
+    protected const ERRORS_DEFAULT = ['errors' => []];
+
     protected $mapperFactory;
     protected $transcriber;
     //protected $identificationAPIView;

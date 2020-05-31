@@ -31,6 +31,11 @@ class ApiProvider
         return file_get_contents(getenv('API_URL') . $path, false, $context ?? null);
     }
 
+    public function postJson($path, $request)
+    {
+        return json_decode($this->post($path, $request));
+    }
+
     public function post($path, $request)
     {
         $data = $request->request->all();
