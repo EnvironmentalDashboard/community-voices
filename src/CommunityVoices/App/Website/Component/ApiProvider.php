@@ -31,12 +31,12 @@ class ApiProvider
         return file_get_contents(getenv('API_URL') . $path, false, $context ?? null);
     }
 
-    public function postJson($path, $request)
+    public function postJson($path, $request, $debug = false)
     {
-        return json_decode($this->post($path, $request));
+        return json_decode($this->post($path, $request, $debug));
     }
 
-    public function post($path, $request)
+    public function post($path, $request, $debug = false)
     {
         $data = $request->request->all();
 
@@ -49,6 +49,13 @@ class ApiProvider
         ];
         $context = stream_context_create($opts);
 
-        return file_get_contents(getenv('API_URL') . $path, false, $context);
+        $response = file_get_contents(getenv('API_URL') . $path, false, $context);
+
+        if ($debug) {
+            var_dump($response);
+            die();
+        }
+
+        return $response;
     }
 }

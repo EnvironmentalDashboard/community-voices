@@ -47,9 +47,14 @@ class ContentCategory extends Component\View
         // intentionally blank
     }
 
-    protected function postContentCategoryUpload()
+    protected function postContentCategoryUpload($request)
     {
-        return $this->errorsResponse('contentCategoryUpload');
+        // Should return errorsResponse like an API, but this makes file upload work.
+        $response = new HttpFoundation\RedirectResponse(
+            dirname($request->headers->get('referer'))
+        );
+
+        return $response;
     }
 
     protected function getContentCategoryUpdate()
@@ -57,9 +62,14 @@ class ContentCategory extends Component\View
         // intentionally blank
     }
 
-    protected function postContentCategoryUpdate()
+    protected function postContentCategoryUpdate($request)
     {
-        return $this->errorsResponse('contentCategoryUpdate');
+        // Should return errorsResponse like an API, but this makes file upload work.
+        $response = new HttpFoundation\RedirectResponse(
+            dirname(dirname($request->headers->get('referer')))
+        );
+
+        return $response;
     }
 
     protected function postContentCategoryDelete()

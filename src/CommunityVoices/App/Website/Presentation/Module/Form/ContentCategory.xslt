@@ -14,10 +14,10 @@
                     <xsl:attribute name="action">
                         <xsl:choose>
                             <xsl:when test="domain/contentCategory != ''">
-                                <xsl:text>edit</xsl:text>
+                                <xsl:text>/community-voices/api/content-categories/</xsl:text><xsl:value-of select="domain/contentCategory/id" /><xsl:text>/edit</xsl:text>
                             </xsl:when>
                             <xsl:otherwise>
-                                <xsl:text>/community-voices/content-categories/new</xsl:text>
+                                <xsl:text>/community-voices/api/content-categories/new</xsl:text>
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:attribute>
