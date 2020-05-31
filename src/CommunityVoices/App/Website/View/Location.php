@@ -30,9 +30,9 @@ class Location extends Component\View
     {
         // Location data gathering
         $locationXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
+            $this->transcriber->toXml(
                 $this->apiProvider->getJson('/locations', $request)
-            ))
+            )
         );
 
         /**

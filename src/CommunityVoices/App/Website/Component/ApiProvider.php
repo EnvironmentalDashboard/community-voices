@@ -4,19 +4,19 @@ namespace CommunityVoices\App\Website\Component;
 
 class ApiProvider
 {
-    public function getJson($path, $request)
+    public function getJson($path, $request, $debug = false)
     {
-        return json_decode($this->get($path, $request));
+        return json_decode($this->get($path, $request, $debug));
     }
 
-    public function getQueriedJson($path, $request)
+    public function getQueriedJson($path, $request, $debug = false)
     {
         $query = http_build_query($request->query->all());
 
-        return $this->getJson($path . ($query ? '?' . $query : ''), $request);
+        return $this->getJson($path . ($query ? '?' . $query : ''), $request, $debug);
     }
 
-    public function get($path, $request)
+    public function get($path, $request, $debug = false)
     {
         if (!empty($request->cookies->all())) {
             $opts = [
@@ -28,7 +28,14 @@ class ApiProvider
             $context = stream_context_create($opts);
         }
 
-        return file_get_contents(getenv('API_URL') . $path, false, $context ?? null);
+        $response = file_get_contents(getenv('API_URL') . $path, false, $context ?? null);
+
+        if ($debug) {
+            var_dump($response);
+            die();
+        }
+
+        return $response;
     }
 
     public function postJson($path, $request, $debug = false)
