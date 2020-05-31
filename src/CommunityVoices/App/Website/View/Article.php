@@ -236,7 +236,7 @@ class Article extends Component\View
     public function postArticleUpload($request)
     {
         $response = new HttpFoundation\RedirectResponse(
-            $request->headers->get('referer')
+            dirname($request->headers->get('referer'))
         );
 
         $this->finalize($response);
@@ -253,7 +253,7 @@ class Article extends Component\View
         $id = $request->attributes->get('id');
         $articleXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(
-                $this->apiProvider->getJson("/articles/{$id}/edit", $request)
+                $this->apiProvider->getJson("/articles/{$id}", $request)
             )
         );
 
@@ -295,7 +295,7 @@ class Article extends Component\View
     public function postArticleUpdate($request)
     {
         $response = new HttpFoundation\RedirectResponse(
-            $request->headers->get('referer')
+            dirname($request->headers->get('referer'))
         );
 
         $this->finalize($response);
