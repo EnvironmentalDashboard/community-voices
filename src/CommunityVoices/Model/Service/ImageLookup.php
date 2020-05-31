@@ -313,6 +313,18 @@ class ImageLookup
         // return $slide;
     }
 
+    public function relatedSlide2(int $image_id)
+    {
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
+        $id = $mapper->relatedSlideId($image_id);
+
+        $this->stateObserver->setSubject('imageLookup');
+        $this->stateObserver->addEntry('relatedSlide', $id);
+
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($this->stateObserver);
+    }
+
     public function prevImage(int $image_id)
     {
         $mapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
@@ -320,10 +332,34 @@ class ImageLookup
         return $id;
     }
 
+    public function prevImage2(int $image_id)
+    {
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
+        $id = $mapper->relatedSlideId($image_id);
+
+        $this->stateObserver->setSubject('imageLookup');
+        $this->stateObserver->addEntry('prevImage', $id);
+
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($this->stateObserver);
+    }
+
     public function nextImage(int $image_id)
     {
         $mapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
         $id = $mapper->nextImage($image_id);
         return $id;
+    }
+
+    public function nextImage2(int $image_id)
+    {
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
+        $id = $mapper->relatedSlideId($image_id);
+
+        $this->stateObserver->setSubject('imageLookup');
+        $this->stateObserver->addEntry('nextImage', $id);
+
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($this->stateObserver);
     }
 }

@@ -48,7 +48,7 @@ class Image extends Component\View
          * Gather image information
          */
         $id = $request->attributes->get('id');
-        $json = $this->apiProvider->getJson("/images/{$id}");
+        $json = $this->apiProvider->getJson("/images/{$id}", $request);
         $imageXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($json)
         );
@@ -61,13 +61,13 @@ class Image extends Component\View
         $packagedimage = $imagePackageElement->addChild('domain');
         $packagedimage->adopt($imageXMLElement);
         $packagedimage->adopt(new SimpleXMLElement(
-            $this->transcriber->toXml(['slideId' => $this->imageLookup->relatedSlide($json->image->id)])
+            $this->transcriber->toXml(['slideId' => $this->apiProvider->getJson("/images/{$id}/slide", $request)])
         ));
         $packagedimage->adopt(new SimpleXMLElement(
-            $this->transcriber->toXml(['prevId' => $this->imageLookup->prevImage($json->image->id)])
+            $this->transcriber->toXml(['prevId' => $this->apiProvider->getJson("/images/{$id}/prev", $request)])
         ));
         $packagedimage->adopt(new SimpleXMLElement(
-            $this->transcriber->toXml(['nextId' => $this->imageLookup->nextImage($json->image->id)])
+            $this->transcriber->toXml(['nextId' => $this->apiProvider->getJson("/images/{$id}/next", $request)])
         ));
 
         $packagedIdentity = $imagePackageElement->addChild('identity');
@@ -117,7 +117,7 @@ class Image extends Component\View
         /**
          * Gather image information
          */
-        $json = $this->apiProvider->getQueriedJson('/images');
+        $json = $this->apiProvider->getQueriedJson('/images', $request);
         $obj = new \stdClass();
         $obj->imageCollection = $json->imageCollection;
         $count = $obj->imageCollection->count;
@@ -134,7 +134,7 @@ class Image extends Component\View
                 $selectedTags[] = $group->group->id;
             }
             $item->image->selectedTagString = ',' . implode(',', $selectedTags) . ',';
-            $item->image->relatedSlide = $this->imageLookup->relatedSlide($item->image->id);
+            $item->image->relatedSlide = $this->apiProvider->getJson("/images/{$item->image->id}/slide", $request);
         }
 
         $imageXMLElement = new SimpleXMLElement(
@@ -230,7 +230,7 @@ class Image extends Component\View
     {
         $imageXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(
-                $this->apiProvider->getJson('/images/new')
+                $this->apiProvider->getJson('/images/new', $request)
             )
         );
 
@@ -280,12 +280,12 @@ class Image extends Component\View
          * Gather image information
          */
         $id = $request->attributes->get('id');
-        $image = json_decode($this->apiProvider->getJson("/images/{$id}"));
+        $image = json_decode($this->apiProvider->getJson("/images/{$id}", $request));
         $imageXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($image)
         );
 
-        $tags = $this->tagLookup->findAll(true);
+        $tags = $this->apiProvider->getJson('/tags', $request);
         $tagXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($tags->getEntry('tag')[0]->toArray())
         );

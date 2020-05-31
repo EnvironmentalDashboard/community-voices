@@ -104,7 +104,7 @@
       "defaults": {
         "resource": "Identification",
         "action": "getIdentity",
-        "use-api": "true"
+        "use-api": true
       }
     },
 
@@ -279,6 +279,36 @@
         }
     },
 
+    "getImageRelatedSlide": {
+      "notation": "/images/{id}/slide",
+      "method": "get",
+      "defaults": {
+        "resource": "Image",
+        "action": "getImageRelatedSlide",
+        "use-api": true
+      }
+    },
+
+    "getImagePrevImage": {
+      "notation": "/images/{id}/prev",
+      "method": "get",
+      "defaults": {
+        "resource": "Image",
+        "action": "getImagePrevImage",
+        "use-api": true
+      }
+    },
+
+    "getImageRelatedSlide": {
+      "notation": "/images/{id}/next",
+      "method": "get",
+      "defaults": {
+        "resource": "Image",
+        "action": "getImageNextImage",
+        "use-api": true
+      }
+    },
+
     "postImageUpdate": {
         "notation": "/images/{id}/edit/authenticate",
         "method": "post",
@@ -384,7 +414,7 @@
       "defaults": {
         "resource": "Article",
         "action": "getArticleRelatedSlides",
-        "use-api": "true"
+        "use-api": true
       }
     },
 
@@ -458,5 +488,15 @@
             "resource": "ContentCategory",
             "action": "postContentCategoryDelete"
         }
+    },
+
+    "getAllTag": {
+      "notation": "/tags",
+      "method": "get",
+      "defaults": {
+        "resource": "Tag",
+        "action": "getAllTag",
+        "use-api": true
+      }
     }
 }

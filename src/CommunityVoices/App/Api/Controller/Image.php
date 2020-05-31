@@ -158,4 +158,22 @@ class Image extends Component\Controller
 
         $this->imageManagement->unpair($image_id, $slide_id);
     }
+
+    public function getImageRelatedSlide($request)
+    {
+        $id = $request->attributes->get('id');
+        $this->imageLookup->relatedSlide2($id);
+    }
+
+    public function getImagePrevImage($request)
+    {
+        $id = $request->attributes->get('id');
+        $this->imageLookup->prevImage2($id);
+    }
+
+    public function getImageNextImage($request)
+    {
+        $id = $request->attributes->get('id');
+        $this->imageLookup->nextImage2($id);
+    }
 }

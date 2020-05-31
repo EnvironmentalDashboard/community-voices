@@ -79,6 +79,12 @@
         ["CommunityVoices\\App\\Api\\Controller\\Image::getImageUpdate", {"allow" : "manager"}],
         ["CommunityVoices\\App\\Api\\View\\Image::getImageUpdate", {"allow" : "manager"}],
 
+        ["CommunityVoices\\App\\Api\\Controller\\Image::getImageRelatedSlide", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Image::getImageRelatedSlide", {"allow" : "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Image::getImagePrevImage", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Image::getImageNextImage", {"allow" : "guest"}],
+
         ["CommunityVoices\\App\\Api\\Controller\\Image::postImageUpdate", {"allow" : "manager"}],
         ["CommunityVoices\\App\\Api\\View\\Image::postImageUpdate", {"allow" : "manager"}],
 

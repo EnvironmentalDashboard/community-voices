@@ -6,38 +6,7 @@ class ApiProvider
 {
     public function getJson($path, $request)
     {
-        // $cookies = $request->cookies->all();
-        //
-        // if (count($cookies) > 0) {
-        //     $cookieString = "";
-        //
-        //     foreach ($cookies as $key => $value) {
-        //         if (!empty($cookieString))
-        //             $cookieString .= "; ";
-        //
-        //         $cookieString .= "{$key}={$value}";
-        //     }
-        //
-        //     $opts = [
-        //         'http' => [
-        //             'method' => 'GET',
-        //             'header' => "Cookie: {$cookieString}"
-        //         ]
-        //     ];
-        //     $context = stream_context_create($opts);
-        // }
-
-        if (!empty($request->cookies->all())) {
-            $opts = [
-                'http' => [
-                    'method' => 'GET',
-                    'header' => "Cookie: " . $_SERVER['HTTP_COOKIE']
-                ]
-            ];
-            $context = stream_context_create($opts);
-        }
-
-        return json_decode(file_get_contents(getenv('API_URL') . $path, false, $context ?? null));
+        return json_decode($this->get($path, $request));
     }
 
     public function getQueriedJson($path, $request)
