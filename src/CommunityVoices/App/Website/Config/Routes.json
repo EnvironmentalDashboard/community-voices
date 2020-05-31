@@ -89,12 +89,12 @@
         }
     },
 
-    "getProfile": {
+    "getUser": {
         "notation": "/user/{id}",
         "method": "get",
         "defaults": {
             "resource": "User",
-            "action": "getProfile"
+            "action": "getUser"
         }
     },
 
@@ -207,6 +207,46 @@
         }
     },
 
+    "getQuoteBoundaryQuotes": {
+      "notation": "/quotes/{id}/boundary",
+      "method": "get",
+      "defaults": {
+        "resource": "Quote",
+        "action": "getBoundaryQuotes",
+        "use-api": true
+      }
+    },
+
+    "getQuoteRelatedSlide": {
+      "notation": "/quotes/{id}/slide",
+      "method": "get",
+      "defaults": {
+        "resource": "Quote",
+        "action": "getQuoteRelatedSlide",
+        "use-api": true
+      }
+    },
+
+    "getQuotePrevQuote": {
+      "notation": "/quotes/{id}/prev",
+      "method": "get",
+      "defaults": {
+        "resource": "Quote",
+        "action": "getQuotePrevQuote",
+        "use-api": true
+      }
+    },
+
+    "getQuoteNextQuote": {
+      "notation": "/quotes/{id}/next",
+      "method": "get",
+      "defaults": {
+        "resource": "Quote",
+        "action": "getQuoteNextQuote",
+        "use-api": true
+      }
+    },
+
     "getQuoteUpdate": {
         "notation": "/quotes/{id}/edit",
         "method": "get",
@@ -299,7 +339,7 @@
       }
     },
 
-    "getImageRelatedSlide": {
+    "getImageNextImage": {
       "notation": "/images/{id}/next",
       "method": "get",
       "defaults": {

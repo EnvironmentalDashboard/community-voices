@@ -252,9 +252,9 @@ class Article extends Component\View
          */
         $id = $request->attributes->get('id');
         $articleXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
+            $this->transcriber->toXml(
                 $this->apiProvider->getJson("/articles/{$id}/edit", $request)
-            ))
+            )
         );
 
         $packagedArticle = $paramXML->addChild('domain');

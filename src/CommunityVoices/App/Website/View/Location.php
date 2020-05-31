@@ -18,12 +18,12 @@ class Location extends Component\View
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         //Api\View\Identification $identificationAPIView,
-        Component\ApiProvider $apiProvider,
-        Api\View\Location $locationAPIView
+        Component\ApiProvider $apiProvider
+        //Api\View\Location $locationAPIView
     ) {
         parent::__construct($mapperFactory, $transcriber, $apiProvider);
 
-        $this->locationAPIView = $locationAPIView;
+        //$this->locationAPIView = $locationAPIView;
     }
 
     public function getAllLocation($request)
@@ -31,7 +31,7 @@ class Location extends Component\View
         // Location data gathering
         $locationXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(json_decode(
-                $this->locationAPIView->getAllLocation()->getContent()
+                $this->apiProvider->getJson('/locations', $request)
             ))
         );
 

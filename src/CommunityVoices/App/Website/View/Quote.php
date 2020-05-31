@@ -14,30 +14,30 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class Quote extends Component\View
 {
-    protected $quoteAPIView;
-    protected $quoteLookup;
-    protected $tagLookup;
-    protected $tagAPIView;
-    protected $contentCategoryAPIView;
+    //protected $quoteAPIView;
+    //protected $quoteLookup;
+    //protected $tagLookup;
+    //protected $tagAPIView;
+    //protected $contentCategoryAPIView;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         //Api\View\Identification $identificationAPIView,
-        Component\ApiProvider $apiProvider,
-        Api\View\Quote $quoteAPIView,
-        Service\QuoteLookup $quoteLookup,
-        Service\TagLookup $tagLookup,
-        Api\View\Tag $tagAPIView,
-        Api\View\ContentCategory $contentCategoryAPIView
+        Component\ApiProvider $apiProvider
+        // Api\View\Quote $quoteAPIView,
+        // Service\QuoteLookup $quoteLookup,
+        // Service\TagLookup $tagLookup,
+        // Api\View\Tag $tagAPIView,
+        // Api\View\ContentCategory $contentCategoryAPIView
     ) {
         parent::__construct($mapperFactory, $transcriber, $apiProvider);
 
-        $this->quoteAPIView = $quoteAPIView;
-        $this->quoteLookup = $quoteLookup;
-        $this->tagLookup = $tagLookup;
-        $this->tagAPIView = $tagAPIView;
-        $this->contentCategoryAPIView = $contentCategoryAPIView;
+        // $this->quoteAPIView = $quoteAPIView;
+        // $this->quoteLookup = $quoteLookup;
+        // $this->tagLookup = $tagLookup;
+        // $this->tagAPIView = $tagAPIView;
+        // $this->contentCategoryAPIView = $contentCategoryAPIView;
     }
 
     public function getQuote($request)
@@ -45,8 +45,9 @@ class Quote extends Component\View
         /**
          * Gather quote information (API calls)
          */
-        $quote = json_decode($this->quoteAPIView->getQuote()->getContent());
-        $boundaryQuotes = json_decode($this->quoteAPIView->getBoundaryQuotes()->getContent(), true);
+        $id = $request->attributes->get('id');
+        $quote = $this->apiProvider->getJson("/quotes/{$id}", $request);
+        $boundaryQuotes = json_decode($this->apiProvider->get("/quotes/{$id}/boundary", $request), true);
 
         /**
          * Process API information
@@ -90,7 +91,7 @@ class Quote extends Component\View
         $packagedQuote->adopt($quoteXMLElement);
 
         $packagedQuote->adopt(new SimpleXMLElement(
-            $this->transcriber->toXml(['slideId' => $this->quoteLookup->relatedSlide($quote->quote->id)])
+            $this->transcriber->toXml(['slideId' => $this->apiProvider->getJson("/quotes/{$id}/slide", $request)])
         ));
 
         if (isset($prevQuoteXMLElement)) {
@@ -150,7 +151,7 @@ class Quote extends Component\View
         /**
          * Gather quote information
          */
-        $json = json_decode($this->quoteAPIView->getAllQuote()->getContent());
+        $json = $this->apiProvider->getQueriedJson('/quotes', $request);
 
         $obj = new \stdClass();
         $obj->quoteCollection = (array) $json->quoteCollection;
@@ -164,7 +165,7 @@ class Quote extends Component\View
             $quote->quote->text = $quote->quote->text;
             $quote->quote->attribution = $quote->quote->attribution;
             $quote->quote->subAttribution = $quote->quote->subAttribution;
-            $quote->quote->relatedSlide = $this->quoteLookup->relatedSlide($quote->quote->id);
+            $quote->quote->relatedSlide = $this->apiProvider->getJson("/quotes/{$quote->quote->id}/slide", $request);
         }
         $obj->quoteCollection = array_values($obj->quoteCollection);
 
@@ -173,15 +174,15 @@ class Quote extends Component\View
         );
 
         $tagXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $this->tagAPIView->getAllTag()->getContent()
-            ))
+            $this->transcriber->toXml(
+                $this->apiProvider->getJson("/tags", $request)
+            )
         );
 
         $contentCategoryXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $this->contentCategoryAPIView->getAllContentCategory()->getContent()
-            ))
+            $this->transcriber->toXml(
+                $this->apiProvider->getJson("/content-categories", $request)
+            )
         );
 
         $pagination = new \stdClass();
@@ -283,21 +284,22 @@ class Quote extends Component\View
             );
         }
 
-        $errors = json_decode($this->quoteAPIView->postQuoteUpload()->getContent());
-        $errorsXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($errors)
-        );
+        // Change this to an argument passed in.
+        // $errors = $this->quoteAPIView->postQuoteUpload()->getContent();
+        // $errorsXMLElement = new SimpleXMLElement(
+        //     $this->transcriber->toXml($errors)
+        // );
 
         $tagXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $this->tagAPIView->getAllTag()->getContent()
-            ))
+            $this->transcriber->toXml(
+                $this->apiProvider->getJson("/tags", $request)
+            )
         );
 
         $contentCategoryXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $this->contentCategoryAPIView->getAllContentCategory()->getContent()
-            ))
+            $this->transcriber->toXml(
+                $this->apiProvider->getJson('/content-categories', $request)
+            )
         );
 
         $selectedGroupString = ',';
@@ -354,11 +356,12 @@ class Quote extends Component\View
 
     public function postQuoteUpload($request)
     {
-        $upload = json_decode($this->quoteAPIView->postQuoteUpload()->getContent());
-
-        if (!empty($upload->upload->errors)) {
-            return $this->getQuoteUpload($request);
-        }
+        // This needs to be an argument to the function.
+        // $upload = json_decode($this->quoteAPIView->postQuoteUpload()->getContent());
+        //
+        // if (!empty($upload->upload->errors)) {
+        //     return $this->getQuoteUpload($request);
+        // }
 
         // We simply will show the edited quote.
         // dirname() removes the /new from the url we are
@@ -397,12 +400,14 @@ class Quote extends Component\View
             );
         }
 
-        $errors = json_decode($this->quoteAPIView->postQuoteUpdate()->getContent());
-        $errorsXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($errors)
-        );
+        // Needs to be argument to function.
+        // $errors = json_decode($this->quoteAPIView->postQuoteUpdate()->getContent());
+        // $errorsXMLElement = new SimpleXMLElement(
+        //     $this->transcriber->toXml($errors)
+        // );
 
-        $quote = json_decode($this->quoteAPIView->getQuote()->getContent());
+        $id = $request->attributes->get('id');
+        $quote = $this->apiProvider->getJson("/quotes/{$id}", $request);
 
         $quote->quote->text = htmlspecialchars($quote->quote->text);
         $quoteXMLElement = new SimpleXMLElement(
@@ -410,15 +415,15 @@ class Quote extends Component\View
         );
 
         $tagXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $this->tagAPIView->getAllTag()->getContent()
-            ))
+            $this->transcriber->toXml(
+                $this->apiProvider->getJson("/tags", $request)
+            )
         );
 
         $contentCategoryXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $this->contentCategoryAPIView->getAllContentCategory()->getContent()
-            ))
+            $this->transcriber->toXml(
+                $this->apiProvider->getJson('/content-categories', $request)
+            )
         );
 
         $selectedGroupString = ',';
@@ -482,11 +487,12 @@ class Quote extends Component\View
 
     public function postQuoteUpdate($request)
     {
-        $errors = json_decode($this->quoteAPIView->postQuoteUpdate()->getContent());
-
-        if (!empty($errors->errors)) {
-            return $this->getQuoteUpdate($request);
-        }
+        // This needs to be argument to function.
+        // $errors = json_decode($this->quoteAPIView->postQuoteUpdate()->getContent());
+        //
+        // if (!empty($errors->errors)) {
+        //     return $this->getQuoteUpdate($request);
+        // }
 
         // We simply will show the edited quote.
         // dirname() removes the /edit from the url we are

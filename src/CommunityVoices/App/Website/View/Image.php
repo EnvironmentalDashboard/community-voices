@@ -280,7 +280,7 @@ class Image extends Component\View
          * Gather image information
          */
         $id = $request->attributes->get('id');
-        $image = json_decode($this->apiProvider->getJson("/images/{$id}", $request));
+        $image = $this->apiProvider->getJson("/images/{$id}", $request);
         $imageXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($image)
         );

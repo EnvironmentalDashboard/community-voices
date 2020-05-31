@@ -15,7 +15,7 @@ class User extends Component\View
         parent::__construct($secureContainer, $mapperFactory);
     }
 
-    protected function postUser()
+    protected function postRegistration()
     {
         $clientStateMapper = $this->mapperFactory->createClientStateMapper();
         $clientStateObserver = $clientStateMapper->retrieve();

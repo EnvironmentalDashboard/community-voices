@@ -37,6 +37,15 @@
         ["CommunityVoices\\App\\Api\\Controller\\Quote::getQuote", {"allow" : "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Quote::getQuote", {"allow" : "guest"}],
 
+        ["CommunityVoices\\App\\Api\\Controller\\Quote::getQuoteRelatedSlide", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Quote::getQuoteRelatedSlide", {"allow" : "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Quote::getQuotePrevQuote", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Quote::getQuotePrevQuote", {"allow" : "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Quote::getQuoteNextQuote", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Quote::getQuoteNextQuote", {"allow" : "guest"}],
+
         ["CommunityVoices\\App\\Api\\Controller\\Quote::getBoundaryQuotes", {"allow" : "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Quote::getBoundaryQuotes", {"allow" : "guest"}],
 

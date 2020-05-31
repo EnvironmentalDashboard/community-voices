@@ -26,7 +26,7 @@ class User extends Component\Controller
      * User registration
      * @return bool A boolean of if the User was created successfully or not.
      */
-    public function postUser($request)
+    public function postRegistration($request)
     {
         $email = $request->request->get('email');
         $password = $request->request->get('password');

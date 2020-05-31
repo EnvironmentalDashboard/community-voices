@@ -21,7 +21,7 @@ class User
         // $this->identificationAPIController = $identificationAPIController;
     }
 
-    public function getProfile($request)
+    public function getUser($request)
     {
         // $this->userAPIController->getUser($request);
     }

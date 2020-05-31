@@ -90,4 +90,43 @@ class Quote extends Component\View
     {
         return $this->errorsResponse("quoteFormErrors");
     }
+
+    protected function getQuoteRelatedSlide()
+    {
+        $clientState = $this->mapperFactory->createClientStateMapper();
+        $stateObserver = $clientState->retrieve();
+
+        $stateObserver->setSubject('quoteLookup');
+        $slides = $stateObserver->getEntry('relatedSlide')[0];
+
+        $response = new HttpFoundation\JsonResponse($slides);
+
+        return $response;
+    }
+
+    protected function getQuotePrevQuote()
+    {
+        $clientState = $this->mapperFactory->createClientStateMapper();
+        $stateObserver = $clientState->retrieve();
+
+        $stateObserver->setSubject('quoteLookup');
+        $slides = $stateObserver->getEntry('prevQuote')[0];
+
+        $response = new HttpFoundation\JsonResponse($slides);
+
+        return $response;
+    }
+
+    protected function getQuoteNextQuote()
+    {
+        $clientState = $this->mapperFactory->createClientStateMapper();
+        $stateObserver = $clientState->retrieve();
+
+        $stateObserver->setSubject('quoteLookup');
+        $slides = $stateObserver->getEntry('nextQuote')[0];
+
+        $response = new HttpFoundation\JsonResponse($slides);
+
+        return $response;
+    }
 }

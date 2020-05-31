@@ -13,21 +13,21 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class Slide extends Component\View
 {
-    protected $slideAPIView;
-    protected $contentCategoryAPIView;
+    // protected $slideAPIView;
+    // protected $contentCategoryAPIView;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         //Api\View\Identification $identificationAPIView,
-        Component\ApiProvider $apiProvider,
-        Api\View\Slide $slideAPIView,
-        Api\View\ContentCategory $contentCategoryAPIView
+        Component\ApiProvider $apiProvider
+        // Api\View\Slide $slideAPIView,
+        // Api\View\ContentCategory $contentCategoryAPIView
     ) {
         parent::__construct($mapperFactory, $transcriber, $apiProvider);
 
-        $this->slideAPIView = $slideAPIView;
-        $this->contentCategoryAPIView = $contentCategoryAPIView;
+        // $this->slideAPIView = $slideAPIView;
+        // $this->contentCategoryAPIView = $contentCategoryAPIView;
     }
 
     public function getAllSlide($request)
@@ -38,7 +38,7 @@ class Slide extends Component\View
          * Gather slide information
          */
         // var_dump($slideAPIView->getAllSlide()->getContent());die;
-        $json = json_decode($this->slideAPIView->getAllSlide()->getContent());
+        $json = $this->apiProvider->getQueriedJson('/slides', $request);
         // var_dump($json->slideCollection);die;
         $obj = new \stdClass();
         $obj->slideCollection = (array) $json->slideCollection;
@@ -93,9 +93,9 @@ class Slide extends Component\View
         );
 
         $contentCategoryXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $this->contentCategoryAPIView->getAllContentCategory()->getContent()
-            ))
+            $this->transcriber->toXml(
+                $this->apiProvider->getJson('/content-categories', $request)
+            )
         );
 
         /**
@@ -167,7 +167,8 @@ class Slide extends Component\View
         /**
          * Gather slide information
          */
-        $json = json_decode($this->slideAPIView->getSlide()->getContent());
+        $id = $request->attributes->get('id');
+        $json = $this->apiProvider->getJson("/slides/{$id}", $request);
         $json->slide->quote->quote->text = $json->slide->quote->quote->text;
         $json->slide->quote->quote->attribution = $json->slide->quote->quote->attribution;
         $json->slide->quote->quote->subAttribution = $json->slide->quote->quote->subAttribution;
@@ -247,7 +248,7 @@ class Slide extends Component\View
     {
         parse_str($_SERVER['QUERY_STRING'], $qs);
 
-        $json = json_decode($this->slideAPIView->getSlideUpload()->getContent());
+        $json = $this->apiProvider->getJson('/slides/new', $request);
 
         $obj = new \stdClass;
         $obj->tagCollection = $json->tagCollection;
@@ -280,9 +281,9 @@ class Slide extends Component\View
         );
 
         $contentCategoryXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $this->contentCategoryAPIView->getAllContentCategory()->getContent()
-            ))
+            $this->transcriber->toXml(
+                $this->apiProvider->getJson('/content-categories', $request)
+            )
         );
 
         $paramXML = new SimpleXMLElement('<form/>');
@@ -353,7 +354,8 @@ class Slide extends Component\View
     {
         parse_str($_SERVER['QUERY_STRING'], $qs);
 
-        $json = json_decode($this->slideAPIView->getSlideUpdate()->getContent());
+        $id = $request->attributes->get('id');
+        $json = $this->apiProvider->getJson("/slides/{$id}/edit", $request);
 
         $obj = new \stdClass;
         $obj->slide = $json->slide;
@@ -398,9 +400,9 @@ class Slide extends Component\View
         );
 
         $contentCategoryXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $this->contentCategoryAPIView->getAllContentCategory()->getContent()
-            ))
+            $this->transcriber->toXml(
+                $this->apiProvider->getJson('/content-categories', $request)
+            )
         );
 
         $paramXML = new SimpleXMLElement('<form/>');

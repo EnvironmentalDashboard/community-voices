@@ -238,4 +238,40 @@ class QuoteLookup
         $id = $mapper->nextQuote($quote_id);
         return $id;
     }
+
+    public function relatedSlide2(int $quote_id)
+    {
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
+        $id = $mapper->relatedSlideId($quote_id);
+
+        $this->stateObserver->setSubject('quoteLookup');
+        $this->stateObserver->addEntry('relatedSlide', $id);
+
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($this->stateObserver);
+    }
+
+    public function prevQuote2(int $quote_id)
+    {
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
+        $id = $mapper->prevQuote($quote_id);
+
+        $this->stateObserver->setSubject('quoteLookup');
+        $this->stateObserver->addEntry('prevQuote', $id);
+
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($this->stateObserver);
+    }
+
+    public function nextQuote2(int $quote_id)
+    {
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
+        $id = $mapper->nextQuote($quote_id);
+
+        $this->stateObserver->setSubject('quoteLookup');
+        $this->stateObserver->addEntry('nextQuote', $id);
+
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($this->stateObserver);
+    }
 }

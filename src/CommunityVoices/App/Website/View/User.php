@@ -15,23 +15,23 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 class User extends Component\View
 {
     protected $urlGenerator;
-    protected $userAPIView;
+    // protected $userAPIView;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
         //Api\View\Identification $identificationAPIView,
         Component\ApiProvider $apiProvider,
-        UrlGenerator $urlGenerator,
-        Api\View\User $userAPIView
+        UrlGenerator $urlGenerator
+        // Api\View\User $userAPIView
     ) {
         parent::__construct($mapperFactory, $transcriber, $apiProvider);
 
         $this->urlGenerator = $urlGenerator;
-        $this->userAPIView = $userAPIView;
+        // $this->userAPIView = $userAPIView;
     }
 
-    public function getProfile($request)
+    public function getUser($request)
     {
         /**
          * Get base URL
@@ -40,10 +40,11 @@ class User extends Component\View
         //$baseUrl = $urlGenerator->generate('root');
 
         // User data gathering
+        $id = $request->attributes->get('id');
         $userXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $this->userAPIView->getUser()->getContent()
-            ))
+            $this->transcriber->toXml(
+                $this->apiProvider->getJson("/user/{$id}", $request)
+            )
         );
 
         /**
@@ -127,11 +128,12 @@ class User extends Component\View
         $formParamXML->addAttribute('token-value', $form['token']);
 
         // User data gathering
-        $userXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $this->userAPIView->postUser()->getContent()
-            ))
-        );
+        // pass this in
+        // $userXMLElement = new SimpleXMLElement(
+        //     $this->transcriber->toXml(
+        //         $this->userAPIView->postUser()->getContent()
+        //     )
+        // );
 
         $packagedUser = $formParamXML->addChild('domain');
         $packagedUser->adopt($userXMLElement);
@@ -159,11 +161,12 @@ class User extends Component\View
 
     public function postRegistration($request)
     {
-        $errors = $this->userAPIView->postUser()->getContent();
-
-        if (!empty($errors)) {
-            return $this->getRegistration($request);
-        }
+        // Pass this in
+        // $errors = $this->userAPIView->postUser()->getContent();
+        //
+        // if (!empty($errors)) {
+        //     return $this->getRegistration($request);
+        // }
 
         $response = new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')

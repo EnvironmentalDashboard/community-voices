@@ -31,9 +31,9 @@ class ContentCategory extends Component\View
     public function getAllContentCategory($request)
     {
         $contentCategoryXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
+            $this->transcriber->toXml(
                 $this->apiProvider->getJson('/content-categories', $request)
-            ))
+            )
         );
 
         $contentCategoryPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
@@ -65,7 +65,7 @@ class ContentCategory extends Component\View
     public function getContentCategory($request)
     {
         $id = $request->attributes->get('groupId');
-        $json = json_decode($this->apiProvider->getJson("/content-categories/{$groupId}"));
+        $json = $this->apiProvider->getJson("/content-categories/{$id}", $request);
 
         $contentCategoryXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($json)
@@ -140,9 +140,9 @@ class ContentCategory extends Component\View
         try {
             $id = $request->attributes->get('groupId');
             $contentCategoryXMLElement = new SimpleXMLElement(
-                $this->transcriber->toXml(json_decode(
-                    $this->apiProvider->getJson("/content-categories/{$id}")
-                ))
+                $this->transcriber->toXml(
+                    $this->apiProvider->getJson("/content-categories/{$id}", $request)
+                )
             );
 
             $packagedContentCategory = $paramXML->addChild('domain');
