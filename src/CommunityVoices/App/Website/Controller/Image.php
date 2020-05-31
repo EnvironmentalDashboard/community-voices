@@ -2,16 +2,19 @@
 
 namespace CommunityVoices\App\Website\Controller;
 
-use CommunityVoices\App\Api;
+use CommunityVoices\App\Website\Component;
 
 class Image
 {
     //protected $imageAPIController;
+    protected $apiProvider;
 
     public function __construct(
         //Api\Controller\Image $imageAPIController
+        Component\ApiProvider $apiProvider
     ) {
         //$this->imageAPIController = $imageAPIController;
+        $this->apiProvider = $apiProvider;
     }
 
     public function sendImage($request)
@@ -37,6 +40,9 @@ class Image
     public function postImageUpload($request)
     {
         //$this->imageAPIController->postImageUpload($request);
+
+        $errors = $this->apiProvider->postJson('/images/new/authenticate', $request);
+        return $errors;
     }
 
     public function getImageUpdate($request)

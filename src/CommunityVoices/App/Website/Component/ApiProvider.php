@@ -42,8 +42,14 @@ class ApiProvider
 
         if ($request->files->has('file')) {
             $file = $request->files->get('file');
-            $cFile = new \CURLFile($file->getPathName(), $file->getMimeType());
-            $data['file'] = $cFile;
+
+            if (is_array($file)) {
+                foreach ($file as $index => $f) {
+                    $data["file[{$index}]"] = new \CURLFile($f->getPathName(), $f->getMimeType());
+                }
+            } else {
+                $data['file'] = new \CURLFile($file->getPathName(), $file->getMimeType());
+            }
         }
 
         $ch = curl_init();
@@ -62,6 +68,6 @@ class ApiProvider
             die();
         }
 
-        return $response;
+        return $result;
     }
 }
