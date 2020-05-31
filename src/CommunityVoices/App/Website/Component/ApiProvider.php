@@ -40,19 +40,23 @@ class ApiProvider
     {
         $data = $request->request->all();
 
-        $opts = [
-            'http' => [
-                'header' => "Content-Type: application/x-www-form-urlencoded\r\nCookie: " . $_SERVER['HTTP_COOKIE'] . "\r\n",
-                'method' => 'POST',
-                'content' => http_build_query($data),
-            ]
-        ];
-        $context = stream_context_create($opts);
+        if ($request->files->has('file')) {
+            $file = $request->files->get('file');
+            $cFile = new \CURLFile($file->getPathName(), $file->getMimeType());
+            $data['file'] = $cFile;
+        }
 
-        $response = file_get_contents(getenv('API_URL') . $path, false, $context);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, getenv('API_URL') . $path);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Cookie: " . $_SERVER['HTTP_COOKIE']]);
+
+        $result = curl_exec($ch);
+        curl_close($ch);
 
         if ($debug) {
-            var_dump($response);
+            var_dump($result);
             die();
         }
 

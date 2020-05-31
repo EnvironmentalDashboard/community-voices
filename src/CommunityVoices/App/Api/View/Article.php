@@ -53,7 +53,8 @@ class Article extends Component\View
 
     protected function postArticleUpload()
     {
-        // intentionally blank
+        // dummy response
+        return new HttpFoundation\JsonResponse(true);
     }
 
     protected function getArticleUpdate()
@@ -63,7 +64,8 @@ class Article extends Component\View
 
     protected function postArticleUpdate()
     {
-        // intentionally blank
+        // dummy response
+        return new HttpFoundation\JsonResponse(true);
     }
 
     protected function getArticleRelatedSlides()
