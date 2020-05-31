@@ -35,6 +35,9 @@ class ContentCategory
     public function postContentCategoryUpload($request)
     {
         //$this->contentCategoryAPIController->postContentCategoryUpload($request);
+
+        $errors = $this->apiProvider->postJson('/content-categories/new', $request);
+        return $errors;
     }
 
     public function getContentCategoryUpdate($request)
@@ -45,6 +48,10 @@ class ContentCategory
     public function postContentCategoryUpdate($request)
     {
         //$this->contentCategoryAPIController->postContentCategoryUpdate($request);
+
+        $id = $request->attributes->get('groupId');
+        $errors = $this->apiProvider->postJson("/content-categories/{$id}/edit", $request);
+        return $errors;
     }
 
     public function postContentCategoryDelete($request)

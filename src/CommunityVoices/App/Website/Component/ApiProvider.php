@@ -52,11 +52,13 @@ class ApiProvider
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_HTTPHEADER, ["Cookie: " . $_SERVER['HTTP_COOKIE']]);
 
+        if (!$debug)
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+
         $result = curl_exec($ch);
         curl_close($ch);
 
         if ($debug) {
-            var_dump($result);
             die();
         }
 
