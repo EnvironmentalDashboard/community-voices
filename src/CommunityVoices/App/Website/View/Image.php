@@ -134,7 +134,6 @@ class Image extends Component\View
                 $selectedTags[] = $group->group->id;
             }
             $item->image->selectedTagString = ',' . implode(',', $selectedTags) . ',';
-            $item->image->relatedSlide = $this->apiProvider->getJson("/images/{$item->image->id}/slide", $request);
         }
 
         $imageXMLElement = new SimpleXMLElement(

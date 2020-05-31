@@ -17,6 +17,8 @@ class Image extends Media
 
     private $cropRect = ['x' => 0, 'y' => 0, 'height' => 0, 'width' => 0];
 
+    private $relatedSlide;
+
     public $type;
 
     public function __construct()
@@ -107,6 +109,11 @@ class Image extends Media
         return $this->cropRect;
     }
 
+    public function setRelatedSlide($slideId)
+    {
+        $this->relatedSlide = $slideId;
+    }
+
     public function setCropRect($rect)
     {
         if (is_array($rect)) {
@@ -135,7 +142,8 @@ class Image extends Media
             'crop_x' => $this->cropRect['x'],
             'crop_y' => $this->cropRect['y'],
             'crop_height' => $this->cropRect['height'],
-            'crop_width' => $this->cropRect['width']
+            'crop_width' => $this->cropRect['width'],
+            'relatedSlide' => $this->relatedSlide
         ])];
     }
 

@@ -119,11 +119,11 @@ class QuoteLookup
         $quoteCollectionMapper->attributions($quoteCollectionAttributions);
         $quoteCollectionMapper->subattributions($quoteCollectionSubAttributions);
 
-        // map data
-        // check whether collection empty, do something
-
-        // do we really want to grab all tag collections ???
-        // if we choose not to, we can make a different toArray() method
+        // This should probably be done within the mapper, but just a quick speed refactor.
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
+        foreach ($quoteCollection as $quote) {
+            $quote->setRelatedSlide($mapper->relatedSlideId($quote->getId()));
+        }
 
         $this->stateObserver->setSubject('quoteFindAll');
         $this->stateObserver->addEntry('quoteCollection', $quoteCollection);

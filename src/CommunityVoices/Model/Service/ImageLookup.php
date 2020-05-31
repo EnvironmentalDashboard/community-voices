@@ -195,6 +195,12 @@ class ImageLookup
         $this->stateObserver->addEntry('imageCollectionPhotographers', $imageCollectionPhotographers);
         $this->stateObserver->addEntry('imageCollectionOrgs', $imageCollectionOrgs);
 
+        // This should probably be done within the mapper, but just a quick speed refactor.
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
+        foreach ($imageCollection as $image) {
+            $image->setRelatedSlide($mapper->relatedSlideId($image->getId()));
+        }
+
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
         $clientState->save($this->stateObserver);
     }

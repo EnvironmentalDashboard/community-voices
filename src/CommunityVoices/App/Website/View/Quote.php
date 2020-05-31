@@ -165,8 +165,7 @@ class Quote extends Component\View
             $quote->quote->text = $quote->quote->text;
             $quote->quote->attribution = $quote->quote->attribution;
             $quote->quote->subAttribution = $quote->quote->subAttribution;
-            // This call makes this page very slow - refactor.
-            $quote->quote->relatedSlide = $this->apiProvider->getJson("/quotes/{$quote->quote->id}/slide", $request);
+            $quote->quote->relatedSlide = $quote->quote->relatedSlide;
         }
         $obj->quoteCollection = array_values($obj->quoteCollection);
 

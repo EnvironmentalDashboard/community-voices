@@ -24,6 +24,8 @@ class Quote extends Media
     private $publicDocumentLink;
     private $sourceDocumentLink;
 
+    private $relatedSlide;
+
     public $type;
 
     public function __construct()
@@ -121,6 +123,11 @@ class Quote extends Media
         $this->sourceDocumentLink = $sourceDocumentLink;
     }
 
+    public function setRelatedSlide($slideId)
+    {
+        $this->relatedSlide = $slideId;
+    }
+
 
     public function validateForUpload(FlexibleObserver $stateObserver, array $contentCategories)
     {
@@ -160,7 +167,8 @@ class Quote extends Media
             'quotationMarks' => $this->quotationMarks > 0 ? true : false,
             'dateRecorded' => date("Y-m-d H:i:s", $this->dateRecorded),
             'publicDocumentLink' => $this->publicDocumentLink,
-            'sourceDocumentLink' => $this->sourceDocumentLink
+            'sourceDocumentLink' => $this->sourceDocumentLink,
+            'relatedSlide' => $this->relatedSlide
         ])];
     }
 }
