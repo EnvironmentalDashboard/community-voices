@@ -52,7 +52,7 @@ class RecognitionAdapter implements CanIdentify
         /**
          * Write user to session
          */
-        // $this->persistSession($cookie);
+        $this->persistSession($cookie);
 
         return true;
     }
@@ -89,26 +89,26 @@ class RecognitionAdapter implements CanIdentify
     /**
      * Persists a user in session
      */
-    // private function persistSession($pdIdentity)
-    // {
-    //     $rememberedIdentity = new Entity\RememberedIdentity;
-    //
-    //     $rememberedIdentity->setAccountId($pdIdentity->getAccountId());
-    //
-    //     $sessionMapper = $this->mapperFactory->createSessionMapper(Mapper\Session::class);
-    //     $sessionMapper->save($rememberedIdentity);
-    // }
-    //
-    // private function ceaseSession()
-    // {
-    //     $rememberedIdentity = new Entity\RememberedIdentity;
-    //     $sessionMapper = $this->mapperFactory->createSessionMapper(Mapper\Session::class);
-    //
-    //     if ($sessionMapper->fetch($rememberedIdentity) !== false) {
-    //         $this->logger->error('**Recognition adapter cease session', ['accountId' => $rememberedIdentity->getAccountId()]);
-    //         $sessionMapper->delete($rememberedIdentity);
-    //     }
-    // }
+    private function persistSession($pdIdentity)
+    {
+        $rememberedIdentity = new Entity\RememberedIdentity;
+
+        $rememberedIdentity->setAccountId($pdIdentity->getAccountId());
+
+        $sessionMapper = $this->mapperFactory->createSessionMapper(Mapper\Session::class);
+        $sessionMapper->save($rememberedIdentity);
+    }
+
+    private function ceaseSession()
+    {
+        $rememberedIdentity = new Entity\RememberedIdentity;
+        $sessionMapper = $this->mapperFactory->createSessionMapper(Mapper\Session::class);
+
+        if ($sessionMapper->fetch($rememberedIdentity) !== false) {
+            $this->logger->error('**Recognition adapter cease session', ['accountId' => $rememberedIdentity->getAccountId()]);
+            $sessionMapper->delete($rememberedIdentity);
+        }
+    }
 
     /**
      * Attempts to identify client
@@ -166,7 +166,7 @@ class RecognitionAdapter implements CanIdentify
          * Update remember-me cookie and persist identity in session
          */
         $this->rememberCookie($cookie);
-        // $this->persistSession($cookie);
+        $this->persistSession($cookie);
 
         return $this->recognition->createUserFromRememberedIdentity($identity);
     }
@@ -209,7 +209,7 @@ class RecognitionAdapter implements CanIdentify
 
         if ($rememberedIdentity->getAccountId()) {
             // Delete session
-            // $this->ceaseSession();
+            $this->ceaseSession();
         }
     }
 }

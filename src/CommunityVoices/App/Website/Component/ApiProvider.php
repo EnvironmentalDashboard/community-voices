@@ -31,7 +31,7 @@ class ApiProvider
             $opts = [
                 'http' => [
                     'method' => 'GET',
-                    'header' => "Cookie: userToken={$request->cookies->get('userToken')}; PHPSESSID={$request->cookies->get('PHPSESSID')}"
+                    'header' => "Cookie: userToken={$request->cookies->get('userToken')}"
                 ]
             ];
             $context = stream_context_create($opts);
@@ -45,5 +45,26 @@ class ApiProvider
         $query = http_build_query($request->query->all());
 
         return $this->getJson($path . ($query ? '?' . $query : ''), $request);
+    }
+
+    public function get($path, $request)
+    {
+        return file_get_contents(getenv('API_URL') . $path, false, $context ?? null);
+    }
+
+    public function post($path, $request)
+    {
+        $data = $request->request->all();
+
+        $opts = [
+            'http' => [
+                'header' => 'Content-Type: application/x-www-form-urlencoded\r\n',
+                'method' => 'POST',
+                'content' => http_build_query($data)
+            ]
+        ];
+        $context = stream_context_create($opts);
+
+        return file_get_contents(getenv('API_URL') . $path, false, $context);
     }
 }

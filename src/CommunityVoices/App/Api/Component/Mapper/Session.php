@@ -13,7 +13,7 @@ class Session extends Mapper
     public function prepare()
     {
         if (session_status() == PHP_SESSION_NONE) {
-            session_start();
+            //session_start();
         }
     }
 

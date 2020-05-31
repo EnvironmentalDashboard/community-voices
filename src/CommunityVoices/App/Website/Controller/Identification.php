@@ -9,13 +9,16 @@ class Identification
 {
     protected $identificationAPIController;
     protected $mapperFactory;
+    protected $apiProvider;
 
     public function __construct(
         Api\Controller\Identification $identificationAPIController,
-        Component\MapperFactory $mapperFactory
+        Component\MapperFactory $mapperFactory,
+        Component\ApiProvider $apiProvider
     ) {
         $this->identificationAPIController = $identificationAPIController;
         $this->mapperFactory = $mapperFactory;
+        $this->apiProvider = $apiProvider;
     }
 
     public function getLogin($request)
@@ -43,11 +46,11 @@ class Identification
         $cacheMapper->save($formCache);
 
         // Post to API here.
-        $this->identificationAPIController->postLogin($request);
+        $this->apiProvider->post('/login', $request);
     }
 
     public function getLogout($request)
     {
-        $this->identificationAPIController->postLogout($request);
+        $this->apiProvider->get('/logout', $request);
     }
 }
