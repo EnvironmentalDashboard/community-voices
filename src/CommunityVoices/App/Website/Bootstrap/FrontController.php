@@ -52,12 +52,23 @@ class FrontController
     {
         $this->loadProviders($request);
 
-        // try {
+        // if the server is local, we want to be able to see the error stack,
+        // but on website we want to have an error page instead
+
+        if($_SERVER['REMOTE_ADDR']=='127.0.0.1') {
+          $this->router->route($request);
+          $this->dispatcher->dispatch($request)->send();
+        }
+
+        else {
+          try {
             $this->router->route($request);
             $this->dispatcher->dispatch($request)->send();
-        // } catch (\Throwable $t) {
-        //     $this->fail($request, $t)->send();
-        // }
+          } catch (\Throwable $t) {
+              $this->fail($request, $t)->send();
+          }
+        }
+
     }
 
     protected function loadProviders($request)
