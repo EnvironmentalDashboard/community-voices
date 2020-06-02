@@ -43,7 +43,7 @@ else
 	# local machine:
 	docker run -dit -p 3001:80 --restart always \
 	-v $(pwd)/CV_Media/images/:/var/www/uploads/CV_Media/images/ \
-	-v $(pwd):/var/www/html/ \
+	-v $(pwd)/src:/var/www/html/src \
 	-e "MYSQL_HOST=cv-mysql" -e "MYSQL_DB=community_voices" -e "MYSQL_PORT=3306" -e "MYSQL_USER=root" \
 	--link cv-mysql:cv-mysql \
 	-e SERVER=`hostname` \
