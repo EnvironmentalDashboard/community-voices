@@ -32,5 +32,3 @@ In general, Docker will start the server as soon as you start Docker.
 
 To delete this container later, you can run `docker stop LOCAL_CV` and then
 `docker rm LOCAL_CV`.
-
-db.config is needed -- 6/2/2020
