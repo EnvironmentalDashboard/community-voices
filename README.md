@@ -15,7 +15,8 @@ For this, simply run `./build.sh`.
 Next, for development, you would then run `./run-db.sh`.
 This creates a local database to use in development.
 If you would like to seed this database with production data,
-run `./download-prod.sh` and then `./upload-prod.sh`.
+run `./download-prod.sh` and then `./upload-prod.sh`. Note that before running './download-prod.sh' you must create a hidden file 'db.config' that configures the mysql server properly. 
+
 If you prefer to use a custom dump (or utilize the Cleveland dump),
 provide the filename as an argument to `./upload-prod.sh`.
 
@@ -31,3 +32,5 @@ In general, Docker will start the server as soon as you start Docker.
 
 To delete this container later, you can run `docker stop LOCAL_CV` and then
 `docker rm LOCAL_CV`.
+
+db.config is needed -- 6/2/2020
