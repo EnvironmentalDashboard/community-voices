@@ -46,6 +46,7 @@ class FrontController
         $this->dispatcher = $dispatcher;
         $this->injector = $injector;
         $this->logger = $logger;
+
     }
 
     public function doRequest($request)
@@ -54,8 +55,8 @@ class FrontController
 
         // if the server is local, we want to be able to see the error stack,
         // but on website we want to have an error page instead
+        if ($this->router->isLocal()) {
 
-        if($_SERVER['REMOTE_ADDR']=='127.0.0.1') {
           $this->router->route($request);
           $this->dispatcher->dispatch($request)->send();
         }
