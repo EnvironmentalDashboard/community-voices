@@ -47,12 +47,4 @@ class Router
     {
         return $this->routes;
     }
-
-    public function isLocal()
-    {
-      if((getenv('SERVER') === 'environmentaldashboard.org')) {
-        return false;
-      }
-      return true;
-    }
 }

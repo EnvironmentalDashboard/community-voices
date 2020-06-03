@@ -52,15 +52,12 @@ class FrontController
     public function doRequest($request)
     {
         $this->loadProviders($request);
-
         // if the server is local, we want to be able to see the error stack,
-        // but on website we want to have an error page instead
-        if ($this->router->isLocal()) {
-
+        // but on remote server we want to have an error page instead
+        if (getenv('APP_ENV') == 'development') {
           $this->router->route($request);
           $this->dispatcher->dispatch($request)->send();
         }
-
         else {
           try {
             $this->router->route($request);
