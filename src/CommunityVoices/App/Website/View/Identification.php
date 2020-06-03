@@ -92,11 +92,13 @@ class Identification extends Component\View
     /**
      * User authenticaton
      */
-    public function postCredentials($request)
+    public function postCredentials($request, $result)
     {
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
-        if ($this->isLoggedIn($request)) {
+        if (!$result->errors) {
+            setCookie("PHPSESSID", $result->sessionId);
+
             /**
              * Login success
              */
