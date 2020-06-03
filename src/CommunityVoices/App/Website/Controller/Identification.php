@@ -45,8 +45,7 @@ class Identification
         $cacheMapper = $this->mapperFactory->createCacheMapper();
         $cacheMapper->save($formCache);
 
-        // Post to API here.
-        $this->apiProvider->post('/login', $request);
+        return $this->apiProvider->postJson('/login', $request);
     }
 
     public function getLogout($request)

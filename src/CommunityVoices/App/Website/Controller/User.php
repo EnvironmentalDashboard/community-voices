@@ -78,7 +78,7 @@ class User
         $errors = $this->apiProvider->postJson('/register', $request);
 
         if (empty($errors->errors)) {
-            $this->apiProvider->postJson('/login', $request);
+            return $this->apiProvider->postJson('/login', $request);
         }
 
         return $errors;

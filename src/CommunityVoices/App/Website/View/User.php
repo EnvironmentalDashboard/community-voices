@@ -164,6 +164,8 @@ class User extends Component\View
             return $this->getRegistration($request, $errors);
         }
 
+        setCookie("PHPSESSID", $errors->sessionId);
+
         $response = new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')
         );
