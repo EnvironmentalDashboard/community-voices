@@ -97,6 +97,7 @@
                 <a class="dropdown-item" href="/resources-explained">Resources Explained</a>
                 <a class="dropdown-item" href="/story-of-dashboard">Story of Dashboard</a>
                 <a class="dropdown-item" href="/bring-dashboard-to-your-community">Bring Dashboard to Your Community</a>
+                 <a class="dropdown-item" href="/press-page">Press/Media</a>
 
                 <div class="dropdown">
                   <a class="dropdown-item dropdown-toggle" href="#" id="navbarDropdownMenuLink7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Instructor Toolkit</a>
