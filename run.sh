@@ -37,7 +37,7 @@ then
 	-v $(pwd):/var/www/html/ \
 	-v /etc/opendkim/keys/environmentaldashboard.org/mail.private:/opendkim/mail.private \
 	-e "MYSQL_HOST=159.89.232.129" -e "MYSQL_DB=community_voices" -e "MYSQL_PORT=$port" -e "MYSQL_USER=$user" -e "MYSQL_PASS=$pass" \
-	-e SERVER=`hostname` \
+	-e SERVER=`hostname` -e APP_ENV=production \
 	--name PROD_CV community-voices
 else
 	# local machine:
@@ -46,7 +46,7 @@ else
 	-v $(pwd)/src:/var/www/html/src \
 	-e "MYSQL_HOST=cv-mysql" -e "MYSQL_DB=community_voices" -e "MYSQL_PORT=3306" -e "MYSQL_USER=root" \
 	--link cv-mysql:cv-mysql \
-	-e SERVER=`hostname` \
+	-e SERVER=`hostname` -e APP_ENV=development \
 	-e API_URL=http://localhost:80/community-voices/api \
 	--name LOCAL_CV community-voices
 fi

@@ -46,18 +46,24 @@ class FrontController
         $this->dispatcher = $dispatcher;
         $this->injector = $injector;
         $this->logger = $logger;
+
     }
 
     public function doRequest($request)
     {
         $this->loadProviders($request);
-
-        // try {
+        try {
             $this->router->route($request);
             $this->dispatcher->dispatch($request)->send();
-        // } catch (\Throwable $t) {
-        //     $this->fail($request, $t)->send();
-        // }
+        } catch (\Throwable $t) {
+            // if the server is local, we want to be able to see the error stack,
+            // but on remote server we want to have an error page display instead
+            if (getenv('APP_ENV') == 'development') {
+                throw $t;
+            } else {
+                $this->fail($request, $t)->send();
+            }
+        }
     }
 
     protected function loadProviders($request)
