@@ -362,7 +362,7 @@ class Quote extends Component\View
         // dirname() removes the /new from the url we are
         // redirecting to.
         $response = new HttpFoundation\RedirectResponse(
-            dirname($request->headers->get('referer')) . '/' . $upload->upload->quote->id[0]
+            dirname($request->headers->get('referer')) . '/' . $errors->upload->quote->id[0]
         );
 
         $this->finalize($response);
