@@ -36,7 +36,7 @@ class Identification extends Component\View
 
         $response = new HttpFoundation\JsonResponse();
 
-        if ($identity) {
+        if ($identity->getId()) {
             $response->setData(["errors" => [], "sessionId" => session_id()]);
         } else {
             $response->setData(["errors" => ["Could not log in."]]);
@@ -51,7 +51,7 @@ class Identification extends Component\View
 
         $response = new HttpFoundation\JsonResponse();
 
-        if ($identity) {
+        if ($identity->getId()) {
             $response->setData(["errors" => ["Could not log out."]]);
         } else {
             $response->setData(["errors" => []]);
