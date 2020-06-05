@@ -354,27 +354,27 @@ class Quote extends Component\View
 
     public function postQuoteUpload($request, $errors = self::ERRORS_DEFAULT)
     {
-        if (!empty($errors->upload->errors)) {
+    // There are three possible outcomes when the user enteres a new quote:
+    // 1: Error with entering correct fields
+    // 2: Correct fields entered, user presses "batch submit"
+    // 3: Correct fields entered, user presses "submit"
+    // in cases 1 and 2, want to bring user back to same page with same fields filled in,
+    // in case 3, want to advance user to new screen showing their submitted quote
+        if (!empty($errors->upload->errors) or $request->request->get('batch_submit')) {
             return $this->getQuoteUpload($request, $errors);
         }
-
+        // if the user presses "submit"
         // We simply will show the edited quote.
         // dirname() removes the /new from the url we are
         // redirecting to.
-        if($request->request->get('submit')) {
+        else {
             $response = new HttpFoundation\RedirectResponse(
                 dirname($request->headers->get('referer')) . '/' . $errors->upload->quote->id[0]
             );
-        } else { //batch submit
-            $response = new HttpFoundation\RedirectResponse(
-                dirname($request->headers->get('referer')) . '/' . "new"
-            );
+            $this->finalize($response);
+            return $response;
         }
-
-        $this->finalize($response);
-        return $response;
     }
-
     public function getQuoteUpdate($request, $errors = self::ERRORS_DEFAULT)
     {
         $paramXML = new Helper\SimpleXMLElementExtension('<form/>');
