@@ -273,7 +273,8 @@
                         </input>
                       </div>
 
-                    <input type='submit' class='btn btn-primary' />
+                    <input type='submit' name='submit' value='submit' class='btn btn-primary' />
+                    <input type='submit' name='batch_submit' value='Batch Submit' class='btn btn-primary' />
                 </form>
             </div>
         </div>
