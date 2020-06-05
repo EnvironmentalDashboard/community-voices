@@ -67,7 +67,8 @@
                                 <xsl:when test="domain/form != ''">
                                     <xsl:value-of select="domain/form/text"/>
                                 </xsl:when>
-                                <xsl:when test="domain/quote != ''">
+                                <xsl:when test="
+                                    /quote != ''">
                                     <xsl:value-of select="domain/quote/text"/>
                                 </xsl:when>
                             </xsl:choose>
@@ -273,8 +274,8 @@
                         </input>
                       </div>
 
-                    <input type='submit' name='submit' value='submit' class='btn btn-primary' />
-                    <input type='submit' name='batch_submit' value='Batch Submit' class='btn btn-primary' />
+                    <input type='submit' name='submit' value='Submit and Exit' class='btn btn-primary' />
+                    <input type='submit' name='batch_submit' value='Submit More Quotes' class='btn btn-primary' />
                 </form>
             </div>
         </div>
