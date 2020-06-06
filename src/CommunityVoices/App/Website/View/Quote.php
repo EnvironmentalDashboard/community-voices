@@ -292,7 +292,6 @@ class Quote extends Component\View
         $repeatedQuoteXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(['repeatedQuote' => [$repeatedQuote]])
         );
-        var_dump($repeatedQuoteXMLElement->asXML());
 
         $errorsXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($errors)
