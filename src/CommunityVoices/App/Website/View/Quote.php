@@ -283,6 +283,16 @@ class Quote extends Component\View
                 '<form>' . $this->transcriber->toXml($form) . '</form>'
             );
         }
+        // booleans do not work in parsing to xml, requiring this ugly thing
+        if($request->request->has('batch_submit') && empty($errors->upload->errors)) {
+            $repeatedQuote = "true";
+        } else {
+            $repeatedQuote = "false";
+        }
+        $repeatedQuoteXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(['repeatedQuote' => [$repeatedQuote]])
+        );
+        var_dump($repeatedQuoteXMLElement->asXML());
 
         $errorsXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($errors)
@@ -321,6 +331,7 @@ class Quote extends Component\View
         $packagedQuote->adopt($contentCategoryXMLElement);
         $packagedQuote->adopt($errorsXMLElement);
         $packagedQuote->adopt($selectedGroupXMLElement);
+        $packagedQuote->adopt($repeatedQuoteXMLElement);
 
         if (isset($formParamXML)) {
             $packagedQuote->adopt($formParamXML);
@@ -350,6 +361,7 @@ class Quote extends Component\View
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
         $this->finalize($response);
         return $response;
+
     }
 
     public function postQuoteUpload($request, $errors = self::ERRORS_DEFAULT)

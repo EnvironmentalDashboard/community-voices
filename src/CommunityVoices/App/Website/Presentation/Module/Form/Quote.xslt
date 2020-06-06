@@ -59,6 +59,21 @@
                             </div>
                         </div>
                     </xsl:if>
+                    <xsl:if test="domain/repeatedQuote = 'true'">
+                        <div class="card" style="margin-bottom: 16px;">
+                            <div class="card-body">
+                                <h1 class="h4 mb-4 font-weight-normal" style="margin-bottom: 0.5rem !important;">
+                                  Success!
+                                </h1>
+                                <ul style="margin-bottom: 0.5rem;">
+                                    <xsl:comment>
+                                     Don't know how to make the text below appear as a bullet in the same way as errors are displayed.
+                                    </xsl:comment>
+                                    Your quote has been succesfully uploaded.
+                                </ul>
+                            </div>
+                        </div>
+                    </xsl:if>
 
                     <div class="form-group">
                         <label for="text">Quote</label>
