@@ -283,7 +283,7 @@ class Quote extends Component\View
                 '<form>' . $this->transcriber->toXml($form) . '</form>'
             );
         }
-        $repeatedQuote = $request->request->has('submit_more');
+        $repeatedQuote = $request->request->has('submit_more') && empty($errors->upload->errors);
         $repeatedQuoteXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(['repeatedQuote' => [$repeatedQuote]])
         );
@@ -354,6 +354,7 @@ class Quote extends Component\View
         $presentation = new Component\Presenter('SinglePane');
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
         $this->finalize($response);
+
         return $response;
 
     }

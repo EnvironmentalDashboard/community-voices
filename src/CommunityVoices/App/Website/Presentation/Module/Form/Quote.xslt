@@ -78,7 +78,7 @@
                         <label for="text">Quote</label>
                         <textarea name='text' id='text' class='form-control'>
                             <xsl:choose>
-                                <xsl:when test="domain/form != ''">
+                                <xsl:when test="domain/form != '' and domain/repeatedQuote = ''">
                                     <xsl:value-of select="domain/form/text"/>
                                 </xsl:when>
                                 <xsl:when test="domain/quote != ''">
