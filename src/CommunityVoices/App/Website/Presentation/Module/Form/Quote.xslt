@@ -38,42 +38,41 @@
                       Quote
                     </h1>
 
-                    <xsl:if test="domain/errors != '' or domain/upload/errors != ''">
-                        <div class="card" style="margin-bottom: 16px;">
-                            <div class="card-body">
-                                <h1 class="h4 mb-4 font-weight-normal" style="margin-bottom: 0.5rem !important;">
-                                  Some errors prevented
-                                  <xsl:choose>
-                                    <xsl:when test="domain/quote != ''">
-                                      update
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                      upload
-                                    </xsl:otherwise>
-                                  </xsl:choose>
-                                </h1>
-                                <ul style="margin-bottom: 0.5rem;">
-                                    <xsl:apply-templates select="domain/errors/*" />
-                                    <xsl:apply-templates select="domain/upload/errors/*" />
-                                </ul>
+                    <xsl:choose>
+                        <xsl:when test="domain/errors != '' or domain/upload/errors != ''">
+                            <div class="card" style="margin-bottom: 16px;">
+                                <div class="card-body">
+                                    <h1 class="h4 mb-4 font-weight-normal" style="margin-bottom: 0.5rem !important;">
+                                      Some errors prevented
+                                      <xsl:choose>
+                                        <xsl:when test="domain/quote != ''">
+                                          update
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                          upload
+                                        </xsl:otherwise>
+                                      </xsl:choose>
+                                    </h1>
+                                    <ul style="margin-bottom: 0.5rem;">
+                                        <xsl:apply-templates select="domain/errors/*" />
+                                        <xsl:apply-templates select="domain/upload/errors/*" />
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                    </xsl:if>
-                    <xsl:if test="domain/repeatedQuote = 'true'">
-                        <div class="card" style="margin-bottom: 16px;">
-                            <div class="card-body">
-                                <h1 class="h4 mb-4 font-weight-normal" style="margin-bottom: 0.5rem !important;">
-                                  Success!
-                                </h1>
-                                <ul style="margin-bottom: 0.5rem;">
-                                    <xsl:comment>
-                                     Don't know how to make the text below appear as a bullet in the same way as errors are displayed.
-                                    </xsl:comment>
-                                    Your quote has been succesfully uploaded.
-                                </ul>
+                        </xsl:when>
+                        <xsl:when test="domain/repeatedQuote = 'true'">
+                            <div class="card" style="margin-bottom: 16px;">
+                                <div class="card-body">
+                                    <h1 class="h4 mb-4 font-weight-normal" style="margin-bottom: 0.5rem !important;">
+                                      Success!
+                                    </h1>
+                                    <ul style="margin-bottom: 0.5rem;">
+                                        <li>Your quote has been succesfully uploaded.</li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                    </xsl:if>
+                        </xsl:when>
+                    </xsl:choose>
 
                     <div class="form-group">
                         <label for="text">Quote</label>
@@ -82,8 +81,7 @@
                                 <xsl:when test="domain/form != ''">
                                     <xsl:value-of select="domain/form/text"/>
                                 </xsl:when>
-                                <xsl:when test="
-                                    /quote != ''">
+                                <xsl:when test="domain/quote != ''">
                                     <xsl:value-of select="domain/quote/text"/>
                                 </xsl:when>
                             </xsl:choose>
@@ -289,8 +287,8 @@
                         </input>
                       </div>
 
-                    <input type='submit' name='submit' value='Submit and Exit' class='btn btn-primary' />
-                    <input type='submit' name='batch_submit' value='Submit More Quotes' class='btn btn-primary' />
+                    <input type='submit' name='submit_exit' value='Submit and Exit' class='btn btn-primary' />
+                    <input type='submit' name='submit_more' value='Submit More Quotes' class='btn btn-primary' />
                 </form>
             </div>
         </div>

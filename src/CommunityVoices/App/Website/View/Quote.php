@@ -283,12 +283,7 @@ class Quote extends Component\View
                 '<form>' . $this->transcriber->toXml($form) . '</form>'
             );
         }
-        // booleans do not work in parsing to xml, requiring this ugly thing
-        if($request->request->has('batch_submit') && empty($errors->upload->errors)) {
-            $repeatedQuote = "true";
-        } else {
-            $repeatedQuote = "false";
-        }
+        $repeatedQuote = $request->request->has('submit_more');
         $repeatedQuoteXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(['repeatedQuote' => [$repeatedQuote]])
         );
@@ -365,20 +360,19 @@ class Quote extends Component\View
 
     public function postQuoteUpload($request, $errors = self::ERRORS_DEFAULT)
     {
-    // There are three possible outcomes when the user enteres a new quote:
-    // 1: Error with entering correct fields
-    // 2: Correct fields entered, user presses "batch submit"
-    // 3: Correct fields entered, user presses "submit"
-    // in cases 1 and 2, want to bring user back to same page with same fields filled in,
-    // in case 3, want to advance user to new screen showing their submitted quote
-        if (!empty($errors->upload->errors) or $request->request->get('batch_submit')) {
+        // There are three possible outcomes when the user enteres a new quote:
+        // 1: Error with entering correct fields
+        // 2: Correct fields entered, user presses "Submit More Quotes"
+        // 3: Correct fields entered, user presses "Submit and Exit"
+        // in cases 1 and 2, want to bring user back to same page with same fields filled in,
+        // in case 3, want to advance user to new screen showing their submitted quote
+        if (!empty($errors->upload->errors) or $request->request->get('submit_more')) {
             return $this->getQuoteUpload($request, $errors);
-        }
-        // if the user presses "submit"
-        // We simply will show the edited quote.
-        // dirname() removes the /new from the url we are
-        // redirecting to.
-        else {
+        } else {
+            // if the user presses "Submit and Exit"
+            // We simply will show the edited quote.
+            // dirname() removes the /new from the url we are
+            // redirecting to.
             $response = new HttpFoundation\RedirectResponse(
                 dirname($request->headers->get('referer')) . '/' . $errors->upload->quote->id[0]
             );
