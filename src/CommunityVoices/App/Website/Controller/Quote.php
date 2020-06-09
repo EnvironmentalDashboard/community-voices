@@ -86,6 +86,9 @@ class Quote
     {
         $this->saveQuoteForm($request, 'quoteUpdateForm');
 
+        // We will want to fill in defaults for this request.
+        $request->request->set('defaults', true);
+
         $id = $request->attributes->get('id');
         $errors = $this->apiProvider->postJson("/quotes/{$id}/edit", $request);
         return $errors;

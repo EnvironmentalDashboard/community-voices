@@ -154,7 +154,7 @@ class Quote extends Component\Controller
     {
         return $this->quoteManagement->save(
             $this->getId($request),
-            $this->getFormAttributes($request, self::FORM_ATTRIBUTES)
+            $this->getFormAttributes($request, self::FORM_ATTRIBUTES, $request->request->get('defaults'))
         );
     }
 
