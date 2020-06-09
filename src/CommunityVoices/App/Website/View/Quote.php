@@ -283,9 +283,13 @@ class Quote extends Component\View
                 '<form>' . $this->transcriber->toXml($form) . '</form>'
             );
         }
-        $repeatedQuote = $request->request->has('submit_more') && empty($errors->upload->errors);
-        $repeatedQuoteXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(['repeatedQuote' => [$repeatedQuote]])
+        
+        $repeatedQuoteErrorFree = NULL;
+        if ($request->request->has('submit_more') && empty($errors->upload->errors)) {
+            $repeatedQuoteErrorFree = "Your quote has been succesfully uploaded.";
+        }
+        $repeatedQuoteErrorFreeXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(['repeatedQuoteErrorFree' => [$repeatedQuoteErrorFree]])
         );
 
         $errorsXMLElement = new SimpleXMLElement(
@@ -325,7 +329,7 @@ class Quote extends Component\View
         $packagedQuote->adopt($contentCategoryXMLElement);
         $packagedQuote->adopt($errorsXMLElement);
         $packagedQuote->adopt($selectedGroupXMLElement);
-        $packagedQuote->adopt($repeatedQuoteXMLElement);
+        $packagedQuote->adopt($repeatedQuoteErrorFreeXMLElement);
 
         if (isset($formParamXML)) {
             $packagedQuote->adopt($formParamXML);

@@ -60,14 +60,14 @@
                                 </div>
                             </div>
                         </xsl:when>
-                        <xsl:when test="domain/repeatedQuote = 'true'">
+                        <xsl:when test="domain/repeatedQuoteErrorFree != ''">
                             <div class="card" style="margin-bottom: 16px;">
                                 <div class="card-body">
                                     <h1 class="h4 mb-4 font-weight-normal" style="margin-bottom: 0.5rem !important;">
                                       Success!
                                     </h1>
                                     <ul style="margin-bottom: 0.5rem;">
-                                        <li>Your quote has been succesfully uploaded.</li>
+                                        <li><xsl:value-of select="domain/repeatedQuoteErrorFree"/></li>
                                     </ul>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                         <label for="text">Quote</label>
                         <textarea name='text' id='text' class='form-control'>
                             <xsl:choose>
-                                <xsl:when test="domain/form != '' and domain/repeatedQuote = ''">
+                                <xsl:when test="domain/form != '' and domain/repeatedQuoteErrorFree = ''">
                                     <xsl:value-of select="domain/form/text"/>
                                 </xsl:when>
                                 <xsl:when test="domain/quote != ''">
