@@ -283,7 +283,7 @@ class Quote extends Component\View
                 '<form>' . $this->transcriber->toXml($form) . '</form>'
             );
         }
-        
+
         $repeatedQuoteErrorFree = NULL;
         if ($request->request->has('submit_more') && empty($errors->upload->errors)) {
             $repeatedQuoteErrorFree = "Your quote has been succesfully uploaded.";

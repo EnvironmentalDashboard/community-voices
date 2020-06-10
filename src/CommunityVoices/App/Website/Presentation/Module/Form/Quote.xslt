@@ -1,12 +1,9 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="1.0">
 
+    <xsl:import href="../../Component/Card.xslt" />
     <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
     <xsl:variable name="selectedGroups" select="/form/domain/selectedGroups" />
-
-    <xsl:template match="domain/errors/*|domain/upload/errors/*">
-        <li style="margin-bottom: 0px;"><xsl:value-of select="." /></li>
-    </xsl:template>
 
     <xsl:template match="/form">
         <div class="row" style="padding:15px;">
@@ -40,37 +37,28 @@
 
                     <xsl:choose>
                         <xsl:when test="domain/errors != '' or domain/upload/errors != ''">
-                            <div class="card" style="margin-bottom: 16px;">
-                                <div class="card-body">
-                                    <h1 class="h4 mb-4 font-weight-normal" style="margin-bottom: 0.5rem !important;">
-                                      Some errors prevented
-                                      <xsl:choose>
-                                        <xsl:when test="domain/quote != ''">
-                                          update
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                          upload
-                                        </xsl:otherwise>
-                                      </xsl:choose>
-                                    </h1>
-                                    <ul style="margin-bottom: 0.5rem;">
-                                        <xsl:apply-templates select="domain/errors/*" />
-                                        <xsl:apply-templates select="domain/upload/errors/*" />
-                                    </ul>
-                                </div>
-                            </div>
+                            <xsl:variable name="updateOrUpload">
+                                <xsl:choose>
+                                  <xsl:when test="domain/quote != ''"> Update </xsl:when>
+                                  <xsl:otherwise> Upload </xsl:otherwise>
+                                </xsl:choose>
+                            </xsl:variable>
+                            <xsl:variable name="errorsList">
+                                <xsl:for-each select="domain/upload/errors/*|domain/errors/*">
+                                    <item> <xsl:value-of select="."/> </item>
+                                </xsl:for-each>
+                            </xsl:variable>
+                            <xsl:call-template name="card">
+                                <xsl:with-param name="title" select="concat('Some Errors Prevented ', $updateOrUpload)"/>
+                                <!-- Note, pass in message with <item> tags (see "$errorsList") -->
+                                <xsl:with-param name="message" select="$errorsList"/>
+                            </xsl:call-template>
                         </xsl:when>
                         <xsl:when test="domain/repeatedQuoteErrorFree != ''">
-                            <div class="card" style="margin-bottom: 16px;">
-                                <div class="card-body">
-                                    <h1 class="h4 mb-4 font-weight-normal" style="margin-bottom: 0.5rem !important;">
-                                      Success!
-                                    </h1>
-                                    <ul style="margin-bottom: 0.5rem;">
-                                        <li><xsl:value-of select="domain/repeatedQuoteErrorFree"/></li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <xsl:call-template name="card">
+                                <xsl:with-param name="title"> Success! </xsl:with-param>
+                                <xsl:with-param name="message"><item>Your quote was succesfully uploaded.</item></xsl:with-param>
+                            </xsl:call-template>
                         </xsl:when>
                     </xsl:choose>
 
