@@ -15,9 +15,10 @@ class DisplayError extends Component\View
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
-        Api\View\Identification $identificationAPIView
+        //Api\View\Identification $identificationAPIView
+        Component\ApiProvider $apiProvider
     ) {
-        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+        parent::__construct($mapperFactory, $transcriber, $apiProvider);
     }
 
     public function getError($request)
@@ -37,7 +38,7 @@ class DisplayError extends Component\View
         }
 
         $identity = $displayErrorPackageElement->addChild('identity');
-        $identity->adopt($this->identityXMLElement());
+        $identity->adopt($this->identityXMLElement($request));
 
         /**
          * Generate DisplayError module

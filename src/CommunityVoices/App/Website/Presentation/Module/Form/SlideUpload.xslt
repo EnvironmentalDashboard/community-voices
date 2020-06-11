@@ -301,7 +301,7 @@
               </xsl:choose>
             </form>
             <xsl:if test="domain/slide != ''">
-              <form action="/community-voices/slides/{domain/slide/id}/delete/authenticate" method="POST" class="d-inline" id="delete-form">
+              <form action="/community-voices/api/slides/{domain/slide/id}/delete/authenticate" method="POST" class="d-inline" id="delete-form">
                 <div id="alert"></div>
                 <input type="submit" value="Delete slide" class="btn btn-danger" />
               </form>

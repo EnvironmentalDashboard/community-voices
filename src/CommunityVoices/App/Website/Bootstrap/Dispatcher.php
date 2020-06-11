@@ -36,7 +36,7 @@ class Dispatcher
         }
 
         $controller = $this->injector->make($controllerSignature . $resource);
-        $controller->{$action}($request);
+        $communication = $controller->{$action}($request);
 
         /**
          * Instantiate view & return the response
@@ -48,8 +48,13 @@ class Dispatcher
             $viewSignature = self::API_VIEW_SIGNATURE;
         }
 
+        // Passing arguments as an array will allow us to let defaults work in the Views.
+        $args = [$request];
+        if (!is_null($communication))
+            $args[] = $communication;
+
         $view = $this->injector->make($viewSignature . $resource);
-        $response = $view->{$action}($request);
+        $response = call_user_func_array([$view, $action], $args);
 
         return $response;
     }

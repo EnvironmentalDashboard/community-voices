@@ -10,18 +10,23 @@ use CommunityVoices\App\Website\Component;
 
 class View
 {
+    protected const ERRORS_DEFAULT = ['errors' => []];
+
     protected $mapperFactory;
     protected $transcriber;
-    protected $identificationAPIView;
+    //protected $identificationAPIView;
+    protected $apiProvider;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
-        Identification $identificationAPIView
+        //Identification $identificationAPIView
+        Component\ApiProvider $apiProvider
     ) {
         $this->mapperFactory = $mapperFactory;
         $this->transcriber = $transcriber;
-        $this->identificationAPIView = $identificationAPIView;
+        //$this->identificationAPIView = $identificationAPIView;
+        $this->apiProvider = $apiProvider;
     }
 
     protected function finalize($response)
@@ -32,16 +37,16 @@ class View
         $cookieMapper->mapToResponse();
     }
 
-    protected function identityXMLElement()
+    protected function identityXMLElement($request)
     {
         return new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode($this->identificationAPIView->getIdentity()->getContent()))
+            $this->transcriber->toXml($this->apiProvider->getJson('/identity', $request))
         );
     }
 
-    protected function isLoggedIn()
+    protected function isLoggedIn($request)
     {
-        return !empty($this->identityXMLElement()->id);
+        return !empty($this->identityXMLElement($request)->id);
     }
 
     /**

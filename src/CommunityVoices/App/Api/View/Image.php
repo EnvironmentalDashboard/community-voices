@@ -70,4 +70,43 @@ class Image extends Component\View
     {
         // intentionally blank
     }
+
+    protected function getImageRelatedSlide()
+    {
+        $clientState = $this->mapperFactory->createClientStateMapper();
+        $stateObserver = $clientState->retrieve();
+
+        $stateObserver->setSubject('imageLookup');
+        $slides = $stateObserver->getEntry('relatedSlide')[0];
+
+        $response = new HttpFoundation\JsonResponse($slides);
+
+        return $response;
+    }
+
+    protected function getImagePrevImage()
+    {
+        $clientState = $this->mapperFactory->createClientStateMapper();
+        $stateObserver = $clientState->retrieve();
+
+        $stateObserver->setSubject('imageLookup');
+        $slides = $stateObserver->getEntry('prevImage')[0];
+
+        $response = new HttpFoundation\JsonResponse($slides);
+
+        return $response;
+    }
+
+    protected function getImageNextImage()
+    {
+        $clientState = $this->mapperFactory->createClientStateMapper();
+        $stateObserver = $clientState->retrieve();
+
+        $stateObserver->setSubject('imageLookup');
+        $slides = $stateObserver->getEntry('nextImage')[0];
+
+        $response = new HttpFoundation\JsonResponse($slides);
+
+        return $response;
+    }
 }

@@ -17,21 +17,22 @@ class Location extends Component\View
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
-        Api\View\Identification $identificationAPIView,
-        Api\View\Location $locationAPIView
+        //Api\View\Identification $identificationAPIView,
+        Component\ApiProvider $apiProvider
+        //Api\View\Location $locationAPIView
     ) {
-        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+        parent::__construct($mapperFactory, $transcriber, $apiProvider);
 
-        $this->locationAPIView = $locationAPIView;
+        //$this->locationAPIView = $locationAPIView;
     }
 
     public function getAllLocation($request)
     {
         // Location data gathering
         $locationXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $this->locationAPIView->getAllLocation()->getContent()
-            ))
+            $this->transcriber->toXml(
+                $this->apiProvider->getJson('/locations', $request)
+            )
         );
 
         /**
@@ -43,7 +44,7 @@ class Location extends Component\View
         $packagedlocation->adopt($locationXMLElement);
 
         $packagedIdentity = $locationPackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
 
         /**
          * Generate Location module
@@ -66,7 +67,7 @@ class Location extends Component\View
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 

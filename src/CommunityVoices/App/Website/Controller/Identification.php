@@ -7,15 +7,18 @@ use CommunityVoices\App\Api;
 
 class Identification
 {
-    protected $identificationAPIController;
+    //protected $identificationAPIController;
     protected $mapperFactory;
+    protected $apiProvider;
 
     public function __construct(
-        Api\Controller\Identification $identificationAPIController,
-        Component\MapperFactory $mapperFactory
+        //Api\Controller\Identification $identificationAPIController,
+        Component\MapperFactory $mapperFactory,
+        Component\ApiProvider $apiProvider
     ) {
-        $this->identificationAPIController = $identificationAPIController;
+        //$this->identificationAPIController = $identificationAPIController;
         $this->mapperFactory = $mapperFactory;
+        $this->apiProvider = $apiProvider;
     }
 
     public function getLogin($request)
@@ -42,11 +45,11 @@ class Identification
         $cacheMapper = $this->mapperFactory->createCacheMapper();
         $cacheMapper->save($formCache);
 
-        $this->identificationAPIController->postLogin($request);
+        return $this->apiProvider->postJson('/login', $request);
     }
 
     public function getLogout($request)
     {
-        $this->identificationAPIController->postLogout($request);
+        $this->apiProvider->get('/logout', $request);
     }
 }

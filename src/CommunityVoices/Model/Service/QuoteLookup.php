@@ -119,11 +119,11 @@ class QuoteLookup
         $quoteCollectionMapper->attributions($quoteCollectionAttributions);
         $quoteCollectionMapper->subattributions($quoteCollectionSubAttributions);
 
-        // map data
-        // check whether collection empty, do something
-
-        // do we really want to grab all tag collections ???
-        // if we choose not to, we can make a different toArray() method
+        // This should probably be done within the mapper, but just a quick speed refactor.
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
+        foreach ($quoteCollection as $quote) {
+            $quote->setRelatedSlide($mapper->relatedSlideId($quote->getId()));
+        }
 
         $this->stateObserver->setSubject('quoteFindAll');
         $this->stateObserver->addEntry('quoteCollection', $quoteCollection);
@@ -237,5 +237,41 @@ class QuoteLookup
         $mapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
         $id = $mapper->nextQuote($quote_id);
         return $id;
+    }
+
+    public function relatedSlide2(int $quote_id)
+    {
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
+        $id = $mapper->relatedSlideId($quote_id);
+
+        $this->stateObserver->setSubject('quoteLookup');
+        $this->stateObserver->addEntry('relatedSlide', $id);
+
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($this->stateObserver);
+    }
+
+    public function prevQuote2(int $quote_id)
+    {
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
+        $id = $mapper->prevQuote($quote_id);
+
+        $this->stateObserver->setSubject('quoteLookup');
+        $this->stateObserver->addEntry('prevQuote', $id);
+
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($this->stateObserver);
+    }
+
+    public function nextQuote2(int $quote_id)
+    {
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
+        $id = $mapper->nextQuote($quote_id);
+
+        $this->stateObserver->setSubject('quoteLookup');
+        $this->stateObserver->addEntry('nextQuote', $id);
+
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($this->stateObserver);
     }
 }

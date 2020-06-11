@@ -18,10 +18,11 @@ class Identification extends Component\View
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
-        Api\View\Identification $identificationAPIView,
+        //Api\View\Identification $identificationAPIView,
+        Component\ApiProvider $apiProvider,
         UrlGenerator $urlGenerator
     ) {
-        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+        parent::__construct($mapperFactory, $transcriber, $apiProvider);
 
         $this->urlGenerator = $urlGenerator;
     }
@@ -31,7 +32,7 @@ class Identification extends Component\View
         $referer = $request->request->get("referer") ?? $request->headers->get("referer");
 
         // If we are logged in, we should not be letting us log in again!
-        if ($this->isLoggedIn()) {
+        if ($this->isLoggedIn($request)) {
             // Our goal is to either return from where we came or go back to
             // the root of the website.
             $response = new HttpFoundation\RedirectResponse(
@@ -91,11 +92,13 @@ class Identification extends Component\View
     /**
      * User authenticaton
      */
-    public function postCredentials($request)
+    public function postCredentials($request, $result)
     {
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
-        if ($this->isLoggedIn()) {
+        if (!$result->errors) {
+            setCookie("PHPSESSID", $result->sessionId);
+
             /**
              * Login success
              */

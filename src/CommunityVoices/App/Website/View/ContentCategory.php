@@ -14,25 +14,26 @@ use CommunityVoices\App\Website\Component;
 
 class ContentCategory extends Component\View
 {
-    protected $contentCategoryAPIView;
+    //protected $contentCategoryAPIView;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
-        Api\View\Identification $identificationAPIView,
-        Api\View\ContentCategory $contentCategoryAPIView
+        //Api\View\Identification $identificationAPIView,
+        Component\ApiProvider $apiProvider
+        //Api\View\ContentCategory $contentCategoryAPIView
     ) {
-        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+        parent::__construct($mapperFactory, $transcriber, $apiProvider);
 
-        $this->contentCategoryAPIView = $contentCategoryAPIView;
+        //$this->contentCategoryAPIView = $contentCategoryAPIView;
     }
 
     public function getAllContentCategory($request)
     {
         $contentCategoryXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $this->contentCategoryAPIView->getAllContentCategory()->getContent()
-            ))
+            $this->transcriber->toXml(
+                $this->apiProvider->getJson('/content-categories', $request)
+            )
         );
 
         $contentCategoryPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
@@ -41,7 +42,7 @@ class ContentCategory extends Component\View
         $packagedContentCategory->adopt($contentCategoryXMLElement);
 
         $packagedIdentity = $contentCategoryPackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
 
         $contentCategoryModule = new Component\Presenter('Module/ContentCategoryCollection');
         $contentCategoryModuleXML = $contentCategoryModule->generate($contentCategoryPackageElement);
@@ -51,7 +52,7 @@ class ContentCategory extends Component\View
         $domainXMLElement->addChild('main-pane', $contentCategoryModuleXML);
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -63,7 +64,8 @@ class ContentCategory extends Component\View
 
     public function getContentCategory($request)
     {
-        $json = json_decode($this->contentCategoryAPIView->getContentCategory()->getContent());
+        $id = $request->attributes->get('groupId');
+        $json = $this->apiProvider->getJson("/content-categories/{$id}", $request);
 
         $contentCategoryXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($json)
@@ -80,7 +82,7 @@ class ContentCategory extends Component\View
         $packagedContentCategory->adopt($contentCategoryXMLElement);
 
         $packagedIdentity = $contentCategoryPackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
 
         $contentCategoryModule = new Component\Presenter('Module/ContentCategory');
         $contentCategoryModuleXML = $contentCategoryModule->generate($contentCategoryPackageElement);
@@ -105,7 +107,7 @@ class ContentCategory extends Component\View
         );
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('Blank');
 
@@ -136,10 +138,11 @@ class ContentCategory extends Component\View
         $paramXML = new Helper\SimpleXMLElementExtension('<form/>');
 
         try {
+            $id = $request->attributes->get('groupId');
             $contentCategoryXMLElement = new SimpleXMLElement(
-                $this->transcriber->toXml(json_decode(
-                    $this->contentCategoryAPIView->getContentCategory()->getContent()
-                ))
+                $this->transcriber->toXml(
+                    $this->apiProvider->getJson("/content-categories/{$id}", $request)
+                )
             );
 
             $packagedContentCategory = $paramXML->addChild('domain');
@@ -162,7 +165,7 @@ class ContentCategory extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 

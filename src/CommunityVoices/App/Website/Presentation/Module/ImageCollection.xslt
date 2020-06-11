@@ -286,7 +286,7 @@
 						</button>
                   <xsl:for-each select="domain/imageCollection/image">
                     <tr>
-                      <form action="images/{id}/edit/authenticate" method="POST" class="edit-form" id="edit-form{id}">
+                      <form action="/community-voices/api/images/{id}/edit/authenticate" method="POST" class="edit-form" id="edit-form{id}">
                         <!-- empty form; values associated with form attribute on input tags to allow for table structure -->
                       </form>
                       <td style="width:40%">
@@ -369,12 +369,12 @@
 
                         <xsl:choose>
                           <xsl:when test="relatedSlide = ''">
-                              <form action="images/{id}/delete/authenticate" method="POST" class="delete-form">
+                              <form action="/community-voices/api/images/{id}/delete/authenticate" method="POST" class="delete-form">
                                 <input type="submit" value="Delete" class="btn btn-danger mt-2 btn-block" />
                               </form>
                           </xsl:when>
                           <xsl:otherwise>
-                              <form action="images/{id}/unpair/{relatedSlide}" method="POST" class="delete-form">
+                              <form action="/community-voices/api/images/{id}/unpair/{relatedSlide}" method="POST" class="delete-form">
                                 <input type="submit" value="Unpair" class="btn btn-secondary mt-2 btn-block" />
                               </form>
                           </xsl:otherwise>

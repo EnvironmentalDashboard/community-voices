@@ -1,12 +1,12 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:lxslt="http://xml.apache.org/xslt"
+    xmlns:result="http://www.example.com/results"
+    extension-element-prefixes="result"
     version="1.0">
 
+    <xsl:import href="../../Component/Card.xslt" />
     <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
     <xsl:variable name="selectedGroups" select="/form/domain/selectedGroups" />
-
-    <xsl:template match="domain/errors/*|domain/upload/errors/*">
-        <li style="margin-bottom: 0px;"><xsl:value-of select="." /></li>
-    </xsl:template>
 
     <xsl:template match="/form">
         <div class="row" style="padding:15px;">
@@ -38,39 +38,44 @@
                       Quote
                     </h1>
 
-                    <xsl:if test="domain/errors != '' or domain/upload/errors != ''">
-                        <div class="card" style="margin-bottom: 16px;">
-                            <div class="card-body">
-                                <h1 class="h4 mb-4 font-weight-normal" style="margin-bottom: 0.5rem !important;">
-                                  Some errors prevented
-                                  <xsl:choose>
-                                    <xsl:when test="domain/quote != ''">
-                                      update
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                      upload
-                                    </xsl:otherwise>
-                                  </xsl:choose>
-                                </h1>
-                                <ul style="margin-bottom: 0.5rem;">
-                                    <xsl:apply-templates select="domain/errors/*" />
-                                    <xsl:apply-templates select="domain/upload/errors/*" />
-                                </ul>
-                            </div>
-                        </div>
-                    </xsl:if>
+                    <xsl:choose>
+                        <xsl:when test="domain/errors != '' or domain/upload/errors != ''">
+                            <xsl:variable name="updateOrUpload">
+                                <xsl:choose>
+                                  <xsl:when test="domain/quote != ''"> Update </xsl:when>
+                                  <xsl:otherwise> Upload </xsl:otherwise>
+                                </xsl:choose>
+                            </xsl:variable>
+                            <xsl:variable name="errorsList">
+                                <xsl:for-each select="domain/upload/errors/*|domain/errors/*">
+                                    <item> <xsl:value-of select="."/> </item>
+                                </xsl:for-each>
+                            </xsl:variable>
+                            <xsl:call-template name="card">
+                                <xsl:with-param name="title" select="concat('Some Errors Prevented ', $updateOrUpload)"/>
+                                <!-- Note, pass in message with <item> tags (see "$errorsList") -->
+                                <xsl:with-param name="message" select="$errorsList"/>
+                            </xsl:call-template>
+                        </xsl:when>
+                        <xsl:when test="domain/repeatedQuoteErrorFree != ''">
+                            <xsl:call-template name="card">
+                                <xsl:with-param name="title"> Success! </xsl:with-param>
+                                <xsl:with-param name="message"><item><xsl:value-of select="domain/repeatedQuoteErrorFree"/></item></xsl:with-param>
+                            </xsl:call-template>
+                        </xsl:when>
+                    </xsl:choose>
 
                     <div class="form-group">
                         <label for="text">Quote</label>
-                        <textarea name='text' id='text' class='form-control'>
-                            <xsl:choose>
-                                <xsl:when test="domain/form != ''">
-                                    <xsl:value-of select="domain/form/text"/>
-                                </xsl:when>
-                                <xsl:when test="domain/quote != ''">
-                                    <xsl:value-of select="domain/quote/text"/>
-                                </xsl:when>
-                            </xsl:choose>
+                            <textarea name='text' id='text' class='form-control' placeholder='Enter a quote here'>
+                                <xsl:choose>
+                                    <xsl:when test="domain/form != '' and domain/repeatedQuoteErrorFree = ''">
+                                        <xsl:value-of select="domain/form/text"/>
+                                    </xsl:when>
+                                    <xsl:when test="domain/quote != ''">
+                                        <xsl:value-of select="domain/quote/text"/>
+                                    </xsl:when>
+                                </xsl:choose>
                         </textarea>
                     </div>
 
@@ -272,8 +277,10 @@
                             </xsl:choose>
                         </input>
                       </div>
-
-                    <input type='submit' class='btn btn-primary' />
+                    <div class="btn-toolbar">
+                        <input type='submit' name='submit_exit' value='Submit and Exit' class='btn btn-primary mr-4' target='_blank'/>
+                        <input type='submit' name='submit_more' value='Submit and Upload Another' class='btn btn-success' target='_blank'/>
+                    </div>
                 </form>
             </div>
         </div>

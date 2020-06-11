@@ -25,7 +25,7 @@ class Identification extends Component\Controller
     /**
      * User authentication
      */
-    protected function postLogin($request)
+    protected function postCredentials($request)
     {
         $email    = $request->request->get('email');
         $password = $request->request->get('password');
@@ -34,7 +34,7 @@ class Identification extends Component\Controller
         $this->recognitionAdapter->authenticate($email, $password, $remember);
     }
 
-    protected function postLogout($request)
+    protected function getLogout($request)
     {
         $this->recognitionAdapter->logout();
     }

@@ -34,18 +34,20 @@ then
 
 	docker run -dit -p 3001:80 --restart always \
 	-v /var/www/uploads/CV_Media/images/:/var/www/uploads/CV_Media/images/ \
-	-v $(pwd):/var/www/html/ \
+	-v $(pwd)/src:/var/www/html/src \
 	-v /etc/opendkim/keys/environmentaldashboard.org/mail.private:/opendkim/mail.private \
 	-e "MYSQL_HOST=159.89.232.129" -e "MYSQL_DB=community_voices" -e "MYSQL_PORT=$port" -e "MYSQL_USER=$user" -e "MYSQL_PASS=$pass" \
-	-e SERVER=`hostname` \
+	-e SERVER=`hostname` -e APP_ENV=production \
+	-e API_URL=https://www.environmentaldashboard.org/community-voices/api \
 	--name PROD_CV community-voices
 else
 	# local machine:
 	docker run -dit -p 3001:80 --restart always \
 	-v $(pwd)/CV_Media/images/:/var/www/uploads/CV_Media/images/ \
-	-v $(pwd):/var/www/html/ \
+	-v $(pwd)/src:/var/www/html/src \
 	-e "MYSQL_HOST=cv-mysql" -e "MYSQL_DB=community_voices" -e "MYSQL_PORT=3306" -e "MYSQL_USER=root" \
 	--link cv-mysql:cv-mysql \
-	-e SERVER=`hostname` \
+	-e SERVER=`hostname` -e APP_ENV=development \
+	-e API_URL=http://localhost:80/community-voices/api \
 	--name LOCAL_CV community-voices
 fi

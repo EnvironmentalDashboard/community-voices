@@ -14,25 +14,26 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class Image extends Component\View
 {
-    protected $imageAPIView;
-    protected $imageLookup;
-    protected $tagLookup;
+    // protected $imageAPIView;
+    // protected $imageLookup;
+    // protected $tagLookup;
     protected $urlGenerator;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
-        Api\View\Identification $identificationAPIView,
-        Api\View\Image $imageAPIView,
-        Service\ImageLookup $imageLookup,
-        Service\TagLookup $tagLookup,
+        //Api\View\Identification $identificationAPIView,
+        Component\ApiProvider $apiProvider,
+        // Api\View\Image $imageAPIView,
+        // Service\ImageLookup $imageLookup,
+        // Service\TagLookup $tagLookup,
         UrlGenerator $urlGenerator
     ) {
-        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+        parent::__construct($mapperFactory, $transcriber, $apiProvider);
 
-        $this->imageAPIView = $imageAPIView;
-        $this->imageLookup = $imageLookup;
-        $this->tagLookup = $tagLookup;
+        // $this->imageAPIView = $imageAPIView;
+        // $this->imageLookup = $imageLookup;
+        // $this->tagLookup = $tagLookup;
         $this->urlGenerator = $urlGenerator;
     }
 
@@ -46,7 +47,8 @@ class Image extends Component\View
         /**
          * Gather image information
          */
-        $json = json_decode($this->imageAPIView->getImage()->getContent());
+        $id = $request->attributes->get('id');
+        $json = $this->apiProvider->getJson("/images/{$id}", $request);
         $imageXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($json)
         );
@@ -59,17 +61,17 @@ class Image extends Component\View
         $packagedimage = $imagePackageElement->addChild('domain');
         $packagedimage->adopt($imageXMLElement);
         $packagedimage->adopt(new SimpleXMLElement(
-            $this->transcriber->toXml(['slideId' => $this->imageLookup->relatedSlide($json->image->id)])
+            $this->transcriber->toXml(['slideId' => $this->apiProvider->getJson("/images/{$id}/slide", $request)])
         ));
         $packagedimage->adopt(new SimpleXMLElement(
-            $this->transcriber->toXml(['prevId' => $this->imageLookup->prevImage($json->image->id)])
+            $this->transcriber->toXml(['prevId' => $this->apiProvider->getJson("/images/{$id}/prev", $request)])
         ));
         $packagedimage->adopt(new SimpleXMLElement(
-            $this->transcriber->toXml(['nextId' => $this->imageLookup->nextImage($json->image->id)])
+            $this->transcriber->toXml(['nextId' => $this->apiProvider->getJson("/images/{$id}/next", $request)])
         ));
 
         $packagedIdentity = $imagePackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
 
         /**
          * Generate image module
@@ -98,7 +100,7 @@ class Image extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -115,7 +117,7 @@ class Image extends Component\View
         /**
          * Gather image information
          */
-        $json = json_decode($this->imageAPIView->getAllImage()->getContent());
+        $json = $this->apiProvider->getQueriedJson('/images', $request);
         $obj = new \stdClass();
         $obj->imageCollection = $json->imageCollection;
         $count = $obj->imageCollection->count;
@@ -132,7 +134,6 @@ class Image extends Component\View
                 $selectedTags[] = $group->group->id;
             }
             $item->image->selectedTagString = ',' . implode(',', $selectedTags) . ',';
-            $item->image->relatedSlide = $this->imageLookup->relatedSlide($item->image->id);
         }
 
         $imageXMLElement = new SimpleXMLElement(
@@ -188,7 +189,7 @@ class Image extends Component\View
         }
 
         $packagedIdentity = $imagePackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
 
         /**
          * Generate image module
@@ -214,7 +215,7 @@ class Image extends Component\View
         $domainXMLElement->addChild('extraCSS', "image-collection");
         $domainXMLElement->addChild('metaDescription', "Searchable database of photos used for Community Voices communication technology to promote environmental, social and economic sustainability in diverse communities.");
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 
@@ -227,16 +228,16 @@ class Image extends Component\View
     public function getImageUpload($request)
     {
         $imageXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $this->imageAPIView->getImageUpload()->getContent()
-            ))
+            $this->transcriber->toXml(
+                $this->apiProvider->getJson('/images/new', $request)
+            )
         );
 
         $imagePackageElement = new Helper\SimpleXMLElementExtension('<package/>');
         $packagedImage = $imagePackageElement->addChild('domain');
         $packagedImage->adopt($imageXMLElement);
         $packagedIdentity = $imagePackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
         $imageModule = new Component\Presenter('Module/Form/ImageUpload');
         $imageModuleXML = $imageModule->generate($imagePackageElement);
         /**
@@ -253,7 +254,7 @@ class Image extends Component\View
         $domainXMLElement->addChild('title', "Community Voices: Image Upload");
         $domainXMLElement->addChild('extraJS', "https://cdn.jsdelivr.net/npm/exif-js image-upload");
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
         $presentation = new Component\Presenter('SinglePane');
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
         $this->finalize($response);
@@ -277,12 +278,13 @@ class Image extends Component\View
         /**
          * Gather image information
          */
-        $image = json_decode($this->imageAPIView->getImage()->getContent());
+        $id = $request->attributes->get('id');
+        $image = $this->apiProvider->getJson("/images/{$id}", $request);
         $imageXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($image)
         );
 
-        $tags = $this->tagLookup->findAll(true);
+        $tags = $this->apiProvider->getJson('/tags', $request);
         $tagXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($tags->getEntry('tag')[0]->toArray())
         );
@@ -320,7 +322,7 @@ class Image extends Component\View
 
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $presentation = new Component\Presenter('SinglePane');
 

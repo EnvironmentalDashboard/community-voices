@@ -30,31 +30,31 @@ class Identification extends Component\View
         return $response;
     }
 
-    protected function postLogin()
+    protected function postCredentials()
     {
         $identity = $this->recognitionAdapter->identify();
 
         $response = new HttpFoundation\JsonResponse();
 
-        if ($identity) {
-            $response->setData(["errors" => ["Could not log in."]]);
+        if ($identity->getId()) {
+            $response->setData(["errors" => [], "sessionId" => session_id()]);
         } else {
-            $response->setData(["errors" => []]);
+            $response->setData(["errors" => ["Could not log in."]]);
         }
 
         return $response;
     }
 
-    protected function postLogout()
+    protected function getLogout()
     {
         $identity = $this->recognitionAdapter->identify();
 
         $response = new HttpFoundation\JsonResponse();
 
-        if ($identity) {
-            $response->setData(["errors" => []]);
-        } else {
+        if ($identity->getId()) {
             $response->setData(["errors" => ["Could not log out."]]);
+        } else {
+            $response->setData(["errors" => []]);
         }
 
         return $response;

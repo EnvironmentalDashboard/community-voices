@@ -10,20 +10,23 @@ use CommunityVoices\App\Api;
 class Quote
 {
     protected $mapperFactory;
-    protected $quoteAPIController;
-    protected $tagAPIController;
-    protected $contentCategoryAPIController;
+    // protected $quoteAPIController;
+    // protected $tagAPIController;
+    // protected $contentCategoryAPIController;
+    protected $apiProvider;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
-        Api\Controller\Quote $quoteAPIController,
-        Api\Controller\Tag $tagAPIController,
-        Api\Controller\ContentCategory $contentCategoryAPIController
+        // Api\Controller\Quote $quoteAPIController,
+        // Api\Controller\Tag $tagAPIController,
+        // Api\Controller\ContentCategory $contentCategoryAPIController
+        Component\ApiProvider $apiProvider
     ) {
         $this->mapperFactory = $mapperFactory;
-        $this->quoteAPIController = $quoteAPIController;
-        $this->tagAPIController = $tagAPIController;
-        $this->contentCategoryAPIController = $contentCategoryAPIController;
+        // $this->quoteAPIController = $quoteAPIController;
+        // $this->tagAPIController = $tagAPIController;
+        // $this->contentCategoryAPIController = $contentCategoryAPIController;
+        $this->apiProvider = $apiProvider;
     }
 
     public function getQuote($request)
@@ -32,8 +35,8 @@ class Quote
          * Direct requests for various components page requires
          */
 
-        $this->quoteAPIController->getQuote($request);
-        $this->quoteAPIController->getBoundaryQuotes($request);
+        // $this->quoteAPIController->getQuote($request);
+        // $this->quoteAPIController->getBoundaryQuotes($request);
     }
 
     public function getAllQuote($request)
@@ -44,9 +47,9 @@ class Quote
         // [example] filter by status
         // $request->attributes->set('status', ['rejected', 'pending']);
 
-        $this->quoteAPIController->getAllQuote($request);
-        $this->tagAPIController->getAllTag($request);
-        $this->contentCategoryAPIController->getAllContentCategory($request);
+        // $this->quoteAPIController->getAllQuote($request);
+        // $this->tagAPIController->getAllTag($request);
+        // $this->contentCategoryAPIController->getAllContentCategory($request);
     }
 
     /*
@@ -56,43 +59,53 @@ class Quote
      */
     public function getQuoteUpload($request)
     {
-        $this->tagAPIController->getAllTag($request);
-        $this->contentCategoryAPIController->getAllContentCategory($request);
+        // $this->tagAPIController->getAllTag($request);
+        // $this->contentCategoryAPIController->getAllContentCategory($request);
     }
 
     public function postQuoteUpload($request)
     {
         $this->saveQuoteForm($request, 'quoteUploadForm');
 
-        if (!$this->quoteAPIController->postQuoteUpload($request)) {
-            $this->getQuoteUpload($request);
-        }
+        $errors = $this->apiProvider->postJson('/quotes/new', $request);
+        return $errors;
+
+        // if (!$this->quoteAPIController->postQuoteUpload($request)) {
+        //     $this->getQuoteUpload($request);
+        // }
     }
 
     public function getQuoteUpdate($request)
     {
-        $this->quoteAPIController->getQuote($request);
-        $this->tagAPIController->getAllTag($request);
-        $this->contentCategoryAPIController->getAllContentCategory($request);
+        // $this->quoteAPIController->getQuote($request);
+        // $this->tagAPIController->getAllTag($request);
+        // $this->contentCategoryAPIController->getAllContentCategory($request);
     }
 
     public function postQuoteUpdate($request)
     {
         $this->saveQuoteForm($request, 'quoteUpdateForm');
 
-        if (!$this->quoteAPIController->postQuoteUpdate($request)) {
-            $this->getQuoteUpdate($request);
-        };
+        // We will want to fill in defaults for this request.
+        $request->request->set('defaults', true);
+
+        $id = $request->attributes->get('id');
+        $errors = $this->apiProvider->postJson("/quotes/{$id}/edit", $request);
+        return $errors;
+
+        // if (!$this->quoteAPIController->postQuoteUpdate($request)) {
+        //     $this->getQuoteUpdate($request);
+        // }
     }
 
     public function postQuoteDelete($request)
     {
-        $this->quoteAPIController->postQuoteDelete($request);
+        // $this->quoteAPIController->postQuoteDelete($request);
     }
 
     public function postQuoteUnpair($request)
     {
-        $this->quoteAPIController->postQuoteUnpair($request);
+        // $this->quoteAPIController->postQuoteUnpair($request);
     }
 
     // ------

@@ -155,7 +155,7 @@ class Quote extends Media
         $statement->bindValue(':interviewer', $quote->getInterviewer());
         $statement->bindValue(':attribution', $quote->getAttribution());
         $statement->bindValue(':sub_attribution', $quote->getSubAttribution());
-        $statement->bindValue(':quotation_marks', $quote->getQuotationMarks());
+        $statement->bindValue(':quotation_marks', (int) $quote->getQuotationMarks());
         $statement->bindValue(':date_recorded', date('Y-m-d H:i:s', $quote->getDateRecorded()));
         $statement->bindValue(':public_document_link', $quote->getPublicDocumentLink());
         $statement->bindValue(':source_document_link', $quote->getSourceDocumentLink());

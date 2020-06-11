@@ -154,7 +154,7 @@ class Quote extends Component\Controller
     {
         return $this->quoteManagement->save(
             $this->getId($request),
-            $this->getFormAttributes($request, self::FORM_ATTRIBUTES)
+            $this->getFormAttributes($request, self::FORM_ATTRIBUTES, $request->request->get('defaults'))
         );
     }
 
@@ -171,5 +171,23 @@ class Quote extends Component\Controller
         $slide_id = (int) $request->attributes->get('slide');
 
         $this->quoteManagement->unpair($quote_id, $slide_id);
+    }
+
+    public function getQuoteRelatedSlide($request)
+    {
+        $id = $request->attributes->get('id');
+        $this->quoteLookup->relatedSlide2($id);
+    }
+
+    public function getQuotePrevQuote($request)
+    {
+        $id = $request->attributes->get('id');
+        $this->quoteLookup->prevQuote2($id);
+    }
+
+    public function getQuoteNextQuote($request)
+    {
+        $id = $request->attributes->get('id');
+        $this->quoteLookup->nextQuote2($id);
     }
 }

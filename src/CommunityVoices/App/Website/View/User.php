@@ -15,22 +15,23 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 class User extends Component\View
 {
     protected $urlGenerator;
-    protected $userAPIView;
+    // protected $userAPIView;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
         Component\Transcriber $transcriber,
-        Api\View\Identification $identificationAPIView,
-        UrlGenerator $urlGenerator,
-        Api\View\User $userAPIView
+        //Api\View\Identification $identificationAPIView,
+        Component\ApiProvider $apiProvider,
+        UrlGenerator $urlGenerator
+        // Api\View\User $userAPIView
     ) {
-        parent::__construct($mapperFactory, $transcriber, $identificationAPIView);
+        parent::__construct($mapperFactory, $transcriber, $apiProvider);
 
         $this->urlGenerator = $urlGenerator;
-        $this->userAPIView = $userAPIView;
+        // $this->userAPIView = $userAPIView;
     }
 
-    public function getProfile($request)
+    public function getUser($request)
     {
         /**
          * Get base URL
@@ -39,10 +40,11 @@ class User extends Component\View
         //$baseUrl = $urlGenerator->generate('root');
 
         // User data gathering
+        $id = $request->attributes->get('id');
         $userXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $this->userAPIView->getUser()->getContent()
-            ))
+            $this->transcriber->toXml(
+                $this->apiProvider->getJson("/user/{$id}", $request)
+            )
         );
 
         /**
@@ -54,7 +56,7 @@ class User extends Component\View
         $packagedlocation->adopt($userXMLElement);
 
         $packagedIdentity = $userPackageElement->addChild('identity');
-        $packagedIdentity->adopt($this->identityXMLElement());
+        $packagedIdentity->adopt($this->identityXMLElement($request));
 
         /**
          * Generate User module
@@ -71,7 +73,7 @@ class User extends Component\View
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
 
         $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement());
+        $domainIdentity->adopt($this->identityXMLElement($request));
 
         $domainXMLElement->addChild('extraJS', "user");
 
@@ -91,13 +93,13 @@ class User extends Component\View
         return $response;
     }
 
-    public function getRegistration($request)
+    public function getRegistration($request, $errors = self::ERRORS_DEFAULT)
     {
         // If we are already logged in, there are two cases:
         // 1. We logged in, then clicked on register.
         // 2. We just successfully registered.
         // In both cases, we want to leave this registration page.
-        if ($this->isLoggedIn()) {
+        if ($this->isLoggedIn($request)) {
             $response = new HttpFoundation\RedirectResponse(
                 $this->urlGenerator->generate('root')
             );
@@ -127,9 +129,9 @@ class User extends Component\View
 
         // User data gathering
         $userXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(json_decode(
-                $this->userAPIView->postUser()->getContent()
-            ))
+            $this->transcriber->toXml(
+                $errors
+            )
         );
 
         $packagedUser = $formParamXML->addChild('domain');
@@ -156,13 +158,13 @@ class User extends Component\View
         return $response;
     }
 
-    public function postRegistration($request)
+    public function postRegistration($request, $errors = self::ERRORS_DEFAULT)
     {
-        $errors = $this->userAPIView->postUser()->getContent();
-
-        if (!empty($errors)) {
-            return $this->getRegistration($request);
+        if (!empty($errors->errors)) {
+            return $this->getRegistration($request, $errors);
         }
+
+        setCookie("PHPSESSID", $errors->sessionId);
 
         $response = new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')

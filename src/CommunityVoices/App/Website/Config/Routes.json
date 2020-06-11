@@ -89,13 +89,23 @@
         }
     },
 
-    "getProfile": {
+    "getUser": {
         "notation": "/user/{id}",
         "method": "get",
         "defaults": {
             "resource": "User",
-            "action": "getProfile"
+            "action": "getUser"
         }
+    },
+
+    "getIdentity": {
+      "notation": "/identity",
+      "method": "get",
+      "defaults": {
+        "resource": "Identification",
+        "action": "getIdentity",
+        "use-api": true
+      }
     },
 
     "getAllSlide": {
@@ -197,6 +207,46 @@
         }
     },
 
+    "getQuoteBoundaryQuotes": {
+      "notation": "/quotes/{id}/boundary",
+      "method": "get",
+      "defaults": {
+        "resource": "Quote",
+        "action": "getBoundaryQuotes",
+        "use-api": true
+      }
+    },
+
+    "getQuoteRelatedSlide": {
+      "notation": "/quotes/{id}/slide",
+      "method": "get",
+      "defaults": {
+        "resource": "Quote",
+        "action": "getQuoteRelatedSlide",
+        "use-api": true
+      }
+    },
+
+    "getQuotePrevQuote": {
+      "notation": "/quotes/{id}/prev",
+      "method": "get",
+      "defaults": {
+        "resource": "Quote",
+        "action": "getQuotePrevQuote",
+        "use-api": true
+      }
+    },
+
+    "getQuoteNextQuote": {
+      "notation": "/quotes/{id}/next",
+      "method": "get",
+      "defaults": {
+        "resource": "Quote",
+        "action": "getQuoteNextQuote",
+        "use-api": true
+      }
+    },
+
     "getQuoteUpdate": {
         "notation": "/quotes/{id}/edit",
         "method": "get",
@@ -220,7 +270,8 @@
         "method": "post",
         "defaults": {
             "resource": "Quote",
-            "action": "postQuoteDelete"
+            "action": "postQuoteDelete",
+            "use-api": true
         }
     },
 
@@ -229,7 +280,8 @@
         "method": "post",
         "defaults": {
             "resource": "Quote",
-            "action": "postQuoteUnpair"
+            "action": "postQuoteUnpair",
+            "use-api": true
         }
     },
 
@@ -267,6 +319,36 @@
             "resource": "Image",
             "action": "getImageUpdate"
         }
+    },
+
+    "getImageRelatedSlide": {
+      "notation": "/images/{id}/slide",
+      "method": "get",
+      "defaults": {
+        "resource": "Image",
+        "action": "getImageRelatedSlide",
+        "use-api": true
+      }
+    },
+
+    "getImagePrevImage": {
+      "notation": "/images/{id}/prev",
+      "method": "get",
+      "defaults": {
+        "resource": "Image",
+        "action": "getImagePrevImage",
+        "use-api": true
+      }
+    },
+
+    "getImageNextImage": {
+      "notation": "/images/{id}/next",
+      "method": "get",
+      "defaults": {
+        "resource": "Image",
+        "action": "getImageNextImage",
+        "use-api": true
+      }
     },
 
     "postImageUpdate": {
@@ -310,7 +392,8 @@
       "method": "get",
       "defaults": {
         "resource": "Image",
-        "action": "sendImage"
+        "action": "sendImage",
+        "use-api": true
       }
     },
 
@@ -366,6 +449,16 @@
             "resource": "Article",
             "action": "postArticleUpdate"
         }
+    },
+
+    "getArticleRelatedSlides": {
+      "notation": "/articles/{title}/slides",
+      "method": "get",
+      "defaults": {
+        "resource": "Article",
+        "action": "getArticleRelatedSlides",
+        "use-api": true
+      }
     },
 
     "getAllLocation": {
@@ -438,5 +531,15 @@
             "resource": "ContentCategory",
             "action": "postContentCategoryDelete"
         }
+    },
+
+    "getAllTag": {
+      "notation": "/tags",
+      "method": "get",
+      "defaults": {
+        "resource": "Tag",
+        "action": "getAllTag",
+        "use-api": true
+      }
     }
 }

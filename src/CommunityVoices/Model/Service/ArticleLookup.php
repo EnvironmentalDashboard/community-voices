@@ -83,7 +83,7 @@ class ArticleLookup
         $articleCollection->setPage($page);
         $articleCollection->setLimit($limit);
         $articleCollectionAuthors = new \stdClass;
- 
+
         $valid_creatorIDs = [];
 
         // Validate creator IDs
@@ -154,6 +154,18 @@ class ArticleLookup
         $mapper = $this->mapperFactory->createDataMapper(Mapper\Article::class);
         $ids = $mapper->relatedSlideIds($interviewee);
         return $ids;
+    }
+
+    public function relatedSlides2(string $interviewee)
+    {
+        $mapper = $this->mapperFactory->createDataMapper(Mapper\Article::class);
+        $ids = $mapper->relatedSlideIds($interviewee);
+
+        $this->stateObserver->setSubject('articleLookup');
+        $this->stateObserver->addEntry('relatedSlides', $ids);
+
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($this->stateObserver);
     }
 
     /**

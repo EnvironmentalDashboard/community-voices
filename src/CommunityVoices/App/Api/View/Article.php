@@ -29,7 +29,7 @@ class Article extends Component\View
         return $response;
     }
 
-    protected function getAllArticle()
+    protected function getAllArticle($request)
     {
         $clientState = $this->mapperFactory->createClientStateMapper();
         $stateObserver = $clientState->retrieve();
@@ -53,7 +53,8 @@ class Article extends Component\View
 
     protected function postArticleUpload()
     {
-        // intentionally blank
+        // dummy response
+        return new HttpFoundation\JsonResponse(true);
     }
 
     protected function getArticleUpdate()
@@ -63,6 +64,20 @@ class Article extends Component\View
 
     protected function postArticleUpdate()
     {
-        // intentionally blank
+        // dummy response
+        return new HttpFoundation\JsonResponse(true);
+    }
+
+    protected function getArticleRelatedSlides()
+    {
+        $clientState = $this->mapperFactory->createClientStateMapper();
+        $stateObserver = $clientState->retrieve();
+
+        $stateObserver->setSubject('articleLookup');
+        $slides = $stateObserver->getEntry('relatedSlides')[0];
+
+        $response = new HttpFoundation\JsonResponse($slides);
+
+        return $response;
     }
 }

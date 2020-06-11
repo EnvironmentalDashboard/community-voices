@@ -8,27 +8,30 @@ use CommunityVoices\App\Api;
 class User
 {
     protected $mapperFactory;
-    protected $userAPIController;
-    protected $identificationAPIController;
+    // protected $userAPIController;
+    // protected $identificationAPIController;
+    protected $apiProvider;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
-        Api\Controller\User $userAPIController,
-        Api\Controller\Identification $identificationAPIController
+        // Api\Controller\User $userAPIController,
+        // Api\Controller\Identification $identificationAPIController
+        Component\ApiProvider $apiProvider
     ) {
         $this->mapperFactory = $mapperFactory;
-        $this->userAPIController = $userAPIController;
-        $this->identificationAPIController = $identificationAPIController;
+        // $this->userAPIController = $userAPIController;
+        // $this->identificationAPIController = $identificationAPIController;
+        $this->apiProvider = $apiProvider;
     }
 
-    public function getProfile($request)
+    public function getUser($request)
     {
-        $this->userAPIController->getUser($request);
+        // $this->userAPIController->getUser($request);
     }
 
     public function getProtectedPage($request)
     {
-        $this->userAPIController->postUser($request);
+        // $this->userAPIController->postUser($request);
     }
 
     public function getRegistration($request)
@@ -68,13 +71,21 @@ class User
         // we can log in as them.
         // If this failed, the error information will be stored
         // in StateObserver->'registration' via the Registration service.
-        if ($this->userAPIController->postUser($request)) {
-            $this->identificationAPIController->postLogin($request);
+        // if ($this->userAPIController->postUser($request)) {
+        //     $this->identificationAPIController->postLogin($request);
+        // }
+
+        $errors = $this->apiProvider->postJson('/register', $request);
+
+        if (empty($errors->errors)) {
+            return $this->apiProvider->postJson('/login', $request);
         }
+
+        return $errors;
     }
 
     public function postRegistrationInvite($request)
     {
-        $this->userAPIController->newToken($request);
+        // $this->userAPIController->newToken($request);
     }
 }

@@ -37,6 +37,15 @@
         ["CommunityVoices\\App\\Api\\Controller\\Quote::getQuote", {"allow" : "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Quote::getQuote", {"allow" : "guest"}],
 
+        ["CommunityVoices\\App\\Api\\Controller\\Quote::getQuoteRelatedSlide", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Quote::getQuoteRelatedSlide", {"allow" : "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Quote::getQuotePrevQuote", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Quote::getQuotePrevQuote", {"allow" : "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Quote::getQuoteNextQuote", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Quote::getQuoteNextQuote", {"allow" : "guest"}],
+
         ["CommunityVoices\\App\\Api\\Controller\\Quote::getBoundaryQuotes", {"allow" : "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Quote::getBoundaryQuotes", {"allow" : "guest"}],
 
@@ -79,6 +88,12 @@
         ["CommunityVoices\\App\\Api\\Controller\\Image::getImageUpdate", {"allow" : "manager"}],
         ["CommunityVoices\\App\\Api\\View\\Image::getImageUpdate", {"allow" : "manager"}],
 
+        ["CommunityVoices\\App\\Api\\Controller\\Image::getImageRelatedSlide", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Image::getImageRelatedSlide", {"allow" : "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Image::getImagePrevImage", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Image::getImageNextImage", {"allow" : "guest"}],
+
         ["CommunityVoices\\App\\Api\\Controller\\Image::postImageUpdate", {"allow" : "manager"}],
         ["CommunityVoices\\App\\Api\\View\\Image::postImageUpdate", {"allow" : "manager"}],
 
@@ -112,6 +127,9 @@
         ["CommunityVoices\\App\\Api\\Controller\\Location::getAllLocation", {"allow": "manager"}],
         ["CommunityVoices\\App\\Api\\View\\Location::getAllLocation", {"allow": "manager"}],
 
+        ["CommunityVoices\\App\\Api\\Controller\\Article::getArticleRelatedSlides", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Article::getArticleRelatedSlides", {"allow" : "guest"}],
+
         ["CommunityVoices\\App\\Api\\Controller\\Tag::getAllTag", {"allow": "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Tag::getAllTag", {"allow": "guest"}],
 
@@ -139,13 +157,13 @@
         ["CommunityVoices\\App\\Api\\Controller\\DisplayError::getError", {"allow": "guest"}],
         ["CommunityVoices\\App\\Api\\View\\DisplayError::getError", {"allow": "guest"}],
 
-        ["CommunityVoices\\App\\Api\\Controller\\Identification::postLogin", {"allow": "guest"}],
-        ["CommunityVoices\\App\\Api\\View\\Identification::postLogin", {"allow": "guest"}],
+        ["CommunityVoices\\App\\Api\\Controller\\Identification::postCredentials", {"allow": "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Identification::postCredentials", {"allow": "guest"}],
 
         ["CommunityVoices\\App\\Api\\Controller\\Identification::getIdentity", {"allow": "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Identification::getIdentity", {"allow": "guest"}],
 
-        ["CommunityVoices\\App\\Api\\Controller\\Identification::postLogout", {"allow": "user"}],
-        ["CommunityVoices\\App\\Api\\View\\Identification::postLogout", {"allow": "user"}]
+        ["CommunityVoices\\App\\Api\\Controller\\Identification::getLogout", {"allow": "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Identification::getLogout", {"allow": "guest"}]
     ]
 }
