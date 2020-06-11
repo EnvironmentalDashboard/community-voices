@@ -284,7 +284,7 @@ class Quote extends Component\View
             );
         }
 
-        $repeatedQuoteErrorFree = NULL;
+        $repeatedQuoteErrorFree = null;
         if ($request->request->has('submit_more') && empty($errors->upload->errors)) {
             $repeatedQuoteErrorFree = "Your quote has been succesfully uploaded.";
         }

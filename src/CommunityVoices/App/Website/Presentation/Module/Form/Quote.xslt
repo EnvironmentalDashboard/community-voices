@@ -60,7 +60,7 @@
                         <xsl:when test="domain/repeatedQuoteErrorFree != ''">
                             <xsl:call-template name="card">
                                 <xsl:with-param name="title"> Success! </xsl:with-param>
-                                <xsl:with-param name="message"><item>Your quote was succesfully uploaded.</item></xsl:with-param>
+                                <xsl:with-param name="message"><item><xsl:value-of select="domain/repeatedQuoteErrorFree"/></item></xsl:with-param>
                             </xsl:call-template>
                         </xsl:when>
                     </xsl:choose>
@@ -277,9 +277,10 @@
                             </xsl:choose>
                         </input>
                       </div>
-
-                    <input type='submit' name='submit_exit' value='Submit and Exit' class='btn btn-primary' />
-                    <input type='submit' name='submit_more' value='Submit More Quotes' class='btn btn-primary' />
+                    <div class="btn-toolbar">
+                        <input type='submit' name='submit_exit' value='Submit and Exit' class='btn btn-primary mr-4' target='_blank'/>
+                        <input type='submit' name='submit_more' value='Submit and Upload Another' class='btn btn-success' target='_blank'/>
+                    </div>
                 </form>
             </div>
         </div>
