@@ -284,6 +284,14 @@ class Quote extends Component\View
             );
         }
 
+        $repeatedQuoteErrorFree = null;
+        if ($request->request->has('submit_more') && empty($errors->upload->errors)) {
+            $repeatedQuoteErrorFree = "Your quote has been succesfully uploaded.";
+        }
+        $repeatedQuoteErrorFreeXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(['repeatedQuoteErrorFree' => [$repeatedQuoteErrorFree]])
+        );
+
         $errorsXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml($errors)
         );
@@ -321,6 +329,7 @@ class Quote extends Component\View
         $packagedQuote->adopt($contentCategoryXMLElement);
         $packagedQuote->adopt($errorsXMLElement);
         $packagedQuote->adopt($selectedGroupXMLElement);
+        $packagedQuote->adopt($repeatedQuoteErrorFreeXMLElement);
 
         if (isset($formParamXML)) {
             $packagedQuote->adopt($formParamXML);
@@ -349,26 +358,33 @@ class Quote extends Component\View
         $presentation = new Component\Presenter('SinglePane');
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
         $this->finalize($response);
+
         return $response;
+
     }
 
     public function postQuoteUpload($request, $errors = self::ERRORS_DEFAULT)
     {
-        if (!empty($errors->upload->errors)) {
+        // There are three possible outcomes when the user enteres a new quote:
+        // 1: Error with entering correct fields
+        // 2: Correct fields entered, user presses "Submit More Quotes"
+        // 3: Correct fields entered, user presses "Submit and Exit"
+        // in cases 1 and 2, want to bring user back to same page with same fields filled in,
+        // in case 3, want to advance user to new screen showing their submitted quote
+        if (!empty($errors->upload->errors) or $request->request->get('submit_more')) {
             return $this->getQuoteUpload($request, $errors);
+        } else {
+            // if the user presses "Submit and Exit"
+            // We simply will show the edited quote.
+            // dirname() removes the /new from the url we are
+            // redirecting to.
+            $response = new HttpFoundation\RedirectResponse(
+                dirname($request->headers->get('referer')) . '/' . $errors->upload->quote->id[0]
+            );
+            $this->finalize($response);
+            return $response;
         }
-
-        // We simply will show the edited quote.
-        // dirname() removes the /new from the url we are
-        // redirecting to.
-        $response = new HttpFoundation\RedirectResponse(
-            dirname($request->headers->get('referer')) . '/' . $errors->upload->quote->id[0]
-        );
-
-        $this->finalize($response);
-        return $response;
     }
-
     public function getQuoteUpdate($request, $errors = self::ERRORS_DEFAULT)
     {
         $paramXML = new Helper\SimpleXMLElementExtension('<form/>');
