@@ -1,4 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:lxslt="http://xml.apache.org/xslt"
+    xmlns:result="http://www.example.com/results"
+    extension-element-prefixes="result"
     version="1.0">
 
     <xsl:import href="../../Component/Card.xslt" />
@@ -64,15 +67,15 @@
 
                     <div class="form-group">
                         <label for="text">Quote</label>
-                        <textarea name='text' id='text' class='form-control'>
-                            <xsl:choose>
-                                <xsl:when test="domain/form != '' and domain/repeatedQuoteErrorFree = ''">
-                                    <xsl:value-of select="domain/form/text"/>
-                                </xsl:when>
-                                <xsl:when test="domain/quote != ''">
-                                    <xsl:value-of select="domain/quote/text"/>
-                                </xsl:when>
-                            </xsl:choose>
+                            <textarea name='text' id='text' class='form-control' placeholder='Enter a quote here'>
+                                <xsl:choose>
+                                    <xsl:when test="domain/form != '' and domain/repeatedQuoteErrorFree = ''">
+                                        <xsl:value-of select="domain/form/text"/>
+                                    </xsl:when>
+                                    <xsl:when test="domain/quote != ''">
+                                        <xsl:value-of select="domain/quote/text"/>
+                                    </xsl:when>
+                                </xsl:choose>
                         </textarea>
                     </div>
 
