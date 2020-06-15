@@ -47,15 +47,15 @@ class ApiProvider
     {
         $data = $request->request->all();
 
-        if ($request->files->has('file')) {
-            $file = $request->files->get('file');
+        foreach ($request->files->all() as $key => $value) {
+            $file = $request->files->get($key);
 
             if (is_array($file)) {
                 foreach ($file as $index => $f) {
-                    $data["file[{$index}]"] = new \CURLFile($f->getPathName(), $f->getMimeType());
+                    $data["{$key}[{$index}]"] = new \CURLFile($f->getPathName(), $f->getMimeType());
                 }
             } else {
-                $data['file'] = new \CURLFile($file->getPathName(), $file->getMimeType());
+                $data[$key] = new \CURLFile($file->getPathName(), $file->getMimeType());
             }
         }
 
