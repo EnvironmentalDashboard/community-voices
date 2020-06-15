@@ -59,10 +59,26 @@ class ApiProvider
             }
         }
 
+        // If we have an array in our POST data, we need to convert it into a format
+        // that will not result in an array to string conversion error from PHP.
+        // But, we also need to not call `http_build_query` on the array,
+        // as that breaks file upload.
+        // So, this is a custom processor that turns every array into its component
+        // parts without forcing us to use `http_build_query`.
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                foreach ($value as $index => $entry) {
+                    $data[$key . '[' . $index . ']'] = $entry;
+                }
+
+                unset($data[$key]);
+            }
+        }
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, getenv('API_URL') . $path);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_HTTPHEADER, ["Cookie: " . $_SERVER['HTTP_COOKIE']]);
 
         if (!$debug)
