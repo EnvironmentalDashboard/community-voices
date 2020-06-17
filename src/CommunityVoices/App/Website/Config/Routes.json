@@ -542,15 +542,6 @@
       }
     },
 
-    "getTag": {
-      "notation": "/tags/{groupId}",
-      "method": "get",
-      "defaults": {
-        "resource": "Tag",
-        "action": "getTag"
-      }
-    },
-
     "getTagUpload": {
       "notation": "/tags/new",
       "method": "get",

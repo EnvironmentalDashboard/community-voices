@@ -31,19 +31,6 @@ class Tag extends Component\Controller
     {
         $this->tagLookup->findAll();
     }
-    protected function getTag($request)
-    {
-        $tagId = (int) $request->attributes->get("groupId");
-
-        try {
-            $this->tagLookup->findById($tagId);
-        } catch (Exception\IdentityNotFound $e) {
-            /**
-           * @todo This is not necessarily the way to handle 404s
-           */
-            $this->send404();
-        }
-    }
     protected function getTagUpload()
     {
         // intentionally blank
