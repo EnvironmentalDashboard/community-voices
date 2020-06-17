@@ -100,7 +100,6 @@ class Quote
 
     public function postQuoteDelete($request)
     {
-        die();
         // $this->quoteAPIController->postQuoteDelete($request);
     }
 
