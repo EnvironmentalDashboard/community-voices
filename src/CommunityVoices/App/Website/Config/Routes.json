@@ -538,8 +538,43 @@
       "method": "get",
       "defaults": {
         "resource": "Tag",
-        "action": "getAllTag",
-        "use-api": true
+        "action": "getAllTag"
       }
-    }
+    },
+
+    "getTag": {
+      "notation": "/tags/{groupId}",
+      "method": "get",
+      "defaults": {
+        "resource": "Tag",
+        "action": "getTag"
+      }
+    },
+
+    "getTagUpload": {
+      "notation": "/tags/new",
+      "method": "get",
+      "defaults": {
+        "resource": "Tag",
+        "action": "getTagUpload"
+      }
+    },
+
+    "postTagUpload": {
+      "notation": "/tags/new",
+      "method": "post",
+      "defaults": {
+        "resource": "Tag",
+        "action": "postTagUpload"
+        }
+     },
+
+    "postTagDelete": {
+      "notation": "/tags/{groupId}/delete",
+      "method": "post",
+      "defaults": {
+        "resource": "Tag",
+        "action": "postTagDelete"
+      }
+   }
 }

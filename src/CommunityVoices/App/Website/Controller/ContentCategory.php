@@ -60,6 +60,7 @@ class ContentCategory
 
         $id = $request->attributes->get('groupId');
         $errors = $this->apiProvider->postJson("/content-categories/{$id}/delete", $request);
+        $this->apiProvider->get("/content-categories/{$id}/delete", $request, true);
         return $errors;
     }
 }

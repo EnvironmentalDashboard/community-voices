@@ -28,4 +28,30 @@ class Tag extends Component\View
 
         return $response;
     }
+    protected function getTag()
+    {
+        $clientState = $this->mapperFactory->createClientStateMapper();
+        $stateObserver = $clientState->retrieve();
+
+        $stateObserver->setSubject('tagLookup');
+        $tag = $stateObserver->getEntry('tag')[0];
+
+        $response = new HttpFoundation\JsonResponse($tag->toArray());
+
+        return $response;
+    }
+
+    protected function getTagUpload()
+    {
+        // intentionally blank
+    }
+    protected function postTagUpload()
+    {
+        return $this->errorsResponse('tagUpload');
+    }
+    protected function postTagDelete()
+    {
+        // dummy response
+        return new HttpFoundation\JsonResponse(true);
+    }
 }

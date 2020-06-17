@@ -133,6 +133,18 @@
         ["CommunityVoices\\App\\Api\\Controller\\Tag::getAllTag", {"allow": "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Tag::getAllTag", {"allow": "guest"}],
 
+        ["CommunityVoices\\App\\Api\\Controller\\Tag::getTag", {"allow" : "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Tag::getTag", {"allow" : "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Tag::getTagUpload", {"allow": "admin"}],
+        ["CommunityVoices\\App\\Api\\View\\Tag::getTagUpload", {"allow": "admin"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Tag::postTagUpload", {"allow": "guest"}],
+        ["CommunityVoices\\App\\Api\\View\\Tag::postTagUpload", {"allow": "guest"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Tag::postTagDelete", {"allow": "admin"}],
+        ["CommunityVoices\\App\\Api\\View\\Tag::postTagDelete", {"allow": "admin"}],
+
         ["CommunityVoices\\App\\Api\\Controller\\ContentCategory::getAllContentCategory", {"allow": "guest"}],
         ["CommunityVoices\\App\\Api\\View\\ContentCategory::getAllContentCategory", {"allow": "guest"}],
 

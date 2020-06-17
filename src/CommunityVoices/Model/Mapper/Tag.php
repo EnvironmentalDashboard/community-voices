@@ -37,7 +37,7 @@ class Tag extends Group
 
         $statement = $this->conn->prepare($query);
 
-        $statement->bindValue(':id', $tag->getId());
+        $statement->bindValue(':id', $tag->getGroupId());
 
         $statement->execute();
 
@@ -46,7 +46,7 @@ class Tag extends Group
         if ($result) {
             $this->populateEntity($tag, $result);
         } else {
-            $tag->setId(null);
+            $tag->setGroupId(null);
         }
     }
 
