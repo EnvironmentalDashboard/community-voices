@@ -286,7 +286,7 @@ class Image extends Component\View
 
         $tags = $this->apiProvider->getJson('/tags', $request);
         $tagXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($tags->getEntry('tag')[0]->toArray())
+            $this->transcriber->toXml($tags)
         );
 
         $selectedTagString = ',';
