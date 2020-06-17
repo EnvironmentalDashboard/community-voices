@@ -76,7 +76,7 @@ class Image extends Component\View
         /**
          * Generate image module
          */
-        $imageModule = new Component\Presenter('Module/Image');
+        $imageModule = new Component\Presenter('Module/ImageCollection');
         $imageModuleXML = $imageModule->generate($imagePackageElement);
 
         /**
@@ -227,6 +227,7 @@ class Image extends Component\View
 
     public function getImageUpload($request)
     {
+        /*
         $imageXMLElement = new SimpleXMLElement(
             $this->transcriber->toXml(
                 $this->apiProvider->getJson('/images/new', $request)
@@ -238,7 +239,7 @@ class Image extends Component\View
         $packagedImage->adopt($imageXMLElement);
         $packagedIdentity = $imagePackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement($request));
-        $imageModule = new Component\Presenter('Module/Form/ImageUpload');
+        $imageModule = new Component\Presenter('Module/Image');
         $imageModuleXML = $imageModule->generate($imagePackageElement);
         /**
          * Get base URL
@@ -247,7 +248,7 @@ class Image extends Component\View
         //$baseUrl = $urlGenerator->generate('root');
         /**
          * Prepare template
-         */
+         */ /*
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
         $domainXMLElement->addChild('main-pane', $imageModuleXML);
         //$domainXMLElement->addChild('baseUrl', $baseUrl);
@@ -258,7 +259,7 @@ class Image extends Component\View
         $presentation = new Component\Presenter('SinglePane');
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
         $this->finalize($response);
-        return $response;
+        return $response; */
     }
 
     public function postImageUpload($request)
@@ -273,7 +274,7 @@ class Image extends Component\View
 
     public function getImageUpdate($request)
     {
-        $paramXML = new Helper\SimpleXMLElementExtension('<form/>');
+        $paramXML = new Helper\SimpleXMLElementExtension('<package/>');
 
         /**
          * Gather image information
@@ -302,7 +303,7 @@ class Image extends Component\View
         $packagedImage->adopt($tagXMLElement);
         $packagedImage->adopt($selectedTagXMLElement);
 
-        $formModule = new Component\Presenter('Module/Form/ImageUpdate');
+        $formModule = new Component\Presenter('Module/ImageCollection');
         $formModuleXML = $formModule->generate($paramXML);
 
         /**
