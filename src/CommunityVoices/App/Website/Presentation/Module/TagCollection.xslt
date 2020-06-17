@@ -66,7 +66,7 @@
                         <xsl:if test="$isManager">
                             <div class="mt-2">
                                 <form action="/community-voices/tags/{id}/delete" method="POST" class="delete-form">
-                                  <input type="submit" value="Delete" class="btn btn-danger mt-2 btn-block" />
+                                  <button class="btn btn-danger" type="submit">Delete Tag</button>
                                 </form>
                             </div>
                         </xsl:if>
