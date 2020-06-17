@@ -64,7 +64,6 @@ class ContentCategory extends Component\View
 
     protected function postContentCategoryDelete()
     {
-        // dummy response
-        return new HttpFoundation\JsonResponse(true);
+        return $this->errorsResponse('contentCategoryDelete');
     }
 }
