@@ -62,10 +62,6 @@ class Tag extends Component\View
         return $response;
     }
 
-    public function getTag($request)
-    {
-    }
-
     public function getTagUpload($request)
     {
     }

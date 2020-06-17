@@ -22,11 +22,6 @@ class Tag
         //$this->tagAPIController->getAllTag($request);
     }
 
-    public function getTag($request)
-    {
-        //$this->tagAPIController->getTag($request);
-    }
-
     public function getTagUpload($request)
     {
         //$this->tagAPIController->getTagUpload($request);
