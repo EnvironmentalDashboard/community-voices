@@ -50,6 +50,8 @@ class Image
         //$this->imageAPIController->getImage($request);
     }
 
+    // I had originally thought this was only through AJAX, but it is instead only
+    // mostly through AJAX.
     public function postImageUpdate($request)
     {
         //$this->imageAPIController->postImageUpdate($request);
@@ -59,6 +61,7 @@ class Image
         return $errors;
     }
 
+    // Is this ever accessed not through AJAX?
     public function postImageDelete($request)
     {
         //$this->imageAPIController->postImageDelete($request);
