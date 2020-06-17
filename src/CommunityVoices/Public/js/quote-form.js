@@ -12,3 +12,8 @@ function clickEdited() {
     originalText.value = '';
   }
 }
+
+function displayCount(box,count) {
+  var countDisplay = document.getElementById(count);
+  countDisplay.innerHTML = box.value.length + " / " + box.getAttribute("maxlength") + " characters";
+}
