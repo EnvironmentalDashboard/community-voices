@@ -53,8 +53,7 @@
               <xsl:call-template name="userButtons" />
           </xsl:with-param>
       </xsl:call-template>
-
-      <div class="col-sm-9">
+      <div class="col-sm-4">
           <div class="card">
               <div class="card-header">Tags</div>
               <ul class="list-group list-group-flush">
@@ -66,7 +65,7 @@
                         <xsl:if test="$isManager">
                             <div class="mt-2">
                                 <form action="/community-voices/tags/{id}/delete" method="POST" class="delete-form">
-                                  <input type="submit" value="Delete" class="btn btn-danger mt-2 btn-block" />
+                                  <input type="submit" value="Delete" class="btn btn-danger" />
                                 </form>
                             </div>
                         </xsl:if>
@@ -75,7 +74,7 @@
                 </xsl:for-each>
               </ul>
           </div>
-      </div>
+  </div>
 
   </xsl:template>
 </xsl:stylesheet>
