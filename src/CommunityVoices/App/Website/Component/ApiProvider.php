@@ -54,7 +54,7 @@ class ApiProvider
                 foreach ($file as $index => $f) {
                     $data["{$key}[{$index}]"] = new \CURLFile($f->getPathName(), $f->getMimeType());
                 }
-            } else {
+            } else if (!is_null($file)) {
                 $data[$key] = new \CURLFile($file->getPathName(), $file->getMimeType());
             }
         }

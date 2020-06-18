@@ -1,15 +1,12 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="1.0">
 
+    <xsl:import href="../../Component/Card.xslt" />
     <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
     <xsl:template match="/form">
         <div class="row" style="padding:15px;">
             <div class="col-12">
-                <xsl:if test="@failure">
-                    <p>Label missing.</p>
-                </xsl:if>
-
                 <form method='post' id="ccform" style="max-width:400px;margin: 0 auto" enctype='multipart/form-data'>
                     <xsl:attribute name="action">
                         <xsl:choose>
@@ -21,6 +18,23 @@
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:attribute>
+
+                    <xsl:if test="domain/errors != ''">
+                        <xsl:variable name="errorsList">
+                            <xsl:for-each select="domain/errors/*">
+                                <item><xsl:value-of select="."/></item>
+                            </xsl:for-each>
+                            <xsl:if test="@failure">
+                                <item>Label missing.</item>
+                            </xsl:if>
+                        </xsl:variable>
+                        <xsl:call-template name="card">
+                            <xsl:with-param name="title">
+                              Some errors prevented action
+                            </xsl:with-param>
+                            <xsl:with-param name="message" select="$errorsList"/>
+                        </xsl:call-template>
+                    </xsl:if>
 
                     <div class="custom-file">
                       <label for="file" class="custom-file-label">Image</label>
