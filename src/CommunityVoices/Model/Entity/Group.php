@@ -59,14 +59,11 @@ class Group implements HasId
 
     public function validateForUpload(FlexibleObserver $stateObserver)
     {
-        $isValid = true;
-
         if (!$this->label || strlen($this->label) < 1) {
-            $isValid = false;
             $stateObserver->addEntry('label', self::ERR_LABEL_REQUIRED);
         }
 
-        return $isValid;
+        return $stateObserver->hasEntries();
     }
 
     public function toArray()

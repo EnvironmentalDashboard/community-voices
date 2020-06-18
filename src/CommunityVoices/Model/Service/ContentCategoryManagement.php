@@ -21,13 +21,15 @@ class ContentCategoryManagement
     }
 
     public function upload(
-        Entity\Image $image,
+        ?Entity\Image $image,
         $label,
         $color
     ) {
         $contentCategory = new Entity\ContentCategory;
 
-        $contentCategory->setImage($image);
+        if($image) {
+            $contentCategory->setImage($image);
+        }
         $contentCategory->setLabel($label);
         $contentCategory->setColor($color);
 

@@ -6,6 +6,7 @@ use CommunityVoices\Model\Contract\FlexibleObserver;
 
 class ContentCategory extends Group
 {
+    const ERR_NO_IMAGE = 'There is no image specified. Please try again.';
     private $groupId;
     private $mediaId;
     private $image;
@@ -79,6 +80,9 @@ class ContentCategory extends Group
 
     public function validateForUpload(FlexibleObserver $stateObserver)
     {
+        if (!$this->image) {
+            $stateObserver->addEntry('image', self::ERR_NO_IMAGE);
+        }
         // This checks for label being present.
         return parent::validateForUpload($stateObserver);
     }
