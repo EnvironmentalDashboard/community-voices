@@ -15,5 +15,11 @@ function clickEdited() {
 
 function displayCount(box,count) {
   var countDisplay = document.getElementById(count);
-  countDisplay.innerHTML = box.value.length + " / " + box.getAttribute("maxlength") + " characters";
+  if(box.hasAttribute("suggestedlength") && (box.value.length > box.getAttribute("suggestedlength"))) {
+    countDisplay.innerHTML = box.value.length + " / " + box.getAttribute("maxlength") + " characters -- Please shorten!";
+    countDisplay.style.color = "red";
+  } else {
+    countDisplay.innerHTML = box.value.length + " / " + box.getAttribute("maxlength") + " characters";
+    countDisplay.style.color = "black";
+  }
 }
