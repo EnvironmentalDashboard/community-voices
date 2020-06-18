@@ -133,7 +133,7 @@ class ContentCategory extends Component\View
         return $response;
     }
 
-    public function getContentCategoryUpdate($request)
+    public function getContentCategoryUpdate($request, $errors = self::ERRORS_DEFAULT)
     {
         $paramXML = new Helper\SimpleXMLElementExtension('<form/>');
 
@@ -145,8 +145,13 @@ class ContentCategory extends Component\View
                 )
             );
 
+            $errorsXMLElement = new SimpleXMLElement(
+                $this->transcriber->toXml($errors)
+            );
+
             $packagedContentCategory = $paramXML->addChild('domain');
             $packagedContentCategory->adopt($contentCategoryXMLElement);
+            $packagedContentCategory->adopt($errorsXMLElement);
         } catch (\Error $e) {
             // This happens when we are uploading, not updating.
             // Nothing is very big of a deal in this case.
@@ -185,8 +190,12 @@ class ContentCategory extends Component\View
         return $response;
     }
 
-    public function postContentCategoryDelete($request)
+    public function postContentCategoryDelete($request, $errors = self::ERRORS_DEFAULT)
     {
+        if (!empty($errors->errors)) {
+            return $this->getContentCategoryUpdate($request, $errors);
+        }
+
         $response = new HttpFoundation\RedirectResponse(
             dirname(dirname($request->headers->get('referer')))
         );

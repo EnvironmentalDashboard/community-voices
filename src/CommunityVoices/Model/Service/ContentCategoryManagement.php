@@ -85,7 +85,17 @@ class ContentCategoryManagement
         $contentCategory = new Entity\ContentCategory;
         $contentCategory->setId((int) $id);
 
-        $contentCategoryMapper->delete($contentCategory);
+        // It would be better to check if we have slides attached to the Content Category,
+        // but we can catch the SQL error to save writing more code.
+        try {
+            $contentCategoryMapper->delete($contentCategory);
+        } catch (\PDOException $e) {
+            $this->stateObserver->setSubject('contentCategoryDelete');
+            $this->stateObserver->addEntry('slides', 'Content Category is attached to slides');
+
+            $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+            $clientState->save($this->stateObserver);
+        }
 
         return true;
     }

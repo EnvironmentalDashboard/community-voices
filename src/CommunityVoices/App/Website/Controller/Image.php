@@ -50,11 +50,18 @@ class Image
         //$this->imageAPIController->getImage($request);
     }
 
+    // I had originally thought this was only through AJAX, but it is instead only
+    // mostly through AJAX.
     public function postImageUpdate($request)
     {
         //$this->imageAPIController->postImageUpdate($request);
+
+        $id = $request->attributes->get('id');
+        $errors = $this->apiProvider->postJson("/images/{$id}/edit/authenticate", $request);
+        return $errors;
     }
 
+    // Is this ever accessed not through AJAX?
     public function postImageDelete($request)
     {
         //$this->imageAPIController->postImageDelete($request);
