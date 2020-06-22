@@ -10,4 +10,7 @@ class DisplayError extends Component\Controller
     {
 
     }
+    protected function getAllErrors() {
+        
+    }
 }

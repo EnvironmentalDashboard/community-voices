@@ -23,4 +23,14 @@ class DisplayError extends Component\View
 
         return $response;
     }
+    protected function getAllErrors($request)
+    {
+        $errors = explode('[]',str_replace('\n','',file_get_contents('/var/www/html/log/access.log')));
+        foreach($errors as &$item) {
+            $item = array("item" => $item);
+        }
+        $response = new HttpFoundation\JsonResponse(["errors" => $errors]);
+        return $response;
+
+    }
 }

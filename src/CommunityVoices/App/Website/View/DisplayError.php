@@ -66,4 +66,33 @@ class DisplayError extends Component\View
         $this->finalize($response);
         return $response;
     }
+    public function getAllErrors($request) {
+
+        $errorsXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(
+                $this->apiProvider->getJson('/errors', $request)
+            )
+        );
+        
+        $errorsPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
+
+        $packagedErrors = $errorsPackageElement->addChild('domain');
+        $packagedErrors->adopt($errorsXMLElement);;
+
+        $packagedIdentity = $errorsPackageElement->addChild('identity');
+        $packagedIdentity->adopt($this->identityXMLElement($request));
+
+        $errorsModule = new Component\Presenter('Module/Errors');
+        $errorsModuleXML = $errorsModule->generate($errorsPackageElement);
+
+        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
+        $domainXMLElement->addChild('main-pane', $errorsModuleXML);
+        $domainIdentity = $domainXMLElement->addChild('identity');
+        $domainIdentity->adopt($this->identityXMLElement($request));
+        $presentation = new Component\Presenter('SinglePane');
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
+
+        $this->finalize($response);
+        return $response;
+    }
 }
