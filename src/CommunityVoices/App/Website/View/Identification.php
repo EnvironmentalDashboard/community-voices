@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 class Identification extends Component\View
 {
     protected $urlGenerator;
+    public $restricted;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
@@ -25,6 +26,10 @@ class Identification extends Component\View
         parent::__construct($mapperFactory, $transcriber, $apiProvider);
 
         $this->urlGenerator = $urlGenerator;
+        $this->restricted = array("errors","locations","errors/","locations/");
+        foreach ($this->restricted as &$link) {
+            $link = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/community-voices/'.$link;
+        }
     }
 
     public function getLogin($request)
@@ -118,10 +123,10 @@ class Identification extends Component\View
 
     public function getLogout($request)
     {
+        $newlink = in_array($request->headers->get('referer'),$this->restricted) ? $this->urlGenerator->generate('root') : $request->headers->get('referer');
         $response = new HttpFoundation\RedirectResponse(
-            $request->headers->get('referer') ?? $this->urlGenerator->generate('root')
+            $newlink
         );
-
         $this->finalize($response);
         return $response;
     }
