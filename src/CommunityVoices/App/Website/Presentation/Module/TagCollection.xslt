@@ -7,6 +7,29 @@
   <xsl:variable name="isManager" select="package/identity/user/role = 'manager'
       or package/identity/user/role = 'administrator'"/>
 
+  <xsl:template name="column">
+      <xsl:param name="data"/>
+      <div class="col-md">
+          <div class="card">
+              <ul class="list-group list-group-flush">
+                <xsl:for-each select="$data">
+                    <li class="list-group-item">
+                        <blockquote class="blockquote mb-0">
+                        <xsl:value-of select="label"></xsl:value-of>
+                        </blockquote>
+                        <xsl:if test="$isManager">
+                            <div class="mt-2">
+                                <form action="/community-voices/tags/{id}/delete" method="POST" class="delete-form">
+                                  <input type="submit" value="Delete" class="btn btn-danger" />
+                                </form>
+                            </div>
+                        </xsl:if>
+                    </li>
+                </xsl:for-each>
+              </ul>
+          </div>
+      </div>
+  </xsl:template>
   <xsl:template match="/package">
       <xsl:if test="$isManager">
         <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
@@ -53,28 +76,18 @@
               <xsl:call-template name="userButtons" />
           </xsl:with-param>
       </xsl:call-template>
-      <div class="col-sm-4">
-          <div class="card">
-              <div class="card-header">Tags</div>
-              <ul class="list-group list-group-flush">
-                <xsl:for-each select="domain/tagCollection/tag">
-                    <li class="list-group-item">
-                        <blockquote class="blockquote mb-0">
-                        <xsl:value-of select="label"></xsl:value-of>
-                        </blockquote>
-                        <xsl:if test="$isManager">
-                            <div class="mt-2">
-                                <form action="/community-voices/tags/{id}/delete" method="POST" class="delete-form">
-                                  <input type="submit" value="Delete" class="btn btn-danger" />
-                                </form>
-                            </div>
-                        </xsl:if>
-                    </li>
-
-                </xsl:for-each>
-              </ul>
+      <div class="container-fluid">
+          <div class="row no-gutters">
+              <xsl:call-template name="column">
+                  <xsl:with-param name="data" select="domain/tagCollection/tag[position() &lt;= ceiling((last() div 3))]"/>
+              </xsl:call-template>
+              <xsl:call-template name="column">
+                  <xsl:with-param name="data" select="domain/tagCollection/tag[position() &gt;= ceiling((last() div 3)+1) and position() &lt;= ceiling(last() div 3 * 2)]"/>
+              </xsl:call-template>
+              <xsl:call-template name="column">
+                  <xsl:with-param name="data" select="domain/tagCollection/tag[position() &gt;= ceiling(last() div 3 * 2 + 1)]"/>
+              </xsl:call-template>
           </div>
-  </div>
-
+    </div>
   </xsl:template>
 </xsl:stylesheet>
