@@ -161,7 +161,7 @@
 
                     <div class="form-group">
                         <label for="subAttribution">Sub-Attribution</label>
-                        <input type='text' name='subAttribution' id='subAttribution' class='form-control' maxlength='50' suggestedlength='35' onkeyUp="displayCount(this,'countSubAttribution')">
+                        <input type='text' name='subAttribution' id='subAttribution' class='form-control' maxlength='50' suggestedlength='35' onkeyup="displayCount(this,'countSubAttribution')">
                             <xsl:attribute name="value">
                                 <xsl:choose>
                                     <xsl:when test="domain/form != ''">
