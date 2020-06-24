@@ -62,10 +62,6 @@ class Tag extends Component\View
         return $response;
     }
 
-    public function getTagUpload($request)
-    {
-    }
-
     public function postTagUpload($request)
     {
         $response = new HttpFoundation\RedirectResponse(

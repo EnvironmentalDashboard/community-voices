@@ -294,30 +294,12 @@
         }
     },
 
-    "getImageUpload": {
-      "notation": "/images/new",
-      "method": "get",
-      "defaults": {
-          "resource": "Image",
-          "action": "getImageUpload"
-      }
-    },
-
     "getImage": {
         "notation": "/images/{id}",
         "method": "get",
         "defaults": {
             "resource": "Image",
             "action": "getImage"
-        }
-    },
-
-    "getImageUpdate": {
-        "notation": "/images/{id}/edit",
-        "method": "get",
-        "defaults": {
-            "resource": "Image",
-            "action": "getImageUpdate"
         }
     },
 
@@ -539,15 +521,6 @@
       "defaults": {
         "resource": "Tag",
         "action": "getAllTag"
-      }
-    },
-
-    "getTagUpload": {
-      "notation": "/tags/new",
-      "method": "get",
-      "defaults": {
-        "resource": "Tag",
-        "action": "getTagUpload"
       }
     },
 
