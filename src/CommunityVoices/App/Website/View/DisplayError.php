@@ -73,7 +73,7 @@ class DisplayError extends Component\View
                 $this->apiProvider->getJson('/errors', $request)
             )
         );
-        
+
         $errorsPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
 
         $packagedErrors = $errorsPackageElement->addChild('domain');
@@ -87,8 +87,6 @@ class DisplayError extends Component\View
 
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
         $domainXMLElement->addChild('main-pane', $errorsModuleXML);
-        $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement($request));
         $presentation = new Component\Presenter('SinglePane');
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 
