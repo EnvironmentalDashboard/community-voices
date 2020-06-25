@@ -18,9 +18,16 @@
                     </form>
                     <li class="list-group-item">
                         <blockquote class="blockquote mb-0">
-                            <input type="text" name="label" class="form-control" form="edit-form{id}">
-                              <xsl:attribute name="value"><xsl:value-of select="label"></xsl:value-of></xsl:attribute>
-                            </input>
+                            <xsl:choose>
+                                <xsl:when test="$isManager">
+                                    <input type="text" name="label" class="form-control" form="edit-form{id}">
+                                      <xsl:attribute name="value"><xsl:value-of select="label"></xsl:value-of></xsl:attribute>
+                                    </input>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:value-of select="label"></xsl:value-of>
+                                </xsl:otherwise>
+                            </xsl:choose>
                         </blockquote>
                         <xsl:if test="$isManager">
                                 <div class="row">
