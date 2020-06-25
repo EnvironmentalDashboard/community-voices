@@ -38,7 +38,7 @@ class Tag extends Group
         $statement = $this->conn->prepare($query);
 
         $statement->bindValue(':id', $tag->getGroupId());
-
+    
         $statement->execute();
 
         $result = $statement->fetch(PDO::FETCH_ASSOC);
@@ -77,7 +77,7 @@ class Tag extends Group
 
         $statement = $this->conn->prepare($query);
 
-        $statement->bindValue(':group_id', $tag->getId());
+        $statement->bindValue(':group_id', $tag->getGroupId());
 
         $statement->execute();
     }

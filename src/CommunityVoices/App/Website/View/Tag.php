@@ -50,6 +50,8 @@ class Tag extends Component\View
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
 
         $domainXMLElement->addChild('main-pane', $tagModuleXML);
+        $domainXMLElement->addChild('title', "Community Voices: All Tags");
+        $domainXMLElement->addChild('extraJS', "tag-collection");
 
         $domainIdentity = $domainXMLElement->addChild('identity');
         $domainIdentity->adopt($this->identityXMLElement($request));
@@ -63,16 +65,6 @@ class Tag extends Component\View
     }
 
     public function postTagUpload($request)
-    {
-        $response = new HttpFoundation\RedirectResponse(
-            $request->headers->get('referer')
-        );
-
-        $this->finalize($response);
-        return $response;
-    }
-
-    public function postTagDelete($request)
     {
         $response = new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')

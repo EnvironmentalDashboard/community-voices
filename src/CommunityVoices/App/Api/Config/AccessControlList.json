@@ -127,8 +127,11 @@
         ["CommunityVoices\\App\\Api\\Controller\\Tag::getAllTag", {"allow": "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Tag::getAllTag", {"allow": "guest"}],
 
-        ["CommunityVoices\\App\\Api\\Controller\\Tag::postTagUpload", {"allow": "guest"}],
-        ["CommunityVoices\\App\\Api\\View\\Tag::postTagUpload", {"allow": "guest"}],
+        ["CommunityVoices\\App\\Api\\Controller\\Tag::postTagUpload", {"allow": "admin"}],
+        ["CommunityVoices\\App\\Api\\View\\Tag::postTagUpload", {"allow": "admin"}],
+
+        ["CommunityVoices\\App\\Api\\Controller\\Tag::postTagUpdate", {"allow": "admin"}],
+        ["CommunityVoices\\App\\Api\\View\\Tag::postTagUpdate", {"allow": "admin"}],
 
         ["CommunityVoices\\App\\Api\\Controller\\Tag::postTagDelete", {"allow": "admin"}],
         ["CommunityVoices\\App\\Api\\View\\Tag::postTagDelete", {"allow": "admin"}],

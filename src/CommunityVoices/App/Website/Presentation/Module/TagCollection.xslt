@@ -13,15 +13,23 @@
           <div class="card">
               <ul class="list-group list-group-flush">
                 <xsl:for-each select="$data">
+                    <form action="/community-voices/api/tags/{id}/edit" method="POST" class="edit-form" id="edit-form{id}">
+                      <!-- empty form; values associated with form attribute on input tags to allow for table structure -->
+                    </form>
                     <li class="list-group-item">
                         <blockquote class="blockquote mb-0">
-                        <xsl:value-of select="label"></xsl:value-of>
+                            <input type="text" name="label" class="form-control" form="edit-form{id}">
+                              <xsl:attribute name="value"><xsl:value-of select="label"></xsl:value-of></xsl:attribute>
+                            </input>
                         </blockquote>
                         <xsl:if test="$isManager">
-                            <div class="mt-2">
-                                <form action="/community-voices/tags/{id}/delete" method="POST" class="delete-form">
+                                <div class="row">
+                                <form action="/community-voices/api/tags/{id}/delete" method="POST" class="delete-form">
                                   <input type="submit" value="Delete" class="btn btn-danger" />
                                 </form>
+                                <a href="/community-voices/quotes?tags[]={id}" class="btn btn-primary">View Quotes</a>
+                                <a href="/community-voices/images?tags[]={id}" class="btn btn-success">View Images</a>
+                                <input type='submit' class="btn btn-warning" value="Update" form="edit-form{id}"></input>
                             </div>
                         </xsl:if>
                     </li>
@@ -30,6 +38,8 @@
           </div>
       </div>
   </xsl:template>
+
+
   <xsl:template match="/package">
       <xsl:if test="$isManager">
         <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
@@ -79,13 +89,13 @@
       <div class="container-fluid">
           <div class="row no-gutters">
               <xsl:call-template name="column">
-                  <xsl:with-param name="data" select="domain/tagCollection/tag[position() &lt;= ceiling((last() div 3))]"/>
+                  <xsl:with-param name="data" select="domain/tagCollection/tag[position() mod 3 = 1]"/>
               </xsl:call-template>
               <xsl:call-template name="column">
-                  <xsl:with-param name="data" select="domain/tagCollection/tag[position() &gt;= ceiling((last() div 3)+1) and position() &lt;= ceiling(last() div 3 * 2)]"/>
+                  <xsl:with-param name="data" select="domain/tagCollection/tag[position() mod 3 = 2]"/>
               </xsl:call-template>
               <xsl:call-template name="column">
-                  <xsl:with-param name="data" select="domain/tagCollection/tag[position() &gt;= ceiling(last() div 3 * 2 + 1)]"/>
+                  <xsl:with-param name="data" select="domain/tagCollection/tag[position() mod 3 = 0]"/>
               </xsl:call-template>
           </div>
     </div>
