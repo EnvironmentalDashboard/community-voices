@@ -1,5 +1,8 @@
 // form is the form that we are submitting (an edit form)
 // whatUpdated is a string of what we will say we updated
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();
+});
 function submitEdit (form, whatUpdated) {
     var data = $(form).serializeArray();
 
@@ -30,7 +33,7 @@ $('.delete-form').on('submit', function(e) {
   var form = $(this);
   var action = form.attr('action');
   $('#alert').addClass('alert-danger').removeClass('d-none alert-success');
-  $('#alert-content').html('<strong>Warning:</strong> Deleting tags will affect related ');
+  $('#alert-content').html('<strong>Warning:</strong> Deleting tags will affect related media');
   var btn = document.createElement("button");
   btn.appendChild(document.createTextNode("Delete"));
   btn.className = "btn btn-outline-danger btn-sm float-right";
