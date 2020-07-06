@@ -40,7 +40,7 @@ $('.delete-form').on('submit', function(e) {
   btn.style.position = 'relative';
   btn.style.bottom = '3px';
   btn.addEventListener('click', function() {
-    form.parent().parent().remove();
+    form.parent().parent().parent().remove();
     $('#alert').removeClass('alert-danger').addClass('alert-success');
     $('#alert-content').text("Success!");
     setTimeout(function () {
