@@ -26,10 +26,11 @@ class Identification extends Component\View
         parent::__construct($mapperFactory, $transcriber, $apiProvider);
 
         $this->urlGenerator = $urlGenerator;
-        $this->restricted = array("errors","locations","errors/","locations/");
+        $this->restricted = array("errors-log","locations","errors-log/","locations/");
         foreach ($this->restricted as &$link) {
             $link = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/community-voices/'.$link;
         }
+        unset($link);
     }
 
     public function getLogin($request)

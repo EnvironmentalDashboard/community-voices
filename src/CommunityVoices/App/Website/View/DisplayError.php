@@ -9,6 +9,7 @@ use \XSLTProcessor;
 use CommunityVoices\App\Api;
 use CommunityVoices\App\Website\Component;
 use Symfony\Component\HttpFoundation;
+// use CommunityVoices\App\Api\Component\Exception;  -- See lines 84 - 89
 
 class DisplayError extends Component\View
 {
@@ -68,18 +69,20 @@ class DisplayError extends Component\View
     }
     public function getAllErrors($request) {
 
-        $errorsXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(
-                $this->apiProvider->getJson('/errors', $request)
-            )
-        );
-
         $errorsPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
 
         $packagedErrors = $errorsPackageElement->addChild('domain');
-        $packagedErrors->adopt($errorsXMLElement);;
 
         $packagedIdentity = $errorsPackageElement->addChild('identity');
+        $identity = $this->identityXMLElement($request);
+
+        /* this could allow us to prevent users from accessing the page at all (right now they can
+        access but no errors are actually displayed)
+
+        if( (string) $identity->children()[4]!='administrator') {
+        throw new Exception\AccessDenied($identity);
+        } */
+
         $packagedIdentity->adopt($this->identityXMLElement($request));
 
         $errorsModule = new Component\Presenter('Module/Errors');
@@ -87,10 +90,15 @@ class DisplayError extends Component\View
 
         $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
         $domainXMLElement->addChild('main-pane', $errorsModuleXML);
+        $domainXMLElement->addChild('extraJS', "https://cdn.jsdelivr.net/momentjs/latest/moment.min.js https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js error-log-collection");
+
         $presentation = new Component\Presenter('SinglePane');
         $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
 
         $this->finalize($response);
         return $response;
+    }
+    public function getSomeErrors($request) {
+        return $this->getAllErrors($request);
     }
 }

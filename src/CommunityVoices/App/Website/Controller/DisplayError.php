@@ -9,6 +9,9 @@ class DisplayError
 
     }
     public function getAllErrors() {
-        
+
+    }
+    public function getSomeErrors() {
+
     }
 }

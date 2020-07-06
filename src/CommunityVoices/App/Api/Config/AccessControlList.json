@@ -169,6 +169,9 @@
         ["CommunityVoices\\App\\Api\\Controller\\DisplayError::getAllErrors", {"allow": "admin"}],
         ["CommunityVoices\\App\\Api\\View\\DisplayError::getAllErrors", {"allow": "admin"}],
 
+        ["CommunityVoices\\App\\Api\\Controller\\DisplayError::getSomeErrors", {"allow": "admin"}],
+        ["CommunityVoices\\App\\Api\\View\\DisplayError::getSomeErrors", {"allow": "admin"}],
+
         ["CommunityVoices\\App\\Api\\Controller\\Identification::postCredentials", {"allow": "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Identification::postCredentials", {"allow": "guest"}],
 
