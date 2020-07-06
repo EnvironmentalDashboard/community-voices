@@ -237,12 +237,7 @@ class Image extends Component\View
 
     public function postImageUpdate($request)
     {
-        $response = new HttpFoundation\RedirectResponse(
-            $request->headers->get('referer')
-        );
 
-        $this->finalize($response);
-        return $response;
     }
 
     public function postImageUnpair($request)

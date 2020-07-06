@@ -55,10 +55,6 @@ class Image
     public function postImageUpdate($request)
     {
         //$this->imageAPIController->postImageUpdate($request);
-
-        $id = $request->attributes->get('id');
-        $errors = $this->apiProvider->postJson("/images/{$id}/edit/authenticate", $request);
-        return $errors;
     }
 
     // Is this ever accessed not through AJAX?
