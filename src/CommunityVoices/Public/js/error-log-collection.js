@@ -33,7 +33,7 @@ $(document).ready(function() {
             data: data,
             success: function(response) {
                 if(response) {
-                    console.log(response);
+                    //console.log(response);
                     var errorsArray = response[outerArrayKey][0];
                     listOfErrors = errorsArray; // allows us to pass in array to php to filter array for date selection
                     setHtml(listOfErrors,(clkBtn == 'linesSubmit'));
