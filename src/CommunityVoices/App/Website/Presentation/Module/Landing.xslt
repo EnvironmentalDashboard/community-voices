@@ -33,11 +33,11 @@
               <xsl:variable name="i" select="position()" />
               <xsl:choose>
                 <xsl:when test="$i = 1">
-                  <div class="carousel-item active">
+                  <a href="/community-voices/slides/{id}/edit"><div class="carousel-item active">
                     <div class="embed-responsive embed-responsive-16by9 mb-4">
                       <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;" src="/community-voices/slides/{id}"></iframe>
                     </div>
-                  </div>
+                </div></a>
                 </xsl:when>
                 <xsl:otherwise>
                   <div class="carousel-item">
@@ -48,7 +48,7 @@
                 </xsl:otherwise>
               </xsl:choose>
             </xsl:for-each>
-          </div>
+        </div>
           <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="sr-only">Previous</span>
