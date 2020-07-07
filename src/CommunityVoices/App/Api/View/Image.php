@@ -109,4 +109,12 @@ class Image extends Component\View
 
         return $response;
     }
+    public function postImageUpdate()
+    {
+
+    }
+    public function postImageUnpair()
+    {
+        
+    }
 }

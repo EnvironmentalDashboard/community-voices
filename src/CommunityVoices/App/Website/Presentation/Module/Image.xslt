@@ -110,7 +110,7 @@
                 </div>
               </a>
               <p>
-                <form action="{domain/image/id}/unpair/{domain/slideId}" method="POST">
+                <form action="/community-voices/images/{domain/image/id}/unpair/{domain/slideId}" method="POST">
                   <input type="submit" value="Unpair image from slide" class="btn btn-danger btn-sm btn-block" />
                 </form>
               </p>

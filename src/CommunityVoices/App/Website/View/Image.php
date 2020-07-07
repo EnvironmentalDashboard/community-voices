@@ -242,6 +242,9 @@ class Image extends Component\View
 
     public function postImageUnpair($request)
     {
-        exit; // nothing to show to user
+        $response = new HttpFoundation\RedirectResponse(
+            $request->headers->get('referer')
+        );
+        return $response;
     }
 }
