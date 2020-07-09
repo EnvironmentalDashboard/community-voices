@@ -4,11 +4,10 @@
     <xsl:import href="../Component/Navbar.xslt" />
     <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
-    <xsl:variable name="isManager" select="package/identity/user/role = 'manager'
-        or package/identity/user/role = 'administrator'"/>
+    <xsl:variable name="isAdmin" select="package/identity/user/role = 'administrator'"/>
 
 <xsl:template match="/package">
-    <xsl:if test="$isManager">
+    <xsl:if test="$isAdmin">
         <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -46,7 +45,7 @@
             Tags
         </xsl:with-param>
         <xsl:with-param name="rightButtons">
-            <xsl:if test="$isManager">
+            <xsl:if test="$isAdmin">
                 <a class="btn btn-outline-primary mr-2" href="/community-voices/tags/new" data-toggle="modal" data-target="#createModal">+ Add tag</a>
             </xsl:if>
 
@@ -78,7 +77,7 @@
                             </svg>
                         </a>
                         <xsl:choose>
-                            <xsl:when test="$isManager">
+                            <xsl:when test="$isAdmin">
                                 <form action="/community-voices/api/tags/{id}/delete" method="POST" class="delete-form" id="delete-form{id}">
                                     <button type="submit" class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Delete">
                                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -98,7 +97,7 @@
                         </xsl:choose>
                 </div>
                 <xsl:choose>
-                    <xsl:when test="$isManager">
+                    <xsl:when test="$isAdmin">
                         <input type="text" name="label" class="form-control" form="edit-form{id}">
                             <xsl:attribute name="value"><xsl:value-of select="label"></xsl:value-of></xsl:attribute>
                         </input>
