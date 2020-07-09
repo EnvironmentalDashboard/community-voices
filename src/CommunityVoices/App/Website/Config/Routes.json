@@ -358,8 +358,7 @@
         "method": "post",
         "defaults": {
             "resource": "Image",
-            "action": "postImageUnpair",
-            "use-api": true
+            "action": "postImageUnpair"
         }
     },
 

@@ -29,7 +29,7 @@ class Image extends Component\Controller
         $this->tagLookup = $tagLookup;
     }
 
-    public function sendImage($request)
+    protected function sendImage($request)
     {
         $imageId = $request->attributes->get('id');
 
@@ -39,7 +39,7 @@ class Image extends Component\Controller
     /**
      * image lookup by id
      */
-    public function getImage($request)
+    protected function getImage($request)
     {
         $imageId = $request->attributes->get('id');
 
@@ -50,7 +50,7 @@ class Image extends Component\Controller
         }
     }
 
-    public function getAllImage($request)
+    protected function getAllImage($request)
     {
         $search = (string) $request->query->get('search');
         $tags = $request->query->get('tags');
@@ -71,12 +71,12 @@ class Image extends Component\Controller
         $this->imageLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $photographers, $orgs, $status);
     }
 
-    public function getImageUpload()
+    protected function getImageUpload()
     {
         $this->tagLookup->findAll();
     }
 
-    public function postImageUpload($request)
+    protected function postImageUpload($request)
     {
         $identity = $this->recognitionAdapter->identify();
 
@@ -102,7 +102,7 @@ class Image extends Component\Controller
       );
     }
 
-    public function getImageUpdate($request)
+    protected function getImageUpdate($request)
     {
         $imageId = $request->attributes->get('id');
         try {
@@ -112,7 +112,7 @@ class Image extends Component\Controller
         }
     }
 
-    public function postImageUpdate($request)
+    protected function postImageUpdate($request)
     {
         $id = (int) $request->attributes->get('id');
         if ($id === 0) {
@@ -144,14 +144,14 @@ class Image extends Component\Controller
         );
     }
 
-    public function postImageDelete($request)
+    protected function postImageDelete($request)
     {
         $id = (int) $request->attributes->get('id');
 
         $this->imageManagement->delete($id);
     }
 
-    public function postImageUnpair($request)
+    protected function postImageUnpair($request)
     {
         $image_id = (int) $request->attributes->get('image');
         $slide_id = (int) $request->attributes->get('slide');
@@ -159,19 +159,19 @@ class Image extends Component\Controller
         $this->imageManagement->unpair($image_id, $slide_id);
     }
 
-    public function getImageRelatedSlide($request)
+    protected function getImageRelatedSlide($request)
     {
         $id = $request->attributes->get('id');
         $this->imageLookup->relatedSlide2($id);
     }
 
-    public function getImagePrevImage($request)
+    protected function getImagePrevImage($request)
     {
         $id = $request->attributes->get('id');
         $this->imageLookup->prevImage2($id);
     }
 
-    public function getImageNextImage($request)
+    protected function getImageNextImage($request)
     {
         $id = $request->attributes->get('id');
         $this->imageLookup->nextImage2($id);
