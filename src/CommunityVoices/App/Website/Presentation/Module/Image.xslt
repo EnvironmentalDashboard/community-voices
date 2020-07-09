@@ -90,12 +90,13 @@
                     <xsl:value-of select="label"></xsl:value-of>,
                   </xsl:for-each>
                 </p>
+                <!--
                 <p class='mt-0 mb-0'>
                   <a>
                     <xsl:attribute name="href">/community-voices/images/<xsl:value-of select='domain/image/id'/>/edit</xsl:attribute>
                     Edit
                   </a>
-                </p>
+              </p> -->
               </div>
             </xsl:if>
           </div>

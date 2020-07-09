@@ -111,11 +111,11 @@ class Image extends Component\View
     }
     protected function postImageUpdate()
     {
-
+        return new HttpFoundation\JsonResponse(true);
     }
     protected function postImageUnpair()
     {
-        return $this->errorsResponse('imageUnpair');
+        return new HttpFoundation\JsonResponse(true);
 
     }
 }
