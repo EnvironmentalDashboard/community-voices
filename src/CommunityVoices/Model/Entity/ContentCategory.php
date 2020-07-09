@@ -81,6 +81,7 @@ class ContentCategory extends Group
     public function validateForUpload(FlexibleObserver $stateObserver)
     {
         if (!$this->image) {
+            $stateObserver->setSubject('contentCategoryUpload');
             $stateObserver->addEntry('image', self::ERR_NO_IMAGE);
         }
         // This checks for label being present.

@@ -63,7 +63,7 @@ class Group implements HasId
             $stateObserver->addEntry('label', self::ERR_LABEL_REQUIRED);
         }
 
-        return !($stateObserver->hasEntries());
+        return !($stateObserver->hasSubjectEntries('contentCategoryUpload'));
     }
 
     public function toArray()
