@@ -109,4 +109,13 @@ class Image extends Component\View
 
         return $response;
     }
+    protected function postImageUpdate()
+    {
+        return new HttpFoundation\JsonResponse(true);
+    }
+    protected function postImageUnpair()
+    {
+        return new HttpFoundation\JsonResponse(true);
+
+    }
 }
