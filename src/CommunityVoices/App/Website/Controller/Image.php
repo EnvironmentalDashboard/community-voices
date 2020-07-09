@@ -68,7 +68,7 @@ class Image
         //$this->imageAPIController->postImageUnpair($request);
         $image = $request->attributes->get('image');
         $slide = $request->attributes->get('slide');
-        $errors = $this->apiProvider->postJson("/images/{$image}/unpair/{$slide}", $request, true);
+        $errors = $this->apiProvider->postJson("/images/{$image}/unpair/{$slide}", $request);
         return $errors;
     }
 }
