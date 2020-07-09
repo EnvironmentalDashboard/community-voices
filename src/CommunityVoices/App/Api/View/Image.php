@@ -109,12 +109,13 @@ class Image extends Component\View
 
         return $response;
     }
-    public function postImageUpdate()
+    protected function postImageUpdate()
     {
 
     }
-    public function postImageUnpair()
+    protected function postImageUnpair()
     {
-        
+        return $this->errorsResponse('imageUnpair');
+
     }
 }

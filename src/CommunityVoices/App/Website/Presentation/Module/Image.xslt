@@ -4,8 +4,9 @@
   <xsl:import href="../Component/Navbar.xslt" />
   <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
-  <xsl:variable name="isManager" select="package/identity/user/role = 'manager'
-    or package/identity/user/role = 'administrator'"/>
+  <xsl:variable name="isAdmin" select="package/identity/user/role = 'administrator'"/>
+  <xsl:variable name="isManager" select="$isAdmin or package/identity/user/role = 'manager'"/>
+
 
     <xsl:template match="/package">
         <xsl:call-template name="navbar">
@@ -109,11 +110,13 @@
                   <iframe class="embed-responsive-item" style="pointer-events: none;" src="/community-voices/slides/{domain/slideId}"></iframe>
                 </div>
               </a>
-              <p>
-                <form action="/community-voices/images/{domain/image/id}/unpair/{domain/slideId}" method="POST">
-                  <input type="submit" value="Unpair image from slide" class="btn btn-danger btn-sm btn-block" />
-                </form>
-              </p>
+              <xsl:if test="$isAdmin">
+                  <p>
+                    <form action="/community-voices/images/{domain/image/id}/unpair/{domain/slideId}" method="POST">
+                      <input type="submit" value="Unpair image from slide" class="btn btn-danger btn-sm btn-block" />
+                    </form>
+                  </p>
+             </xsl:if>
             </xsl:when>
             <xsl:otherwise>
               <xsl:attribute name="class">col-sm-2</xsl:attribute>
