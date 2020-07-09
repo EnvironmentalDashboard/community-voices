@@ -235,11 +235,6 @@ class Image extends Component\View
         return $response;
     }
 
-    public function postImageUpdate($request)
-    {
-
-    }
-
     public function postImageUnpair($request)
     {
         exit; // nothing to show to user
