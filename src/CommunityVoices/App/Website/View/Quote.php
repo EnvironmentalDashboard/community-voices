@@ -385,6 +385,13 @@ class Quote extends Component\View
             return $response;
         }
     }
+
+    public function postBatch($request)
+    {
+        var_dump($request);
+        die();
+    }
+
     public function getQuoteUpdate($request, $errors = self::ERRORS_DEFAULT)
     {
         $paramXML = new Helper\SimpleXMLElementExtension('<form/>');

@@ -142,6 +142,10 @@ class Quote extends Component\Controller
             $identity
         );
     }
+    public function postBatch()
+    {
+
+    }
 
     protected function getQuoteUpdate($request)
     {

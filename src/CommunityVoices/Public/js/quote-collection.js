@@ -153,3 +153,11 @@ $('.approve-checkbox').on('click', function (c) {
 		}
 	});
 });
+
+$('#fileUploadButton').on('click', function (c)  {
+	$('#file').click();
+});
+
+$("#file").change(function(){
+    $('#batchUploadForm').submit();
+});
