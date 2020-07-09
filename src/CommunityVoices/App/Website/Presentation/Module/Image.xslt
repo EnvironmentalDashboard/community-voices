@@ -5,8 +5,6 @@
   <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
   <xsl:variable name="isAdmin" select="package/identity/user/role = 'administrator'"/>
-  <xsl:variable name="isManager" select="$isAdmin or package/identity/user/role = 'manager'"/>
-
 
     <xsl:template match="/package">
         <xsl:call-template name="navbar">
