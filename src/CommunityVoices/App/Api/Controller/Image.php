@@ -97,16 +97,6 @@ class Image extends Component\Controller
       );
     }
 
-    protected function getImageUpdate($request)
-    {
-        $imageId = $request->attributes->get('id');
-        try {
-            $this->imageLookup->findById((int) $imageId);
-        } catch (Exception\IdentityNotFound $e) {
-            $this->send404();
-        }
-    }
-
     protected function postImageUpdate($request)
     {
         $id = (int) $request->attributes->get('id');
