@@ -240,6 +240,8 @@ class Image extends Component\View
         $response = new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')
         );
+
+        $this->finalize($response);
         return $response;
     }
 }
