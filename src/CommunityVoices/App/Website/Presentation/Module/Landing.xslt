@@ -33,9 +33,7 @@
               <xsl:variable name="i" select="position()" />
               <xsl:choose>
                 <xsl:when test="$i = 1">
-                    <a href="/community-voices/slides/{id}">
-                    <xsl:if test="$isManager"><xsl:attribute name="href">/community-voices/slides/<xsl:value-of select="id"/>/edit</xsl:attribute></xsl:if>
-                    <div class="carousel-item active">
+                  <a href="/community-voices/slides/{id}/edit"><div class="carousel-item active">
                     <div class="embed-responsive embed-responsive-16by9 mb-4">
                       <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;" src="/community-voices/slides/{id}"></iframe>
                     </div>
