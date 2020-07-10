@@ -28,4 +28,20 @@ class Tag extends Component\View
 
         return $response;
     }
+    protected function getTagUpload()
+    {
+        // intentionally blank
+    }
+    protected function postTagUpload()
+    {
+        return $this->errorsResponse('tagUpload');
+    }
+    protected function postTagUpdate()
+    {
+        return $this->errorsResponse('tagUpdate');
+    }
+    protected function postTagDelete()
+    {
+        return $this->errorsResponse('tagDelete');
+    }
 }

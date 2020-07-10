@@ -45,4 +45,22 @@ class TagLookup
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
         $clientState->save($this->stateObserver);
     }
+
+    public function findById($groupId) {
+        $tag = new Entity\Tag;
+        $tag->setGroupId($groupId);
+
+        $tagMapper = $this->mapperFactory->createDataMapper(Mapper\Tag::class);
+        $tagMapper->fetch($tag);
+
+        if (!$tag->getId()) {
+            throw new Exception\IdentityNotFound;
+        }
+
+        $this->stateObserver->setSubject('tagLookup');
+        $this->stateObserver->addEntry('tag', $tag);
+
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
+        $clientState->save($this->stateObserver);
+    }
 }

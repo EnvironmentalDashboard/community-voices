@@ -37,8 +37,8 @@ class Tag extends Group
 
         $statement = $this->conn->prepare($query);
 
-        $statement->bindValue(':id', $tag->getId());
-
+        $statement->bindValue(':id', $tag->getGroupId());
+    
         $statement->execute();
 
         $result = $statement->fetch(PDO::FETCH_ASSOC);
@@ -46,7 +46,7 @@ class Tag extends Group
         if ($result) {
             $this->populateEntity($tag, $result);
         } else {
-            $tag->setId(null);
+            $tag->setGroupId(null);
         }
     }
 
@@ -77,7 +77,7 @@ class Tag extends Group
 
         $statement = $this->conn->prepare($query);
 
-        $statement->bindValue(':group_id', $tag->getId());
+        $statement->bindValue(':group_id', $tag->getGroupId());
 
         $statement->execute();
     }

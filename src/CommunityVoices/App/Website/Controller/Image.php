@@ -32,11 +32,6 @@ class Image
         //$this->imageAPIController->getAllImage($request);
     }
 
-    public function getImageUpload($request)
-    {
-        //$this->imageAPIController->getImageUpload($request);
-    }
-
     public function postImageUpload($request)
     {
         //$this->imageAPIController->postImageUpload($request);
@@ -44,24 +39,7 @@ class Image
         $errors = $this->apiProvider->postJson('/images/new/authenticate', $request);
         return $errors;
     }
-
-    public function getImageUpdate($request)
-    {
-        //$this->imageAPIController->getImage($request);
-    }
-
-    // I had originally thought this was only through AJAX, but it is instead only
-    // mostly through AJAX.
-    public function postImageUpdate($request)
-    {
-        //$this->imageAPIController->postImageUpdate($request);
-
-        $id = $request->attributes->get('id');
-        $errors = $this->apiProvider->postJson("/images/{$id}/edit/authenticate", $request);
-        return $errors;
-    }
-
-    // Is this ever accessed not through AJAX?
+    
     public function postImageDelete($request)
     {
         //$this->imageAPIController->postImageDelete($request);
@@ -70,5 +48,9 @@ class Image
     public function postImageUnpair($request)
     {
         //$this->imageAPIController->postImageUnpair($request);
+        $image = $request->attributes->get('image');
+        $slide = $request->attributes->get('slide');
+        $errors = $this->apiProvider->postJson("/images/{$image}/unpair/{$slide}", $request);
+        return $errors;
     }
 }

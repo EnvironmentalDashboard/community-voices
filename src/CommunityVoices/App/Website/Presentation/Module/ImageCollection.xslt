@@ -21,7 +21,7 @@
       <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
-            <form action='images/new/authenticate' method='post' enctype='multipart/form-data'>
+            <form action='/community-voices/images/new/authenticate' method='post' enctype='multipart/form-data'>
               <div class="modal-header">
                 <h5 class="modal-title" id="createModalLabel">Upload images</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
