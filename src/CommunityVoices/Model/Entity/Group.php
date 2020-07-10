@@ -57,7 +57,7 @@ class Group implements HasId
         }
     }
 
-    public function validateForUpload(FlexibleObserver $stateObserver, bool $childIsValid)
+    public function validateForUpload(FlexibleObserver $stateObserver, bool $childIsValid = true)
     {
         $groupIsValid = $childIsValid;
         if (!$this->label || strlen($this->label) < 1) {
