@@ -71,11 +71,6 @@ class Image extends Component\Controller
         $this->imageLookup->findAll($page, $limit, $offset, $order, $only_unused, $search, $tags, $photographers, $orgs, $status);
     }
 
-    protected function getImageUpload()
-    {
-        $this->tagLookup->findAll();
-    }
-
     protected function postImageUpload($request)
     {
         $identity = $this->recognitionAdapter->identify();
