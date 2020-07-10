@@ -20,6 +20,16 @@
     </div>
   </xsl:template>
 
+<xsl:template name="frame">
+    <xsl:param name="id"/>
+    <xsl:param name="i"/>
+    <div class="embed-responsive embed-responsive-16by9 mb-4">
+      <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;">
+          <xsl:attribute name="src">/community-voices/slides/<xsl:value-of select="$id"/></xsl:attribute>
+      </iframe>
+    </div>
+</xsl:template>
+
   <xsl:template match="/package">
 
     <xsl:call-template name="navbar" />
@@ -36,15 +46,17 @@
                         <xsl:choose>
                             <xsl:when test="$isAdmin">
                                 <a href="/community-voices/slides/{id}/edit">
-                                 <div class="embed-responsive embed-responsive-16by9 mb-4">
-                                   <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;" src="/community-voices/slides/{id}"></iframe>
-                                 </div>
+                                    <xsl:call-template name="frame">
+                                        <xsl:with-param name="id" select="id"/>
+                                        <xsl:with-param name="i" select="$i"/>
+                                    </xsl:call-template>
                                 </a>
                             </xsl:when>
                             <xsl:otherwise>
-                                <div class="embed-responsive embed-responsive-16by9 mb-4">
-                                  <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;" src="/community-voices/slides/{id}"></iframe>
-                                </div>
+                                <xsl:call-template name="frame">
+                                    <xsl:with-param name="id" select="id"/>
+                                    <xsl:with-param name="i" select="$i"/>
+                                </xsl:call-template>
                             </xsl:otherwise>
                         </xsl:choose>
                   </div>
@@ -54,15 +66,17 @@
                     <xsl:choose>
                         <xsl:when test="$isAdmin">
                             <a href="/community-voices/slides/{id}/edit">
-                                <div class="embed-responsive embed-responsive-16by9 mb-4">
-                                  <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;" src="/community-voices/slides/{id}"></iframe>
-                                </div>
+                                <xsl:call-template name="frame">
+                                    <xsl:with-param name="id" select="id"/>
+                                    <xsl:with-param name="i" select="$i"/>
+                                </xsl:call-template>
                             </a>
                         </xsl:when>
                         <xsl:otherwise>
-                            <div class="embed-responsive embed-responsive-16by9 mb-4">
-                              <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;" src="/community-voices/slides/{id}"></iframe>
-                            </div>
+                            <xsl:call-template name="frame">
+                                <xsl:with-param name="id" select="id"/>
+                                <xsl:with-param name="i" select="$i"/>
+                            </xsl:call-template>
                         </xsl:otherwise>
                     </xsl:choose>
                   </div>
