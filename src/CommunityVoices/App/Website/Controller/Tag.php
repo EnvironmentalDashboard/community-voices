@@ -22,23 +22,10 @@ class Tag
         //$this->tagAPIController->getAllTag($request);
     }
 
-    public function getTagUpload($request)
-    {
-        //$this->tagAPIController->getTagUpload($request);
-    }
-
     public function postTagUpload($request)
     {
         //$this->tagAPIController->postTagUpload($request);
         $errors = $this->apiProvider->postJson('/tags/new', $request);
-        return $errors;
-    }
-
-    public function postTagDelete($request)
-    {
-        //$this->tagAPIController->postTagDelete($request);
-        $id = $request->attributes->get('groupId');
-        $errors = $this->apiProvider->postJson("/tags/{$id}/delete", $request);
         return $errors;
     }
 }

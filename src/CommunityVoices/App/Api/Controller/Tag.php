@@ -31,18 +31,22 @@ class Tag extends Component\Controller
     {
         $this->tagLookup->findAll();
     }
-    protected function getTagUpload()
-    {
-        // intentionally blank
-    }
 
     protected function postTagUpload($request)
     {
-        $identity = $this->recognitionAdapter->identify();
         $label = $request->request->get('text');
 
         $this->tagManagement->upload($label);
     }
+    protected function postTagUpdate($request)
+    {
+        $groupId = $request->attributes->get('groupId');
+
+        $label = $request->request->get('label');
+
+        $this->tagManagement->update($groupId, $label);
+    }
+
     protected function postTagDelete($request)
     {
         $groupId = $request->attributes->get('groupId');

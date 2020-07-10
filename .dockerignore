@@ -1,0 +1,26 @@
+# Right now this is equal to .gitignore (7/10)
+vendor/
+log/
+
+backup/
+
+composer.phar
+db.config
+
+tests/coverage
+tests/report.html
+
+CV_Media/
+
+
+.ftpconfig
+.DS_Store
+
+migrate/importNextGen/
+migrate/importNextGen.zip
+
+# Sam's various personal scripts
+pull-everywhere.sh
+run-cle-db.sh
+
+db/

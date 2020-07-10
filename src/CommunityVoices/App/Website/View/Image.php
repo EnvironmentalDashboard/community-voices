@@ -225,10 +225,6 @@ class Image extends Component\View
         return $response;
     }
 
-    public function getImageUpload($request)
-    {
-    }
-
     public function postImageUpload($request)
     {
         $response = new HttpFoundation\RedirectResponse(
@@ -239,68 +235,7 @@ class Image extends Component\View
         return $response;
     }
 
-    public function getImageUpdate($request)
-    {
-        $paramXML = new Helper\SimpleXMLElementExtension('<form/>');
-
-        /**
-         * Gather image information
-         */
-        $id = $request->attributes->get('id');
-        $image = $this->apiProvider->getJson("/images/{$id}", $request);
-        $imageXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($image)
-        );
-
-        $tags = $this->apiProvider->getJson('/tags', $request);
-        $tagXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($tags)
-        );
-
-        $selectedTagString = ',';
-        foreach ($image->image->tagCollection->groupCollection as $group) {
-            $selectedTagString .= "{$group->group->id},";
-        }
-        $selectedTagXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml(['selectedTags' => [$selectedTagString]])
-        );
-
-        $packagedImage = $paramXML->addChild('domain');
-        $packagedImage->adopt($imageXMLElement);
-        $packagedImage->adopt($tagXMLElement);
-        $packagedImage->adopt($selectedTagXMLElement);
-
-        $formModule = new Component\Presenter('Module/Form/ImageUpdate');
-        $formModuleXML = $formModule->generate($paramXML);
-
-        /**
-         * Get base URL
-         */
-        //$urlGenerator = new UrlGenerator($routes, $context);
-        //$baseUrl = $urlGenerator->generate('root');
-
-        //
-
-        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
-
-        $domainXMLElement->addChild('main-pane', $formModuleXML);
-        //$domainXMLElement->addChild('baseUrl', $baseUrl);
-        $domainXMLElement->addChild('title', "Community Voices: Image Update");
-        $domainXMLElement->addChild('extraJS', "image-update");
-
-
-        $domainIdentity = $domainXMLElement->addChild('identity');
-        $domainIdentity->adopt($this->identityXMLElement($request));
-
-        $presentation = new Component\Presenter('SinglePane');
-
-        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
-
-        $this->finalize($response);
-        return $response;
-    }
-
-    public function postImageUpdate($request)
+    public function postImageUnpair($request)
     {
         $response = new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')
@@ -308,10 +243,5 @@ class Image extends Component\View
 
         $this->finalize($response);
         return $response;
-    }
-
-    public function postImageUnpair($request)
-    {
-        exit; // nothing to show to user
     }
 }

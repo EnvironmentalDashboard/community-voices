@@ -294,30 +294,12 @@
         }
     },
 
-    "getImageUpload": {
-      "notation": "/images/new",
-      "method": "get",
-      "defaults": {
-          "resource": "Image",
-          "action": "getImageUpload"
-      }
-    },
-
     "getImage": {
         "notation": "/images/{id}",
         "method": "get",
         "defaults": {
             "resource": "Image",
             "action": "getImage"
-        }
-    },
-
-    "getImageUpdate": {
-        "notation": "/images/{id}/edit",
-        "method": "get",
-        "defaults": {
-            "resource": "Image",
-            "action": "getImageUpdate"
         }
     },
 
@@ -356,7 +338,8 @@
         "method": "post",
         "defaults": {
             "resource": "Image",
-            "action": "postImageUpdate"
+            "action": "postImageUpdate",
+            "use-api": true
         }
     },
 
@@ -365,7 +348,8 @@
         "method": "post",
         "defaults": {
             "resource": "Image",
-            "action": "postImageDelete"
+            "action": "postImageDelete",
+            "use-api": true
         }
     },
 
@@ -542,15 +526,6 @@
       }
     },
 
-    "getTagUpload": {
-      "notation": "/tags/new",
-      "method": "get",
-      "defaults": {
-        "resource": "Tag",
-        "action": "getTagUpload"
-      }
-    },
-
     "postTagUpload": {
       "notation": "/tags/new",
       "method": "post",
@@ -560,12 +535,23 @@
         }
      },
 
+     "postTagUpdate": {
+       "notation": "/tags/{groupId}/edit",
+       "method": "post",
+       "defaults": {
+         "resource": "Tag",
+         "action": "postTagUpdate",
+         "use-api": true
+         }
+      },
+
     "postTagDelete": {
       "notation": "/tags/{groupId}/delete",
       "method": "post",
       "defaults": {
         "resource": "Tag",
-        "action": "postTagDelete"
+        "action": "postTagDelete",
+        "use-api": true
       }
    }
 }

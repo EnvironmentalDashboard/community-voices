@@ -3,8 +3,7 @@
   <xsl:import href="../Component/Navbar.xslt" />
   <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
-  <xsl:variable name="isManager" select="package/identity/user/role = 'manager'
-    or package/identity/user/role = 'administrator'" />
+  <xsl:variable name="isAdmin" select="package/identity/user/role = 'administrator'" />
 
   <xsl:template name="carousel-selector">
     <xsl:param name="data-cc" />
@@ -21,6 +20,16 @@
     </div>
   </xsl:template>
 
+<xsl:template name="frame">
+    <xsl:param name="id"/>
+    <xsl:param name="i"/>
+    <div class="embed-responsive embed-responsive-16by9 mb-4">
+      <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;">
+          <xsl:attribute name="src">/community-voices/slides/<xsl:value-of select="$id"/></xsl:attribute>
+      </iframe>
+    </div>
+</xsl:template>
+
   <xsl:template match="/package">
 
     <xsl:call-template name="navbar" />
@@ -33,22 +42,48 @@
               <xsl:variable name="i" select="position()" />
               <xsl:choose>
                 <xsl:when test="$i = 1">
-                  <div class="carousel-item active">
-                    <div class="embed-responsive embed-responsive-16by9 mb-4">
-                      <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;" src="/community-voices/slides/{id}"></iframe>
-                    </div>
+                    <div class="carousel-item active">
+                        <xsl:choose>
+                            <xsl:when test="$isAdmin">
+                                <a href="/community-voices/slides/{id}/edit">
+                                    <xsl:call-template name="frame">
+                                        <xsl:with-param name="id" select="id"/>
+                                        <xsl:with-param name="i" select="$i"/>
+                                    </xsl:call-template>
+                                </a>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:call-template name="frame">
+                                    <xsl:with-param name="id" select="id"/>
+                                    <xsl:with-param name="i" select="$i"/>
+                                </xsl:call-template>
+                            </xsl:otherwise>
+                        </xsl:choose>
                   </div>
                 </xsl:when>
                 <xsl:otherwise>
                   <div class="carousel-item">
-                    <div class="embed-responsive embed-responsive-16by9 mb-4">
-                      <iframe class="embed-responsive-item" id="slide{$i}" style="pointer-events: none;" src="/community-voices/slides/{id}"></iframe>
-                    </div>
+                    <xsl:choose>
+                        <xsl:when test="$isAdmin">
+                            <a href="/community-voices/slides/{id}/edit">
+                                <xsl:call-template name="frame">
+                                    <xsl:with-param name="id" select="id"/>
+                                    <xsl:with-param name="i" select="$i"/>
+                                </xsl:call-template>
+                            </a>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:call-template name="frame">
+                                <xsl:with-param name="id" select="id"/>
+                                <xsl:with-param name="i" select="$i"/>
+                            </xsl:call-template>
+                        </xsl:otherwise>
+                    </xsl:choose>
                   </div>
                 </xsl:otherwise>
               </xsl:choose>
             </xsl:for-each>
-          </div>
+        </div>
           <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="sr-only">Previous</span>
