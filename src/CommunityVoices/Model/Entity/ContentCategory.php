@@ -78,14 +78,16 @@ class ContentCategory extends Group
         return $this->probability;
     }
 
-    public function validateForUpload(FlexibleObserver $stateObserver)
+    public function validateForUpload(FlexibleObserver $stateObserver, bool $isValid = true)
     {
+        $childIsValid = $isValid;
+
         if (!$this->image) {
-            $stateObserver->setSubject('contentCategoryUpload');
+            $childIsValid = false;
             $stateObserver->addEntry('image', self::ERR_NO_IMAGE);
         }
         // This checks for label being present.
-        return parent::validateForUpload($stateObserver);
+        return parent::validateForUpload($stateObserver, $childIsValid);
     }
 
     public function toArray()
