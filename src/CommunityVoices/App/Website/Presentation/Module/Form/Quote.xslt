@@ -98,9 +98,6 @@
                         <label for="originalText">Original Text</label>
                         <textarea name='originalText' id='originalText' class='form-control'>
                             <xsl:choose>
-                                <xsl:when test="domain/repeatedQuoteErrorFree != ''">
-                                    <xsl:value-of select="''"/>
-                                </xsl:when>
                                 <xsl:when test="domain/form != ''">
                                     <xsl:value-of select="domain/form/originalText"/>
                                 </xsl:when>
