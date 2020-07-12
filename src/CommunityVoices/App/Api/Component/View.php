@@ -10,6 +10,7 @@ use CommunityVoices\App\Api\Component;
 class View extends Component\SecuredComponent
 {
     protected $mapperFactory;
+    protected const ERRORS_DEFAULT = ['errors' => []];
 
     public function __construct(
         Component\SecureContainer $secureContainer,
