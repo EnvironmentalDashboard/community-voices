@@ -81,22 +81,9 @@ class Quote extends Component\View
         return $response;
     }
 
-    protected function postBatch($request)
+    protected function postBatch()
     {
-        $filePath = $request->files->get('file')[0]->getPathname();
-        // Open the file for reading
-        if (($h = fopen($filePath, "r")) !== FALSE)
-        {
-          // Convert each line into the local $data variable
-          while (($data = fgetcsv($h, 1000, ",")) !== FALSE)
-          {
-            var_dump($data);
-          }
 
-          // Close the file
-          fclose($h);
-        }
-        // Display the code in a readable format
     }
 
     protected function getQuoteUpdate()

@@ -230,6 +230,8 @@ class Image extends Component\View
         $response = new HttpFoundation\RedirectResponse(
             $this->urlGenerator->generate('getAllImage')
         );
+        var_dump($request->files->get('file')[0]->getClientOriginalName());
+        die();
 
         $this->finalize($response);
         return $response;

@@ -155,6 +155,7 @@ $('.approve-checkbox').on('click', function (c) {
 });
 
 $('#fileUploadButton').on('click', function (c)  {
+	alert("Guide To Uploading: Upload 2 files, one with quote information, one with source data information. \nBoth should be in csv format. Ensure that quote sheet has word 'quote' and that source sheet has word 'source' contained within.");
 	$('#file').click();
 });
 

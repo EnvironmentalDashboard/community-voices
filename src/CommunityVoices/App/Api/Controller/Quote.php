@@ -27,6 +27,36 @@ class Quote extends Component\Controller
         'tags' => [],
         'contentCategories' => []
     ];
+    const BATCH_QUOTE_DATA = [
+        'identifier',
+        'originalText',
+        'text',
+        'photoLink',
+        'contentCategory1',
+        'contentCategory2',
+        'contentCategory3',
+        'tag1',
+        'tag2',
+        'tag3',
+        'tag4',
+        'sponsor',
+        'createAslide'
+    ];
+
+    const BATCH_SOURCE_DATA = [
+        'identifier',
+        'interviewer',
+        'interviewee',
+        'interviewDate',
+        'attribution',
+        'subAttribution',
+        'organization',
+        'topic',
+        'email',
+        'telephone',
+        'courseOrProject',
+        'interviewType'
+    ];
 
     public function __construct(
         Component\SecureContainer $secureContainer,
@@ -142,9 +172,70 @@ class Quote extends Component\Controller
             $identity
         );
     }
-    public function postBatch()
-    {
 
+    protected function postBatch($request)
+    {
+        $files = $request->files->get('file');
+        if (sizeof($files) != 2) {
+            throw new \RuntimeException();
+            // javascript/html should catch this but just in case request skips over layer
+        }
+        // there may be a better way to do this, for now we are just relying on file names to indicate which document
+        foreach($request->files->get('file') as $file) {
+            if (strpos(strtolower($file->getClientOriginalName()),"quote") !== false) $quote = $file;
+            else if (strpos(strtolower($file->getClientOriginalName()),"source") !== false) $source = $file;
+        }
+        if (! (isset($source) && (isset($quote)))) throw new \RuntimeException();
+
+        $quoteFilePath = $quote->getPathname();
+        $sourceFilePath = $source->getPathname();
+        $listOfQuotes = [];
+        $listOfQuotes["errors"] = [];
+
+        // first pass through source sheet, creating entry for each interview. Later we will add list of quotes for each interview
+        if (($s = fopen($sourceFilePath, "r")) !== FALSE)
+        {
+          fgetcsv($s); // first row is just column names so we should skip this.
+
+          while (($data = fgetcsv($s)) !== FALSE)
+          {
+              $identifier = $data[0]; // first column of each row is expected to give identifier, which we will use to store all quote info
+
+              $listOfQuotes[$identifier] = [];
+              for ($i = 1; $i < count(self::BATCH_SOURCE_DATA); $i++) {
+                  $listOfQuotes[$identifier][self::BATCH_SOURCE_DATA[$i]] = $data[$i];
+              }
+          }
+          fclose($s);
+       }
+
+        if (($q = fopen($quoteFilePath, "r")) !== FALSE)
+        {
+          fgetcsv($q); // first row is just column names so we should skip this.
+
+          while (($data = fgetcsv($q)) !== FALSE)
+          {
+              $identifier = $data[0]; // first column of each row is expected to give identifier, which we will use to store all quote info
+              if (array_key_exists($identifier,$listOfQuotes)) { // each quote should have an identifier corresponding to source information
+                  if (! array_key_exists("quotes",$listOfQuotes[$identifier])) {
+                      $listOfQuotes[$identifier]["quotes"] = []; // quotes array for each interview
+                  }
+                  $newQuote = [];
+                  for ($i = 1; $i < count(self::BATCH_QUOTE_DATA); $i++) {
+                      $newQuote[self::BATCH_QUOTE_DATA[$i]] = $data[$i];
+                  }
+                  array_push($listOfQuotes[$identifier]["quotes"],$newQuote);
+              } else {
+                  array_push($listOfQuotes["errors"], "source data could not be found for " . $identifier);
+              }
+          }
+        var_dump($listOfQuotes);
+        die();
+
+        // Close the file
+        fclose($q);
+        }
+        // Display the code in a readable format
     }
 
     protected function getQuoteUpdate($request)
