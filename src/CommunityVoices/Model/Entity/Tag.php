@@ -34,10 +34,10 @@ class Tag extends Group
         return $this->groupId;
     }
 
-    public function validateForUpload(FlexibleObserver $stateObserver)
+    public function validateForUpload(FlexibleObserver $stateObserver, $childIsValid = true)
     {
         // This checks for label being present.
-        return parent::validateForUpload($stateObserver);
+        return parent::validateForUpload($stateObserver, $childIsValid);
     }
 
     public function toArray()
