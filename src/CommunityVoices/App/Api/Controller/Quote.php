@@ -14,6 +14,9 @@ class Quote extends Component\Controller
     protected $quoteLookup;
     protected $quoteManagement;
 
+    const ERR_ATTRIBUTION_REQUIRED = 'Quotes must have an attribution.';
+    const ERR_MISSING_CONTENT_CATEGORY = 'Must provide a potential content category.';
+    const WARNING_EMPTY_QUOTE = "Warning! You have empty quotes. Do you want to procede?";
     // for future usage of this pattern: the value is the default value
     const FORM_ATTRIBUTES = [
         'text',
@@ -190,30 +193,32 @@ class Quote extends Component\Controller
         $quoteFilePath = $quote->getPathname();
         $sourceFilePath = $source->getPathname();
         $listOfQuotes = [];
-        $listOfQuotes["errors"] = [];
 
         // first pass through source sheet, creating entry for each interview. Later we will add list of quotes for each interview
-        if (($s = fopen($sourceFilePath, "r")) !== FALSE)
+        if (($f = fopen($sourceFilePath, "r")) !== FALSE)
         {
-          fgetcsv($s); // first row is just column names so we should skip this.
+          fgetcsv($f); // first row is just column names so we should skip this.
 
-          while (($data = fgetcsv($s)) !== FALSE)
+          while (($data = fgetcsv($f)) !== FALSE)
           {
               $identifier = $data[0]; // first column of each row is expected to give identifier, which we will use to store all quote info
-
               $listOfQuotes[$identifier] = [];
+              $currentSource = $listOfQuotes[$identifier];
+              $currentSource["errors"] = [];
               for ($i = 1; $i < count(self::BATCH_SOURCE_DATA); $i++) {
-                  $listOfQuotes[$identifier][self::BATCH_SOURCE_DATA[$i]] = $data[$i];
+                  $currentSource[self::BATCH_SOURCE_DATA[$i]] = $data[$i];
               }
+              $currentSource["errors"] = [];
+              if(empty($currentSource["attribution"])) array_push($currentSource["errors"],self::ERR_ATTRIBUTION_REQUIRED);
           }
-          fclose($s);
+          fclose($f);
        }
 
-        if (($q = fopen($quoteFilePath, "r")) !== FALSE)
+        if (($f= fopen($quoteFilePath, "r")) !== FALSE)
         {
-          fgetcsv($q); // first row is just column names so we should skip this.
+          fgetcsv($f); // first row is just column names so we should skip this.
 
-          while (($data = fgetcsv($q)) !== FALSE)
+          while (($data = fgetcsv($f)) !== FALSE)
           {
               $identifier = $data[0]; // first column of each row is expected to give identifier, which we will use to store all quote info
               if (array_key_exists($identifier,$listOfQuotes)) { // each quote should have an identifier corresponding to source information
@@ -225,12 +230,18 @@ class Quote extends Component\Controller
                       $newQuote[self::BATCH_QUOTE_DATA[$i]] = $data[$i];
                   }
                   array_push($listOfQuotes[$identifier]["quotes"],$newQuote);
+
+                  $currentQuote = end($listOfQuotes[$identifier]["quotes"]);
+                  $currentQuote["errors"] = [];
+                  $currentQuote["warnings"] = [];
+                  if(empty($currentQuote["contentCategory1"]) && empty($currentQuote["contentCategory2"]) && empty($currentQuote["contentCategory3"]))
+                    array_push($currentQuote["errors"],ERR_MISSING_CONTENT_CATEGORY);
+                  if(empty($currentQuote["text"]))
+                    array_push($currentQuote["warnings"],WARNING_EMPTY_QUOTE);
               } else {
                   array_push($listOfQuotes["errors"], "source data could not be found for " . $identifier);
               }
           }
-        var_dump($listOfQuotes);
-        die();
 
         // Close the file
         fclose($q);
