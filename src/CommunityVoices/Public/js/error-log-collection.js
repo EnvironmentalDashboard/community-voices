@@ -11,7 +11,6 @@ var data = {},
     listOfErrors = [];
 
 $(document).ready(function() {
-    data['firstTime'] = true;
     errorsRequest(data);
 
     function setHtml(l,append) {
@@ -74,7 +73,6 @@ $(document).ready(function() {
 
     $('#search-form').on('submit', function(e) {
         e.preventDefault();
-        data['firstTime'] = '';
         if (clkBtn == 'linesSubmit') {
             data['numLines'] = $("#numLines").val();
             data['dateRange'] = '';

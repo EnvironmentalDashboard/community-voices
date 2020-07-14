@@ -18,7 +18,7 @@ class DisplayError extends Component\Controller
         $dates = empty($request->query->get('dateRange')) ? [false,false] : explode(" - ",$request->query->get('dateRange'));
         $linePos = empty($request->query->get('linePos')) ? PHP_INT_MAX : intval($request->query->get('linePos'));
         $numLinesToAdd = intval($request->query->get('numLines')) ?? 0;
-        $initialRequest = $request->query->get('firstTime');
+        $initialRequest = $request->query->count() === 0; // checks for existance of request query
 
         if($initialRequest)
             return $fileProcessor->tailRead(self::ERRORSLOGPATH,$lines);
