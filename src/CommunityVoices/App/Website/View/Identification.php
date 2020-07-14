@@ -27,9 +27,9 @@ class Identification extends Component\View
 
         $this->urlGenerator = $urlGenerator;
         $this->restricted = array("errors-log","locations","errors-log/","locations/");
-        foreach ($this->restricted as &$link) {
-            $link = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/community-voices/'.$link;
-        }
+        /* foreach ($this->restricted as &$link) {
+            $link = $link;
+        } */
         unset($link);
     }
 
@@ -124,7 +124,9 @@ class Identification extends Component\View
 
     public function getLogout($request)
     {
-        $newlink = in_array($request->headers->get('referer'),$this->restricted) ? $this->urlGenerator->generate('root') : $request->headers->get('referer');
+        $relativeLink = explode("community-voices/",$request->headers->get('referer'))[1];
+        $newlink = in_array($relativeLink,$this->restricted) ? $this->urlGenerator->generate('root') : $request->headers->get('referer');
+        var_dump($request->headers->get('referer'));
         $response = new HttpFoundation\RedirectResponse(
             $newlink
         );
