@@ -5,7 +5,7 @@ use Symfony\Component\HttpFoundation;
 
 class FileProcessor {
     public function tailRead($filepath, $lines, $endLine = PHP_INT_MAX, $startDate = false, $endDate = false) {
-            if($endLine < 0) return new HttpFoundation\JsonResponse(''); // dummy response indicating nothing was read
+            if($endLine < 0) return false; // dummy response indicating nothing was read
             $f = new \SplFileObject($filepath);
 
             // Jump to endline of range

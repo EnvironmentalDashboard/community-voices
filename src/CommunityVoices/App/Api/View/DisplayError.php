@@ -28,13 +28,15 @@ class DisplayError extends Component\View
 
     protected function getAllErrors($request, $errors)
     {
-        $response = new HttpFoundation\JsonResponse(["errorsLog" => $errors]);
+        if($errors===false) $response = new HttpFoundation\JsonResponse('');
+        else $response = new HttpFoundation\JsonResponse(["errorsLog" => $errors]);
         return $response;
 
     }
     protected function getSomeErrors($request, $errors)
     {
-        $response = new HttpFoundation\JsonResponse(["errorsLog" => $errors]);
+        if($errors===false) $response = new HttpFoundation\JsonResponse('');
+        else $response = new HttpFoundation\JsonResponse(["errorsLog" => $errors]);
         return $response;
     }
 
