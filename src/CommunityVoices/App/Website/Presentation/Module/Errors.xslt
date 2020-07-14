@@ -4,9 +4,6 @@
   <xsl:import href="../Component/Navbar.xslt" />
   <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
-  <xsl:variable name="isManager" select="package/identity/user/role = 'manager'
-      or package/identity/user/role = 'administrator'"/>
-
   <xsl:template match="/package">
       <xsl:call-template name="navbar"/>
       <form action="/community-voices/api/errors-log/search" method="POST" id="search-form">
@@ -39,7 +36,6 @@
               <div id="searchDates" style="display: none;" class="form-group">
                   <label style="display: block;">View Errors Between Dates (ET)</label>
                   <input type="text" name="dateRange" id="dateRange" class="daterange" form="search-form"/>
-                  <!-- <input type="submit" value="Search Page" style="display:block;" class="btn btn-secondary" id="datesSubmitPage"/> -->
                   <input type="submit" value="Search File" style="display:block;" class="btn btn-secondary" id="datesSubmitFile"/>
               </div>
           </div>

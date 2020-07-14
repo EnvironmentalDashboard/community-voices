@@ -9,7 +9,6 @@ use \XSLTProcessor;
 use CommunityVoices\App\Api;
 use CommunityVoices\App\Website\Component;
 use Symfony\Component\HttpFoundation;
-// use CommunityVoices\App\Api\Component\Exception;  -- See lines 84 - 89
 
 class DisplayError extends Component\View
 {
@@ -75,13 +74,6 @@ class DisplayError extends Component\View
 
         $packagedIdentity = $errorsPackageElement->addChild('identity');
         $identity = $this->identityXMLElement($request);
-
-        /* this could allow us to prevent users from accessing the page at all (right now they can
-        access but no errors are actually displayed)
-
-        if( (string) $identity->children()[4]!='administrator') {
-        throw new Exception\AccessDenied($identity);
-        } */
 
         $packagedIdentity->adopt($this->identityXMLElement($request));
 

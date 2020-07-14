@@ -85,13 +85,5 @@ $(document).ready(function() {
             data['linePos'] = '';
             errorsRequest(data);
         }
-        /*
-        else {
-            var dates = $('#dateRange').val().split(" - ");
-            var startTime = Math.round(new Date(dates[0]).getTime()/1000) + timeOffset;
-            var endTime = Math.round(new Date(dates[1]).getTime()/1000) + timeOffset;
-            listOfErrors = listOfErrors.filter(lo => (lo.unixTime >= startTime) && (lo.unixTime <= endTime));
-            setHtml(listOfErrors,false);
-        } */
     });
 });
