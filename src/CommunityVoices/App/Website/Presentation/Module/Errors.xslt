@@ -15,7 +15,7 @@
             Usage: /community-voices/errors-log/{lines} -- view last {lines} error messages.
         </p>
         <p>
-            You can also filter add more lines or filter by date range (Advanced Options)
+            You can also add more lines or filter by date range (Advanced Options)
         </p>
           <div class="card">
               <div class="dropdown">

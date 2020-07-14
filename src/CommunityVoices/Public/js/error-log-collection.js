@@ -49,11 +49,12 @@ $(document).ready(function() {
 
     $('.daterange').daterangepicker({
         timePicker: true,
+        timePicker24Hour: true,
         startDate: startDate,
         endDate: endDate,
         locale: {
-            format: 'M/DD/YY hh:mm A'
-        }
+            format: 'M/DD/YY H:mm'
+        },
     });
 
     $('#byLines').on('click',function() {

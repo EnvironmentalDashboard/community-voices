@@ -583,14 +583,5 @@
             "resource": "DisplayError",
             "action": "getSomeErrors"
         }
-    },
-    "postErrorsSearch": {
-        "notation": "/errors-log/search",
-        "method": "post",
-        "defaults": {
-            "resource": "DisplayError",
-            "action": "postErrorsSearch",
-            "use-api": true
-        }
     }
 }
