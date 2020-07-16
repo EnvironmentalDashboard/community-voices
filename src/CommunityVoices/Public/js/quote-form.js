@@ -13,11 +13,12 @@ function clickEdited() {
   }
 }
 
-function displayCount(box,count) {
+function displayCount(box, count) {
    const countDisplay = document.getElementById(count);
-   countDisplay.innerHTML = box.value.length + " / " + box.getAttribute("maxlength") + " characters";
-   if(box.hasAttribute("suggestedlength") && (box.value.length > box.getAttribute("suggestedlength"))) {
-     countDisplay.insertAdjacentHTML('beforeend', '--Please Shorten!');
+   countDisplay.innerHTML = box.value.length + " / " + box.getAttribute("suggestedlength") + " characters";
+
+   if (box.hasAttribute("suggestedlength") && (box.value.length > box.getAttribute("suggestedlength"))) {
+     countDisplay.insertAdjacentHTML('beforeend', ' - Please shorten!');
      countDisplay.style.color = "red";
    } else {
      countDisplay.style.color = "black";
