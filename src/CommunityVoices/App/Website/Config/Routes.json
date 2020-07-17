@@ -575,13 +575,5 @@
             "resource": "DisplayError",
             "action": "getAllErrors"
         }
-    },
-    "getSomeErrors": {
-        "notation": "/errors-log/{lines}",
-        "method": "get",
-        "defaults": {
-            "resource": "DisplayError",
-            "action": "getSomeErrors"
-        }
     }
 }

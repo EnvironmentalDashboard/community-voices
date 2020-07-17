@@ -6,13 +6,11 @@
 
   <xsl:template match="/package">
       <xsl:call-template name="navbar"/>
+      <h4 style="padding: 10px 20px 10px 20px">System Errors</h4>
       <form action="/community-voices/api/errors-log/search" method="POST" id="search-form">
         <!-- empty form; values associated with form attribute on input tags to allow for table structure -->
         <p>
             Usage: /community-voices/errors-log -- view last 500 error messages
-        </p>
-        <p>
-            Usage: /community-voices/errors-log/{lines} -- view last {lines} error messages.
         </p>
         <p>
             You can also add more lines or filter by date range (Advanced Options)
