@@ -16,7 +16,7 @@ $(document).ready(function() {
     function setHtml(l,append) {
         var errorMessages = '';
         $.each(l, function (index, value) {
-            errorMessages += '<li class="list-group-item">' + value.Time + value.Message + '</li>';
+            errorMessages += '<li class="list-group-item py-1">' + value.Time + value.Message + '</li>';
         });
         if (append) {
             errorsDisplayElm.append(errorMessages);
