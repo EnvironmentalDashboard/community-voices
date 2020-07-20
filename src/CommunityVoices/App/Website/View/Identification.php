@@ -13,9 +13,7 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class Identification extends Component\View
 {
-    const RESTRICTED_PAGES = array("errors-log","locations","errors-log/","locations/");
     protected $urlGenerator;
-    public $restricted;
 
     public function __construct(
         Component\MapperFactory $mapperFactory,
@@ -120,11 +118,10 @@ class Identification extends Component\View
 
     public function getLogout($request)
     {
-        $relativeLink = explode("community-voices/",$request->headers->get('referer'))[1];
-        $newlink = in_array($relativeLink,self::RESTRICTED_PAGES) ? $this->urlGenerator->generate('root') : $request->headers->get('referer');
         $response = new HttpFoundation\RedirectResponse(
-            $newlink
+            $request->headers->get('referer') ?? $this->urlGenerator->generate('root')
         );
+
         $this->finalize($response);
         return $response;
     }
