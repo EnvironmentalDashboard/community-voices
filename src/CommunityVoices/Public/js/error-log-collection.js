@@ -1,4 +1,5 @@
 const errorsApiUrl = $('#search-form').attr('action'),
+    errorsApiMethod = $('#search-form').attr('method'),
     dataTypeToReceive = "JSON",
     outerArrayKey = 'errorLog',
     errorsDisplayElm = $('#errors'),
@@ -29,6 +30,7 @@ $(document).ready(function() {
             dataType: dataTypeToReceive,
             url: errorsApiUrl,
             data: data,
+            method: errorsApiMethod,
             success: function(response) {
                 if(response) {
                     //console.log(response);
