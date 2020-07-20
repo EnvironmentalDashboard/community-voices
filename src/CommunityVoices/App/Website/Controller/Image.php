@@ -32,11 +32,6 @@ class Image
         //$this->imageAPIController->getAllImage($request);
     }
 
-    public function getImageUpload($request)
-    {
-        //$this->imageAPIController->getImageUpload($request);
-    }
-
     public function postImageUpload($request)
     {
         //$this->imageAPIController->postImageUpload($request);
@@ -44,17 +39,7 @@ class Image
         $errors = $this->apiProvider->postJson('/images/new/authenticate', $request);
         return $errors;
     }
-
-    public function getImageUpdate($request)
-    {
-        //$this->imageAPIController->getImage($request);
-    }
-
-    public function postImageUpdate($request)
-    {
-        //$this->imageAPIController->postImageUpdate($request);
-    }
-
+    
     public function postImageDelete($request)
     {
         //$this->imageAPIController->postImageDelete($request);
@@ -63,5 +48,9 @@ class Image
     public function postImageUnpair($request)
     {
         //$this->imageAPIController->postImageUnpair($request);
+        $image = $request->attributes->get('image');
+        $slide = $request->attributes->get('slide');
+        $errors = $this->apiProvider->postJson("/images/{$image}/unpair/{$slide}", $request);
+        return $errors;
     }
 }

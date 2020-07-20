@@ -36,9 +36,12 @@ class Tag extends Component\View
     {
         return $this->errorsResponse('tagUpload');
     }
+    protected function postTagUpdate()
+    {
+        return $this->errorsResponse('tagUpdate');
+    }
     protected function postTagDelete()
     {
-        // dummy response
-        return new HttpFoundation\JsonResponse(true);
+        return $this->errorsResponse('tagDelete');
     }
 }

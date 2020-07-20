@@ -2,6 +2,8 @@
 
 namespace CommunityVoices\Model\Entity;
 
+use CommunityVoices\Model\Contract\FlexibleObserver;
+
 class Tag extends Group
 {
     public function __construct()
@@ -22,7 +24,7 @@ class Tag extends Group
         return $this->mediaId;
     }
 
-    public function setGroupId(int $id)
+    public function setGroupId(?int $id)
     {
         $this->groupId = $id;
     }
@@ -32,11 +34,14 @@ class Tag extends Group
         return $this->groupId;
     }
 
+    public function validateForUpload(FlexibleObserver $stateObserver, $childIsValid = true)
+    {
+        // This checks for label being present.
+        return parent::validateForUpload($stateObserver, $childIsValid);
+    }
+
     public function toArray()
     {
-        return ['tag' => array_merge(parent::toArray()['group'], [
-            'mediaId' => $this->mediaId,
-            'groupId' => $this->groupId
-        ])];
+        return ['tag' => parent::toArray()['group']];
     }
 }

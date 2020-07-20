@@ -225,10 +225,6 @@ class Image extends Component\View
         return $response;
     }
 
-    public function getImageUpload($request)
-    {
-    }
-
     public function postImageUpload($request)
     {
         $response = new HttpFoundation\RedirectResponse(
@@ -239,11 +235,7 @@ class Image extends Component\View
         return $response;
     }
 
-    public function getImageUpdate($request)
-    {
-    }
-
-    public function postImageUpdate($request)
+    public function postImageUnpair($request)
     {
         $response = new HttpFoundation\RedirectResponse(
             $request->headers->get('referer')
@@ -251,10 +243,5 @@ class Image extends Component\View
 
         $this->finalize($response);
         return $response;
-    }
-
-    public function postImageUnpair($request)
-    {
-        exit; // nothing to show to user
     }
 }

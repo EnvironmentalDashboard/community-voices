@@ -183,8 +183,11 @@ class ContentCategory extends Component\View
         return $response;
     }
 
-    public function postContentCategoryUpdate($request)
+    public function postContentCategoryUpdate($request, $errors = self::ERRORS_DEFAULT)
     {
+        if (!empty($errors->errors)) {
+            return $this->getContentCategoryUpdate($request, $errors);
+        }
         $response = new HttpFoundation\RedirectResponse(
             dirname(dirname($request->headers->get('referer')))
         );

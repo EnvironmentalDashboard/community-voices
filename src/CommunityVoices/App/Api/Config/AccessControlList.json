@@ -76,17 +76,11 @@
         ["CommunityVoices\\App\\Api\\Controller\\Image::getAllImage", {"allow" : "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Image::getAllImage", {"allow" : "guest"}],
 
-        ["CommunityVoices\\App\\Api\\Controller\\Image::getImageUpload", {"allow" : "user"}],
-        ["CommunityVoices\\App\\Api\\View\\Image::getImageUpload", {"allow" : "user"}],
-
         ["CommunityVoices\\App\\Api\\Controller\\Image::postImageUpload", {"allow" : "user"}],
         ["CommunityVoices\\App\\Api\\View\\Image::postImageUpload", {"allow" : "user"}],
 
         ["CommunityVoices\\App\\Api\\Controller\\Image::sendImage", {"allow" : "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Image::sendImage", {"allow" : "guest"}],
-
-        ["CommunityVoices\\App\\Api\\Controller\\Image::getImageUpdate", {"allow" : "manager"}],
-        ["CommunityVoices\\App\\Api\\View\\Image::getImageUpdate", {"allow" : "manager"}],
 
         ["CommunityVoices\\App\\Api\\Controller\\Image::getImageRelatedSlide", {"allow" : "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Image::getImageRelatedSlide", {"allow" : "guest"}],
@@ -133,11 +127,11 @@
         ["CommunityVoices\\App\\Api\\Controller\\Tag::getAllTag", {"allow": "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Tag::getAllTag", {"allow": "guest"}],
 
-        ["CommunityVoices\\App\\Api\\Controller\\Tag::getTagUpload", {"allow": "admin"}],
-        ["CommunityVoices\\App\\Api\\View\\Tag::getTagUpload", {"allow": "admin"}],
+        ["CommunityVoices\\App\\Api\\Controller\\Tag::postTagUpload", {"allow": "admin"}],
+        ["CommunityVoices\\App\\Api\\View\\Tag::postTagUpload", {"allow": "admin"}],
 
-        ["CommunityVoices\\App\\Api\\Controller\\Tag::postTagUpload", {"allow": "guest"}],
-        ["CommunityVoices\\App\\Api\\View\\Tag::postTagUpload", {"allow": "guest"}],
+        ["CommunityVoices\\App\\Api\\Controller\\Tag::postTagUpdate", {"allow": "admin"}],
+        ["CommunityVoices\\App\\Api\\View\\Tag::postTagUpdate", {"allow": "admin"}],
 
         ["CommunityVoices\\App\\Api\\Controller\\Tag::postTagDelete", {"allow": "admin"}],
         ["CommunityVoices\\App\\Api\\View\\Tag::postTagDelete", {"allow": "admin"}],

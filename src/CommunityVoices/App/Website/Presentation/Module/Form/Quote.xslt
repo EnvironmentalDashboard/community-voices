@@ -98,9 +98,6 @@
                         <label for="originalText">Original Text</label>
                         <textarea name='originalText' id='originalText' class='form-control'>
                             <xsl:choose>
-                                <xsl:when test="domain/repeatedQuoteErrorFree != ''">
-                                    <xsl:value-of select="''"/>
-                                </xsl:when>
                                 <xsl:when test="domain/form != ''">
                                     <xsl:value-of select="domain/form/originalText"/>
                                 </xsl:when>
@@ -147,9 +144,9 @@
 
                     <div class="form-group">
                         <label for="attribution">Attribution</label>
-                        <input type='text' name='attribution' id='attribution' class='form-control'>
+                        <input type='text' name='attribution' id='attribution' class='form-control' suggestedlength='20' onkeyup="displayCount(this,'countAttribution')">
                             <xsl:attribute name="value">
-                                <xsl:choose>
+                                    <xsl:choose>
                                     <xsl:when test="domain/form != ''">
                                         <xsl:value-of select="domain/form/attribution"/>
                                     </xsl:when>
@@ -159,11 +156,12 @@
                                 </xsl:choose>
                             </xsl:attribute>
                         </input>
+                        <div id="countAttribution" style="font-size:12px;"/>
                     </div>
 
                     <div class="form-group">
                         <label for="subAttribution">Sub-Attribution</label>
-                        <input type='text' name='subAttribution' id='subAttribution' class='form-control'>
+                        <input type='text' name='subAttribution' id='subAttribution' class='form-control' suggestedlength='35' onkeyup="displayCount(this,'countSubAttribution')">
                             <xsl:attribute name="value">
                                 <xsl:choose>
                                     <xsl:when test="domain/form != ''">
@@ -175,6 +173,7 @@
                                 </xsl:choose>
                             </xsl:attribute>
                         </input>
+                        <div id="countSubAttribution" style="font-size:12px;"/>
                     </div>
 
                     <div class="form-group">

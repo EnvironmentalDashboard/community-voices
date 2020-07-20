@@ -57,13 +57,15 @@ class Group implements HasId
         }
     }
 
-    public function validateForUpload(FlexibleObserver $stateObserver)
+    public function validateForUpload(FlexibleObserver $stateObserver, $childIsValid = true)
     {
+        $groupIsValid = $childIsValid;
         if (!$this->label || strlen($this->label) < 1) {
+            $groupIsValid = false;
             $stateObserver->addEntry('label', self::ERR_LABEL_REQUIRED);
         }
 
-        return $stateObserver->hasEntries();
+        return $groupIsValid;
     }
 
     public function toArray()

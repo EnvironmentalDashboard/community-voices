@@ -20,9 +20,7 @@ class TagManagement
         $this->stateObserver = $stateObserver;
     }
 
-    public function upload(
-        $label
-    ) {
+    public function upload($label) {
         $tag = new Entity\Tag;
 
         $tag->setLabel($label);
@@ -33,6 +31,30 @@ class TagManagement
 
         $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
         $tagMapper = $this->mapperFactory->createDataMapper(Mapper\Tag::class);
+
+        if ($this->stateObserver->hasEntries()) {
+            $clientState->save($this->stateObserver);
+            return false;
+        }
+
+        $tagMapper->save($tag);
+        return true;
+    }
+
+    public function update($groupId,$label) {
+        $tagMapper = $this->mapperFactory->createDataMapper(Mapper\Tag::class);
+
+        $tag = new Entity\Tag;
+        $tag->setGroupId((int) $groupId);
+
+        $tagMapper->fetch($tag);
+        $tag->setLabel($label);
+
+        // Error observer
+        $this->stateObserver->setSubject('tagUpdate');
+        $tag->validateForUpload($this->stateObserver);
+
+        $clientState = $this->mapperFactory->createClientStateMapper(Mapper\ClientState::class);
 
         if ($this->stateObserver->hasEntries()) {
             $clientState->save($this->stateObserver);
