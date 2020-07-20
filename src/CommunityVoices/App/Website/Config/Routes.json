@@ -568,12 +568,12 @@
             "action": "postTagDelete"
         }
     },
-    "getAllErrors": {
-        "notation": "/errors-log",
+    "getErrors": {
+        "notation": "/error-log",
         "method": "get",
         "defaults": {
             "resource": "DisplayError",
-            "action": "getAllErrors"
+            "action": "getErrors"
         }
     }
 }

@@ -12,7 +12,7 @@ class DisplayError extends Component\Controller
     {
 
     }
-    protected function getAllErrors($request,$lines=500)
+    protected function getErrors($request,$lines=500)
     {
         $fileProcessor = new Component\FileProcessor();
         $dates = empty($request->query->get('dateRange')) ? [false,false] : explode(" - ",$request->query->get('dateRange'));

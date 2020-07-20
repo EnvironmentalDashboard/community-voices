@@ -66,7 +66,7 @@ class DisplayError extends Component\View
         $this->finalize($response);
         return $response;
     }
-    public function getAllErrors($request) {
+    public function getErrors($request) {
 
         $errorsPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
 
@@ -89,8 +89,5 @@ class DisplayError extends Component\View
 
         $this->finalize($response);
         return $response;
-    }
-    public function getSomeErrors($request) {
-        return $this->getAllErrors($request);
     }
 }

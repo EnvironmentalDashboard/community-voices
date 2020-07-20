@@ -1,7 +1,6 @@
-const allErrorsApiUrl = '/community-voices/api/errors-log',
-    optionsUrl = window.location.pathname.split('log')[1], // the number of lines from end to include .e.g. /500
+const errorsApiUrl = $('#search-form').attr('action'),
     dataTypeToReceive = "JSON",
-    outerArrayKey = 'errorsLog',
+    outerArrayKey = 'errorLog',
     errorsDisplayElm = $('#errors'),
     startDate = "1/1/2010",
     endDate = moment();
@@ -28,7 +27,7 @@ $(document).ready(function() {
     function errorsRequest(data){
         $.ajax({
             dataType: dataTypeToReceive,
-            url: allErrorsApiUrl.concat(optionsUrl),
+            url: errorsApiUrl,
             data: data,
             success: function(response) {
                 if(response) {

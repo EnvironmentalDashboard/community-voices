@@ -26,10 +26,10 @@ class DisplayError extends Component\View
         return $response;
     }
 
-    protected function getAllErrors($request, $errors)
+    protected function getErrors($request, $errors)
     {
         if($errors===false) $response = new HttpFoundation\JsonResponse('');
-        else $response = new HttpFoundation\JsonResponse(["errorsLog" => $errors]);
+        else $response = new HttpFoundation\JsonResponse(["errorLog" => $errors]);
         return $response;
     }
 
