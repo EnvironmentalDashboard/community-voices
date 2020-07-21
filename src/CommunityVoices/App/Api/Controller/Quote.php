@@ -16,8 +16,10 @@ class Quote extends Component\Controller
 
     const ERR_NO_ATTRIBUTIONS = 'The source table must provide an attribution column';
     const ERR_NO_CONTENT_CATEGORIES = 'The quotes table must provide a content category column';
-    const ERR_ATTRIBUTION_REQUIRED = 'Quotes must have an attribution.';
+    const ERR_NO_IDENTIFIER = 'You are missing an identifier!';
+    const ERR_MISSING_ATTRIBUTION = 'Quotes must have an attribution.';
     const ERR_MISSING_CONTENT_CATEGORY = 'Must provide a potential content category.';
+    const ERR_MISSING_IDENTIFIER = 'This identifier is empty';
     const WARNING_EMPTY_QUOTE = "Warning! You have empty quotes. Do you want to procede?";
     // for future usage of this pattern: the value is the default value
     const FORM_ATTRIBUTES = [
@@ -216,15 +218,30 @@ class Quote extends Component\Controller
 
           while (($data = fgetcsv($f)) !== FALSE)
           {
-              $dataToAdd = [];
+              $dataToAdd = ['errors' => []];
               $identifier = "";
               for ($i = 0; $i < count($columnNames); $i++) {
                   $columnName = $columnOrder[$i];
                   $currentColumnData = $data[$i];
-                  if(str_contains($columnName,"Identifier")) $identifier = $currentColumnData;
+                  if(str_contains(lower($columnName),"identifier")) $identifier = $currentColumnData;
                   else $dataToAdd[$columnName] = $currentColumnData;
               }
+              $attributionIncluded = false;
+              $identifierIncluded = false;
+              foreach($dataToAdd as $key->$value) {
+                  if(str_contains(lower($key),"attribution") && $value) {
+                      $identifierIncluded = true;
+                  } else if (str_contains(lower($key),"attribution") && $value){
+                      $attributionIncluded = true;
+                  }
+              }
               $listOfQuotes[$identifier] = $dataToAdd;
+              if (! $identifierIncluded) {
+                  array_push($dataToAdd['errors'], self::ERR_MISSING_IDENTIFIER);
+              }
+              if (! $attributionIncluded) {
+                  array_push($dataToAdd['errors'], self::ERR_MISSING_ATTRIBUTION);
+              }
               fclose($f);
               var_dump($listOfQuotes);
               die();
