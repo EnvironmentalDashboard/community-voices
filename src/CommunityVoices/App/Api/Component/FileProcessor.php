@@ -14,21 +14,21 @@ class FileProcessor {
 
             // last line in file is blank, probably due to newline
             if($endLine == PHP_INT_MAX)
-                $currentLine --;
+                $currentLine--;
 
-            $errors = array();
+            $errors = [];
 
             if($startDate == false && $endDate == false) {
-                while($currentLine >= 0 && $lines > 0) {
+                while ($currentLine >= 0 && $lines > 0) {
                     $f->seek($currentLine);
                     $line = $f->current();
                     $timeStamp = mb_substr($line,1,19);
                     $message = mb_substr($line,21);
                     $item = ['Time' => $timeStamp, 'Message' => $message, 'unixTime' => strtotime($timeStamp)];
 
-                    array_push($errors,$item);
-                    $currentLine --;
-                    $lines --;
+                    $errors[] = $line;
+                    $currentLine--;
+                    $lines--;
                 }
             } else {
                 $startDate = strtotime($startDate);
