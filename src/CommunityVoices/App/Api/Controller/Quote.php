@@ -14,6 +14,8 @@ class Quote extends Component\Controller
     protected $quoteLookup;
     protected $quoteManagement;
 
+    const ERR_NO_ATTRIBUTIONS = 'The source table must provide an attribution column';
+    const ERR_NO_CONTENT_CATEGORIES = 'The quotes table must provide a content category column';
     const ERR_ATTRIBUTION_REQUIRED = 'Quotes must have an attribution.';
     const ERR_MISSING_CONTENT_CATEGORY = 'Must provide a potential content category.';
     const WARNING_EMPTY_QUOTE = "Warning! You have empty quotes. Do you want to procede?";
@@ -181,8 +183,8 @@ class Quote extends Component\Controller
         $files = $request->files->get('file');
         if (sizeof($files) != 2) {
             throw new \RuntimeException();
-            // javascript/html should catch this but just in case request skips over layer
         }
+
         // there may be a better way to do this, for now we are just relying on file names to indicate which document
         foreach($request->files->get('file') as $file) {
             if (strpos(strtolower($file->getClientOriginalName()),"quote") !== false) $quote = $file;
@@ -193,14 +195,40 @@ class Quote extends Component\Controller
         $quoteFilePath = $quote->getPathname();
         $sourceFilePath = $source->getPathname();
         $listOfQuotes = [];
+        // There will be errors/warnings on three levels: top level (column names), source level (relating to source info), quotes level (relating to quotes info)
+        $listOfQuotes["errors"] = [];
+        $listOfQuotes["warnings"] = [];
+        $columnOrder = []; // used to track column locations since we are going entirely by name instead of order
 
         // first pass through source sheet, creating entry for each interview. Later we will add list of quotes for each interview
         if (($f = fopen($sourceFilePath, "r")) !== FALSE)
         {
-          fgetcsv($f); // first row is just column names so we should skip this.
+          $columnNames = fgetcsv($f);
+          foreach ($columnNames as $column) {
+              array_push($columnOrder,$column);
+              if(!in_array($column,self::BATCH_SOURCE_DATA)) {
+                  array_push($listOfQuotes["warnings"],"column " . $column . " is unrecognized.");
+              }
+          }
+          if(! in_array("Attribution",$columnOrder)) {
+              array_push($listOfQuotes["errors"],self::ERR_NO_ATTRIBUTIONS);
+          }
 
           while (($data = fgetcsv($f)) !== FALSE)
           {
+              $dataToAdd = [];
+              $identifier = "";
+              for ($i = 0; $i < count($columnNames); $i++) {
+                  $columnName = $columnOrder[$i];
+                  $currentColumnData = $data[$i];
+                  if(str_contains($columnName,"Identifier")) $identifier = $currentColumnData;
+                  else $dataToAdd[$columnName] = $currentColumnData;
+              }
+              $listOfQuotes[$identifier] = $dataToAdd;
+              fclose($f);
+              var_dump($listOfQuotes);
+              die();
+
               $identifier = $data[0]; // first column of each row is expected to give identifier, which we will use to store all quote info
               $listOfQuotes[$identifier] = [];
               $currentSource = $listOfQuotes[$identifier];
