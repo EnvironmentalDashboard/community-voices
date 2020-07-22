@@ -16,7 +16,8 @@ class Quote extends Component\Controller
 
     const ERR_NO_ATTRIBUTIONS = 'The source table must provide an attribution column';
     const ERR_NO_CONTENT_CATEGORIES = 'The quotes table must provide a content category column';
-    const ERR_NO_IDENTIFIER = 'You are missing an identifier!';
+    const ERR_NO_IDENTIFIER = 'You are missing an identifier column';
+    const ERR_NO_QUOTE = 'You are missing a quote (edited text) column';
     const ERR_MISSING_ATTRIBUTION = 'Quotes must have an attribution.';
     const ERR_MISSING_CONTENT_CATEGORY = 'Must provide a potential content category.';
     const ERR_MISSING_IDENTIFIER = 'This identifier is empty';
@@ -36,16 +37,16 @@ class Quote extends Component\Controller
     ];
     const BATCH_QUOTE_DATA = [
         'identifier',
-        'originalText',
-        'text',
+        'original text',
+        'edited text',
         'photoLink',
-        'contentCategory1',
-        'contentCategory2',
-        'contentCategory3',
-        'tag1',
-        'tag2',
-        'tag3',
-        'tag4',
+        'content category 1',
+        'content category 2',
+        'content category 3',
+        'tag 1',
+        'tag 2',
+        'tag 3',
+        'tag 4',
         'sponsor',
         'createAslide'
     ];
@@ -196,100 +197,147 @@ class Quote extends Component\Controller
 
         $quoteFilePath = $quote->getPathname();
         $sourceFilePath = $source->getPathname();
-        $listOfQuotes = [];
+        $listOfQuotes = ["errors" => [], "warnings" => []];
         // There will be errors/warnings on three levels: top level (column names), source level (relating to source info), quotes level (relating to quotes info)
-        $listOfQuotes["errors"] = [];
-        $listOfQuotes["warnings"] = [];
-        $columnOrder = []; // used to track column locations since we are going entirely by name instead of order
 
         // first pass through source sheet, creating entry for each interview. Later we will add list of quotes for each interview
-        if (($f = fopen($sourceFilePath, "r")) !== FALSE)
-        {
-          $columnNames = fgetcsv($f);
-          foreach ($columnNames as $column) {
-              array_push($columnOrder,$column);
-              if(!in_array($column,self::BATCH_SOURCE_DATA)) {
+        if (($f = fopen($sourceFilePath, "r")) !== FALSE) {
+          $columnOrder = []; // used to track column locations since we are going entirely by name instead of order
+          $givenColumnNames = fgetcsv($f);
+          foreach ($givenColumnNames as $column) {
+              $matchFound = false;
+              foreach(self::BATCH_SOURCE_DATA as $field) {
+                  if (str_contains(strtolower($column),strtolower($field))) {
+                      $matchFound = true;
+                      array_push($columnOrder,$field);
+                      break;
+                  }
+              }
+              if($matchFound == false) {
                   array_push($listOfQuotes["warnings"],"column " . $column . " is unrecognized.");
               }
           }
-          if(! in_array("Attribution",$columnOrder)) {
-              array_push($listOfQuotes["errors"],self::ERR_NO_ATTRIBUTIONS);
-          }
 
-          while (($data = fgetcsv($f)) !== FALSE)
-          {
-              $dataToAdd = ['errors' => []];
-              $identifier = "";
-              for ($i = 0; $i < count($columnNames); $i++) {
-                  $columnName = $columnOrder[$i];
-                  $currentColumnData = $data[$i];
-                  if(str_contains(lower($columnName),"identifier")) $identifier = $currentColumnData;
-                  else $dataToAdd[$columnName] = $currentColumnData;
-              }
-              $attributionIncluded = false;
-              $identifierIncluded = false;
-              foreach($dataToAdd as $key->$value) {
-                  if(str_contains(lower($key),"attribution") && $value) {
-                      $identifierIncluded = true;
-                  } else if (str_contains(lower($key),"attribution") && $value){
-                      $attributionIncluded = true;
+          if(!in_array("conten",$columnOrder)) array_push($listOfQuotes["errors"],self::ERR_NO_ATTRIBUTIONS);
+          if(!in_array("identifier",$columnOrder)) array_push($listOfQuotes["errors"],self::ERR_NO_IDENTIFIER);
+
+          // These are both major errors. There is no need to parse the rest of the sheet as uploading will not be allowed if one of these errors occurs
+          if (empty($listOfQuotes["errors"]))  {
+              while (($data = fgetcsv($f)) !== FALSE) {
+                  $dataToAdd = ['errors' => []];
+                  $identifier = "";
+                  for ($i = 0; $i < count($columnOrder); $i++) {
+                      $columnName = $columnOrder[$i];
+                      $currentColumnData = $data[$i];
+                      if(str_contains(strtolower($columnName),"identifier")) $identifier = $currentColumnData;
+                      else $dataToAdd[$columnName] = $currentColumnData;
                   }
+                  $attributionIncluded = false;
+                  $identifierIncluded = false;
+                  foreach($dataToAdd as $key => $value) {
+                      if(str_contains(strtolower($key),"identifier") && $value) {
+                          $identifierIncluded = true;
+                      } else if (str_contains(strtolower($key),"attribution") && $value){
+                          $attributionIncluded = true;
+                      }
+                  }
+                  $listOfQuotes[$identifier] = $dataToAdd;
+                  if (! $identifierIncluded) {
+                      array_push($dataToAdd['errors'], self::ERR_MISSING_IDENTIFIER);
+                  }
+                  if (! $attributionIncluded) {
+                      array_push($dataToAdd['errors'], self::ERR_MISSING_ATTRIBUTION);
+                  }
+                  // both of these are minor errors that the user can fix on the confirmation page
               }
-              $listOfQuotes[$identifier] = $dataToAdd;
-              if (! $identifierIncluded) {
-                  array_push($dataToAdd['errors'], self::ERR_MISSING_IDENTIFIER);
-              }
-              if (! $attributionIncluded) {
-                  array_push($dataToAdd['errors'], self::ERR_MISSING_ATTRIBUTION);
-              }
-              fclose($f);
-              var_dump($listOfQuotes);
-              die();
-
-              $identifier = $data[0]; // first column of each row is expected to give identifier, which we will use to store all quote info
-              $listOfQuotes[$identifier] = [];
-              $currentSource = $listOfQuotes[$identifier];
-              $currentSource["errors"] = [];
-              for ($i = 1; $i < count(self::BATCH_SOURCE_DATA); $i++) {
-                  $currentSource[self::BATCH_SOURCE_DATA[$i]] = $data[$i];
-              }
-              $currentSource["errors"] = [];
-              if(empty($currentSource["attribution"])) array_push($currentSource["errors"],self::ERR_ATTRIBUTION_REQUIRED);
           }
+
           fclose($f);
        }
 
-        if (($f= fopen($quoteFilePath, "r")) !== FALSE)
-        {
-          fgetcsv($f); // first row is just column names so we should skip this.
+       // NOTE: Skip the second row of the quotes file
+        if (($f= fopen($quoteFilePath, "r")) !== FALSE) {
+            $columnOrder = []; // used to track column locations since we are going entirely by name instead of order
+            $givenColumnNames = fgetcsv($f);
+            foreach ($givenColumnNames as $column) {
+                $matchFound = false;
+                foreach(self::BATCH_QUOTE_DATA as $field) {
+                    if (str_contains(strtolower($column),strtolower($field))) {
+                        $matchFound = true;
+                        array_push($columnOrder,$field);
+                        break;
+                    }
+                }
+                if($matchFound == false) {
+                    array_push($listOfQuotes["warnings"],"column " . $column . " is unrecognized.");
+                }
+            }
+            var_dump($columnOrder);
+            die();
 
-          while (($data = fgetcsv($f)) !== FALSE)
-          {
-              $identifier = $data[0]; // first column of each row is expected to give identifier, which we will use to store all quote info
-              if (array_key_exists($identifier,$listOfQuotes)) { // each quote should have an identifier corresponding to source information
-                  if (! array_key_exists("quotes",$listOfQuotes[$identifier])) {
-                      $listOfQuotes[$identifier]["quotes"] = []; // quotes array for each interview
-                  }
-                  $newQuote = [];
-                  for ($i = 1; $i < count(self::BATCH_QUOTE_DATA); $i++) {
-                      $newQuote[self::BATCH_QUOTE_DATA[$i]] = $data[$i];
-                  }
-                  array_push($listOfQuotes[$identifier]["quotes"],$newQuote);
+            if(!in_array("content category 1",$columnOrder)) array_push($listOfQuotes["errors"],self::ERR_NO_CONTENT_CATEGORIES);
+            if(!in_array("edited text",$columnOrder)) array_push($listOfQuotes["errors"],self::ERR_NO_QUOTE);
+            if(!in_array("identifier",$columnOrder)) array_push($listOfQuotes["errors"],self::ERR_NO_IDENTIFIER);
+            // These are both major errors. There is no need to parse the rest of the sheet as uploading will not be allowed if one of these errors occurs
 
-                  $currentQuote = end($listOfQuotes[$identifier]["quotes"]);
-                  $currentQuote["errors"] = [];
-                  $currentQuote["warnings"] = [];
-                  if(empty($currentQuote["contentCategory1"]) && empty($currentQuote["contentCategory2"]) && empty($currentQuote["contentCategory3"]))
-                    array_push($currentQuote["errors"],ERR_MISSING_CONTENT_CATEGORY);
-                  if(empty($currentQuote["text"]))
-                    array_push($currentQuote["warnings"],WARNING_EMPTY_QUOTE);
-              } else {
-                  array_push($listOfQuotes["errors"], "source data could not be found for " . $identifier);
-              }
-          }
-
-        // Close the file
-        fclose($q);
+            if (empty($listOfQuotes["errors"]))  {
+                while (($data = fgetcsv($f)) !== FALSE) {
+                    $dataToAdd = ['errors' => []];
+                    $identifier = "";
+                    for ($i = 0; $i < count($columnOrder); $i++) {
+                        $columnName = $columnOrder[$i];
+                        $currentColumnData = $data[$i];
+                        if(str_contains(strtolower($columnName),"identifier")) $identifier = $currentColumnData;
+                        else $dataToAdd[$columnName] = $currentColumnData;
+                    }
+                    $attributionIncluded = false;
+                    $identifierIncluded = false;
+                    foreach($dataToAdd as $key => $value) {
+                        if(str_contains(strtolower($key),"identifier") && $value) {
+                            $identifierIncluded = true;
+                        } else if (str_contains(strtolower($key),"attribution") && $value){
+                            $attributionIncluded = true;
+                        }
+                    }
+                    $listOfQuotes[$identifier] = $dataToAdd;
+                    if (! $identifierIncluded) {
+                        array_push($dataToAdd['errors'], self::ERR_MISSING_IDENTIFIER);
+                    }
+                    if (! $attributionIncluded) {
+                        array_push($dataToAdd['errors'], self::ERR_MISSING_ATTRIBUTION);
+                    }
+                    // both of these are minor errors that the user can fix on the confirmation page
+                }
+            }
+        //   fgetcsv($f); // first row is just column names so we should skip this.
+        //
+        //   while (($data = fgetcsv($f)) !== FALSE)
+        //   {
+        //       $identifier = $data[0]; // first column of each row is expected to give identifier, which we will use to store all quote info
+        //       if (array_key_exists($identifier,$listOfQuotes)) { // each quote should have an identifier corresponding to source information
+        //           if (! array_key_exists("quotes",$listOfQuotes[$identifier])) {
+        //               $listOfQuotes[$identifier]["quotes"] = []; // quotes array for each interview
+        //           }
+        //           $newQuote = [];
+        //           for ($i = 1; $i < count(self::BATCH_QUOTE_DATA); $i++) {
+        //               $newQuote[self::BATCH_QUOTE_DATA[$i]] = $data[$i];
+        //           }
+        //           array_push($listOfQuotes[$identifier]["quotes"],$newQuote);
+        //
+        //           $currentQuote = end($listOfQuotes[$identifier]["quotes"]);
+        //           $currentQuote["errors"] = [];
+        //           $currentQuote["warnings"] = [];
+        //           if(empty($currentQuote["contentCategory1"]) && empty($currentQuote["contentCategory2"]) && empty($currentQuote["contentCategory3"]))
+        //             array_push($currentQuote["errors"],ERR_MISSING_CONTENT_CATEGORY);
+        //           if(empty($currentQuote["text"]))
+        //             array_push($currentQuote["warnings"],WARNING_EMPTY_QUOTE);
+        //       } else {
+        //           array_push($listOfQuotes["errors"], "source data could not be found for " . $identifier);
+        //       }
+        //   }
+        //
+        // // Close the file
+        // fclose($q);
         }
         // Display the code in a readable format
     }
