@@ -7,4 +7,4 @@ else
   dump=db/dump.sql
 fi
 
-mysql -h 127.0.0.1 -P 3007 -u root community_voices < $dump
+docker exec cv-mysql mysql community_voices < $dump
