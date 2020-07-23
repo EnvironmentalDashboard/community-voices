@@ -386,10 +386,10 @@ class Quote extends Component\View
         }
     }
 
-    public function postBatch($request)
+    public function postBatch($request, $errors)
     {
-        var_dump($request);
-        die();
+        var_dump($errors);
+        return $errors;
     }
 
     public function getQuoteUpdate($request, $errors = self::ERRORS_DEFAULT)

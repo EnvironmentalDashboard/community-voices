@@ -81,9 +81,14 @@ class Quote extends Component\View
         return $response;
     }
 
-    protected function postBatch()
+    protected function postBatch($request, $errors)
     {
-
+        list($sheetData, $columnNameWarnings, $columnNameErrors, $unpairedQuotes) = $errors;
+        $formattedData = ["errors" => $columnNameErrors, "warnings" => $columnNameWarnings, "entries" => $sheetData, "unpairedQuotes" => $unpairedQuotes];
+        var_dump($formattedData);
+        die();
+        return $errors;
+        // processing is all done in the API. Can put more array manipulation here if need be.
     }
 
     protected function getQuoteUpdate()
