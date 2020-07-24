@@ -25,3 +25,8 @@ $cc->setGroupId(1);
 
 var_dump($contentCategoryMapper->fetch($cc));
 var_dump($cc);
+
+$contentCategoryQuery = 'SELECT * FROM `community-voices_content-categories`';
+foreach ($dbHandler->query($contentCategoryQuery) as $row) {
+  var_dump($row);
+}
