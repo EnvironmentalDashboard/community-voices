@@ -16,17 +16,8 @@ error_reporting(E_ALL);
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../src/CommunityVoices/App/Website/db.php';
 
-use CommunityVoices\Model\Mapper;
-use CommunityVoices\Model\Entity;
-
-$contentCategoryMapper = new Mapper\ContentCategory($dbHandler);
-$cc = new Entity\ContentCategory;
-$cc->setGroupId(1);
-
-var_dump($contentCategoryMapper->fetch($cc));
-var_dump($cc);
-
-$contentCategoryQuery = 'SELECT * FROM `community-voices_content-categories`';
-foreach ($dbHandler->query($contentCategoryQuery) as $row) {
-  var_dump($row);
+if (count($argv) < 2) {
+    echo "You must input a script name as an argument.\n";
+} else {
+    require __DIR__ . "/scripts/{$argv[1]}.php";
 }
