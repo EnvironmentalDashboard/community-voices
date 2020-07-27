@@ -6,7 +6,7 @@
         <xsl:param name = "title"/>
         <xsl:param name = "message"/> <!-- should be passed in as set of <item> tags, which allows splitting bullets -->
 
-        <div class="card" style="margin-bottom: 16px;">
+        <div class="card" style="margin-bottom: 16px; max-width:400px;margin: 0 auto">
             <div class="card-body">
                 <h1 class="h4 mb-4 font-weight-normal" style="margin-bottom: 0.5rem !important;">
                     <xsl:value-of select="$title" />

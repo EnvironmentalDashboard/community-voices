@@ -84,11 +84,9 @@ class Quote extends Component\View
     protected function postBatch($request, $errors)
     {
         list($sheetData, $columnNameWarnings, $columnNameErrors, $unpairedQuotes) = $errors;
-        $formattedData = ["errors" => $columnNameErrors, "warnings" => $columnNameWarnings, "entries" => $sheetData, "unpairedQuotes" => $unpairedQuotes];
-        var_dump($formattedData);
-        die();
-        return $errors;
-        // processing is all done in the API. Can put more array manipulation here if need be.
+        $formattedData = ['csvResults' => ["entries" => $sheetData, "warnings" => $columnNameWarnings, 'errors' => $columnNameErrors, "unpairedQuotes" => $unpairedQuotes]];
+        $response = new HttpFoundation\JsonResponse($formattedData);
+        return $response;
     }
 
     protected function getQuoteUpdate()

@@ -76,7 +76,7 @@ class Quote
     }
     public function postBatch($request)
     {
-        $parsedQuotes = $this->apiProvider->postJson('/quotes/confirm', $request, true);
+        
     }
 
     public function getQuoteUpdate($request)

@@ -14,14 +14,6 @@ class Quote extends Component\Controller
     protected $quoteLookup;
     protected $quoteManagement;
 
-    const ERR_NO_ATTRIBUTIONS = 'The source table must provide an attribution column';
-    const ERR_NO_CONTENT_CATEGORIES = 'The quotes table must provide a content category column';
-    const ERR_NO_IDENTIFIER = 'You are missing an identifier column';
-    const ERR_NO_QUOTE = 'You are missing a quote (edited text) column';
-    const ERR_MISSING_ATTRIBUTION = 'Quotes must have an attribution.';
-    const ERR_MISSING_CONTENT_CATEGORY = 'Must provide a potential content category.';
-    const ERR_WRONG_IDENTIFIER = 'This identifier does not match any quote identifiers.';
-    const WARNING_EMPTY_QUOTE = "Warning! You have empty quotes. Do you want to procede?";
     // for future usage of this pattern: the value is the default value
     const FORM_ATTRIBUTES = [
         'text',
@@ -34,36 +26,6 @@ class Quote extends Component\Controller
         'status' => Entity\Media::STATUS_PENDING,
         'tags' => [],
         'contentCategories' => []
-    ];
-    const BATCH_QUOTE_DATA = [
-        'identifier',
-        'original quote',
-        'edited quotes',
-        'url link to photo',
-        'content category 1',
-        'content category 2',
-        'content category 3',
-        'tag 1',
-        'tag 2',
-        'tag 3',
-        'tag 4',
-        'sponsor',
-        'create a slide'
-    ];
-
-    const BATCH_SOURCE_DATA = [
-        'identifier',
-        'interviewer',
-        'interviewee',
-        'interviewDate',
-        'attribution',
-        'subAttribution',
-        'organization ',
-        'topic of interview',
-        'email',
-        'telephone',
-        'courseOrProject',
-        'interviewType'
     ];
 
     public function __construct(
@@ -190,8 +152,8 @@ class Quote extends Component\Controller
 
         // there may be a better way to do this, for now we are just relying on file names to indicate which document
         foreach($request->files->get('file') as $file) {
-            if (strpos(strtolower($file->getClientOriginalName()),"quote") !== false) $quote = $file;
-            else if (strpos(strtolower($file->getClientOriginalName()),"source") !== false) $source = $file;
+            if (str_contains(strtolower($file->getClientOriginalName()),"quote")) $quote = $file;
+            else if (str_contains(strtolower($file->getClientOriginalName()),"source")) $source = $file;
         }
         if (! (isset($source) && (isset($quote)))) throw new \RuntimeException();
         else {

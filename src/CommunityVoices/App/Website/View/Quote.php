@@ -386,10 +386,41 @@ class Quote extends Component\View
         }
     }
 
-    public function postBatch($request, $errors)
+    public function postBatch($request)
     {
-        var_dump($errors);
-        return $errors;
+        $apiReturn = $this->apiProvider->postJson('/quotes/confirm', $request);
+
+        $batchXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(
+                $apiReturn
+            )
+        );
+
+        $batchPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
+
+        $packagedbatch = $batchPackageElement->addChild('domain');
+        $packagedbatch->adopt($batchXMLElement);
+
+        $packagedIdentity = $batchPackageElement->addChild('identity');
+        $packagedIdentity->adopt($this->identityXMLElement($request));
+
+        $batchModule = new Component\Presenter('Module/BatchUploadConfirm');
+        $batchModuleXML = $batchModule->generate($batchPackageElement);
+
+        $domainXMLElement = new Helper\SimpleXMLElementExtension('<domain/>');
+
+        $domainXMLElement->addChild('main-pane', $batchModuleXML);
+        $domainXMLElement->addChild('extraJS', "batch-upload-confirm");
+
+        $domainIdentity = $domainXMLElement->addChild('identity');
+        $domainIdentity->adopt($this->identityXMLElement($request));
+
+        $presentation = new Component\Presenter('SinglePane');
+
+        $response = new HttpFoundation\Response($presentation->generate($domainXMLElement));
+
+        $this->finalize($response);
+        return $response;
     }
 
     public function getQuoteUpdate($request, $errors = self::ERRORS_DEFAULT)
