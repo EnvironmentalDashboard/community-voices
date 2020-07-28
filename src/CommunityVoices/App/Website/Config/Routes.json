@@ -198,6 +198,15 @@
         }
     },
 
+    "postBatch": {
+        "notation": "/quotes/confirm",
+        "method": "post",
+        "defaults": {
+            "resource": "Quote",
+            "action": "postBatch"
+        }
+    },
+
     "getQuote": {
         "notation": "/quotes/{id}",
         "method": "get",

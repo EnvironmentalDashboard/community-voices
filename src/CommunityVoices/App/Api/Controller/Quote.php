@@ -143,6 +143,25 @@ class Quote extends Component\Controller
         );
     }
 
+    protected function postBatch($request)
+    {
+        $files = $request->files->get('file');
+        if (sizeof($files) != 2) {
+            throw new \RuntimeException();
+        }
+
+        // there may be a better way to do this, for now we are just relying on file names to indicate which document
+        foreach($request->files->get('file') as $file) {
+            if (str_contains(strtolower($file->getClientOriginalName()),"quote")) $quote = $file;
+            else if (str_contains(strtolower($file->getClientOriginalName()),"source")) $source = $file;
+        }
+        if (! (isset($source) && (isset($quote)))) throw new \RuntimeException();
+        else {
+            $fp = new Component\FileProcessor();
+            return $fp->csvReadBatch($source->getPathname(),$quote->getPathname());
+        }
+    }
+
     protected function getQuoteUpdate($request)
     {
         // In order to autofill some form values,
