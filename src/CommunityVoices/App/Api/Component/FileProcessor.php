@@ -66,23 +66,25 @@
                    array_push($columnOrder,$formattedColumn);
                } else {
                    array_push($columnOrder, "unrecognized");
-                   array_push($columnNameWarnings["unrecognized"],["item" => [$formattedColumn]]); // NOTE: use this format with "item" to make it easier to call card.xslt (unless you want to change that)
+                   array_push($columnNameWarnings["unrecognized"],["item" => [$column]]); // NOTE: use this format with "item" to make it easier to call card.xslt (unless you want to change that)
                }
            }
 
            if(!in_array("attribution",$columnOrder)) array_push($columnNameErrors,["item" => [self::ERR_NO_ATTRIBUTIONS]]);
            if(!in_array("identifier",$columnOrder)) array_push($columnNameErrors,["item" => [self::ERR_NO_IDENTIFIER]]);
 
-           foreach ($formattedSourceNames as $expected) {
-               if (!in_array($expected,$columnOrder))
-                 array_push($columnNameWarnings["expected"],["item" => [ $expected]]);
+           for($i = 0; $i < count($formattedSourceNames); $i++) {
+               $formattedSourceName = $formattedSourceNames[$i];
+               $unformattedSourceName = self::BATCH_SOURCE_DATA[$i];
+               if (!in_array($formattedSourceName,$columnOrder))
+                 array_push($columnNameWarnings["expected"],["item" => [$unformattedSourceName]]);
            }
 
            // These are both major errors. There is no need to parse the rest of the sheet as uploading will not be allowed if one of these errors occurs
            $sheetData = [];
            if (empty($columnNameErrors))  {
                while (($data = fgetcsv($f)) !== FALSE) {
-                   $dataToAdd = ['errors' => []];
+                   $dataToAdd = ['errors' => [], 'rowData' => []];
                    $identifier = false;
                    for ($i = 0; $i < count($columnOrder); $i++) {
                        $columnName = $columnOrder[$i]; // XML requires no spaces
@@ -95,7 +97,7 @@
                                if ($columnName=="attribution" && ! $currentColumnData) {
                                    $dataToAdd['errors']['attribution'] = self::ERR_MISSING_ATTRIBUTION; // NOTE: Unlike for top level errors, we don't need to use "item" as a seperator since card.xslt will not be called
                                }
-                               else array_push($dataToAdd,['item' => ['originalName' => $originalName,'columnData' => $currentColumnData]]);
+                               else array_push($dataToAdd['rowData'],["originalName" => $originalName, "columnData" => $currentColumnData]);
                            }
                        }
                    }
@@ -128,14 +130,16 @@
              if(!in_array("identifier",$columnOrder)) array_push($columnNameErrors,["item" => [self::ERR_NO_IDENTIFIER]]);
              // These are both major errors. There is no need to parse the rest of the sheet as uploading will not be allowed if one of these errors occurs
 
-             foreach ($formattedQuoteNames as $expected) {
-                 if (!in_array($expected,$columnOrder))
-                   array_push($columnNameWarnings["expected"],["item" => [ $expected]]);
+             for($i = 0; $i < count($formattedQuoteNames); $i++) {
+                 $formattedQuoteName = $formattedQuoteNames[$i];
+                 $unformattedQuoteName = self::BATCH_QUOTE_DATA[$i];
+                 if (!in_array($formattedQuoteName,$columnOrder))
+                   array_push($columnNameWarnings["expected"],["item" => [$unformattedQuoteName]]);
              }
 
              if (empty($columnNameErrors))  {
                  while (($data = fgetcsv($f)) !== FALSE) {
-                     $dataToAdd = ['errors' => [], 'warnings' => []];
+                     $dataToAdd = ['errors' => [], 'warnings' => [], 'rowData' => []];
                      $identifier = false;
                      for ($i = 0; $i < count($columnOrder); $i++) {
                          $columnName = str_replace(" ","",$columnOrder[$i]); // XML requires no spaces
@@ -148,7 +152,7 @@
                              else {
                                  if ($columnName=="contentcategory1" && ! $currentColumnData) $dataToAdd['errors']['contentCat'] = self::ERR_MISSING_CONTENT_CATEGORY;
                                  else if ($columnName=="editedquotes" && ! $currentColumnData) $dataToAdd['warnings']['emptyQuote'] = self::WARNING_EMPTY_QUOTE;
-                                 else array_push($dataToAdd,['originalName' => $originalName,'columnData' => $currentColumnData]);
+                                 else array_push($dataToAdd['rowData'],["originalName" => $originalName, "columnData" => $currentColumnData]);
                              }
                          }
                      }
@@ -156,7 +160,7 @@
                      if($identifier===false) {
                          array_push($unpairedQuotes,['item'=>$dataToAdd]);
                      } else {
-                         array_push($sheetData[$identifier]["quotes"],['item'=>$dataToAdd]);
+                         array_push($sheetData[$identifier]["quotes"],['item' => $dataToAdd]);
                      }
                  }
              }
