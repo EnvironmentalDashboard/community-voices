@@ -45,6 +45,7 @@ else
 	docker run -dit -p 3001:80 --restart always \
 	-v $(pwd)/CV_Media/images/:/var/www/uploads/CV_Media/images/ \
 	-v $(pwd)/src:/var/www/html/src \
+	-v $(pwd)/migrate:/var/www/html/migrate \
 	-v $(pwd)/composer.json:/var/www/html/composer.json \
 	-v $(pwd)/composer.lock:/var/www/html/composer.lock \
 	-e "MYSQL_HOST=cv-mysql" -e "MYSQL_DB=community_voices" -e "MYSQL_PORT=3306" -e "MYSQL_USER=root" \

@@ -67,9 +67,10 @@ class ContentCategory extends Component\Controller
 
         if (!is_null($file)) {
             $uploaded_images = $this->imageManagement->upload([$file], null, null, null, null, null, $identity, true, null);
+            $this->contentCategoryManagement->upload($uploaded_images[0], $label, $color);
+        } else {
+            $this->contentCategoryManagement->upload(null, $label, $color);
         }
-
-        $this->contentCategoryManagement->upload($uploaded_images[0], $label, $color);
     }
 
     protected function getContentCategoryUpdate($request)

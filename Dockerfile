@@ -7,9 +7,11 @@ ENV DEBIAN_FRONTEND=noninteractive \
     APACHE_LOG_DIR=/var/log/apache2 \
     APACHE_LOCK_DIR=/var/lock/apache2 \
     APACHE_PID_FILE=/var/run/apache2.pid
-ADD . /var/www/html
 WORKDIR /var/www/html
+ADD ./composer.* /var/www/html/
+ADD ./build/* /var/www/html/build/
+ADD ./apache/* /var/www/html/apache/
 RUN ./build/init.sh
-HEALTHCHECK --interval=10m --timeout=20s --retries=1 CMD ./healthcheck.sh
+ADD . /var/www/html
 EXPOSE 80
 CMD /usr/sbin/apache2ctl -D FOREGROUND

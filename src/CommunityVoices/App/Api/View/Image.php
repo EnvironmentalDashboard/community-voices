@@ -53,19 +53,6 @@ class Image extends Component\View
         return $response;
     }
 
-    protected function getImageUpload()
-    {
-        $clientState = $this->mapperFactory->createClientStateMapper();
-        $stateObserver = $clientState->retrieve();
-
-        $stateObserver->setSubject('tagLookup');
-        $tag = $stateObserver->getEntry('tag')[0];
-
-        $response = new HttpFoundation\JsonResponse($tag->toArray());
-
-        return $response;
-    }
-
     protected function postImageUpload()
     {
         // intentionally blank
@@ -108,5 +95,14 @@ class Image extends Component\View
         $response = new HttpFoundation\JsonResponse($slides);
 
         return $response;
+    }
+    protected function postImageUpdate()
+    {
+        return new HttpFoundation\JsonResponse(true);
+    }
+    protected function postImageUnpair()
+    {
+        return new HttpFoundation\JsonResponse(true);
+
     }
 }
