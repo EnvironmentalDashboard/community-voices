@@ -5,15 +5,74 @@
     <xsl:import href="../Component/Navbar.xslt" />
     <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
-<xsl:template name="sourceInfo">
-    <xsl:param name="sheetData"/>
-    <div class="container">
-
-    </div>
+<xsl:template name="sources">
+    <xsl:param name="entries"/>
+        <xsl:for-each select="$entries/*"> <!-- selects each identifier, which are all different tags so require * -->
+            <div class="card m-3">
+                <xsl:for-each select="rowData/column">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label"><xsl:value-of select="./originalName"/></label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control">
+                                <xsl:attribute name="value"><xsl:value-of select="./columnData"/></xsl:attribute>
+                            </input>
+                        </div>
+                    </div>
+                </xsl:for-each>
+                <div class="card ml-5">
+                    <xsl:for-each select="quotes">
+                        <xsl:call-template name="quotes">
+                            <xsl:with-param name="sourceInfo" select="."/>
+                            <xsl:with-param name="validIdentifiers"/>
+                        </xsl:call-template>
+                    </xsl:for-each>
+                </div>
+            </div>
+        </xsl:for-each>
 </xsl:template>
 
-<xsl:template name="quoteInfo">
-    <xsl:param name="individualQuote"/>
+<xsl:template name="quotes">
+    <xsl:param name="sourceInfo"/>
+    <xsl:param name="validIdentifiers"/>
+        <xsl:for-each select="$sourceInfo/item/rowData">
+            <div class="card">
+                <form>
+                    <xsl:if test="$validIdentifiers">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Choose identifier to pair with</label>
+                            <div class="col-sm-8">
+                                <select class="validIdentifiers">
+                                    <option label=" "></option>
+                                    <xsl:for-each select="$validIdentifiers/item">
+                                        <option value="yes">
+                                            <xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
+                                            <xsl:value-of select="."/>
+                                        </option>
+                                    </xsl:for-each>
+                                </select>
+                            </div>
+                        </div>
+                    </xsl:if>
+                    <xsl:for-each select="column">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label"><xsl:value-of select="./originalName"/></label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control">
+                                    <xsl:attribute name="value"><xsl:value-of select="./columnData"/></xsl:attribute>
+                                </input>
+                            </div>
+                        </div>
+                    </xsl:for-each>
+                    <xsl:if test="$validIdentifiers">
+                        <div class="form-group row">
+                            <div class="col-sm">
+                                <button type="submit" class="btn btn-primary">Pair with Selected identifier</button>
+                            </div>
+                        </div>
+                    </xsl:if>
+                </form>
+            </div>
+        </xsl:for-each>
 </xsl:template>
 
 
@@ -42,6 +101,7 @@
                 </xsl:if>
                 <xsl:if test="$dataFromCSV/unpairedQuotes != ''">
                     <xsl:variable name="toggleMessage">
+                        <item>These quotes will not be uploaded unless you specify a identifier below</item>
                         <item>Click here to toggle unpaired quotes</item>
                     </xsl:variable>
                     <div id="allowToggling">
@@ -50,11 +110,18 @@
                             <xsl:with-param name="message" select="$toggleMessage"/>
                         </xsl:call-template>
                     </div>
-                    <div class="collapse" id="collapseExample">
-                        <div class="card card-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                    <div id="unpairedQuotes" class="collapse">
+                        <div class="card m-3">
+                            <xsl:call-template name="quotes">
+                                <xsl:with-param name="sourceInfo" select="$dataFromCSV/unpairedQuotes"/>
+                                <xsl:with-param name="validIdentifiers" select="$dataFromCSV/validIdentifiers/allIdentifiers"/>
+                            </xsl:call-template>
                         </div>
                     </div>
+                    <xsl:call-template name="sources">
+                        <xsl:with-param name="entries" select="$dataFromCSV/entries"/>
+                    </xsl:call-template>
+
                 </xsl:if>
             </xsl:otherwise>
         </xsl:choose>

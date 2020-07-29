@@ -50,6 +50,7 @@
          $columnNameErrors = [];
          $columnNameWarnings = ["unrecognized" => [], "expected" => []];
          $unpairedQuotes = [];
+         $validIdentifiers = ["allIdentifiers" => []]; // allow selection for unpaired quotes
          $formattedSourceNames = array_map(array($this,'cleanString'),self::BATCH_SOURCE_DATA);
          $formattedQuoteNames = array_map(array($this,'cleanString'),self::BATCH_QUOTE_DATA);
          // There will be errors/warnings on three levels: top level (column names), source level (relating to source info), quotes level (relating to quotes info)
@@ -91,13 +92,16 @@
                        $currentColumnData = $data[$i];
                        if($columnName != "unrecognized") {
                            $originalName = self::BATCH_SOURCE_DATA[$i];
-                           if($columnName=="identifier") $identifier = $this->cleanString($currentColumnData); // XML requirements
+                           if($columnName=="identifier") {
+                               $identifier = $this->cleanString($currentColumnData); // XML requirements
+                               if(!empty($identifier)) array_push($validIdentifiers["allIdentifiers"],["item" => $identifier]);
+                           }
                            else {
                                // this is a minor error (missing attribution for entry) that the user can fix on the confirmation page
                                if ($columnName=="attribution" && ! $currentColumnData) {
                                    $dataToAdd['errors']['attribution'] = self::ERR_MISSING_ATTRIBUTION; // NOTE: Unlike for top level errors, we don't need to use "item" as a seperator since card.xslt will not be called
                                }
-                               else array_push($dataToAdd['rowData'],["originalName" => $originalName, "columnData" => $currentColumnData]);
+                               else array_push($dataToAdd['rowData'],["column" => ["originalName" => $originalName, "columnData" => $currentColumnData]]);
                            }
                        }
                    }
@@ -146,26 +150,26 @@
                          $currentColumnData = $data[$i];
                          if($columnName != "unrecognized") {
                              $originalName = self::BATCH_QUOTE_DATA[$i];
-                             if($columnName=="identifier" && array_key_exists($this->cleanString($currentColumnData),$sheetData)) { // if valid identifier
-                                $identifier = $this->cleanString($currentColumnData);
+                             if($columnName=="identifier") {
+                                if(array_key_exists($this->cleanString($currentColumnData),$sheetData)) $identifier = $this->cleanString($currentColumnData); // if valid identifier
                              }
                              else {
                                  if ($columnName=="contentcategory1" && ! $currentColumnData) $dataToAdd['errors']['contentCat'] = self::ERR_MISSING_CONTENT_CATEGORY;
                                  else if ($columnName=="editedquotes" && ! $currentColumnData) $dataToAdd['warnings']['emptyQuote'] = self::WARNING_EMPTY_QUOTE;
-                                 else array_push($dataToAdd['rowData'],["originalName" => $originalName, "columnData" => $currentColumnData]);
+                                 else array_push($dataToAdd['rowData'],["column" => ["originalName" => $originalName, "columnData" => $currentColumnData]]);
                              }
                          }
                      }
 
                      if($identifier===false) {
-                         array_push($unpairedQuotes,['item'=>$dataToAdd]);
+                         array_push($unpairedQuotes,['item' => $dataToAdd]);
                      } else {
                          array_push($sheetData[$identifier]["quotes"],['item' => $dataToAdd]);
                      }
                  }
              }
          }
-         return [$sheetData,$columnNameWarnings,$columnNameErrors,$unpairedQuotes];
+         return [$sheetData,$columnNameWarnings,$columnNameErrors,$unpairedQuotes,$validIdentifiers];
      }
      private function cleanString($s) {
          return strtolower(preg_replace(["/[^a-zA-Z0-9]/","/\s/"], "", $s));

@@ -83,8 +83,8 @@ class Quote extends Component\View
 
     protected function postBatch($request, $errors)
     {
-        list($sheetData, $columnNameWarnings, $columnNameErrors, $unpairedQuotes) = $errors;
-        $formattedData = ['csvResults' => ["entries" => $sheetData, "warnings" => $columnNameWarnings, 'errors' => $columnNameErrors, "unpairedQuotes" => $unpairedQuotes]];
+        list($sheetData, $columnNameWarnings, $columnNameErrors, $unpairedQuotes, $validIdentifiers) = $errors;
+        $formattedData = ['csvResults' => ["entries" => $sheetData, "warnings" => $columnNameWarnings, 'errors' => $columnNameErrors, "unpairedQuotes" => $unpairedQuotes, "validIdentifiers" => $validIdentifiers]];
         $response = new HttpFoundation\JsonResponse($formattedData);
         return $response;
     }
