@@ -395,8 +395,6 @@ class Quote extends Component\View
                 $apiReturn
             )
         );
-        $string = '{"interviewer":"Zachariah Reff","contentCat":"","endUse":"city","prob":0}';
-        var_dump(json_decode($string,true));
 
         $batchPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
 

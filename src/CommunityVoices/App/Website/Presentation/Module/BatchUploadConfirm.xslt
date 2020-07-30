@@ -9,6 +9,8 @@
     <xsl:param name="entries"/>
         <xsl:for-each select="$entries/*"> <!-- selects each identifier, which are all different tags so require * -->
             <div class="card m-3">
+                <xsl:attribute name="id"><xsl:value-of select="name(.)"/></xsl:attribute> <!-- allows us to pair unpaired quotes with this id -->
+                <h6><xsl:value-of select="name(.)"/></h6>
                 <xsl:for-each select="rowData/column">
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label"><xsl:value-of select="./originalName"/></label>
@@ -19,7 +21,7 @@
                         </div>
                     </div>
                 </xsl:for-each>
-                <div class="card ml-5">
+                <div class="card ml-5 pairedQuotes">
                     <xsl:for-each select="quotes">
                         <xsl:call-template name="quotes">
                             <xsl:with-param name="sourceInfo" select="."/>
@@ -36,9 +38,10 @@
     <xsl:param name="validIdentifiers"/>
         <xsl:for-each select="$sourceInfo/item/rowData">
             <div class="card">
-                <form>
+                <xsl:attribute name="uid"><xsl:value-of select="generate-id(.)"/></xsl:attribute>
+                <form class="quoteForm">
                     <xsl:if test="$validIdentifiers">
-                        <div class="form-group row">
+                        <div class="form-group row identifiersFormElm">
                             <label class="col-sm-4 col-form-label">Choose identifier to pair with</label>
                             <div class="col-sm-8">
                                 <select class="validIdentifiers">
@@ -64,7 +67,7 @@
                         </div>
                     </xsl:for-each>
                     <xsl:if test="$validIdentifiers">
-                        <div class="form-group row">
+                        <div class="form-group row pairButton">
                             <div class="col-sm">
                                 <button type="submit" class="btn btn-primary">Pair with Selected identifier</button>
                             </div>
@@ -84,6 +87,13 @@
                     <xsl:with-param name="title"> The following errors are unfixable on website. Please fix them and then reupload both documents. </xsl:with-param>
                     <xsl:with-param name="message" select="$dataFromCSV/errors"/>
                 </xsl:call-template>
+                <div class="row">
+                    <div class="col text-center">
+                        <input type="button" form="batchUploadForm" class="btn btn-primary" value="Reupload" id="fileUploadButton"></input>
+                    </div>
+                </div>
+                <form action='/community-voices/quotes/confirm' method='post' enctype='multipart/form-data' id="batchUploadForm"> </form>
+                    <input class="custom-file-input" form="batchUploadForm" id="file" type='file' name='file[]' multiple="" accept='.xlsx, .xls, .csv' style="display: none;"/>
             </xsl:when>
 
             <xsl:otherwise>
@@ -121,7 +131,6 @@
                     <xsl:call-template name="sources">
                         <xsl:with-param name="entries" select="$dataFromCSV/entries"/>
                     </xsl:call-template>
-
                 </xsl:if>
             </xsl:otherwise>
         </xsl:choose>

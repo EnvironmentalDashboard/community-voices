@@ -15,7 +15,20 @@ function checkNumUnpaired() {
 
 $("#unpairedQuotes div div form").submit(function(event) {
   event.preventDefault();
-  if ($(this).find("div div .validIdentifiers").val()) {
-      ...
+  identifierToAppend = $(this).find("div div .validIdentifiers");
+  if (identifierToAppend.val()) {
+      identifierElm = $('#'.concat(identifierToAppend.val(), ' .pairedQuotes'));
+      $(this).find(".identifiersFormElm").remove();
+      $(this).find(".pairButton").remove();
+      $(identifierElm).append($(this).parent());
+      checkNumUnpaired();
   }
+});
+
+$('#fileUploadButton').on('click', function (c)  {
+	$('#file').click();
+});
+
+$("#file").change(function(){
+    $('#batchUploadForm').submit();
 });
