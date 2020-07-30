@@ -21,3 +21,4 @@ if (count($argv) < 2) {
 } else {
     require __DIR__ . "/scripts/{$argv[1]}.php";
 }
+shell_exec ('mysqldump -uroot -p --no-data community_voices > migrate/schema.sql')
