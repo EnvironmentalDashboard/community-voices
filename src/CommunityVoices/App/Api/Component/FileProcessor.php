@@ -6,8 +6,8 @@
  class FileProcessor {
      const ERR_NO_ATTRIBUTIONS = 'The source table must provide an attribution column';
      const ERR_NO_CONTENT_CATEGORIES = 'The quotes table must provide a content category column';
-     const ERR_NO_IDENTIFIER = 'You are missing an identifier column';
-     const ERR_NO_QUOTE = 'You are missing a quote (edited text) column';
+     const ERR_NO_IDENTIFIER = 'Both sheets must provide an identifier column';
+     const ERR_NO_QUOTE = 'The quotes sheet must provide a quote (edited text) column';
      const ERR_MISSING_ATTRIBUTION = 'Quotes must have an attribution.';
      const ERR_MISSING_CONTENT_CATEGORY = 'Must provide a potential content category.';
      const ERR_WRONG_IDENTIFIER = 'This identifier does not match any quote identifiers.';
@@ -85,7 +85,7 @@
            $sheetData = [];
            if (empty($columnNameErrors))  {
                while (($data = fgetcsv($f)) !== FALSE) {
-                   $dataToAdd = ['errors' => [], 'rowData' => []];
+                   $dataToAdd = ['rowData' => []];
                    $identifier = false;
                    for ($i = 0; $i < count($columnOrder); $i++) {
                        $columnName = $columnOrder[$i]; // XML requires no spaces
@@ -98,9 +98,7 @@
                            }
                            else {
                                // this is a minor error (missing attribution for entry) that the user can fix on the confirmation page
-                               if ($columnName=="attribution" && ! $currentColumnData) {
-                                   $dataToAdd['errors']['attribution'] = self::ERR_MISSING_ATTRIBUTION; // NOTE: Unlike for top level errors, we don't need to use "item" as a seperator since card.xslt will not be called
-                               }
+                               if ($columnName=="attribution" && ! $currentColumnData) array_push($dataToAdd['rowData'],["column" => ["originalName" => $originalName, "columnData" => $currentColumnData, "error" => self::ERR_MISSING_ATTRIBUTION]]);
                                else array_push($dataToAdd['rowData'],["column" => ["originalName" => $originalName, "columnData" => $currentColumnData]]);
                            }
                        }
@@ -143,7 +141,7 @@
 
              if (empty($columnNameErrors))  {
                  while (($data = fgetcsv($f)) !== FALSE) {
-                     $dataToAdd = ['errors' => [], 'warnings' => [], 'rowData' => []];
+                     $dataToAdd = ['rowData' => []];
                      $identifier = false;
                      for ($i = 0; $i < count($columnOrder); $i++) {
                          $columnName = str_replace(" ","",$columnOrder[$i]); // XML requires no spaces
@@ -154,9 +152,12 @@
                                 if(array_key_exists($this->cleanString($currentColumnData),$sheetData)) $identifier = $this->cleanString($currentColumnData); // if valid identifier
                              }
                              else {
-                                 if ($columnName=="contentcategory1" && ! $currentColumnData) $dataToAdd['errors']['contentCat'] = self::ERR_MISSING_CONTENT_CATEGORY;
-                                 else if ($columnName=="editedquotes" && ! $currentColumnData) $dataToAdd['warnings']['emptyQuote'] = self::WARNING_EMPTY_QUOTE;
-                                 else array_push($dataToAdd['rowData'],["column" => ["originalName" => $originalName, "columnData" => $currentColumnData]]);
+                                 if ($columnName=="contentcategory1" && ! $currentColumnData)
+                                    array_push($dataToAdd['rowData'],["column" => ["originalName" => $originalName, "columnData" => $currentColumnData, "error" => self::ERR_MISSING_CONTENT_CATEGORY]]);
+                                 else if ($columnName=="editedquotes" && ! $currentColumnData)
+                                    array_push($dataToAdd['rowData'],["column" => ["originalName" => $originalName, "columnData" => $currentColumnData, "warning" => self::WARNING_EMPTY_QUOTE]]);
+                                 else
+                                    array_push($dataToAdd['rowData'],["column" => ["originalName" => $originalName, "columnData" => $currentColumnData]]);
                              }
                          }
                      }

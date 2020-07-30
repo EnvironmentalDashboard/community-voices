@@ -17,6 +17,12 @@
                         <div class="col-sm-8">
                             <input type="text" class="form-control">
                                 <xsl:attribute name="value"><xsl:value-of select="./columnData"/></xsl:attribute>
+                                <xsl:if test="./error">
+                                    <xsl:attribute name="style">background-color: #B24C4C;</xsl:attribute>
+                                    <xsl:attribute name="data-toggle">tooltip</xsl:attribute>
+                                    <xsl:attribute name="data-placement">top</xsl:attribute>
+                                    <xsl:attribute name="title"><xsl:value-of select="./error"/></xsl:attribute>
+                                </xsl:if>
                             </input>
                         </div>
                     </div>
@@ -62,6 +68,20 @@
                             <div class="col-sm-8">
                                 <input type="text" class="form-control">
                                     <xsl:attribute name="value"><xsl:value-of select="./columnData"/></xsl:attribute>
+                                    <xsl:choose>
+                                        <xsl:when test="./error">
+                                            <xsl:attribute name="style">background-color: #B24C4C;</xsl:attribute>
+                                            <xsl:attribute name="data-toggle">tooltip</xsl:attribute>
+                                            <xsl:attribute name="data-placement">top</xsl:attribute>
+                                            <xsl:attribute name="title"><xsl:value-of select="./error"/></xsl:attribute>
+                                        </xsl:when>
+                                        <xsl:when test="./warning">
+                                            <xsl:attribute name="style">background-color: #ffff99;</xsl:attribute>
+                                            <xsl:attribute name="data-toggle">tooltip</xsl:attribute>
+                                            <xsl:attribute name="data-placement">top</xsl:attribute>
+                                            <xsl:attribute name="title"><xsl:value-of select="./warning"/></xsl:attribute>
+                                        </xsl:when>
+                                    </xsl:choose>
                                 </input>
                             </div>
                         </div>
@@ -132,6 +152,11 @@
                         <xsl:with-param name="entries" select="$dataFromCSV/entries"/>
                     </xsl:call-template>
                 </xsl:if>
+                <div class="row">
+                    <div class="col text-center">
+                        <input type='submit' name='submit_exit' value='Submit All' class='btn btn-primary mr-4' target='_blank'/>
+                    </div>
+                </div>
             </xsl:otherwise>
         </xsl:choose>
 </xsl:template>

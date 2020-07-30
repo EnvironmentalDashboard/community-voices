@@ -32,3 +32,7 @@ $('#fileUploadButton').on('click', function (c)  {
 $("#file").change(function(){
     $('#batchUploadForm').submit();
 });
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
