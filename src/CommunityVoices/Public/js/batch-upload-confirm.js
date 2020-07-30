@@ -3,7 +3,17 @@ if ($("#allowToggling").length) {
     var toggleUnpaired = $("#allowToggling").find("li:eq( 1 )"); //can't select by id because of xslt calling template
     if (!$("#collapseLink").length) toggleUnpaired.wrap("<a data-toggle='collapse' id='collapseLink' href='#unpairedQuotes'></a>");
     numQuotesUnpaired = $("#unpairedQuotes div div").length;
+    var deleteAllUnpaired = $("#allowToggling").find("li:eq( 2 )");
+    deleteAllUnpaired.wrap("<a id='deleteAllUnpaired' href=''></a>");
 }
+
+$("#deleteAllUnpaired").click(function(e) {
+    if (confirm("Are you sure?")) {
+        e.preventDefault();
+        $("#unpairedQuotes").remove();
+        $("#allowToggling").remove();
+    }
+});
 
 function checkNumUnpaired() {
     numQuotesUnpaired = $("#unpairedQuotes div div").length;
@@ -34,5 +44,18 @@ $("#file").change(function(){
 });
 
 $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip()
 })
+
+$(".deleteEntry").click(function() {
+    if (confirm("Are you sure?")) {
+        if($(this).hasClass("sourceDelete") && $("#unpairedQuotes").length) { // need to remove the option to pair with this
+            sourceId = $(this).parent().parent().parent().parent().attr("id");
+            $(".validIdentifiers".concat(' .',(sourceId))).remove(); // remove option to pair with this source
+            $(this).parent().parent().parent().parent().remove();
+        } else {
+            $(this).parent().parent().parent().remove();
+            checkNumUnpaired();
+        }
+    }
+});

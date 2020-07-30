@@ -11,7 +11,7 @@
      const ERR_MISSING_ATTRIBUTION = 'Quotes must have an attribution.';
      const ERR_MISSING_CONTENT_CATEGORY = 'Must provide a potential content category.';
      const ERR_WRONG_IDENTIFIER = 'This identifier does not match any quote identifiers.';
-     const WARNING_EMPTY_QUOTE = "Warning! You have empty quotes. Do you want to procede?";
+     const WARNING_EMPTY_QUOTE = "Warning! This quote is empty";
 
      const BATCH_QUOTE_DATA = [
          'Identifier',

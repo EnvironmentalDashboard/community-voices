@@ -10,23 +10,35 @@
         <xsl:for-each select="$entries/*"> <!-- selects each identifier, which are all different tags so require * -->
             <div class="card m-3">
                 <xsl:attribute name="id"><xsl:value-of select="name(.)"/></xsl:attribute> <!-- allows us to pair unpaired quotes with this id -->
-                <h6><xsl:value-of select="name(.)"/></h6>
-                <xsl:for-each select="rowData/column">
-                    <div class="form-group row">
-                        <label class="col-sm-4 col-form-label"><xsl:value-of select="./originalName"/></label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control">
-                                <xsl:attribute name="value"><xsl:value-of select="./columnData"/></xsl:attribute>
-                                <xsl:if test="./error">
-                                    <xsl:attribute name="style">background-color: #B24C4C;</xsl:attribute>
-                                    <xsl:attribute name="data-toggle">tooltip</xsl:attribute>
-                                    <xsl:attribute name="data-placement">top</xsl:attribute>
-                                    <xsl:attribute name="title"><xsl:value-of select="./error"/></xsl:attribute>
-                                </xsl:if>
-                            </input>
+                <div class="row">
+                    <div class="col">
+                        <strong><xsl:value-of select="name(.)"/></strong>
+                    </div>
+                    <div class="col">
+                        <div class="float-right">
+                            <a class="btn btn-light deleteEntry sourceDelete">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                                </svg>
+                            </a>
                         </div>
                     </div>
-                </xsl:for-each>
+                </div>
+                <form class="dataForm">
+                    <xsl:for-each select="rowData/column">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label"><xsl:value-of select="./originalName"/></label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control">
+                                    <xsl:attribute name="value"><xsl:value-of select="./columnData"/></xsl:attribute>
+                                    <xsl:if test="./error">
+                                        <xsl:attribute name="placeholder"><xsl:value-of select="./error"/></xsl:attribute>
+                                    </xsl:if>
+                                </input>
+                            </div>
+                        </div>
+                    </xsl:for-each>
+                </form>
                 <div class="card ml-5 pairedQuotes">
                     <xsl:for-each select="quotes">
                         <xsl:call-template name="quotes">
@@ -45,7 +57,14 @@
         <xsl:for-each select="$sourceInfo/item/rowData">
             <div class="card">
                 <xsl:attribute name="uid"><xsl:value-of select="generate-id(.)"/></xsl:attribute>
-                <form class="quoteForm">
+                <form class="dataForm">
+                    <div class="float-right">
+                        <a class="btn btn-light deleteEntry quoteDelete">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                            </svg>
+                        </a>
+                    </div>
                     <xsl:if test="$validIdentifiers">
                         <div class="form-group row identifiersFormElm">
                             <label class="col-sm-4 col-form-label">Choose identifier to pair with</label>
@@ -53,8 +72,9 @@
                                 <select class="validIdentifiers">
                                     <option label=" "></option>
                                     <xsl:for-each select="$validIdentifiers/item">
-                                        <option value="yes">
+                                        <option>
                                             <xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
+                                            <xsl:attribute name="class"><xsl:value-of select="."/></xsl:attribute>
                                             <xsl:value-of select="."/>
                                         </option>
                                     </xsl:for-each>
@@ -70,16 +90,10 @@
                                     <xsl:attribute name="value"><xsl:value-of select="./columnData"/></xsl:attribute>
                                     <xsl:choose>
                                         <xsl:when test="./error">
-                                            <xsl:attribute name="style">background-color: #B24C4C;</xsl:attribute>
-                                            <xsl:attribute name="data-toggle">tooltip</xsl:attribute>
-                                            <xsl:attribute name="data-placement">top</xsl:attribute>
-                                            <xsl:attribute name="title"><xsl:value-of select="./error"/></xsl:attribute>
+                                            <xsl:attribute name="placeholder"><xsl:value-of select="./error"/></xsl:attribute>
                                         </xsl:when>
                                         <xsl:when test="./warning">
-                                            <xsl:attribute name="style">background-color: #ffff99;</xsl:attribute>
-                                            <xsl:attribute name="data-toggle">tooltip</xsl:attribute>
-                                            <xsl:attribute name="data-placement">top</xsl:attribute>
-                                            <xsl:attribute name="title"><xsl:value-of select="./warning"/></xsl:attribute>
+                                            <xsl:attribute name="placeholder"><xsl:value-of select="./warning"/></xsl:attribute>
                                         </xsl:when>
                                     </xsl:choose>
                                 </input>
@@ -133,6 +147,7 @@
                     <xsl:variable name="toggleMessage">
                         <item>These quotes will not be uploaded unless you specify a identifier below</item>
                         <item>Click here to toggle unpaired quotes</item>
+                        <item>Click here to delete all unpaired quotes</item>
                     </xsl:variable>
                     <div id="allowToggling">
                         <xsl:call-template name="card">
