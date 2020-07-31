@@ -50,6 +50,7 @@
          $columnNameErrors = [];
          $columnNameWarnings = ["unrecognized" => [], "expected" => []];
          $unpairedQuotes = [];
+         $sheetIssues = []; // will allow us to link anchors on HTML to specific errors
          $validIdentifiers = ["allIdentifiers" => []]; // allow selection for unpaired quotes
          $formattedSourceNames = array_map(array($this,'cleanString'),self::BATCH_SOURCE_DATA);
          $formattedQuoteNames = array_map(array($this,'cleanString'),self::BATCH_QUOTE_DATA);
@@ -95,15 +96,16 @@
                            if($columnName=="identifier") {
                                $identifier = $this->cleanString($currentColumnData); // XML requirements
                                if(!empty($identifier)) array_push($validIdentifiers["allIdentifiers"],["item" => $identifier]);
-                           }
-                           else {
-                               // this is a minor error (missing attribution for entry) that the user can fix on the confirmation page
-                               if ($columnName=="attribution" && ! $currentColumnData) array_push($dataToAdd['rowData'],["column" => ["originalName" => $originalName, "columnData" => $currentColumnData, "error" => self::ERR_MISSING_ATTRIBUTION]]);
-                               else array_push($dataToAdd['rowData'],["column" => ["originalName" => $originalName, "columnData" => $currentColumnData]]);
+                           } else {
+                               $dataToAdd['rowData'][$columnName] = ["originalName" => $originalName, "columnData" => $currentColumnData, "formattedName" => $columnName];
                            }
                        }
                    }
                    if($identifier) {
+                       if(! $dataToAdd['rowData']["attribution"]["columnData"]) {
+                           $dataToAdd['rowData']["attribution"]["error"] = self::ERR_MISSING_ATTRIBUTION;
+                           array_push($sheetIssues,["item" => ["identifier" => $identifier, "columnName" => "attribution"]]);
+                       }
                        $sheetData[$identifier] = $dataToAdd;
                        $sheetData[$identifier]["quotes"] = []; // allows quotes related to source info
                    }
@@ -152,25 +154,36 @@
                                 if(array_key_exists($this->cleanString($currentColumnData),$sheetData)) $identifier = $this->cleanString($currentColumnData); // if valid identifier
                              }
                              else {
-                                 if ($columnName=="contentcategory1" && ! $currentColumnData)
-                                    array_push($dataToAdd['rowData'],["column" => ["originalName" => $originalName, "columnData" => $currentColumnData, "error" => self::ERR_MISSING_CONTENT_CATEGORY]]);
-                                 else if ($columnName=="editedquotes" && ! $currentColumnData)
-                                    array_push($dataToAdd['rowData'],["column" => ["originalName" => $originalName, "columnData" => $currentColumnData, "warning" => self::WARNING_EMPTY_QUOTE]]);
-                                 else
-                                    array_push($dataToAdd['rowData'],["column" => ["originalName" => $originalName, "columnData" => $currentColumnData]]);
+                                $dataToAdd['rowData'][$columnName] = ["originalName" => $originalName, "columnData" => $currentColumnData, "formattedName" => $columnName];
                              }
                          }
                      }
 
                      if($identifier===false) {
-                         array_push($unpairedQuotes,['item' => $dataToAdd]);
+                        $quoteNumber = "quote" . (count($unpairedQuotes) + 1);
+                        if(! $dataToAdd['rowData']["contentcategory1"]["columnData"]) {
+                            $dataToAdd['rowData']['contentcategory1']['error'] = self::ERR_MISSING_CONTENT_CATEGORY;
+                            array_push($sheetIssues,["item" => ["identifier" => $identifier, "quoteNumber" => $quoteNumber, "columnName" => $columnName]]);
+                        } else if(! $dataToAdd['rowData']["editedquotes"]["columnData"]) {
+                           $dataToAdd['rowData']['editedquotes']['error'] = self::WARNING_EMPTY_QUOTE;
+                           array_push($sheetIssues,["item" => ["identifier" => $identifier, "quoteNumber" => $quoteNumber, "columnName" => $columnName]]);
+                        }
+                         array_push($unpairedQuotes,[$quoteNumber  => $dataToAdd]);
                      } else {
-                         array_push($sheetData[$identifier]["quotes"],['item' => $dataToAdd]);
+                         $quoteNumber = "quote" . (count($sheetData[$identifier]['quotes']) + 1);
+                         if(! $dataToAdd['rowData']["contentcategory1"]["columnData"]) {
+                             $dataToAdd['rowData']['contentcategory1']['error'] = self::ERR_MISSING_CONTENT_CATEGORY;
+                             array_push($sheetIssues,["item" => ["identifier" => $identifier, "quoteNumber" => $quoteNumber, "columnName" => "contentcategory1"]]);
+                         } else if(! $dataToAdd['rowData']["editedquotes"]["columnData"]) {
+                            $dataToAdd['rowData']['editedquotes']['error'] = self::WARNING_EMPTY_QUOTE;
+                            array_push($sheetIssues,["item" => ["identifier" => $identifier, "quoteNumber" => $quoteNumber, "columnName" => "editedquotes"]]);
+                         }
+                         array_push($sheetData[$identifier]["quotes"],[$quoteNumber => $dataToAdd]);
                      }
                  }
              }
          }
-         return [$sheetData,$columnNameWarnings,$columnNameErrors,$unpairedQuotes,$validIdentifiers];
+         return [$sheetData,$columnNameWarnings,$columnNameErrors,$unpairedQuotes,$validIdentifiers, $sheetIssues];
      }
      private function cleanString($s) {
          return strtolower(preg_replace(["/[^a-zA-Z0-9]/","/\s/"], "", $s));

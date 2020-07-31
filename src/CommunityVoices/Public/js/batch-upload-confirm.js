@@ -1,4 +1,25 @@
 var numQuotesUnpaired = 0;
+if ($("#entryIssues").length) { // this function allows linking sheet errors on same page
+    $("#entryIssues").find("ul li").each(function() {
+        $(this).wrap(function() {
+            return "<a href='#" + $(this).text().split(" ").join("") + "'></a>";
+        });
+    });
+    $("[haserrors]").each(function() {
+        identifier = $(this).closest("[hasidentifier = true]").attr("id");
+        quoteNumber = "";
+        columnName = $(this).parent().parent().find("label").attr("formattedname"); // gosh this is ugly
+        if($(this).attr("haserrors")=="quote") {
+            quoteNumber = $(this).closest("[quotenumber]").attr("quotenumber");
+        }
+        strToAdd = identifier + quoteNumber + columnName;
+        $(this).wrap(function() {
+            return "<a name='" + strToAdd + "'></a>";
+        });
+    });
+
+}
+
 if ($("#allowToggling").length) {
     var toggleUnpaired = $("#allowToggling").find("li:eq( 1 )"); //can't select by id because of xslt calling template
     if (!$("#collapseLink").length) toggleUnpaired.wrap("<a data-toggle='collapse' id='collapseLink' href='#unpairedQuotes'></a>");
@@ -8,8 +29,8 @@ if ($("#allowToggling").length) {
 }
 
 $("#deleteAllUnpaired").click(function(e) {
+    e.preventDefault();
     if (confirm("Are you sure?")) {
-        e.preventDefault();
         $("#unpairedQuotes").remove();
         $("#allowToggling").remove();
     }
@@ -42,10 +63,6 @@ $('#fileUploadButton').on('click', function (c)  {
 $("#file").change(function(){
     $('#batchUploadForm').submit();
 });
-
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-})
 
 $(".deleteEntry").click(function() {
     if (confirm("Are you sure?")) {

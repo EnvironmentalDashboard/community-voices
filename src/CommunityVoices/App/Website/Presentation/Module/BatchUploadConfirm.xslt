@@ -10,6 +10,7 @@
         <xsl:for-each select="$entries/*"> <!-- selects each identifier, which are all different tags so require * -->
             <div class="card m-3">
                 <xsl:attribute name="id"><xsl:value-of select="name(.)"/></xsl:attribute> <!-- allows us to pair unpaired quotes with this id -->
+                <xsl:attribute name="hasidentifier">true</xsl:attribute>
                 <div class="row">
                     <div class="col">
                         <strong><xsl:value-of select="name(.)"/></strong>
@@ -25,14 +26,18 @@
                     </div>
                 </div>
                 <form class="dataForm">
-                    <xsl:for-each select="rowData/column">
+                    <xsl:for-each select="rowData/*">
                         <div class="form-group row">
-                            <label class="col-sm-4 col-form-label"><xsl:value-of select="./originalName"/></label>
+                            <label class="col-sm-4 col-form-label">
+                                <xsl:attribute name="formattedname"><xsl:value-of select="./formattedName"/></xsl:attribute>
+                                <xsl:value-of select="./originalName"/>
+                            </label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control">
                                     <xsl:attribute name="value"><xsl:value-of select="./columnData"/></xsl:attribute>
                                     <xsl:if test="./error">
                                         <xsl:attribute name="placeholder"><xsl:value-of select="./error"/></xsl:attribute>
+                                        <xsl:attribute name="haserrors">source</xsl:attribute>
                                     </xsl:if>
                                 </input>
                             </div>
@@ -54,9 +59,9 @@
 <xsl:template name="quotes">
     <xsl:param name="sourceInfo"/>
     <xsl:param name="validIdentifiers"/>
-        <xsl:for-each select="$sourceInfo/item/rowData">
+        <xsl:for-each select="$sourceInfo/*/rowData">
             <div class="card">
-                <xsl:attribute name="uid"><xsl:value-of select="generate-id(.)"/></xsl:attribute>
+                <xsl:attribute name="quotenumber"><xsl:value-of select="name(..)"/></xsl:attribute>
                 <form class="dataForm">
                     <div class="float-right">
                         <a class="btn btn-light deleteEntry quoteDelete">
@@ -82,15 +87,20 @@
                             </div>
                         </div>
                     </xsl:if>
-                    <xsl:for-each select="column">
+                    <xsl:for-each select="./*">
                         <div class="form-group row">
-                            <label class="col-sm-4 col-form-label"><xsl:value-of select="./originalName"/></label>
+                            <label class="col-sm-4 col-form-label">
+                                <xsl:attribute name="formattedname"><xsl:value-of select="./formattedName"/></xsl:attribute>
+                                <xsl:attribute name="hasidentifier">true</xsl:attribute>
+                                <xsl:value-of select="./originalName"/>
+                            </label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control">
                                     <xsl:attribute name="value"><xsl:value-of select="./columnData"/></xsl:attribute>
                                     <xsl:choose>
                                         <xsl:when test="./error">
                                             <xsl:attribute name="placeholder"><xsl:value-of select="./error"/></xsl:attribute>
+                                            <xsl:attribute name="haserrors">quote</xsl:attribute>
                                         </xsl:when>
                                         <xsl:when test="./warning">
                                             <xsl:attribute name="placeholder"><xsl:value-of select="./warning"/></xsl:attribute>
@@ -163,10 +173,24 @@
                             </xsl:call-template>
                         </div>
                     </div>
-                    <xsl:call-template name="sources">
-                        <xsl:with-param name="entries" select="$dataFromCSV/entries"/>
-                    </xsl:call-template>
                 </xsl:if>
+                <xsl:if test="$dataFromCSV/entryIssues != ''">
+                    <div id="entryIssues">
+                        <xsl:call-template name="card">
+                            <xsl:with-param name="title">Warning: Some of your entries have issues preventing their upload</xsl:with-param>
+                            <xsl:with-param name="message">
+                                <xsl:for-each select="$dataFromCSV/entryIssues/item">
+                                    <item>
+                                        <xsl:value-of select="concat(./identifier,' ')"/> <xsl:value-of select="concat(./quoteNumber,' ')"/> <xsl:value-of select="columnName"/>
+                                    </item>
+                                </xsl:for-each>
+                            </xsl:with-param>
+                        </xsl:call-template>
+                    </div>
+                </xsl:if>
+                <xsl:call-template name="sources">
+                    <xsl:with-param name="entries" select="$dataFromCSV/entries"/>
+                </xsl:call-template>
                 <div class="row">
                     <div class="col text-center">
                         <input type='submit' name='submit_exit' value='Submit All' class='btn btn-primary mr-4' target='_blank'/>
