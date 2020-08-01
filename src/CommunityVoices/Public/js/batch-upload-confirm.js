@@ -1,24 +1,44 @@
-var numQuotesUnpaired = 0;
-if ($("#entryIssues").length) { // this function allows linking sheet errors on same page
-    $("#entryIssues").find("ul li").each(function() {
-        $(this).wrap(function() {
-            return "<a href='#" + $(this).text().split(" ").join("") + "'></a>";
-        });
+$(document).ready(function() {
+    numEntriesWrong = 0;
+    $("[essentialcolumn]").each(function() {
+        checkRequiredFieldEmpty($(this));
     });
-    $("[haserrors]").each(function() {
-        identifier = $(this).closest("[hasidentifier = true]").attr("id");
-        quoteNumber = "";
-        columnName = $(this).parent().parent().find("label").attr("formattedname"); // gosh this is ugly
-        if($(this).attr("haserrors")=="quote") {
-            quoteNumber = $(this).closest("[quotenumber]").attr("quotenumber");
-        }
-        strToAdd = identifier + quoteNumber + columnName;
-        $(this).wrap(function() {
-            return "<a name='" + strToAdd + "'></a>";
-        });
-    });
+    checkEntryIssuesDiv();
+});
 
+function checkRequiredFieldEmpty(field) {
+    linkExists = field.parent("a").length; // have we already added a link to this?
+
+    identifier = field.closest("[hasidentifier = true]").attr("id");
+    quoteNumber = "";
+    columnName = field.closest(".form-group.row").find("label").attr("formattedname"); // gosh this is ugly
+    if(field.attr("haserrors")=="quote") {
+        quoteNumber = field.closest("[quotenumber]").attr("quotenumber");
+    }
+
+    strToAdd = identifier + " " + quoteNumber + " " + columnName;
+    linkToAdd = strToAdd.split(' ').join('');
+
+    if (! field.val()) {
+        field.wrap(function() {
+            return "<a name='" + linkToAdd + "'></a>";
+        });
+        $("#entryIssues").find("ul").append("<a href='#" + linkToAdd + "'><li>" + strToAdd + "</li></a>");
+    } else if (linkExists != 0) {
+        $("#entryIssues").find("[href ='#" + linkToAdd + "']").remove();
+        field.unwrap();
+    }
 }
+
+function checkEntryIssuesDiv() {
+    if ($("#entryIssues").find("ul").children().length == 0) $("#entryIssues").hide();
+    else $("#entryIssues").show();
+}
+
+$("[essentialcolumn]").keyup(function() {
+    checkRequiredFieldEmpty($(this));
+    checkEntryIssuesDiv();
+});
 
 if ($("#allowToggling").length) {
     var toggleUnpaired = $("#allowToggling").find("li:eq( 1 )"); //can't select by id because of xslt calling template

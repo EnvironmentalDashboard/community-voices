@@ -50,7 +50,6 @@
          $columnNameErrors = [];
          $columnNameWarnings = ["unrecognized" => [], "expected" => []];
          $unpairedQuotes = [];
-         $sheetIssues = []; // will allow us to link anchors on HTML to specific errors
          $validIdentifiers = ["allIdentifiers" => []]; // allow selection for unpaired quotes
          $formattedSourceNames = array_map(array($this,'cleanString'),self::BATCH_SOURCE_DATA);
          $formattedQuoteNames = array_map(array($this,'cleanString'),self::BATCH_QUOTE_DATA);
@@ -102,10 +101,7 @@
                        }
                    }
                    if($identifier) {
-                       if(! $dataToAdd['rowData']["attribution"]["columnData"]) {
-                           $dataToAdd['rowData']["attribution"]["error"] = self::ERR_MISSING_ATTRIBUTION;
-                           array_push($sheetIssues,["item" => ["identifier" => $identifier, "columnName" => "attribution"]]);
-                       }
+                       $dataToAdd['rowData']["attribution"]["error"] = self::ERR_MISSING_ATTRIBUTION;
                        $sheetData[$identifier] = $dataToAdd;
                        $sheetData[$identifier]["quotes"] = []; // allows quotes related to source info
                    }
@@ -163,27 +159,23 @@
                         $quoteNumber = "quote" . (count($unpairedQuotes) + 1);
                         if(! $dataToAdd['rowData']["contentcategory1"]["columnData"]) {
                             $dataToAdd['rowData']['contentcategory1']['error'] = self::ERR_MISSING_CONTENT_CATEGORY;
-                            array_push($sheetIssues,["item" => ["identifier" => $identifier, "quoteNumber" => $quoteNumber, "columnName" => $columnName]]);
                         } else if(! $dataToAdd['rowData']["editedquotes"]["columnData"]) {
                            $dataToAdd['rowData']['editedquotes']['error'] = self::WARNING_EMPTY_QUOTE;
-                           array_push($sheetIssues,["item" => ["identifier" => $identifier, "quoteNumber" => $quoteNumber, "columnName" => $columnName]]);
                         }
                          array_push($unpairedQuotes,[$quoteNumber  => $dataToAdd]);
                      } else {
                          $quoteNumber = "quote" . (count($sheetData[$identifier]['quotes']) + 1);
                          if(! $dataToAdd['rowData']["contentcategory1"]["columnData"]) {
                              $dataToAdd['rowData']['contentcategory1']['error'] = self::ERR_MISSING_CONTENT_CATEGORY;
-                             array_push($sheetIssues,["item" => ["identifier" => $identifier, "quoteNumber" => $quoteNumber, "columnName" => "contentcategory1"]]);
                          } else if(! $dataToAdd['rowData']["editedquotes"]["columnData"]) {
                             $dataToAdd['rowData']['editedquotes']['error'] = self::WARNING_EMPTY_QUOTE;
-                            array_push($sheetIssues,["item" => ["identifier" => $identifier, "quoteNumber" => $quoteNumber, "columnName" => "editedquotes"]]);
                          }
                          array_push($sheetData[$identifier]["quotes"],[$quoteNumber => $dataToAdd]);
                      }
                  }
              }
          }
-         return [$sheetData,$columnNameWarnings,$columnNameErrors,$unpairedQuotes,$validIdentifiers, $sheetIssues];
+         return [$sheetData,$columnNameWarnings,$columnNameErrors,$unpairedQuotes,$validIdentifiers];
      }
      private function cleanString($s) {
          return strtolower(preg_replace(["/[^a-zA-Z0-9]/","/\s/"], "", $s));

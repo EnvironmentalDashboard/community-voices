@@ -35,6 +35,9 @@
                             <div class="col-sm-8">
                                 <input type="text" class="form-control">
                                     <xsl:attribute name="value"><xsl:value-of select="./columnData"/></xsl:attribute>
+                                    <xsl:if test="./formattedName = 'attribution'">
+                                        <xsl:attribute name="essentialcolumn">source</xsl:attribute>
+                                    </xsl:if>
                                     <xsl:if test="./error">
                                         <xsl:attribute name="placeholder"><xsl:value-of select="./error"/></xsl:attribute>
                                         <xsl:attribute name="haserrors">source</xsl:attribute>
@@ -96,6 +99,9 @@
                             </label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control">
+                                    <xsl:if test="./formattedName = 'editedquotes' or ./formattedName = 'contentcategory1'">
+                                        <xsl:attribute name="essentialcolumn">quote</xsl:attribute>
+                                    </xsl:if>
                                     <xsl:attribute name="value"><xsl:value-of select="./columnData"/></xsl:attribute>
                                     <xsl:choose>
                                         <xsl:when test="./error">
@@ -125,6 +131,7 @@
 
 <xsl:template match="/package">
     <xsl:variable name="dataFromCSV" select="domain/csvResults"/>
+    <div class="container" style="overflow-anchor: none;">
         <xsl:choose>
             <xsl:when test="$dataFromCSV/errors != ''"> <!-- if any serious errors are detected upload will be prevented. -->
                 <xsl:call-template name="card">
@@ -174,20 +181,15 @@
                         </div>
                     </div>
                 </xsl:if>
-                <xsl:if test="$dataFromCSV/entryIssues != ''">
-                    <div id="entryIssues">
-                        <xsl:call-template name="card">
-                            <xsl:with-param name="title">Warning: Some of your entries have issues preventing their upload</xsl:with-param>
-                            <xsl:with-param name="message">
-                                <xsl:for-each select="$dataFromCSV/entryIssues/item">
-                                    <item>
-                                        <xsl:value-of select="concat(./identifier,' ')"/> <xsl:value-of select="concat(./quoteNumber,' ')"/> <xsl:value-of select="columnName"/>
-                                    </item>
-                                </xsl:for-each>
-                            </xsl:with-param>
-                        </xsl:call-template>
+                <div id="entryIssues">
+                    <div class="card" style="margin-bottom: 16px; max-width:400px;margin: 0 auto">
+                        <div class="card-body">
+                            <h1 class="h4 mb-4 font-weight-normal" style="margin-bottom: 0.5rem !important;"> Warning: Some of your entries have issues preventing their upload</h1>
+                                <ul style="margin-bottom: 0.5rem;">
+                                </ul>
+                        </div>
                     </div>
-                </xsl:if>
+                </div>
                 <xsl:call-template name="sources">
                     <xsl:with-param name="entries" select="$dataFromCSV/entries"/>
                 </xsl:call-template>
@@ -198,5 +200,6 @@
                 </div>
             </xsl:otherwise>
         </xsl:choose>
+    </div>
 </xsl:template>
 </xsl:stylesheet>
