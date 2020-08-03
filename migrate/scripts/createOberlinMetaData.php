@@ -1,10 +1,7 @@
 <?php
 
-use CommunityVoices\Model\Mapper;
-use CommunityVoices\Model\Entity;
-
 $createOberlinMD = "CREATE TABLE `community-voices_oberlin_metadata` (
-  `id` int(21) NOT NULL,
+  `id` int(21) NOT NULL AUTO_INCREMENT,
   `source_type` enum('document/publication','website','short interview','long form interview','survey') DEFAULT NULL,
   `interviewee_or_source_document` varchar(100) DEFAULT NULL,
   `organization` varchar(100) DEFAULT NULL,
@@ -26,11 +23,7 @@ $statement = $dbHandler->prepare($createOberlinMD);
 $statement->execute();
 
 $addMetaData = "ALTER TABLE `community-voices_quotes`
-                                ADD COLUMN metadata_id int(21) DEFAULT NULL";
-$statement = $dbHandler->prepare($addMetaData);
-$statement->execute();
-
-$linkMetaData = "ALTER TABLE `community-voices_quotes`
+                                ADD COLUMN metadata_id int(21) DEFAULT NULL,
                                 ADD CONSTRAINT `community-voices_quotes_fk1` FOREIGN KEY (`metadata_id`) REFERENCES `community-voices_oberlin_metadata` (`id`) ON DELETE CASCADE ON UPDATE CASCADE";
-$statement = $dbHandler->prepare($linkMetaData);
+$statement = $dbHandler->prepare($addMetaData);
 $statement->execute();
