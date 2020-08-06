@@ -8,24 +8,24 @@
 <xsl:template name="sources">
     <xsl:param name="entries"/>
         <xsl:for-each select="$entries/*"> <!-- selects each identifier, which are all different tags so require * -->
-            <div class="card m-3">
+            <div class="card m-3 allSources">
                 <xsl:attribute name="id"><xsl:value-of select="name(.)"/></xsl:attribute> <!-- allows us to pair unpaired quotes with this id -->
                 <xsl:attribute name="hasidentifier">true</xsl:attribute>
-                <div class="row">
-                    <div class="col">
-                        <strong><xsl:value-of select="name(.)"/></strong>
-                    </div>
-                    <div class="col">
-                        <div class="float-right">
-                            <a class="btn btn-light deleteEntry sourceDelete">
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
-                                </svg>
-                            </a>
+                <div class="sourceNotQuote">
+                    <div class="row">
+                        <div class="col">
+                            <strong><xsl:value-of select="name(.)"/></strong>
+                        </div>
+                        <div class="col">
+                            <div class="float-right">
+                                <a class="btn btn-light deleteEntry sourceDelete">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <form class="dataForm">
                     <xsl:for-each select="rowData/*">
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">
@@ -35,8 +35,26 @@
                             <div class="col-sm-8">
                                 <input type="text" class="form-control">
                                     <xsl:attribute name="value"><xsl:value-of select="./columnData"/></xsl:attribute>
+                                    <xsl:choose>
+                                        <!-- need to match column names to expected names for quote upload -->
+                                        <xsl:when test="./formattedName = 'subattribution'">
+                                            <xsl:attribute name="name">subAttribution[]</xsl:attribute>
+                                        </xsl:when>
+                                        <xsl:when test="./formattedName = 'interviewdate'">
+                                            <xsl:attribute name="name">dateRecorded[]</xsl:attribute>
+                                        </xsl:when>
+                                        <xsl:when test="./formattedName = 'topicofinterview'">
+                                            <xsl:attribute name="name">interviewTopic[]</xsl:attribute>
+                                        </xsl:when>
+                                        <xsl:when test="./formattedName = 'typeofinterview'">
+                                            <xsl:attribute name="name">interviewType[]</xsl:attribute>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:attribute name="name"><xsl:value-of select="./formattedName"/>[]</xsl:attribute>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
                                     <xsl:if test="./formattedName = 'attribution'">
-                                        <xsl:attribute name="essentialcolumn">source</xsl:attribute>
+                                        <xsl:attribute name="essentialorrecoomendedcolumn">source</xsl:attribute>
                                     </xsl:if>
                                     <xsl:if test="./error">
                                         <xsl:attribute name="placeholder"><xsl:value-of select="./error"/></xsl:attribute>
@@ -46,7 +64,7 @@
                             </div>
                         </div>
                     </xsl:for-each>
-                </form>
+                </div>
                 <div class="card ml-5 pairedQuotes">
                     <xsl:for-each select="quotes">
                         <xsl:call-template name="quotes">
@@ -63,16 +81,19 @@
     <xsl:param name="sourceInfo"/>
     <xsl:param name="validIdentifiers"/>
         <xsl:for-each select="$sourceInfo/*/rowData">
-            <div class="card">
+            <div class="card individualQuote">
                 <xsl:attribute name="quotenumber"><xsl:value-of select="name(..)"/></xsl:attribute>
-                <form class="dataForm">
-                    <div class="float-right">
-                        <a class="btn btn-light deleteEntry quoteDelete">
-                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
-                            </svg>
-                        </a>
+                <div class="row">
+                    <div class="col">
+                        <div class="float-right">
+                            <a class="btn btn-light deleteEntry sourceDelete">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                                </svg>
+                            </a>
+                        </div>
                     </div>
+                </div>
                     <xsl:if test="$validIdentifiers">
                         <div class="form-group row identifiersFormElm">
                             <label class="col-sm-4 col-form-label">Choose identifier to pair with</label>
@@ -99,16 +120,33 @@
                             </label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control">
-                                    <xsl:if test="./formattedName = 'editedquotes' or ./formattedName = 'contentcategory1'">
-                                        <xsl:attribute name="essentialcolumn">quote</xsl:attribute>
-                                    </xsl:if>
+                                    <!-- need to modify names of form elements to match expected names for a quote upload -->
+                                    <xsl:choose>
+                                        <xsl:when test="contains(./formattedName,'tag')">
+                                            <xsl:attribute name="name">tags[<xsl:value-of select="name(../..)"/>]</xsl:attribute>
+                                        </xsl:when>
+                                        <xsl:when test="contains(./formattedName,'contentcategory')">
+                                            <xsl:attribute name="name">contentCategories[<xsl:value-of select="name(../..)"/>]</xsl:attribute>
+                                        </xsl:when>
+                                        <xsl:when test="./formattedName = 'originalquote'">
+                                            <xsl:attribute name="name">originalText[]</xsl:attribute>
+                                        </xsl:when>
+                                        <xsl:when test="./formattedName = 'editedquotes'">
+                                            <xsl:attribute name="name">text[]</xsl:attribute>
+                                        </xsl:when>
+                                    <xsl:otherwise>
+                                    <xsl:attribute name="name"><xsl:value-of select="./formattedName"/>[]</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
                                     <xsl:attribute name="value"><xsl:value-of select="./columnData"/></xsl:attribute>
                                     <xsl:choose>
                                         <xsl:when test="./error">
+                                            <xsl:attribute name="essentialorrecoomendedcolumn">quote</xsl:attribute>
                                             <xsl:attribute name="placeholder"><xsl:value-of select="./error"/></xsl:attribute>
                                             <xsl:attribute name="haserrors">quote</xsl:attribute>
                                         </xsl:when>
                                         <xsl:when test="./warning">
+                                            <xsl:attribute name="essentialorrecoomendedcolumn">quote</xsl:attribute>
                                             <xsl:attribute name="placeholder"><xsl:value-of select="./warning"/></xsl:attribute>
                                         </xsl:when>
                                     </xsl:choose>
@@ -119,11 +157,10 @@
                     <xsl:if test="$validIdentifiers">
                         <div class="form-group row pairButton">
                             <div class="col-sm">
-                                <button type="submit" class="btn btn-primary">Pair with Selected identifier</button>
+                                <button type="submit" class="btn btn-primary pairWithIdentifier">Pair with Selected identifier</button>
                             </div>
                         </div>
                     </xsl:if>
-                </form>
             </div>
         </xsl:for-each>
 </xsl:template>
@@ -190,14 +227,16 @@
                         </div>
                     </div>
                 </div>
-                <xsl:call-template name="sources">
-                    <xsl:with-param name="entries" select="$dataFromCSV/entries"/>
-                </xsl:call-template>
-                <div class="row">
-                    <div class="col text-center">
-                        <input type='submit' name='submit_exit' value='Submit All' class='btn btn-primary mr-4' target='_blank'/>
+                    <xsl:call-template name="sources">
+                        <xsl:with-param name="entries" select="$dataFromCSV/entries"/>
+                    </xsl:call-template>
+                <form id="actualForm" method="post" action="/community-voices/quotes/new">
+                    <div class="row">
+                        <div class="col text-center">
+                            <input type='submit' name='submit_exit' value='Submit All' class='btn btn-primary mr-4' target='_blank'/>
+                        </div>
                     </div>
-                </div>
+                </form>
             </xsl:otherwise>
         </xsl:choose>
     </div>

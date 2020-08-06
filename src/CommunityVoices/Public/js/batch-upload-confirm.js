@@ -1,17 +1,16 @@
 $(document).ready(function() {
-    numEntriesWrong = 0;
-    $("[essentialcolumn]").each(function() {
+    $("[essentialorrecoomendedcolumn]").each(function() {
         checkRequiredFieldEmpty($(this));
     });
     checkEntryIssuesDiv();
 });
 
 function checkRequiredFieldEmpty(field) {
-    linkExists = field.parent("a").length; // have we already added a link to this?
+    linkExists = field.parent("a").length; // have we already added a link to this? Need to check
 
     identifier = field.closest("[hasidentifier = true]").attr("id");
     quoteNumber = "";
-    columnName = field.closest(".form-group.row").find("label").attr("formattedname"); // gosh this is ugly
+    columnName = field.closest(".form-group.row").find("label").attr("formattedname");
     if(field.attr("haserrors")=="quote") {
         quoteNumber = field.closest("[quotenumber]").attr("quotenumber");
     }
@@ -35,9 +34,22 @@ function checkEntryIssuesDiv() {
     else $("#entryIssues").show();
 }
 
-$("[essentialcolumn]").keyup(function() {
+$("[essentialorrecoomendedcolumn]").keyup(function() {
     checkRequiredFieldEmpty($(this));
     checkEntryIssuesDiv();
+});
+
+
+$("#actualForm").submit(function(e) {
+    $(this).css("display","none");
+    $(".allSources").each(function () {
+        source = $(this).find(".sourceNotQuote");
+        $(this).find(".individualQuote").each(function () {
+            $("#actualForm").append(source.clone());
+            $("#actualForm").append($(this).clone());
+        });
+    });
+    return true; // submit form here
 });
 
 if ($("#allowToggling").length) {
@@ -64,14 +76,14 @@ function checkNumUnpaired() {
     }
 }
 
-$("#unpairedQuotes div div form").submit(function(event) {
-  event.preventDefault();
-  identifierToAppend = $(this).find("div div .validIdentifiers");
+$(".pairWithIdentifier").click(function() { // pair unpaired Quote with an identifier
+  individualQuote = $(this).closest(".individualQuote");
+  identifierToAppend = individualQuote.find(".validIdentifiers")
   if (identifierToAppend.val()) {
-      identifierElm = $('#'.concat(identifierToAppend.val(), ' .pairedQuotes'));
-      $(this).find(".identifiersFormElm").remove();
-      $(this).find(".pairButton").remove();
-      $(identifierElm).append($(this).parent());
+      identifierElm = $('#'.concat(identifierToAppend.val())).find(".pairedQuotes");
+      individualQuote.find(".identifiersFormElm").remove(); // need to remove pairing field and pair button after pairing
+      $(this).remove();
+      $(identifierElm).append(individualQuote);
       checkNumUnpaired();
   }
 });
@@ -86,7 +98,7 @@ $("#file").change(function(){
 
 $(".deleteEntry").click(function() {
     if (confirm("Are you sure?")) {
-        if($(this).hasClass("sourceDelete") && $("#unpairedQuotes").length) { // need to remove the option to pair with this
+        if($(this).hasClass("sourceDelete") && $("#unpairedQuotes").length) {
             sourceId = $(this).parent().parent().parent().parent().attr("id");
             $(".validIdentifiers".concat(' .',(sourceId))).remove(); // remove option to pair with this source
             $(this).parent().parent().parent().parent().remove();

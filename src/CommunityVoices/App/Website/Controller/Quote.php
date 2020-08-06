@@ -74,9 +74,9 @@ class Quote
         //     $this->getQuoteUpload($request);
         // }
     }
-    public function postBatch($request)
+    public function postBatchDraft($request)
     {
-        
+
     }
 
     public function getQuoteUpdate($request)

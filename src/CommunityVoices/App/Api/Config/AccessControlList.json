@@ -70,8 +70,8 @@
         ["CommunityVoices\\App\\Api\\Controller\\Quote::postQuoteUnpair", {"allow" : "admin"}],
         ["CommunityVoices\\App\\Api\\View\\Quote::postQuoteUnpair", {"allow" : "admin"}],
 
-        ["CommunityVoices\\App\\Api\\Controller\\Quote::postBatch", {"allow" : "admin"}],
-        ["CommunityVoices\\App\\Api\\View\\Quote::postBatch", {"allow" : "admin"}],
+        ["CommunityVoices\\App\\Api\\Controller\\Quote::postBatchDraft", {"allow" : "admin"}],
+        ["CommunityVoices\\App\\Api\\View\\Quote::postBatchDraft", {"allow" : "admin"}],
 
         ["CommunityVoices\\App\\Api\\Controller\\Image::getImage", {"allow" : "guest"}],
         ["CommunityVoices\\App\\Api\\View\\Image::getImage", {"allow" : "guest"}],

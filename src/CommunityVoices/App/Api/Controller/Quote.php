@@ -143,7 +143,7 @@ class Quote extends Component\Controller
         );
     }
 
-    protected function postBatch($request)
+    protected function postBatchDraft($request)
     {
         $files = $request->files->get('file');
         if (sizeof($files) != 2) {

@@ -157,19 +157,13 @@
 
                      if($identifier===false) {
                         $quoteNumber = "quote" . (count($unpairedQuotes) + 1);
-                        if(! $dataToAdd['rowData']["contentcategory1"]["columnData"]) {
-                            $dataToAdd['rowData']['contentcategory1']['error'] = self::ERR_MISSING_CONTENT_CATEGORY;
-                        } else if(! $dataToAdd['rowData']["editedquotes"]["columnData"]) {
-                           $dataToAdd['rowData']['editedquotes']['error'] = self::WARNING_EMPTY_QUOTE;
-                        }
+                        $dataToAdd['rowData']['contentcategory1']['error'] = self::ERR_MISSING_CONTENT_CATEGORY;
+                        $dataToAdd['rowData']['editedquotes']['warning'] = self::WARNING_EMPTY_QUOTE;
                          array_push($unpairedQuotes,[$quoteNumber  => $dataToAdd]);
                      } else {
                          $quoteNumber = "quote" . (count($sheetData[$identifier]['quotes']) + 1);
-                         if(! $dataToAdd['rowData']["contentcategory1"]["columnData"]) {
-                             $dataToAdd['rowData']['contentcategory1']['error'] = self::ERR_MISSING_CONTENT_CATEGORY;
-                         } else if(! $dataToAdd['rowData']["editedquotes"]["columnData"]) {
-                            $dataToAdd['rowData']['editedquotes']['error'] = self::WARNING_EMPTY_QUOTE;
-                         }
+                         $dataToAdd['rowData']['contentcategory1']['error'] = self::ERR_MISSING_CONTENT_CATEGORY;
+                         $dataToAdd['rowData']['editedquotes']['warning'] = self::WARNING_EMPTY_QUOTE;
                          array_push($sheetData[$identifier]["quotes"],[$quoteNumber => $dataToAdd]);
                      }
                  }

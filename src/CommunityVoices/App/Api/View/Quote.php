@@ -81,7 +81,7 @@ class Quote extends Component\View
         return $response;
     }
 
-    protected function postBatch($request, $errors)
+    protected function postBatchDraft($request, $errors)
     {
         list($sheetData, $columnNameWarnings, $columnNameErrors, $unpairedQuotes, $validIdentifiers) = $errors;
         $formattedData = ['csvResults' => ["entries" => $sheetData, "warnings" => $columnNameWarnings, 'errors' => $columnNameErrors, "unpairedQuotes" => $unpairedQuotes, "validIdentifiers" => $validIdentifiers]];

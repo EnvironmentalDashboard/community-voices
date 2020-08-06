@@ -198,12 +198,12 @@
         }
     },
 
-    "postBatch": {
+    "postBatchDraft": {
         "notation": "/quotes/confirm",
         "method": "post",
         "defaults": {
             "resource": "Quote",
-            "action": "postBatch"
+            "action": "postBatchDraft"
         }
     },
 

@@ -365,6 +365,8 @@ class Quote extends Component\View
 
     public function postQuoteUpload($request, $errors = self::ERRORS_DEFAULT)
     {
+        var_dump($request);
+        die();
         // There are three possible outcomes when the user enteres a new quote:
         // 1: Error with entering correct fields
         // 2: Correct fields entered, user presses "Submit More Quotes"
@@ -386,7 +388,7 @@ class Quote extends Component\View
         }
     }
 
-    public function postBatch($request)
+    public function postBatchDraft($request)
     {
         $apiReturn = $this->apiProvider->postJson('/quotes/confirm', $request);
 
@@ -396,10 +398,25 @@ class Quote extends Component\View
             )
         );
 
+        $tagXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(
+                $this->apiProvider->getJson("/tags", $request)
+            )
+        );
+
+        $contentCategoryXMLElement = new SimpleXMLElement(
+            $this->transcriber->toXml(
+                $this->apiProvider->getJson('/content-categories', $request)
+            )
+        );
+
         $batchPackageElement = new Helper\SimpleXMLElementExtension('<package/>');
 
         $packagedbatch = $batchPackageElement->addChild('domain');
         $packagedbatch->adopt($batchXMLElement);
+        $packagedbatch->adopt($tagXMLElement);
+        $packagedbatch->adopt($contentCategoryXMLElement);
+
 
         $packagedIdentity = $batchPackageElement->addChild('identity');
         $packagedIdentity->adopt($this->identityXMLElement($request));
