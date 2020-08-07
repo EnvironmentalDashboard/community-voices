@@ -31,7 +31,7 @@ class ApiProvider
         $response = file_get_contents(getenv('API_URL') . $path, false, $context ?? null);
 
         if ($debug) {
-            var_dump($response);
+            echo $response;
             die();
         }
 
