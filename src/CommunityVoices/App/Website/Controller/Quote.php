@@ -65,6 +65,8 @@ class Quote
 
     public function postQuoteUpload($request)
     {
+        var_dump($request);
+        die();
         $this->saveQuoteForm($request, 'quoteUploadForm');
 
         $errors = $this->apiProvider->postJson('/quotes/new', $request);

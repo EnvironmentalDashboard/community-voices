@@ -139,7 +139,7 @@
 
              if (empty($columnNameErrors))  {
                  while (($data = fgetcsv($f)) !== FALSE) {
-                     $dataToAdd = ['rowData' => []];
+                     $dataToAdd = ['rowData' => ["contentcategories" => ["formattedName" => "contentcategories", "all" => [], "error" => null], "tags" => ["formattedName" => "contentcategories", "all" => []]]];
                      $identifier = false;
                      for ($i = 0; $i < count($columnOrder); $i++) {
                          $columnName = str_replace(" ","",$columnOrder[$i]); // XML requires no spaces
@@ -148,7 +148,10 @@
                              $originalName = self::BATCH_QUOTE_DATA[$i];
                              if($columnName=="identifier") {
                                 if(array_key_exists($this->cleanString($currentColumnData),$sheetData)) $identifier = $this->cleanString($currentColumnData); // if valid identifier
-                             }
+                            } else if (str_contains($columnName,"contentcategory")) { // need to process content categories and tags differently from other things
+                                array_push($dataToAdd["rowData"]["contentcategories"]["all"],["columnData" => $currentColumnData]);
+                            } else if (str_contains($columnName,"tag"))
+                                array_push($dataToAdd["rowData"]["tags"]["all"],["columnData" => $currentColumnData]);
                              else {
                                 $dataToAdd['rowData'][$columnName] = ["originalName" => $originalName, "columnData" => $currentColumnData, "formattedName" => $columnName];
                              }
@@ -157,12 +160,12 @@
 
                      if($identifier===false) {
                         $quoteNumber = "quote" . (count($unpairedQuotes) + 1);
-                        $dataToAdd['rowData']['contentcategory1']['error'] = self::ERR_MISSING_CONTENT_CATEGORY;
+                        $dataToAdd['rowData']['contentcategories']['error'] = self::ERR_MISSING_CONTENT_CATEGORY;
                         $dataToAdd['rowData']['editedquotes']['warning'] = self::WARNING_EMPTY_QUOTE;
                          array_push($unpairedQuotes,[$quoteNumber  => $dataToAdd]);
                      } else {
                          $quoteNumber = "quote" . (count($sheetData[$identifier]['quotes']) + 1);
-                         $dataToAdd['rowData']['contentcategory1']['error'] = self::ERR_MISSING_CONTENT_CATEGORY;
+                         $dataToAdd['rowData']['contentcategories']['error'] = self::ERR_MISSING_CONTENT_CATEGORY;
                          $dataToAdd['rowData']['editedquotes']['warning'] = self::WARNING_EMPTY_QUOTE;
                          array_push($sheetData[$identifier]["quotes"],[$quoteNumber => $dataToAdd]);
                      }

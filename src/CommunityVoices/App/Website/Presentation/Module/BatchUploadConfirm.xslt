@@ -7,6 +7,8 @@
 
 <xsl:template name="sources">
     <xsl:param name="entries"/>
+    <xsl:param name="contentCategoryCollection"/>
+    <xsl:param name="tagCollection"/>
         <xsl:for-each select="$entries/*"> <!-- selects each identifier, which are all different tags so require * -->
             <div class="card m-3 allSources">
                 <xsl:attribute name="id"><xsl:value-of select="name(.)"/></xsl:attribute> <!-- allows us to pair unpaired quotes with this id -->
@@ -28,8 +30,15 @@
                     </div>
                     <xsl:for-each select="rowData/*">
                         <div class="form-group row">
+                            <xsl:attribute name="formattedname"><xsl:value-of select="./formattedName"/></xsl:attribute>
+                            <xsl:if test="./formattedName = 'attribution'">
+                                <xsl:attribute name="essentialorrecoomendedcolumn">source</xsl:attribute>
+                            </xsl:if>
+                            <xsl:if test="./error">
+                                <xsl:attribute name="message"><xsl:value-of select="./error"/></xsl:attribute>
+                                <xsl:attribute name="haserrors">source</xsl:attribute>
+                            </xsl:if>
                             <label class="col-sm-4 col-form-label">
-                                <xsl:attribute name="formattedname"><xsl:value-of select="./formattedName"/></xsl:attribute>
                                 <xsl:value-of select="./originalName"/>
                             </label>
                             <div class="col-sm-8">
@@ -38,28 +47,21 @@
                                     <xsl:choose>
                                         <!-- need to match column names to expected names for quote upload -->
                                         <xsl:when test="./formattedName = 'subattribution'">
-                                            <xsl:attribute name="name">subAttribution[]</xsl:attribute>
+                                            <xsl:attribute name="name">subAttribution</xsl:attribute>
                                         </xsl:when>
                                         <xsl:when test="./formattedName = 'interviewdate'">
-                                            <xsl:attribute name="name">dateRecorded[]</xsl:attribute>
+                                            <xsl:attribute name="name">dateRecorded</xsl:attribute>
                                         </xsl:when>
                                         <xsl:when test="./formattedName = 'topicofinterview'">
-                                            <xsl:attribute name="name">interviewTopic[]</xsl:attribute>
+                                            <xsl:attribute name="name">interviewTopic</xsl:attribute>
                                         </xsl:when>
                                         <xsl:when test="./formattedName = 'typeofinterview'">
-                                            <xsl:attribute name="name">interviewType[]</xsl:attribute>
+                                            <xsl:attribute name="name">interviewType</xsl:attribute>
                                         </xsl:when>
                                         <xsl:otherwise>
-                                            <xsl:attribute name="name"><xsl:value-of select="./formattedName"/>[]</xsl:attribute>
+                                            <xsl:attribute name="name"><xsl:value-of select="./formattedName"/></xsl:attribute>
                                         </xsl:otherwise>
                                     </xsl:choose>
-                                    <xsl:if test="./formattedName = 'attribution'">
-                                        <xsl:attribute name="essentialorrecoomendedcolumn">source</xsl:attribute>
-                                    </xsl:if>
-                                    <xsl:if test="./error">
-                                        <xsl:attribute name="placeholder"><xsl:value-of select="./error"/></xsl:attribute>
-                                        <xsl:attribute name="haserrors">source</xsl:attribute>
-                                    </xsl:if>
                                 </input>
                             </div>
                         </div>
@@ -70,8 +72,15 @@
                         <xsl:call-template name="quotes">
                             <xsl:with-param name="sourceInfo" select="."/>
                             <xsl:with-param name="validIdentifiers"/>
+                            <xsl:with-param name="contentCategoryCollection" select="$contentCategoryCollection"/>
+                            <xsl:with-param name="tagCollection" select="$tagCollection"/>
                         </xsl:call-template>
                     </xsl:for-each>
+                </div>
+                <div class="row">
+                    <div class="col text-center">
+                        <input type="button" form="batchUploadForm" class="btn btn-primary individualUploadButton" value="Upload Quotes with this source" id="fileUploadButton"></input>
+                    </div>
                 </div>
             </div>
         </xsl:for-each>
@@ -80,6 +89,8 @@
 <xsl:template name="quotes">
     <xsl:param name="sourceInfo"/>
     <xsl:param name="validIdentifiers"/>
+    <xsl:param name="contentCategoryCollection"/>
+    <xsl:param name="tagCollection"/>
         <xsl:for-each select="$sourceInfo/*/rowData">
             <div class="card individualQuote">
                 <xsl:attribute name="quotenumber"><xsl:value-of select="name(..)"/></xsl:attribute>
@@ -113,45 +124,89 @@
                     </xsl:if>
                     <xsl:for-each select="./*">
                         <div class="form-group row">
-                            <label class="col-sm-4 col-form-label">
-                                <xsl:attribute name="formattedname"><xsl:value-of select="./formattedName"/></xsl:attribute>
-                                <xsl:attribute name="hasidentifier">true</xsl:attribute>
-                                <xsl:value-of select="./originalName"/>
-                            </label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control">
-                                    <!-- need to modify names of form elements to match expected names for a quote upload -->
-                                    <xsl:choose>
-                                        <xsl:when test="contains(./formattedName,'tag')">
-                                            <xsl:attribute name="name">tags[<xsl:value-of select="name(../..)"/>]</xsl:attribute>
-                                        </xsl:when>
-                                        <xsl:when test="contains(./formattedName,'contentcategory')">
-                                            <xsl:attribute name="name">contentCategories[<xsl:value-of select="name(../..)"/>]</xsl:attribute>
-                                        </xsl:when>
-                                        <xsl:when test="./formattedName = 'originalquote'">
-                                            <xsl:attribute name="name">originalText[]</xsl:attribute>
-                                        </xsl:when>
-                                        <xsl:when test="./formattedName = 'editedquotes'">
-                                            <xsl:attribute name="name">text[]</xsl:attribute>
-                                        </xsl:when>
-                                    <xsl:otherwise>
-                                    <xsl:attribute name="name"><xsl:value-of select="./formattedName"/>[]</xsl:attribute>
+                            <xsl:attribute name="formattedname"><xsl:value-of select="./formattedName"/></xsl:attribute>
+                            <xsl:choose>
+                                <xsl:when test="./error">
+                                    <xsl:attribute name="essentialorrecoomendedcolumn">quote</xsl:attribute>
+                                    <xsl:attribute name="message"><xsl:value-of select="./error"/></xsl:attribute>
+                                    <xsl:attribute name="haserrors">quote</xsl:attribute>
+                                </xsl:when>
+                                <xsl:when test="./warning">
+                                    <xsl:attribute name="essentialorrecoomendedcolumn">quote</xsl:attribute>
+                                    <xsl:attribute name="message"><xsl:value-of select="./warning"/></xsl:attribute>
+                                </xsl:when>
+                            </xsl:choose>
+                            <xsl:choose>
+                                <xsl:when test="name(.)='contentcategories'">
+                                    <ul style="display:none" class="selectedContentCategories">
+                                        <xsl:for-each select="all/columnData">
+                                            <li><xsl:value-of select="."/></li>
+                                        </xsl:for-each>
+                                    </ul>
+                                    <div class="col-sm-6">
+                                    <p class="checkboxHeader">
+                                        Potential Content Categories
+                                        <span style="font-size: small;">(Check all that apply)</span>
+                                    </p>
+                                    <div style="overflow-y:scroll;width:100%;height: 145px;">
+                                      <xsl:for-each select="$contentCategoryCollection/contentCategory">
+                                        <div class="form-check">
+                                          <input class="form-check-input" type="checkbox" name="contentCategories[]" id="contentCategory{id}">
+                                            <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
+                                          </input>
+                                          <label class="form-check-label">
+                                            <xsl:attribute name="for">contentCategory<xsl:value-of select='id' /></xsl:attribute>
+                                            <xsl:value-of select="label"></xsl:value-of>
+                                          </label>
+                                        </div>
+                                      </xsl:for-each>
+                                    </div>
+                                </div>
+                                </xsl:when>
+                                <xsl:when test="name(.)='tags'">
+                                    <div class="col-sm-6">
+                                    <p class="checkboxHeader">
+                                        Tags
+                                        <span style="font-size: small;">(Check all that apply)</span>
+                                    </p>
+                                    <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
+                                      <xsl:for-each select="$tagCollection/tag">
+                                        <div class="form-check">
+                                          <input class="form-check-input" type="checkbox" name="tags[]" id="tag{id}">
+                                            <xsl:attribute name="value"><xsl:value-of select='id' /></xsl:attribute>
+                                          </input>
+                                          <label class="form-check-label">
+                                            <xsl:attribute name="for">tag<xsl:value-of select='id' /></xsl:attribute>
+                                            <xsl:value-of select="label"></xsl:value-of>
+                                          </label>
+                                        </div>
+                                      </xsl:for-each>
+                                    </div>
+                                  </div>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <label class="col-sm-4 col-form-label">
+                                        <xsl:value-of select="./originalName"/>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control">
+                                            <!-- need to modify names of form elements to match expected names for a quote upload -->
+                                            <xsl:choose>
+                                                <xsl:when test="./formattedName = 'originalquote'">
+                                                    <xsl:attribute name="name">originalText</xsl:attribute>
+                                                </xsl:when>
+                                                <xsl:when test="./formattedName = 'editedquotes'">
+                                                    <xsl:attribute name="name">text</xsl:attribute>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:attribute name="name"><xsl:value-of select="./formattedName"/></xsl:attribute>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                            <xsl:attribute name="value"><xsl:value-of select="./columnData"/></xsl:attribute>
+                                        </input>
+                                    </div>
                                 </xsl:otherwise>
                             </xsl:choose>
-                                    <xsl:attribute name="value"><xsl:value-of select="./columnData"/></xsl:attribute>
-                                    <xsl:choose>
-                                        <xsl:when test="./error">
-                                            <xsl:attribute name="essentialorrecoomendedcolumn">quote</xsl:attribute>
-                                            <xsl:attribute name="placeholder"><xsl:value-of select="./error"/></xsl:attribute>
-                                            <xsl:attribute name="haserrors">quote</xsl:attribute>
-                                        </xsl:when>
-                                        <xsl:when test="./warning">
-                                            <xsl:attribute name="essentialorrecoomendedcolumn">quote</xsl:attribute>
-                                            <xsl:attribute name="placeholder"><xsl:value-of select="./warning"/></xsl:attribute>
-                                        </xsl:when>
-                                    </xsl:choose>
-                                </input>
-                            </div>
                         </div>
                     </xsl:for-each>
                     <xsl:if test="$validIdentifiers">
@@ -168,6 +223,8 @@
 
 <xsl:template match="/package">
     <xsl:variable name="dataFromCSV" select="domain/csvResults"/>
+    <xsl:variable name="contentCategoryCollection" select="domain/contentCategoryCollection"/>
+    <xsl:variable name="tagCollection" select="domain/tagCollection"/>
     <div class="container" style="overflow-anchor: none;">
         <xsl:choose>
             <xsl:when test="$dataFromCSV/errors != ''"> <!-- if any serious errors are detected upload will be prevented. -->
@@ -214,6 +271,8 @@
                             <xsl:call-template name="quotes">
                                 <xsl:with-param name="sourceInfo" select="$dataFromCSV/unpairedQuotes"/>
                                 <xsl:with-param name="validIdentifiers" select="$dataFromCSV/validIdentifiers/allIdentifiers"/>
+                                <xsl:with-param name="contentCategoryCollection" select="$contentCategoryCollection"/>
+                                <xsl:with-param name="tagCollection" select="$tagCollection"/>
                             </xsl:call-template>
                         </div>
                     </div>
@@ -229,11 +288,13 @@
                 </div>
                     <xsl:call-template name="sources">
                         <xsl:with-param name="entries" select="$dataFromCSV/entries"/>
+                        <xsl:with-param name="contentCategoryCollection" select="$contentCategoryCollection"/>
+                        <xsl:with-param name="tagCollection" select="$tagCollection"/>
                     </xsl:call-template>
                 <form id="actualForm" method="post" action="/community-voices/quotes/new">
                     <div class="row">
                         <div class="col text-center">
-                            <input type='submit' name='submit_exit' value='Submit All' class='btn btn-primary mr-4' target='_blank'/>
+                            <input type='submit' name='submit_exit' value='Submit All' class='btn btn-primary mr-4' id="submitAll" target='_blank'/>
                         </div>
                     </div>
                 </form>

@@ -5,27 +5,39 @@ $(document).ready(function() {
     checkEntryIssuesDiv();
 });
 
-function checkRequiredFieldEmpty(field) {
-    linkExists = field.parent("a").length; // have we already added a link to this? Need to check
+function checkRequiredFieldEmpty(row) {
+    rowType = row.find(".checkboxHeader").length != 0 ? "checkbox" : "field";
+    console.log(rowType);
+    linkExists = row.parent("a").length; // have we already added a link to this? Need to check
+    input = row.find($('input'));
 
-    identifier = field.closest("[hasidentifier = true]").attr("id");
+    identifier = row.closest("[hasidentifier = true]").attr("id");
     quoteNumber = "";
-    columnName = field.closest(".form-group.row").find("label").attr("formattedname");
-    if(field.attr("haserrors")=="quote") {
-        quoteNumber = field.closest("[quotenumber]").attr("quotenumber");
+    columnName = row.attr("formattedname");
+    if(row.attr("haserrors")=="quote") {
+        quoteNumber = row.closest("[quotenumber]").attr("quotenumber");
     }
 
     strToAdd = identifier + " " + quoteNumber + " " + columnName;
     linkToAdd = strToAdd.split(' ').join('');
 
-    if (! field.val()) {
-        field.wrap(function() {
+    if(rowType == "checkbox") isEmpty = row.find($('input:checkbox:checked')).length == 0;
+    else isEmpty = input.val().length == 0;
+    if (isEmpty) {
+        row.wrap(function() {
             return "<a name='" + linkToAdd + "'></a>";
         });
         $("#entryIssues").find("ul").append("<a href='#" + linkToAdd + "'><li>" + strToAdd + "</li></a>");
+        if (rowType == "field") input.attr("placeholder",input.attr("message"));
+        else row.find(".checkboxHeader").append("<br> <strong> You must select a content category! </strong>");
     } else if (linkExists != 0) {
         $("#entryIssues").find("[href ='#" + linkToAdd + "']").remove();
-        field.unwrap();
+        row.unwrap();
+        // need to take away bold text by checkboxes, but don't need to remove bold and line break
+        if (rowType == "checkbox")  {
+            row.find("br").remove();
+            row.find("strong").remove();
+        }
     }
 }
 
@@ -35,21 +47,46 @@ function checkEntryIssuesDiv() {
 }
 
 $("[essentialorrecoomendedcolumn]").keyup(function() {
-    checkRequiredFieldEmpty($(this));
+    checkRequiredFieldEmpty($(this).closest(".row"));
     checkEntryIssuesDiv();
 });
 
+$("input:checkbox").change(function() {
+    checkRequiredFieldEmpty($(this).closest(".row"));
+    checkEntryIssuesDiv();
+});
 
-$("#actualForm").submit(function(e) {
-    $(this).css("display","none");
-    $(".allSources").each(function () {
-        source = $(this).find(".sourceNotQuote");
-        $(this).find(".individualQuote").each(function () {
-            $("#actualForm").append(source.clone());
-            $("#actualForm").append($(this).clone());
-        });
+function uploadSourceQuotePair(source,quote) {
+    $("#actualForm").append(source.clone());
+    $("#actualForm").append(quote.clone());
+    $("#actualForm").find("[name=contentCategories]").each(function () {
+        if(!$(this).val())
+            $(this).parent().parent().remove();
     });
-    return true; // submit form here
+    $("#actualForm").find("[name=tags]").each(function () {
+        if(!$(this).val())
+            $(this).parent().parent().remove();
+    });
+    $("#actualForm").submit();
+
+
+}
+
+$(".individualUploadButton").click(function() {
+    // first check if there are any errors within source div, then call uploadSourceQuotePair on each pair
+    if ($(this).find("[haserrors]").length != 0)
+        alert("Cannot upload quotes with this source. Please check errors.");
+    else {
+        sourceElm = $(this).closest(".allSources");
+        sourceNotQuote = sourceElm.find(".sourceNotQuote");
+        sourceElm.find(".individualQuote").each(function () {
+            uploadSourceQuotePair(sourceNotQuote,$(this));
+        });
+    }
+});
+
+$("#submitAll").click(function() {
+    $("#actualForm").submit();
 });
 
 if ($("#allowToggling").length) {
