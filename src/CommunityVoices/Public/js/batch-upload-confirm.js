@@ -78,6 +78,8 @@ $("input:checkbox").change(function() {
 function uploadSourceQuotePair(source,quote) {
     $("#actualForm").append(source.clone());
     $("#actualForm").append(quote.clone());
+    $("#actualForm").append("<input name='quotationMarks' value='on'></input>");
+    // need to have this field to prevent PDO error -- issue to fix later
     $("#actualForm").find("[name=contentCategories]").each(function () {
         if(!$(this).val())
             $(this).parent().parent().remove();
