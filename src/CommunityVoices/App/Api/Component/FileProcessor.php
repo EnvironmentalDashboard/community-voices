@@ -139,7 +139,7 @@
 
              if (empty($columnNameErrors))  {
                  while (($data = fgetcsv($f)) !== FALSE) {
-                     $dataToAdd = ['rowData' => ["contentcategories" => ["formattedName" => "contentcategories", "all" => [], "error" => null], "tags" => ["formattedName" => "contentcategories", "all" => []]]];
+                     $dataToAdd = ['rowData' => ["contentcategories" => ["formattedName" => "contentcategories", "all" => [], "error" => null], "tags" => ["formattedName" => "tags", "all" => []]]];
                      $identifier = false;
                      for ($i = 0; $i < count($columnOrder); $i++) {
                          $columnName = str_replace(" ","",$columnOrder[$i]); // XML requires no spaces

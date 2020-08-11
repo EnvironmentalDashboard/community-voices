@@ -1,13 +1,32 @@
 $(document).ready(function() {
+    $(".individualQuote").each(function () {
+        listSelected = [$(this).find("[formattedName = contentcategories]"),$(this).find("[formattedName = tags]")];
+        allBoxes = [$(this).find(".contentCategoryCheckboxList"), $(this).find(".tagCheckboxList")];
+        fillCheckBoxes(listSelected[0],allBoxes[0]);
+        fillCheckBoxes(listSelected[1],allBoxes[1]);
+    });
     $("[essentialorrecoomendedcolumn]").each(function() {
         checkRequiredFieldEmpty($(this));
     });
     checkEntryIssuesDiv();
 });
 
+function fillCheckBoxes (listSelected, allBoxes) {
+    listSelected.find("li").each(function () {
+        selectedInput = $(this);
+        allBoxes.find("div").each(function () {
+            checkboxLabel = $(this).find("label");
+            checkbox = $(this).find("input");
+            if(checkboxLabel.text().toLowerCase() == selectedInput.text().toLowerCase()) {
+                checkbox.attr("checked",true);
+                return false; // Since we have already found a match we should break, moving onto next user-entered content category */
+            }
+        });
+    });
+}
+
 function checkRequiredFieldEmpty(row) {
     rowType = row.find(".checkboxHeader").length != 0 ? "checkbox" : "field";
-    console.log(rowType);
     linkExists = row.parent("a").length; // have we already added a link to this? Need to check
     input = row.find($('input'));
 

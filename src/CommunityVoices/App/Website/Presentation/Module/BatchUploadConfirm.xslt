@@ -148,7 +148,7 @@
                                         Potential Content Categories
                                         <span style="font-size: small;">(Check all that apply)</span>
                                     </p>
-                                    <div style="overflow-y:scroll;width:100%;height: 145px;">
+                                    <div style="overflow-y:scroll;width:100%;height: 145px;" class="contentCategoryCheckboxList">
                                       <xsl:for-each select="$contentCategoryCollection/contentCategory">
                                         <div class="form-check">
                                           <input class="form-check-input" type="checkbox" name="contentCategories[]" id="contentCategory{id}">
@@ -164,12 +164,17 @@
                                 </div>
                                 </xsl:when>
                                 <xsl:when test="name(.)='tags'">
+                                    <ul style="display:none" class="selectedTags">
+                                        <xsl:for-each select="all/columnData">
+                                            <li><xsl:value-of select="."/></li>
+                                        </xsl:for-each>
+                                    </ul>
                                     <div class="col-sm-6">
                                     <p class="checkboxHeader">
                                         Tags
                                         <span style="font-size: small;">(Check all that apply)</span>
                                     </p>
-                                    <div style="overflow-y:scroll;width:100%;height: 145px;border:none">
+                                    <div style="overflow-y:scroll;width:100%;height: 145px;" class="tagCheckboxList">
                                       <xsl:for-each select="$tagCollection/tag">
                                         <div class="form-check">
                                           <input class="form-check-input" type="checkbox" name="tags[]" id="tag{id}">
