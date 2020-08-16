@@ -89,6 +89,11 @@ class Quote extends Component\View
         return $response;
     }
 
+    protected function postBatchUpload()
+    {
+        return new HttpFoundation\JsonResponse(true);
+    } 
+
     protected function getQuoteUpdate()
     {
         // intentionally blank

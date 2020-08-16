@@ -1,22 +1,31 @@
-function postData(form,quote) {
+toRemove = []; // after we upload form content, we want to delete all qutotes/sources at the same time
+
+function postData(form) {
     data = form.serializeArray();
     $.ajax({
-      url : '/community-voices/api/quotes/new',
-      type: "POST",
+      url : $("#actualForm").attr('action'),
+      type: $("#actualForm").attr('method'),
       data: data,
       success: function (data) {
-          source = quote.closest(".allSources");
-          // need to remove source too if there are no more unpaired quotes or other quotes with the source
-          if (quote.closest(".pairedQuotes").children.length == 0 && $("#unpairedQuotes").length == 0)
-              source.remove();
-          else {
-              quote.remove();
-              manipulateIndividualUploadButton(source);
-          }
+          // save for later
+      },
+      error: function (data) {
+          // save for later
       }
-    });
-    form.empty();
+  });
+  form.empty();
 }
+
+function createDeletePromise(quote) {
+    toRemove.push(quote);
+}
+
+function handleDeletePromises() {
+    toRemove.forEach(function(element) {
+        element.remove();
+    });
+}
+
 $(document).ready(function() {
     $(".individualQuote").each(function () {
         listSelected = [$(this).find("[formattedName = contentcategories]"),$(this).find("[formattedName = tags]")];
@@ -28,16 +37,16 @@ $(document).ready(function() {
         checkRequiredFieldEmpty($(this));
     });
     checkEntryIssuesDiv();
-    $(".allSources").each(function () {
+    $(".individualSource").each(function () {
         manipulateIndividualUploadButton($(this));
     });
 });
 
- function manipulateIndividualUploadButton(source) {
+ function manipulateIndividualUploadButton(source) { // only want user to be able to upload source if it has associated quotes
     if (source.find(".pairedQuotes").children().length && source.find(".individualUploadButton").length == 0) {
         individualUploadButton = "<div class='row'><div class='col text-center'><input type='button' form='batchUploadForm' class='btn btn-primary individualUploadButton' value='Upload Quotes with this Source' id='fileUploadButton'></input></div></div>"
         source.find(".uploadButtonContainer").append(individualUploadButton);
-    } else if (source.find("pairedQuotes").children().length == 0){
+    } else if (source.find("pairedQuotes").children().length == 0) {
         source.find(".individualUploadButton").remove();
     }
 }
@@ -57,13 +66,13 @@ function fillCheckBoxes (listSelected, allBoxes) {
 }
 
 function checkRequiredFieldEmpty(row) {
-    if (! row.closest("#unpairedQuotes").length) {
+    if (! row.closest("#unpairedQuotes").length) { // errors will only be checked for paired quotes.
         rowType = row.find(".checkboxHeader").length != 0 ? "checkbox" : "field";
         linkExists = row.parent("a").length; // have we already added a link to this? Need to check
         input = row.find($('input'));
 
         identifier = row.closest("[hasIdentifier = true]").attr("id");
-        quoteNumber = row.closest("[quoteNumber]").length ? row.closest("[quoteNumber]").attr("quoteNumber") : "";
+        quoteNumber = row.closest("[quoteNumber]").length ? "quote " + row.closest("[quoteNumber]").attr("quoteNumber") : "";
         columnName = row.attr("formattedName");
 
         strToAdd = identifier + " " + quoteNumber + " " + columnName;
@@ -110,49 +119,59 @@ $("input:checkbox").change(function() {
 });
 
 function uploadSourceQuotePair(source,quote) {
-    $("#actualForm").append(source.clone());
-    $("#actualForm").append(quote.clone());
-    $("#actualForm").append("<input name='quotationMarks' value='on'></input>");
+    sourceId = source.closest('.individualSource').attr('id');
+    quoteNumber = quote.attr('quotenumber');
+
+    wrapper = $("<div id='" + sourceId + quoteNumber + "' class='wrapper'></div>");
+    wrapper.append(source.clone());
+    wrapper.append(quote.clone());
+    wrapper.append("<input name='quotationMarks' value='on'></input>");
     // need to have this field to prevent PDO error -- issue to fix later
-    $("#actualForm").find("[name=contentCategories]").each(function () {
-        if(!$(this).val())
-            $(this).parent().parent().remove();
+
+    wrapper.find('[name="contentCategories[]"]').each(function () {
+       $(this).attr("name", "contentCategories" + '[' + sourceId + quoteNumber + ']' + '[]');
     });
-    $("#actualForm").find("[name=tags]").each(function () {
-        if(!$(this).val())
-            $(this).parent().parent().remove();
+    wrapper.find('[name="tags[]"]').each(function () {
+      $(this).attr("name", "tags" + "[" + sourceId + quoteNumber + "]" + "[]");
     });
-    postData($("#actualForm"),quote);
+     wrapper.find("input").not('[name^="contentCategories"],[name^="tags"]').each(function () {
+        $(this).attr("name", $(this).attr("name") + '[' + sourceId + quoteNumber + ']');
+    });
+    $("#actualForm").append(wrapper);
+    createDeletePromise(quote);
 
 
 }
 
+function uploadSource(source) {
+    sourceNotQuote = source.find(".sourceNotQuote");
+    source.find(".individualQuote").each(function () {
+        if ($(this).find("[hasErrors = 'true']").length == 0)  // only upload quote if no errors
+            uploadSourceQuotePair(sourceNotQuote,$(this));
+    });
+}
+
 // https://stackoverflow.com/questions/18189948/jquery-button-click-function-is-not-working
 $(".uploadButtonContainer").on('click', '.individualUploadButton', function() {
-
-    // first check if there are any errors within source div, then call uploadSourceQuotePair on each pair
-    sourceElm = $(this).closest(".allSources");
-    sourceNotQuote = sourceElm.find(".sourceNotQuote");
-
-    if (sourceElm.find("[hasErrors = 'true']").length != 0)
-        alert("Cannot upload quotes with this source. Please check errors.");
+    sourceElm = $(this).closest(".individualSource");
+    if (sourceElm.find(".sourceNotQuote").find("[hasErrors = 'true']").length != 0) // only upload source if no errors
+        alert("Cannot upload quotes with this source. Please check this source's errors.");
     else {
-        sourceElm = $(this).closest(".allSources");
-        sourceNotQuote = sourceElm.find(".sourceNotQuote");
-        sourceElm.find(".individualQuote").each(function () {
-            uploadSourceQuotePair(sourceNotQuote,$(this));
-        });
+        uploadSource(sourceElm);
+        handleDeletePromises();
+        postData($("#actualForm"));
     }
 });
 
 $("#submitAll").click(function() {
-    $(".allSources").each(function () {
-        sourceElm = $(this);
-        sourceNotQuote = sourceElm.find(".sourceNotQuote");
-        sourceElm.find(".individualQuote").each(function () {
-            uploadSourceQuotePair(sourceNotQuote,$(this));
-        });
+    if ($("[hasErrors = 'true']").length != 0)
+        alert("All remaining quotes/sources on page have errors and cannot be uploaded");
+    $(".individualSource").each(function () {
+        if ($(this).find("[hasErrors = 'true']").length == 0) // only upload source if no errors here
+            uploadSource($(this));
     });
+    handleDeletePromises();
+    postData($("#actualForm"));
 });
 
 if ($("#allowToggling").length) {
@@ -187,11 +206,12 @@ $(".pairWithIdentifier").click(function() { // pair unpaired Quote with an ident
       individualQuote.find(".identifiersFormElm").remove(); // need to remove pairing field and pair button after pairing
       $(this).remove();
       $(identifierElm).append(individualQuote);
-      $(individualQuote).attr("quoteNumber","quote" + (parseInt($(individualQuote).prev().attr("quoteNumber").substr(-1)) + 1));
+      $(individualQuote).attr("quoteNumber",parseInt($(individualQuote).prev().attr("quoteNumber")) + 1);
       $(individualQuote).find("[message]").each(function () { // errors in unpaired quotes are not logged until quotes are paired.
           checkRequiredFieldEmpty($(this));
        });
       checkNumUnpaired();
+      manipulateIndividualUploadButton
   }
 });
 
@@ -210,7 +230,7 @@ $(".deleteEntry").click(function() {
             quoteElm = $(this).closest(".individualQuote");
             quoteElm.remove();
         } else {
-            sourceElm = $(this).closest(".allSources");
+            sourceElm = $(this).closest(".individualSource");
             sourceElm.remove();
         }
     }

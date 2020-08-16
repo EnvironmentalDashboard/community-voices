@@ -135,6 +135,7 @@ class Quote extends Component\Controller
         // if ($identity->getRole() <= 2) {
         //     $approved = null;
         // }
+        var_dump($this->quoteManagement->stateObserver);
 
         return $this->quoteManagement->save(
             null,
@@ -159,6 +160,32 @@ class Quote extends Component\Controller
         else {
             $fp = new Component\FileProcessor();
             return $fp->csvReadBatch($source->getPathname(),$quote->getPathname());
+        }
+    }
+
+    protected function postBatchUpload($request)
+    {
+        $identity = $this->recognitionAdapter->identify();
+
+        foreach($request->request->get('attribution') as $key => $value) { // attributions is arbitrary, just need something to specify which source/quote pair it is
+            $identifier = $key;
+            $requestAttributes = [];
+            foreach (self::FORM_ATTRIBUTES as $key => $value) {
+
+                if($request->request->has($key) && is_string($request->request->get($key)[$identifier]))
+                    $requestAttributes[$key] = $request->request->get($key)[$identifier];
+                else if ($request->request->has($key) && is_array($request->request->get($key)[$identifier]))
+                    $requestAttributes[$key] = $request->request->get($key)[$identifier];
+                $variable = is_string($key) ? $key : $value;
+                $default = is_string($key) ? $value : null;
+                $requestAttributes[$variable] = $request->request->get($variable)[$identifier] ?? $default;
+
+            }
+            $this->quoteManagement->save(
+                null,
+                $requestAttributes,
+                $identity
+            );
         }
     }
 

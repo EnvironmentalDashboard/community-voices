@@ -10,7 +10,7 @@
     <xsl:param name="contentCategoryCollection"/>
     <xsl:param name="tagCollection"/>
         <xsl:for-each select="$entries/*"> <!-- selects each identifier, which are all different tags so require * -->
-            <div class="card m-3 allSources">
+            <div class="card m-3 individualSource">
                 <xsl:attribute name="id"><xsl:value-of select="name(.)"/></xsl:attribute> <!-- allows us to pair unpaired quotes with this id -->
                 <xsl:attribute name="hasIdentifier">true</xsl:attribute>
                 <div class="sourceNotQuote">
@@ -86,9 +86,9 @@
     <xsl:param name="validIdentifiers"/>
     <xsl:param name="contentCategoryCollection"/>
     <xsl:param name="tagCollection"/>
-        <xsl:for-each select="$sourceInfo/*/rowData">
+        <xsl:for-each select="$sourceInfo/item">
             <div class="card individualQuote">
-                <xsl:attribute name="quoteNumber"><xsl:value-of select="name(..)"/></xsl:attribute>
+                <xsl:attribute name="quoteNumber"><xsl:value-of select="quoteNumber"/></xsl:attribute>
                 <div class="row">
                     <div class="col">
                         <div class="float-right">
@@ -117,15 +117,15 @@
                             </div>
                         </div>
                     </xsl:if>
-                    <xsl:for-each select="./*">
+                    <xsl:for-each select="rowData/*">
                         <div class="form-group row">
                             <xsl:attribute name="formattedName"><xsl:value-of select="./formattedName"/></xsl:attribute>
                             <xsl:choose>
-                                <xsl:when test="./error">
+                                <xsl:when test="error">
                                     <xsl:attribute name="message"><xsl:value-of select="./error"/></xsl:attribute>
                                     <xsl:attribute name="hasErrors" value="true()"/>
                                 </xsl:when>
-                                <xsl:when test="./warning">
+                                <xsl:when test="warning">
                                     <xsl:attribute name="message"><xsl:value-of select="./warning"/></xsl:attribute>
                                     <xsl:attribute name="hasWarnings" value="true()"/>
                                 </xsl:when>
@@ -290,7 +290,7 @@
                         <xsl:with-param name="contentCategoryCollection" select="$contentCategoryCollection"/>
                         <xsl:with-param name="tagCollection" select="$tagCollection"/>
                     </xsl:call-template>
-                <form id="actualForm" method="post" action="/community-voices/quotes/new" style="display:none"/>
+                <form id="actualForm" method="post" action="/community-voices/quotes/batchUpload" style="display:none"/>
                 <div class="row">
                     <div class="col text-center">
                         <input type='submit' name='submit_exit' value='Submit All' class='btn btn-primary mr-4' id="submitAll" target='_blank'/>

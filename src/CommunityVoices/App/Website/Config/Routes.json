@@ -207,6 +207,16 @@
         }
     },
 
+    "postBatchUpload": {
+        "notation": "/quotes/batchUpload",
+        "method": "post",
+        "defaults": {
+            "resource": "Quote",
+            "action": "postBatchUpload",
+            "use-api": true
+        }
+    },
+
     "getQuote": {
         "notation": "/quotes/{id}",
         "method": "get",

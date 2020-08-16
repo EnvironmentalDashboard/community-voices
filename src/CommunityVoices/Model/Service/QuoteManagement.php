@@ -96,7 +96,7 @@ class QuoteManagement extends Management
          * the registration process
          */
 
-        if ($this->stateObserver->hasEntries()) {
+        if ($this->stateObserver->hasSubjectEntries('quoteFormErrors')) {
             $clientState->save($this->stateObserver);
             return false;
         }

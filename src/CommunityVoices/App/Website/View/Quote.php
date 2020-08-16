@@ -365,8 +365,6 @@ class Quote extends Component\View
 
     public function postQuoteUpload($request, $errors = self::ERRORS_DEFAULT)
     {
-        var_dump($request);
-        die();
         // There are three possible outcomes when the user enteres a new quote:
         // 1: Error with entering correct fields
         // 2: Correct fields entered, user presses "Submit More Quotes"

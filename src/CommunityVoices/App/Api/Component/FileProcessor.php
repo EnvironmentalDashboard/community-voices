@@ -139,7 +139,7 @@
 
              if (empty($columnNameErrors))  {
                  while (($data = fgetcsv($f)) !== FALSE) {
-                     $dataToAdd = ['rowData' => ["contentcategories" => ["formattedName" => "contentcategories", "all" => [], "error" => null], "tags" => ["formattedName" => "tags", "all" => []]]];
+                     $dataToAdd = ["contentcategories" => ["formattedName" => "contentcategories", "all" => [], "error" => null], "tags" => ["formattedName" => "tags", "all" => []]];
                      $identifier = false;
                      for ($i = 0; $i < count($columnOrder); $i++) {
                          $columnName = str_replace(" ","",$columnOrder[$i]); // XML requires no spaces
@@ -149,25 +149,24 @@
                              if($columnName=="identifier") {
                                 if(array_key_exists($this->cleanString($currentColumnData),$sheetData)) $identifier = $this->cleanString($currentColumnData); // if valid identifier
                             } else if (str_contains($columnName,"contentcategory")) { // need to process content categories and tags differently from other things
-                                array_push($dataToAdd["rowData"]["contentcategories"]["all"],["columnData" => $currentColumnData]);
+                                array_push($dataToAdd["contentcategories"]["all"],["columnData" => $currentColumnData]);
                             } else if (str_contains($columnName,"tag"))
-                                array_push($dataToAdd["rowData"]["tags"]["all"],["columnData" => $currentColumnData]);
+                                array_push($dataToAdd["tags"]["all"],["columnData" => $currentColumnData]);
                              else {
-                                $dataToAdd['rowData'][$columnName] = ["originalName" => $originalName, "columnData" => $currentColumnData, "formattedName" => $columnName];
+                                $dataToAdd[$columnName] = ["originalName" => $originalName, "columnData" => $currentColumnData, "formattedName" => $columnName];
                              }
                          }
                      }
 
+                    $dataToAdd['contentcategories']['error'] = self::ERR_MISSING_CONTENT_CATEGORY; // error checking of both of these is entirely in jquery -- these are just placeholders for possible errors and warnings
+                    $dataToAdd['editedquotes']['warning'] = self::WARNING_EMPTY_QUOTE;
+
                      if($identifier===false) {
-                        $quoteNumber = "quote" . (count($unpairedQuotes) + 1);
-                        $dataToAdd['rowData']['contentcategories']['error'] = self::ERR_MISSING_CONTENT_CATEGORY;
-                        $dataToAdd['rowData']['editedquotes']['warning'] = self::WARNING_EMPTY_QUOTE;
-                         array_push($unpairedQuotes,[$quoteNumber  => $dataToAdd]);
+                         $quoteNumber = count($unpairedQuotes) + 1;
+                          array_push($unpairedQuotes,["item" => ["quoteNumber" => $quoteNumber, "rowData" => $dataToAdd]]);
                      } else {
-                         $quoteNumber = "quote" . (count($sheetData[$identifier]['quotes']) + 1);
-                         $dataToAdd['rowData']['contentcategories']['error'] = self::ERR_MISSING_CONTENT_CATEGORY;
-                         $dataToAdd['rowData']['editedquotes']['warning'] = self::WARNING_EMPTY_QUOTE;
-                         array_push($sheetData[$identifier]["quotes"],[$quoteNumber => $dataToAdd]);
+                         $quoteNumber = count($sheetData[$identifier]['quotes']) + 1;
+                         array_push($sheetData[$identifier]["quotes"],["item" => ["quoteNumber" => $quoteNumber, "rowData" => $dataToAdd]]);
                      }
                  }
              }
