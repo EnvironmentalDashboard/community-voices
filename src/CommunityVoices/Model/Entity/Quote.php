@@ -28,6 +28,8 @@ class Quote extends Media
 
     public $type;
 
+    private $oberlinMDFields;
+
     public function __construct()
     {
         $this->type = self::TYPE_QUOTE;
@@ -126,6 +128,14 @@ class Quote extends Media
     public function setRelatedSlide($slideId)
     {
         $this->relatedSlide = $slideId;
+    }
+
+    public function getOberlinMDFields() {
+        return $this->$oberlinMDFields;
+    }
+
+    public function setOberlinMDFields($oberlinMDFields) {
+        $this->$oberlinMDFields = $oberlinMDFields;
     }
 
 
