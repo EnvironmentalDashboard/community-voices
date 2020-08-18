@@ -198,4 +198,47 @@ class Quote extends Media
 
         $statement->execute();
     }
+
+    protected function saveMetaData($oberlinMDFields, $metaDataId) {
+        if ($metaDataId) {
+            return $this->addMetaData();
+        } else {
+            return $this->updateMetaData();
+        }
+    }
+
+    protected function addMetaData($oberlinMDFields) {
+        $query = "INSERT INTO
+                        `community-voices_oberlin_metadata`
+                        (source_type, interviewee_or_source_document, organization, sponsor_organization, topic, interviewee_email,
+                            interviewee_phone, url_consent_interview, t1_survey, t2_survey, url_transcription, url_article, date_article_approved, url_photograph)
+                    VALUES
+                    (:source_type, :interviewee_or_source_document, :organization, :sponsor_organization, :topic, :interviewee_email,
+                        :interviewee_phone, :url_consent_interview, :t1_survey, :t2_survey, :url_transcription, :url_article, :date_article_approved, :url_photograph)";
+
+        $statement = $this->conn->prepare($query);
+
+        $statement->bindValue(':source_type', $oberlinMDFields['sourceType']);
+        $statement->bindValue(':interviewee_or_source_document', $oberlinMDFields['intervieweeOrSourceDocument']);
+        $statement->bindValue(':organization', $oberlinMDFields['organization']);
+        $statement->bindValue(':sponsor_organization', $oberlinMDFields['sponsorOrganization']);
+        $statement->bindValue(':topic', $oberlinMDFields['topic']);
+        $statement->bindValue(':interviewee_email', $oberlinMDFields['intervieweeEmail']);
+        $statement->bindValue(':interviewee_phone', $oberlinMDFields['intervieweePhone']);
+        $statement->bindValue(':url_consent_interview', date('Y-m-d H:i:s', $quote->getDateRecorded()));
+        $statement->bindValue(':t1_survey', $oberlinMDFields['t1Survey']);
+        $statement->bindValue(':t2_survey', $oberlinMDFields['t2Survey']);
+        $statement->bindValue(':url_transcription', $oberlinMDFields['urlTranscription']);
+        $statement->bindValue(':url_article', $oberlinMDFields['urlArticle']);
+        $statement->bindValue(':date_article_approved', $oberlinMDFields['dateArticleApproved']);
+        $statement->bindValue(':url_photograph', $oberlinMDFields['urlPhotograph']);
+        $statement->execute();
+
+        $idToLink = $this->conn->lastInsertId();
+        return $idToLink;
+    }
+
+    protected function updateMetaData($oberlinMDFields) {
+        return false;
+    }
 }
