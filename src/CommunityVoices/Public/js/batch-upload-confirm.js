@@ -231,6 +231,8 @@ $(".deleteEntry").click(function() {
             quoteElm.remove();
         } else {
             sourceElm = $(this).closest(".individualSource");
+            sourceId = sourceElm.attr('id');
+            $("option." + sourceId).remove();
             sourceElm.remove();
         }
     }
