@@ -53,6 +53,20 @@
          $validIdentifiers = ["allIdentifiers" => []]; // allow selection for unpaired quotes
          $formattedSourceNames = array_map(array($this,'cleanString'),self::BATCH_SOURCE_DATA);
          $formattedQuoteNames = array_map(array($this,'cleanString'),self::BATCH_QUOTE_DATA);
+         $sourceNameMapper = [];
+         $quoteNameMapper = [];
+         for ($i = 0; $i < count($formattedSourceNames); $i++) {
+             $sourceNameMapper[$formattedSourceNames[$i]] = self::BATCH_SOURCE_DATA[$i];
+         }
+
+         $quoteNameMapper = [];
+         for ($i = 0; $i < count($formattedQuoteNames); $i++) {
+             $quoteNameMapper[$formattedQuoteNames[$i]] = self::BATCH_QUOTE_DATA[$i];
+         }
+
+         // both of these mapper arrays are required in order to associate a formatted column with its original column to display original column name on page
+
+
          // There will be errors/warnings on three levels: top level (column names), source level (relating to source info), quotes level (relating to quotes info)
          // any errors on the top level will require a re upload
 
@@ -84,6 +98,7 @@
            // These are both major errors. There is no need to parse the rest of the sheet as uploading will not be allowed if one of these errors occurs
            $sheetData = [];
            if (empty($columnNameErrors))  {
+              fgetcsv($f);
                while (($data = fgetcsv($f)) !== FALSE) {
                    $dataToAdd = ['rowData' => []];
                    $identifier = false;
@@ -91,7 +106,7 @@
                        $columnName = $columnOrder[$i]; // XML requires no spaces
                        $currentColumnData = $data[$i];
                        if($columnName != "unrecognized") {
-                           $originalName = self::BATCH_SOURCE_DATA[$i];
+                           $originalName = $sourceNameMapper[$columnName];
                            if($columnName=="identifier") {
                                $identifier = $this->cleanString($currentColumnData); // XML requirements
                                if(!empty($identifier)) array_push($validIdentifiers["allIdentifiers"],["item" => $identifier]);
@@ -145,7 +160,7 @@
                          $columnName = str_replace(" ","",$columnOrder[$i]); // XML requires no spaces
                          $currentColumnData = $data[$i];
                          if($columnName != "unrecognized") {
-                             $originalName = self::BATCH_QUOTE_DATA[$i];
+                             $originalName = $quoteNameMapper[$columnName];
                              if($columnName=="identifier") {
                                 if(array_key_exists($this->cleanString($currentColumnData),$sheetData)) $identifier = $this->cleanString($currentColumnData); // if valid identifier
                             } else if (str_contains($columnName,"contentcategory")) { // need to process content categories and tags differently from other things
