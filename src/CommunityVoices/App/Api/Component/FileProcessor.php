@@ -17,7 +17,9 @@
          'Identifier',
          'Original Quote',
          'Edited Quotes',
-         'Url link to Photo',
+         'Quotation Marks',
+         'Suggested Photo Source',
+         'Suggested Photo in CV',
          'Content Category 1',
          'Content Category 2',
          'Content Category 3',
@@ -25,23 +27,32 @@
          'Tag 2',
          'Tag 3',
          'Tag 4',
-         'Sponsor',
+         'Tag 5',
+         'Sponsor Organization',
          'Create a Slide'
      ];
 
      const BATCH_SOURCE_DATA = [
          'Identifier',
-         'Interviewer',
-         'Interviewee',
-         'Interview Date',
+         'Source Type',
+         'Interviewer/Researcher',
+         'Interviewee or Source Document',
+         'Interview or File Access Date',
          'Attribution',
          'Sub-Attribution',
-         'Organization ',
-         'Topic of Interview',
-         'Email',
-         'Telephone',
-         'Course or Project',
-         'Type of Interview'
+         'Organization',
+         'Sponsor Organization',
+         'Topic/Theme of Interview',
+         'URL Source Document',
+         'Interviewee Email',
+         'Interviewee Telephone',
+         'URL Interview Consent',
+         'URL T1 Survey',
+         'URL T2 Survey',
+         'URL Interview Transcription',
+         'URL Article',
+         'Date Article Approved by Interviewee',
+         'URL Photograph Interviewee'
      ];
      public function tailRead($filepath, $lines, $endLine = PHP_INT_MAX, $startDate = false, $endDate = false) {
          // from error page
@@ -135,7 +146,7 @@
                      array_push($columnOrder,$formattedColumn);
                  } else {
                      array_push($columnOrder,"unrecognized");
-                     array_push($columnNameWarnings["unrecognized"],["item" => [$formattedColumn]]);
+                     array_push($columnNameWarnings["unrecognized"],["item" => [$column]]);
                  }
              }
 
