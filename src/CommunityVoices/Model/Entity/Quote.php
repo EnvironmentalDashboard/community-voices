@@ -90,7 +90,7 @@ class Quote extends Media
 
     public function setQuotationMarks($quotationMarks)
     {
-        $this->quotationMarks = boolval($quotationMarks);
+        $this->quotationMarks = intval(boolval($quotationMarks));
     }
 
     public function getDateRecorded()
