@@ -115,7 +115,7 @@
                    $identifier = false;
                    for ($i = 0; $i < count($columnOrder); $i++) {
                        $columnName = $columnOrder[$i]; // XML requires no spaces
-                       $currentColumnData = $data[$i];
+                       $currentColumnData = $this->replaceTextInTags($data[$i]);
                        if($columnName != "unrecognized") {
                            $originalName = $sourceNameMapper[$columnName];
                            if($columnName=="identifier") {
@@ -169,7 +169,7 @@
                      $identifier = false;
                      for ($i = 0; $i < count($columnOrder); $i++) {
                          $columnName = str_replace(" ","",$columnOrder[$i]); // XML requires no spaces
-                         $currentColumnData = $data[$i];
+                         $currentColumnData = $this->replaceTextInTags($data[$i]);
                          if($columnName != "unrecognized") {
                              $originalName = $quoteNameMapper[$columnName];
                              if($columnName=="identifier") {
@@ -201,5 +201,8 @@
      }
      private function cleanString($s) {
          return strtolower(preg_replace(["/[^a-zA-Z0-9]/","/\s/"], "", $s));
+     }
+     private function replaceTextInTags($s) {
+         return preg_replace("/<(.+?)>/","",$s);
      }
  }
