@@ -28,7 +28,6 @@
          'Tag 3',
          'Tag 4',
          'Tag 5',
-         'Sponsor Organization',
          'Create a Slide'
      ];
 

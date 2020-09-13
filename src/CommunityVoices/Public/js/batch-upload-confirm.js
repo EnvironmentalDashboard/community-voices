@@ -1,5 +1,17 @@
 toRemove = []; // after we upload form content, we want to delete all qutotes/sources at the same time
 
+// ------- VARIOUS USER DEFINED FUNCTIONS CALLED ON JQUERY EVENTS
+
+function createDeletePromise(quote) { // after we upload a quote, we should add it to a list to delete (delete happens all at once).
+    toRemove.push(quote);
+}
+
+function handleDeletePromises() { // delete all quotes after sending request
+    toRemove.forEach(function(element) {
+        element.remove();
+    });
+}
+
 function postData(form) {
     data = form.serializeArray();
     $.ajax({
@@ -16,107 +28,72 @@ function postData(form) {
   form.empty();
 }
 
-function createDeletePromise(quote) {
-    toRemove.push(quote);
+function manipulateIndividualUploadButton(source) { // only want user to be able to upload source if it has associated quotes
+   uploadButtonContainer = source.find(".uploadButtonContainer");
+   individualUploadButton = "<div class='row'><div class='col text-center'><input type='button' form='batchUploadForm' class='btn btn-primary individualUploadButton' value='Upload Quotes with this Source' id='fileUploadButton'></input></div></div>"
+   if (source.find(".pairedQuotes").children().length && source.find(".individualUploadButton").length == 0) { // add individual upload button if source now had > 0 associated quotes.
+       uploadButtonContainer.append(individualUploadButton);
+   } else if (source.find("pairedQuotes").children().length == 0) { // remove individual upload button if source now has 0 associated quotes
+       uploadButtonContainer.empty();
+   }
 }
 
-function handleDeletePromises() {
-    toRemove.forEach(function(element) {
-        element.remove();
-    });
+function fillCheckBoxes (listSelected, allBoxes) { // takes content category fields and turns them into checkboxes, filling ones that are valid and user inputted
+   listSelected.find("li").each(function () {
+       selectedInput = $(this);
+       allBoxes.find("div").each(function () {
+           checkboxLabel = $(this).find("label");
+           checkbox = $(this).find("input");
+           if(checkboxLabel.text().toLowerCase() == selectedInput.text().toLowerCase()) {
+               checkbox.attr("checked",true);
+               return false; // Since we have already found a match we should break, moving onto next user-entered content category */
+           }
+       });
+   });
 }
 
-$(document).ready(function() {
-    $(".individualQuote").each(function () {
-        listSelected = [$(this).find("[formattedName = contentcategories]"),$(this).find("[formattedName = tags]")];
-        allBoxes = [$(this).find(".contentCategoryCheckboxList"), $(this).find(".tagCheckboxList")];
-        fillCheckBoxes(listSelected[0],allBoxes[0]);
-        fillCheckBoxes(listSelected[1],allBoxes[1]);
-    });
-    $("[message]").each(function() {
-        checkRequiredFieldEmpty($(this));
-    });
-    checkEntryIssuesDiv();
-    $(".individualSource").each(function () {
-        manipulateIndividualUploadButton($(this));
-    });
-});
+function checkFieldEmpty(row) { // checks if a required/suggested field (edited quotes,content categories, attributions) is empty or not
+   if (! row.closest("#unpairedQuotes").length) { // issues will only be checked for paired quotes, we will ignore issues with unpaired quotes.
+       rowType = row.find(".checkboxHeader").length != 0 ? "checkbox" : "field";
+       linkExists = row.parent("a").length; // have we already added a link to this? Need to check
+       input = row.find($('input'));
 
- function manipulateIndividualUploadButton(source) { // only want user to be able to upload source if it has associated quotes
-    if (source.find(".pairedQuotes").children().length && source.find(".individualUploadButton").length == 0) {
-        individualUploadButton = "<div class='row'><div class='col text-center'><input type='button' form='batchUploadForm' class='btn btn-primary individualUploadButton' value='Upload Quotes with this Source' id='fileUploadButton'></input></div></div>"
-        source.find(".uploadButtonContainer").append(individualUploadButton);
-    } else if (source.find("pairedQuotes").children().length == 0) {
-        source.find(".individualUploadButton").remove();
-    }
-}
+       identifier = row.closest("[hasIdentifier = true]").attr("id");
+       quoteNumber = row.closest("[quoteNumber]").length ? "quote " + row.closest("[quoteNumber]").attr("quoteNumber") : "";
+       columnName = row.attr("formattedName");
 
-function fillCheckBoxes (listSelected, allBoxes) {
-    listSelected.find("li").each(function () {
-        selectedInput = $(this);
-        allBoxes.find("div").each(function () {
-            checkboxLabel = $(this).find("label");
-            checkbox = $(this).find("input");
-            if(checkboxLabel.text().toLowerCase() == selectedInput.text().toLowerCase()) {
-                checkbox.attr("checked",true);
-                return false; // Since we have already found a match we should break, moving onto next user-entered content category */
-            }
-        });
-    });
-}
+       strToAdd = identifier + " " + quoteNumber + " " + columnName;
+       linkToAdd = strToAdd.split(' ').join('');
 
-function checkRequiredFieldEmpty(row) {
-    if (! row.closest("#unpairedQuotes").length) { // errors will only be checked for paired quotes.
-        rowType = row.find(".checkboxHeader").length != 0 ? "checkbox" : "field";
-        linkExists = row.parent("a").length; // have we already added a link to this? Need to check
-        input = row.find($('input'));
+       isEmpty = rowType == "checkbox" ? row.find($('input:checkbox:checked')).length == 0 : input.val().length == 0
 
-        identifier = row.closest("[hasIdentifier = true]").attr("id");
-        quoteNumber = row.closest("[quoteNumber]").length ? "quote " + row.closest("[quoteNumber]").attr("quoteNumber") : "";
-        columnName = row.attr("formattedName");
-
-        strToAdd = identifier + " " + quoteNumber + " " + columnName;
-        linkToAdd = strToAdd.split(' ').join('');
-
-        isEmpty = rowType == "checkbox" ? row.find($('input:checkbox:checked')).length == 0 : input.val().length == 0
-
-        if (isEmpty) {
-            // need to signify the row has errors by setting hasErrors / hasWarnings to true
-            row.is("[hasErrors]") ? row.attr("hasErrors",true) : row.attr("hasWarnings",true);
-            row.wrap(function() {
-                return "<a name='" + linkToAdd + "'></a>";
-            });
-            $("#entryIssues").find("ul").append("<a href='#" + linkToAdd + "'><li>" + strToAdd + "</li></a>");
-            if (rowType == "field") input.attr("placeholder",row.attr("message"));
-            else row.find(".checkboxHeader").append("<br> <strong> You must select a content category! </strong>");
-        } else if (linkExists != 0) {
-            // need to set hasErrors or hasWarnings attributes to false
-            row.is("[hasErrors]") ? row.attr("hasErrors",false) : row.attr("hasWarnings",false);
-            $("#entryIssues").find("[href ='#" + linkToAdd + "']").remove();
-            row.unwrap();
-            // need to take away bold text by checkboxes, but don't need to remove bold and line break
-            if (rowType == "checkbox")  {
-                row.find("br").remove();
-                row.find("strong").remove();
-            }
-        }
-    }
+       if (isEmpty) {
+           // need to signify the row has errors by setting hasErrors / hasWarnings to true
+           row.is("[hasErrors]") ? row.attr("hasErrors",true) : row.attr("hasWarnings",true);
+           row.wrap(function() {
+               return "<a name='" + linkToAdd + "'></a>";
+           });
+           $("#entryIssues").find("ul").append("<a href='#" + linkToAdd + "'><li>" + strToAdd + "</li></a>");
+           if (rowType == "field") input.attr("placeholder",row.attr("message"));
+           else row.find(".checkboxHeader").append("<br> <strong> You must select a content category! </strong>");
+       } else if (linkExists != 0) {
+           // need to set hasErrors or hasWarnings attributes to false
+           row.is("[hasErrors]") ? row.attr("hasErrors",false) : row.attr("hasWarnings",false);
+           $("#entryIssues").find("[href ='#" + linkToAdd + "']").remove();
+           row.unwrap();
+           // need to take away bold text by checkboxes, but don't need to remove bold and line break
+           if (rowType == "checkbox")  {
+               row.find("br").remove();
+               row.find("strong").remove();
+           }
+       }
+   }
 }
 
 function checkEntryIssuesDiv() {
-    if ($("#entryIssues").find("ul").children().length == 0) $("#entryIssues").hide();
-    else $("#entryIssues").show();
+   if ($("#entryIssues").find("ul").children().length == 0) $("#entryIssues").hide();
+   else $("#entryIssues").show();
 }
-
-$("[message]").keyup(function() {
-    checkRequiredFieldEmpty($(this).closest(".row"));
-    checkEntryIssuesDiv();
-});
-
-$("input:checkbox").change(function() {
-    checkRequiredFieldEmpty($(this).closest(".row"));
-    checkEntryIssuesDiv();
-});
 
 function uploadSourceQuotePair(source,quote) {
     sourceId = source.closest('.individualSource').attr('id');
@@ -150,6 +127,42 @@ function uploadSource(source) {
             uploadSourceQuotePair(sourceNotQuote,$(this));
     });
 }
+
+function checkNumUnpaired() {
+    numQuotesUnpaired = $("#unpairedQuotes div div").length;
+    if(numQuotesUnpaired == 0 && $("#unpairedQuotes").length) {
+        $("#unpairedQuotes").remove();
+        $("#allowToggling").remove();
+    }
+}
+
+// VARIOUS JQUERY EVENTS THAT TRIGGER CALLING FUNCTIONS
+
+$(document).ready(function() {
+    $(".individualQuote").each(function () {
+        listSelected = [$(this).find("[formattedName = contentcategories]"),$(this).find("[formattedName = tags]")];
+        allBoxes = [$(this).find(".contentCategoryCheckboxList"), $(this).find(".tagCheckboxList")];
+        fillCheckBoxes(listSelected[0],allBoxes[0]);
+        fillCheckBoxes(listSelected[1],allBoxes[1]);
+    });
+    $("[message]").each(function() {
+        checkFieldEmpty($(this));
+    });
+    checkEntryIssuesDiv();
+    $(".individualSource").each(function () {
+        manipulateIndividualUploadButton($(this));
+    });
+});
+
+$("[message]").keyup(function() {
+    checkFieldEmpty($(this).closest(".row"));
+    checkEntryIssuesDiv();
+});
+
+$("input:checkbox").change(function() {
+    checkFieldEmpty($(this).closest(".row"));
+    checkEntryIssuesDiv();
+});
 
 // https://stackoverflow.com/questions/18189948/jquery-button-click-function-is-not-working
 $(".uploadButtonContainer").on('click', '.individualUploadButton', function() {
@@ -190,28 +203,21 @@ $("#deleteAllUnpaired").click(function(e) {
     }
 });
 
-function checkNumUnpaired() {
-    numQuotesUnpaired = $("#unpairedQuotes div div").length;
-    if(numQuotesUnpaired == 0 && $("#unpairedQuotes").length) {
-        $("#unpairedQuotes").remove();
-        $("#allowToggling").remove();
-    }
-}
-
 $(".pairWithIdentifier").click(function() { // pair unpaired Quote with an identifier
   individualQuote = $(this).closest(".individualQuote");
-  identifierToAppend = individualQuote.find(".validIdentifiers")
+  identifierToAppend = individualQuote.find(".validIdentifiers"); // selects the identifier chosen by the user when they click "pair"
   if (identifierToAppend.val()) {
-      identifierElm = $('#'.concat(identifierToAppend.val())).find(".pairedQuotes");
+      sourceToPair = $('#'.concat(identifierToAppend.val())); // select source to pair with based on selected id.
+      sourceToPairAssociatedQuotes = sourceToPair.find(".pairedQuotes");
       individualQuote.find(".identifiersFormElm").remove(); // need to remove pairing field and pair button after pairing
       $(this).remove();
-      $(identifierElm).append(individualQuote);
+      $(sourceToPairAssociatedQuotes).append(individualQuote);
       $(individualQuote).attr("quoteNumber",parseInt($(individualQuote).prev().attr("quoteNumber")) + 1);
       $(individualQuote).find("[message]").each(function () { // errors in unpaired quotes are not logged until quotes are paired.
-          checkRequiredFieldEmpty($(this));
+          checkFieldEmpty($(this));
        });
       checkNumUnpaired();
-      manipulateIndividualUploadButton
+      manipulateIndividualUploadButton(sourceToPair);
   }
 });
 
@@ -226,13 +232,15 @@ $("#file").change(function(){
 
 $(".deleteEntry").click(function() {
     if (confirm("Are you sure?")) {
-        if($(this).hasClass("quoteDelete"))  {
+        if($(this).hasClass("quoteDelete"))  { // determine whether we are deleting a quote or a source
             quoteElm = $(this).closest(".individualQuote");
+            associatedSource = quoteElm.closest(".individualSource");
             quoteElm.remove();
+            manipulateIndividualUploadButton(associatedSource);
         } else {
             sourceElm = $(this).closest(".individualSource");
             sourceId = sourceElm.attr('id');
-            $("option." + sourceId).remove();
+            $("option." + sourceId).remove(); // remove option to pair unpaired quotes with this source
             sourceElm.remove();
         }
     }
