@@ -13,24 +13,6 @@
      const ERR_WRONG_IDENTIFIER = 'This identifier does not match any quote identifiers.';
      const WARNING_EMPTY_QUOTE = "Warning! This quote is empty";
 
-     const BATCH_QUOTE_DATA = [
-         'Identifier',
-         'Original Quote',
-         'Edited Quotes',
-         'Quotation Marks',
-         'Suggested Photo Source',
-         'Suggested Photo in CV',
-         'Content Category 1',
-         'Content Category 2',
-         'Content Category 3',
-         'Tag 1',
-         'Tag 2',
-         'Tag 3',
-         'Tag 4',
-         'Tag 5',
-         'Create a Slide'
-     ];
-
      const BATCH_SOURCE_DATA = [
          'Identifier',
          'Source Type',
@@ -53,6 +35,25 @@
          'Date Article Approved by Interviewee',
          'URL Photograph Interviewee'
      ];
+
+     const BATCH_QUOTE_DATA = [
+         'Identifier',
+         'Original Quote',
+         'Edited Quotes',
+         'Quotation Marks',
+         'Suggested Photo Source',
+         'Suggested Photo in CV',
+         'Content Category 1',
+         'Content Category 2',
+         'Content Category 3',
+         'Tag 1',
+         'Tag 2',
+         'Tag 3',
+         'Tag 4',
+         'Tag 5',
+         'Create a Slide'
+     ];
+
      public function tailRead($filepath, $lines, $endLine = PHP_INT_MAX, $startDate = false, $endDate = false) {
          // from error page
      }

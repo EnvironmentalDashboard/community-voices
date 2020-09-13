@@ -90,7 +90,7 @@ function checkFieldEmpty(row) { // checks if a required/suggested field (edited 
    }
 }
 
-function checkEntryIssuesDiv() {
+function checkEntryIssuesEmpty() {
    if ($("#entryIssues").find("ul").children().length == 0) $("#entryIssues").hide();
    else $("#entryIssues").show();
 }
@@ -116,6 +116,13 @@ function uploadSourceQuotePair(source,quote) {
     });
     $("#actualForm").append(wrapper);
     createDeletePromise(quote);
+    // it is possible that a quote with warnings was updated, so we need to remove all possible warnings from box:
+    quoteLink = quote.find("a[name]").attr("name");
+    console.log(quoteLink);
+    console.log($("#entryIssues"));
+    $("#entryIssues").find('[href ="#' + quoteLink + '"]').remove();
+    checkEntryIssuesEmpty();
+
 
 
 }
@@ -148,7 +155,7 @@ $(document).ready(function() {
     $("[message]").each(function() {
         checkFieldEmpty($(this));
     });
-    checkEntryIssuesDiv();
+    checkEntryIssuesEmpty();
     $(".individualSource").each(function () {
         manipulateIndividualUploadButton($(this));
     });
@@ -156,12 +163,12 @@ $(document).ready(function() {
 
 $("[message]").keyup(function() {
     checkFieldEmpty($(this).closest(".row"));
-    checkEntryIssuesDiv();
+    checkEntryIssuesEmpty();
 });
 
 $("input:checkbox").change(function() {
     checkFieldEmpty($(this).closest(".row"));
-    checkEntryIssuesDiv();
+    checkEntryIssuesEmpty();
 });
 
 // https://stackoverflow.com/questions/18189948/jquery-button-click-function-is-not-working

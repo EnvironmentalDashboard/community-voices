@@ -5,7 +5,7 @@
     <xsl:import href="../Component/Navbar.xslt" />
     <xsl:output method="html" indent="yes" omit-xml-declaration="yes" />
 
-<xsl:template name="sources">
+<xsl:template name="sources"> <!-- template for each source -->
     <xsl:param name="entries"/>
     <xsl:param name="contentCategoryCollection"/>
     <xsl:param name="tagCollection"/>
@@ -81,7 +81,7 @@
         </xsl:for-each>
 </xsl:template>
 
-<xsl:template name="quotes">
+<xsl:template name="quotes"> <!-- template for each quote -->
     <xsl:param name="sourceInfo"/>
     <xsl:param name="validIdentifiers"/>
     <xsl:param name="contentCategoryCollection"/>
