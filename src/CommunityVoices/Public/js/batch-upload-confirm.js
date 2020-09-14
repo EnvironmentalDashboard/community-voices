@@ -33,7 +33,7 @@ function manipulateIndividualUploadButton(source) { // only want user to be able
    individualUploadButton = "<div class='row'><div class='col text-center'><input type='button' form='batchUploadForm' class='btn btn-primary individualUploadButton' value='Upload Quotes with this Source' id='fileUploadButton'></input></div></div>"
    if (source.find(".pairedQuotes").children().length && source.find(".individualUploadButton").length == 0) { // add individual upload button if source now had > 0 associated quotes.
        uploadButtonContainer.append(individualUploadButton);
-   } else if (source.find("pairedQuotes").children().length == 0) { // remove individual upload button if source now has 0 associated quotes
+   } else if (source.find(".pairedQuotes").children().length == 0) { // remove individual upload button if source now has 0 associated quotes
        uploadButtonContainer.empty();
    }
 }
@@ -118,13 +118,8 @@ function uploadSourceQuotePair(source,quote) {
     createDeletePromise(quote);
     // it is possible that a quote with warnings was updated, so we need to remove all possible warnings from box:
     quoteLink = quote.find("a[name]").attr("name");
-    console.log(quoteLink);
-    console.log($("#entryIssues"));
     $("#entryIssues").find('[href ="#' + quoteLink + '"]').remove();
     checkEntryIssuesEmpty();
-
-
-
 }
 
 function uploadSource(source) {
@@ -180,6 +175,10 @@ $(".uploadButtonContainer").on('click', '.individualUploadButton', function() {
         uploadSource(sourceElm);
         handleDeletePromises();
         postData($("#actualForm"));
+        if (sourceElm.find("[hasErrors = 'true']").length != 0)  // certain quotes have issues preventing upload
+            alert("Some of your quotes have issues preventing their upload. All quotes remaining with this source have errors.");
+        else
+            sourceElm.remove();
     }
 });
 
@@ -192,6 +191,10 @@ $("#submitAll").click(function() {
     });
     handleDeletePromises();
     postData($("#actualForm"));
+    $(".individualSource").each(function () {
+        if ( $(this).find("[hasErrors = 'true']").length == 0)
+            $(this).remove();
+    });
 });
 
 if ($("#allowToggling").length) {
