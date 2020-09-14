@@ -219,14 +219,19 @@ $(".pairWithIdentifier").click(function() { // pair unpaired Quote with an ident
   if (identifierToAppend.val()) {
       sourceToPair = $('#'.concat(identifierToAppend.val())); // select source to pair with based on selected id.
       sourceToPairAssociatedQuotes = sourceToPair.find(".pairedQuotes");
+
       individualQuote.find(".identifiersFormElm").remove(); // need to remove pairing field and pair button after pairing
       $(this).remove();
+
+      quoteNumber = sourceToPairAssociatedQuotes.children().length ? parseInt(sourceToPairAssociatedQuotes.children().last().attr("quoteNumber")) + 1 : 1;
+      $(individualQuote).attr("quoteNumber",quoteNumber);
+
       $(sourceToPairAssociatedQuotes).append(individualQuote);
-      $(individualQuote).attr("quoteNumber",parseInt($(individualQuote).prev().attr("quoteNumber")) + 1);
+      checkNumUnpaired();
       $(individualQuote).find("[message]").each(function () { // errors in unpaired quotes are not logged until quotes are paired.
           checkFieldEmpty($(this));
        });
-      checkNumUnpaired();
+
       manipulateIndividualUploadButton(sourceToPair);
   }
 });
