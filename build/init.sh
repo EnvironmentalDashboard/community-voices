@@ -18,3 +18,6 @@ service postfix start
 mkdir -p /var/www/html/log
 touch /var/www/html/log/access.log
 chmod a+w /var/www/html/log/access.log
+
+# Make sure CV_Media/images exists
+mkdir -p /var/www/html/CV_Media/images
