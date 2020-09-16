@@ -281,7 +281,7 @@ function renderSlide(quote_text, attribution, image, ccid, logo) {
             (logo ? '<img src="/community-voices/uploads/' + logo + '" alt="" style="position:absolute;left:2vw;bottom:2vw;width:10vw;height:auto;" />' : '')+
             (logo ? '<span style="position:absolute;left:14vw;">' : '')+cc.label+(logo ? '</span>' : '')+
             '<img src="/community-voices/uploads/'+
-            cc.image.image.id+'" alt="" style="position:absolute;right:3vw;bottom:2vw;max-width:25vw;max-height:25vh" /></div></body></html>';
+            cc.image.image.id+'" alt="" style="position:absolute;right:3vw;bottom:2vw;max-width:25vw;max-height:16vh" /></div></body></html>';
         iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(head + body);
     });
 }
