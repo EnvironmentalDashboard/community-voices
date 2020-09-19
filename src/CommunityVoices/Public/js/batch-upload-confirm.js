@@ -81,7 +81,7 @@ function checkFieldEmpty(row) { // checks if a required/suggested field (edited 
            row.is("[hasErrors]") ? row.attr("hasErrors",false) : row.attr("hasWarnings",false);
            $("#entryIssues").find("[href ='#" + linkToAdd + "']").remove();
            row.unwrap();
-           // need to take away bold text by checkboxes, but don't need to remove bold and line break
+           // need to take away bold text by checkboxes and line break
            if (rowType == "checkbox")  {
                row.find("br").remove();
                row.find("strong").remove();
@@ -131,14 +131,19 @@ function uploadSource(source) {
 }
 
 function checkNumUnpaired() {
-    numQuotesUnpaired = $("#unpairedQuotes div div").length;
+    numQuotesUnpaired = $("#unpairedQuotes").find(".individualQuote").length;
     if(numQuotesUnpaired == 0 && $("#unpairedQuotes").length) {
         $("#unpairedQuotes").remove();
         $("#allowToggling").remove();
     }
 }
 
-// VARIOUS JQUERY EVENTS THAT TRIGGER CALLING FUNCTIONS
+function setQuoteNumber(quote) {
+    quoteNumber =  quote.prev().length ? parseInt(quote.prev().attr("quoteNumber")) + 1 : 1;
+    quote.attr("quoteNumber",quoteNumber);
+}
+
+// VARIOUS JQUERY EVENTS THAT TRIGGER USER DEFINED FUNCTIONS
 
 $(document).ready(function() {
     $(".individualQuote").each(function () {
@@ -218,15 +223,12 @@ $(".pairWithIdentifier").click(function() { // pair unpaired Quote with an ident
   identifierToAppend = individualQuote.find(".validIdentifiers"); // selects the identifier chosen by the user when they click "pair"
   if (identifierToAppend.val()) {
       sourceToPair = $('#'.concat(identifierToAppend.val())); // select source to pair with based on selected id.
-      sourceToPairAssociatedQuotes = sourceToPair.find(".pairedQuotes");
 
       individualQuote.find(".identifiersFormElm").remove(); // need to remove pairing field and pair button after pairing
       $(this).remove();
 
-      quoteNumber = sourceToPairAssociatedQuotes.children().length ? parseInt(sourceToPairAssociatedQuotes.children().last().attr("quoteNumber")) + 1 : 1;
-      $(individualQuote).attr("quoteNumber",quoteNumber);
-
       $(sourceToPairAssociatedQuotes).append(individualQuote);
+      setQuoteNumber(individualQuote);
       checkNumUnpaired();
       $(individualQuote).find("[message]").each(function () { // errors in unpaired quotes are not logged until quotes are paired.
           checkFieldEmpty($(this));
@@ -236,22 +238,19 @@ $(".pairWithIdentifier").click(function() { // pair unpaired Quote with an ident
   }
 });
 
-// these following two functions are only for the fatal errors when the user is required to reupload.
-$('#fileUploadButton').on('click', function (c)  {
-	$('#file').click();
-});
-
-$("#file").change(function(){
-    $('#batchUploadForm').submit();
-});
-
 $(".deleteEntry").click(function() {
     if (confirm("Are you sure?")) {
         if($(this).hasClass("quoteDelete"))  { // determine whether we are deleting a quote or a source
             quoteElm = $(this).closest(".individualQuote");
             associatedSource = quoteElm.closest(".individualSource");
+            otherQuotesInSource = associatedSource.find(".pairedQuotes");
+
             quoteElm.remove();
             manipulateIndividualUploadButton(associatedSource);
+            checkNumUnpaired();
+            otherQuotesInSource.find(".individualQuote").each(function() {
+                setQuoteNumber($(this));
+            });
         } else {
             sourceElm = $(this).closest(".individualSource");
             sourceId = sourceElm.attr('id');
@@ -259,4 +258,13 @@ $(".deleteEntry").click(function() {
             sourceElm.remove();
         }
     }
+});
+
+// these following two functions are only for the fatal errors when the user is required to reupload (the reupload button won't normally appear on page)
+$('#fileUploadButton').on('click', function (c)  {
+	$('#file').click();
+});
+
+$("#file").change(function(){
+    $('#batchUploadForm').submit();
 });
