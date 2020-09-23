@@ -1,0 +1,1 @@
+0 0 * * * find /var/lib/php/sessions -atime +7 | xargs -r rm
