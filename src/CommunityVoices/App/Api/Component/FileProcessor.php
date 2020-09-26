@@ -4,13 +4,12 @@
  use Symfony\Component\HttpFoundation;
 
  class FileProcessor {
-     const ERR_NO_ATTRIBUTIONS = 'The source table must provide an attribution column';
-     const ERR_NO_CONTENT_CATEGORIES = 'The quotes table must provide a content category column';
-     const ERR_NO_IDENTIFIER = 'Both sheets must provide an identifier column';
-     const ERR_NO_QUOTE = 'The quotes sheet must provide a quote (edited text) column';
+     const ERR_NO_ATTRIBUTIONS = 'The source table must provide an "attribution" column';
+     const ERR_NO_CONTENT_CATEGORIES = 'The quotes table must provide a "content category 1" column';
+     const ERR_NO_IDENTIFIER = 'Both sheets must provide an "identifier" column';
+     const ERR_NO_QUOTE = 'The quotes sheet must provide a "edited quotes" column';
      const ERR_MISSING_ATTRIBUTION = 'Quotes must have an attribution.';
-     const ERR_MISSING_CONTENT_CATEGORY = 'Must provide a potential content category.';
-     const ERR_WRONG_IDENTIFIER = 'This identifier does not match any quote identifiers.';
+     const ERR_MISSING_CONTENT_CATEGORY = 'Quote must provide at least one content category.';
      const WARNING_EMPTY_QUOTE = "Warning! This quote is empty";
 
      const BATCH_SOURCE_DATA = [
@@ -119,7 +118,7 @@
                        if($columnName != "unrecognized") {
                            $originalName = $sourceNameMapper[$columnName];
                            if($columnName=="identifier") {
-                               $identifier = $this->cleanString($currentColumnData); // XML requirements
+                               $identifier = "i" . $this->cleanString($currentColumnData); // identifier must start with a letter for xml parse so this takes care of that
                                if(!empty($identifier)) array_push($validIdentifiers["allIdentifiers"],["item" => $identifier]);
                            } else {
                                $dataToAdd['rowData'][$columnName] = ["originalName" => $originalName, "columnData" => $currentColumnData, "formattedName" => $columnName];
@@ -173,7 +172,7 @@
                          if($columnName != "unrecognized") {
                              $originalName = $quoteNameMapper[$columnName];
                              if($columnName=="identifier") {
-                                if(array_key_exists($this->cleanString($currentColumnData),$sheetData)) $identifier = $this->cleanString($currentColumnData); // if valid identifier
+                                if(array_key_exists($this->cleanString("i" . $currentColumnData),$sheetData)) $identifier = "i" . $this->cleanString($currentColumnData); // if valid identifier
                             } else if (str_contains($columnName,"contentcategory")) { // need to process content categories and tags differently from other things
                                 array_push($dataToAdd["contentcategories"]["all"],["columnData" => $currentColumnData]);
                             } else if (str_contains($columnName,"tag"))

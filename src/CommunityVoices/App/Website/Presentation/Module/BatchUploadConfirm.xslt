@@ -11,12 +11,12 @@
     <xsl:param name="tagCollection"/>
         <xsl:for-each select="$entries/*"> <!-- selects each identifier, which are all different tags so require * -->
             <div class="card m-3 individualSource">
-                <xsl:attribute name="id"><xsl:value-of select="name(.)"/></xsl:attribute> <!-- allows us to pair unpaired quotes with this id -->
+                <xsl:attribute name="id"><xsl:value-of select="substring(name(.), 2)"/></xsl:attribute> <!-- allows us to pair unpaired quotes with this id -->
                 <xsl:attribute name="hasIdentifier">true</xsl:attribute>
                 <div class="sourceNotQuote">
                     <div class="row">
                         <div class="col">
-                            <strong><xsl:value-of select="name(.)"/></strong>
+                            <strong><xsl:value-of select="substring(name(.), 2)"/></strong>
                         </div>
                         <div class="col">
                             <div class="float-right">
@@ -108,9 +108,9 @@
                                     <option label=" "></option>
                                     <xsl:for-each select="$validIdentifiers/item">
                                         <option>
-                                            <xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
-                                            <xsl:attribute name="class"><xsl:value-of select="."/></xsl:attribute>
-                                            <xsl:value-of select="."/>
+                                            <xsl:attribute name="value"><xsl:value-of select="substring(.,2)"/></xsl:attribute>
+                                            <xsl:attribute name="class"><xsl:value-of select="substring(.,2)"/></xsl:attribute>
+                                            <xsl:value-of select="substring(.,2)"/>
                                         </option>
                                     </xsl:for-each>
                                 </select>
