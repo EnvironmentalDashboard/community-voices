@@ -45,7 +45,7 @@
             </xsl:if>
             <xsl:value-of select="domain/slide/contentCategory/contentCategory/label" />
         </span>
-        <img alt="" style="position:absolute;right:3vw;bottom:2vw;max-width:25vw;max-height:16vh;">
+        <img alt="" style="position:absolute;right:3vw;bottom:2vw;max-width:25vw;max-height:25vh;">
           <xsl:attribute name="src">/community-voices/uploads/<xsl:value-of select="domain/slide/contentCategory/contentCategory/image/image/id" /></xsl:attribute>
         </img>
     </div>
