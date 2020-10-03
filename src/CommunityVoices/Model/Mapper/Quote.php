@@ -163,7 +163,7 @@ class Quote extends Media
         $statement->execute();
     }
 
-    protected function create(Entity\Media $quote)
+    protected function create(Entity\Media $quote, $metaDataArr = null)
     {
         /**
          * Create parent row
@@ -197,13 +197,27 @@ class Quote extends Media
         $statement->bindValue(':source_document_link', $quote->getSourceDocumentLink());
 
         $statement->execute();
+
+        if ($metaDataArr) {
+            $metaDataId = $this->saveMetaData($metaDataArr);
+            $linkMdTable = "INSERT INTO
+                            `community-voices_quotes`
+                            (meta_data_id)
+                        VALUES
+                            (:meta_data_id)";
+
+            $statement = $this->conn->prepare($query);
+            $statement->bindValue(':meta_data_id', $metaDataId);
+
+            $statement->execute();
+        }
     }
 
-    protected function saveMetaData($oberlinMDFields, $metaDataId) {
-        if ($metaDataId) {
-            return $this->addMetaData();
+    protected function saveMetaData($oberlinMDFields, $metaDataId = null) {
+        if (! $metaDataId) {
+            return $this->addMetaData($oberlinMDFields);
         } else {
-            return $this->updateMetaData();
+            return $this->updateMetaData($oberlinMDFields);
         }
     }
 
@@ -239,6 +253,7 @@ class Quote extends Media
     }
 
     protected function updateMetaData($oberlinMDFields) {
+        //@TODO
         return false;
     }
 }
