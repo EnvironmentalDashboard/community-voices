@@ -138,10 +138,35 @@ function checkNumUnpaired() {
     }
 }
 
-function setQuoteNumber(quote) {
+function setQuoteNumber(quote) { // sets quote number after pairing
+    previousQuoteNumber = quote.attr("quoteNumber");
     quoteNumber =  quote.prev().length ? parseInt(quote.prev().attr("quoteNumber")) + 1 : 1;
     quote.attr("quoteNumber",quoteNumber);
 }
+
+function decrementSuceedingQuoteNumbers(source,deletedQuoteNumber) { // only want to decrement quotes that come after deleted quote, not before
+    source.find(".individualQuote").each(function() {
+        quoteNumber = parseInt($(this).attr("quoteNumber"));
+        if(quoteNumber > deletedQuoteNumber) {
+            $(this).attr("quotenumber",quoteNumber - 1); // decrement the quote number
+
+            var regexQuotes = "^(" + source.attr("id") + ")(quote)([1-9]{1,})(.*)";
+            regexx = new RegExp(regexQuotes);
+
+            $(this).find("a[name]").each(function () {
+                anchor = $(this).attr("name");
+                associatedLink = $("#entryIssues").find("a[href=" + "'#" + anchor + "']")
+                matched = $(this).attr("name").match(regexx);
+                newNumDecremented = parseInt(matched[3]) - 1;
+
+                $(this).attr("name",matched[1] + matched[2] + newNumDecremented + matched[4]); // change anchor
+                $(associatedLink).attr("href","#" + matched[1] + matched[2] + newNumDecremented + matched[4]); // change link to anchor
+                $(associatedLink).find("li").text(matched[1] + " " + matched[2] + " " + newNumDecremented + " " + matched[4]);
+            });
+        }
+    });
+}
+
 
 // VARIOUS JQUERY EVENTS THAT TRIGGER USER DEFINED FUNCTIONS
 
@@ -223,16 +248,18 @@ $(".pairWithIdentifier").click(function() { // pair unpaired Quote with an ident
   identifierToAppend = individualQuote.find(".validIdentifiers"); // selects the identifier chosen by the user when they click "pair"
   if (identifierToAppend.val()) {
       sourceToPair = $('#'.concat(identifierToAppend.val())); // select source to pair with based on selected id.
+      sourceToPairAssociatedQuotes = sourceToPair.find(".pairedQuotes");
 
       individualQuote.find(".identifiersFormElm").remove(); // need to remove pairing field and pair button after pairing
       $(this).remove();
 
       $(sourceToPairAssociatedQuotes).append(individualQuote);
       setQuoteNumber(individualQuote);
-      checkNumUnpaired();
-      $(individualQuote).find("[message]").each(function () { // errors in unpaired quotes are not logged until quotes are paired.
+      individualQuote.find("[message]").each(function() {
           checkFieldEmpty($(this));
-       });
+      });
+      checkNumUnpaired();
+      checkEntryIssuesEmpty();
 
       manipulateIndividualUploadButton(sourceToPair);
   }
@@ -244,18 +271,26 @@ $(".deleteEntry").click(function() {
             quoteElm = $(this).closest(".individualQuote");
             associatedSource = quoteElm.closest(".individualSource");
             otherQuotesInSource = associatedSource.find(".pairedQuotes");
+            deletedQuoteNumber = parseInt(quoteElm.attr("quotenumber"));
 
             quoteElm.remove();
+            entryIssuesSearchString =  "a[href^='#" + associatedSource.attr("id") + "quote" + quoteElm.attr("quoteNumber") + "']";
+            $("#entryIssues").find(entryIssuesSearchString).remove();
+
+            decrementSuceedingQuoteNumbers(associatedSource,deletedQuoteNumber);
             manipulateIndividualUploadButton(associatedSource);
             checkNumUnpaired();
-            otherQuotesInSource.find(".individualQuote").each(function() {
-                setQuoteNumber($(this));
-            });
+            checkEntryIssuesEmpty();
+
         } else {
             sourceElm = $(this).closest(".individualSource");
             sourceId = sourceElm.attr('id');
             $("option." + sourceId).remove(); // remove option to pair unpaired quotes with this source
             sourceElm.remove();
+
+            entryIssuesSearchString =  "a[href^='#" + sourceElm.attr("id") + "']";
+            $("#entryIssues").find(entryIssuesSearchString).remove();
+            checkEntryIssuesEmpty();
         }
     }
 });
