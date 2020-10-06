@@ -1,6 +1,11 @@
 toRemove = []; // after we upload form content, we want to delete all qutotes/sources at the same time
 
+const fieldsToChange=[["originalquote","originalText"],["editedquotes","text"],["..."]] // add to later
 // ------- VARIOUS USER DEFINED FUNCTIONS CALLED ON JQUERY EVENTS
+
+function updateFieldName(field,newname) { // change names of fields so that they match expected field names when the quote is uploaded e.g. original quote should become original text
+    field.attr("name",newname);
+}
 
 function createDeletePromise(quote) { // after we upload a quote, we should add it to a list to delete (delete happens all at once).
     toRemove.push(quote);
@@ -255,8 +260,9 @@ $(".pairWithIdentifier").click(function() { // pair unpaired Quote with an ident
 
       $(sourceToPairAssociatedQuotes).append(individualQuote);
       setQuoteNumber(individualQuote);
+
       individualQuote.find("[message]").each(function() {
-          checkFieldEmpty($(this));
+          checkFieldEmpty($(this)); // unpaired quotes don't show issues until we pair them, must check for issues then.
       });
       checkNumUnpaired();
       checkEntryIssuesEmpty();
