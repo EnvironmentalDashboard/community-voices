@@ -13,6 +13,7 @@ if ($('#slide_text').length) { // if youre editing slide
         current_image = 10,
         current_ccid = 1,
         current_logo = null;
+        renderSlide(current_text, current_attr, current_image, current_ccid, current_logo);
 }
 var $quote_container = $('#ajax-quote');
 var $image_container = $('#ajax-image');
