@@ -274,7 +274,7 @@ function renderSlide(quote_text, attribution, image, ccid, logo) {
         var cc = data.contentCategory;
         var head = '<html><head><base href="' + window.location.origin + '" /><meta charset="utf-8" /><style>* { box-sizing:border-box }html, body { height: 100%; font-family:Comfortaa, sans-serif; }</style><link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet" /></head><body style="background:#000;margin:0;padding:0;">';
         var body = '<div style="display: flex;align-items:center;max-height:100%"><div><img src="/community-voices/uploads/'+
-            image+'" style="flex-shrink: 0;width: auto;height: 86vh;max-width:70vw;max-height:100%" /></div><h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">'+
+            image+'" style="flex-shrink: 0;width: auto;height: 86vh;max-width:70vw;max-height:100%" /></div><h1 style="color:#fff;padding:3vw;font-size:2.8vw;font-weight:400;margin-bottom: 10vh;margin-top: 0px;">'+
             quote_text+'<div style="font-size:2vw;margin-top:2vw">&#x2014; '+
             attribution+'</div></h1></div><div style="width:100%;background:'+
             cc.color+';position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:7vh;line-height:14vh;font-weight:700;padding-left:1vw">'+
