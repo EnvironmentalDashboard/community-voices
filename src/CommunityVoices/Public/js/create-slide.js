@@ -11,7 +11,7 @@ if ($('#slide_text').length) { // if youre editing slide
     var current_text = 'Quote goes here',
         current_attr = 'Attribution',
         current_image = 10,
-        current_ccid = 1,
+        current_ccid = null,
         current_logo = null;
         renderSlide(current_text, current_attr, current_image, current_ccid, current_logo);
 }
@@ -270,21 +270,31 @@ if (prefill_quote) {
 
 function renderSlide(quote_text, attribution, image, ccid, logo) {
     var iframe = document.getElementById('preview');
+    var head = '<html><head><base href="' + window.location.origin + '" /><meta charset="utf-8" /><style>* { box-sizing:border-box }html, body { height: 100%; font-family:Comfortaa, sans-serif; }</style><link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet" /></head><body style="background:#000;margin:0;padding:0;">';
 
-    $.getJSON('/community-voices/api/content-categories/' + ccid, {}, function (data) {
-        var cc = data.contentCategory;
-        var head = '<html><head><base href="' + window.location.origin + '" /><meta charset="utf-8" /><style>* { box-sizing:border-box }html, body { height: 100%; font-family:Comfortaa, sans-serif; }</style><link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet" /></head><body style="background:#000;margin:0;padding:0;">';
-        var body = '<div style="display: flex;align-items:center;max-height:100%"><div><img src="/community-voices/uploads/'+
-            image+'" style="flex-shrink: 0;width: auto;height: 86vh;max-width:70vw;max-height:100%" /></div><h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">'+
-            quote_text+'<div style="font-size:2vw;margin-top:2vw">&#x2014; '+
-            attribution+'</div></h1></div><div style="width:100%;background:'+
-            cc.color+';position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:7vh;line-height:14vh;font-weight:700;padding-left:1vw">'+
-            (logo ? '<img src="/community-voices/uploads/' + logo + '" alt="" style="position:absolute;left:2vw;bottom:2vw;width:10vw;height:auto;" />' : '')+
-            (logo ? '<span style="position:absolute;left:14vw;">' : '')+cc.label+(logo ? '</span>' : '')+
-            '<img src="/community-voices/uploads/'+
-            cc.image.image.id+'" alt="" style="position:absolute;right:3vw;bottom:2vw;max-width:25vw;max-height:25vh" /></div></body></html>';
-        iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(head + body);
-    });
+    if (ccid) {
+      $.getJSON('/community-voices/api/content-categories/' + ccid, {}, function (data) {
+          var cc = data.contentCategory;
+          var body = '<div style="display: flex;align-items:center;max-height:100%"><div><img src="/community-voices/uploads/'+
+              image+'" style="flex-shrink: 0;width: auto;height: 86vh;max-width:70vw;max-height:100%" /></div><h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">'+
+              quote_text+'<div style="font-size:2vw;margin-top:2vw">&#x2014; '+
+              attribution+'</div></h1></div><div style="width:100%;background:'+
+              cc.color+';position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:7vh;line-height:14vh;font-weight:700;padding-left:1vw">'+
+              (logo ? '<img src="/community-voices/uploads/' + logo + '" alt="" style="position:absolute;left:2vw;bottom:2vw;width:10vw;height:auto;" />' : '')+
+              (logo ? '<span style="position:absolute;left:14vw;">' : '')+cc.label+(logo ? '</span>' : '')+
+              '<img src="/community-voices/uploads/'+
+              cc.image.image.id+'" alt="" style="position:absolute;right:3vw;bottom:2vw;max-width:25vw;max-height:25vh" /></div></body></html>';
+              iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(head + body);
+      });
+    } else {
+      var body = '<div style="display: flex;align-items:center;max-height:100%"><div><img src="/community-voices/uploads/'+
+          image+'" style="flex-shrink: 0;width: auto;height: 86vh;max-width:70vw;max-height:100%" /></div><h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">'+
+          quote_text+'<div style="font-size:2vw;margin-top:2vw">&#x2014; '+
+          attribution+'</div></h1></div><div style="width:100%;background: #008cb4;position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:7vh;line-height:14vh;font-weight:700;padding-left:1vw">'+
+          (logo ? '<img src="/community-voices/uploads/' + logo + '" alt="" style="position:absolute;left:2vw;bottom:2vw;width:10vw;height:auto;" />' : '')+
+          (logo ? '<span style="position:absolute;left:14vw;">' : '')+'Content Category';
+          iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(head + body);
+    }
 }
 
 function getParameterByName(name, url) {
