@@ -28,6 +28,27 @@ class Quote extends Component\Controller
         'contentCategories' => []
     ];
 
+    const META_DATA_FIELDS = [
+        'sourcetype',
+        'intervieweeorsourcedocument',
+        'organization',
+        'sponsororganization',
+        'topicthemeofinterview',
+        'urlsourcedocument',
+        'intervieweeemail',
+        'intervieweetelephone',
+        'urlinterviewconsent',
+        'urlt1survey',
+        'urlt2survey',
+        'urlinterviewtransription',
+        'urlinterviewarticle',
+        'dateapprovedbyinterviewee',
+        'urlphotographinterviewee',
+        'suggestedphotosource',
+        'suggestedphotoincv',
+        'createaslide'
+    ];
+
     public function __construct(
         Component\SecureContainer $secureContainer,
         Component\RecognitionAdapter $recognitionAdapter,
@@ -169,21 +190,11 @@ class Quote extends Component\Controller
 
         foreach($request->request->get('attribution') as $key => $value) { // attributions is arbitrary, just need something to specify which source/quote pair it is
             $identifier = $key;
-            $requestAttributes = [];
-            foreach (self::FORM_ATTRIBUTES as $key => $value) {
-
-                if($request->request->has($key) && is_string($request->request->get($key)[$identifier]))
-                    $requestAttributes[$key] = $request->request->get($key)[$identifier];
-                else if ($request->request->has($key) && is_array($request->request->get($key)[$identifier]))
-                    $requestAttributes[$key] = $request->request->get($key)[$identifier];
-                $variable = is_string($key) ? $key : $value;
-                $default = is_string($key) ? $value : null;
-                $requestAttributes[$variable] = $request->request->get($variable)[$identifier] ?? $default;
-
-            }
+            var_dump($this->getFormAttributes($request, self::META_DATA_FIELDS,true,$identifier));
+            die();
             $this->quoteManagement->save(
                 null,
-                $requestAttributes,
+                $this->getFormAttributes($request, self::FORM_ATTRIBUTES,true,$identifier),
                 $identity
             );
         }

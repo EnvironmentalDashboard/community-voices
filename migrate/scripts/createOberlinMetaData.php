@@ -2,10 +2,10 @@
 
 $createOberlinMD = "CREATE TABLE `community-voices_oberlin_metadata` (
   `id` int(21) NOT NULL AUTO_INCREMENT,
-  `source_type` enum('document/publication','website','short interview','long form interview','survey') DEFAULT NULL,
+  `source_type` varchar(100) DEFAULT NULL,
   `interviewee_or_source_document` varchar(100) DEFAULT NULL,
   `organization` varchar(100) DEFAULT NULL,
-  `sponsor_organization` enum('Metroparks', 'GLSC', 'Mayors Office', 'NEORSD', 'Sustainable Cleveland', 'Cleveland Water Alliance', 'Cleveland 2030') DEFAULT NULL,
+  `sponsor_organization` varchar(100) DEFAULT NULL,
   `topic` varchar(100) DEFAULT NULL,
   `interviewee_email` varchar(100) DEFAULT NULL,
   `interviewee_phone` varchar(100) DEFAULT NULL,
@@ -16,6 +16,8 @@ $createOberlinMD = "CREATE TABLE `community-voices_oberlin_metadata` (
   `url_article` varchar(100) DEFAULT NULL,
   `date_article_approved` varchar(100) DEFAULT NULL,
   `url_photograph` varchar(100) DEFAULT NULL,
+  `suggested_photo_source` varchar(100) DEFAULT NULL,
+  `suggested_photo_in_cv` varchar(100) DEFAULT NULL,
    PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1";
 
