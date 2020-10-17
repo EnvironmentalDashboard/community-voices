@@ -41,24 +41,7 @@
                             <div class="col-sm-8">
                                 <input type="text" class="form-control">
                                     <xsl:attribute name="value"><xsl:value-of select="./columnData"/></xsl:attribute>
-                                    <xsl:choose>
-                                        <!-- need to match column names to expected names for quote upload -->
-                                        <xsl:when test="./formattedName = 'subattribution'">
-                                            <xsl:attribute name="name">subAttribution</xsl:attribute>
-                                        </xsl:when>
-                                        <xsl:when test="./formattedName = 'interviewdate'">
-                                            <xsl:attribute name="name">dateRecorded</xsl:attribute>
-                                        </xsl:when>
-                                        <xsl:when test="./formattedName = 'topicofinterview'">
-                                            <xsl:attribute name="name">interviewTopic</xsl:attribute>
-                                        </xsl:when>
-                                        <xsl:when test="./formattedName = 'typeofinterview'">
-                                            <xsl:attribute name="name">interviewType</xsl:attribute>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <xsl:attribute name="name"><xsl:value-of select="./formattedName"/></xsl:attribute>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
+                                    <xsl:attribute name="name"><xsl:value-of select="./formattedName"/></xsl:attribute>
                                 </input>
                             </div>
                         </div>

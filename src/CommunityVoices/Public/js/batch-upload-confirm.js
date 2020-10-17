@@ -1,6 +1,6 @@
 toRemove = []; // after we upload form content, we want to delete all qutotes/sources at the same time
 
-const fieldsToChange=[["originalquote","originalText"],["editedquotes","text"],["..."]] // add to later
+const fieldsToChange=[["originalquote","originalText"],["editedquotes","text"],["intervieworfileaccessdate","dateRecorded"],["interviewerresearcher",'interviewer'],["subattribution","subAttribution"],["quotationmarks","quotationMarks"]]; // add to later
 // ------- VARIOUS USER DEFINED FUNCTIONS CALLED ON JQUERY EVENTS
 
 function updateFieldName(field,newname) { // change names of fields so that they match expected field names when the quote is uploaded e.g. original quote should become original text
@@ -188,6 +188,20 @@ $(document).ready(function() {
     checkEntryIssuesEmpty();
     $(".individualSource").each(function () {
         manipulateIndividualUploadButton($(this));
+    });
+
+    const fieldsToBeReplaced = fieldsToChange.map(function(x) {
+        return x[0];
+    });
+    const fieldsToReplace = fieldsToChange.map(function(x) {
+        return x[1];
+    });
+
+    $("input[type='text']").each(function () {
+        let inputName = $(this).attr("name");
+        if(fieldsToBeReplaced.includes(inputName)) {
+            $(this).attr("name",fieldsToReplace[fieldsToBeReplaced.indexOf($(this).attr("name"))]);
+        }
     });
 });
 
