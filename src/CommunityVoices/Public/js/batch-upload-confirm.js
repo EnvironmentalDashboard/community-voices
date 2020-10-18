@@ -18,7 +18,6 @@ function handleDeletePromises() { // delete all quotes after sending request
 }
 
 function postData(form) {
-    /*
     if(! form.is(':empty')) {
         data = form.serializeArray();
         $.ajax({
@@ -34,8 +33,6 @@ function postData(form) {
       });
       form.empty();
     }
-    */
-    form.submit();
 }
 
 function manipulateIndividualUploadButton(source) { // only want user to be able to upload source if it has associated quotes
@@ -325,6 +322,7 @@ $(".deleteEntry").click(function() {
 
 // these following two functions are only for the fatal errors when the user is required to reupload (the reupload button won't normally appear on page)
 $('#fileUploadButton').on('click', function (c)  {
+    alert("Guide To Uploading: Upload 2 files, one with quote information, one with source data information. \nBoth should be in csv format. Ensure that quote sheet has word 'quote' and that source sheet has word 'source' contained within.");
 	$('#file').click();
 });
 

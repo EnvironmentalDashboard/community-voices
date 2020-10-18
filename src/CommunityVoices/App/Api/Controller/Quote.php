@@ -48,6 +48,8 @@ class Quote extends Component\Controller
         'suggestedphotoincv',
         'createaslide'
     ];
+    const WRONG_NUM_FILES = "You have the wrong number of files, please reupload."; // for batch upload
+    const WRONG_NAMES_FILES =  "Your files are improperly named, please reupload."; // for batch upload
 
     public function __construct(
         Component\SecureContainer $secureContainer,
@@ -156,7 +158,6 @@ class Quote extends Component\Controller
         // if ($identity->getRole() <= 2) {
         //     $approved = null;
         // }
-        var_dump($this->quoteManagement->stateObserver);
 
         return $this->quoteManagement->save(
             null,
@@ -169,7 +170,7 @@ class Quote extends Component\Controller
     {
         $files = $request->files->get('file');
         if (sizeof($files) != 2) {
-            throw new \RuntimeException();
+            return [[],[],["item" => self::WRONG_NUM_FILES],[],[]]; // the third array returned to the api/view is errors with upload. This just lets the frontend know that there are errors.
         }
 
         // there may be a better way to do this, for now we are just relying on file names to indicate which document
@@ -177,7 +178,7 @@ class Quote extends Component\Controller
             if (str_contains(strtolower($file->getClientOriginalName()),"quote")) $quote = $file;
             else if (str_contains(strtolower($file->getClientOriginalName()),"source")) $source = $file;
         }
-        if (! (isset($source) && (isset($quote)))) throw new \RuntimeException();
+        if (! (isset($source) && (isset($quote)))) return [[],[],["item" => self::WRONG_NAMES_FILES],[],[]];
         else {
             $fp = new Component\FileProcessor();
             return $fp->csvReadBatch($source->getPathname(),$quote->getPathname());
@@ -187,7 +188,6 @@ class Quote extends Component\Controller
     protected function postBatchUpload($request)
     {
         $identity = $this->recognitionAdapter->identify();
-
         foreach($request->request->get('attribution') as $key => $value) { // attributions is arbitrary, just need something to specify which source/quote pair it is
             $identifier = $key;
             $this->quoteManagement->save(

@@ -160,5 +160,5 @@ $('#fileUploadButton').on('click', function (c)  {
 });
 
 $("#file").change(function(){
-    $('#batchUploadForm').submit();
+	$('#batchUploadForm').submit();
 });
