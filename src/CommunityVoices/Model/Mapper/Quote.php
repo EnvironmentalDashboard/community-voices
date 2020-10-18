@@ -110,17 +110,17 @@ class Quote extends Media
      *
      * @param  Media $quote instance to save to database
      */
-    public function save(Entity\Media $quote)
+    public function save(Entity\Media $quote, $metaDataArr = null)
     {
         if ($quote->getId()) {
-            $this->update($quote);
+            $this->update($quote, $metaDataArr);
             return;
         }
 
-        $this->create($quote);
+        $this->create($quote, $metaDataArr);
     }
 
-    protected function update(Entity\Media $quote)
+    protected function update(Entity\Media $quote, $metaDataArr = null)
     {
         /**
          * Update parent row

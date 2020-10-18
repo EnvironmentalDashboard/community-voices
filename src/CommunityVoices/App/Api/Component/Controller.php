@@ -24,14 +24,16 @@ class Controller extends Component\SecuredComponent
     }
 
     // Takes a string list of form attributes and returns an array of them from the request.
-    protected function getFormAttributes($request, $attributes, $useDefaults = true)
+    protected function getFormAttributes($request, $attributes, $useDefaults = true, $identifier = null)
     {
         // Sad that PHP doesn't easily allow this process to be entirely functional :(
         $requestAttributes = [];
         foreach ($attributes as $key => $value) {
             $variable = is_string($key) ? $key : $value;
             $default = ($useDefaults && is_string($key)) ? $value : null;
-
+            if($identifier)
+                $requestAttributes[$variable] = $request->request->get($variable)[$identifier] ?? $default;
+            else 
             $requestAttributes[$variable] = $request->request->get($variable) ?? $default;
         }
 

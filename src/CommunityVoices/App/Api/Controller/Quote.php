@@ -190,12 +190,11 @@ class Quote extends Component\Controller
 
         foreach($request->request->get('attribution') as $key => $value) { // attributions is arbitrary, just need something to specify which source/quote pair it is
             $identifier = $key;
-            var_dump($this->getFormAttributes($request, self::META_DATA_FIELDS,true,$identifier));
-            die();
             $this->quoteManagement->save(
                 null,
                 $this->getFormAttributes($request, self::FORM_ATTRIBUTES,true,$identifier),
-                $identity
+                $identity,
+                $this->getFormAttributes($request, self::META_DATA_FIELDS,true,$identifier)
             );
         }
     }
