@@ -128,7 +128,6 @@ class Quote extends Media
         $this->relatedSlide = $slideId;
     }
 
-
     public function validateForUpload(FlexibleObserver $stateObserver, array $contentCategories)
     {
         $isValid = true;
