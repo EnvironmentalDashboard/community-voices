@@ -30,6 +30,7 @@ function postData(form) {
           // save for later
       }
   });
+  form.submit();
   form.empty();
 }
 
@@ -130,8 +131,7 @@ function uploadSourceQuotePair(source,quote) {
 function uploadSource(source) {
     sourceNotQuote = source.find(".sourceNotQuote");
     source.find(".individualQuote").each(function () {
-        if ($(this).find("[hasErrors = 'true']").length == 0)  // only upload quote if no errors
-            uploadSourceQuotePair(sourceNotQuote,$(this));
+        uploadSourceQuotePair(sourceNotQuote,$(this));
     });
 }
 
@@ -221,13 +221,14 @@ $(".uploadButtonContainer").on('click', '.individualUploadButton', function() {
     if (sourceElm.find(".sourceNotQuote").find("[hasErrors = 'true']").length != 0) // only upload source if no errors
         alert("Cannot upload quotes with this source. Please check this source's errors.");
     else {
-        uploadSource(sourceElm);
-        handleDeletePromises();
-        postData($("#actualForm"));
         if (sourceElm.find("[hasErrors = 'true']").length != 0)  // certain quotes have issues preventing upload
             alert("Some of your quotes have issues preventing their upload. All quotes remaining with this source have errors.");
-        else
+        else {
+            uploadSource(sourceElm);
+            handleDeletePromises();
+            postData($("#actualForm"));
             sourceElm.remove();
+        }
     }
 });
 
