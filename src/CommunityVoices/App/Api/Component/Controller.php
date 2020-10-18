@@ -33,13 +33,16 @@ class Controller extends Component\SecuredComponent
             $default = ($useDefaults && is_string($key)) ? $value : null;
             if($identifier)
                 $requestAttributes[$variable] = $request->request->get($variable)[$identifier] ?? $default;
-            else 
+            else
             $requestAttributes[$variable] = $request->request->get($variable) ?? $default;
         }
 
-        return array_filter($requestAttributes, function ($value) {
-            return is_array($value) || !is_null($value);
-        });
+        if(! $identifier) { // for batch upload some fields may be missing, still want to include these fields.
+            return array_filter($requestAttributes, function ($value) {
+                return is_array($value) || !is_null($value);
+            });
+        }
+        else return $requestAttributes;
     }
 
     protected function send404()

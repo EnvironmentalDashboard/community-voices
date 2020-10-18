@@ -67,15 +67,6 @@ class QuoteManagement extends Management
          */
         $this->setEntityAttributes($quote, $attributes, self::FORM_ATTRIBUTES);
 
-        var_dump($oberlinMetaData);
-        var_dump(array_keys($oberlinMetaData));
-
-        $oberlinMDFieldsFormatted = array_map(function($key,$value) {
-            return [$key => $value === '' ? null : $value];
-        }, array_keys($oberlinMetaData),$oberlinMetaData);
-        var_dump($oberlinMDFieldsFormatted);
-        die();
-
         if ($isUpload) {
             $quote->setAddedBy($identity);
         }
@@ -114,7 +105,7 @@ class QuoteManagement extends Management
         /*
          * save $quote to database
          */
-        $quoteMapper->save($quote);
+        $quoteMapper->save($quote, $oberlinMetaData);
 
         // Save the quote's associated tags.
         $qid = $quote->getId();

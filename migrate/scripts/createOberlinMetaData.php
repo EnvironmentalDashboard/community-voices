@@ -18,6 +18,7 @@ $createOberlinMD = "CREATE TABLE `community-voices_oberlin_metadata` (
   `url_photograph` varchar(100) DEFAULT NULL,
   `suggested_photo_source` varchar(100) DEFAULT NULL,
   `suggested_photo_in_cv` varchar(100) DEFAULT NULL,
+  `create_a_slide` TINYINT(1) NOT NULL,
    PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1";
 

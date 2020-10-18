@@ -18,6 +18,7 @@ function handleDeletePromises() { // delete all quotes after sending request
 }
 
 function postData(form) {
+    /*
     if(! form.is(':empty')) {
         data = form.serializeArray();
         $.ajax({
@@ -33,6 +34,8 @@ function postData(form) {
       });
       form.empty();
     }
+    */
+    form.submit();
 }
 
 function manipulateIndividualUploadButton(source) { // only want user to be able to upload source if it has associated quotes
@@ -103,7 +106,8 @@ function checkEntryIssuesEmpty() {
 }
 
 function uploadSourceQuotePair(source,quote) {
-    if (! quote.find($("[haserrors='true']"))) {
+    if ( quote.find($("[haserrors='true']").length == 0)) {
+
         sourceId = source.closest('.individualSource').attr('id');
         quoteNumber = quote.attr('quotenumber');
 
