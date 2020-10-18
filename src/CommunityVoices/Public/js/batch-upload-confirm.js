@@ -18,20 +18,21 @@ function handleDeletePromises() { // delete all quotes after sending request
 }
 
 function postData(form) {
-    data = form.serializeArray();
-    $.ajax({
-      url : $("#actualForm").attr('action'),
-      type: $("#actualForm").attr('method'),
-      data: data,
-      success: function (data) {
-          // save for later
-      },
-      error: function (data) {
-          // save for later
-      }
-  });
-  form.submit();
-  form.empty();
+    if(! form.is(':empty')) {
+        data = form.serializeArray();
+        $.ajax({
+          url : $("#actualForm").attr('action'),
+          type: $("#actualForm").attr('method'),
+          data: data,
+          success: function (data) {
+              // save for later
+          },
+          error: function (data) {
+              // save for later
+          }
+      });
+      form.empty();
+    }
 }
 
 function manipulateIndividualUploadButton(source) { // only want user to be able to upload source if it has associated quotes
@@ -102,36 +103,39 @@ function checkEntryIssuesEmpty() {
 }
 
 function uploadSourceQuotePair(source,quote) {
-    sourceId = source.closest('.individualSource').attr('id');
-    quoteNumber = quote.attr('quotenumber');
+    if (! quote.find($("[haserrors='true']"))) {
+        sourceId = source.closest('.individualSource').attr('id');
+        quoteNumber = quote.attr('quotenumber');
 
-    wrapper = $("<div id='" + sourceId + quoteNumber + "' class='wrapper'></div>");
-    wrapper.append(source.clone());
-    wrapper.append(quote.clone());
-    wrapper.append("<input name='quotationMarks' value='on'></input>");
-    // need to have this field to prevent PDO error -- issue to fix later
+        wrapper = $("<div id='" + sourceId + quoteNumber + "' class='wrapper'></div>");
+        wrapper.append(source.clone());
+        wrapper.append(quote.clone());
+        wrapper.append("<input name='quotationMarks' value='on'></input>");
+        // need to have this field to prevent PDO error -- issue to fix later
 
-    wrapper.find('[name="contentCategories[]"]').each(function () {
-       $(this).attr("name", "contentCategories" + '[' + sourceId + quoteNumber + ']' + '[]');
-    });
-    wrapper.find('[name="tags[]"]').each(function () {
-      $(this).attr("name", "tags" + "[" + sourceId + quoteNumber + "]" + "[]");
-    });
-     wrapper.find("input").not('[name^="contentCategories"],[name^="tags"]').each(function () {
-        $(this).attr("name", $(this).attr("name") + '[' + sourceId + quoteNumber + ']');
-    });
-    $("#actualForm").append(wrapper);
-    createDeletePromise(quote);
-    // it is possible that a quote with warnings was updated, so we need to remove all possible warnings from box:
-    quoteLink = quote.find("a[name]").attr("name");
-    $("#entryIssues").find('[href ="#' + quoteLink + '"]').remove();
-    checkEntryIssuesEmpty();
+        wrapper.find('[name="contentCategories[]"]').each(function () {
+           $(this).attr("name", "contentCategories" + '[' + sourceId + quoteNumber + ']' + '[]');
+        });
+        wrapper.find('[name="tags[]"]').each(function () {
+          $(this).attr("name", "tags" + "[" + sourceId + quoteNumber + "]" + "[]");
+        });
+         wrapper.find("input").not('[name^="contentCategories"],[name^="tags"]').each(function () {
+            $(this).attr("name", $(this).attr("name") + '[' + sourceId + quoteNumber + ']');
+        });
+        $("#actualForm").append(wrapper);
+        createDeletePromise(quote);
+        // it is possible that a quote with warnings was updated, so we need to remove all possible warnings from box:
+        quoteLink = quote.find("a[name]").attr("name");
+        $("#entryIssues").find('[href ="#' + quoteLink + '"]').remove();
+        checkEntryIssuesEmpty();
+    }
 }
 
 function uploadSource(source) {
     sourceNotQuote = source.find(".sourceNotQuote");
     source.find(".individualQuote").each(function () {
-        uploadSourceQuotePair(sourceNotQuote,$(this));
+        if ($(this).find("[hasErrors = 'true']").length == 0)  // only upload quote if no errors
+            uploadSourceQuotePair(sourceNotQuote,$(this));
     });
 }
 
@@ -221,14 +225,13 @@ $(".uploadButtonContainer").on('click', '.individualUploadButton', function() {
     if (sourceElm.find(".sourceNotQuote").find("[hasErrors = 'true']").length != 0) // only upload source if no errors
         alert("Cannot upload quotes with this source. Please check this source's errors.");
     else {
+        uploadSource(sourceElm);
+        handleDeletePromises();
+        postData($("#actualForm"));
         if (sourceElm.find("[hasErrors = 'true']").length != 0)  // certain quotes have issues preventing upload
             alert("Some of your quotes have issues preventing their upload. All quotes remaining with this source have errors.");
-        else {
-            uploadSource(sourceElm);
-            handleDeletePromises();
-            postData($("#actualForm"));
+        else
             sourceElm.remove();
-        }
     }
 });
 
