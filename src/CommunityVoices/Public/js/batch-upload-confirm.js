@@ -111,8 +111,6 @@ function uploadSourceQuotePair(source,quote) {
         wrapper = $("<div id='" + sourceId + quoteNumber + "' class='wrapper'></div>");
         wrapper.append(source.clone());
         wrapper.append(quote.clone());
-        wrapper.append("<input name='quotationMarks' value='on'></input>");
-        // need to have this field to prevent PDO error -- issue to fix later
 
         wrapper.find('[name="contentCategories[]"]').each(function () {
            $(this).attr("name", "contentCategories" + '[' + sourceId + quoteNumber + ']' + '[]');
