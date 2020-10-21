@@ -7,4 +7,4 @@ else
   dump=db/dump.sql
 fi
 
-docker exec cv-mysql mysql community_voices < $dump
+docker exec -i cv-mysql mysql community_voices < $dump
