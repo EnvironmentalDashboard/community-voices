@@ -15,5 +15,5 @@ then
 	fi
 fi
 
-docker exec cv-mysql mysqldump --no-tablespaces -h 159.89.232.129 -P $port -u $user --password=$pass --databases community_voices > db/dump.sql
-docker exec cv-mysql mysqldump -h 159.89.233.159 -P $cle_port -u $cle_user --password=$cle_pass --databases community_voices > db/cle_dump.sql
+docker exec cv-mysql mysqldump --add-drop-database --no-tablespaces -h 159.89.232.129 -P $port -u $user --password=$pass --databases community_voices > db/dump.sql
+docker exec cv-mysql mysqldump --add-drop-database -h 159.89.233.159 -P $cle_port -u $cle_user --password=$cle_pass --databases community_voices > db/cle_dump.sql
