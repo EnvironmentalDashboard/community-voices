@@ -10,7 +10,7 @@ if ($('#slide_text').length) { // if youre editing slide
 } else { // creating slide
     var current_text = 'Quote goes here',
         current_attr = 'Attribution',
-        current_image = 10,
+        current_image = null,
         current_ccid = null,
         current_logo = null;
         renderSlide(current_text, current_attr, current_image, current_ccid, current_logo);
@@ -281,8 +281,9 @@ function renderSlide(quote_text, attribution, image, ccid, logo) {
     }
 
     function generateBody(cc) {
-      var body = '<div style="display: flex;align-items:center;max-height:100%"><div><img src="/community-voices/uploads/'+
-          image+'" style="flex-shrink: 0;width: auto;height: 86vh;max-width:70vw;max-height:100%" /></div><h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">'+
+      var body = '<div style="display: flex;align-items:center;max-height:100%"><div' +
+          (image ? `><img src="/community-voices/uploads/${image}" style="flex-shrink: 0;width: auto;height: 86vh;max-width:70vw;max-height:100%" />` : ' style="width:55vw;height:86vh;color:white;text-align:center;vertical-align:middle;line-height:86vh;border:dashed">Image Goes Here')
+          + '</div><h1 style="color:#fff;padding:3vw;font-size:3vw;font-weight:400">'+
           quote_text+'<div style="font-size:2vw;margin-top:2vw">&#x2014; '+
           attribution+'</div></h1></div><div style="width:100%;background:'+
           (cc ? cc.color : ' #008cb4') + ';position:absolute;bottom:0;height:14vh;text-transform:uppercase;color:#fff;font-size:7vh;line-height:14vh;font-weight:700;padding-left:1vw">'+
