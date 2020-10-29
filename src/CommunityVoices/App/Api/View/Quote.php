@@ -81,18 +81,18 @@ class Quote extends Component\View
         return $response;
     }
 
-    protected function postBatchDraft($request, $errors)
+    protected function postBatchDraft($request, $communication)
     {
-        list($sheetData, $columnNameWarnings, $columnNameErrors, $unpairedQuotes, $validIdentifiers) = $errors;
+        list($sheetData, $columnNameWarnings, $columnNameErrors, $unpairedQuotes, $validIdentifiers) = $communication;
+
         $formattedData = ['csvResults' => ["entries" => $sheetData, "warnings" => $columnNameWarnings, 'errors' => $columnNameErrors, "unpairedQuotes" => $unpairedQuotes, "validIdentifiers" => $validIdentifiers]];
-        $response = new HttpFoundation\JsonResponse($formattedData);
-        return $response;
+        return new HttpFoundation\JsonResponse($formattedData);
     }
 
     protected function postBatchUpload()
     {
         return new HttpFoundation\JsonResponse(true);
-    } 
+    }
 
     protected function getQuoteUpdate()
     {
