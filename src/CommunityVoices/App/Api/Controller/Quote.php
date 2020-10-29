@@ -175,8 +175,8 @@ class Quote extends Component\Controller
 
         // there may be a better way to do this, for now we are just relying on file names to indicate which document
         foreach($request->files->get('file') as $file) {
-            if (str_contains(strtolower($file->getClientOriginalName()),"quote")) $quote = $file;
-            else if (str_contains(strtolower($file->getClientOriginalName()),"source")) $source = $file;
+            if (str_contains(strtolower($file->getClientOriginalName()), "source")) $source = $file;
+            else if (str_contains(strtolower($file->getClientOriginalName()), "quote")) $quote = $file;
         }
         if (! (isset($source) && (isset($quote)))) return [[],[],["item" => self::WRONG_NAMES_FILES],[],[]];
         else {
