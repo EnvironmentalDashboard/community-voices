@@ -17,18 +17,12 @@ function handleDeletePromises() { // delete all quotes after sending request
 }
 
 function postData(form) {
-    if(! form.is(':empty')) {
+    if(!form.is(':empty')) {
         data = form.serializeArray();
         $.ajax({
           url : $("#actualForm").attr('action'),
           type: $("#actualForm").attr('method'),
-          data: data,
-          success: function (data) {
-              // save for later
-          },
-          error: function (data) {
-              // save for later
-          }
+          data: data
       });
       form.empty();
     }
