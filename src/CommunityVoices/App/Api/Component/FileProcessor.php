@@ -95,6 +95,7 @@
                }
            }
 
+           // These are both major errors. There is no need to parse the rest of the sheet as uploading will not be allowed if one of these errors occurs
            if(!in_array("attribution",$columnOrder)) array_push($columnNameErrors,["item" => [self::ERR_NO_ATTRIBUTIONS]]);
            if(!in_array("identifier",$columnOrder)) array_push($columnNameErrors,["item" => [self::ERR_NO_IDENTIFIER]]);
 
@@ -105,7 +106,6 @@
                  array_push($columnNameWarnings["expected"],["item" => [$unformattedSourceName]]);
            }
 
-           // These are both major errors. There is no need to parse the rest of the sheet as uploading will not be allowed if one of these errors occurs
            $sheetData = [];
            if (empty($columnNameErrors))  {
               fgetcsv($f);
@@ -149,11 +149,10 @@
                  }
              }
 
-
+             // Below are both major errors. There is no need to parse the rest of the sheet as uploading will not be allowed if one of these errors occurs
              if(!in_array("contentcategory1",$columnOrder)) array_push($columnNameErrors,["item" => [self::ERR_NO_CONTENT_CATEGORIES]]);
              if(!in_array("editedquotes",$columnOrder)) array_push($columnNameErrors,["item" => [self::ERR_NO_QUOTE]]);
              if(!in_array("identifier",$columnOrder)) array_push($columnNameErrors,["item" => [self::ERR_NO_IDENTIFIER]]);
-             // These are both major errors. There is no need to parse the rest of the sheet as uploading will not be allowed if one of these errors occurs
 
              for($i = 0; $i < count($formattedQuoteNames); $i++) {
                  $formattedQuoteName = $formattedQuoteNames[$i];
