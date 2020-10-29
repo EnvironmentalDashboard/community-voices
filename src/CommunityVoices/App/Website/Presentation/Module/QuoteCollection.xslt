@@ -25,7 +25,7 @@
                 <a class="btn btn-outline-primary mr-2" href="/community-voices/quotes/new">+ Add quote</a>
                 <!-- https://stackoverflow.com/questions/1084925/input-type-file-show-only-button?page=1&tab=votes#tab-top -->
                 <form action='/community-voices/quotes/confirm' method='post' enctype='multipart/form-data' id="batchUploadForm">
-                    <input class="custom-file-input" id="file" type='file' name='file[]' multiple="" accept='.xlsx, .xls, .csv' style="display: none;"/>
+                    <input class="custom-file-input" id="file" type='file' name='file[]' multiple="" accept='.csv' style="display: none;"/>
                     <input type="button" class="btn btn-outline-primary mr-2" value="Batch Upload" id="fileUploadButton"></input>
                 </form>
               </xsl:if>
