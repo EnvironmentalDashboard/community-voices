@@ -1,7 +1,6 @@
 toRemove = []; // after we upload form content, we want to delete all qutotes/sources at the same time
 
-const fieldsToChange=[["originalquote","originalText"],["editedquotes","text"],["intervieworfileaccessdate","dateRecorded"],["interviewerresearcher",'interviewer'],["subattribution","subAttribution"],["quotationmarks","quotationMarks"]]; // add to later
-// ------- VARIOUS USER DEFINED FUNCTIONS CALLED ON JQUERY EVENTS
+const fieldsToChange=[["originalquote","originalText"],["editedquotes","text"],["intervieworfileaccessdate","dateRecorded"],["interviewerresearcher",'interviewer'],["subattribution","subAttribution"],["quotationmarks","quotationMarks"]];
 
 function updateFieldName(field,newname) { // change names of fields so that they match expected field names when the quote is uploaded e.g. original quote should become original text
     field.attr("name",newname);
