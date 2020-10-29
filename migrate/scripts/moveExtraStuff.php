@@ -10,7 +10,7 @@ $addEndUseColumnQuery = "ALTER TABLE `community-voices_slides`
                         ADD COLUMN end_use varchar(255) DEFAULT NULL";
 
 $statement = $dbHandler->prepare($addEndUseColumnQuery);
-$statement->execute(); */
+$statement->execute();
 
 $catRow = $dbHandler->query($allExtraStuffQuery);
 $allEndUses = [];
