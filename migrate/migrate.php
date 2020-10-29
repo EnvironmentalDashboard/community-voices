@@ -22,4 +22,5 @@ if (count($argv) < 2) {
     require __DIR__ . "/scripts/{$argv[1]}.php";
 }
 
-shell_exec('mysqldump -uroot -p --no-data community_voices > migrate/schema.sql');
+# Need to ask cv-mysql to generate the dump.
+shell_exec('mysqldump -h cv-mysql --no-data community_voices > migrate/schema.sql');
