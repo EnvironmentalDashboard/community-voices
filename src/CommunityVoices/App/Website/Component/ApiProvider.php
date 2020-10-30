@@ -53,9 +53,11 @@ class ApiProvider
             if (is_array($file)) {
                 foreach ($file as $index => $f) {
                     $data["{$key}[{$index}]"] = new \CURLFile($f->getPathName(), $f->getMimeType());
+                    $data["{$key}[{$index}]"]->setPostFilename($f->getClientOriginalName());
                 }
             } else if (!is_null($file)) {
                 $data[$key] = new \CURLFile($file->getPathName(), $file->getMimeType());
+                $data[$key]->setPostFilename($file->getClientOriginalName());
             }
         }
 
