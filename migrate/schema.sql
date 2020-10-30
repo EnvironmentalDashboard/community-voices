@@ -291,7 +291,6 @@ CREATE TABLE `community-voices_quotes` (
   `date_recorded` datetime DEFAULT NULL,
   `public_document_link` varchar(255) DEFAULT NULL,
   `source_document_link` varchar(255) DEFAULT NULL,
-  `extra_stuff` varchar(255) DEFAULT NULL,
   `metadata_id` int(21) DEFAULT NULL,
   PRIMARY KEY (`media_id`),
   KEY `community-voices_quotes_fk1` (`metadata_id`),
@@ -318,6 +317,7 @@ CREATE TABLE `community-voices_slides` (
   `decay_percent` int(21) DEFAULT NULL,
   `decay_start` datetime DEFAULT NULL,
   `decay_end` datetime DEFAULT NULL,
+  `end_use` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`media_id`),
   UNIQUE KEY `image_id` (`image_id`,`quote_id`),
   UNIQUE KEY `image_id_2` (`image_id`,`quote_id`),
@@ -389,4 +389,4 @@ CREATE TABLE `community-voices_users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-29 20:06:16
+-- Dump completed on 2020-10-29 20:06:52
