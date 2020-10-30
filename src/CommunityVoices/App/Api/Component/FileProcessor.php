@@ -21,7 +21,6 @@
          'Attribution',
          'Sub-Attribution',
          'Organization',
-         'Sponsor Organization',
          'Topic/Theme of Interview',
          'URL Source Document',
          'Interviewee Email',
@@ -50,7 +49,8 @@
          'Tag 3',
          'Tag 4',
          'Tag 5',
-         'Create a Slide'
+         'Create a Slide',
+         'Sponsor Organization'
      ];
 
      public function tailRead($filepath, $lines, $endLine = PHP_INT_MAX, $startDate = false, $endDate = false) {
