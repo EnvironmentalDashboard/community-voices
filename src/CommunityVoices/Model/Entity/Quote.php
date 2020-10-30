@@ -90,7 +90,15 @@ class Quote extends Media
 
     public function setQuotationMarks($quotationMarks)
     {
-        $this->quotationMarks = intval(boolval($quotationMarks));
+        // Handle special values too.
+        // These special values should be stored as constants, but time crunch.
+        if ($quotationMarks == 'Yes') {
+            $this->quotationMarks = 1;
+        } else if ($quotationMarks == 'No') {
+            $this->quotationMarks = 0;
+        } else {
+            $this->quotationMarks = intval(boolval($quotationMarks));
+        }
     }
 
     public function getDateRecorded()
