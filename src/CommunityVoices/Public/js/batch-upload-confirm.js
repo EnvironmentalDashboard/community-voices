@@ -62,7 +62,9 @@ function checkFieldEmpty(row) { // checks if a required/suggested field (edited 
        quoteNumber = row.closest("[quoteNumber]").length ? "quote " + row.closest("[quoteNumber]").attr("quoteNumber") : "";
        columnName = row.attr("formattedName");
 
-       strToAdd = identifier + " " + quoteNumber + " " + columnName;
+       const parentContainer = $(row).parent().closest('div');
+
+       strToAdd = identifier + " " + quoteNumber + " " + columnName + ` (from sheet: ${parentContainer.hasClass('sourceNotQuote') ? 'sources' : 'quotes'})`;
        linkToAdd = strToAdd.split(' ').join('');
 
        isEmpty = rowType == "checkbox" ? row.find($('input:checkbox:checked')).length == 0 : input.val().length == 0
