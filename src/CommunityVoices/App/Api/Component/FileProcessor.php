@@ -91,7 +91,7 @@
                    array_push($columnOrder,$formattedColumn);
                } else {
                    array_push($columnOrder, "unrecognized");
-                   array_push($columnNameWarnings["unrecognized"],["item" => [$column]]); // NOTE: use this format with "item" to make it easier to call card.xslt (unless you want to change that)
+                   array_push($columnNameWarnings["unrecognized"],["item" => [$column . " (Sources Sheet)"]]); // NOTE: use this format with "item" to make it easier to call card.xslt (unless you want to change that)
                }
            }
 
@@ -103,7 +103,7 @@
                $formattedSourceName = $formattedSourceNames[$i];
                $unformattedSourceName = self::BATCH_SOURCE_DATA[$i];
                if (!in_array($formattedSourceName,$columnOrder))
-                 array_push($columnNameWarnings["expected"],["item" => [$unformattedSourceName]]);
+                 array_push($columnNameWarnings["expected"],["item" => [$unformattedSourceName . " (Sources Sheet)"]]);
            }
 
            $sheetData = [];
@@ -145,7 +145,7 @@
                      array_push($columnOrder,$formattedColumn);
                  } else {
                      array_push($columnOrder,"unrecognized");
-                     array_push($columnNameWarnings["unrecognized"],["item" => [$column]]);
+                     array_push($columnNameWarnings["unrecognized"],["item" => [$column . " (Quotes Sheet)"]]);
                  }
              }
 
@@ -158,7 +158,7 @@
                  $formattedQuoteName = $formattedQuoteNames[$i];
                  $unformattedQuoteName = self::BATCH_QUOTE_DATA[$i];
                  if (!in_array($formattedQuoteName,$columnOrder))
-                   array_push($columnNameWarnings["expected"],["item" => [$unformattedQuoteName]]);
+                   array_push($columnNameWarnings["expected"],["item" => [$unformattedQuoteName . " (Quotes Sheet)"]]);
              }
 
              if (empty($columnNameErrors))  {
