@@ -178,6 +178,8 @@ class Quote extends Component\Controller
             if (str_contains(strtolower($file->getClientOriginalName()), "source")) $source = $file;
             else if (str_contains(strtolower($file->getClientOriginalName()), "quote")) $quote = $file;
         }
+        
+        // the third array returned to the api/view is errors with upload. This just lets the frontend know that there are errors.
         if (! (isset($source) && (isset($quote)))) return [[],[],["item" => self::WRONG_NAMES_FILES],[],[]];
         else {
             $fp = new Component\FileProcessor();
