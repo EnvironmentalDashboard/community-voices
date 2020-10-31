@@ -59,6 +59,9 @@ class FrontController
             // if the server is local, we want to be able to see the error stack,
             // but on remote server we want to have an error page display instead
             if (getenv('APP_ENV') == 'development') {
+                // Still log our error, as the FE/BE split-within-project can make it hard to track down errors.
+                $this->logError($t);
+
                 throw $t;
             } else {
                 $this->fail($request, $t)->send();
@@ -89,15 +92,6 @@ class FrontController
      */
     public function fail($request, $error)
     {
-        // First, log our error.
-        $this->logger->alert('System error', [
-            'exception' => [
-                'type' => get_class($error),
-                'message' => $error->getMessage(),
-                'trace' => $error->getTraceAsString()
-            ]
-        ]);
-
         // Switch our resource and action to what we would rather have.
         $request->attributes->set('resource', 'DisplayError');
         $request->attributes->set('action', 'getError');
@@ -106,5 +100,17 @@ class FrontController
         $request->attributes->set('message', $error->getMessage());
 
         return $this->dispatcher->dispatch($request);
+    }
+
+    private function logError($error)
+    {
+        // First, log our error.
+        $this->logger->alert('System error', [
+            'exception' => [
+                'type' => get_class($error),
+                'message' => $error->getMessage(),
+                'trace' => $error->getTraceAsString()
+            ]
+        ]);
     }
 }
