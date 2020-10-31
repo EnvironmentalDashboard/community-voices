@@ -268,6 +268,9 @@
                         </div>
                     </div>
                 </div>
+                <div style="display: flex; justify-content: center">
+                  <a href="#submitAll">Move to submit all button</a>
+                </div>
                     <xsl:call-template name="sources">
                         <xsl:with-param name="entries" select="$dataFromCSV/entries"/>
                         <xsl:with-param name="contentCategoryCollection" select="$contentCategoryCollection"/>
