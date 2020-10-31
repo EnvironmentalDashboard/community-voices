@@ -22,7 +22,14 @@ function postData(form) {
         $.ajax({
           url : $("#actualForm").attr('action'),
           type: $("#actualForm").attr('method'),
-          data: data
+          data: data,
+          success: function () {
+            // This goes back to /quotes because we are at /quotes/confirm
+            window.location.href = '.';
+          },
+          error: function () {
+            alert('Could not upload all quotes. Please contact dashboard@oberlin.edu');
+          }
       });
       form.empty();
     }
