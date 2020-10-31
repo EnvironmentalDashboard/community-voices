@@ -259,7 +259,7 @@
                         </div>
                     </div>
                 </xsl:if>
-                <div id="entryIssues">
+                <div id="entryIssues" style="display: none;">
                     <div class="card" style="margin-bottom: 16px; max-width:400px;margin: 0 auto">
                         <div class="card-body">
                             <h1 class="h4 mb-4 font-weight-normal" style="margin-bottom: 0.5rem !important;"> Warning: Some of your entries have errors preventing their upload or warnings</h1>
