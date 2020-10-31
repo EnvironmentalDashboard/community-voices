@@ -104,6 +104,10 @@ class FrontController
 
     private function logError($error)
     {
+        // Do not fill error log with the same favicon exception.
+        if (getenv('APP_ENV') == 'development' && get_class($error) == 'Symfony\\Component\\Routing\\Exception\\ResourceNotFoundException')
+            return;
+
         // First, log our error.
         $this->logger->alert('System error', [
             'exception' => [
