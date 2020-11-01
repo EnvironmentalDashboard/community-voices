@@ -18,8 +18,7 @@ $cols = [
     'date_article_approved',
     'url_photograph',
     'suggested_photo_source',
-    'suggested_photo_in_cv',
-    'create_a_slide'
+    'suggested_photo_in_cv'
 ];
 
 foreach ($cols as $col) {
