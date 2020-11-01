@@ -271,11 +271,13 @@
                 <div style="display: flex; justify-content: center">
                   <a href="#submitAll">Move to submit all button</a>
                 </div>
+                <div id="sources">
                     <xsl:call-template name="sources">
                         <xsl:with-param name="entries" select="$dataFromCSV/entries"/>
                         <xsl:with-param name="contentCategoryCollection" select="$contentCategoryCollection"/>
                         <xsl:with-param name="tagCollection" select="$tagCollection"/>
                     </xsl:call-template>
+                </div>
                 <form id="actualForm" method="post" action="/community-voices/quotes/batchUpload" style="display:none"/>
                 <div class="row">
                     <div class="col text-center">

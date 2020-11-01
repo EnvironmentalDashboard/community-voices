@@ -254,7 +254,7 @@ CREATE TABLE `community-voices_oberlin_metadata` (
   `url_photograph` varchar(255) DEFAULT NULL,
   `suggested_photo_source` varchar(255) DEFAULT NULL,
   `suggested_photo_in_cv` varchar(255) DEFAULT NULL,
-  `create_a_slide` varchar(255) DEFAULT NULL,
+  `create_a_slide` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -389,4 +389,4 @@ CREATE TABLE `community-voices_users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-31 11:29:32
+-- Dump completed on 2020-11-01 10:07:34

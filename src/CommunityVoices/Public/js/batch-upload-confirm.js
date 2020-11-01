@@ -24,8 +24,11 @@ function postData(form) {
           type: $("#actualForm").attr('method'),
           data: data,
           success: function () {
-            // This goes back to /quotes because we are at /quotes/confirm
-            window.location.href = '.';
+            // Only redirect when we have uploaded everything.
+            if ($('#sources').children().length === 0) {
+              // This goes back to /quotes because we are at /quotes/confirm
+              window.location.href = '.';
+            }
           },
           error: function () {
             alert('Could not upload all quotes. Please contact dashboard@oberlin.edu');
