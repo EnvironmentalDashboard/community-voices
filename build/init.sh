@@ -6,7 +6,7 @@ apt-get update && \
 INI_LOC=`php -i | grep 'Loaded Configuration File => ' | sed 's/Loaded Configuration File => //g' | sed 's/cli/apache2/g'` && \
 	sed -ie 's/upload_max_filesize = 2M/upload_max_filesize = 64M/g' "$INI_LOC" && \
 	sed -ie 's/post_max_size = 8M/post_max_size = 512M/g' "$INI_LOC" && \
-	sed -ie 's/max_input_vars = 1000/max_input_vars = 2000/g' "$INI_LOC" # Does not seem to be working >:(
+	sed -ie 's/; max_input_vars = 1000/max_input_vars = 2000/g' "$INI_LOC"
 ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 ./build/composer-install.sh && \
 	php composer.phar install && \
