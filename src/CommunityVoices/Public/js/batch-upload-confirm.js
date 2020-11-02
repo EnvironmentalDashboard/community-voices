@@ -76,7 +76,11 @@ function checkFieldEmpty(row, givenContentCategories = null) { // checks if a re
 
        strToAdd = identifier + " " + quoteNumber + " " + columnName;
        linkToAdd = strToAdd.split(' ').join('');
-       strToAdd += ` (from sheet: ${parentContainer.hasClass('sourceNotQuote') ? 'sources' : 'quotes'})` " (These values were entered: " + givenContentCategories.map(cc => cc.innerHTML).filter(cc => cc.match("^[A-Za-z0-9]+$")).join() + ')'
+       strToAdd += ` (from sheet: ${parentContainer.hasClass('sourceNotQuote') ? 'sources' : 'quotes'})`;
+
+       if (givenContentCategories !== null) {
+         strToAdd += " (These values were entered: " + givenContentCategories.map(cc => cc.innerHTML)[0] + ')';
+       }
 
        isEmpty = rowType == "checkbox" ? row.find($('input:checkbox:checked')).length == 0 : input.val().length == 0
 

@@ -389,4 +389,4 @@ CREATE TABLE `community-voices_users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-01 10:07:34
+-- Dump completed on 2020-11-01 20:38:56
