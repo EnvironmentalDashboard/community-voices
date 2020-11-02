@@ -259,7 +259,7 @@
                         </div>
                     </div>
                 </xsl:if>
-                <div id="entryIssues">
+                <div id="entryIssues" style="display: none;">
                     <div class="card" style="margin-bottom: 16px; max-width:400px;margin: 0 auto">
                         <div class="card-body">
                             <h1 class="h4 mb-4 font-weight-normal" style="margin-bottom: 0.5rem !important;"> Warning: Some of your entries have errors preventing their upload or warnings</h1>
@@ -268,11 +268,16 @@
                         </div>
                     </div>
                 </div>
+                <div style="display: flex; justify-content: center">
+                  <a href="#submitAll">Move to submit all button</a>
+                </div>
+                <div id="sources">
                     <xsl:call-template name="sources">
                         <xsl:with-param name="entries" select="$dataFromCSV/entries"/>
                         <xsl:with-param name="contentCategoryCollection" select="$contentCategoryCollection"/>
                         <xsl:with-param name="tagCollection" select="$tagCollection"/>
                     </xsl:call-template>
+                </div>
                 <form id="actualForm" method="post" action="/community-voices/quotes/batchUpload" style="display:none"/>
                 <div class="row">
                     <div class="col text-center">

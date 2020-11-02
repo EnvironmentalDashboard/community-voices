@@ -80,7 +80,6 @@
          // There will be errors/warnings on three levels: top level (column names), source level (relating to source info), quotes level (relating to quotes info)
          // any errors on the top level will require a re upload
 
-         // NOTE: Skip the second row of the source file due to format given by John
          // first pass through source sheet, creating entry for each interview. Later we will add list of quotes for each interview
          if (($f = fopen($sourceFilePath, "r")) !== FALSE) {
            $columnOrder = []; // used to track column locations since we are going entirely by name instead of order
@@ -108,7 +107,7 @@
 
            $sheetData = [];
            if (empty($columnNameErrors))  {
-              fgetcsv($f);
+              fgetcsv($f); // skip the second row of the source file
                while (($data = fgetcsv($f)) !== FALSE) {
                    $dataToAdd = ['rowData' => []];
                    $identifier = false;
@@ -162,6 +161,7 @@
              }
 
              if (empty($columnNameErrors))  {
+                 fgetcsv($f); // skip the second row of the quote file
                  while (($data = fgetcsv($f)) !== FALSE) {
                      $dataToAdd = ["contentcategories" => ["formattedName" => "contentcategories", "all" => [], "error" => null], "tags" => ["formattedName" => "tags", "all" => []]];
                      $identifier = false;

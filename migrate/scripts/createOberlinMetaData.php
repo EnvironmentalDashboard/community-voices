@@ -1,5 +1,7 @@
 <?php
 
+// #2
+
 $createOberlinMD = "CREATE TABLE IF NOT EXISTS `community-voices_oberlin_metadata` (
   `id` int(21) NOT NULL AUTO_INCREMENT,
   `source_type` varchar(100) DEFAULT NULL,

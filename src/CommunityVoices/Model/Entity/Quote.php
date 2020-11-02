@@ -92,9 +92,9 @@ class Quote extends Media
     {
         // Handle special values too.
         // These special values should be stored as constants, but time crunch.
-        if ($quotationMarks == 'Yes') {
+        if ($quotationMarks == 'Yes' || $quotationMarks == 'Y') {
             $this->quotationMarks = 1;
-        } else if ($quotationMarks == 'No') {
+        } else if ($quotationMarks == 'No' || $quotationMarks == 'N') {
             $this->quotationMarks = 0;
         } else {
             $this->quotationMarks = intval(boolval($quotationMarks));

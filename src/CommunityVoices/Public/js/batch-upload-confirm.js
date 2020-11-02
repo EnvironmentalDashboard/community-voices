@@ -22,7 +22,17 @@ function postData(form) {
         $.ajax({
           url : $("#actualForm").attr('action'),
           type: $("#actualForm").attr('method'),
-          data: data
+          data: data,
+          success: function () {
+            // Only redirect when there are either no more sources or no more quotes left.
+            if ($('#sources').children().length === 0 || $('.individualQuote').length === 0) {
+              // This goes back to /quotes because we are at /quotes/confirm
+              window.location.href = '.';
+            }
+          },
+          error: function () {
+            alert('Could not upload all quotes. Please contact dashboard@oberlin.edu');
+          }
       });
       form.empty();
     }
@@ -52,7 +62,7 @@ function fillCheckBoxes (listSelected, allBoxes) { // takes content category fie
    });
 }
 
-function checkFieldEmpty(row) { // checks if a required/suggested field (edited quotes,content categories, attributions) is empty or not
+function checkFieldEmpty(row, givenContentCategories = null) { // checks if a required/suggested field (edited quotes,content categories, attributions) is empty or not
    if (! row.closest("#unpairedQuotes").length) { // issues will only be checked for paired quotes, we will ignore issues with unpaired quotes.
        rowType = row.find(".checkboxHeader").length != 0 ? "checkbox" : "field";
        linkExists = row.parent("a").length; // have we already added a link to this? Need to check
@@ -64,8 +74,13 @@ function checkFieldEmpty(row) { // checks if a required/suggested field (edited 
 
        const parentContainer = $(row).parent().closest('div');
 
-       strToAdd = identifier + " " + quoteNumber + " " + columnName + ` (from sheet: ${parentContainer.hasClass('sourceNotQuote') ? 'sources' : 'quotes'})`;
+       strToAdd = identifier + " " + quoteNumber + " " + columnName;
        linkToAdd = strToAdd.split(' ').join('');
+       strToAdd += ` (from sheet: ${parentContainer.hasClass('sourceNotQuote') ? 'sources' : 'quotes'})`;
+
+       if (givenContentCategories !== null) {
+         strToAdd += " (These values were entered: " + givenContentCategories.map(cc => cc.innerHTML)[0] + ')';
+       }
 
        isEmpty = rowType == "checkbox" ? row.find($('input:checkbox:checked')).length == 0 : input.val().length == 0
 
@@ -181,7 +196,8 @@ $(document).ready(function() {
         fillCheckBoxes(listSelected[1],allBoxes[1]);
     });
     $("[message]").each(function() {
-        checkFieldEmpty($(this));
+        ($(this).attr("formattedName") == "contentcategories") ? givenContentCategories = $(this).find("li").toArray() : givenContentCategories = null;
+         checkFieldEmpty($(this),givenContentCategories);
     });
     checkEntryIssuesEmpty();
     $(".individualSource").each(function () {
