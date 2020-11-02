@@ -24,8 +24,8 @@ function postData(form) {
           type: $("#actualForm").attr('method'),
           data: data,
           success: function () {
-            // Only redirect when we have uploaded everything.
-            if ($('#sources').children().length === 0) {
+            // Only redirect when there are either no more sources or no more quotes left.
+            if ($('#sources').children().length === 0 || $('.individualQuote').length === 0) {
               // This goes back to /quotes because we are at /quotes/confirm
               window.location.href = '.';
             }
