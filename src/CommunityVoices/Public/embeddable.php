@@ -84,6 +84,7 @@ foreach ($galleries as $gallery => $weight) {
 }
 shuffle($files);
 ?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -96,85 +97,69 @@ shuffle($files);
     <link rel="mask-icon" href="/safari-pinned-tab.svg?v=9ByOqqx0o3" color="#00a300">
     <link rel="shortcut icon" href="/favicon.ico?v=9ByOqqx0o3">
     <link rel="stylesheet" href="https://environmentaldashboard.org/css/bootstrap.css?v=2">
+    <link rel="stylesheet" href="/community-voices/public/css/landing.css">
     <meta name="theme-color" content="#000000">
-    <title>Environmental Dashboard</title>
-    <style>
-      @keyframes fadeIn {
-        0% {
-          display: none;
-          opacity: 0;
-        }
-        1% {
-          display: block;
-          opacity: 0;
-        }
-        100% {
-          display: block;
-          opacity: 1;
-        }
-      }
-      @keyframes fadeOut {
-        0% {
-          display: block;
-          opacity: 1;
-        }
-        99% {
-          display: block;
-          opacity: 0;
-        }
-        100% {
-          display: none;
-          opacity: 0;
-        }
-      }
-      .fade-in {
-        -webkit-animation: fadeIn 2s linear 0s 1 normal forwards;
-        animation: fadeIn 2s linear 0s 1 normal forwards;
-      }
-      .fade-out {
-        -webkit-animation: fadeOut 2s linear 0s 1 normal forwards;
-        animation: fadeOut 2s linear 0s 1 normal forwards;
-      }
-      iframe {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        border: none;
-      }
-    </style>
+    <title>CV Embeddable</title>
   </head>
+  
   <body style="background: #000">
-    <iframe id='iframe1' src="<?php echo $files[0]; ?>"></iframe>
-    <iframe id="iframe2" src="<?php echo $files[1]; ?>"></iframe>
-  </body>
-  <script>
+    <div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-interval="7000">
+      <div class="carousel-inner">
+        <div class="carousel-item active"><div class="embed-responsive embed-responsive-16by9 mb-4"><iframe class="embed-responsive-item" id="slide1" style="pointer-events: none;" src="<?php echo $files[0]; ?>"></iframe></div></div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev" style=""><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next" style=""><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span></a>
+    </div>
+
+    <div id="buttons" class="row" style="padding: 15px">
+      <div style="display: flex; flex-wrap: wrap; padding: 0px 15px; width: 100%" id="carousel-selection-flex-container">
+        <div style="display: flex; flex-direction: column; width: 130px" class="carousel-selection-flex-item">
+          <div style="display: flex; justify-content: center; align-content: center; background-color: #008cb4; border-radius: 10px; height: 105px; width: 130px"><img data-cc="111" onclick="setCategory(this)" src="/community-voices/uploads/4530" class="selector-img" style="cursor: pointer; margin: auto; max-width: 130px; max-height: 95px"></div>
+          <div style="text-align:center; font-weight:bold; color:white">Climate Action</div>
+        </div>
+        <div style="display: flex; flex-direction: column; width: 130px" class="carousel-selection-flex-item">
+          <div style="display: flex; justify-content: center; align-content: center; background-color: #371a95; border-radius: 10px; height: 105px; width: 130px"><img data-cc="4" onclick="setCategory(this)" src="/community-voices/uploads/4711" class="selector-img" style="cursor: pointer; margin: auto; max-width: 130px; max-height: 95px"></div>
+          <div style="text-align:center; font-weight:bold; color:white">Heritage</div>
+        </div>
+        <div style="display: flex; flex-direction: column; width: 130px" class="carousel-selection-flex-item">
+          <div style="display: flex; justify-content: center; align-content: center; background-color: #43762d; border-radius: 10px; height: 105px; width: 130px"><img data-cc="5" onclick="setCategory(this)" src="/community-voices/uploads/4712" class="selector-img" style="cursor: pointer; margin: auto; max-width: 130px; max-height: 95px"></div>
+          <div style="text-align:center; font-weight:bold; color:white">Natural Oberlin</div>
+        </div>
+        <div style="display: flex; flex-direction: column; width: 130px" class="carousel-selection-flex-item">
+          <div style="display: flex; justify-content: center; align-content: center; background-color: #b92d5d; border-radius: 10px; height: 105px; width: 130px"><img data-cc="6" onclick="setCategory(this)" src="/community-voices/uploads/4713" class="selector-img" style="cursor: pointer; margin: auto; max-width: 130px; max-height: 95px"></div>
+          <div style="text-align:center; font-weight:bold; color:white">Neighbors</div>
+        </div>
+        <div style="display: flex; flex-direction: column; width: 130px" class="carousel-selection-flex-item">
+          <div style="display: flex; justify-content: center; align-content: center; background-color: #002e7a; border-radius: 10px; height: 105px; width: 130px"><img data-cc="3" onclick="setCategory(this)" src="/community-voices/uploads/4714" class="selector-img" style="cursor: pointer; margin: auto; max-width: 130px; max-height: 95px"></div>
+          <div style="text-align:center; font-weight:bold; color:white">Next Generation</div>
+        </div>
+        <div style="display: flex; flex-direction: column; width: 130px" class="carousel-selection-flex-item">
+          <div style="display: flex; justify-content: center; align-content: center; background-color: #5c5c5c; border-radius: 10px; height: 105px; width: 130px"><img data-cc="2" onclick="setCategory(this)" src="/community-voices/uploads/4710" class="selector-img" style="cursor: pointer; margin: auto; max-width: 130px; max-height: 95px"></div>
+          <div style="text-align:center; font-weight:bold; color:white">Our Downtown</div>
+        </div>
+        <div style="display: flex; flex-direction: column; width: 130px" class="carousel-selection-flex-item">
+          <div style="display: flex; justify-content: center; align-content: center; background-color: #965117; border-radius: 10px; height: 105px; width: 130px"><img data-cc="1" onclick="setCategory(this)" src="/community-voices/uploads/4715" class="selector-img" style="cursor: pointer; margin: auto; max-width: 130px; max-height: 95px"></div>
+          <div style="text-align:center; font-weight:bold; color:white">Serving Our Community</div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
     var paths = <?php echo json_encode($files); ?>;
-    var images = [document.getElementById('iframe1'), document.getElementById('iframe2')];
-    var current_path = 2,
-        current_iframe = 1;
-    setInterval(function() {
-      if (current_iframe === 0) {
-        console.log(current_path)
-        images[current_iframe].className = 'fade-out';
-        setTimeout(function() { images[0].setAttribute('src', paths[current_path++]); }, 2000);
-        current_iframe = 1;
-        images[current_iframe].className = 'fade-in';
-        if (current_path === paths.length) {
-          current_path = 0;
-        }
-      } else {
-        console.log(current_path)
-        images[current_iframe].className = 'fade-out';
-        setTimeout(function() { images[1].setAttribute('src', paths[current_path++]); }, 2000);
-        current_iframe = 0;
-        images[current_iframe].className = 'fade-in';
-        if (current_path === paths.length) {
-          current_path = 0;
-        }
+    function setCategory(category) {
+      window.location.search = `content_category[]=${category.dataset.cc}`
+    }
+    $(document).ready(function(){
+      if (window.location.hash !== "#buttons") {
+        document.getElementById("buttons").style.display = "none";
       }
-    }, <?php echo (isset($_GET['ms'])) ? $_GET['ms'] : 5000 ?>);
-  </script>
+    for(var i=1 ; i< paths.length ; i++) {
+      $('<div class="carousel-item"><div class="embed-responsive embed-responsive-16by9 mb-4"><iframe class="embed-responsive-item" id="slide2" style="pointer-events: none;" src="' + paths[i]+ '"></iframe></div></div>').appendTo('.carousel-inner');
+    }
+    });
+    </script>
+
+  </body>
 </html>
