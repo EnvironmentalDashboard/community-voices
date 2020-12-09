@@ -1,5 +1,4 @@
 <?php
-//TODO: Select approved only slides
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -101,7 +100,7 @@ shuffle($files);
     <meta name="theme-color" content="#000000">
     <title>CV Embeddable</title>
   </head>
-  
+
   <body style="background: #000">
     <div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-interval="7000">
       <div class="carousel-inner">
