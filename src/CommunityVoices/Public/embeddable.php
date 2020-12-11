@@ -101,10 +101,16 @@ shuffle($files);
     <title>Community Voices</title>
   </head>
 
+  <style>
+    .embed-responsive {
+        height: 100vh;
+    }
+  </style>
+
   <body style="background: #000">
     <div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-interval="7000">
       <div class="carousel-inner" ontransitionend="loadMore()">
-        <div class="carousel-item active"><div class="embed-responsive embed-responsive-16by9 mb-4"><iframe class="embed-responsive-item" id="slide1" style="pointer-events: none;" src="<?php echo $files[0]; ?>"></iframe></div></div>
+        <div class="carousel-item active"><div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" id="slide1" style="pointer-events: none;" src="<?php echo $files[0]; ?>"></iframe></div></div>
       </div>
       <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev" style="">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span>
@@ -161,7 +167,7 @@ shuffle($files);
     function loadMore() {
       if (Number(document.getElementsByClassName('carousel-item active')[0].getElementsByClassName('embed-responsive-item')[0].id.substring(5,)) === currentMax) {
         for(var i = currentMax; i < (paths.length < currentMax + 10 ? paths.length - currentMax : currentMax + 10); i++) {
-          $('<div class="carousel-item"><div class="embed-responsive embed-responsive-16by9 mb-4"><iframe class="embed-responsive-item" id="slide' + (i + 1) + '" style="pointer-events: none;" src="' + paths[i]+ '"></iframe></div></div>').appendTo('.carousel-inner');
+          $('<div class="carousel-item"><div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" id="slide' + (i + 1) + '" style="pointer-events: none;" src="' + paths[i]+ '"></iframe></div></div>').appendTo('.carousel-inner');
         }
         currentMax += paths.length < currentMax + 10 ? paths.length - currentMax : 10;
       }
@@ -172,7 +178,7 @@ shuffle($files);
         document.getElementById("buttons").style.display = "none";
       }
       for(var i=1; i < (paths.length < 10 ? paths.length : 10); i++) {
-        $('<div class="carousel-item"><div class="embed-responsive embed-responsive-16by9 mb-4"><iframe class="embed-responsive-item" id="slide' + (i + 1) + '" style="pointer-events: none;" src="' + paths[i]+ '"></iframe></div></div>').appendTo('.carousel-inner');
+        $('<div class="carousel-item"><div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" id="slide' + (i + 1) + '" style="pointer-events: none;" src="' + paths[i]+ '"></iframe></div></div>').appendTo('.carousel-inner');
       }
     });
     </script>
