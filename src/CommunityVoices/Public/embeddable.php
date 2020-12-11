@@ -160,9 +160,7 @@ shuffle($files);
 
     function loadMore() {
       if (Number(document.getElementsByClassName('carousel-item active')[0].getElementsByClassName('embed-responsive-item')[0].id.substring(5,)) === currentMax) {
-        console.log('test')
         for(var i = currentMax; i < (paths.length < currentMax + 10 ? paths.length - currentMax : currentMax + 10); i++) {
-          console.log('other test')
           $('<div class="carousel-item"><div class="embed-responsive embed-responsive-16by9 mb-4"><iframe class="embed-responsive-item" id="slide' + (i + 1) + '" style="pointer-events: none;" src="' + paths[i]+ '"></iframe></div></div>').appendTo('.carousel-inner');
         }
         currentMax += paths.length < currentMax + 10 ? paths.length - currentMax : 10;
