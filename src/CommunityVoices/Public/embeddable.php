@@ -66,7 +66,7 @@ $num_urls = 0;
 foreach ($dbHandler->query($sql) as $row) {
     for ($i=0; $i < $row['probability']; $i++) {
         $sorted_rows[$row['content_category_id']][] = "/community-voices/slides/{$row['media_id']}";
-    }-
+    }
     $num_urls += $row['probability'];
 }
 $files = [];
@@ -98,15 +98,20 @@ shuffle($files);
     <link rel="stylesheet" href="https://environmentaldashboard.org/css/bootstrap.css?v=2">
     <link rel="stylesheet" href="/community-voices/public/css/landing.css">
     <meta name="theme-color" content="#000000">
-    <title>CV Embeddable</title>
+    <title>Community Voices</title>
   </head>
 
   <body style="background: #000">
     <div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-interval="7000">
-      <div class="carousel-inner">
+      <div class="carousel-inner" ontransitionend="loadMore()">
         <div class="carousel-item active"><div class="embed-responsive embed-responsive-16by9 mb-4"><iframe class="embed-responsive-item" id="slide1" style="pointer-events: none;" src="<?php echo $files[0]; ?>"></iframe></div></div>
       </div>
-      <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev" style=""><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next" style=""><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span></a>
+      <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev" style="">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next" style="">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span>
+      </a>
     </div>
 
     <div id="buttons" class="row" style="padding: 15px">
@@ -147,16 +152,30 @@ shuffle($files);
 
     <script>
     var paths = <?php echo json_encode($files); ?>;
+    var currentMax = paths.length < 10 ? paths.length : 10;
+
     function setCategory(category) {
       window.location.search = `content_category[]=${category.dataset.cc}`
     }
+
+    function loadMore() {
+      if (Number(document.getElementsByClassName('carousel-item active')[0].getElementsByClassName('embed-responsive-item')[0].id.substring(5,)) === currentMax) {
+        console.log('test')
+        for(var i = currentMax; i < (paths.length < currentMax + 10 ? paths.length - currentMax : currentMax + 10); i++) {
+          console.log('other test')
+          $('<div class="carousel-item"><div class="embed-responsive embed-responsive-16by9 mb-4"><iframe class="embed-responsive-item" id="slide' + (i + 1) + '" style="pointer-events: none;" src="' + paths[i]+ '"></iframe></div></div>').appendTo('.carousel-inner');
+        }
+        currentMax += paths.length < currentMax + 10 ? paths.length - currentMax : 10;
+      }
+    }
+
     $(document).ready(function(){
       if (window.location.hash !== "#buttons") {
         document.getElementById("buttons").style.display = "none";
       }
-    for(var i=1 ; i< paths.length ; i++) {
-      $('<div class="carousel-item"><div class="embed-responsive embed-responsive-16by9 mb-4"><iframe class="embed-responsive-item" id="slide2" style="pointer-events: none;" src="' + paths[i]+ '"></iframe></div></div>').appendTo('.carousel-inner');
-    }
+      for(var i=1; i < (paths.length < 10 ? paths.length : 10); i++) {
+        $('<div class="carousel-item"><div class="embed-responsive embed-responsive-16by9 mb-4"><iframe class="embed-responsive-item" id="slide' + (i + 1) + '" style="pointer-events: none;" src="' + paths[i]+ '"></iframe></div></div>').appendTo('.carousel-inner');
+      }
     });
     </script>
 
