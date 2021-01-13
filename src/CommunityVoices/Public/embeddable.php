@@ -19,6 +19,13 @@ foreach ($galleries as $gallery => $numerator) {
         $galleries[$gallery] = $_GET[$gallery];
     }
 }
+
+if (isset($_GET['interval'])) {
+  $interval = $_GET['interval'];
+} else {
+  $interval = '7000';
+}
+
 if (isset($_GET['search'])) {
   $param = "'%{$_GET['search']}%'";
   $search_quote_query = 'AND quote_id IN (SELECT `community-voices_quotes`.media_id FROM `community-voices_quotes` WHERE text LIKE '.($param).' OR attribution LIKE '.($param).' OR sub_attribution LIKE '.($param).')';
@@ -108,7 +115,7 @@ shuffle($files);
   </style>
 
   <body style="background: #000">
-    <div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-interval="7000">
+    <div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-interval="<?php echo $interval; ?>">
       <div class="carousel-inner" ontransitionend="loadMore()">
         <div class="carousel-item active"><div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" id="slide1" style="pointer-events: none;" src="<?php echo $files[0]; ?>"></iframe></div></div>
       </div>
