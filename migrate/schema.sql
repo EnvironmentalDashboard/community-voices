@@ -87,33 +87,6 @@ CREATE TABLE `community-voices_images` (
   `crop_width` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `community-voices_location-category-map`
---
-
-CREATE TABLE `community-voices_location-category-map` (
-  `id` int(21) NOT NULL,
-  `location_id` int(21) NOT NULL,
-  `group_id` int(21) NOT NULL,
-  `probability` int(21) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `community-voices_locations`
---
-
-CREATE TABLE `community-voices_locations` (
-  `id` int(21) NOT NULL,
-  `label` varchar(255) NOT NULL,
-  `end_use` enum('city','college') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
 --
 -- Table structure for table `community-voices_media`
 --
@@ -287,20 +260,6 @@ ALTER TABLE `community-voices_images`
   ADD PRIMARY KEY (`media_id`);
 
 --
--- Indexes for table `community-voices_location-category-map`
---
-ALTER TABLE `community-voices_location-category-map`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `community-voices_location-category-map_fk0` (`location_id`),
-  ADD KEY `community-voices_location-category-map_fk1` (`group_id`);
-
---
--- Indexes for table `community-voices_locations`
---
-ALTER TABLE `community-voices_locations`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `community-voices_media`
 --
 ALTER TABLE `community-voices_media`
@@ -386,16 +345,6 @@ ALTER TABLE `community-voices_groups`
 ALTER TABLE `community-voices_identities`
   MODIFY `identity_id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=400;
 --
--- AUTO_INCREMENT for table `community-voices_location-category-map`
---
-ALTER TABLE `community-voices_location-category-map`
-  MODIFY `id` int(21) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `community-voices_locations`
---
-ALTER TABLE `community-voices_locations`
-  MODIFY `id` int(21) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
---
 -- AUTO_INCREMENT for table `community-voices_media`
 --
 ALTER TABLE `community-voices_media`
@@ -454,13 +403,6 @@ ALTER TABLE `community-voices_identities`
 --
 ALTER TABLE `community-voices_images`
   ADD CONSTRAINT `community-voices_images_fk0` FOREIGN KEY (`media_id`) REFERENCES `community-voices_media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `community-voices_location-category-map`
---
-ALTER TABLE `community-voices_location-category-map`
-  ADD CONSTRAINT `community-voices_location-category-map_fk0` FOREIGN KEY (`location_id`) REFERENCES `community-voices_locations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `community-voices_location-category-map_fk1` FOREIGN KEY (`group_id`) REFERENCES `community-voices_groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `community-voices_media`
