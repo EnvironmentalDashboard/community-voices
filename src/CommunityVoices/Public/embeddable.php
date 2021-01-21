@@ -104,6 +104,7 @@ shuffle($files);
     <link rel="shortcut icon" href="/favicon.ico?v=9ByOqqx0o3">
     <link rel="stylesheet" href="https://environmentaldashboard.org/css/bootstrap.css?v=2">
     <link rel="stylesheet" href="/community-voices/public/css/landing.css">
+    <link rel="stylesheet" href="/community-voices/public/css/embeddable.css">
     <meta name="theme-color" content="#000000">
     <title>Community Voices</title>
   </head>
@@ -119,10 +120,10 @@ shuffle($files);
       <div class="carousel-inner" ontransitionend="loadMore()">
         <div class="carousel-item active"><div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" id="slide1" style="pointer-events: none;" src="<?php echo $files[0]; ?>"></iframe></div></div>
       </div>
-      <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev" style="">
+      <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span>
       </a>
-      <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next" style="">
+      <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span>
       </a>
     </div>
