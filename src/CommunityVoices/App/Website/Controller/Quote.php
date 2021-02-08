@@ -75,6 +75,11 @@ class Quote
         // }
     }
 
+    public function postBatchDraft($request)
+    {
+
+    }
+
     public function getQuoteUpdate($request)
     {
         // $this->quoteAPIController->getQuote($request);

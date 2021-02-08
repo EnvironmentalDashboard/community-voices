@@ -90,7 +90,15 @@ class Quote extends Media
 
     public function setQuotationMarks($quotationMarks)
     {
-        $this->quotationMarks = boolval($quotationMarks);
+        // Handle special values too.
+        // These special values should be stored as constants, but time crunch.
+        if ($quotationMarks == 'Yes' || $quotationMarks == 'Y') {
+            $this->quotationMarks = 1;
+        } else if ($quotationMarks == 'No' || $quotationMarks == 'N') {
+            $this->quotationMarks = 0;
+        } else {
+            $this->quotationMarks = intval(boolval($quotationMarks));
+        }
     }
 
     public function getDateRecorded()
@@ -127,7 +135,6 @@ class Quote extends Media
     {
         $this->relatedSlide = $slideId;
     }
-
 
     public function validateForUpload(FlexibleObserver $stateObserver, array $contentCategories)
     {

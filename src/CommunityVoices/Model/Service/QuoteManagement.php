@@ -39,7 +39,8 @@ class QuoteManagement extends Management
     public function save(
         $id,
         array $attributes,
-        $identity = null
+        $identity = null,
+        array $oberlinMetaData = null
     ) {
         $isUpload = is_null($id);
         $quoteMapper = $this->mapperFactory->createDataMapper(Mapper\Quote::class);
@@ -96,7 +97,7 @@ class QuoteManagement extends Management
          * the registration process
          */
 
-        if ($this->stateObserver->hasEntries()) {
+        if ($this->stateObserver->hasSubjectEntries('quoteFormErrors')) {
             $clientState->save($this->stateObserver);
             return false;
         }
@@ -104,7 +105,7 @@ class QuoteManagement extends Management
         /*
          * save $quote to database
          */
-        $quoteMapper->save($quote);
+        $quoteMapper->save($quote, $oberlinMetaData);
 
         // Save the quote's associated tags.
         $qid = $quote->getId();

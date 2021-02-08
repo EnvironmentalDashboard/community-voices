@@ -357,12 +357,12 @@
                       <td>
                         <div class="form-group mb-1">
                           <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="approve" name="approve" value="1" form="edit-form{id}">
+                            <input type="checkbox" class="custom-control-input" id="approve{id}" name="approve" value="1" form="edit-form{id}">
                               <xsl:if test="status = 'approved'">
                                 <xsl:attribute name="checked">checked</xsl:attribute>
                               </xsl:if>
                             </input>
-                            <label class="custom-control-label" for="approve">Approve</label>
+                            <label class="custom-control-label" for="approve{id}">Approve</label>
                           </div>
                         </div>
                         <input type='submit' class="btn btn-primary mt-2 btn-block" value="Update" form="edit-form{id}"></input>

@@ -40,7 +40,14 @@ class ApiProvider
 
     public function postJson($path, $request, $debug = false)
     {
-        return json_decode($this->post($path, $request, $debug));
+        $response = $this->post($path, $request, $debug);
+        $parsed = json_decode($response);
+
+        if (is_null($parsed)) {
+            throw new \Exception('Could not read API JSON response.' . $response);
+        }
+
+        return $parsed;
     }
 
     public function post($path, $request, $debug = false)
@@ -53,9 +60,11 @@ class ApiProvider
             if (is_array($file)) {
                 foreach ($file as $index => $f) {
                     $data["{$key}[{$index}]"] = new \CURLFile($f->getPathName(), $f->getMimeType());
+                    $data["{$key}[{$index}]"]->setPostFilename($f->getClientOriginalName());
                 }
             } else if (!is_null($file)) {
                 $data[$key] = new \CURLFile($file->getPathName(), $file->getMimeType());
+                $data[$key]->setPostFilename($file->getClientOriginalName());
             }
         }
 
