@@ -8,11 +8,11 @@
 
 .carousel-control-prev-icon, .carousel-control-next-icon {
   display: inline-block;
-    width: 75px;
-    height: 75px;
+    width: 45px;
+    height: 45px;
     background: #ffffff47;
     border-radius: 50%;
-    background-size: 25% 100%;
+    background-size: 40% 100%;
     background-repeat: no-repeat;
     background-position: center;
 }
