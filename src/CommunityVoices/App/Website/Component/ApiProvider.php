@@ -109,6 +109,13 @@ class ApiProvider
         $result = curl_exec($ch);
         curl_close($ch);
 
+        if (
+            strpos($result, 'CommunityVoices\App\Api\Component\Exception\AccessDenied') !== false ||
+            strpos($result, 'CommunityVoices\\\App\\\Api\\\Component\\\Exception\\\AccessDenied') !== false
+        ) {
+            throw new AccessDenied(strpos($result, AccessDenied::LOGGED_IN_MESSAGE) !== false);
+        }
+
         if ($debug) {
             die();
         }
