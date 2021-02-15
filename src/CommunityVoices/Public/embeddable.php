@@ -186,6 +186,8 @@ shuffle($files);
 
     $(document).ready(function(){
       const hash = window.location.hash.split("&");
+      const search = window.location.search;
+
       let adjust = 74;
       if (!hash.includes("buttons") && !hash.includes("#buttons")) {
         document.getElementById("buttons").style.display = "none";
@@ -197,6 +199,12 @@ shuffle($files);
       }
       for(var i=1; i < (paths.length < 10 ? paths.length : 10); i++) {
         $('<div class="carousel-item"><div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" id="slide' + (i + 1) + '" style="pointer-events: none;" src="' + paths[i]+ '"></iframe></div></div>').appendTo('.carousel-inner');
+      }
+
+      if (search.includes('search=')) {
+        search_query = search.substring(search.indexOf('search='),);
+        search_query = ((search_query.indexOf('&') != -1) ? search_query.substring(7, search_query.indexOf('&')) : search_query.substring(7,));
+        document.getElementById('search_input').value = search_query;
       }
 
       var r = document.querySelector(':root');
