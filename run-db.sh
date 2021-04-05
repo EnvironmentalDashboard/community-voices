@@ -6,4 +6,6 @@ docker run -dit --restart always -p 3007:3306 -e "MYSQL_ROOT_HOST=%" -e "MYSQL_A
 # I wonder if we could more programatically do this.
 echo "Waiting half a minute for mysql server to start up..."
 sleep 35
+
+docker exec -i cv-mysql mysql < migrate/createdatabase.sql # use seperate sql script to create database bc database creation will not be included in sql dump
 docker exec -i cv-mysql mysql < migrate/schema.sql
