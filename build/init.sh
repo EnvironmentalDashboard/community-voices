@@ -15,10 +15,13 @@ ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 a2enmod rewrite headers && mv /var/www/html/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
 service postfix start
 
-# Make sure log/access.log exists
+# Make sure log/access.log and log/migration.log exist
 mkdir -p /var/www/html/log
 touch /var/www/html/log/access.log
 chmod a+w /var/www/html/log/access.log
+touch /var/www/html/log/migration.log
+chmod a+w /var/www/html/log/migration.log
+
 
 # Make sure CV_Media/images exists
 mkdir -p /var/www/uploads/CV_Media/images
