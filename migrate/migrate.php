@@ -20,28 +20,50 @@ if (count($argv) < 2) {
     echo "You must input a script name as an argument.\n";
 } else {
     $currentDateTime = date('Y-m-d H:i:s'); // format for SQL datetime
+
+    $checkForExistanceOfMigrationTable = "SELECT * from `community-voices_migrations` LIMIT 1";
     try {
-        require __DIR__ . "/scripts/{$argv[1]}.php";
-        // make sure that wile running the createMigrationsTable script for the first time, the following statement is commented out.
-        addMigrationToTable(
-            $dbHandler,
-            $argv[1],
-            implode(",",array_slice($argv,2)),
-            true,
-            $currentDateTime);
-            
-        echo "ran migration $argv[1] succesfully\n";
+        $statement = $dbHandler->prepare($checkForExistanceOfMigrationTable);
+        $statement->execute();
+        $migrationsTableExists = true;
+    } catch(Exception $e) {
+        $migrationsTableExists = false;
+    }
+
+    unset($statement); //https://stackoverflow.com/questions/2066714/pdo-cannot-execute-queries-while-other-unbuffered-queries-are-active/2066821
+
+    try {
+        if($migrationsTableExists || strcmp($argv[1],'createMigrationsTable')===0) { // force user to create a migration table before running any more migrations
+            require __DIR__ . "/scripts/{$argv[1]}.php";
+            echo "ran migration $argv[1] succesfully\n";
+        } else {
+            echo "Please create a migrations table before running any migrations!\n";
+            echo "You can do this through the script createMigrationsTable\n";
+            echo "This is essential to ensuring that we track database structure changes over time";
+        }
+
+        if($migrationsTableExists) {
+            addMigrationToTable(
+                $dbHandler,
+                $argv[1],
+                implode(",",array_slice($argv,2)),
+                true,
+                $currentDateTime);
+        }
 
     } catch (Exception $e) {
-        // make sure that wile running the createMigrationsTable script for the first time, the following statement is commented out.
-        addMigrationToTable(
-            $dbHandler,
-            $argv[1],
-            implode(",",array_slice($argv,2)),
-            false,
-            $currentDateTime,
-            $e->getMessage(),
-            $e->getTraceAsString());
+        if($migrationsTableExists) {
+            addMigrationToTable(
+                $dbHandler,
+                $argv[1],
+                implode(",",array_slice($argv,2)),
+                false,
+                $currentDateTime,
+                $e->getMessage(),
+                $e->getTraceAsString());
+        }
+
+
         echo "migration $argv[1] had errors! Check the migration table for more information.\n";
     }
 }
