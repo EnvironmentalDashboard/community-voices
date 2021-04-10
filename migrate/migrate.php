@@ -39,7 +39,7 @@ if (count($argv) < 2) {
         } else {
             echo "Please create a migrations table before running any migrations!\n";
             echo "You can do this through the script createMigrationsTable\n";
-            echo "This is essential to ensuring that we track database structure changes over time";
+            echo "This is essential to ensuring that we track database structure changes over time\n";
         }
 
         if($migrationsTableExists) {
