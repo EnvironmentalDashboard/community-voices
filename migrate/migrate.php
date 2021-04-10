@@ -22,7 +22,7 @@ if (count($argv) < 2) {
     $currentDateTime = date('Y-m-d H:i:s'); // format for SQL datetime
     try {
         require __DIR__ . "/scripts/{$argv[1]}.php";
-        // make sure that wile running the createMigrationsTable script, the following line is commented out.
+        // make sure that wile running the createMigrationsTable script for the first time, the following statement is commented out.
         addMigrationToTable(
             $dbHandler,
             $argv[1],
@@ -33,7 +33,7 @@ if (count($argv) < 2) {
         echo "ran migration $argv[1] succesfully\n";
 
     } catch (Exception $e) {
-        // make sure that wile running the createMigrationsTable script, the following line is commented out.
+        // make sure that wile running the createMigrationsTable script for the first time, the following statement is commented out.
         addMigrationToTable(
             $dbHandler,
             $argv[1],
