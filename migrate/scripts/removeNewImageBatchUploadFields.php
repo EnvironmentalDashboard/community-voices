@@ -1,9 +1,16 @@
 <?php
 
-/* 
-@todo all removal should be conditional instead of happening all of the time.
+$checkConstraintExists = "SELECT CONSTRAINT_NAME
+                       FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+                       WHERE CONSTRAINT_NAME = 'community-voices_images_fk1'";
 
-*/
+// check for existance of constraint so we don't drop it unless it exists, avoiding an error
+
+
+$statement = $dbHandler->prepare($checkConstraintExists);
+$statement->execute();
+$result = $statement->fetch();
+
 
 $removeFK = "ALTER TABLE `community-voices_images`
                 DROP FOREIGN KEY `community-voices_images_fk1`";
@@ -12,8 +19,13 @@ $removeFK = "ALTER TABLE `community-voices_images`
 
 $removeMetaDataColumn = "ALTER TABLE `community-voices_images`
                                 DROP COLUMN metadata_id";
+
+
 $dropTable = "DROP TABLE IF EXISTS `community-voices_image_metadata`";
 
-$dbHandler->exec($removeFK);
-$dbHandler->exec($removeMetaDataColumn);
+if(!empty($result)) {
+    $dbHandler->exec($removeFK);
+    $dbHandler->exec($removeMetaDataColumn);
+}
+
 $dbHandler->exec($dropTable);
