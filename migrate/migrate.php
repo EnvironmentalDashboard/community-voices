@@ -32,27 +32,25 @@ if (count($argv) < 2) {
 
     unset($statement); //https://stackoverflow.com/questions/2066714/pdo-cannot-execute-queries-while-other-unbuffered-queries-are-active/2066821
 
+    if (! $migrationsTableExists) {
+        require __DIR__ . "/scripts/createMigrationsTable.php";
+        if (strcmp($argv[1],'createMigrationsTable')===0) {
+            exit(); // avoid calling createMigrationsTable script twice
+        }
+    }
+
     try {
-        if($migrationsTableExists || strcmp($argv[1],'createMigrationsTable')===0) { // force user to create a migration table before running any more migrations
             require __DIR__ . "/scripts/{$argv[1]}.php";
             echo "ran migration $argv[1] succesfully\n";
-        } else {
-            echo "Please create a migrations table before running any migrations!\n";
-            echo "You can do this through the script createMigrationsTable\n";
-            echo "This is essential to ensuring that we track database structure changes over time\n";
-        }
 
-        if($migrationsTableExists) {
             addMigrationToTable(
                 $dbHandler,
                 $argv[1],
                 implode(",",array_slice($argv,2)),
                 true,
                 $currentDateTime);
-        }
 
     } catch (Exception $e) {
-        if($migrationsTableExists) {
             addMigrationToTable(
                 $dbHandler,
                 $argv[1],
@@ -61,8 +59,6 @@ if (count($argv) < 2) {
                 $currentDateTime,
                 $e->getMessage(),
                 $e->getTraceAsString());
-        }
-
 
         echo "migration $argv[1] had errors! Check the migration table for more information.\n";
     }
