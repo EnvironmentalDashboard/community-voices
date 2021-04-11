@@ -2,11 +2,6 @@
 
 $createImageMDFields = "CREATE TABLE IF NOT EXISTS `community-voices_image_metadata` (
     `id` int(21) NOT NULL AUTO_INCREMENT,
-    `script_name` VARCHAR(250) NOT NULL,
-    `succesful` BOOLEAN NOT NULL,
-    `datetime_executed` DATETIME NOT NULL,
-    `exception_message` TEXT,
-    `exception_trace` TEXT,
      PRIMARY KEY (id)
   ) ENGINE=InnoDB DEFAULT CHARSET=latin1";
   $dbHandler->exec($createImageMDFields);
@@ -20,4 +15,12 @@ $createImageMDFields = "CREATE TABLE IF NOT EXISTS `community-voices_image_metad
     $dbHandler->exec($addNewColumn);
   }
 
+  $addFKConstraint = "ALTER TABLE `community-voices_images`
+  ADD COLUMN metadata_id int(21) DEFAULT NULL,
+    ADD CONSTRAINT `community-voices_images_fkMetadata` 
+      FOREIGN KEY (`metadata_id`)
+      REFERENCES `community-voices_image_metadata` (`id`) 
+    ON DELETE CASCADE ON UPDATE CASCADE";
+
+$dbHandler->exec($addFKConstraint);
 

@@ -13,6 +13,7 @@ class Image extends Component\Controller
     protected $imageLookup;
     protected $imageManagement;
     protected $tagLookup;
+    protected static $metaDataFields = [];
 
     public function __construct(
         Component\SecureContainer $secureContainer,
@@ -27,6 +28,10 @@ class Image extends Component\Controller
         $this->imageLookup = $imageLookup;
         $this->imageManagement = $imageManagement;
         $this->tagLookup = $tagLookup;
+    }
+
+    private static function setMetaDataFields($metaDataFields) {
+        self::$metaDataFields = $metaDataFields; // user can only set their meta data fields one time
     }
 
     protected function sendImage($request)
@@ -160,5 +165,29 @@ class Image extends Component\Controller
     {
         $id = $request->attributes->get('id');
         $this->imageLookup->nextImage2($id);
+    }
+
+    protected function postMetaDataFields($request) {
+        // need to make sure user didn't pass in any funky metadata field names. This should also make the call to exec secure by preventing piping and underscores
+
+
+        $migrationCommand = "php /var/www/html/migrate/migrate.php createNewImageBatchUploadFields ". implode(" ",$request->request->get('fields')); 
+        $migrationUndoCommand = "php /var/www/html/migrate/migrate.php removeNewImageBatchUploadFields"; 
+       
+        try {
+            $metaDataFieldsUnfiltered = $request->request->get('fields');
+            $metaDataFieldsFiltered = array_filter($metaDataFieldsUnfiltered, function($md) {
+                return preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/',$md);
+            });
+
+            if(count($metaDataFieldsUnfiltered) != count($metaDataFieldsFiltered)) { // if the user has weird characters, the migration should not occur and they can do it again in the future with proper names
+                throw new Exception\DataIntegrityViolation(); 
+            }
+            exec($migrationCommand, $output, $return_var);
+            
+        } catch (\Exception $e) {
+            exec($migrationUndoCommand, $output, $return_var);
+            // @todo pass error to view to alert them of error
+        }
     }
 }
