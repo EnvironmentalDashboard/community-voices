@@ -2,7 +2,7 @@
 
 $checkConstraintExists = "SELECT CONSTRAINT_NAME
                        FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
-                       WHERE CONSTRAINT_NAME = 'community-voices_images_fk1'";
+                       WHERE CONSTRAINT_NAME = 'community-voices_images_fkMetadata'";
 
 // check for existance of constraint so we don't drop it unless it exists, avoiding an error
 
@@ -13,7 +13,7 @@ $result = $statement->fetch();
 
 
 $removeFK = "ALTER TABLE `community-voices_images`
-                DROP FOREIGN KEY `community-voices_images_fk1`";
+                DROP FOREIGN KEY `community-voices_images_fkMetadata`";
 
 
 

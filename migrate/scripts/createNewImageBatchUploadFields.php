@@ -17,7 +17,7 @@ $createImageMDFields = "CREATE TABLE IF NOT EXISTS `community-voices_image_metad
 
   $addFKConstraint = "ALTER TABLE `community-voices_images`
   ADD COLUMN metadata_id int(21) DEFAULT NULL,
-    ADD CONSTRAINT `community-voices_images_fk1` 
+    ADD CONSTRAINT `community-voices_images_fkMetadata` 
       FOREIGN KEY (`metadata_id`)
       REFERENCES `community-voices_image_metadata` (`id`) 
     ON DELETE CASCADE ON UPDATE CASCADE";
