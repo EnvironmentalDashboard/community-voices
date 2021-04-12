@@ -29,10 +29,6 @@ class Image extends Component\Controller
         $this->tagLookup = $tagLookup;
     }
 
-    private static function setMetaDataFields($metaDataFields) {
-        self::$metaDataFields = $metaDataFields; // user can only set their meta data fields one time
-    }
-
     protected function sendImage($request)
     {
         $imageId = $request->attributes->get('id');

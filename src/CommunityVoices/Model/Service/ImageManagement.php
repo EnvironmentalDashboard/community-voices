@@ -13,7 +13,7 @@ class ImageManagement
 {
     private $mapperFactory;
     private $stateObserver;
-    protected static $metaDataFields = [];
+    private static $metaDataFields = [];
 
 
     /**

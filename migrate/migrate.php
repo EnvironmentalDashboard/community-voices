@@ -25,13 +25,12 @@ if (count($argv) < 2) {
     try {
         $statement = $dbHandler->prepare($checkForExistanceOfMigrationTable);
         $statement->execute();
+        $statement->fetch();
         $migrationsTableExists = true;
     } catch(Exception $e) {
         $migrationsTableExists = false;
     }
-
-    unset($statement); //https://stackoverflow.com/questions/2066714/pdo-cannot-execute-queries-while-other-unbuffered-queries-are-active/2066821
-
+    
     if (! $migrationsTableExists) {
         require __DIR__ . "/scripts/createMigrationsTable.php";
         if (strcmp($argv[1],'createMigrationsTable')===0) {
