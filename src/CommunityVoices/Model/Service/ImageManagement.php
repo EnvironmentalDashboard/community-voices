@@ -13,7 +13,6 @@ class ImageManagement
 {
     private $mapperFactory;
     private $stateObserver;
-    private static $metaDataFields = [];
 
 
     /**
@@ -261,6 +260,7 @@ class ImageManagement
 
     public function createNewBatchUploadFields($fields) 
     {
+
         $mapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
         if (! empty($mapper->getMetaDataFields())) {
             return; // user should only be able to set metadata fields once.
@@ -285,7 +285,6 @@ class ImageManagement
             if($queriedMetaDataFields !== $fields) { // make sure all fields we intended to create actually made it
                 throw new RuntimeException();
             }
-
 
         } catch (\Exception $e) {
             exec($migrationUndoCommand, $output, $return_var);
