@@ -52,12 +52,15 @@ class ImageManagement
         $organization,
         $addedBy,
         $approved,
-        $tags
+        $tags,
+        $userDefinedMetaData = []
     ) {
 
         /*
          * Create image entity and set attributes
          */
+
+        $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
         $uploaded = [];
         $counter = (count($files) > 1) ? 1 : null;
 
@@ -65,9 +68,16 @@ class ImageManagement
             $image = new Entity\Image;
 
             $target_dir = "/var/www/uploads/CV_Media/images/";
-            $fileName = $this->generateUniqueFileName() . "." . $file->guessExtension();
 
-            $file->move($target_dir, $fileName);
+            if (! is_string($file)) { // type is UploadedFile 
+            //https://github.com/symfony/symfony/blob/5.x/src/Symfony/Component/HttpFoundation/File/UploadedFile.php
+                $fileName = $this->generateUniqueFileName() . "." . $file->guessExtension();
+                $file->move($target_dir, $fileName);
+            } else {
+                $fileExtension = pathinfo($file,PATHINFO_EXTENSION);
+                $fileName = $this->generateUniqueFileName() . $fileExtension;
+                file_put_contents($target_dir . $fileName, file_get_contents($file)); 
+            }
 
             $image->setFileName($target_dir . $fileName);
             $image->setTitle($title);
@@ -80,6 +90,9 @@ class ImageManagement
             $image->setPhotographer($photographer);
             $image->setOrganization($organization);
             $image->setAddedBy($addedBy);
+
+            $validMetaData = $imageMapper->getMetaDataFields();            
+            $image->setMetaData($userDefinedMetaData,$validMetaData);
 
             if ($approved) {
                 $image->setStatus(3);
@@ -105,8 +118,6 @@ class ImageManagement
                 $clientState->save($this->stateObserver);
                 return false;
             }
-
-            $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
 
             /*
              * If there are any errors at this point, save the error state and stop

@@ -21,7 +21,9 @@ class Image extends Media
 
     public $type;
 
-    public function __construct()
+    private $metaData;
+
+    public function __construct($metaData)
     {
         $this->type = self::TYPE_IMAGE;
     }
@@ -127,6 +129,17 @@ class Image extends Media
                 'width' => (int) $parts[3]
             ];
         }
+    }
+
+    // @TODO annotate this function call
+    public function setMetaData($metaData,$validMetaData) {
+        $this->metaData = array_filter($metaData,function($key,$value) use ($validMetaData) {
+            return in_array($key,$validMetaData);
+        });
+    }
+
+    public function getMetaData() {
+        return $this->metaData;
     }
 
     public function toArray()

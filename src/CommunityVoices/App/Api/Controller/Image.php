@@ -75,7 +75,7 @@ class Image extends Component\Controller
     {
         $identity = $this->recognitionAdapter->identify();
 
-        $files = $request->files->get('file');
+        $files = empty($request->files->get('file')) ? $request->request->get('url') : $request->files->get('file');
         $title = $request->request->get('title');
         $description = $request->request->get('description');
         $dateTaken = $request->request->get('dateTaken');
