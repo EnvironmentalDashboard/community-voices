@@ -75,7 +75,7 @@ class Image extends Component\Controller
     {
         $identity = $this->recognitionAdapter->identify();
 
-        $files = empty($request->files->get('file')) ? $request->request->get('url') : $request->files->get('file');
+        $files = $request->files->get('file') ?? $request->request->get('url') ?? [];
         $title = $request->request->get('title');
         $description = $request->request->get('description');
         $dateTaken = $request->request->get('dateTaken');
@@ -83,7 +83,7 @@ class Image extends Component\Controller
         $organization = $request->request->get('organization');
         $approved = $request->request->get('approved');
         $tags = $request->request->get('tags');
-        $testArray = [['test3'=>'test3val'],['test2'=>'test2val']];
+        $metaData = $request->request->get('metadata');
 
         $this->imageManagement->upload(
             $files,
@@ -94,8 +94,8 @@ class Image extends Component\Controller
             $organization,
             $identity,
             $approved,
-            $tags
-            $testArray
+            $tags,
+            $metaData
       );
     }
 

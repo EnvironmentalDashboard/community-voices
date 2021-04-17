@@ -185,8 +185,6 @@ class Image extends Media
         $statement->bindValue(':organization', $image->getOrganization());
 
         $statement->execute();
-        echo "in create function\n";
-        var_dump($image->getMetaData());
         if($image->getMetaData()) {
             $this->setMetaDataFields($image->getMetaData());
         }
@@ -212,10 +210,12 @@ class Image extends Media
     // @TODO annotate function
     private function setMetaDataFields($metaData) {
         $fieldsInserted = implode(', ', array_keys($metaData));
-        $valuesInserted = implode(', ', array_values($metaData));
-        $query = "INSERT INTO community-voices_image_metadata ($fieldsInserted) VALUES ($valuesInserted)";
-        echo "in setMetaDataFields query is $query \n";
-        die();
+        
+        $valuesArrayWithSingleQuotes = array_map(function($val){
+            return "'" . $val . "'";
+        },array_values($metaData));
+        $valuesInserted = implode(', ', $valuesArrayWithSingleQuotes);
+        $query = "INSERT INTO `community-voices_image_metadata` ($fieldsInserted) VALUES ($valuesInserted)";
         $this->conn->exec($query);
 
     }

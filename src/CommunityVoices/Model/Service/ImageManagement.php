@@ -91,8 +91,9 @@ class ImageManagement
             $image->setOrganization($organization);
             $image->setAddedBy($addedBy);
 
-            $validMetaData = $imageMapper->getMetaDataFields();            
+            $validMetaData = $imageMapper->getMetaDataFields();
             $image->setMetaData($userDefinedMetaData,$validMetaData);
+            
 
             if ($approved) {
                 $image->setStatus(3);

@@ -23,7 +23,7 @@ class Image extends Media
 
     private $metaData;
 
-    public function __construct($metaData)
+    public function __construct()
     {
         $this->type = self::TYPE_IMAGE;
     }
@@ -133,9 +133,9 @@ class Image extends Media
 
     // @TODO annotate this function call
     public function setMetaData($metaData,$validMetaData) {
-        $this->metaData = array_filter($metaData,function($key,$value) use ($validMetaData) {
+        $this->metaData = array_filter($metaData,function($key) use ($validMetaData) {
             return in_array($key,$validMetaData);
-        });
+        },ARRAY_FILTER_USE_KEY);
     }
 
     public function getMetaData() {
