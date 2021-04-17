@@ -83,6 +83,7 @@ class Image extends Component\Controller
         $organization = $request->request->get('organization');
         $approved = $request->request->get('approved');
         $tags = $request->request->get('tags');
+        $testArray = [['test3'=>'test3val'],['test2'=>'test2val']];
 
         $this->imageManagement->upload(
             $files,
@@ -94,6 +95,7 @@ class Image extends Component\Controller
             $identity,
             $approved,
             $tags
+            $testArray
       );
     }
 

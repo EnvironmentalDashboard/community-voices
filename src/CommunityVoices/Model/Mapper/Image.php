@@ -95,17 +95,17 @@ class Image extends Media
      *
      * @param Media $image Image entity to save to database.
      */
-    public function save(Entity\Media $image,$metaData=[])
+    public function save(Entity\Media $image)
     {
         if ($image->getId()) {
-            $this->update($image,$metaData);
+            $this->update($image);
             return;
         }
 
-        $this->create($image,$metaData);
+        $this->create($image);
     }
 
-    protected function update(Entity\Media $image,$metaData=[])
+    protected function update(Entity\Media $image)
     {
         parent::update($image);
         $rect = $image->getCropRect();
@@ -160,7 +160,7 @@ class Image extends Media
         $statement->execute();
     }
 
-    protected function create(Entity\Media $image,$metaData=[])
+    protected function create(Entity\Media $image)
     {
         parent::create($image);
 
@@ -185,7 +185,11 @@ class Image extends Media
         $statement->bindValue(':organization', $image->getOrganization());
 
         $statement->execute();
-        $this->setMetaDataFields($metaData);
+        echo "in create function\n";
+        var_dump($image->getMetaData());
+        if($image->getMetaData()) {
+            $this->setMetaDataFields($image->getMetaData());
+        }
     }
 
     public function getMetaDataFields() {
@@ -210,7 +214,10 @@ class Image extends Media
         $fieldsInserted = implode(', ', array_keys($metaData));
         $valuesInserted = implode(', ', array_values($metaData));
         $query = "INSERT INTO community-voices_image_metadata ($fieldsInserted) VALUES ($valuesInserted)";
+        echo "in setMetaDataFields query is $query \n";
+        die();
         $this->conn->exec($query);
+
     }
     
 }
