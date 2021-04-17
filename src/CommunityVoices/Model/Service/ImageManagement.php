@@ -55,7 +55,6 @@ class ImageManagement
         $tags,
         $userDefinedMetaData = []
     ) {
-
         /*
          * Create image entity and set attributes
          */
@@ -71,11 +70,18 @@ class ImageManagement
 
             if (! is_string($file)) { // type is UploadedFile 
             //https://github.com/symfony/symfony/blob/5.x/src/Symfony/Component/HttpFoundation/File/UploadedFile.php
+            
                 $fileName = $this->generateUniqueFileName() . "." . $file->guessExtension();
                 $file->move($target_dir, $fileName);
             } else {
                 $fileExtension = pathinfo($file,PATHINFO_EXTENSION);
                 $fileName = $this->generateUniqueFileName() . $fileExtension;
+
+                if(! is_array(getimagesize($file))) {
+                    return false; // check file type https://stackoverflow.com/questions/15408125/php-check-if-file-is-an-image
+                    // @TODO handle this error more gracefully by passing something to state observer
+                }
+
                 file_put_contents($target_dir . $fileName, file_get_contents($file)); 
             }
 

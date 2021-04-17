@@ -117,7 +117,7 @@ class Image extends Component\View
         /**
          * Gather image information
          */
-        $json = $this->apiProvider->getQueriedJson('/images', $request, true);
+        $json = $this->apiProvider->getQueriedJson('/images', $request);
         $obj = new \stdClass();
         $obj->imageCollection = $json->imageCollection;
         $count = $obj->imageCollection->count;

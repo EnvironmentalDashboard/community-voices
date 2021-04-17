@@ -56,7 +56,7 @@
      public function tailRead($filepath, $lines, $endLine = PHP_INT_MAX, $startDate = false, $endDate = false) {
          // from error page
      }
-     public function csvReadBatch($sourceFilePath, $quoteFilePath) {
+     public function parseQuoteBatchUpload($sourceFilePath, $quoteFilePath) {
          $columnNameErrors = [];
          $columnNameWarnings = ["unrecognized" => [], "expected" => []];
          $unpairedQuotes = [];
@@ -197,10 +197,35 @@
          }
          return [$sheetData,$columnNameWarnings,$columnNameErrors,$unpairedQuotes,$validIdentifiers];
      }
+
      private function cleanString($s) {
          return strtolower(preg_replace(["/[^a-zA-Z0-9]/","/\s/"], "", $s));
      }
+
      private function replaceTextInTags($s) {
          return preg_replace("/<(.+?)>/","",$s);
+     }
+
+     public function csvToAssociativeArray($file) {
+        https://stackoverflow.com/questions/4801895/csv-to-associative-array
+        $array = $fields = array(); $i = 0;
+        $file = @fopen("file.csv", "r");
+        if ($file) {
+            while (($row = fgetcsv($file, 4096)) !== false) {
+                if (empty($fields)) {
+                    $fields = $row;
+                    continue;
+                }
+                foreach ($row as $k=>$value) {
+                    $array[$i][$fields[$k]] = $value;
+                }
+                $i++;
+            }
+            if (!feof($file)) {
+                echo "Error: unexpected fgets() fail\n";
+            }
+            fclose($file);
+        }
+        return $array;
      }
  }

@@ -83,7 +83,7 @@ class Image extends Component\Controller
         $organization = $request->request->get('organization');
         $approved = $request->request->get('approved');
         $tags = $request->request->get('tags');
-        $metaData = $request->request->get('metadata');
+        $metaData = $request->request->get('metadata') ?? [];
 
         $this->imageManagement->upload(
             $files,
@@ -97,6 +97,27 @@ class Image extends Component\Controller
             $tags,
             $metaData
       );
+    }
+
+    protected function postImageBatchUpload($request) {
+        // one file is regular image upload fields (See postImageUpload)
+        // other file is metadata fields
+        // this will simply call imageManagement->upload()
+
+        $files = $request->files->get('file');
+        if (sizeof($files) != 2) {
+            return false;
+            // @ TODO more graceful error handling
+        }
+
+        // there may be a better way to do this, for now we are just relying on file names to indicate which document
+        foreach($request->files->get('file') as $file) {
+            if (str_contains(strtolower($file->getClientOriginalName()), "metadata")) $metadata = $file; // note that metadata is optional!
+            else if (str_contains(strtolower($file->getClientOriginalName()), "quote")) $image = $file;
+        }
+        
+        if (! isset($image)) return false; 
+        
     }
 
     protected function postImageUpdate($request)
