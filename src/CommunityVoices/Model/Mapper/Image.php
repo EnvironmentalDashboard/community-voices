@@ -184,9 +184,21 @@ class Image extends Media
         $statement->bindValue(':photographer', $image->getPhotographer());
         $statement->bindValue(':organization', $image->getOrganization());
 
+        $lastImageId = intval($this->conn->lastInsertId());
+
         $statement->execute();
-        if($image->getMetaData()) {
-            $this->setMetaDataFields($image->getMetaData());
+
+        if($image->getMetaData()) { // emtpy arrays are falsy in PHP
+            $metaDataId = $this->setMetaDataFields($image->getMetaData());
+            $linkMdTable = "UPDATE `community-voices_images`
+                            SET metadata_id = :metadata_id
+                            WHERE media_id = :last_image_id";
+
+            $statement = $this->conn->prepare($linkMdTable);
+            $statement->bindValue(':metadata_id', $metaDataId);
+            $statement->bindValue(':last_image_id', $lastImageId);
+
+            $statement->execute();
         }
     }
 
@@ -218,6 +230,8 @@ class Image extends Media
         $query = "INSERT INTO `community-voices_image_metadata` ($fieldsInserted) VALUES ($valuesInserted)";
         $this->conn->exec($query);
 
+        $idToLink = $this->conn->lastInsertId();
+        return intval($idToLink);
     }
     
 }
