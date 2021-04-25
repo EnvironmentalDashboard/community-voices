@@ -6,6 +6,7 @@ use CommunityVoices\Model\Contract\FlexibleObserver;
 
 class Image extends Media
 {
+    CONST ERR_INVALID_FILE_FORMAT = "File must have an image format!";
     private $filename; /* @TODO required */
 
     private $title;

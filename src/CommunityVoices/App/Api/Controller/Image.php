@@ -7,12 +7,15 @@ use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Exception;
 use CommunityVoices\App\Api\Component;
+use CommunityVoices\App\Api\Component\FileProcessor;
 
 class Image extends Component\Controller
 {
     protected $imageLookup;
     protected $imageManagement;
     protected $tagLookup;
+
+    const ALL_FIELDS = ['url','file','title','description', 'dateTaken', 'photographer', 'organization', 'approved', 'tags'];
     
     public function __construct(
         Component\SecureContainer $secureContainer,
@@ -99,25 +102,60 @@ class Image extends Component\Controller
       );
     }
 
-    protected function postImageBatchUpload($request) {
-        // one file is regular image upload fields (See postImageUpload)
-        // other file is metadata fields
-        // this will simply call imageManagement->upload()
+    protected function postImageBatchUpload($request) 
+    {
+        $identity = $this->recognitionAdapter->identify();
 
         $files = $request->files->get('file');
-        if (sizeof($files) != 2) {
-            return false;
-            // @ TODO more graceful error handling
+
+        if (sizeof($files) != 1) {
+            return false; // @TODO more graceful error handling
         }
 
-        // there may be a better way to do this, for now we are just relying on file names to indicate which document
-        foreach($request->files->get('file') as $file) {
-            if (str_contains(strtolower($file->getClientOriginalName()), "metadata")) $metadata = $file; // note that metadata is optional!
-            else if (str_contains(strtolower($file->getClientOriginalName()), "quote")) $image = $file;
+        $fileProcessor = new Component\FileProcessor();
+        $imagesAsAssociativeArray = $fileProcessor->csvToAssociativeArray($files->getPathname());
+
+        foreach($imagesAsAssociativeArray as $image) {
+            $url = $image['url'];
+            $title = $image['title'];
+            $description = $image['description'];
+            $dateTaken = $image['dateTaken'];
+            $photographer = $image['photographer'];
+            $organization = $image['organization'];
+            $approved = true; // since only admins will have access, this should always be true though this should be confirmed.
+
+            // this section is pretty brutal LOL, this is just getting the value of all tags and changing the array structure
+            // to only include id and label
+            $tagsStateObserver = $this->tagLookup->findAll(true);
+
+            $tagCollection = $tagsStateObserver->getEntry("tag")[0]->toArray()["tagCollection"];
+
+            $labels = array_map(function($value){
+                return $value['tag']['label'];
+            },$tagCollection);
+
+            $ids = array_map(function($value){
+                return $value['tag']['id'];
+            },$tagCollection);
+
+            // get all tag fields based on a) if they have "tag" in their name and b) if their value is actually a tag    
+            $allValidTagLabels = array_filter($image, function($value,$key) use ($labels) {
+                return substr($key,0,3) == 'tag' && in_array($value,$labels);
+            }, ARRAY_FILTER_USE_BOTH);
+
+            $allValidTagIds = array_values(array_map(function($tag) use ($labels,$ids){
+                return $ids[array_search($tag,$labels)];
+            },$allValidTagLabels));
+
+            $metaData = array_filter($image, function($key){
+                return ! (in_array($key,self::ALL_FIELDS) || (substr($key,0,3) == 'tag'));
+            },ARRAY_FILTER_USE_KEY);
+
+            $this->imageManagement->upload([$url],$title,$description,$dateTaken,$photographer,$organization,$identity,$approved,$allValidTagIds,$metaData);
         }
         
-        if (! isset($image)) return false; 
-        
+
+
     }
 
     protected function postImageUpdate($request)

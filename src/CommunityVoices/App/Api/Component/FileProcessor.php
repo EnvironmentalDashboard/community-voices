@@ -206,10 +206,10 @@
          return preg_replace("/<(.+?)>/","",$s);
      }
 
-     public function csvToAssociativeArray($file) {
-        https://stackoverflow.com/questions/4801895/csv-to-associative-array
+     public function csvToAssociativeArray($filepath) {
+        // https://stackoverflow.com/questions/4801895/csv-to-associative-array
         $array = $fields = array(); $i = 0;
-        $file = @fopen("file.csv", "r");
+        $file = fopen($filepath, "r");
         if ($file) {
             while (($row = fgetcsv($file, 4096)) !== false) {
                 if (empty($fields)) {
@@ -220,9 +220,6 @@
                     $array[$i][$fields[$k]] = $value;
                 }
                 $i++;
-            }
-            if (!feof($file)) {
-                echo "Error: unexpected fgets() fail\n";
             }
             fclose($file);
         }

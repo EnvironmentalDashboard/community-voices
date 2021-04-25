@@ -68,21 +68,24 @@ class ImageManagement
 
             $target_dir = "/var/www/uploads/CV_Media/images/";
 
-            if (! is_string($file)) { // type is UploadedFile 
+            if (! is_string($file)) { // type is UploadedFile (this will occur if individual photo upload endpoint is hit)
             //https://github.com/symfony/symfony/blob/5.x/src/Symfony/Component/HttpFoundation/File/UploadedFile.php
-            
                 $fileName = $this->generateUniqueFileName() . "." . $file->guessExtension();
                 $file->move($target_dir, $fileName);
-            } else {
+                
+            } else { // batch upload endpoint (url is given instead of file itself)
                 $fileExtension = pathinfo($file,PATHINFO_EXTENSION);
-                $fileName = $this->generateUniqueFileName() . $fileExtension;
+                $fileName = $this->generateUniqueFileName() . "." . $fileExtension;
 
-                if(! is_array(getimagesize($file))) {
+                $imgHttpResponse = shell_exec("curl -L $file");
+                file_put_contents($target_dir . $fileName, $imgHttpResponse); 
+
+                if(! is_array(getimagesize($target_dir . $fileName))) {
+                    unlink($target_dir . $fileName); // remove file in case it is malicious
                     return false; // check file type https://stackoverflow.com/questions/15408125/php-check-if-file-is-an-image
                     // @TODO handle this error more gracefully by passing something to state observer
                 }
 
-                file_put_contents($target_dir . $fileName, file_get_contents($file)); 
             }
 
             $image->setFileName($target_dir . $fileName);
@@ -131,7 +134,7 @@ class ImageManagement
              * the registration process
              */
 
-            if ($this->stateObserver->hasEntries()) {
+            if ($this->stateObserver->hasSubjectEntries("imageUpload")) {
                 $clientState->save($this->stateObserver);
                 return false;
             }
@@ -141,6 +144,7 @@ class ImageManagement
              */
 
             $imageMapper->save($image);
+            
             array_push($uploaded, $image);
 
             $iid = $image->getId();

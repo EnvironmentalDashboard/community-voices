@@ -58,6 +58,11 @@ class Image extends Component\View
         // intentionally blank
     }
 
+    protected function postImageBatchUpload() 
+    {
+        return new HttpFoundation\JsonResponse(true);
+    }
+
     protected function getImageRelatedSlide()
     {
         $clientState = $this->mapperFactory->createClientStateMapper();

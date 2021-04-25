@@ -98,10 +98,12 @@ class Image extends Media
     public function save(Entity\Media $image)
     {
         if ($image->getId()) {
+            var_dump("has an id...");
             $this->update($image);
             return;
         }
 
+        var_dump("does not have an id...");
         $this->create($image);
     }
 
@@ -162,7 +164,10 @@ class Image extends Media
 
     protected function create(Entity\Media $image)
     {
+
+        var_dump($image);
         parent::create($image);
+        var_dump($image);
 
         $query = "INSERT INTO
                         `community-voices_images`
@@ -188,7 +193,10 @@ class Image extends Media
 
         $statement->execute();
 
-        if($image->getMetaData()) { // emtpy arrays are falsy in PHP
+        if($image->getMetaData() && $this->getMetaDataFields()) { 
+            // only update metadata if a) user has wrong metadata migration script (see /migrate/scripts/createNewImageBatchUploadFields.php)
+            // and b) user has passed in associated metadata into request
+
             $metaDataId = $this->setMetaDataFields($image->getMetaData());
             $linkMdTable = "UPDATE `community-voices_images`
                             SET metadata_id = :metadata_id
