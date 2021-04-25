@@ -98,12 +98,10 @@ class Image extends Media
     public function save(Entity\Media $image)
     {
         if ($image->getId()) {
-            var_dump("has an id...");
             $this->update($image);
             return;
         }
 
-        var_dump("does not have an id...");
         $this->create($image);
     }
 
