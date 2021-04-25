@@ -42,6 +42,7 @@ class Image extends Component\View
 
         $stateObserver->setSubject('imageFindAll');
         $imageCollection = $stateObserver->getEntry('imageCollection')[0]->toArray();
+
         $imageCollection['imageCollectionPhotographers'] = $stateObserver->getEntry('imageCollectionPhotographers')[0];
         $imageCollection['imageCollectionOrgs'] = $stateObserver->getEntry('imageCollectionOrgs')[0];
 
@@ -115,5 +116,17 @@ class Image extends Component\View
 
         return new HttpFoundation\JsonResponse(true);
         
+    }
+
+    protected function getMetaDataFields() {
+        $clientState = $this->mapperFactory->createClientStateMapper();
+        $stateObserver = $clientState->retrieve();
+
+        $stateObserver->setSubject('imageLookup');
+        $metaData = $stateObserver->getEntry('metaDataFields')[0];
+ 
+        $response = new HttpFoundation\JsonResponse($metaData);
+
+        return $response;
     }
 }

@@ -153,9 +153,6 @@ class Image extends Component\Controller
 
             $this->imageManagement->upload([$url],$title,$description,$dateTaken,$photographer,$organization,$identity,$approved,$allValidTagIds,$metaData);
         }
-        
-
-
     }
 
     protected function postImageUpdate($request)
@@ -225,5 +222,9 @@ class Image extends Component\Controller
 
     protected function postMetaDataFields($request) {
         $this->imageManagement->createNewBatchUploadFields($request->request->get('fields'));
+    }
+
+    protected function getMetaDataFields($request) {
+        $this->imageLookup->metaDataFields();
     }
 }

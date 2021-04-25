@@ -154,3 +154,59 @@ function submitAll() {
         submitEdit(this, 'all');
     });
 }
+
+$('#fileUploadButton').on('click', function (c)  {
+	$('#csvFile').click();
+});
+
+$("#csvFile").change(function(){
+  let myForm = document.getElementById('batchUploadForm');
+	$.ajax({
+    url : $("#batchUploadForm").attr('action'),
+    type: $("#batchUploadForm").attr('method'),
+    data: new FormData(myForm),
+    processData: false,
+    contentType: false,
+    cache: false,
+    enctype: 'multipart/form-data',
+    success: function (textStatus, status) {
+        alert('success');
+    },
+    error: function(xhr, textStatus, error) {
+        alert('failure');
+        // note that right now this is sort of broken as success will be returned even for exceptions.
+    }
+  });
+});
+
+$("#metadataChooseButton").click(function(){
+  const metadata = prompt("Enter your metadata fields seperated by a space, or 'none' to indicate no additional fields").split(" ");
+
+  const fd = new FormData();
+  metadata.forEach(element => {
+    fd.append("fields[]",element);
+  });
+
+  $.ajax({
+    url : $("#metadataUploadForm").attr('action'),
+    type: $("#metadataUploadForm").attr('method'),
+    data: fd,
+    processData: false,
+    contentType: false,
+    success: function (textStatus, status) {
+      const newFormElText = 
+      "<form action='/community-voices/api/images/new/batch' method='post' enctype='multipart/form-data' id='batchUploadForm' style='font-size:0px;'> \
+          <input class='custom-file-input' id='csvFile' type='file' name='file' accept='.csv' style='display: none;'/> \
+          <input type='button' class='btn btn-outline-primary mr-2' value='Batch Upload' id='fileUploadButton' style='font-size:1rem;'></input>\
+      </form>";
+      const elz = document.getElementById("metadataUploadForm");
+      const formSibling = elz.previousElementSibling;
+      elz.remove();
+      formSibling.insertAdjacentHTML('afterend',newFormElText);
+    },
+    error: function(xhr, textStatus, error) {
+      alert("Something went wrong. Please contact dashboard@oberlin.edu")
+    }
+  });
+});
+

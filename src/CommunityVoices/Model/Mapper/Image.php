@@ -164,10 +164,7 @@ class Image extends Media
 
     protected function create(Entity\Media $image)
     {
-
-        var_dump($image);
         parent::create($image);
-        var_dump($image);
 
         $query = "INSERT INTO
                         `community-voices_images`
@@ -222,6 +219,10 @@ class Image extends Media
         $allColumnsIncludingId = array_map(function($el) {
            return $el['COLUMN_NAME'];
         },$queryResult);
+
+        if (count($allColumnsIncludingId)==0) { // we haven't run all of the migrations we have needed to create image metadata table!
+            return false;
+        }
 
         $allColumnsExcludingId = array_slice($allColumnsIncludingId,1);
         return $allColumnsExcludingId;

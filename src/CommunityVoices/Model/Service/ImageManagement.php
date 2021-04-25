@@ -144,7 +144,7 @@ class ImageManagement
              */
 
             $imageMapper->save($image);
-            
+
             array_push($uploaded, $image);
 
             $iid = $image->getId();
@@ -288,7 +288,9 @@ class ImageManagement
             return; // user should only be able to set metadata fields once.
         }
 
-        $migrationCommand = "php /var/www/html/migrate/migrate.php createNewImageBatchUploadFields ". implode(" ",$fields); 
+        $fieldsToAdd = $fields[0] == 'none' ? '' : implode(" ",$fields);
+
+        $migrationCommand = "php /var/www/html/migrate/migrate.php createNewImageBatchUploadFields ". $fieldsToAdd; 
         $migrationUndoCommand = "php /var/www/html/migrate/migrate.php removeNewImageBatchUploadFields"; 
        
         try {
