@@ -118,7 +118,13 @@ class Image extends Component\View
          * Gather image information
          */
         $json = $this->apiProvider->getQueriedJson('/images', $request);
-        $jsonMetaData = $this->apiProvider->getQueriedJson('/images/metadata/all', $request);
+        
+        $isAdmin = false;
+        
+        if($this->identityXMLElement($request)->role=='administrator') {
+            $isAdmin = true;
+            $jsonMetaData = $this->apiProvider->getQueriedJson('/images/metadata/all', $request);
+        }
         
         $obj = new \stdClass();
         $obj->imageCollection = $json->imageCollection;
@@ -170,9 +176,11 @@ class Image extends Component\View
             $this->transcriber->toXml($pagination)
         );
 
-        $metaDataXMLElement = new SimpleXMLElement(
-            $this->transcriber->toXml($jsonMetaData)
-        );
+        if($isAdmin) {
+            $metaDataXMLElement = new SimpleXMLElement(
+                $this->transcriber->toXml($jsonMetaData)
+            );
+        }
 
         /**
          * image XML Package
@@ -185,7 +193,9 @@ class Image extends Component\View
         $packagedImage->adopt($orgXMLElement);
         $packagedImage->adopt($paginationXMLElement);
         $packagedImage->adopt($tagXMLElement);
-        $packagedImage->adopt($metaDataXMLElement);
+        if($isAdmin) {
+            $packagedImage->adopt($metaDataXMLElement);
+        }
 
         foreach ($qs as $key => $value) {
             if ($key === 'search' || $key === 'order' || $key === 'unused') {

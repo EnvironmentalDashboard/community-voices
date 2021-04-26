@@ -80,10 +80,9 @@ class ImageManagement
                 $imgHttpResponse = shell_exec("curl -L $file");
                 file_put_contents($target_dir . $fileName, $imgHttpResponse); 
 
-                if(! is_array(getimagesize($target_dir . $fileName))) {
+                if(! is_array(getimagesize($target_dir . $fileName))) {  // check file type https://stackoverflow.com/questions/15408125/php-check-if-file-is-an-image
                     unlink($target_dir . $fileName); // remove file in case it is malicious
-                    return false; // check file type https://stackoverflow.com/questions/15408125/php-check-if-file-is-an-image
-                    // @TODO handle this error more gracefully by passing something to state observer
+                    continue; // go to next image
                 }
 
             }
@@ -285,7 +284,7 @@ class ImageManagement
 
         $mapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
         if (! empty($mapper->getMetaDataFields())) {
-            return; // user should only be able to set metadata fields once.
+            throw new Exception\DataIntegrityViolation();  // user should only be able to set metadata fields once.
         }
 
         $fieldsToAdd = $fields[0] == 'none' ? '' : implode(" ",$fields);
@@ -307,7 +306,7 @@ class ImageManagement
             $queriedMetaDataFields = $mapper->getMetaDataFields();
 
             if($queriedMetaDataFields !== $fields) { // make sure all fields we intended to create actually made it
-                throw new RuntimeException();
+                throw new Exception\DataIntegrityViolation(); 
             }
 
         } catch (\Exception $e) {

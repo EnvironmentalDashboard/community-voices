@@ -8,6 +8,7 @@ use CommunityVoices\Model\Service;
 use CommunityVoices\Model\Exception;
 use CommunityVoices\App\Api\Component;
 use CommunityVoices\App\Api\Component\FileProcessor;
+use Exception as GlobalException;
 
 class Image extends Component\Controller
 {
@@ -221,7 +222,12 @@ class Image extends Component\Controller
     }
 
     protected function postMetaDataFields($request) {
-        $this->imageManagement->createNewBatchUploadFields($request->request->get('fields'));
+
+        try {
+            $this->imageManagement->createNewBatchUploadFields($request->request->get('fields'));
+        } catch (\Exception $e) {
+            $this->send404();
+        }
     }
 
     protected function getMetaDataFields($request) {

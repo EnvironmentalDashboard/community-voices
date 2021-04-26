@@ -155,11 +155,11 @@ function submitAll() {
     });
 }
 
-$('#fileUploadButton').on('click', function (c)  {
-	$('#csvFile').click();
+$("body").on('click', '#fileUploadButton', function (c)  {
+	$('#csvFile').trigger("click");
 });
 
-$("#csvFile").change(function(){
+$("body").on("change","#csvFile",function(){
   let myForm = document.getElementById('batchUploadForm');
 	$.ajax({
     url : $("#batchUploadForm").attr('action'),
@@ -179,7 +179,7 @@ $("#csvFile").change(function(){
   });
 });
 
-$("#metadataChooseButton").click(function(){
+$("body").on("click","#metadataChooseButton",function(){
   const metadata = prompt("Enter your metadata fields seperated by a space, or 'none' to indicate no additional fields").split(" ");
 
   const fd = new FormData();
