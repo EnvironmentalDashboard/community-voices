@@ -106,8 +106,8 @@
         ["CommunityVoices\\App\\Api\\Controller\\Image::postMetaDataFields", {"allow" : "admin"}],
         ["CommunityVoices\\App\\Api\\View\\Image::postMetaDataFields", {"allow" : "admin"}],
 
-        ["CommunityVoices\\App\\Api\\Controller\\Image::postImageBatchUpload", {"allow" : "admin"}],
-        ["CommunityVoices\\App\\Api\\View\\Image::postImageBatchUpload", {"allow" : "admin"}],
+        ["CommunityVoices\\App\\Api\\Controller\\Image::postImageBatchUpload", {"allow" : "manager"}],
+        ["CommunityVoices\\App\\Api\\View\\Image::postImageBatchUpload", {"allow" : "manager"}],
 
         ["CommunityVoices\\App\\Api\\Controller\\Image::getMetaDataFields", {"allow" : "admin"}],
         ["CommunityVoices\\App\\Api\\View\\Image::getMetaDataFields", {"allow" : "admin"}],
