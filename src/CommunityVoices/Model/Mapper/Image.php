@@ -226,9 +226,13 @@ class Image extends Media
         return $allColumnsExcludingId;
     }
 
-    // @TODO annotate function
     private function setMetaDataFields($metaData) {
         $fieldsInserted = implode(', ', array_keys($metaData));
+
+        $columnsArrayWithBackticks = array_map(function($val){ // allow for spaces
+            return "`" . $val . "`";
+        },array_keys($metaData));
+        $fieldsInserted = implode(', ', $columnsArrayWithBackticks);
         
         $valuesArrayWithSingleQuotes = array_map(function($val){
             return "'" . $val . "'";

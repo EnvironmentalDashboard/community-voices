@@ -132,7 +132,6 @@ class Image extends Media
         }
     }
 
-    // @TODO annotate this function call
     public function setMetaData($metaData,$validMetaData) {
         $this->metaData = array_filter($metaData,function($key) use ($validMetaData) {
             return in_array($key,$validMetaData);

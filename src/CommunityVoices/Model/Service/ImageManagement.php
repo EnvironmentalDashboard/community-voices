@@ -2,12 +2,12 @@
 
 namespace CommunityVoices\Model\Service;
 
-use Palladium;
 use CommunityVoices\Model\Entity;
 use CommunityVoices\Model\Component;
 use CommunityVoices\Model\Mapper;
 use CommunityVoices\Model\Exception;
-use RuntimeException;
+use CommunityVoices\App\Website\Finder\ImageMatcher;
+use Jenssegers\ImageHash;
 
 class ImageManagement
 {
@@ -63,6 +63,9 @@ class ImageManagement
         $uploaded = [];
         $counter = (count($files) > 1) ? 1 : null;
 
+        require __DIR__ . '../../../App/Website/db.php'; // used for pdo for matcher
+        $matcher = new ImageMatcher(new ImageHash\ImageHash(new ImageHash\Implementations\PerceptualHash()),$dbHandler);
+
         foreach ($files as $file) {
             $image = new Entity\Image;
 
@@ -80,11 +83,10 @@ class ImageManagement
                 $imgHttpResponse = shell_exec("curl -L $file");
                 file_put_contents($target_dir . $fileName, $imgHttpResponse); 
 
-                if(! is_array(getimagesize($target_dir . $fileName))) {  // check file type https://stackoverflow.com/questions/15408125/php-check-if-file-is-an-image
+                if(! is_array(@getimagesize($target_dir . $fileName))) {  // check file type https://stackoverflow.com/questions/15408125/php-check-if-file-is-an-image
                     unlink($target_dir . $fileName); // remove file in case it is malicious
-                    continue; // go to next image
+                    return false;
                 }
-
             }
 
             $image->setFileName($target_dir . $fileName);
@@ -287,31 +289,16 @@ class ImageManagement
             throw new Exception\DataIntegrityViolation();  // user should only be able to set metadata fields once.
         }
 
-        $fieldsToAdd = $fields[0] == 'none' ? '' : implode(" ",$fields);
+        $fieldsToAdd = $fields[0] == 'none' ? '' : implode(" ",array_map(function($field){return "'". $field . "'";},$fields));
 
         $migrationCommand = "php /var/www/html/migrate/migrate.php createNewImageBatchUploadFields ". $fieldsToAdd; 
-        $migrationUndoCommand = "php /var/www/html/migrate/migrate.php removeNewImageBatchUploadFields"; 
        
-        try {
-            $metaDataFieldsFiltered = array_filter($fields, function($md) {
-                return preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/',$md);
-                // need to make sure user didn't pass in any funky metadata field names. 
-                // This should also make the call to exec secure by preventing piping and semicolons for chaining commands
-            });
+        exec($migrationCommand, $output, $return_var);
+        $queriedMetaDataFields = $mapper->getMetaDataFields();
 
-            if(count($fields) != count($metaDataFieldsFiltered)) { // if the user has weird characters, the migration should not occur.
-                throw new Exception\DataIntegrityViolation(); 
-            }
-            exec($migrationCommand, $output, $return_var);
-            $queriedMetaDataFields = $mapper->getMetaDataFields();
-
-            if($queriedMetaDataFields !== $fields) { // make sure all fields we intended to create actually made it
-                throw new Exception\DataIntegrityViolation(); 
-            }
-
-        } catch (\Exception $e) {
-            exec($migrationUndoCommand, $output, $return_var);
-            // @todo pass error to view to alert them of error
+        if($queriedMetaDataFields !== $fields) { // make sure all fields we intended to create actually made it
+            $migrationUndoCommand = "php /var/www/html/migrate/migrate.php removeNewImageBatchUploadFields"; 
+            throw new Exception\DataIntegrityViolation(); 
         }
     }
 }

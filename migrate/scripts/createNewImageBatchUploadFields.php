@@ -11,7 +11,7 @@ $createImageMDFields = "CREATE TABLE IF NOT EXISTS `community-voices_image_metad
 
   foreach($columnNameArguments as $metaDataField) { // can't use SQL binding on column names
     $addNewColumn = "ALTER TABLE `community-voices_image_metadata`
-                            ADD COLUMN ${metaDataField} VARCHAR(250)";
+                            ADD COLUMN `${metaDataField}` VARCHAR(250)";
     $dbHandler->exec($addNewColumn);
   }
 

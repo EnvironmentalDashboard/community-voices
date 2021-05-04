@@ -105,54 +105,61 @@ class Image extends Component\Controller
 
     protected function postImageBatchUpload($request) 
     {
-        $identity = $this->recognitionAdapter->identify();
+        try {
+            $identity = $this->recognitionAdapter->identify();
 
-        $files = $request->files->get('file');
+            $files = $request->files->get('file');
 
-        if (sizeof($files) != 1) {
-            return false; // @TODO more graceful error handling
-        }
 
-        $fileProcessor = new Component\FileProcessor();
-        $imagesAsAssociativeArray = $fileProcessor->csvToAssociativeArray($files->getPathname());
+            if (@count($files) != 1) {
+                return false; // @TODO more graceful error handling
+            }
 
-        foreach($imagesAsAssociativeArray as $image) {
-            $url = $image['url'];
-            $title = $image['title'];
-            $description = $image['description'];
-            $dateTaken = $image['dateTaken'];
-            $photographer = $image['photographer'];
-            $organization = $image['organization'];
-            $approved = true; // since only admins will have access, this should always be true though this should be confirmed.
+            $fileProcessor = new Component\FileProcessor();
+            $imagesAsAssociativeArray = $fileProcessor->csvToAssociativeArray($files->getPathname());
 
-            // this section is pretty brutal LOL, this is just getting the value of all tags and changing the array structure
-            // to only include id and label
-            $tagsStateObserver = $this->tagLookup->findAll(true);
+            foreach($imagesAsAssociativeArray as $image) {
+                $url = $image['url'] ?? "";
+                $title = $image['title'] ?? "";
+                $description = $image['description'] ?? "";
+                $dateTaken = $image['dateTaken'] ?? "";
+                $photographer = $image['photographer'] ?? "";
+                $organization = $image['organization'] ?? "";
+                $approved = true; // since only admins will have access, this should always be true though this should be confirmed.
 
-            $tagCollection = $tagsStateObserver->getEntry("tag")[0]->toArray()["tagCollection"];
+                // this section is pretty brutal LOL, this is just getting the value of all tags and changing the array structure
+                // to only include id and label
+                $tagsStateObserver = $this->tagLookup->findAll(true);
 
-            $labels = array_map(function($value){
-                return $value['tag']['label'];
-            },$tagCollection);
+                $tagCollection = $tagsStateObserver->getEntry("tag")[0]->toArray()["tagCollection"];
 
-            $ids = array_map(function($value){
-                return $value['tag']['id'];
-            },$tagCollection);
+                $labels = array_map(function($value){
+                    return $value['tag']['label'];
+                },$tagCollection);
 
-            // get all tag fields based on a) if they have "tag" in their name and b) if their value is actually a tag    
-            $allValidTagLabels = array_filter($image, function($value,$key) use ($labels) {
-                return substr($key,0,3) == 'tag' && in_array($value,$labels);
-            }, ARRAY_FILTER_USE_BOTH);
+                $ids = array_map(function($value){
+                    return $value['tag']['id'];
+                },$tagCollection);
 
-            $allValidTagIds = array_values(array_map(function($tag) use ($labels,$ids){
-                return $ids[array_search($tag,$labels)];
-            },$allValidTagLabels));
+                // get all tag fields based on a) if they have "tag" in their name and b) if their value is actually a tag    
+                $allValidTagLabels = array_filter($image, function($value,$key) use ($labels) {
+                    return substr($key,0,3) == 'tag' && in_array($value,$labels);
+                }, ARRAY_FILTER_USE_BOTH);
 
-            $metaData = array_filter($image, function($key){
-                return ! (in_array($key,self::ALL_FIELDS) || (substr($key,0,3) == 'tag'));
-            },ARRAY_FILTER_USE_KEY);
+                $allValidTagIds = array_values(array_map(function($tag) use ($labels,$ids){
+                    return $ids[array_search($tag,$labels)];
+                },$allValidTagLabels));
 
-            $this->imageManagement->upload([$url],$title,$description,$dateTaken,$photographer,$organization,$identity,$approved,$allValidTagIds,$metaData);
+                $metaData = array_filter($image, function($key){
+                    return ! (in_array($key,self::ALL_FIELDS) || (substr($key,0,3) == 'tag'));
+                },ARRAY_FILTER_USE_KEY);
+
+                // everything that is not a default field (in all_fields) must be metadata.
+
+                $this->imageManagement->upload([$url],$title,$description,$dateTaken,$photographer,$organization,$identity,$approved,$allValidTagIds,$metaData);
+            }   
+        } catch (\Exception $e) {
+            $this->send404();
         }
     }
 
