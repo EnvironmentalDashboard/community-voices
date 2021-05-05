@@ -64,26 +64,25 @@ class ImageManagement
         $counter = (count($files) > 1) ? 1 : null;
 
         require __DIR__ . '../../../App/Website/db.php'; // used for pdo for matcher
-        $matcher = new ImageMatcher(new ImageHash\ImageHash(new ImageHash\Implementations\PerceptualHash()),$dbHandler);
+        $matcher = new ImageMatcher(new ImageHash\ImageHash(new ImageHash\Implementations\PerceptualHash()), $dbHandler);
 
         foreach ($files as $file) {
             $image = new Entity\Image;
 
             $target_dir = "/var/www/uploads/CV_Media/images/";
 
-            if (! is_string($file)) { // type is UploadedFile (this will occur if individual photo upload endpoint is hit)
-            //https://github.com/symfony/symfony/blob/5.x/src/Symfony/Component/HttpFoundation/File/UploadedFile.php
+            if (!is_string($file)) { // type is UploadedFile (this will occur if individual photo upload endpoint is hit)
+                //https://github.com/symfony/symfony/blob/5.x/src/Symfony/Component/HttpFoundation/File/UploadedFile.php
                 $fileName = $this->generateUniqueFileName() . "." . $file->guessExtension();
                 $file->move($target_dir, $fileName);
-                
             } else { // batch upload endpoint (url is given instead of file itself)
-                $fileExtension = pathinfo($file,PATHINFO_EXTENSION);
+                $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
                 $fileName = $this->generateUniqueFileName() . "." . $fileExtension;
 
                 $imgHttpResponse = shell_exec("curl -L $file");
-                file_put_contents($target_dir . $fileName, $imgHttpResponse); 
+                file_put_contents($target_dir . $fileName, $imgHttpResponse);
 
-                if(! is_array(@getimagesize($target_dir . $fileName))) {  // check file type https://stackoverflow.com/questions/15408125/php-check-if-file-is-an-image
+                if (!is_array(@getimagesize($target_dir . $fileName))) {  // check file type https://stackoverflow.com/questions/15408125/php-check-if-file-is-an-image
                     unlink($target_dir . $fileName); // remove file in case it is malicious
                     return false;
                 }
@@ -102,8 +101,8 @@ class ImageManagement
             $image->setAddedBy($addedBy);
 
             $validMetaData = $imageMapper->getMetaDataFields();
-            $image->setMetaData($userDefinedMetaData,$validMetaData);
-            
+            $image->setMetaData($userDefinedMetaData, $validMetaData);
+
 
             if ($approved) {
                 $image->setStatus(3);
@@ -176,7 +175,7 @@ class ImageManagement
         $rect,
         $tags,
         $status
-      ) {
+    ) {
         $imageMapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
 
         /*
@@ -281,24 +280,68 @@ class ImageManagement
         $imageMapper->unpair($image, $slide);
     }
 
-    public function createNewBatchUploadFields($fields) 
+    public function createNewBatchUploadFields($fields)
     {
-
         $mapper = $this->mapperFactory->createDataMapper(Mapper\Image::class);
         if (! empty($mapper->getMetaDataFields())) {
-            throw new Exception\DataIntegrityViolation();  // user should only be able to set metadata fields once.
+            return; // user should only be able to set metadata fields once.
+        }
+        $this->createNewBatchUploadFieldsSQL($fields);
+    }
+
+    private function createNewBatchUploadFieldsSQL($fields)
+    {
+        require '/var/www/html/src/CommunityVoices/App/Website/db.php';
+        $createImageMDFields = "CREATE TABLE IF NOT EXISTS `community-voices_image_metadata` (
+        `id` int(21) NOT NULL AUTO_INCREMENT,
+         PRIMARY KEY (id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=latin1";
+        $dbHandler->exec($createImageMDFields);
+
+        foreach ($fields as $metaDataField) { // can't use SQL binding on column names
+            $addNewColumn = "ALTER TABLE `community-voices_image_metadata`
+                                    ADD COLUMN ${metaDataField} VARCHAR(250)";
+            $dbHandler->exec($addNewColumn);
         }
 
-        $fieldsToAdd = $fields[0] == 'none' ? '' : implode(" ",array_map(function($field){return "'". $field . "'";},$fields));
+        $addFKConstraint = "ALTER TABLE `community-voices_images`
+        ADD COLUMN metadata_id int(21) DEFAULT NULL,
+            ADD CONSTRAINT `community-voices_images_fkMetadata` 
+            FOREIGN KEY (`metadata_id`)
+            REFERENCES `community-voices_image_metadata` (`id`) 
+            ON DELETE CASCADE ON UPDATE CASCADE";
 
-        $migrationCommand = "php /var/www/html/migrate/migrate.php createNewImageBatchUploadFields ". $fieldsToAdd; 
-       
-        exec($migrationCommand, $output, $return_var);
-        $queriedMetaDataFields = $mapper->getMetaDataFields();
+        $dbHandler->exec($addFKConstraint);
+    }
 
-        if($queriedMetaDataFields !== $fields) { // make sure all fields we intended to create actually made it
-            $migrationUndoCommand = "php /var/www/html/migrate/migrate.php removeNewImageBatchUploadFields"; 
-            throw new Exception\DataIntegrityViolation(); 
+    private function removeNewBatchUploadFieldsSQL()
+    {
+        require '/var/www/html/src/CommunityVoices/App/Website/db.php';
+        $checkConstraintExists = "SELECT CONSTRAINT_NAME
+                       FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+                       WHERE CONSTRAINT_NAME = 'community-voices_images_fkMetadata'";
+
+        // check for existance of constraint so we don't drop it unless it exists, avoiding an error
+
+
+        $statement = $dbHandler->prepare($checkConstraintExists);
+        $statement->execute();
+        $result = $statement->fetch();
+
+
+        $removeFK = "ALTER TABLE `community-voices_images`
+                DROP FOREIGN KEY `community-voices_images_fkMetadata`";
+
+        $removeMetaDataColumn = "ALTER TABLE `community-voices_images`
+                                DROP COLUMN metadata_id";
+
+        $dropTable = "DROP TABLE IF EXISTS `community-voices_image_metadata`";
+
+        if (!empty($result)) {
+            $dbHandler->exec($removeFK);
+            $dbHandler->exec($removeMetaDataColumn);
         }
+
+        $dbHandler->exec($dropTable);
     }
 }
