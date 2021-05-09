@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 5.7.32, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.33, for Linux (x86_64)
 --
 -- Host: cv-mysql    Database: community_voices
 -- ------------------------------------------------------
@@ -64,7 +64,7 @@ CREATE TABLE `community-voices_groups` (
   `label` varchar(255) NOT NULL,
   `type` enum('tag','org-category','content-category') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,7 +94,7 @@ CREATE TABLE `community-voices_identities` (
   KEY `parent_id` (`parent_id`,`account_id`,`type`,`fingerprint`,`status`,`expires_on`,`token`,`token_expires_on`,`token_action`),
   CONSTRAINT `community-voices_identities_fk0` FOREIGN KEY (`parent_id`) REFERENCES `community-voices_identities` (`identity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `community-voices_identities_fk1` FOREIGN KEY (`account_id`) REFERENCES `community-voices_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=441 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=753 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -175,7 +175,7 @@ CREATE TABLE `community-voices_media` (
   PRIMARY KEY (`id`),
   KEY `community-voices_media_fk0` (`added_by`),
   CONSTRAINT `community-voices_media_ibfk_1` FOREIGN KEY (`added_by`) REFERENCES `community-voices_users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4413 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6209 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -209,7 +209,7 @@ CREATE TABLE `community-voices_media-group-map` (
   KEY `community-voices_media-group-map_fk1` (`group_id`),
   CONSTRAINT `community-voices_media-group-map_fk0` FOREIGN KEY (`media_id`) REFERENCES `community-voices_media` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `community-voices_media-group-map_fk1` FOREIGN KEY (`group_id`) REFERENCES `community-voices_groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7944 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16074 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -226,7 +226,7 @@ CREATE TABLE `community-voices_media-location-map` (
   PRIMARY KEY (`id`),
   KEY `media_id` (`media_id`),
   KEY `loc_id` (`loc_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18241 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=41309 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -375,9 +375,9 @@ CREATE TABLE `community-voices_users` (
   `email` varchar(255) NOT NULL,
   `lname` varchar(100) DEFAULT NULL,
   `fname` varchar(100) DEFAULT NULL,
-  `role` enum('unverified','user','manager','admin') NOT NULL DEFAULT 'user',
+  `role` enum('unverified','user','manager','admin') NOT NULL DEFAULT 'unverified',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -389,4 +389,4 @@ CREATE TABLE `community-voices_users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-01 20:38:56
+-- Dump completed on 2021-05-09 14:32:49
