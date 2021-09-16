@@ -8,3 +8,4 @@ echo "Waiting half a minute for mysql server to start up..."
 sleep 35
 docker exec -i cv-mysql mysql <<< "UPDATE mysql.user SET Host = '%'"
 docker exec -i cv-mysql mysql < migrate/schema.sql
+docker restart cv-mysql
