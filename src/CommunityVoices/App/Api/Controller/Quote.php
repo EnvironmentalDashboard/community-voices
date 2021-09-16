@@ -28,6 +28,29 @@ class Quote extends Component\Controller
         'contentCategories' => []
     ];
 
+    const META_DATA_FIELDS = [
+        'sourcetype',
+        'intervieweeorsourcedocument',
+        'organization',
+        'sponsororganization',
+        'topicthemeofinterview',
+        'urlsourcedocument',
+        'intervieweeemail',
+        'intervieweetelephone',
+        'urlinterviewconsent',
+        'urlt1survey',
+        'urlt2survey',
+        'urlinterviewtransription',
+        'urlinterviewarticle',
+        'dateapprovedbyinterviewee',
+        'urlphotographinterviewee',
+        'suggestedphotosource',
+        'suggestedphotoincv',
+        'createaslide'
+    ];
+    const WRONG_NUM_FILES = "You have the wrong number of files, please reupload."; // for batch upload
+    const WRONG_NAMES_FILES =  "Your files are improperly named, please reupload."; // for batch upload
+
     public function __construct(
         Component\SecureContainer $secureContainer,
         Component\RecognitionAdapter $recognitionAdapter,
@@ -141,6 +164,41 @@ class Quote extends Component\Controller
             $this->getFormAttributes($request, self::FORM_ATTRIBUTES),
             $identity
         );
+    }
+
+    protected function postBatchDraft($request)
+    {
+        $files = $request->files->get('file');
+        if (sizeof($files) != 2) {
+            return [[],[],["item" => self::WRONG_NUM_FILES],[],[]]; // the third array returned to the api/view is errors with upload. This just lets the frontend know that there are errors.
+        }
+
+        // there may be a better way to do this, for now we are just relying on file names to indicate which document
+        foreach($request->files->get('file') as $file) {
+            if (str_contains(strtolower($file->getClientOriginalName()), "source")) $source = $file;
+            else if (str_contains(strtolower($file->getClientOriginalName()), "quote")) $quote = $file;
+        }
+        
+        // the third array returned to the api/view is errors with upload. This just lets the frontend know that there are errors.
+        if (! (isset($source) && (isset($quote)))) return [[],[],["item" => self::WRONG_NAMES_FILES],[],[]];
+        else {
+            $fp = new Component\FileProcessor();
+            return $fp->csvReadBatch($source->getPathname(),$quote->getPathname());
+        }
+    }
+
+    protected function postBatchUpload($request)
+    {
+        $identity = $this->recognitionAdapter->identify();
+        foreach($request->request->get('attribution') as $key => $value) { // attributions is arbitrary, just need something to specify which source/quote pair it is
+            $identifier = $key;
+            $this->quoteManagement->save(
+                null,
+                $this->getFormAttributes($request, self::FORM_ATTRIBUTES,true,$identifier),
+                $identity,
+                $this->getFormAttributes($request, self::META_DATA_FIELDS,true,$identifier)
+            );
+        }
     }
 
     protected function getQuoteUpdate($request)

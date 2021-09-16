@@ -44,7 +44,7 @@ class ApiProvider
         }
 
         if ($debug) {
-            var_dump($response);
+            echo $response;
             die();
         }
 
@@ -53,7 +53,14 @@ class ApiProvider
 
     public function postJson($path, $request, $debug = false)
     {
-        return json_decode($this->post($path, $request, $debug));
+        $response = $this->post($path, $request, $debug);
+        $parsed = json_decode($response);
+
+        if (is_null($parsed)) {
+            throw new \Exception('Could not read API JSON response.' . $response);
+        }
+
+        return $parsed;
     }
 
     public function post($path, $request, $debug = false)
@@ -66,9 +73,11 @@ class ApiProvider
             if (is_array($file)) {
                 foreach ($file as $index => $f) {
                     $data["{$key}[{$index}]"] = new \CURLFile($f->getPathName(), $f->getMimeType());
+                    $data["{$key}[{$index}]"]->setPostFilename($f->getClientOriginalName());
                 }
             } else if (!is_null($file)) {
                 $data[$key] = new \CURLFile($file->getPathName(), $file->getMimeType());
+                $data[$key]->setPostFilename($file->getClientOriginalName());
             }
         }
 
@@ -99,6 +108,13 @@ class ApiProvider
 
         $result = curl_exec($ch);
         curl_close($ch);
+
+        if (
+            strpos($result, 'CommunityVoices\App\Api\Component\Exception\AccessDenied') !== false ||
+            strpos($result, 'CommunityVoices\\\App\\\Api\\\Component\\\Exception\\\AccessDenied') !== false
+        ) {
+            throw new AccessDenied(strpos($result, AccessDenied::LOGGED_IN_MESSAGE) !== false);
+        }
 
         if ($debug) {
             die();

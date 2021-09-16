@@ -110,17 +110,17 @@ class Quote extends Media
      *
      * @param  Media $quote instance to save to database
      */
-    public function save(Entity\Media $quote)
+    public function save(Entity\Media $quote, $metaDataArr = null)
     {
         if ($quote->getId()) {
-            $this->update($quote);
+            $this->update($quote, $metaDataArr);
             return;
         }
 
-        $this->create($quote);
+        $this->create($quote, $metaDataArr);
     }
 
-    protected function update(Entity\Media $quote)
+    protected function update(Entity\Media $quote, $metaDataArr = null)
     {
         /**
          * Update parent row
@@ -163,7 +163,7 @@ class Quote extends Media
         $statement->execute();
     }
 
-    protected function create(Entity\Media $quote)
+    protected function create(Entity\Media $quote, $metaDataArr = null)
     {
         /**
          * Create parent row
@@ -174,7 +174,6 @@ class Quote extends Media
         /**
          * Credit child row
          */
-
         $query = "INSERT INTO
                         `community-voices_quotes`
                         (media_id, text, original_text, interviewer, attribution, sub_attribution,
@@ -196,6 +195,72 @@ class Quote extends Media
         $statement->bindValue(':public_document_link', $quote->getPublicDocumentLink());
         $statement->bindValue(':source_document_link', $quote->getSourceDocumentLink());
 
+        $lastQuoteId = intval($this->conn->lastInsertId());
         $statement->execute();
+
+
+        if ($metaDataArr) {
+            $metaDataId = $this->saveMetaData($metaDataArr);
+            $linkMdTable = "UPDATE `community-voices_quotes`
+                            SET metadata_id = :metadata_id
+                            WHERE media_id = :last_quote_id";
+
+            $statement = $this->conn->prepare($linkMdTable);
+            $statement->bindValue(':metadata_id', $metaDataId);
+            $statement->bindValue(':last_quote_id', $lastQuoteId);
+
+            $statement->execute();
+        }
+    }
+
+    protected function saveMetaData($oberlinMDFields, $metaDataId = null) {
+        if (! $metaDataId) {
+            return $this->addMetaData($oberlinMDFields);
+        } else {
+            return $this->updateMetaData($oberlinMDFields);
+        }
+    }
+
+    protected function addMetaData($oberlinMDFields) {
+        $query = "INSERT INTO
+                        `community-voices_oberlin_metadata`
+                        (source_type, interviewee_or_source_document, organization, sponsor_organization, topic, interviewee_email,
+                            interviewee_phone, url_consent_interview, t1_survey, t2_survey, url_transcription, url_article, date_article_approved, url_photograph, suggested_photo_source, suggested_photo_in_cv, create_a_slide)
+                    VALUES
+                    (:source_type, :interviewee_or_source_document, :organization, :sponsor_organization, :topic, :interviewee_email,
+                        :interviewee_phone, :url_consent_interview, :t1_survey, :t2_survey, :url_transcription, :url_article, :date_article_approved, :url_photograph, :suggested_photo_source, :suggested_photo_in_cv, :create_a_slide)";
+
+        $statement = $this->conn->prepare($query);
+
+        $statement->bindValue(':source_type', $this->metaDataFormatter($oberlinMDFields['sourcetype']));
+        $statement->bindValue(':interviewee_or_source_document', $this->metaDataFormatter($oberlinMDFields['intervieweeorsourcedocument']));
+        $statement->bindValue(':organization', $this->metaDataFormatter($oberlinMDFields['organization']));
+        $statement->bindValue(':sponsor_organization', $this->metaDataFormatter($oberlinMDFields['sponsororganization']));
+        $statement->bindValue(':topic', $this->metaDataFormatter($oberlinMDFields['topicthemeofinterview']));
+        $statement->bindValue(':interviewee_email', $this->metaDataFormatter($oberlinMDFields['intervieweeemail']));
+        $statement->bindValue(':interviewee_phone', $this->metaDataFormatter($oberlinMDFields['intervieweetelephone']));
+        $statement->bindValue(':url_consent_interview', $this->metaDataFormatter($oberlinMDFields['urlinterviewconsent']));
+        $statement->bindValue(':t1_survey', $this->metaDataFormatter($oberlinMDFields['urlt1survey']));
+        $statement->bindValue(':t2_survey', $this->metaDataFormatter($oberlinMDFields['urlt2survey']));
+        $statement->bindValue(':url_transcription', $this->metaDataFormatter($oberlinMDFields['urlinterviewtransription']));
+        $statement->bindValue(':url_article', $this->metaDataFormatter($oberlinMDFields['urlinterviewarticle']));
+        $statement->bindValue(':date_article_approved', $this->metaDataFormatter($oberlinMDFields['dateapprovedbyinterviewee']));
+        $statement->bindValue(':url_photograph', $this->metaDataFormatter($oberlinMDFields['urlphotographinterviewee']));
+        $statement->bindValue(':suggested_photo_source', $this->metaDataFormatter($oberlinMDFields['suggestedphotosource']));
+        $statement->bindValue(':suggested_photo_in_cv', $this->metaDataFormatter($oberlinMDFields['suggestedphotoincv']));
+        $statement->bindValue(':create_a_slide', intval(boolval($oberlinMDFields['createaslide'])));
+        $statement->execute();
+
+        $idToLink = $this->conn->lastInsertId();
+        return intval($idToLink);
+    }
+
+    protected function updateMetaData($oberlinMDFields) {
+        //@TODO
+        return false;
+    }
+
+    private function metaDataFormatter($field) {
+        return $field === '' ? null : $field;
     }
 }

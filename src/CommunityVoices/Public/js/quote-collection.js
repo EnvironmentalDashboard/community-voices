@@ -153,3 +153,12 @@ $('.approve-checkbox').on('click', function (c) {
 		}
 	});
 });
+
+$('#fileUploadButton').on('click', function (c)  {
+	alert("Guide To Uploading: Upload 2 files, one with quote information, one with source data information. \nBoth should be in csv format. Ensure that quote sheet filename has 'quote' and that source sheet has filename 'source' contained within.");
+	$('#file').click();
+});
+
+$("#file").change(function(){
+	$('#batchUploadForm').submit();
+});

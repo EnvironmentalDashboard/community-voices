@@ -11,7 +11,8 @@ WORKDIR /var/www/html
 ADD ./composer.* /var/www/html/
 ADD ./build/* /var/www/html/build/
 ADD ./apache/* /var/www/html/apache/
+ADD ./crontab/* /var/www/html/crontab/
 RUN ./build/init.sh
 ADD . /var/www/html
 EXPOSE 80
-CMD /usr/sbin/apache2ctl -D FOREGROUND
+CMD /etc/init.d/cron start; /usr/sbin/apache2ctl -D FOREGROUND
