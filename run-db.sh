@@ -6,5 +6,5 @@ docker run -dit --restart always -p 3007:3306 -e "MYSQL_ROOT_HOST='%'" -e "MYSQL
 # I wonder if we could more programatically do this.
 echo "Waiting half a minute for mysql server to start up..."
 sleep 35
-docker exec -i cv-mysql mysql < "UPDATE mysql.user SET Host = '%'"
+docker exec -i cv-mysql mysql <<< "UPDATE mysql.user SET Host = '%'"
 docker exec -i cv-mysql mysql < migrate/schema.sql
