@@ -33,5 +33,14 @@ In general, Docker will start the server as soon as you start Docker.
 To delete this container later, you can run `docker stop LOCAL_CV` and then
 `docker rm LOCAL_CV`.
 
-Programming Guide:
-When creating new methods in the view and controller of the api, ensure that all function modifiers are `protected` instead of `public`. This must be done to allow for proper authentication on the api side. 
+## Migrations
+
+Because Community Voices comes without an ORM, a custom migration system has been built.
+To run a migration, you must run the migration script `migrate/migrate.php` from the context
+of the Docker container.
+For example, `php migrate/migrate.php scriptName`.
+
+## Programming Guide
+
+When creating new methods in the view and controller of the api, ensure that all function modifiers are `protected` instead of `public`.
+This must be done to allow for proper authentication on the api side.
