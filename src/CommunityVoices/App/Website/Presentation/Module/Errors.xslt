@@ -10,7 +10,7 @@
       <form action="/community-voices/api/error-log" method="get" id="search-form">
         <!-- empty form; values associated with form attribute on input tags to allow for table structure -->
         <p>
-            Usage: /community-voices/errors-log -- view last 500 error messages
+            Usage: /community-voices/error-log -- view last 500 error messages
         </p>
         <p>
             You can also add more lines or filter by date range (Advanced Options)
