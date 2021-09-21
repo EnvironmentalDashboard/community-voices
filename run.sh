@@ -48,7 +48,8 @@ else
 	-v $(pwd)/migrate:/var/www/html/migrate \
 	-v $(pwd)/composer.json:/var/www/html/composer.json \
 	-v $(pwd)/composer.lock:/var/www/html/composer.lock \
-	-e "MYSQL_HOST=cv-mysql" -e "MYSQL_DB=community_voices" -e "MYSQL_PORT=3306" -e "MYSQL_USER=root" \
+	-e "MYSQL_HOST=cv-mysql" -e "MYSQL_DB=community_voices" \
+	-e "MYSQL_PORT=3306" -e "MYSQL_USER=root" \
 	--link cv-mysql:cv-mysql \
 	-e SERVER=`hostname` -e APP_ENV=development \
 	-e API_URL=http://localhost:80/community-voices/api \
