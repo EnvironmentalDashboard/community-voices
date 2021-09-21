@@ -75,7 +75,7 @@
                     $message = mb_substr($line,21);
                     $item = ['Time' => $timeStamp, 'Message' => $message, 'unixTime' => strtotime($timeStamp)];
 
-                    $errors[] = $line;
+                    $errors[] = $item;
                     $currentLine--;
                     $lines--;
                 }

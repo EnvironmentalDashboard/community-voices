@@ -22,6 +22,6 @@ class DisplayError
     public function getErrors($request)
     {
         // Force access control to process by double querying the first line.
-        $this->apiProvider->getJson("/error-log?lines=1", $request);
+        $this->apiProvider->getJson("/error-log?numLines=1", $request);
     }
 }
