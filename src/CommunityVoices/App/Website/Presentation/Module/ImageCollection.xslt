@@ -205,7 +205,7 @@
                     </xsl:if>
                     Newest first (date uploaded)
                   </option>
-                  <option value="id_asc">
+                  <option value="id_asc" selected="true">
                     <xsl:if test="$order = 'id_asc'">
                       <xsl:attribute name="selected">selected</xsl:attribute>
                     </xsl:if>
